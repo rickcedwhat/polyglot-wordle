@@ -72,17 +72,17 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(({ solutionWord, submittedGue
 
           if (submittedGuess && (solutionIndex === -1 || rowIndex <= solutionIndex)) {
             const statuses = getGuessStatuses(submittedGuess, normalizedSolution);
-            const languageMatch = words.some((word) => normalizeWord(word) === submittedGuess);
-            if (languageMatch) {
-              const index = words.findIndex((word) => normalizeWord(word) === submittedGuess);
-              console.log({ words, submittedGuess, index, normalizedSolution }); // Debugging output
-            }
+            const matchingWord = words.find((word) => normalizeWord(word) === submittedGuess);
+            const languageMatch = !!matchingWord;
+
+            // If there's a matching word in the language, display it; otherwise, show the submitted guess (necessary for accented words)
+            const displayGuess = matchingWord || submittedGuess;
 
             return (
               // This wrapper div gets the underline style when the word matches the language
               <div key={rowIndex} className={languageMatch ? classes.languageMatch : ''}>
                 <Group gap="xs" wrap="nowrap">
-                  {submittedGuess.split('').map((letter, colIndex) => (
+                  {displayGuess.split('').map((letter, colIndex) => (
                     <Box key={colIndex} style={{ flex: 1 }}>
                       <LetterTile letter={letter} status={statuses[colIndex]} />
                     </Box>
