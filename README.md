@@ -38,3 +38,11 @@ This template comes with the following features:
 npm run build
 
 firebase deploy
+
+## RoadMap
+
+[ ] User log in
+[ ] Challenge friends
+[x] Make fit on my screen
+[x] Fix dictionary
+[x] Miniboard showing guesses after solving

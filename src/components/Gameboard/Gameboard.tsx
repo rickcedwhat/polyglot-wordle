@@ -34,7 +34,7 @@ export const GameBoard: FC<GameBoardProps> = ({
             <Box
               key={lang}
               onClick={() => setActiveIndex(index)}
-              w={isActive ? 'auto' : 60} // Give inactive boards a fixed width
+              w={isActive ? 'auto' : 50} // Give inactive boards a fixed width
               style={{
                 flexGrow: isActive ? 1 : 0, // Allow the active board to expand
                 flexShrink: 1,
