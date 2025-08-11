@@ -1,0 +1,40 @@
+.key {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  border-radius: var(--mantine-radius-sm);
+  background-color: var(--mantine-color-dark-6);
+  color: var(--mantine-color-white);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.dotsContainer {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--mantine-color-dark-4);
+}
+
+.dot[data-status='correct'] {
+  background-color: #40c057;
+}
+.dot[data-status='present'] {
+  background-color: #fcc419;
+}
+.dot[data-status='absent'] {
+  background-color: #f90d0d;
+}
