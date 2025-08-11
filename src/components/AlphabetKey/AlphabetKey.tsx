@@ -5,14 +5,15 @@ import classes from './AlphabetKey.module.css';
 
 interface AlphabetKeyProps {
   letter: string;
-  statuses: LetterStatus[];
+  statuses?: LetterStatus[];
+  onClick: () => void;
 }
 
-export const AlphabetKey: FC<AlphabetKeyProps> = ({ letter, statuses }) => {
+export const AlphabetKey: FC<AlphabetKeyProps> = ({ letter, statuses, onClick }) => {
   return (
-    <Box className={classes.key}>
+    <Box className={classes.key} onClick={() => onClick()}>
       <div className={classes.dotsContainer}>
-        {statuses.map((status, index) => (
+        {statuses?.map((status, index) => (
           <div key={index} className={classes.dot} data-status={status} />
         ))}
       </div>

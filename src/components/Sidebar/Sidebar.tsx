@@ -15,20 +15,7 @@ export const Sidebar: FC = () => {
         </ActionIcon>
       </Tooltip>
 
-      <Stack gap="xs" align="center" mt="xl">
-        {/* <Title order={5}>Used Letters</Title>
-        {alphabet.map((letter) => (
-          <Text
-            key={letter}
-            ff="monospace"
-            fz="lg"
-            c="dimmed"
-            style={{ textTransform: 'uppercase' }}
-          >
-            {letter}
-          </Text>
-        ))} */}
-      </Stack>
+      <Stack gap="xs" align="center" mt="xl"></Stack>
     </Stack>
   );
 };

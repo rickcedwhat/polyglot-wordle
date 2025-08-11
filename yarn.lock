@@ -442,7 +442,7 @@
     react-textarea-autosize "8.5.9"
     type-fest "^4.27.0"
 
-"@mantine/hooks@8.2.4":
+"@mantine/hooks@^8.2.4", "@mantine/hooks@8.2.4":
   version "8.2.4"
   resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-8.2.4.tgz"
   integrity sha512-ZXQ0uk6UtJa6Gl+ZWMBh4wC7UqCAoWWvau1TOoe05sBrkyGcXSVrTfoCVzjEQaB/h8VEOUWLGtJokkiMQKcMzA==

@@ -1,0 +1,15 @@
+.tile {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  background-color: var(--mantine-color-dark-5);
+}
+.tile[data-status='correct'] {
+  background-color: var(--mantine-color-green-6);
+}
+.tile[data-status='present'] {
+  background-color: var(--mantine-color-yellow-6);
+}
+.tile[data-status='absent'] {
+  background-color: var(--mantine-color-dark-3);
+}

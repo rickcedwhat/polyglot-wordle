@@ -147,10 +147,16 @@ export function Game() {
           guesses={guesses}
           shuffledLanguages={shuffledLanguages}
           allWords={allWords}
+          maxGuesses={MAX_GUESSES}
         />
       </Center>
       <CurrentGuessRow guess={currentGuess} />
-      <AlphabetStatus guesses={guesses} solution={solution} shuffledLanguages={shuffledLanguages} />
+      <AlphabetStatus
+        guesses={guesses}
+        solution={solution}
+        shuffledLanguages={shuffledLanguages}
+        onKeyPress={handleKeyPress}
+      />
     </Box>
   );
 }
