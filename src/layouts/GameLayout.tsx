@@ -1,20 +1,20 @@
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AppShell, Box, Burger } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Sidebar } from '@/components/Sidebar/Sidebar';
 
 export const GameLayout: FC = () => {
-  // 1. Hook to manage the opened/closed state of the mobile sidebar
   const [opened, { toggle }] = useDisclosure();
+  // 1. Check if the screen is smaller than the 'sm' breakpoint.
+  const isMobile = useMediaQuery('(max-width: 48em)'); // 48em is the default 'sm' breakpoint
 
   return (
     <Box h="100vh">
       <AppShell
         h="100%"
-        // 2. Add a header for the burger menu to live in
-        header={{ height: 60 }}
-        // 3. Update the navbar prop to be collapsible on mobile
+        // 2. Only define the header prop if we are on a mobile screen.
+        header={isMobile ? { height: 60 } : undefined}
         navbar={{
           width: 150,
           breakpoint: 'sm',
@@ -22,10 +22,12 @@ export const GameLayout: FC = () => {
         }}
         padding="md"
       >
-        <AppShell.Header>
-          {/* 4. This Burger is the button to toggle the sidebar, it's only visible on mobile */}
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" p="md" />
-        </AppShell.Header>
+        {/* 3. Only render the Header component itself on mobile. */}
+        {isMobile && (
+          <AppShell.Header p="md">
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          </AppShell.Header>
+        )}
 
         <AppShell.Navbar p="md">
           <Sidebar />
