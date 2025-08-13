@@ -15,11 +15,7 @@ export const GameLayout: FC = () => {
         h="100%"
         // 2. Only define the header prop if we are on a mobile screen.
         header={isMobile ? { height: 60 } : undefined}
-        navbar={{
-          width: 150,
-          breakpoint: 'sm',
-          collapsed: { mobile: !opened },
-        }}
+        navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
         padding="md"
       >
         {/* 3. Only render the Header component itself on mobile. */}

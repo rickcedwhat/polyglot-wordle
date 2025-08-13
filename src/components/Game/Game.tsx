@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Center, Loader, Stack } from '@mantine/core';
+import { Box, Center, Loader } from '@mantine/core';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { normalizeWord } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
@@ -30,7 +30,9 @@ export function Game() {
   // 2. The data-fetching logic is now inside the Game component.
   useEffect(() => {
     const fetchWords = async () => {
-      if (!uuid) return;
+      if (!uuid) {
+        return;
+      }
 
       try {
         // 1. Clean the UUID by removing all hyphens.
@@ -88,7 +90,9 @@ export function Game() {
 
   const handleKeyPress = useCallback(
     (key: string) => {
-      if (gameStatus !== 'playing') return;
+      if (gameStatus !== 'playing') {
+        return;
+      }
       if (key === 'enter') {
         if (currentGuess.length === 5 && guesses.length < MAX_GUESSES) {
           const isValid =
@@ -99,6 +103,16 @@ export function Game() {
           if (isValid) {
             setGuesses((prevGuesses) => [...prevGuesses, currentGuess]);
             setCurrentGuess('');
+            if (
+              solution &&
+              guesses.includes(solution.en) &&
+              guesses.includes(solution.es) &&
+              guesses.includes(solution.fr)
+            ) {
+              setGameStatus('won');
+            } else if (guesses.length >= MAX_GUESSES) {
+              setGameStatus('lost');
+            }
           } else {
             // Here you can add feedback for an invalid word, like a shake animation or a toast notification.
             console.log('Invalid word:', currentGuess);
@@ -117,9 +131,13 @@ export function Game() {
     const handleKeyDown = (event: KeyboardEvent) => {
       // ... (This logic remains the same)
       const { key } = event;
-      if (key === 'Enter') handleKeyPress('enter');
-      else if (key === 'Backspace') handleKeyPress('del');
-      else if (key.length === 1 && key.match(/[a-z]/i)) handleKeyPress(key);
+      if (key === 'Enter') {
+        handleKeyPress('enter');
+      } else if (key === 'Backspace') {
+        handleKeyPress('del');
+      } else if (key.length === 1 && key.match(/[a-z]/i)) {
+        handleKeyPress(key);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
