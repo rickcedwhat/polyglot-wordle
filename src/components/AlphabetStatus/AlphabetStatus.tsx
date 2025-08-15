@@ -16,12 +16,6 @@ export const AlphabetStatus: FC<AlphabetStatusProps> = ({
   shuffledLanguages,
   onKeyPress,
 }) => {
-  // const alphabetLayout = [
-  //   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-  //   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-  //   ['enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'del'],
-  // ];
-
   const topRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
   const middleRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
   const bottomRow = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];

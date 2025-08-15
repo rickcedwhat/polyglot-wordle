@@ -2,10 +2,10 @@ import { FC, useEffect } from 'react';
 import { IconBrandGoogle } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Center, Container, Paper, Stack, Title } from '@mantine/core';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '@/context/AuthContext'; // Use useAuth
 
 export const LoginPage: FC = () => {
-  const { signInWithGoogle, currentUser } = useAuth();
+  const { signInWithGoogle, currentUser } = useAuth(); // Get state from useAuth
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,6 +14,7 @@ export const LoginPage: FC = () => {
     }
   }, [currentUser, navigate]);
 
+  // No loading check needed here because AuthProvider handles it
   return (
     <Container size="xs" style={{ height: '100vh', display: 'flex' }}>
       <Center style={{ width: '100%' }}>

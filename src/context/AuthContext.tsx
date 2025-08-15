@@ -1,10 +1,6 @@
-import { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react';
-import {
-  onAuthStateChanged,
-  signInWithPopup, // 1. Change the import from signInWithRedirect
-  signOut,
-  type User,
-} from 'firebase/auth';
+import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
+import { onAuthStateChanged, signInWithPopup, signOut, type User } from 'firebase/auth';
+import { doc, getDoc, getFirestore, serverTimestamp, setDoc } from 'firebase/firestore';
 import { auth, googleProvider } from '@/firebase';
 
 interface AuthContextType {
@@ -20,12 +16,9 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // 2. Make this function async and use signInWithPopup
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      // After the popup closes and the user is signed in,
-      // onAuthStateChanged will fire automatically and handle the rest.
     } catch (error) {
       console.error('Error during Google popup sign-in:', error);
     }
@@ -36,21 +29,47 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // "Get or Create" the user document in Firestore
+        const db = getFirestore();
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (!userDocSnap.exists()) {
+          await setDoc(userDocRef, {
+            displayName: user.displayName || 'New Player',
+            email: user.email || '',
+            photoURL: user.photoURL || '',
+            joinedAt: serverTimestamp(),
+            stats: { gamesPlayed: 0, wins: 0, currentStreak: 0, maxStreak: 0 },
+            difficultyPrefs: {
+              en: 'advanced',
+              es: 'basic',
+              fr: 'basic',
+            },
+          });
+        }
+      }
       setCurrentUser(user);
       setLoading(false);
     });
 
+    // The listener stays active and unsubscribes only when the component unmounts
     return unsubscribe;
   }, []);
 
-  const value = {
-    currentUser,
-    loading,
-    signInWithGoogle,
-    logout,
-  };
+  // 2. Memoize the context value
+  const value = useMemo(
+    () => ({
+      currentUser,
+      loading,
+      signInWithGoogle,
+      logout,
+    }),
+    [currentUser, loading] // The value only changes if currentUser or loading changes
+  );
 
+  // Prevent the rest of the app from rendering until the initial auth check is complete
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 };
 

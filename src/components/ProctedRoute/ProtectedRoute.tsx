@@ -1,10 +1,10 @@
 import { FC, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Center, Loader } from '@mantine/core';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext'; // Use useAuth
 
 export const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
-  const { currentUser, loading } = useAuth();
+  const { currentUser, loading } = useAuth(); // Get state from useAuth
 
   if (loading) {
     return (

@@ -46,7 +46,6 @@
 // export default LanguageBoard;
 
 import { FC, memo } from 'react';
-import { normalize } from 'path';
 import { Box, Group, Stack } from '@mantine/core';
 import { getGuessStatuses, normalizeWord } from '../../utils/wordUtils';
 import { LetterTile } from '../LetterTile/LetterTile';

@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { Box, Container, Group, SimpleGrid } from '@mantine/core';
+import { useWordPools } from '@/hooks/useWordPools';
 import LanguageBoard from '../LanguageBoard/LanguageBoard';
 import MiniBoard from '../MiniBoard/MiniBoard';
 
@@ -7,7 +8,6 @@ interface GameBoardProps {
   solution: { [key: string]: string };
   guesses: string[];
   shuffledLanguages: string[];
-  allWords: { [key: string]: string[] };
   maxGuesses: number;
 }
 
@@ -15,10 +15,19 @@ export const GameBoard: FC<GameBoardProps> = ({
   solution,
   guesses,
   shuffledLanguages,
-  allWords,
   maxGuesses,
 }) => {
   const [activeIndex, setActiveIndex] = useState(1);
+  const { data: wordPools, isLoading: arePoolsLoading } = useWordPools({
+    en: 'advanced',
+    es: 'advanced',
+    fr: 'advanced',
+  });
+
+  if (arePoolsLoading || !wordPools) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Container size="lg" h="100%">
       <Group hiddenFrom="md" h="100%" justify="center" align="center" wrap="nowrap" gap="xs">
@@ -27,7 +36,7 @@ export const GameBoard: FC<GameBoardProps> = ({
           const boardProps = {
             solutionWord: solution[lang],
             submittedGuesses: guesses,
-            words: allWords[lang],
+            words: wordPools[lang as keyof typeof wordPools],
             maxGuesses,
           };
           return (
@@ -55,7 +64,7 @@ export const GameBoard: FC<GameBoardProps> = ({
             key={lang}
             solutionWord={solution[lang]}
             submittedGuesses={guesses}
-            words={allWords[lang]}
+            words={wordPools[lang as keyof typeof wordPools]}
             maxGuesses={maxGuesses}
           />
         ))}

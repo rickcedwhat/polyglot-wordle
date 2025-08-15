@@ -41,7 +41,7 @@ firebase deploy
 
 ## RoadMap
 
-[ ] User log in
+[x] User log in
 [ ] Challenge friends
 [x] Make fit on my screen
 [x] Fix dictionary
