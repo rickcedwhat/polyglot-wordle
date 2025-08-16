@@ -9,15 +9,23 @@ interface LetterTileProps {
   status: LetterStatus;
   hasCursor?: boolean;
   onClick?: () => void;
+  isEmpty?: boolean;
 }
 
-export const LetterTile: FC<LetterTileProps> = ({ letter, status, hasCursor, onClick }) => {
+export const LetterTile: FC<LetterTileProps> = ({
+  letter,
+  status,
+  hasCursor,
+  onClick,
+  isEmpty,
+}) => {
   const isFirstRender = useIsFirstRender(); // 2. Call the hook
 
   // 3. Conditionally add the shake class only if it's not the first render
   const tileClassName = `
     ${classes.tile}
     ${hasCursor && !isFirstRender ? classes.shake : ''}
+    ${isEmpty ? classes.empty : ''}
   `;
   return (
     <Box

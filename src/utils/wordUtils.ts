@@ -1,4 +1,4 @@
-export type LetterStatus = 'empty' | 'correct' | 'present' | 'absent';
+export type LetterStatus = 'unknown' | 'correct' | 'present' | 'absent';
 export type Dictionary = Record<string, number>;
 
 // New function to remove accents and special characters
@@ -141,44 +141,51 @@ export const getWordsFromUuid = async (uuid: string) => {
   };
 };
 
+const GREEN_LETTER_BONUS = 5;
+const YELLOW_LETTER_BONUS = 5;
+const WORD_SOLVED_BONUS = 20;
+const UNSOLVED_GAME_PENALTY = -250;
+const GAME_SOLVED_BONUS = 25;
+
 /**
- * Calculates the score for a single language based on the full game's guess history.
- * @param guesses The array of all guesses made in the game.
- * @param solution The solution word for this specific language.
- * @returns The total score for this language.
- */
-export const getLanguageScore = (guesses: string[], solution: string): number => {
-  let languageScore = 0;
-  const scoredGreenSlots = [false, false, false, false, false];
+//  * Calculates the score for a single language based on the full game's guess history.
+//  * @param guesses The array of all guesses made in the game.
+//  * @param solution The solution word for this specific language.
+//  * @returns The total score for this language.
+//  */
+// export const getLanguageScore = (guesses: string[], solution: string): number => {
+//   let languageScore = 0;
+//   const scoredGreenSlots = [false, false, false, false, false];
 
-  // Calculate Green and Yellow bonuses for each guess
-  guesses.forEach((guess, guessIndex) => {
-    const statuses = getGuessStatuses(guess, solution);
-    let yellowComboCounter = 1;
+//   // Calculate Green and Yellow bonuses for each guess
+//   guesses.forEach((guess, guessIndex) => {
+//     const statuses = getGuessStatuses(guess, solution);
+//     let yellowComboCounter = 1;
+//     const guessesTaken = guessIndex + 1;
 
-    statuses.forEach((status, letterIndex) => {
-      // Green Letter "Discovery" Bonus
-      if (status === 'correct' && !scoredGreenSlots[letterIndex]) {
-        languageScore += 5 * (11 - (guessIndex + 1));
-        scoredGreenSlots[letterIndex] = true;
-      }
-      // Yellow Letter "Combo" Bonus
-      if (status === 'present') {
-        languageScore += 5 * yellowComboCounter;
-        yellowComboCounter += 1;
-      }
-    });
-  });
+//     statuses.forEach((status, letterIndex) => {
+//       // Green Letter "Discovery" Bonus
+//       if (status === 'correct' && !scoredGreenSlots[letterIndex]) {
+//         languageScore += GREEN_LETTER_BONUS * (10 - guessesTaken);
+//         scoredGreenSlots[letterIndex] = true;
+//       }
+//       // Yellow Letter "Combo" Bonus
+//       if (status === 'present') {
+//         languageScore += YELLOW_LETTER_BONUS * yellowComboCounter;
+//         yellowComboCounter += 1;
+//       }
+//     });
+//   });
 
-  // Calculate "Word Solved" Bonus
-  const solvedIndex = guesses.findIndex((g) => normalizeWord(g) === normalizeWord(solution));
-  if (solvedIndex !== -1) {
-    const guessesTaken = solvedIndex + 1;
-    languageScore += 20 * (10 - guessesTaken);
-  }
+//   // Calculate "Word Solved" Bonus
+//   const solvedIndex = guesses.findIndex((g) => normalizeWord(g) === normalizeWord(solution));
+//   if (solvedIndex !== -1) {
+//     const guessesTaken = solvedIndex + 1;
+//     languageScore += WORD_SOLVED_BONUS * (10 - guessesTaken);
+//   }
 
-  return languageScore;
-};
+//   return languageScore;
+// };
 
 /**
  * Calculates the points earned for a single turn.
@@ -197,27 +204,48 @@ export const getScoreForTurn = (
   let turnScore = 0;
   const updatedScoredSlots = JSON.parse(JSON.stringify(scoredGreenSlots)); // Deep copy
 
+  console.log(`--- Turn #${guessNumber}, Guess: "${currentGuess}" ---`);
+
   (['en', 'es', 'fr'] as const).forEach((lang) => {
     const solutionWord = solution[lang];
+
+    const wasPreviouslySolved =
+      scoredGreenSlots[lang].every((slot) => slot) && solutionWord !== currentGuess;
+
+    // If it's solved, skip scoring for this language and continue to the next
+    if (wasPreviouslySolved) {
+      return;
+    }
+
     const statuses = getGuessStatuses(currentGuess, solutionWord);
     let yellowComboCounter = 1;
 
     statuses.forEach((status, letterIndex) => {
       // Green "Discovery" Bonus
       if (status === 'correct' && !updatedScoredSlots[lang][letterIndex]) {
-        turnScore += 5 * (11 - guessNumber);
+        const points = GREEN_LETTER_BONUS * (11 - guessNumber);
+        console.log(
+          `[${lang.toUpperCase()}] Green bonus for '${currentGuess[letterIndex]}' in position ${letterIndex + 1}: +${points}`
+        );
+        turnScore += points;
         updatedScoredSlots[lang][letterIndex] = true;
       }
       // Yellow "Combo" Bonus
       if (status === 'present') {
-        turnScore += 5 * yellowComboCounter;
+        const points = YELLOW_LETTER_BONUS * yellowComboCounter;
+        console.log(
+          `[${lang.toUpperCase()}] Yellow combo for '${currentGuess[letterIndex]}': +${points}`
+        );
+        turnScore += points;
         yellowComboCounter += 1;
       }
     });
 
     // "Word Solved" Bonus
     if (normalizeWord(solutionWord) === normalizeWord(currentGuess)) {
-      turnScore += 20 * (10 - guessNumber);
+      const points = WORD_SOLVED_BONUS * (11 - guessNumber);
+      console.log(`[${lang.toUpperCase()}] Word Solved Bonus: +${points}`);
+      turnScore += points;
     }
   });
 
@@ -271,16 +299,21 @@ export const calculateScoreFromHistory = (
       findLastGuess(solution.fr)
     );
     const totalGuessesTaken = finalGuessIndex + 1;
-    totalScore += 25 * (11 - totalGuessesTaken);
+    const points = GAME_SOLVED_BONUS * (11 - totalGuessesTaken);
+    console.log(`[GAME] Bonus for winning the game: +${points}`);
+    totalScore += points;
   } else if (guessHistory.length >= 10) {
     if (!enSolved) {
-      totalScore -= 250;
+      console.log(`[EN] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`);
+      totalScore += UNSOLVED_GAME_PENALTY;
     }
     if (!esSolved) {
-      totalScore -= 250;
+      console.log(`[ES] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`);
+      totalScore += UNSOLVED_GAME_PENALTY;
     }
     if (!frSolved) {
-      totalScore -= 250;
+      console.log(`[FR] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`);
+      totalScore += UNSOLVED_GAME_PENALTY;
     }
   }
 

@@ -1,3 +1,4 @@
+// vite.config.mjs
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -10,9 +11,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './vitest.setup.mjs',
   },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
+  // resolve: {
+  //   alias: {
+  //     '@': path.resolve(__dirname, './src'),
+  //   },
+  // },
 });

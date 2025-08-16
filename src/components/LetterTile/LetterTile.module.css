@@ -29,6 +29,12 @@
   border-color: #495057;
 }
 
+.tile.empty[data-status='absent'] {
+  background-color: transparent; /* initial */
+  color: #f90d0d;
+  border-color: #f90d0d;
+}
+
 .tile[data-has-cursor='true'] {
   border-color: var(--mantine-color-text);
 }

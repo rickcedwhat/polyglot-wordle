@@ -3,9 +3,10 @@ import { Box, Center, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { useScore } from '@/context/ScoreContext';
+import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
-import { calculateScoreFromHistory, getScoreForTurn, normalizeWord } from '@/utils/wordUtils';
+import { normalizeWord } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
 import { GameOver } from '../GameOver/GameOver';
@@ -23,15 +24,19 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   // 1. Get the core game state and solution from the session prop
   const { words: solution, difficulties, guessHistory } = gameSession;
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
-  const { score, setScore } = useScore();
+  const { recalculateScore } = useScore();
+  const { updateLetterStatuses } = useLetterStatus();
 
   useEffect(() => {
+    // This effect now syncs all state when the game session loads
     if (guessHistory && solution) {
-      const initialScore = calculateScoreFromHistory(guessHistory, solution);
-      setScore(initialScore);
+      // 1. Recalculate the score based on the loaded history
+      recalculateScore(guessHistory, solution);
+
+      // 2. ALSO, update the letter statuses based on the loaded history
+      updateLetterStatuses({ guesses: guessHistory, solution });
     }
-    // Run this only when the component first loads with the session data
-  }, [gameSession, setScore]);
+  }, [guessHistory, solution, recalculateScore, updateLetterStatuses]);
 
   const [activeKey, setActiveKey] = useState<string | null>(null); // 1. Add activeKey state
 
@@ -51,11 +56,6 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     return 'playing';
   };
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>(getInitialGameStatus());
-  const [scoredGreenSlots, setScoredGreenSlots] = useState({
-    en: [false, false, false, false, false],
-    es: [false, false, false, false, false],
-    fr: [false, false, false, false, false],
-  });
 
   const handleTileClick = (index: number) => {
     setCursorIndex(index);
@@ -102,22 +102,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           setGuesses(newGuesses);
           setCurrentGuess(Array(5).fill(''));
           setCursorIndex(0);
-
-          const guessNumber = newGuesses.length;
-
-          // 3. Calculate score for just this turn
-          const { turnScore, updatedScoredSlots } = getScoreForTurn(
-            normalizedGuess,
-            solution,
-            guessNumber,
-            scoredGreenSlots
-          );
-
-          let newScore = score + turnScore;
-
-          setScoredGreenSlots(updatedScoredSlots);
-
           await updateGuessHistory(normalizedGuess);
+          updateLetterStatuses({ guesses: newGuesses, solution });
+
+          const finalScore = recalculateScore(newGuesses, solution);
 
           const enSolved = newGuesses.includes(normalizeWord(solution.en));
           const esSolved = newGuesses.includes(normalizeWord(solution.es));
@@ -125,28 +113,11 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           const allSolutionsFound = enSolved && esSolved && frSolved;
 
           if (allSolutionsFound) {
-            const finalBonus = 25 * (11 - guessNumber);
-            newScore += finalBonus;
-            setScore(newScore);
             setGameStatus('won');
-            await endGame({ isWin: true, score: newScore });
+            await endGame({ isWin: true, score: finalScore });
           } else if (newGuesses.length >= MAX_GUESSES) {
-            let penalty = 0;
-            if (!enSolved) {
-              penalty -= 250;
-            }
-            if (!esSolved) {
-              penalty -= 250;
-            }
-            if (!frSolved) {
-              penalty -= 250;
-            }
-            newScore += penalty;
-            setScore(newScore);
             setGameStatus('lost');
-            await endGame({ isWin: false, score: newScore });
-          } else {
-            setScore(newScore);
+            await endGame({ isWin: false, score: finalScore });
           }
         }
       } else if (lowerKey === 'del' || lowerKey === 'backspace') {
@@ -162,7 +133,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         setCursorIndex(Math.min(5, cursorIndex + 1)); // Move cursor forward
       }
     },
-    [currentGuess, cursorIndex, gameStatus, guesses, scoredGreenSlots]
+    [currentGuess, cursorIndex, gameStatus, guesses]
   );
 
   useEffect(() => {
@@ -183,10 +154,13 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       }
 
       if (event.key === 'Delete') {
+        event.preventDefault();
         const newGuess = [...currentGuess];
-        // Clear the character at the current cursor position
+        // Use splice to remove the character at the cursor's position
         if (cursorIndex < 5) {
-          newGuess[cursorIndex] = '';
+          newGuess.splice(cursorIndex, 1);
+          // Add an empty string to the end to keep the array's length at 5
+          newGuess.push('');
         }
         setCurrentGuess(newGuess);
         return; // Stop after handling
@@ -248,13 +222,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         cursorIndex={cursorIndex}
         onTileClick={handleTileClick}
       />
-      <AlphabetStatus
-        activeKey={activeKey}
-        guesses={guesses}
-        solution={solution}
-        shuffledLanguages={shuffledLanguages}
-        onKeyPress={handleKeyPress}
-      />
+      <AlphabetStatus activeKey={activeKey} onKeyPress={handleKeyPress} />
     </Box>
   );
 }
