@@ -36,6 +36,7 @@ const fetchOrCreateGame = async (gameId: string, userId: string): Promise<GameDo
     isWin: null,
     startedAt: serverTimestamp() as Timestamp,
     completedAt: null,
+    score: null,
   };
 
   await setDoc(gameDocRef, newGame);
@@ -89,7 +90,7 @@ export const useGameSession = () => {
   });
 
   const endGameMutation = useMutation({
-    mutationFn: async ({ isWin }: { isWin: boolean }) => {
+    mutationFn: async ({ isWin, score }: { isWin: boolean; score: number }) => {
       if (!userId || !gameId) {
         throw new Error('Cannot end game without IDs.');
       }
@@ -98,6 +99,7 @@ export const useGameSession = () => {
         isLiveGame: false,
         isWin,
         completedAt: serverTimestamp(),
+        score,
       });
     },
     onSuccess: () => {

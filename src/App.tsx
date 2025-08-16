@@ -16,7 +16,7 @@ export default function App() {
   return (
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
-      <MantineProvider theme={theme}>
+      <MantineProvider theme={theme} defaultColorScheme="dark">
         <AuthProvider>
           <ScoreProvider>
             <Router />

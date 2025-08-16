@@ -58,6 +58,7 @@ export interface GameDoc {
   isWin: boolean | null;
   startedAt: Timestamp;
   completedAt: Timestamp | null;
+  score: number | null;
 }
 
 /**

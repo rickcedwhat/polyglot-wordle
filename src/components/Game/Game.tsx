@@ -14,7 +14,7 @@ import { GameOver } from '../GameOver/GameOver';
 interface GameProps {
   gameSession: GameDoc;
   updateGuessHistory: (guess: string) => Promise<void>;
-  endGame: (result: { isWin: boolean }) => Promise<void>;
+  endGame: (result: { isWin: boolean; score: number }) => Promise<void>;
 }
 
 const MAX_GUESSES = 10;
@@ -23,7 +23,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   // 1. Get the core game state and solution from the session prop
   const { words: solution, difficulties, guessHistory } = gameSession;
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
-  const { setScore } = useScore();
+  const { score, setScore } = useScore();
 
   useEffect(() => {
     if (guessHistory && solution) {
@@ -113,8 +113,8 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             scoredGreenSlots
           );
 
-          // 4. Update state incrementally
-          setScore((prevScore) => prevScore + turnScore);
+          let newScore = score + turnScore;
+
           setScoredGreenSlots(updatedScoredSlots);
 
           await updateGuessHistory(normalizedGuess);
@@ -126,9 +126,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
           if (allSolutionsFound) {
             const finalBonus = 25 * (11 - guessNumber);
-            setScore((prevScore) => prevScore + finalBonus);
+            newScore += finalBonus;
+            setScore(newScore);
             setGameStatus('won');
-            await endGame({ isWin: true });
+            await endGame({ isWin: true, score: newScore });
           } else if (newGuesses.length >= MAX_GUESSES) {
             let penalty = 0;
             if (!enSolved) {
@@ -140,9 +141,12 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             if (!frSolved) {
               penalty -= 250;
             }
-            setScore((prevScore) => prevScore + penalty);
+            newScore += penalty;
+            setScore(newScore);
             setGameStatus('lost');
-            await endGame({ isWin: false });
+            await endGame({ isWin: false, score: newScore });
+          } else {
+            setScore(newScore);
           }
         }
       } else if (lowerKey === 'del' || lowerKey === 'backspace') {

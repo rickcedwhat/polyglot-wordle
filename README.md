@@ -81,3 +81,10 @@ If you run out of all 10 guesses, you lose points for each word you failed to so
 Formula: -250 points per unsolved word.
 
 Example: Finishing the game with one unsolved word deducts 250 points from your final score.
+
+Finish Game Bonus
+You earn a bonus for solving all three words.
+
+Formula: 25 x (11 - Guesses Taken)
+
+Example: Finishing the game in 7 guesses earns 25 x (11 - 7) = 100 points.
