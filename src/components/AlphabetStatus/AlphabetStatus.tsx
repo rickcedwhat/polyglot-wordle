@@ -8,6 +8,7 @@ interface AlphabetStatusProps {
   guesses: string[];
   shuffledLanguages: string[];
   onKeyPress: (key: string) => void;
+  activeKey: string | null;
 }
 
 export const AlphabetStatus: FC<AlphabetStatusProps> = ({
@@ -15,6 +16,7 @@ export const AlphabetStatus: FC<AlphabetStatusProps> = ({
   guesses,
   shuffledLanguages,
   onKeyPress,
+  activeKey,
 }) => {
   const topRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
   const middleRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
@@ -67,6 +69,7 @@ export const AlphabetStatus: FC<AlphabetStatusProps> = ({
           {topRow.map((key) => (
             <Box key={key} style={{ flex: 1 }}>
               <AlphabetKey
+                activeKey={activeKey}
                 onClick={() => onKeyPress(key)}
                 letter={key}
                 statuses={letterStatusMap[key] || ['empty', 'empty', 'empty']}
@@ -80,6 +83,7 @@ export const AlphabetStatus: FC<AlphabetStatusProps> = ({
           {middleRow.map((key) => (
             <Box key={key} style={{ flex: 1 }}>
               <AlphabetKey
+                activeKey={activeKey}
                 onClick={() => onKeyPress(key)}
                 letter={key}
                 statuses={letterStatusMap[key] || ['empty', 'empty', 'empty']}
@@ -87,7 +91,7 @@ export const AlphabetStatus: FC<AlphabetStatusProps> = ({
             </Box>
           ))}
           <Box style={{ flex: 1.5 }}>
-            <AlphabetKey onClick={() => onKeyPress('enter')} letter="⏎" />
+            <AlphabetKey activeKey={activeKey} onClick={() => onKeyPress('enter')} letter="⏎" />
           </Box>
         </Group>
 
@@ -96,6 +100,7 @@ export const AlphabetStatus: FC<AlphabetStatusProps> = ({
           {bottomRow.map((key) => (
             <Box key={key} style={{ flex: 1 }}>
               <AlphabetKey
+                activeKey={activeKey}
                 onClick={() => onKeyPress(key)}
                 letter={key}
                 statuses={letterStatusMap[key] || ['empty', 'empty', 'empty']}
@@ -103,7 +108,7 @@ export const AlphabetStatus: FC<AlphabetStatusProps> = ({
             </Box>
           ))}
           <Box style={{ flex: 1 }}>
-            <AlphabetKey onClick={() => onKeyPress('del')} letter="←" />
+            <AlphabetKey activeKey={activeKey} onClick={() => onKeyPress('del')} letter="←" />
           </Box>
         </Group>
       </Stack>

@@ -38,3 +38,31 @@
 .dot[data-status='absent'] {
   background-color: #f90d0d;
 }
+
+.pressed {
+  transform: scale(0.9);
+  transition: transform 0.1s ease-in-out;
+}
+
+.key {
+  /* ... your existing styles for the key ... */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+
+  /* 1. Add background-color to the transition for a smooth color change */
+  transition:
+    transform 150ms ease,
+    background-color 150ms ease;
+}
+
+.pressed {
+  /* 2. Make the scale effect slightly more aggressive */
+  transform: scale(0.85);
+  /* 3. Add a highlight color on press */
+  background-color: var(--mantine-color-blue-5);
+  color: var(--mantine-color-white);
+}

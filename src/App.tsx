@@ -4,7 +4,7 @@ import '@mantine/carousel/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { MantineProvider } from '@mantine/core';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from '@/context/AuthContext';
 import { Router } from './Router';
 import { theme } from './theme';
 

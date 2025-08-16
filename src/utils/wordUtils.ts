@@ -1,4 +1,5 @@
 export type LetterStatus = 'empty' | 'correct' | 'present' | 'absent';
+export type Dictionary = Record<string, number>;
 
 // New function to remove accents and special characters
 export const normalizeWord = (word: string): string => {
@@ -64,18 +65,13 @@ const getDifficultyFromHex = (hexChar: string): Difficulty => {
   return 'advanced';
 };
 
-const fetchDictionary = async (lang: Language, difficulty: Difficulty): Promise<string[]> => {
-  const path = `/${lang}/${difficulty}.json`;
-  console.log(`[fetchDictionary] Attempting to fetch: ${path}`);
-
-  const response = await fetch(path);
+const fetchDictionary = async (lang: Language): Promise<Dictionary> => {
+  const response = await fetch(`/${lang}.json`);
 
   if (!response.ok) {
-    console.error(`[fetchDictionary] FAILED response for ${path}:`, response.status);
-    throw new Error(`Failed to fetch ${difficulty} dictionary for ${lang}`);
+    throw new Error(`Failed to fetch dictionary for ${lang}`);
   }
 
-  console.log(`[fetchDictionary] Successfully fetched: ${path}`);
   return response.json();
 };
 
@@ -95,36 +91,51 @@ export const getWordsFromUuid = async (uuid: string) => {
     fr: getDifficultyFromHex(uuid[26]),
   };
 
-  console.log('[getWordsFromUuid] Calculated difficulties:', difficulties);
+  const thresholds: Record<Difficulty, number> = {
+    basic: 0.5,
+    intermediate: 0.75,
+    advanced: 1.0, // No upper limit
+  };
 
-  const wordPools = await Promise.all(
-    (['en', 'es', 'fr'] as Language[]).map(async (lang) => {
-      const difficulty = difficulties[lang];
-      const filesToFetch: Promise<string[]>[] = [fetchDictionary(lang, 'basic')];
+  const [enDict, esDict, frDict] = await Promise.all([
+    fetchDictionary('en'),
+    fetchDictionary('es'),
+    fetchDictionary('fr'),
+  ]);
 
-      if (difficulty === 'intermediate') {
-        filesToFetch.push(fetchDictionary(lang, 'intermediate'));
-      } else if (difficulty === 'advanced') {
-        filesToFetch.push(fetchDictionary(lang, 'intermediate'));
-        filesToFetch.push(fetchDictionary(lang, 'advanced'));
-      }
+  const dictionaries = { en: enDict, es: esDict, fr: frDict };
+  const solutionWords: Record<string, string> = {};
 
-      const wordLists = await Promise.all(filesToFetch);
-      return wordLists.flat(); // Combine all fetched lists into one pool
-    })
-  );
+  // Define the slicing points for the UUID
+  const sliceMap = {
+    en: { start: 0, end: 8 },
+    es: { start: 8, end: 16 },
+    fr: { start: 16, end: 24 },
+  };
 
-  const [enPool, esPool, frPool] = wordPools;
+  (['en', 'es', 'fr'] as Language[]).forEach((lang) => {
+    const threshold = thresholds[difficulties[lang]];
+    const dictionary = dictionaries[lang];
 
-  const enIndex = getIndexFromHex(uuid.substring(0, 8), enPool.length);
-  const esIndex = getIndexFromHex(uuid.substring(8, 16), esPool.length);
-  const frIndex = getIndexFromHex(uuid.substring(16, 24), frPool.length);
+    const wordList = Object.keys(dictionary).filter((word) => dictionary[word] <= threshold);
+
+    if (wordList.length === 0) {
+      throw new Error(`No words found for language ${lang} at difficulty ${difficulties[lang]}`);
+    }
+
+    // Use the slice map to get the correct part of the UUID
+    const { start, end } = sliceMap[lang];
+    const hexPart = uuid.substring(start, end);
+
+    const index = getIndexFromHex(hexPart, wordList.length);
+    solutionWords[lang] = wordList[index];
+  });
 
   return {
     words: {
-      en: enPool[enIndex].toUpperCase(),
-      es: esPool[esIndex].toUpperCase(),
-      fr: frPool[frIndex].toUpperCase(),
+      en: solutionWords.en.toUpperCase(),
+      es: solutionWords.es.toUpperCase(),
+      fr: solutionWords.fr.toUpperCase(),
     },
     difficulties,
   };
