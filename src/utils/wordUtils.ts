@@ -133,10 +133,156 @@ export const getWordsFromUuid = async (uuid: string) => {
 
   return {
     words: {
-      en: solutionWords.en.toUpperCase(),
-      es: solutionWords.es.toUpperCase(),
-      fr: solutionWords.fr.toUpperCase(),
+      en: solutionWords.en,
+      es: solutionWords.es,
+      fr: solutionWords.fr,
     },
     difficulties,
   };
+};
+
+/**
+ * Calculates the score for a single language based on the full game's guess history.
+ * @param guesses The array of all guesses made in the game.
+ * @param solution The solution word for this specific language.
+ * @returns The total score for this language.
+ */
+export const getLanguageScore = (guesses: string[], solution: string): number => {
+  let languageScore = 0;
+  const scoredGreenSlots = [false, false, false, false, false];
+
+  // Calculate Green and Yellow bonuses for each guess
+  guesses.forEach((guess, guessIndex) => {
+    const statuses = getGuessStatuses(guess, solution);
+    let yellowComboCounter = 1;
+
+    statuses.forEach((status, letterIndex) => {
+      // Green Letter "Discovery" Bonus
+      if (status === 'correct' && !scoredGreenSlots[letterIndex]) {
+        languageScore += 5 * (11 - (guessIndex + 1));
+        scoredGreenSlots[letterIndex] = true;
+      }
+      // Yellow Letter "Combo" Bonus
+      if (status === 'present') {
+        languageScore += 5 * yellowComboCounter;
+        yellowComboCounter += 1;
+      }
+    });
+  });
+
+  // Calculate "Word Solved" Bonus
+  const solvedIndex = guesses.findIndex((g) => normalizeWord(g) === normalizeWord(solution));
+  if (solvedIndex !== -1) {
+    const guessesTaken = solvedIndex + 1;
+    languageScore += 20 * (10 - guessesTaken);
+  }
+
+  return languageScore;
+};
+
+/**
+ * Calculates the points earned for a single turn.
+ * @param currentGuess The guess that was just submitted.
+ * @param solution The solution words object.
+ * @param guessNumber The number of the current guess (e.g., 1 for the first guess).
+ * @param scoredGreenSlots The current state of which green tiles have been scored.
+ * @returns An object with the score for the turn and the updated green slots tracker.
+ */
+export const getScoreForTurn = (
+  currentGuess: string,
+  solution: { en: string; es: string; fr: string },
+  guessNumber: number,
+  scoredGreenSlots: { en: boolean[]; es: boolean[]; fr: boolean[] }
+) => {
+  let turnScore = 0;
+  const updatedScoredSlots = JSON.parse(JSON.stringify(scoredGreenSlots)); // Deep copy
+
+  (['en', 'es', 'fr'] as const).forEach((lang) => {
+    const solutionWord = solution[lang];
+    const statuses = getGuessStatuses(currentGuess, solutionWord);
+    let yellowComboCounter = 1;
+
+    statuses.forEach((status, letterIndex) => {
+      // Green "Discovery" Bonus
+      if (status === 'correct' && !updatedScoredSlots[lang][letterIndex]) {
+        turnScore += 5 * (11 - guessNumber);
+        updatedScoredSlots[lang][letterIndex] = true;
+      }
+      // Yellow "Combo" Bonus
+      if (status === 'present') {
+        turnScore += 5 * yellowComboCounter;
+        yellowComboCounter += 1;
+      }
+    });
+
+    // "Word Solved" Bonus
+    if (normalizeWord(solutionWord) === normalizeWord(currentGuess)) {
+      turnScore += 20 * (10 - guessNumber);
+    }
+  });
+
+  return { turnScore, updatedScoredSlots };
+};
+
+/**
+ * Recalculates the entire score for a game based on its full guess history.
+ * @param guessHistory The array of all guesses made so far.
+ * @param solution The solution words object.
+ * @returns The total calculated score.
+ */
+export const calculateScoreFromHistory = (
+  guessHistory: string[],
+  solution: { en: string; es: string; fr: string }
+): number => {
+  let totalScore = 0;
+  // This object tracks which green slots have already awarded points.
+  const scoredGreenSlots = {
+    en: [false, false, false, false, false],
+    es: [false, false, false, false, false],
+    fr: [false, false, false, false, false],
+  };
+
+  // Iterate through each guess in the history to recalculate points
+  guessHistory.forEach((guess, index) => {
+    const guessNumber = index + 1;
+    const { turnScore, updatedScoredSlots } = getScoreForTurn(
+      guess,
+      solution,
+      guessNumber,
+      scoredGreenSlots
+    );
+    totalScore += turnScore;
+    // Update the tracker for the next iteration
+    Object.assign(scoredGreenSlots, updatedScoredSlots);
+  });
+
+  // After calculating turn-by-turn scores, check for final bonuses or penalties
+  const enSolved = guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution.en));
+  const esSolved = guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution.es));
+  const frSolved = guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution.fr));
+  const allSolved = enSolved && esSolved && frSolved;
+
+  if (allSolved) {
+    const findLastGuess = (word: string) =>
+      guessHistory.findIndex((g) => normalizeWord(g) === normalizeWord(word));
+    const finalGuessIndex = Math.max(
+      findLastGuess(solution.en),
+      findLastGuess(solution.es),
+      findLastGuess(solution.fr)
+    );
+    const totalGuessesTaken = finalGuessIndex + 1;
+    totalScore += 25 * (11 - totalGuessesTaken);
+  } else if (guessHistory.length >= 10) {
+    if (!enSolved) {
+      totalScore -= 250;
+    }
+    if (!esSolved) {
+      totalScore -= 250;
+    }
+    if (!frSolved) {
+      totalScore -= 250;
+    }
+  }
+
+  return totalScore;
 };

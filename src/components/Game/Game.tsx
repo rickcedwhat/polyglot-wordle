@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { Box, Center, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
+import { useScore } from '@/context/ScoreContext';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
-import { normalizeWord } from '@/utils/wordUtils';
+import { calculateScoreFromHistory, getScoreForTurn, normalizeWord } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
 import { GameOver } from '../GameOver/GameOver';
@@ -22,6 +23,15 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   // 1. Get the core game state and solution from the session prop
   const { words: solution, difficulties, guessHistory } = gameSession;
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
+  const { setScore } = useScore();
+
+  useEffect(() => {
+    if (guessHistory && solution) {
+      const initialScore = calculateScoreFromHistory(guessHistory, solution);
+      setScore(initialScore);
+    }
+    // Run this only when the component first loads with the session data
+  }, [gameSession, setScore]);
 
   const [activeKey, setActiveKey] = useState<string | null>(null); // 1. Add activeKey state
 
@@ -41,6 +51,11 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     return 'playing';
   };
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>(getInitialGameStatus());
+  const [scoredGreenSlots, setScoredGreenSlots] = useState({
+    en: [false, false, false, false, false],
+    es: [false, false, false, false, false],
+    fr: [false, false, false, false, false],
+  });
 
   const handleTileClick = (index: number) => {
     setCursorIndex(index);
@@ -88,17 +103,44 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           setCurrentGuess(Array(5).fill(''));
           setCursorIndex(0);
 
+          const guessNumber = newGuesses.length;
+
+          // 3. Calculate score for just this turn
+          const { turnScore, updatedScoredSlots } = getScoreForTurn(
+            normalizedGuess,
+            solution,
+            guessNumber,
+            scoredGreenSlots
+          );
+
+          // 4. Update state incrementally
+          setScore((prevScore) => prevScore + turnScore);
+          setScoredGreenSlots(updatedScoredSlots);
+
           await updateGuessHistory(normalizedGuess);
 
-          const allSolutionsFound =
-            newGuesses.includes(normalizeWord(solution.en)) &&
-            newGuesses.includes(normalizeWord(solution.es)) &&
-            newGuesses.includes(normalizeWord(solution.fr));
+          const enSolved = newGuesses.includes(normalizeWord(solution.en));
+          const esSolved = newGuesses.includes(normalizeWord(solution.es));
+          const frSolved = newGuesses.includes(normalizeWord(solution.fr));
+          const allSolutionsFound = enSolved && esSolved && frSolved;
 
           if (allSolutionsFound) {
+            const finalBonus = 25 * (11 - guessNumber);
+            setScore((prevScore) => prevScore + finalBonus);
             setGameStatus('won');
             await endGame({ isWin: true });
           } else if (newGuesses.length >= MAX_GUESSES) {
+            let penalty = 0;
+            if (!enSolved) {
+              penalty -= 250;
+            }
+            if (!esSolved) {
+              penalty -= 250;
+            }
+            if (!frSolved) {
+              penalty -= 250;
+            }
+            setScore((prevScore) => prevScore + penalty);
             setGameStatus('lost');
             await endGame({ isWin: false });
           }
@@ -116,78 +158,9 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         setCursorIndex(Math.min(5, cursorIndex + 1)); // Move cursor forward
       }
     },
-    [currentGuess, cursorIndex, gameStatus, guesses /* other dependencies */]
+    [currentGuess, cursorIndex, gameStatus, guesses, scoredGreenSlots]
   );
 
-  // 5. Handle all user input and game logic
-  // const handleKeyPress = useCallback(
-  //   async (key: string) => {
-  //     if (gameStatus !== 'playing') {
-  //       return;
-  //     }
-
-  //     const lowerKey = key.toLowerCase();
-  //     // --- THE FIX ---
-  //     // Briefly set activeKey to null to ensure the prop change is always detected,
-  //     // even when the same key is pressed consecutively.
-  //     setActiveKey(null);
-
-  //     // Use a very short timeout to allow React to process the null state
-  //     // before setting the new key.
-  //     setTimeout(() => {
-  //       setActiveKey(lowerKey);
-  //     }, 10);
-
-  //     if (key === 'enter') {
-  //       if (currentGuess.length !== 5 || guesses.length >= MAX_GUESSES) {
-  //         return;
-  //       }
-
-  //       // Ensure wordPools have loaded before allowing a guess to be submitted
-  //       if (!wordPools) {
-  //         console.error('Word validation lists are not available yet.');
-  //         return;
-  //       }
-
-  //       const normalizedGuess = normalizeWord(currentGuess);
-  //       const isValid =
-  //         wordPools.en.some((word) => normalizeWord(word) === normalizedGuess) ||
-  //         wordPools.es.some((word) => normalizeWord(word) === normalizedGuess) ||
-  //         wordPools.fr.some((word) => normalizeWord(word) === normalizedGuess);
-
-  //       if (isValid) {
-  //         const newGuesses = [...guesses, normalizedGuess];
-  //         setGuesses(newGuesses);
-  //         setCurrentGuess('');
-
-  //         await updateGuessHistory(normalizedGuess);
-
-  //         const allSolutionsFound =
-  //           newGuesses.includes(normalizeWord(solution.en)) &&
-  //           newGuesses.includes(normalizeWord(solution.es)) &&
-  //           newGuesses.includes(normalizeWord(solution.fr));
-
-  //         if (allSolutionsFound) {
-  //           setGameStatus('won');
-  //           await endGame({ isWin: true });
-  //         } else if (newGuesses.length >= MAX_GUESSES) {
-  //           setGameStatus('lost');
-  //           await endGame({ isWin: false });
-  //         }
-  //       } else {
-  //         // TODO: Add feedback for invalid word (e.g., toast notification or shake animation)
-  //         console.log('Invalid word:', normalizedGuess);
-  //       }
-  //     } else if (key === 'del' || key === 'backspace') {
-  //       setCurrentGuess((prev) => prev.slice(0, -1));
-  //     } else if (currentGuess.length < 5 && /^[a-zA-Z]$/.test(key)) {
-  //       setCurrentGuess((prev) => prev + key.toLowerCase());
-  //     }
-  //   },
-  //   [currentGuess, gameStatus, guesses, solution, wordPools, updateGuessHistory, endGame]
-  // );
-
-  // Replace your existing keyboard listener useEffect with this one:
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Prevent the default browser action for some keys

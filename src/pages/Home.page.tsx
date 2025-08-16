@@ -1,21 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { Button, Center, Title } from '@mantine/core';
+import { useGameActions } from '@/hooks/useGameActions';
 
 export function HomePage() {
-  const navigate = useNavigate();
-
-  const startNewGame = () => {
-    const newUuid = uuidv4();
-    navigate(`/game/${newUuid}`);
-  };
+  const { createNewGame } = useGameActions();
 
   return (
     <Center style={{ height: '100vh', flexDirection: 'column' }}>
       <Title order={1} mb="xl">
         Polyglot Wordle
       </Title>
-      <Button size="xl" onClick={startNewGame}>
+      <Button size="xl" onClick={createNewGame}>
         New Game
       </Button>
     </Center>

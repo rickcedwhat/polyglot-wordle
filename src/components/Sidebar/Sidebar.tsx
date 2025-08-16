@@ -7,12 +7,14 @@ import {
   IconSettings,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { DifficultyModal } from '@/components/DifficultyModal/DifficultyModal';
 import { HowToPlayModal } from '@/components/HowToPlayModal/HowToPlayModal';
 import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
+// import { Button } from '@mantine/core';
+import { BlurButton as Button } from '../BlurButton/BlurButton';
+import { Score } from '../Score/Score';
 
 export const Sidebar: FC = () => {
   const navigate = useNavigate();
@@ -73,6 +75,7 @@ export const Sidebar: FC = () => {
           >
             Difficulty
           </Button>
+          <Score fullWidth />
         </div>
         <Button
           leftSection={<IconLogout size="1rem" />}

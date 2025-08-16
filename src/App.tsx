@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { MantineProvider } from '@mantine/core';
 import { AuthProvider } from '@/context/AuthContext';
+import { ScoreProvider } from './context/ScoreContext';
 import { Router } from './Router';
 import { theme } from './theme';
 
@@ -17,7 +18,9 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
         <AuthProvider>
-          <Router />
+          <ScoreProvider>
+            <Router />
+          </ScoreProvider>
         </AuthProvider>
       </MantineProvider>
       <ReactQueryDevtools initialIsOpen={false} />

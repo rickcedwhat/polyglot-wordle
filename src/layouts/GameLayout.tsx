@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import { AppShell, Box, Burger } from '@mantine/core';
+import { AppShell, Box, Burger, Group } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { Score } from '@/components/Score/Score';
 import { Sidebar } from '@/components/Sidebar/Sidebar';
 
 export const GameLayout: FC = () => {
@@ -18,10 +19,16 @@ export const GameLayout: FC = () => {
         navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
         padding="md"
       >
-        {/* 3. Only render the Header component itself on mobile. */}
         {isMobile && (
-          <AppShell.Header p="md">
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          <AppShell.Header p="md" style={{ display: 'flex', alignItems: 'center' }}>
+            <Burger opened={opened} onClick={toggle} size="sm" />
+
+            <Group justify="center" style={{ flex: 1 }}>
+              {!opened && <Score />}
+            </Group>
+
+            {/* Invisible burger on the right to balance the layout */}
+            <Burger size="sm" style={{ visibility: 'hidden' }} />
           </AppShell.Header>
         )}
 
