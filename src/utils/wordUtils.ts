@@ -330,3 +330,24 @@ export const calculateScoreFromHistory = (
 
   return totalScore;
 };
+
+/**
+ * Formats a definition string by capitalizing the first letter
+ * (even if it's inside parentheses) and ensuring it ends with a period.
+ */
+export const formatDefinition = (text: string): string => {
+  if (!text) {
+    return '';
+  }
+
+  // 1. Find the first alphabetic character and capitalize it.
+  // The callback function ensures only the first match is affected.
+  let formattedText = text.replace(/([a-zA-Z])/, (match) => match.toUpperCase());
+
+  // 2. Ensure it ends with a period.
+  if (!formattedText.endsWith('.')) {
+    formattedText += '.';
+  }
+
+  return formattedText;
+};

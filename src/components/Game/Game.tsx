@@ -203,7 +203,6 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         opened={gameOverOpened}
         onClose={closeGameOver}
         status={gameStatus === 'playing' ? 'won' : gameStatus}
-        score={guesses.length}
       />
 
       <Center style={{ overflow: 'hidden' }}>

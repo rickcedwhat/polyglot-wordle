@@ -1,13 +1,14 @@
 import { FC, useState } from 'react';
 import { Box, Container, Group, SimpleGrid } from '@mantine/core';
 import { useWordPools } from '@/hooks/useWordPools';
+import { Language } from '@/types/firestore';
 import LanguageBoard from '../LanguageBoard/LanguageBoard';
 import MiniBoard from '../MiniBoard/MiniBoard';
 
 interface GameBoardProps {
   solution: { [key: string]: string };
   guesses: string[];
-  shuffledLanguages: string[];
+  shuffledLanguages: Language[];
   maxGuesses: number;
 }
 
@@ -36,8 +37,9 @@ export const GameBoard: FC<GameBoardProps> = ({
           const boardProps = {
             solutionWord: solution[lang],
             submittedGuesses: guesses,
-            words: wordPools[lang as keyof typeof wordPools],
+            words: wordPools[lang as Language],
             maxGuesses,
+            language: lang,
           };
           return (
             <Box
@@ -62,9 +64,10 @@ export const GameBoard: FC<GameBoardProps> = ({
         {shuffledLanguages.map((lang) => (
           <LanguageBoard
             key={lang}
+            language={lang}
             solutionWord={solution[lang]}
             submittedGuesses={guesses}
-            words={wordPools[lang as keyof typeof wordPools]}
+            words={wordPools[lang as Language]}
             maxGuesses={maxGuesses}
           />
         ))}
