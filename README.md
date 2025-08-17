@@ -62,6 +62,18 @@ firebase deploy
 [ ] Scoring animations
 [ ] Allow player to buy a letter - 200 points and will randomly pick an unknown letter and show it on the board for the rest of the game
 
+For Gemini
+
+[ ] add friendships
+
+[ ] a challenge button that will create a challenge doc in firestore
+
+[ ] profile pages where a user can pin 5 games and accept challenges on these games from anyone
+
+[ ] if someone has already completed the same game as you and either of you initiate a challenge, once the challenge is accepted it should auto-complete
+
+[ ] challenges have to be accepted and can be denied or ignored
+
 ## Official Scoring Rules
 
 A player's total score is the sum of all points earned from bonuses, minus any penalties.

@@ -7,6 +7,7 @@ import { GamePage } from './pages/Game.page';
 import { HistoryPage } from './pages/History.page';
 import { HomePage } from './pages/Home.page';
 import { LoginPage } from './pages/Login.page';
+import { ProfilePage } from './pages/Profile.page';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,14 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/profile/:userId',
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
