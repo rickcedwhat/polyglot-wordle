@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { IconArrowRight, IconMoodSad, IconTrophy } from '@tabler/icons-react';
 import { Button, Modal, Stack, Text, Title } from '@mantine/core';
+import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';
 import { useGameActions } from '@/hooks/useGameActions';
 
@@ -22,7 +23,7 @@ export const GameOver: FC<GameOverProps> = ({ opened, onClose, status }) => {
           <>
             <Title order={2}>You Won!</Title>
             <IconTrophy size={48} color="var(--mantine-color-yellow-6)" />
-            <Text>{`You solved it in ${numberOfGuesses}/10 guesses.`}</Text>
+            <Text>{`You solved it in ${numberOfGuesses}/${MAX_GUESSES} guesses.`}</Text>
           </>
         ) : (
           <>

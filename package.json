@@ -29,6 +29,7 @@
     "embla-carousel": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "firebase": "^12.1.0",
+    "framer-motion": "^12.23.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",

@@ -1,0 +1,12 @@
+.root {
+  background: radial-gradient(circle, #2c2e33 0%, #1a1b1e 100%);
+  min-height: 100vh;
+  justify-content: space-between;
+  flex-direction: column;
+  color: var(--mantine-color-gray-4);
+}
+
+.light {
+  background: radial-gradient(circle, #f8f9fa 0%, #e9ecef 100%);
+  color: var(--mantine-color-black);
+}

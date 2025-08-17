@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,6 +19,7 @@ const difficultyToHex = (difficulty: 'basic' | 'intermediate' | 'advanced'): str
 export const useGameActions = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const createNewGame = async () => {
     if (!currentUser) {
@@ -48,6 +50,7 @@ export const useGameActions = () => {
       // 4. Create the full game ID (UUID)
       const extraChars = fullUUID.substring(0, 5);
       const newGameId = randomPart + difficultyPart + extraChars;
+      await queryClient.invalidateQueries({ queryKey: ['gameHistory'] });
 
       navigate(`/game/${newGameId}`);
     } catch (error) {

@@ -1,0 +1,61 @@
+.root {
+  /* This now correctly fills the space provided by AppShell.Main */
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+  gap: rem(40px);
+  width: 100%;
+  max-width: var(--mantine-breakpoint-sm);
+  justify-content: space-evenly;
+}
+
+.carouselWrapper {
+  width: 100%;
+  max-width: 500px;
+}
+
+.carousel {
+  width: 100%;
+}
+
+.slide {
+  padding: var(--mantine-spacing-xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--mantine-color-dark-4);
+  border-radius: var(--mantine-radius-md);
+  min-height: 350px;
+  justify-content: space-around;
+  background-color: var(--mantine-color-dark-6);
+  box-shadow: var(--mantine-shadow-md);
+
+  [data-mantine-color-scheme='light'] & {
+    border-color: var(--mantine-color-gray-3);
+    background-color: var(--mantine-color-white);
+  }
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  max-height: 150px;
+  margin-top: var(--mantine-spacing-md);
+  border-radius: var(--mantine-radius-sm);
+  border: 1px solid var(--mantine-color-dark-4);
+
+  [data-mantine-color-scheme='light'] & {
+    border-color: var(--mantine-color-gray-3);
+  }
+}

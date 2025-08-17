@@ -1,32 +1,43 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProctedRoute/ProtectedRoute';
-import { GameLayout } from './layouts/GameLayout'; // Import the new layout
+import { GenericLayout } from './layouts/GenericLayout';
+import { SidebarLayout } from './layouts/SidebarLayout'; // Import the new layout
+
 import { GamePage } from './pages/Game.page';
+import { HistoryPage } from './pages/History.page';
 import { HomePage } from './pages/Home.page';
 import { LoginPage } from './pages/Login.page';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <ProtectedRoute>
-        <HomePage />
-      </ProtectedRoute>
-    ),
+    element: <GenericLayout />,
+    children: [
+      {
+        path: '/',
+        element: <HomePage />,
+      },
+      {
+        path: '/login',
+        element: <LoginPage />,
+      },
+    ],
   },
   {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    // All nested routes will now use the GameLayout.
-    element: <GameLayout />,
+    element: <SidebarLayout />,
     children: [
       {
         path: '/game/:uuid',
         element: (
           <ProtectedRoute>
             <GamePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/history',
+        element: (
+          <ProtectedRoute>
+            <HistoryPage />
           </ProtectedRoute>
         ),
       },

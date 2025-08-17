@@ -1,0 +1,5 @@
+.title {
+  font-weight: 900;
+  font-size: clamp(1.5rem, 4vw, 2rem); /* Creates a responsive font size */
+  letter-spacing: -0.5px;
+}

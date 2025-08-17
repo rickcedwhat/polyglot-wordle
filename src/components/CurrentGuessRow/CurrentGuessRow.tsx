@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { SimpleGrid } from '@mantine/core';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { LetterTile } from '../LetterTile/LetterTile';
+import classes from './CurrentGuessRow.module.css';
 
 interface CurrentGuessRowProps {
   guess: string[]; // Now an array
@@ -10,11 +11,23 @@ interface CurrentGuessRowProps {
   isInvalid?: boolean;
 }
 
-export const CurrentGuessRow: FC<CurrentGuessRowProps> = ({ guess, cursorIndex, onTileClick }) => {
+export const CurrentGuessRow: FC<CurrentGuessRowProps> = ({
+  guess,
+  cursorIndex,
+  onTileClick,
+  isInvalid,
+}) => {
   const { letterStatusMap } = useLetterStatus();
 
+  const rowClassName = `${classes.row} ${isInvalid ? classes.shake : ''}`;
+
   return (
-    <SimpleGrid cols={5} spacing="xs" style={{ width: '320px', margin: '20px auto' }}>
+    <SimpleGrid
+      className={rowClassName}
+      cols={5}
+      spacing="xs"
+      style={{ width: '320px', margin: '20px auto' }}
+    >
       {guess.map((letter, i) => {
         if (letter) {
           const letterStatus = letterStatusMap[letter].every(

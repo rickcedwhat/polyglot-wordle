@@ -1,3 +1,11 @@
+import {
+  GAME_SOLVED_BONUS,
+  GREEN_LETTER_BONUS,
+  MAX_GUESSES,
+  UNSOLVED_GAME_PENALTY,
+  WORD_SOLVED_BONUS,
+  YELLOW_LETTER_BONUS,
+} from '@/config';
 import { Language } from '@/types/firestore';
 
 export type LetterStatus = 'unknown' | 'correct' | 'present' | 'absent';
@@ -152,52 +160,6 @@ export const getWordsFromUuid = async (uuid: string) => {
   };
 };
 
-const GREEN_LETTER_BONUS = 5;
-const YELLOW_LETTER_BONUS = 5;
-const WORD_SOLVED_BONUS = 20;
-const UNSOLVED_GAME_PENALTY = -250;
-const GAME_SOLVED_BONUS = 25;
-
-/**
-//  * Calculates the score for a single language based on the full game's guess history.
-//  * @param guesses The array of all guesses made in the game.
-//  * @param solution The solution word for this specific language.
-//  * @returns The total score for this language.
-//  */
-// export const getLanguageScore = (guesses: string[], solution: string): number => {
-//   let languageScore = 0;
-//   const scoredGreenSlots = [false, false, false, false, false];
-
-//   // Calculate Green and Yellow bonuses for each guess
-//   guesses.forEach((guess, guessIndex) => {
-//     const statuses = getGuessStatuses(guess, solution);
-//     let yellowComboCounter = 1;
-//     const guessesTaken = guessIndex + 1;
-
-//     statuses.forEach((status, letterIndex) => {
-//       // Green Letter "Discovery" Bonus
-//       if (status === 'correct' && !scoredGreenSlots[letterIndex]) {
-//         languageScore += GREEN_LETTER_BONUS * (10 - guessesTaken);
-//         scoredGreenSlots[letterIndex] = true;
-//       }
-//       // Yellow Letter "Combo" Bonus
-//       if (status === 'present') {
-//         languageScore += YELLOW_LETTER_BONUS * yellowComboCounter;
-//         yellowComboCounter += 1;
-//       }
-//     });
-//   });
-
-//   // Calculate "Word Solved" Bonus
-//   const solvedIndex = guesses.findIndex((g) => normalizeWord(g) === normalizeWord(solution));
-//   if (solvedIndex !== -1) {
-//     const guessesTaken = solvedIndex + 1;
-//     languageScore += WORD_SOLVED_BONUS * (10 - guessesTaken);
-//   }
-
-//   return languageScore;
-// };
-
 /**
  * Calculates the points earned for a single turn.
  * @param currentGuess The guess that was just submitted.
@@ -234,7 +196,7 @@ export const getScoreForTurn = (
     statuses.forEach((status, letterIndex) => {
       // Green "Discovery" Bonus
       if (status === 'correct' && !updatedScoredSlots[lang][letterIndex]) {
-        const points = GREEN_LETTER_BONUS * (11 - guessNumber);
+        const points = GREEN_LETTER_BONUS * (MAX_GUESSES + 1 - guessNumber);
         console.log(
           `[${lang.toUpperCase()}] Green bonus for '${currentGuess[letterIndex]}' in position ${letterIndex + 1}: +${points}`
         );
@@ -254,7 +216,7 @@ export const getScoreForTurn = (
 
     // "Word Solved" Bonus
     if (normalizeWord(solutionWord) === normalizeWord(currentGuess)) {
-      const points = WORD_SOLVED_BONUS * (11 - guessNumber);
+      const points = WORD_SOLVED_BONUS * (MAX_GUESSES + 1 - guessNumber);
       console.log(`[${lang.toUpperCase()}] Word Solved Bonus: +${points}`);
       turnScore += points;
     }
@@ -310,10 +272,10 @@ export const calculateScoreFromHistory = (
       findLastGuess(solution.fr)
     );
     const totalGuessesTaken = finalGuessIndex + 1;
-    const points = GAME_SOLVED_BONUS * (11 - totalGuessesTaken);
+    const points = GAME_SOLVED_BONUS * (MAX_GUESSES + 1 - totalGuessesTaken);
     console.log(`[GAME] Bonus for winning the game: +${points}`);
     totalScore += points;
-  } else if (guessHistory.length >= 10) {
+  } else if (guessHistory.length >= MAX_GUESSES) {
     if (!enSolved) {
       console.log(`[EN] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`);
       totalScore += UNSOLVED_GAME_PENALTY;

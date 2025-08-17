@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import {
+  IconBooks,
   IconHelpCircle,
   IconHome,
   IconLogout,
@@ -7,23 +8,24 @@ import {
   IconSettings,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import { Paper } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { DifficultyModal } from '@/components/DifficultyModal/DifficultyModal';
 import { HowToPlayModal } from '@/components/HowToPlayModal/HowToPlayModal';
 import { useAuth } from '@/context/AuthContext';
+import { useSidebar } from '@/context/SidebarContext';
 import { useGameActions } from '@/hooks/useGameActions';
 // import { Button } from '@mantine/core';
 import { BlurButton as Button } from '../BlurButton/BlurButton';
-import { Score } from '../Score/Score';
 
 export const Sidebar: FC = () => {
   const navigate = useNavigate();
-
   const { logout } = useAuth();
   const [opened, { open, close }] = useDisclosure(false);
   const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
     useDisclosure(false);
   const { createNewGame } = useGameActions();
+  const { sidebarContent } = useSidebar();
 
   return (
     <>
@@ -75,7 +77,20 @@ export const Sidebar: FC = () => {
           >
             Difficulty
           </Button>
-          <Score fullWidth />
+          <Button
+            leftSection={<IconBooks size={20} />}
+            onClick={() => navigate('/history')}
+            fullWidth
+            variant="light"
+            style={{ marginTop: '1rem' }}
+          >
+            History
+          </Button>
+          {sidebarContent && (
+            <Paper withBorder p="xs" radius="md" mb="md" mt="md">
+              {sidebarContent}
+            </Paper>
+          )}
         </div>
         <Button
           leftSection={<IconLogout size="1rem" />}

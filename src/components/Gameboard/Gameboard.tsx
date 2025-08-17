@@ -9,15 +9,9 @@ interface GameBoardProps {
   solution: { [key: string]: string };
   guesses: string[];
   shuffledLanguages: Language[];
-  maxGuesses: number;
 }
 
-export const GameBoard: FC<GameBoardProps> = ({
-  solution,
-  guesses,
-  shuffledLanguages,
-  maxGuesses,
-}) => {
+export const GameBoard: FC<GameBoardProps> = ({ solution, guesses, shuffledLanguages }) => {
   const [activeIndex, setActiveIndex] = useState(1);
   const { data: wordPools, isLoading: arePoolsLoading } = useWordPools({
     en: 'advanced',
@@ -38,7 +32,6 @@ export const GameBoard: FC<GameBoardProps> = ({
             solutionWord: solution[lang],
             submittedGuesses: guesses,
             words: wordPools[lang as Language],
-            maxGuesses,
             language: lang,
           };
           return (
@@ -68,7 +61,6 @@ export const GameBoard: FC<GameBoardProps> = ({
             solutionWord={solution[lang]}
             submittedGuesses={guesses}
             words={wordPools[lang as Language]}
-            maxGuesses={maxGuesses}
           />
         ))}
       </SimpleGrid>

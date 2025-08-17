@@ -5,7 +5,7 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Score } from '@/components/Score/Score';
 import { Sidebar } from '@/components/Sidebar/Sidebar';
 
-export const GameLayout: FC = () => {
+export const SidebarLayout: FC = () => {
   const [opened, { toggle }] = useDisclosure();
   // 1. Check if the screen is smaller than the 'sm' breakpoint.
   const isMobile = useMediaQuery('(max-width: 48em)'); // 48em is the default 'sm' breakpoint
@@ -24,7 +24,7 @@ export const GameLayout: FC = () => {
             <Burger opened={opened} onClick={toggle} size="sm" />
 
             <Group justify="center" style={{ flex: 1 }}>
-              {!opened && <Score />}
+              {!opened && <Score orientation="horizontal" />}
             </Group>
 
             {/* Invisible burger on the right to balance the layout */}

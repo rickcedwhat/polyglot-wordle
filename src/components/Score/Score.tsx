@@ -1,25 +1,56 @@
 import { FC } from 'react';
-import { IconTrophy } from '@tabler/icons-react';
-import { Text } from '@mantine/core';
+import { IconHash, IconTrophy } from '@tabler/icons-react';
+import { Divider, Group, Paper, Stack, Text } from '@mantine/core';
+import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';
-import { BlurButton as Button } from '../BlurButton/BlurButton';
 
 interface ScoreProps {
-  fullWidth?: boolean; // 1. Add the optional prop
+  orientation?: 'vertical' | 'horizontal';
 }
 
-export const Score: FC<ScoreProps> = ({ fullWidth }) => {
-  // 2. Destructure it
-  const { score } = useScore();
+export const Score: FC<ScoreProps> = ({ orientation = 'vertical' }) => {
+  const { score, numberOfGuesses } = useScore();
 
+  // HORIZONTAL LAYOUT (for the header)
+  if (orientation === 'horizontal') {
+    return (
+      <Group gap="xs">
+        <IconTrophy size="1.2rem" />
+        <Text fz="sm" fw={700}>
+          {score}
+        </Text>
+        <Divider orientation="vertical" />
+        <Text fz="sm" fw={500}>
+          {numberOfGuesses}/{MAX_GUESSES}
+        </Text>
+      </Group>
+    );
+  }
+
+  // VERTICAL LAYOUT (the default, for the sidebar)
   return (
-    <Button
-      leftSection={<IconTrophy size="1rem" />}
-      fullWidth={fullWidth} // 3. Pass it to the Button
-      style={fullWidth ? { marginTop: '1rem' } : undefined}
-      variant="light"
-    >
-      <Text>Score: {score}</Text>
-    </Button>
+    <Paper withBorder p="sm" radius="md">
+      <Stack gap="xs">
+        <Group justify="space-between">
+          <Group gap="xs">
+            <IconTrophy size="1.1rem" />
+            <Text fz="sm" fw={500}>
+              Score
+            </Text>
+          </Group>
+          <Text fw={700}>{score}</Text>
+        </Group>
+        <Group justify="space-between">
+          <Group gap="xs">
+            <Text fz="sm" fw={500}>
+              Guesses
+            </Text>
+          </Group>
+          <Text fw={700}>
+            {numberOfGuesses} / {MAX_GUESSES}
+          </Text>
+        </Group>
+      </Stack>
+    </Paper>
   );
 };

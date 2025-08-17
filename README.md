@@ -51,11 +51,14 @@ firebase deploy
 [x] Click on any word for a definition
 [x] Red border on letters if triple red (warning the user before using the letter in the guess)
 [x] Remove empty from status and make it's own prop
-[ ] Don't allow a user to resubmit a guess
-[ ] Invalid word animation
+[x] Don't allow a user to resubmit a guess
+[x] Invalid word animation
 [ ] Scoring animations
 [ ] Allow player to buy a letter - 200 points and will randomly pick an unknown letter and show it on the board for the rest of the game
 [ ] Achievements
+[x] History Page
+[x] SidebarContent
+[ ] Pagination
 
 ## Official Scoring Rules
 

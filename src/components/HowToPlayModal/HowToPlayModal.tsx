@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { Center, Image, Modal, Paper, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { MAX_GUESSES } from '@/config';
 import classes from './HowToPlayModal.module.css';
 
 interface HowToPlayModalProps {
@@ -118,7 +119,9 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({ opened, onClose }) => 
             <Title order={3} mt="md" className={classes.title}>
               Winning
             </Title>
-            <Text className={classes.text}>You have 10 guesses to solve all three words.</Text>
+            <Text className={classes.text}>
+              You have ${MAX_GUESSES} guesses to solve all three words.
+            </Text>
             <Center mt="lg">
               <Image
                 src="/screenshots/how-to-play-4.png"

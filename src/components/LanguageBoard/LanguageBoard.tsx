@@ -1,5 +1,6 @@
 import { FC, memo, useState } from 'react';
 import { Box, Group, Loader, Popover, Stack, Text, UnstyledButton } from '@mantine/core';
+import { MAX_GUESSES } from '@/config';
 import { useDefinition } from '@/hooks/useDefinition';
 import { formatDefinition, getGuessStatuses, normalizeWord } from '@/utils/wordUtils';
 import { LetterTile } from '../LetterTile/LetterTile';
@@ -10,7 +11,6 @@ interface LanguageBoardProps {
   solutionWord: string;
   submittedGuesses: string[];
   words: string[];
-  maxGuesses: number;
 }
 
 // 1. We create a dedicated component for a single, submitted guess row.
@@ -75,14 +75,14 @@ const SubmittedRow: FC<{
 
 // 2. The main LanguageBoard component is now simpler.
 const LanguageBoard: FC<LanguageBoardProps> = memo(
-  ({ language, solutionWord, submittedGuesses, words, maxGuesses }) => {
+  ({ language, solutionWord, submittedGuesses, words }) => {
     const normalizedSolution = normalizeWord(solutionWord);
     let lastRelevantGuessIndex = submittedGuesses.indexOf(normalizedSolution);
     if (lastRelevantGuessIndex === -1) {
       lastRelevantGuessIndex = submittedGuesses.length - 1;
     }
 
-    const emptyRowsCount = maxGuesses - lastRelevantGuessIndex - 1;
+    const emptyRowsCount = MAX_GUESSES - lastRelevantGuessIndex - 1;
     const relevantGuesses = submittedGuesses.slice(0, lastRelevantGuessIndex + 1);
 
     return (

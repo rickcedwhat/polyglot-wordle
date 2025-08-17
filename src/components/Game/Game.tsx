@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { Box, Center, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
+import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';
+import { useSidebar } from '@/context/SidebarContext';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
@@ -10,6 +12,7 @@ import { normalizeWord } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
 import { GameOver } from '../GameOver/GameOver';
+import { Score } from '../Score/Score';
 
 // Define the props the component will receive
 interface GameProps {
@@ -18,14 +21,24 @@ interface GameProps {
   endGame: (result: { isWin: boolean; score: number }) => Promise<void>;
 }
 
-const MAX_GUESSES = 10;
-
 export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   // 1. Get the core game state and solution from the session prop
   const { words: solution, difficulties, guessHistory, shuffledLanguages } = gameSession;
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
   const { recalculateScore } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
+  const [activeKey, setActiveKey] = useState<string | null>(null);
+  const { data: wordPools, isLoading: arePoolsLoading } = useWordPools(difficulties);
+  const [guesses, setGuesses] = useState<string[]>(guessHistory);
+  const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
+  const [cursorIndex, setCursorIndex] = useState(0);
+  const [isInvalidGuess, setIsInvalidGuess] = useState(false);
+  const { setSidebarContent } = useSidebar();
+
+  useEffect(() => {
+    setSidebarContent(<Score />);
+    return () => setSidebarContent(null);
+  }, [setSidebarContent]);
 
   useEffect(() => {
     // This effect now syncs all state when the game session loads
@@ -38,17 +51,6 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     }
   }, [guessHistory, solution, recalculateScore, updateLetterStatuses]);
 
-  const [activeKey, setActiveKey] = useState<string | null>(null); // 1. Add activeKey state
-
-  // 2. Fetch the validation word lists from our globally cached hook
-  const { data: wordPools, isLoading: arePoolsLoading } = useWordPools(difficulties);
-
-  // 3. Initialize local UI state from the session
-  const [guesses, setGuesses] = useState<string[]>(guessHistory);
-  const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
-  const [cursorIndex, setCursorIndex] = useState(0);
-
-  // 4. Derive the game status from the session
   const getInitialGameStatus = () => {
     if (!gameSession.isLiveGame) {
       return gameSession.isWin ? 'won' : 'lost';
@@ -91,18 +93,18 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           return;
         }
 
-        const normalizedGuess = normalizeWord(guessString);
         const isValid =
-          wordPools.en.some((word) => normalizeWord(word) === normalizedGuess) ||
-          wordPools.es.some((word) => normalizeWord(word) === normalizedGuess) ||
-          wordPools.fr.some((word) => normalizeWord(word) === normalizedGuess);
+          (wordPools.en.some((word) => normalizeWord(word) === guessString) ||
+            wordPools.es.some((word) => normalizeWord(word) === guessString) ||
+            wordPools.fr.some((word) => normalizeWord(word) === guessString)) &&
+          guessHistory.includes(guessString) === false;
 
         if (isValid) {
-          const newGuesses = [...guesses, normalizedGuess];
+          const newGuesses = [...guesses, guessString];
           setGuesses(newGuesses);
           setCurrentGuess(Array(5).fill(''));
           setCursorIndex(0);
-          await updateGuessHistory(normalizedGuess);
+          await updateGuessHistory(guessString);
           updateLetterStatuses({ guesses: newGuesses, solution, shuffledLanguages });
 
           const finalScore = recalculateScore(newGuesses, solution);
@@ -119,6 +121,13 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             setGameStatus('lost');
             await endGame({ isWin: false, score: finalScore });
           }
+        } else {
+          // not a valid word or was already used before
+          // add animation
+          setIsInvalidGuess(true);
+          setTimeout(() => {
+            setIsInvalidGuess(false);
+          }, 500);
         }
       } else if (lowerKey === 'del' || lowerKey === 'backspace') {
         const newGuess = [...currentGuess];
@@ -206,17 +215,13 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       />
 
       <Center style={{ overflow: 'hidden' }}>
-        <GameBoard
-          solution={solution}
-          guesses={guesses}
-          shuffledLanguages={shuffledLanguages}
-          maxGuesses={MAX_GUESSES}
-        />
+        <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />
       </Center>
       <CurrentGuessRow
         guess={currentGuess}
         cursorIndex={cursorIndex}
         onTileClick={handleTileClick}
+        isInvalid={isInvalidGuess}
       />
       <AlphabetStatus activeKey={activeKey} onKeyPress={handleKeyPress} />
     </Box>
