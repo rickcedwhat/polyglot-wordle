@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IconHash, IconTrophy } from '@tabler/icons-react';
+import { IconTrophy } from '@tabler/icons-react';
 import { Divider, Group, Paper, Stack, Text } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';

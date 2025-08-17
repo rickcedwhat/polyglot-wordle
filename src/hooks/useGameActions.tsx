@@ -1,5 +1,14 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  limit,
+  query,
+  where,
+} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from '@/context/AuthContext';
@@ -29,7 +38,6 @@ export const useGameActions = () => {
     }
 
     try {
-      // 1. Fetch the user's latest preferences from Firestore
       const db = getFirestore();
       const userDocRef = doc(db, 'users', currentUser.uid);
       const userDocSnap = await getDoc(userDocRef);
@@ -39,23 +47,45 @@ export const useGameActions = () => {
       }
       const prefs = userDocSnap.data().difficultyPrefs as UserDoc['difficultyPrefs'];
 
-      // 2. Generate the random part of the UUID (for word indices)
-      const fullUUID = uuidv4().replace(/-/g, '');
-      const randomPart = fullUUID.substring(0, 24);
+      // Query for an existing empty game that matches the user's current preferences
+      const gamesCollectionRef = collection(db, 'games');
+      const q = query(
+        gamesCollectionRef,
+        where('userId', '==', currentUser.uid),
+        where('isLiveGame', '==', true),
+        where('guessHistory', '==', []),
+        where('difficulties.en', '==', prefs.en),
+        where('difficulties.es', '==', prefs.es),
+        where('difficulties.fr', '==', prefs.fr),
+        limit(1)
+      );
+      const existingGameSnapshot = await getDocs(q);
+      let gameId = '';
 
-      // 3. Construct the difficulty part from preferences
-      const difficultyPart =
-        difficultyToHex(prefs.en) + difficultyToHex(prefs.es) + difficultyToHex(prefs.fr);
+      if (!existingGameSnapshot.empty) {
+        // If a matching game is found, navigate to it
+        const gameToReuse = existingGameSnapshot.docs[0].data();
+        console.log('Found existing empty game with matching difficulties, reusing it.');
+        gameId = gameToReuse.gameId;
+      } else {
+        // If no game is found, create a new one
+        const fullUUID = uuidv4().replace(/-/g, '');
+        const randomPart = fullUUID.substring(0, 24);
 
-      // 4. Create the full game ID (UUID)
-      const extraChars = fullUUID.substring(0, 5);
-      const newGameId = randomPart + difficultyPart + extraChars;
-      await queryClient.invalidateQueries({ queryKey: ['gameHistory'] });
+        // Construct the difficulty part from preferences
+        const difficultyPart =
+          difficultyToHex(prefs.en) + difficultyToHex(prefs.es) + difficultyToHex(prefs.fr);
 
-      navigate(`/game/${newGameId}`);
+        // Create the full game ID (UUID)
+        const extraChars = fullUUID.substring(0, 5);
+        const newGameId = randomPart + difficultyPart + extraChars;
+
+        await queryClient.invalidateQueries({ queryKey: ['gameHistory'] });
+        gameId = newGameId;
+      }
+      navigate(`/game/${gameId}`);
     } catch (error) {
       console.error('Failed to create new game:', error);
-      // Optional: show an error notification to the user
     }
   };
 

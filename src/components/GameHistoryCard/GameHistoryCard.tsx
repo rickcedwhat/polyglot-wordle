@@ -27,6 +27,8 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game }) => {
     color = 'red';
   }
 
+  const numberOfGuesses = game.guessHistory.length;
+
   // Convert Firestore Timestamp to a readable date
   const gameDate = game.startedAt.toDate().toLocaleDateString();
 
@@ -49,9 +51,14 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game }) => {
         <Badge color={color}>{status}</Badge>
       </Group>
 
-      <Text size="sm" c="dimmed">
-        Score: {game.score ?? '---'}
-      </Text>
+      <Group justify="space-between">
+        <Text size="sm" c="dimmed">
+          Score: {game.score ?? '---'}
+        </Text>
+        <Text size="sm" c="dimmed">
+          Guesses: {numberOfGuesses}
+        </Text>
+      </Group>
     </Card>
   );
 };

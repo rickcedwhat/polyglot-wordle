@@ -85,7 +85,33 @@ export const useGameSession = () => {
         guessHistory: arrayUnion(guess),
       });
     },
-    onSuccess: () => {
+    // This logic runs BEFORE the mutation
+    onMutate: async (newGuess: string) => {
+      // 1. Cancel any ongoing refetches so they don't overwrite our optimistic update
+      await queryClient.cancelQueries({ queryKey });
+
+      // 2. Get a snapshot of the current data in the cache
+      const previousGameSession = queryClient.getQueryData<GameDoc>(queryKey);
+
+      // 3. Optimistically update the cache with the new guess
+      if (previousGameSession) {
+        queryClient.setQueryData<GameDoc>(queryKey, {
+          ...previousGameSession,
+          guessHistory: [...previousGameSession.guessHistory, newGuess],
+        });
+      }
+
+      // 4. Return the snapshot so we can roll back on error
+      return { previousGameSession };
+    },
+    // If the mutation fails, roll back to the previous state
+    onError: (_err, _newGuess, context) => {
+      if (context?.previousGameSession) {
+        queryClient.setQueryData(queryKey, context.previousGameSession);
+      }
+    },
+    // After the mutation succeeds or fails, always refetch to ensure consistency
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
     },
   });

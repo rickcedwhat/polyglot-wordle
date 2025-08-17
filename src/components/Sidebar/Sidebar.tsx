@@ -21,15 +21,25 @@ import { BlurButton as Button } from '../BlurButton/BlurButton';
 export const Sidebar: FC = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const [opened, { open, close }] = useDisclosure(false);
+  const [howToPlayOpened, { open: openHowToPlay, close: closeHowToPlay }] = useDisclosure(false);
   const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
     useDisclosure(false);
   const { createNewGame } = useGameActions();
-  const { sidebarContent } = useSidebar();
+  const { sidebarContent, close } = useSidebar();
+
+  const handleNewGameClick = () => {
+    close();
+    createNewGame();
+  };
+
+  const handleHistoryClick = () => {
+    close();
+    navigate('/history');
+  };
 
   return (
     <>
-      <HowToPlayModal opened={opened} onClose={close} />
+      <HowToPlayModal opened={howToPlayOpened} onClose={closeHowToPlay} />
       <DifficultyModal opened={difficultyModalOpened} onClose={closeDifficultyModal} />
 
       <div
@@ -52,7 +62,7 @@ export const Sidebar: FC = () => {
           </Button>
           <Button
             leftSection={<IconRefresh size="1rem" />}
-            onClick={createNewGame}
+            onClick={handleNewGameClick}
             fullWidth
             variant="light"
             style={{ marginTop: '1rem' }}
@@ -61,7 +71,7 @@ export const Sidebar: FC = () => {
           </Button>
           <Button
             leftSection={<IconHelpCircle size="1rem" />}
-            onClick={open}
+            onClick={openHowToPlay}
             fullWidth
             variant="light"
             style={{ marginTop: '1rem' }}
@@ -79,7 +89,7 @@ export const Sidebar: FC = () => {
           </Button>
           <Button
             leftSection={<IconBooks size={20} />}
-            onClick={() => navigate('/history')}
+            onClick={handleHistoryClick}
             fullWidth
             variant="light"
             style={{ marginTop: '1rem' }}

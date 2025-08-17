@@ -42,7 +42,6 @@ firebase deploy
 ## RoadMap
 
 [x] User log in
-[ ] Challenge friends
 [x] Make fit on my screen
 [x] Fix dictionary
 [x] Miniboard showing guesses after solving
@@ -53,12 +52,15 @@ firebase deploy
 [x] Remove empty from status and make it's own prop
 [x] Don't allow a user to resubmit a guess
 [x] Invalid word animation
-[ ] Scoring animations
-[ ] Allow player to buy a letter - 200 points and will randomly pick an unknown letter and show it on the board for the rest of the game
-[ ] Achievements
 [x] History Page
 [x] SidebarContent
+[x] When creating a new game - first check if the user has an empty one in their history - use that one instead and reset the startedAt field
+[ ] Challenge friends
 [ ] Pagination
+[ ] Button to suggest a word
+[ ] Achievements
+[ ] Scoring animations
+[ ] Allow player to buy a letter - 200 points and will randomly pick an unknown letter and show it on the board for the rest of the game
 
 ## Official Scoring Rules
 

@@ -1,6 +1,7 @@
 import { motion, Variants } from 'framer-motion';
 import { Carousel } from '@mantine/carousel';
-import { Button, Image, Paper, Text, Title } from '@mantine/core';
+import { Button } from '@mantine/core';
+import { HowToPlaySlides } from '@/components/HowToPlayModal/HowToPlayModal';
 import { useGameActions } from '@/hooks/useGameActions';
 import classes from './Home.page.module.css';
 
@@ -36,44 +37,7 @@ export function HomePage() {
               align: 'center',
             }}
           >
-            <Carousel.Slide>
-              <Paper className={classes.slide}>
-                <Title order={3}>Three Games at Once</Title>
-                <Text mt="md">
-                  Solve for three 5-letter words simultaneously: one in English, one in Spanish, and
-                  one in French.
-                </Text>
-                <Image
-                  src="/screenshots/how-to-play-1.png"
-                  alt="Three game boards"
-                  className={classes.image}
-                />
-              </Paper>
-            </Carousel.Slide>
-            <Carousel.Slide>
-              <Paper className={classes.slide}>
-                <Title order={3}>Check the Colors</Title>
-                <Text mt="md">The tile colors show how close your guess was.</Text>
-                <Image
-                  src="/screenshots/how-to-play-2.png"
-                  alt="Color clues for letters"
-                  className={classes.image}
-                />
-              </Paper>
-            </Carousel.Slide>
-            <Carousel.Slide>
-              <Paper className={classes.slide}>
-                <Title order={3}>Click for Definitions</Title>
-                <Text mt="md">
-                  After submitting a valid guess, click the row to get the word's definition.
-                </Text>
-                <Image
-                  src="/screenshots/how-to-play-3.png"
-                  alt="Keyboard with colored keys"
-                  className={classes.image}
-                />
-              </Paper>
-            </Carousel.Slide>
+            <HowToPlaySlides />
           </Carousel>
         </motion.div>
 

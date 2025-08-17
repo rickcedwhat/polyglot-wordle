@@ -41,97 +41,105 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({ opened, onClose }) => 
           indicator: classes.indicator,
         }}
       >
-        <Carousel.Slide>
-          <Paper p="xl" className={classes.slide}>
-            <Title order={3} mt="md" className={classes.title}>
-              Three Games at Once
-            </Title>
-            <Text className={classes.text}>
-              You have to solve for three 5-letter words simultaneously: one in English, one in
-              Spanish, and one in French.
-            </Text>
-            <Center mt="lg">
-              <Image
-                src="/screenshots/how-to-play-1.png"
-                alt="Three game boards"
-                className={classes.image}
-              />
-            </Center>
-          </Paper>
-        </Carousel.Slide>
-
-        <Carousel.Slide>
-          <Paper p="xl" className={classes.slide}>
-            <Title order={3} mt="md" className={classes.title}>
-              Color Clues for Letters
-            </Title>
-            <Text className={classes.text}>
-              Just like classic wordle, the color of the tiles will change to show how close your
-              guess was.
-            </Text>
-            <Center mt="lg">
-              <Image
-                src="/screenshots/how-to-play-2.png"
-                alt="Color clues for letters"
-                className={classes.image}
-              />
-            </Center>
-            <Text mt="sm">
-              <Text span fw={700} c="green">
-                Green:
-              </Text>{' '}
-              Correct letter, correct spot.
-            </Text>
-            <Text>
-              <Text span fw={700} c="yellow">
-                Yellow:
-              </Text>{' '}
-              Correct letter, wrong spot.
-            </Text>
-            <Text>
-              <Text span fw={700}>
-                Gray:
-              </Text>{' '}
-              Letter is not in the word.
-            </Text>
-          </Paper>
-        </Carousel.Slide>
-
-        <Carousel.Slide>
-          <Paper p="xl" className={classes.slide}>
-            <Title order={3} mt="md" className={classes.title}>
-              Each board corresponds to a language
-            </Title>
-            <Text className={classes.text}>
-              A green line will appear beneath a word if it matches the current board's language
-            </Text>
-            <Center mt="lg">
-              <Image
-                src="/screenshots/how-to-play-3.png"
-                alt="Underlined word in English board"
-                className={classes.image}
-              />
-            </Center>
-          </Paper>
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <Paper p="xl" className={classes.slide}>
-            <Title order={3} mt="md" className={classes.title}>
-              Winning
-            </Title>
-            <Text className={classes.text}>
-              You have ${MAX_GUESSES} guesses to solve all three words.
-            </Text>
-            <Center mt="lg">
-              <Image
-                src="/screenshots/how-to-play-4.png"
-                alt="Winning screen with solved words"
-                className={classes.image}
-              />
-            </Center>
-          </Paper>
-        </Carousel.Slide>
+        <HowToPlaySlides />
       </Carousel>
     </Modal>
+  );
+};
+
+export const HowToPlaySlides: FC = () => {
+  return (
+    <>
+      <Carousel.Slide>
+        <Paper p="xl" className={classes.slide}>
+          <Title order={3} mt="md" className={classes.title}>
+            Three Games at Once
+          </Title>
+          <Text className={classes.text}>
+            You have to solve for three 5-letter words simultaneously: one in English, one in
+            Spanish, and one in French.
+          </Text>
+          <Center mt="lg">
+            <Image
+              src="/screenshots/how-to-play-1.png"
+              alt="Three game boards"
+              className={classes.image}
+            />
+          </Center>
+        </Paper>
+      </Carousel.Slide>
+
+      <Carousel.Slide>
+        <Paper p="xl" className={classes.slide}>
+          <Title order={3} mt="md" className={classes.title}>
+            Color Clues for Letters
+          </Title>
+          <Text className={classes.text}>
+            Just like classic wordle, the color of the tiles will change to show how close your
+            guess was.
+          </Text>
+          <Center mt="lg">
+            <Image
+              src="/screenshots/how-to-play-2.png"
+              alt="Color clues for letters"
+              className={classes.image}
+            />
+          </Center>
+          <Text mt="sm">
+            <Text span fw={700} c="green">
+              Green:
+            </Text>{' '}
+            Correct letter, correct spot.
+          </Text>
+          <Text>
+            <Text span fw={700} c="yellow">
+              Yellow:
+            </Text>{' '}
+            Correct letter, wrong spot.
+          </Text>
+          <Text>
+            <Text span fw={700}>
+              Gray:
+            </Text>{' '}
+            Letter is not in the word.
+          </Text>
+        </Paper>
+      </Carousel.Slide>
+
+      <Carousel.Slide>
+        <Paper p="xl" className={classes.slide}>
+          <Title order={3} mt="md" className={classes.title}>
+            Each board corresponds to a language
+          </Title>
+          <Text className={classes.text}>
+            A green line will appear beneath a word if it matches the current board's language
+          </Text>
+          <Center mt="lg">
+            <Image
+              src="/screenshots/how-to-play-3.png"
+              alt="Underlined word in English board"
+              className={classes.image}
+            />
+          </Center>
+        </Paper>
+      </Carousel.Slide>
+      <Carousel.Slide>
+        <Paper p="xl" className={classes.slide}>
+          <Title order={3} mt="md" className={classes.title}>
+            Winning
+          </Title>
+          <Text className={classes.text}>
+            You have {MAX_GUESSES} guesses to solve all three words.
+          </Text>
+          <Center mt="lg">
+            <Image
+              src="/screenshots/how-to-play-4.png"
+              alt="Winning screen with solved words"
+              className={classes.image}
+            />
+          </Center>
+        </Paper>
+      </Carousel.Slide>
+    </>
   );
 };
