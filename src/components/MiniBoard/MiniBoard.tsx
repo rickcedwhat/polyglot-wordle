@@ -29,7 +29,7 @@ const MiniBoard: FC<MiniBoardProps> = memo(({ solutionWord, submittedGuesses, ma
         return (
           <SimpleGrid key={rowIndex} cols={5} spacing={4}>
             {Array.from({ length: 5 }).map((_, colIndex) => (
-              <MiniTile key={colIndex} status="empty" />
+              <MiniTile key={colIndex} status="unknown" />
             ))}
           </SimpleGrid>
         );

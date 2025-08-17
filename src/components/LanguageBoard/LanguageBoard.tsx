@@ -96,7 +96,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
               <Group key={rowIndex} gap="xs" wrap="nowrap">
                 {Array.from({ length: 5 }).map((_, colIndex) => (
                   <Box key={colIndex} style={{ flex: 1 }}>
-                    <LetterTile letter=" " status="empty" />
+                    <LetterTile letter=" " status="unknown" />
                   </Box>
                 ))}
               </Group>

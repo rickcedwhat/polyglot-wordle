@@ -22,7 +22,7 @@ const MAX_GUESSES = 10;
 
 export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   // 1. Get the core game state and solution from the session prop
-  const { words: solution, difficulties, guessHistory } = gameSession;
+  const { words: solution, difficulties, guessHistory, shuffledLanguages } = gameSession;
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
   const { recalculateScore } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
@@ -34,7 +34,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       recalculateScore(guessHistory, solution);
 
       // 2. ALSO, update the letter statuses based on the loaded history
-      updateLetterStatuses({ guesses: guessHistory, solution });
+      updateLetterStatuses({ guesses: guessHistory, solution, shuffledLanguages });
     }
   }, [guessHistory, solution, recalculateScore, updateLetterStatuses]);
 
@@ -103,7 +103,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           setCurrentGuess(Array(5).fill(''));
           setCursorIndex(0);
           await updateGuessHistory(normalizedGuess);
-          updateLetterStatuses({ guesses: newGuesses, solution });
+          updateLetterStatuses({ guesses: newGuesses, solution, shuffledLanguages });
 
           const finalScore = recalculateScore(newGuesses, solution);
 
@@ -189,9 +189,6 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       </Center>
     );
   }
-
-  // Derive an array of language keys for the boards
-  const shuffledLanguages = Object.keys(solution);
 
   return (
     <Box

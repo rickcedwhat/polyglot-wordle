@@ -24,7 +24,7 @@ const fetchOrCreateGame = async (gameId: string, userId: string): Promise<GameDo
     return gameDocSnap.data() as GameDoc;
   }
 
-  const { words, difficulties } = await getWordsFromUuid(gameId);
+  const { words, difficulties, shuffledLanguages } = await getWordsFromUuid(gameId);
 
   const newGame = {
     userId,
@@ -37,6 +37,7 @@ const fetchOrCreateGame = async (gameId: string, userId: string): Promise<GameDo
     startedAt: serverTimestamp() as Timestamp,
     completedAt: null,
     score: null,
+    shuffledLanguages,
   };
 
   await setDoc(gameDocRef, newGame);

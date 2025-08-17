@@ -1,3 +1,5 @@
+import { Language } from '@/types/firestore';
+
 export type LetterStatus = 'unknown' | 'correct' | 'present' | 'absent';
 export type Dictionary = Record<string, number>;
 
@@ -16,12 +18,8 @@ export const getGuessStatuses = (guess: string, solution: string): LetterStatus[
     return Array(guess.length).fill('empty');
   }
 
-  // 1. Convert both the guess and the solution to lowercase for a fair comparison.
-  const lowerGuess = guess.toLowerCase();
-  const lowerSolution = solution.toLowerCase();
-
-  const solutionLetters = lowerSolution.split('');
-  const guessLetters = lowerGuess.split('');
+  const solutionLetters = normalizeWord(solution).split('');
+  const guessLetters = normalizeWord(guess).split('');
   const statuses: LetterStatus[] = Array(solution.length).fill('absent');
   const letterCounts: { [key: string]: number } = {};
 
@@ -49,7 +47,6 @@ export const getGuessStatuses = (guess: string, solution: string): LetterStatus[
 };
 
 type Difficulty = 'basic' | 'intermediate' | 'advanced';
-type Language = 'en' | 'es' | 'fr';
 
 /**
  * Determines a difficulty level from a single hexadecimal character.
@@ -113,7 +110,9 @@ export const getWordsFromUuid = async (uuid: string) => {
     fr: { start: 16, end: 24 },
   };
 
-  (['en', 'es', 'fr'] as Language[]).forEach((lang) => {
+  const languages: Language[] = ['en', 'es', 'fr'];
+
+  languages.forEach((lang) => {
     const threshold = thresholds[difficulties[lang]];
     const dictionary = dictionaries[lang];
 
@@ -131,6 +130,17 @@ export const getWordsFromUuid = async (uuid: string) => {
     solutionWords[lang] = wordList[index];
   });
 
+  // We'll use the 28th character (index 27) as the seed for our shuffle.
+  const seed = parseInt(uuid[27], 16) || 0;
+
+  const shuffledLanguages = [...languages].sort((a, b) => {
+    // This is a simple deterministic shuffle algorithm.
+    // It produces a consistent, shuffled order based on the seed.
+    const valA = (a.charCodeAt(0) + seed) % languages.length;
+    const valB = (b.charCodeAt(0) + seed) % languages.length;
+    return valA - valB;
+  });
+
   return {
     words: {
       en: solutionWords.en,
@@ -138,6 +148,7 @@ export const getWordsFromUuid = async (uuid: string) => {
       fr: solutionWords.fr,
     },
     difficulties,
+    shuffledLanguages,
   };
 };
 

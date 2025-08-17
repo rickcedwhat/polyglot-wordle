@@ -26,7 +26,7 @@ const meta: Meta<typeof LetterTile> = {
 export default meta;
 type Story = StoryObj<typeof LetterTile>;
 
-export const Empty: Story = { args: { letter: '', status: 'empty' } };
+export const Empty: Story = { args: { letter: '', status: 'unknown' } };
 export const Correct: Story = { args: { letter: 'A', status: 'correct' } };
 export const Present: Story = { args: { letter: 'P', status: 'present' } };
 export const Absent: Story = { args: { letter: 'L', status: 'absent' } };

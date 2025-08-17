@@ -1,5 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 
+export type Language = 'en' | 'es' | 'fr';
+
 /**
  * Describes the structure of a document in the top-level 'users' collection.
  * Document ID is the user's Firebase Auth UID.
@@ -44,6 +46,7 @@ export interface GameDoc {
   userId: string;
   gameId: string; // The UUID from the URL that defines the words
   words: {
+    [key: Langauage]: string;
     en: string;
     es: string;
     fr: string;
@@ -59,6 +62,7 @@ export interface GameDoc {
   startedAt: Timestamp;
   completedAt: Timestamp | null;
   score: number | null;
+  shuffledLanguages: Language[];
 }
 
 /**
