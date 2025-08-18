@@ -10,9 +10,10 @@ import {
   serverTimestamp,
   updateDoc,
   where,
+  writeBatch,
 } from 'firebase/firestore';
 import { useAuth } from '@/context/AuthContext';
-import type { ChallengeDoc } from '@/types/firestore.d.ts';
+import type { ChallengeDoc, InviteDoc } from '@/types/firestore.d.ts';
 
 export const useChallenges = () => {
   const { currentUser } = useAuth();
@@ -106,9 +107,67 @@ export const useChallenges = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey }),
   });
 
+  // Mutation to create a shareable invite link
+  const createInviteMutation = useMutation({
+    mutationFn: async ({ gameId }: { gameId: string }) => {
+      if (!currentUser) {
+        throw new Error('User not logged in.');
+      }
+      const invitesRef = collection(db, 'invites');
+
+      const newInvite = {
+        gameId,
+        challengerId: currentUser.uid,
+        challengerName: currentUser.displayName || 'A Player',
+        status: 'pending',
+        createdAt: serverTimestamp(),
+      };
+
+      const docRef = await addDoc(invitesRef, newInvite);
+      return docRef.id; // Return the new invite ID
+    },
+    onSuccess: () => {
+      // You could invalidate general challenge queries here if needed
+    },
+  });
+
+  // Mutation to accept an invite, creating the real challenge
+  const acceptInviteMutation = useMutation({
+    mutationFn: async (invite: InviteDoc & { id: string }) => {
+      if (!currentUser) {
+        throw new Error('User not logged in.');
+      }
+      const batch = writeBatch(db);
+
+      // 1. Create the new challenge document
+      const challengesRef = collection(db, 'challenges');
+      const newChallenge: Omit<ChallengeDoc, 'createdAt'> = {
+        gameId: invite.gameId,
+        challengerId: invite.challengerId,
+        recipientId: currentUser.uid,
+        status: 'accepted',
+        results: {},
+        winnerId: null,
+      };
+      const newChallengeRef = doc(challengesRef); // Create a ref with a new auto-generated ID
+      batch.set(newChallengeRef, { ...newChallenge, createdAt: serverTimestamp() });
+
+      // 2. Mark the invite as 'claimed' so it can't be reused
+      const inviteRef = doc(db, 'invites', invite.id);
+      batch.update(inviteRef, { status: 'claimed' });
+
+      return batch.commit();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+
   return {
     ...challengesQuery,
     createChallenge: createChallengeMutation.mutateAsync,
     updateChallenge: updateChallengeMutation.mutateAsync,
+    createInvite: createInviteMutation.mutateAsync,
+    acceptInvite: acceptInviteMutation.mutateAsync,
   };
 };

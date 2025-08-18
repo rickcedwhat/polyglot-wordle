@@ -20,7 +20,7 @@ export const LoginPage: FC = () => {
   }, [currentUser, navigate, from]);
 
   return (
-    <Container size="xs" style={{ height: '100vh', display: 'flex' }}>
+    <Container size="xs" style={{ display: 'flex' }}>
       <Center style={{ width: '100%' }}>
         <Paper withBorder shadow="md" p={30} radius="md">
           <Stack>

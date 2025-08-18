@@ -1,10 +1,14 @@
 import { FC } from 'react';
 import { Center, Container, Loader, SimpleGrid, Text, Title } from '@mantine/core';
 import { GameHistoryCard } from '@/components/GameHistoryCard/GameHistoryCard';
+import { useAuth } from '@/context/AuthContext';
 import { useGameHistory } from '@/hooks/useGameHistory';
+import { useUserProfile } from '@/hooks/useUserProfile';
 
 export const HistoryPage: FC = () => {
   const { data: games, isLoading, isError } = useGameHistory();
+  const { currentUser } = useAuth();
+  const { data: userProfile } = useUserProfile(currentUser?.uid);
 
   if (isLoading) {
     return (
@@ -41,7 +45,7 @@ export const HistoryPage: FC = () => {
         verticalSpacing={{ base: 'md', sm: 'xl' }}
       >
         {games.map((game) => (
-          <GameHistoryCard key={game.id} game={game} />
+          <GameHistoryCard key={game.id} game={game} userProfile={userProfile} isOwnProfile />
         ))}
       </SimpleGrid>
     </Container>

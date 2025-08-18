@@ -2,11 +2,13 @@ import { motion, Variants } from 'framer-motion';
 import { Carousel } from '@mantine/carousel';
 import { Button } from '@mantine/core';
 import { HowToPlaySlides } from '@/components/HowToPlayModal/HowToPlayModal';
+import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
 import classes from './Home.page.module.css';
 
 export function HomePage() {
   const { createNewGame } = useGameActions();
+  const { currentUser, signInWithGoogle } = useAuth();
 
   // Animation variants for Framer Motion
   const containerVariants: Variants = {
@@ -42,9 +44,15 @@ export function HomePage() {
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <Button size="xl" onClick={createNewGame} variant="gradient">
-            Start a New Game
-          </Button>
+          {currentUser ? (
+            <Button size="xl" onClick={createNewGame} variant="gradient">
+              Start a New Game
+            </Button>
+          ) : (
+            <Button size="xl" onClick={signInWithGoogle} variant="gradient">
+              Log In
+            </Button>
+          )}
         </motion.div>
       </div>
     </motion.div>

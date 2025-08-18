@@ -1,12 +1,21 @@
 import { FC } from 'react';
 import { IconBellRinging, IconPinned, IconUsers } from '@tabler/icons-react';
 import { useParams } from 'react-router-dom';
-import { Center, Container, Loader, Tabs, Text, Title } from '@mantine/core';
+import { Center, Container, Loader, SimpleGrid, Tabs, Text, Title } from '@mantine/core';
+import { GameHistoryCard } from '@/components/GameHistoryCard/GameHistoryCard';
+import { useAuth } from '@/context/AuthContext';
+import { usePinnedGames } from '@/hooks/usePinnedGames';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 export const ProfilePage: FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const { data: userProfile, isLoading, isError } = useUserProfile(userId);
+  const { currentUser } = useAuth();
+  const isOwnProfile = currentUser?.uid === userId;
+  const { data: pinnedGames, isLoading: areGamesLoading } = usePinnedGames(
+    userId,
+    userProfile?.pinnedGames
+  );
 
   if (isLoading) {
     return (
@@ -43,8 +52,30 @@ export const ProfilePage: FC = () => {
         </Tabs.List>
 
         <Tabs.Panel value="pinned" pt="xs">
-          {/* We'll add the user's 5 pinned games here next. */}
-          Pinned games content will go here.
+          {areGamesLoading && (
+            <Center mt="xl">
+              <Loader />
+            </Center>
+          )}
+
+          {!areGamesLoading && (!pinnedGames || pinnedGames.length === 0) && (
+            <Text c="dimmed" mt="md">
+              This user hasn't pinned any games yet.
+            </Text>
+          )}
+
+          {!areGamesLoading && pinnedGames && pinnedGames.length > 0 && (
+            <SimpleGrid cols={{ base: 1, xs: 2 }} mt="md">
+              {pinnedGames.map((game) => (
+                <GameHistoryCard
+                  key={game.id}
+                  game={game}
+                  userProfile={userProfile}
+                  isOwnProfile={isOwnProfile}
+                />
+              ))}
+            </SimpleGrid>
+          )}
         </Tabs.Panel>
 
         <Tabs.Panel value="friends" pt="xs">

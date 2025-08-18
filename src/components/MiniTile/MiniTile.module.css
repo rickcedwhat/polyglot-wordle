@@ -4,6 +4,11 @@
   border-radius: 2px;
   background-color: var(--mantine-color-dark-5);
 }
+
+.fixedHeight .tile {
+  height: 10px;
+}
+
 .tile[data-status='correct'] {
   background-color: var(--mantine-color-green-6);
 }

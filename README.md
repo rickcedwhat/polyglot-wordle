@@ -68,7 +68,7 @@ For Gemini
 
 [ ] a challenge button that will create a challenge doc in firestore
 
-[ ] profile pages where a user can pin 5 games and accept challenges on these games from anyone
+[x] profile pages where a user can pin 5 games and accept challenges on these games from anyone
 
 [ ] if someone has already completed the same game as you and either of you initiate a challenge, once the challenge is accepted it should auto-complete
 

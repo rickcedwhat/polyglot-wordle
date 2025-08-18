@@ -47,6 +47,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
               es: 'basic',
               fr: 'basic',
             },
+            pinnedGames: [],
           });
         }
       }

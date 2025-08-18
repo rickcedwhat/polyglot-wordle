@@ -6,109 +6,92 @@ import {
   IconLogout,
   IconRefresh,
   IconSettings,
+  IconUser,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { Paper } from '@mantine/core';
+import { Divider, Paper, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { DifficultyModal } from '@/components/DifficultyModal/DifficultyModal';
 import { HowToPlayModal } from '@/components/HowToPlayModal/HowToPlayModal';
 import { useAuth } from '@/context/AuthContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useGameActions } from '@/hooks/useGameActions';
-// import { Button } from '@mantine/core';
 import { BlurButton as Button } from '../BlurButton/BlurButton';
+import classes from './Sidebar.module.css';
 
 export const Sidebar: FC = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, currentUser } = useAuth();
+  const { createNewGame } = useGameActions();
+  const { sidebarContent, close: closeSidebar } = useSidebar();
   const [howToPlayOpened, { open: openHowToPlay, close: closeHowToPlay }] = useDisclosure(false);
   const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
     useDisclosure(false);
-  const { createNewGame } = useGameActions();
-  const { sidebarContent, close } = useSidebar();
 
-  const handleNewGameClick = () => {
-    close();
-    createNewGame();
+  // A single handler for all navigation actions
+  const handleNavigate = (action: () => void) => {
+    action();
+    closeSidebar(); // Always close the sidebar after navigation
   };
 
-  const handleHistoryClick = () => {
-    close();
-    navigate('/history');
-  };
+  const mainLinks = [
+    { label: 'Home', icon: IconHome, action: () => navigate('/') },
+    { label: 'My Profile', icon: IconUser, action: () => navigate(`/profile/${currentUser?.uid}`) },
+    { label: 'New Game', icon: IconRefresh, action: createNewGame },
+    { label: 'History', icon: IconBooks, action: () => navigate('/history') },
+  ];
+
+  const toolLinks = [
+    { label: 'How to Play', icon: IconHelpCircle, action: openHowToPlay },
+    { label: 'Difficulty', icon: IconSettings, action: openDifficultyModal },
+  ];
 
   return (
     <>
       <HowToPlayModal opened={howToPlayOpened} onClose={closeHowToPlay} />
       <DifficultyModal opened={difficultyModalOpened} onClose={closeDifficultyModal} />
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '100%',
-        }}
-      >
-        <div>
-          <Button
-            leftSection={<IconHome size="1rem" />}
-            onClick={() => navigate('/')}
-            fullWidth
-            variant="light"
-            style={{ marginTop: '1rem' }}
-          >
-            Home
-          </Button>
-          <Button
-            leftSection={<IconRefresh size="1rem" />}
-            onClick={handleNewGameClick}
-            fullWidth
-            variant="light"
-            style={{ marginTop: '1rem' }}
-          >
-            New Game
-          </Button>
-          <Button
-            leftSection={<IconHelpCircle size="1rem" />}
-            onClick={openHowToPlay}
-            fullWidth
-            variant="light"
-            style={{ marginTop: '1rem' }}
-          >
-            How to Play
-          </Button>
-          <Button
-            leftSection={<IconSettings size={20} />}
-            onClick={openDifficultyModal}
-            fullWidth
-            variant="light"
-            style={{ marginTop: '1rem' }}
-          >
-            Difficulty
-          </Button>
-          <Button
-            leftSection={<IconBooks size={20} />}
-            onClick={handleHistoryClick}
-            fullWidth
-            variant="light"
-            style={{ marginTop: '1rem' }}
-          >
-            History
-          </Button>
+      <div className={classes.wrapper}>
+        <Stack>
+          {mainLinks.map((link) => (
+            <Button
+              key={link.label}
+              leftSection={<link.icon size="1rem" />}
+              onClick={() => handleNavigate(link.action)}
+              fullWidth
+              variant="light"
+            >
+              {link.label}
+            </Button>
+          ))}
+
+          <Divider />
+
+          {toolLinks.map((link) => (
+            <Button
+              key={link.label}
+              leftSection={<link.icon size="1rem" />}
+              onClick={link.action} // Modal buttons don't need to close the sidebar
+              fullWidth
+              variant="light"
+            >
+              {link.label}
+            </Button>
+          ))}
+
           {sidebarContent && (
-            <Paper withBorder p="xs" radius="md" mb="md" mt="md">
+            <Paper withBorder p="xs" radius="md" mt="md">
               {sidebarContent}
             </Paper>
           )}
-        </div>
+        </Stack>
+
         <Button
           leftSection={<IconLogout size="1rem" />}
           onClick={logout}
           fullWidth
           variant="light"
           color="red"
-          style={{ marginTop: '1rem' }}
         >
           Logout
         </Button>
