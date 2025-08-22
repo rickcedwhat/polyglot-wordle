@@ -16,7 +16,8 @@ const fetchGamesByIds = async (userId: string, gameIds: string[]) => {
   const q = query(
     gamesRef,
     where('userId', '==', userId), // 1. ADD THIS LINE to filter by the user
-    where('gameId', 'in', gameIds) // 2. And match the pinned game IDs
+    where('gameId', 'in', gameIds), // 2. And match the pinned game IDs
+    where('isLiveGame', '==', false)
   );
 
   const querySnapshot = await getDocs(q);

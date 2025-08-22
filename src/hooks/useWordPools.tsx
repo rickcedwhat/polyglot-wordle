@@ -8,7 +8,12 @@ type Dictionary = Record<string, number>;
 /**
  * A utility function to fetch and combine word lists based on difficulty.
  */
-const fetchWordPools = async (difficulties: Difficulties): Promise<Record<Language, string[]>> => {
+const fetchWordPools = async (
+  difficulties: Difficulties
+): Promise<{
+  filtered: Record<Language, string[]>;
+  master: Record<Language, string[]>;
+}> => {
   // 1. Define the score cutoffs for each difficulty level
   const thresholds: Record<DifficultyName, number> = {
     basic: 0.4,
@@ -25,6 +30,7 @@ const fetchWordPools = async (difficulties: Difficulties): Promise<Record<Langua
 
   const masterDictionaries = { en: enMaster, es: esMaster, fr: frMaster };
   const filteredPools: Record<Language, string[]> = { en: [], es: [], fr: [] };
+  const masterPools: Record<Language, string[]> = { en: [], es: [], fr: [] };
 
   // 3. Filter each dictionary based on the selected difficulty's score threshold
   (['en', 'es', 'fr'] as const).forEach((lang) => {
@@ -37,10 +43,11 @@ const fetchWordPools = async (difficulties: Difficulties): Promise<Record<Langua
       .map(([word, _score]) => word);
 
     filteredPools[lang] = filteredWords;
+    masterPools[lang] = Object.keys(masterDict);
   });
 
   // 4. Return the object containing the three filtered word pools
-  return filteredPools;
+  return { filtered: filteredPools, master: masterPools };
 };
 
 /**

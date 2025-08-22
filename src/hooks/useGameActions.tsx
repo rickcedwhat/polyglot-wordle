@@ -1,18 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  getFirestore,
-  limit,
-  query,
-  where,
-} from 'firebase/firestore';
+import { collection, getDocs, getFirestore, limit, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from '@/context/AuthContext';
-import type { UserDoc } from '@/types/firestore.d.ts';
+import { useUserProfile } from './useUserProfile';
 
 // A helper function to map difficulty names back to a hex character
 const difficultyToHex = (difficulty: 'basic' | 'intermediate' | 'advanced'): string => {
@@ -27,8 +18,11 @@ const difficultyToHex = (difficulty: 'basic' | 'intermediate' | 'advanced'): str
 
 export const useGameActions = () => {
   const { currentUser } = useAuth();
+  const { data: userProfile } = useUserProfile(currentUser?.uid);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const preferencesNotSet = !userProfile?.difficultyPrefs;
 
   const createNewGame = async () => {
     if (!currentUser) {
@@ -39,13 +33,13 @@ export const useGameActions = () => {
 
     try {
       const db = getFirestore();
-      const userDocRef = doc(db, 'users', currentUser.uid);
-      const userDocSnap = await getDoc(userDocRef);
 
-      if (!userDocSnap.exists()) {
-        throw new Error('User profile not found');
+      const prefs = userProfile?.difficultyPrefs;
+
+      if (!prefs) {
+        console.error('User difficulty preferences not found.');
+        return;
       }
-      const prefs = userDocSnap.data().difficultyPrefs as UserDoc['difficultyPrefs'];
 
       // Query for an existing empty game that matches the user's current preferences
       const gamesCollectionRef = collection(db, 'games');
@@ -54,9 +48,9 @@ export const useGameActions = () => {
         where('userId', '==', currentUser.uid),
         where('isLiveGame', '==', true),
         where('guessHistory', '==', []),
-        where('difficulties.en', '==', prefs.en),
-        where('difficulties.es', '==', prefs.es),
-        where('difficulties.fr', '==', prefs.fr),
+        where('difficulties.en', '==', prefs?.en),
+        where('difficulties.es', '==', prefs?.es),
+        where('difficulties.fr', '==', prefs?.fr),
         limit(1)
       );
       const existingGameSnapshot = await getDocs(q);
@@ -90,5 +84,5 @@ export const useGameActions = () => {
   };
 
   // Return an object with all the actions you want to expose
-  return { createNewGame };
+  return { createNewGame, preferencesNotSet };
 };

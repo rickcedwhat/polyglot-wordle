@@ -1,35 +1,54 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { collection, doc, getDocs, getFirestore, query, writeBatch } from 'firebase/firestore';
 import { useAuth } from '@/context/AuthContext';
-import type { FriendshipDoc } from '@/types/firestore.d.ts';
+import type { FriendshipDoc } from '@/types/firestore';
 
-export const useFriendships = () => {
-  const { currentUser } = useAuth();
+// The hook now accepts the ID of the user whose friend list we want to view
+export const useFriendships = (userId: string | undefined) => {
+  const { currentUser } = useAuth(); // We still need the logged-in user for mutations
   const queryClient = useQueryClient();
-  const queryKey = ['friendships', currentUser?.uid];
+  const queryKey = ['friendships', userId];
 
-  // Query to fetch all of the current user's friendship documents
   const friendshipsQuery = useQuery({
     queryKey,
     queryFn: async () => {
-      if (!currentUser) {
+      if (!userId) {
         return [];
       }
       const db = getFirestore();
-      const friendshipsRef = collection(db, 'users', currentUser.uid, 'friendships');
+      const friendshipsRef = collection(db, 'users', userId, 'friendships');
       const q = query(friendshipsRef);
       const snapshot = await getDocs(q);
-      return snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as (FriendshipDoc & {
-        id: string;
-      })[];
+      return snapshot.docs.map((d) => ({ id: d.id, ...(d.data() as FriendshipDoc) }));
     },
-    enabled: !!currentUser,
+    enabled: !!userId,
   });
 
-  // --- Mutations ---
+  // New helper function to interpret the friendship status
+  const getFriendshipStatus = (friendId?: string) => {
+    if (!friendId) {
+      return 'none';
+    }
+    const friendship = friendshipsQuery.data?.find((f) => f.id === friendId);
+    if (!friendship) {
+      return 'none';
+    }
+    if (friendship.status === 'accepted') {
+      return 'friends';
+    }
+    if (friendship.status === 'pending' && friendship.direction === 'outgoing') {
+      return 'pending_sent';
+    }
+    if (friendship.status === 'pending' && friendship.direction === 'incoming') {
+      return 'pending_received';
+    }
+    return 'none';
+  };
+
+  // --- Mutations (these always act on behalf of the `currentUser`) ---
   const db = getFirestore();
 
-  // Mutation to send a friend request
+  //   Mutation to send a friend request
   const sendRequestMutation = useMutation({
     mutationFn: async (friendId: string) => {
       if (!currentUser) {
@@ -94,6 +113,7 @@ export const useFriendships = () => {
 
   return {
     ...friendshipsQuery,
+    getFriendshipStatus, // Expose the new helper function
     sendRequest: sendRequestMutation.mutateAsync,
     acceptRequest: acceptRequestMutation.mutateAsync,
     removeFriendship: removeFriendshipMutation.mutateAsync,

@@ -5,6 +5,30 @@ export type Difficulty = 'basic' | 'intermediate' | 'advanced';
 export type Language = 'en' | 'es' | 'fr';
 
 /**
+ * Represents the stats for a single language at a single difficulty.
+ */
+export interface LanguageDifficultyStats {
+  boardsSolved: number;
+  boardsFailed: number;
+  averageGuesses: number;
+  /**
+   * An array of 9 numbers.
+   * Index 0 = wins in 1 guess, ..., Index 7 = wins in 8 guesses.
+   * Index 8 = losses (unsolved board).
+   */
+  guessDistribution: number[];
+}
+
+/**
+ * Represents all stats for a single language, broken down by difficulty.
+ */
+export interface LanguageStats {
+  basic: LanguageDifficultyStats;
+  intermediate: LanguageDifficultyStats;
+  advanced: LanguageDifficultyStats;
+}
+
+/**
  * The document stored in the top-level 'users' collection.
  * Document ID is the user's Firebase Auth UID.
  */
@@ -13,19 +37,30 @@ export interface UserDoc {
   email: string;
   photoURL: string;
   joinedAt: Timestamp;
-  stats: {
-    gamesPlayed: number;
-    wins: number;
-    currentStreak: number;
-    maxStreak: number;
-  };
   difficultyPrefs: {
     en: Difficulty;
     es: Difficulty;
     fr: Difficulty;
-  };
+  } | null;
   // An array of game IDs (the UUIDs) that the user has pinned to their profile.
   pinnedGames: string[];
+  isPrivate: boolean;
+  stats: {
+    // --- Overall Game Stats (across all difficulties) ---
+    gamesPlayed: number;
+    wins: number; // A "win" is solving all 3 words
+    winPercentage: number;
+    currentStreak: number; // Consecutive games won
+    maxStreak: number;
+    averageScore: number;
+    highScore: number;
+    // --- Language Stats (broken down by difficulty) ---
+    languages: {
+      en: LanguageStats;
+      es: LanguageStats;
+      fr: LanguageStats;
+    };
+  };
 }
 
 /**
@@ -71,17 +106,20 @@ export interface GameDoc {
  */
 export interface ChallengeDoc {
   gameId: string;
-  status: 'pending' | 'accepted' | 'declined' | 'completed';
-  challengerId: string;
-  recipientId: string;
   createdAt: Timestamp;
-  results: {
+  createdBy: string; // The UID of the user who created the challenge
+  type: 'direct' | 'open';
+  maxPlayers: number | null; // The limit for 'open' challenges
+  participants: {
     [userId: string]: {
-      score: number;
-      isWin: boolean;
-      completedAt: Timestamp;
+      displayName: string;
+      photoURL: string;
+      score: number | null;
+      rsvp: 'pending' | 'accepted' | 'declined' | null;
+      completedAt: Timestamp | null;
     };
   };
+  participantIds: string[];
   winnerId: string | 'tie' | null;
 }
 

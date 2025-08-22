@@ -94,9 +94,9 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         }
 
         const isValid =
-          (wordPools.en.some((word) => normalizeWord(word) === guessString) ||
-            wordPools.es.some((word) => normalizeWord(word) === guessString) ||
-            wordPools.fr.some((word) => normalizeWord(word) === guessString)) &&
+          (wordPools.master.en.some((word) => normalizeWord(word) === guessString) ||
+            wordPools.master.es.some((word) => normalizeWord(word) === guessString) ||
+            wordPools.master.fr.some((word) => normalizeWord(word) === guessString)) &&
           guessHistory.includes(guessString) === false;
 
         if (isValid) {

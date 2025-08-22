@@ -12,8 +12,32 @@ import { Router } from './Router';
 import { theme } from './theme';
 import classes from './App.module.css';
 
-// Create a client instance
-const queryClient = new QueryClient();
+const defaultErrorHandler = (error: unknown) => {
+  // `import.meta.env.DEV` is a boolean provided by Vite.
+  // This code block will only run in your development environment.
+  if (import.meta.env.DEV) {
+    console.error('Global Query Error:', error);
+  }
+
+  // Best Practice:
+  // - Return `false` in dev to prevent your UI from breaking on every error.
+  // - Return `true` in prod to allow Error Boundaries to catch the error and
+  //   show a user-friendly message instead of a broken app.
+  return !import.meta.env.DEV;
+};
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // All queries will now use this error handling logic by default
+      throwOnError: defaultErrorHandler,
+
+      // You can set other defaults here as well
+      // staleTime: 1000 * 60 * 5, // 5 minutes
+      // gcTime: 1000 * 60 * 30, // 30 minutes
+    },
+  },
+});
 
 export default function App() {
   return (

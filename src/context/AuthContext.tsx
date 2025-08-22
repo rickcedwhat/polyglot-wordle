@@ -1,7 +1,8 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { onAuthStateChanged, signInWithPopup, signOut, type User } from 'firebase/auth';
-import { doc, getDoc, getFirestore, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { auth, googleProvider } from '@/firebase';
+import { UserDoc } from '@/types/firestore';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -36,19 +37,46 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         const userDocRef = doc(db, 'users', user.uid);
         const userDocSnap = await getDoc(userDocRef);
         if (!userDocSnap.exists()) {
+          const defaultDifficultyStats = {
+            boardsSolved: 0,
+            boardsFailed: 0,
+            averageGuesses: 0,
+            averageScore: 0, // This was added to this level in our discussion
+            guessDistribution: [0, 0, 0, 0, 0, 0, 0, 0, 0], // 8 guesses + 1 for losses
+          };
+
+          // Define a default object for a single language's stats
+          const defaultLanguageStats = {
+            basic: { ...defaultDifficultyStats },
+            intermediate: { ...defaultDifficultyStats },
+            advanced: { ...defaultDifficultyStats },
+          };
+          // DEFUALT USER
           await setDoc(userDocRef, {
             displayName: user.displayName || 'New Player',
             email: user.email || '',
             photoURL: user.photoURL || '',
-            joinedAt: serverTimestamp(),
-            stats: { gamesPlayed: 0, wins: 0, currentStreak: 0, maxStreak: 0 },
-            difficultyPrefs: {
-              en: 'advanced',
-              es: 'basic',
-              fr: 'basic',
-            },
+            joinedAt: serverTimestamp() as Timestamp,
+            difficultyPrefs: null,
             pinnedGames: [],
-          });
+            isPrivate: false,
+            stats: {
+              // Overall Game Stats
+              gamesPlayed: 0,
+              wins: 0,
+              winPercentage: 0,
+              currentStreak: 0,
+              maxStreak: 0,
+              highScore: 0,
+              averageScore: 0,
+              // Language Stats broken down by difficulty
+              languages: {
+                en: { ...defaultLanguageStats },
+                es: { ...defaultLanguageStats },
+                fr: { ...defaultLanguageStats },
+              },
+            },
+          } as UserDoc);
         }
       }
       setCurrentUser(user);

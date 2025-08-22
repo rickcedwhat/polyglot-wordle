@@ -196,7 +196,7 @@ export const getScoreForTurn = (
     statuses.forEach((status, letterIndex) => {
       // Green "Discovery" Bonus
       if (status === 'correct' && !updatedScoredSlots[lang][letterIndex]) {
-        const points = GREEN_LETTER_BONUS * (MAX_GUESSES + 1 - guessNumber);
+        const points = GREEN_LETTER_BONUS * (MAX_GUESSES + 3 - guessNumber);
         console.log(
           `[${lang.toUpperCase()}] Green bonus for '${currentGuess[letterIndex]}' in position ${letterIndex + 1}: +${points}`
         );
@@ -216,7 +216,7 @@ export const getScoreForTurn = (
 
     // "Word Solved" Bonus
     if (normalizeWord(solutionWord) === normalizeWord(currentGuess)) {
-      const points = WORD_SOLVED_BONUS * (MAX_GUESSES + 1 - guessNumber);
+      const points = WORD_SOLVED_BONUS * (MAX_GUESSES + 3 - guessNumber);
       console.log(`[${lang.toUpperCase()}] Word Solved Bonus: +${points}`);
       turnScore += points;
     }
@@ -272,7 +272,7 @@ export const calculateScoreFromHistory = (
       findLastGuess(solution.fr)
     );
     const totalGuessesTaken = finalGuessIndex + 1;
-    const points = GAME_SOLVED_BONUS * (MAX_GUESSES + 1 - totalGuessesTaken);
+    const points = GAME_SOLVED_BONUS * (MAX_GUESSES + 3 - totalGuessesTaken);
     console.log(`[GAME] Bonus for winning the game: +${points}`);
     totalScore += points;
   } else if (guessHistory.length >= MAX_GUESSES) {

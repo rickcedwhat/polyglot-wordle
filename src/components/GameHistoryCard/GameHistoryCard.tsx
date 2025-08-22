@@ -15,7 +15,6 @@ interface GameHistoryCardProps {
 }
 export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, isOwnProfile }) => {
   const { pinGame, unpinGame, isPending } = usePinning();
-
   const isPinned = userProfile?.pinnedGames?.includes(game.gameId);
   const canPin = userProfile && (userProfile.pinnedGames?.length < 5 || isPinned);
 
@@ -88,11 +87,13 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
         <Text size="sm" c="dimmed">
           Guesses: {numberOfGuesses}
         </Text>
-        {isOwnProfile && canPin && (
-          <ActionIcon onClick={handlePinClick} variant="subtle" loading={isPending}>
-            {isPinned ? <IconPinnedFilled size={20} /> : <IconPin size={20} />}
-          </ActionIcon>
-        )}
+        <Group gap="xs">
+          {isOwnProfile && canPin && (
+            <ActionIcon onClick={handlePinClick} variant="subtle" loading={isPending} title="Pin">
+              {isPinned ? <IconPinnedFilled size={20} /> : <IconPin size={20} />}
+            </ActionIcon>
+          )}
+        </Group>
       </Group>
     </Card>
   );

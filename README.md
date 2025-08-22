@@ -61,6 +61,7 @@ firebase deploy
 [ ] Achievements
 [ ] Scoring animations
 [ ] Allow player to buy a letter - 200 points and will randomly pick an unknown letter and show it on the board for the rest of the game
+[ ] Lottie files for empty states
 
 For Gemini
 

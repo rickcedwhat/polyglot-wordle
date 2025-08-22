@@ -1,14 +1,26 @@
 import { motion, Variants } from 'framer-motion';
 import { Carousel } from '@mantine/carousel';
 import { Button } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { DifficultyModal } from '@/components/DifficultyModal/DifficultyModal';
 import { HowToPlaySlides } from '@/components/HowToPlayModal/HowToPlayModal';
 import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
 import classes from './Home.page.module.css';
 
 export function HomePage() {
-  const { createNewGame } = useGameActions();
+  const { createNewGame, preferencesNotSet } = useGameActions();
   const { currentUser, signInWithGoogle } = useAuth();
+  const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
+    useDisclosure(false);
+
+  const handleNewGameClick = () => {
+    if (preferencesNotSet) {
+      openDifficultyModal();
+    } else {
+      createNewGame();
+    }
+  };
 
   // Animation variants for Framer Motion
   const containerVariants: Variants = {
@@ -28,6 +40,7 @@ export function HomePage() {
       initial="hidden"
       animate="show"
     >
+      <DifficultyModal opened={difficultyModalOpened} onClose={closeDifficultyModal} />
       <div className={classes.inner}>
         <motion.div variants={itemVariants} className={classes.carouselWrapper}>
           <Carousel
@@ -45,7 +58,7 @@ export function HomePage() {
 
         <motion.div variants={itemVariants}>
           {currentUser ? (
-            <Button size="xl" onClick={createNewGame} variant="gradient">
+            <Button size="xl" onClick={handleNewGameClick} variant="gradient">
               Start a New Game
             </Button>
           ) : (

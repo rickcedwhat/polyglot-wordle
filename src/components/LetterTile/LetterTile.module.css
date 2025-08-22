@@ -1,11 +1,16 @@
 .tile {
   width: 100%;
   aspect-ratio: 1 / 1;
+  height: auto;
+
+  /* Use container query units (cqi) for font size */
+  /* This makes the font size 45% of the container's inline (width) size */
+  font-size: clamp(0.5rem, 45cqi, 1.75rem);
+
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid #495057;
-  font-size: 1.5rem;
   font-weight: 700;
   text-transform: uppercase;
   color: white;
@@ -13,7 +18,14 @@
   transition:
     background-color 0.3s ease,
     border-color 0.1s ease-in-out;
-  min-height: 35px;
+}
+
+/* HIDE THE LETTER ON SMALL TILES */
+@container (width < 20px) {
+  .tile {
+    /* We can remove the font-size: 0 here as the clamp() will handle it */
+    color: transparent;
+  }
 }
 
 .tile[data-status='correct'] {

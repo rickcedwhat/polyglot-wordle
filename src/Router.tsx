@@ -6,7 +6,6 @@ import { SidebarLayout } from './layouts/SidebarLayout'; // Import the new layou
 import { GamePage } from './pages/Game.page';
 import { HistoryPage } from './pages/History.page';
 import { HomePage } from './pages/Home.page';
-import { InvitePage } from './pages/Invite.page';
 import { LoginPage } from './pages/Login.page';
 import { ProfilePage } from './pages/Profile.page';
 
@@ -22,10 +21,10 @@ const router = createBrowserRouter([
         path: '/login',
         element: <LoginPage />,
       },
-      {
-        path: '/invite/:inviteId',
-        element: <InvitePage />,
-      },
+      // {
+      //   path: '/invite/:inviteId',
+      //   element: <InvitePage />,
+      // },
     ],
   },
   {

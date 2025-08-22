@@ -51,7 +51,7 @@ const SubmittedRow: FC<{
         >
           <Group gap="xs" wrap="nowrap">
             {guess.split('').map((letter, colIndex) => (
-              <Box key={colIndex} style={{ flex: 1 }}>
+              <Box key={colIndex} style={{ flex: 1 }} className={classes.tileWrapper}>
                 <LetterTile letter={letter} status={statuses[colIndex]} />
               </Box>
             ))}
@@ -87,7 +87,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
 
     return (
       <Box h="100%" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <Stack gap="xs" maw={320} mx="auto">
+        <Stack gap="xs" w="100%" mx="auto">
           {relevantGuesses.map((guess, rowIndex) => {
             const matchingWord = words.find((word) => normalizeWord(word) === guess);
             const languageMatch = !!matchingWord;
@@ -108,7 +108,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
           {Array.from({ length: emptyRowsCount }).map((_, rowIndex) => (
             <Group key={rowIndex} gap="xs" wrap="nowrap">
               {Array.from({ length: 5 }).map((_, colIndex) => (
-                <Box key={colIndex} style={{ flex: 1 }}>
+                <Box key={colIndex} style={{ flex: 1 }} className={classes.tileWrapper}>
                   <LetterTile letter="" status="unknown" />
                 </Box>
               ))}

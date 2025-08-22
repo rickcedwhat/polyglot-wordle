@@ -4,6 +4,7 @@ import {
   doc,
   getDoc,
   getFirestore,
+  runTransaction,
   serverTimestamp,
   setDoc,
   Timestamp,
@@ -11,7 +12,7 @@ import {
 } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext'; // 1. Import useAuth
-import type { GameDoc } from '@/types/firestore.d.ts';
+import type { GameDoc, Language, UserDoc } from '@/types/firestore.d.ts';
 import { getWordsFromUuid } from '@/utils/wordUtils';
 
 // The fetchOrCreateGame function remains the same.
@@ -116,21 +117,101 @@ export const useGameSession = () => {
     },
   });
 
+  // const endGameMutation = useMutation({
+  //   mutationFn: async ({ isWin, score }: { isWin: boolean; score: number }) => {
+  //     if (!userId || !gameId) {
+  //       throw new Error('Cannot end game without IDs.');
+  //     }
+
+  //     const gameDocRef = doc(db, 'games', `${userId}_${gameId}`);
+  //     await updateDoc(gameDocRef, {
+  //       isLiveGame: false,
+  //       isWin,
+  //       completedAt: serverTimestamp(),
+  //       score,
+  //     });
+
+  //   },
+  //   onSuccess: () => {
+  //     // Invalidate the current game session query
+  //     queryClient.invalidateQueries({ queryKey });
+  //   },
+  // });
+
   const endGameMutation = useMutation({
     mutationFn: async ({ isWin, score }: { isWin: boolean; score: number }) => {
       if (!userId || !gameId) {
         throw new Error('Cannot end game without IDs.');
       }
+
+      const db = getFirestore();
       const gameDocRef = doc(db, 'games', `${userId}_${gameId}`);
-      return updateDoc(gameDocRef, {
-        isLiveGame: false,
-        isWin,
-        completedAt: serverTimestamp(),
-        score,
+      const userDocRef = doc(db, 'users', userId);
+
+      // Use a transaction to atomically update game and user stats
+      await runTransaction(db, async (transaction) => {
+        // 1. Read existing documents first
+        const gameDocSnap = await transaction.get(gameDocRef);
+        const userDocSnap = await transaction.get(userDocRef);
+
+        if (!gameDocSnap.exists() || !userDocSnap.exists()) {
+          throw new Error('Game or User document does not exist!');
+        }
+
+        const gameData = gameDocSnap.data() as GameDoc;
+        const userData = userDocSnap.data() as UserDoc;
+
+        // --- 2. Calculate New Stats ---
+        const stats = userData.stats;
+
+        // Overall stats
+        stats.gamesPlayed = (stats.gamesPlayed || 0) + 1;
+        if (isWin) {
+          stats.wins = (stats.wins || 0) + 1;
+          stats.currentStreak = (stats.currentStreak || 0) + 1;
+          stats.maxStreak = Math.max(stats.maxStreak || 0, stats.currentStreak);
+        } else {
+          stats.currentStreak = 0; // Reset streak on a loss
+        }
+        stats.winPercentage = Math.round((stats.wins / stats.gamesPlayed) * 100);
+
+        // Per-language, per-difficulty stats
+        gameData.shuffledLanguages.forEach((lang: Language) => {
+          const difficulty = gameData.difficulties[lang];
+          const solution = gameData.words[lang];
+          const langStats = stats.languages[lang][difficulty];
+
+          const winIndex = gameData.guessHistory.findIndex((g) => g === solution);
+
+          if (winIndex !== -1) {
+            // Board was solved
+            langStats.boardsSolved = (langStats.boardsSolved || 0) + 1;
+            const guessCount = winIndex + 1; // 1-based index
+            langStats.guessDistribution[guessCount - 1]++;
+          } else {
+            // Board was not solved
+            langStats.boardsFailed = (langStats.boardsFailed || 0) + 1;
+            langStats.guessDistribution[8]++; // Index 8 for losses
+          }
+        });
+
+        // --- 3. Write updates back to Firestore ---
+        // Update the user's stats
+        transaction.update(userDocRef, { stats });
+
+        // Finalize the game document
+        transaction.update(gameDocRef, {
+          isLiveGame: false,
+          isWin,
+          completedAt: serverTimestamp(),
+          score,
+        });
       });
     },
     onSuccess: () => {
+      // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey });
+      queryClient.invalidateQueries({ queryKey: ['userProfile', userId] }); // Invalidate user profile to update stats display
     },
   });
 

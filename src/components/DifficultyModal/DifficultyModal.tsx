@@ -56,20 +56,30 @@ export const DifficultyModal: FC<DifficultyModalProps> = ({ opened, onClose }) =
 
   useEffect(() => {
     if (userProfileQuery.data) {
-      setPrefs(userProfileQuery.data.difficultyPrefs);
+      // If fetched prefs are null, initialize with a default object.
+      // Otherwise, use the fetched data.
+      setPrefs(
+        userProfileQuery.data.difficultyPrefs || {
+          en: 'basic',
+          es: 'basic',
+          fr: 'basic',
+        }
+      );
     }
   }, [userProfileQuery.data]);
 
   const handleSave = () => {
     if (prefs) {
       updatePrefsMutation.mutate(prefs, {
-        onSuccess: onClose,
+        onSuccess: () => {
+          onClose(); // Close the modal
+        },
       });
     }
   };
 
   const createHandler = (lang: 'en' | 'es' | 'fr') => (value: string) => {
-    setPrefs((prev) => (prev ? { ...prev, [lang]: value as Difficulty } : null));
+    setPrefs((prev) => ({ ...prev!, [lang]: value as Difficulty }));
   };
 
   return (

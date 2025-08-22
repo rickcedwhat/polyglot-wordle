@@ -1,0 +1,34 @@
+/* src/components/Gameboard/Gameboard.module.css */
+
+.boardContainer {
+  width: 100%;
+  display: flex;
+  gap: var(--mantine-spacing-md);
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.boardWrapper {
+  /*
+    flex-basis: 0 tells the item to start with a width of 0.
+    This makes the distribution of space purely proportional to the flex-grow factor.
+  */
+  flex: 1 1 0;
+
+  /* These are the hard limits for any board */
+  min-width: 100px;
+  max-width: 280px;
+
+  transition: all 300ms ease;
+  cursor: pointer;
+}
+
+.boardWrapper.active {
+  /*
+    By giving the active board a much higher flex-grow value,
+    it gets priority to take up any available free space until it hits its max-width.
+    The other boards will share what's left.
+  */
+  flex-grow: 10;
+  cursor: default;
+}

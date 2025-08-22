@@ -22,11 +22,19 @@ import classes from './Sidebar.module.css';
 export const Sidebar: FC = () => {
   const navigate = useNavigate();
   const { logout, currentUser } = useAuth();
-  const { createNewGame } = useGameActions();
+  const { createNewGame, preferencesNotSet } = useGameActions();
   const { sidebarContent, close: closeSidebar } = useSidebar();
   const [howToPlayOpened, { open: openHowToPlay, close: closeHowToPlay }] = useDisclosure(false);
   const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
     useDisclosure(false);
+
+  const handleNewGameClick = () => {
+    if (preferencesNotSet) {
+      openDifficultyModal();
+    } else {
+      createNewGame();
+    }
+  };
 
   // A single handler for all navigation actions
   const handleNavigate = (action: () => void) => {
@@ -37,7 +45,7 @@ export const Sidebar: FC = () => {
   const mainLinks = [
     { label: 'Home', icon: IconHome, action: () => navigate('/') },
     { label: 'My Profile', icon: IconUser, action: () => navigate(`/profile/${currentUser?.uid}`) },
-    { label: 'New Game', icon: IconRefresh, action: createNewGame },
+    { label: 'New Game', icon: IconRefresh, action: handleNewGameClick },
     { label: 'History', icon: IconBooks, action: () => navigate('/history') },
   ];
 

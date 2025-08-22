@@ -1,25 +1,37 @@
+/* src/components/LanguageBoard/LanguageBoard.module.css */
+
 .languageMatch {
-  /* The parent container needs a relative position */
+  /* Keep this for the underline's positioning */
   position: relative;
 
-  /* These properties keep the underline wrapped neatly around the letters */
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+  /* Add this to make the button (the row) expand to the full width 
+    of its container, allowing the flexbox growth to be visible.
+  */
+  width: 100%;
+
+  /*
+    These lines were removed as they were preventing the row from growing:
+    
+    width: fit-content; 
+    margin-left: auto;
+    margin-right: auto;
+  */
 }
 
 .languageMatch::after {
   content: '';
   position: absolute;
-
-  /* The height of the line (its thickness) */
   height: 2px;
-
-  /* Position the line at the very bottom, spanning the full width */
-  bottom: -4px; /* Adjust this value to control the distance from the letters */
+  bottom: -4px;
   left: 0;
   width: 100%;
-
-  /* The color of the line */
   background-color: var(--mantine-color-green-6);
+}
+
+.tileWrapper {
+  /* This tells the browser to track this element's width */
+  container-type: inline-size;
+
+  /* flex: grow | shrink | basis */
+  /* flex: 1 1 clamp(0.625rem, 6vw, 3.125rem); Min 10px, Max 50px */
 }
