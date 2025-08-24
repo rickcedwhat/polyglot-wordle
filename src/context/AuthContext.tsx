@@ -64,6 +64,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
               // Overall Game Stats
               gamesPlayed: 0,
               wins: 0,
+              totalScore: 0,
               winPercentage: 0,
               currentStreak: 0,
               maxStreak: 0,
