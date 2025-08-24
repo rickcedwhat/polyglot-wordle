@@ -23,8 +23,8 @@
 /* HIDE THE LETTER ON SMALL TILES */
 @container (width < 20px) {
   .tile {
-    /* We can remove the font-size: 0 here as the clamp() will handle it */
     color: transparent;
+    font-size: 0;
   }
 }
 

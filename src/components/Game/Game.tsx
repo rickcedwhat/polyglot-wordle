@@ -214,7 +214,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         status={gameStatus === 'playing' ? 'won' : gameStatus}
       />
 
-      <Center style={{ overflow: 'hidden' }}>
+      <Center style={{ overflow: 'visible' }}>
         <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />
       </Center>
       <CurrentGuessRow
