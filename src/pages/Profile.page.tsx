@@ -1,25 +1,35 @@
 import { FC } from 'react';
-import { IconBellRinging, IconPinned, IconUsers } from '@tabler/icons-react';
-import { useParams } from 'react-router-dom';
-import { Center, Container, Loader, SimpleGrid, Tabs, Text, Title } from '@mantine/core';
+import { IconChartBar, IconHistory, IconUsers } from '@tabler/icons-react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Center, Container, Loader, Tabs, Text, Title } from '@mantine/core';
 import { FriendButton } from '@/components/FriendButton/FriendButton';
 import { FriendListTab } from '@/components/FriendsListTab/FriendsListTab';
-import { GameHistoryCard } from '@/components/GameHistoryCard/GameHistoryCard';
+import { GameHistoryTab } from '@/components/GameHistoryTab/GameHistoryTab';
 import { StatsTab } from '@/components/StatsTab/StatsTab';
 import { useAuth } from '@/context/AuthContext';
-import { usePinnedGames } from '@/hooks/usePinnedGames';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 export const ProfilePage: FC = () => {
   const { userId } = useParams<{ userId: string }>();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const { data: userProfile, isLoading: isProfileLoading, isError } = useUserProfile(userId);
   const { currentUser } = useAuth();
 
   const isOwnProfile = currentUser?.uid === userId;
-  const { data: pinnedGames, isLoading: areGamesLoading } = usePinnedGames(
-    userId,
-    userProfile?.pinnedGames
-  );
+
+  // Determine active tab from URL hash, default to 'stats'
+  const validTabs = ['history', 'stats', 'friends'];
+  const activeTabFromUrl = location.hash.slice(1);
+  const activeTab = validTabs.includes(activeTabFromUrl) ? activeTabFromUrl : 'history';
+
+  const handleTabChange = (newTab: string | null) => {
+    if (newTab) {
+      // Update the URL hash without adding to browser history
+      navigate(`#${newTab}`, { replace: true });
+    }
+  };
 
   if (isProfileLoading) {
     return (
@@ -38,19 +48,20 @@ export const ProfilePage: FC = () => {
   }
 
   return (
-    <Container size="md" mt="lg">
+    <Container size="lg" mt="lg">
       <Title order={2} style={{ textTransform: 'capitalize' }}>
         {userProfile.displayName}
       </Title>
       <Text c="dimmed">Member since {userProfile.joinedAt.toDate().toLocaleDateString()}</Text>
       <FriendButton profileUserId={userId!} />
 
-      <Tabs defaultValue="pinned" mt="xl">
+      {/* The Tabs component is now controlled by state derived from the URL */}
+      <Tabs value={activeTab} onChange={handleTabChange} mt="xl">
         <Tabs.List>
-          <Tabs.Tab value="pinned" leftSection={<IconPinned size={14} />}>
-            Pinned Games
+          <Tabs.Tab value="history" leftSection={<IconHistory size={14} />}>
+            Game History
           </Tabs.Tab>
-          <Tabs.Tab value="stats" leftSection={<IconBellRinging size={14} />}>
+          <Tabs.Tab value="stats" leftSection={<IconChartBar size={14} />}>
             Stats
           </Tabs.Tab>
           <Tabs.Tab value="friends" leftSection={<IconUsers size={14} />}>
@@ -58,31 +69,12 @@ export const ProfilePage: FC = () => {
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="pinned" pt="xs">
-          {areGamesLoading && (
-            <Center mt="xl">
-              <Loader />
-            </Center>
-          )}
-
-          {!areGamesLoading && (!pinnedGames || pinnedGames.length === 0) && (
-            <Text c="dimmed" mt="md">
-              This user hasn't pinned any games yet.
-            </Text>
-          )}
-
-          {!areGamesLoading && pinnedGames && pinnedGames.length > 0 && (
-            <SimpleGrid cols={{ base: 1, xs: 2 }} mt="md">
-              {pinnedGames.map((game) => (
-                <GameHistoryCard
-                  key={game.id}
-                  game={game}
-                  userProfile={userProfile}
-                  isOwnProfile={isOwnProfile}
-                />
-              ))}
-            </SimpleGrid>
-          )}
+        <Tabs.Panel value="history" pt="xs">
+          <GameHistoryTab
+            profileUserId={userId!}
+            userProfile={userProfile}
+            isOwnProfile={isOwnProfile}
+          />
         </Tabs.Panel>
 
         <Tabs.Panel value="friends" pt="xs">

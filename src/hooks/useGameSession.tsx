@@ -123,18 +123,74 @@ export const useGameSession = () => {
   //       throw new Error('Cannot end game without IDs.');
   //     }
 
+  //     const db = getFirestore();
   //     const gameDocRef = doc(db, 'games', `${userId}_${gameId}`);
-  //     await updateDoc(gameDocRef, {
-  //       isLiveGame: false,
-  //       isWin,
-  //       completedAt: serverTimestamp(),
-  //       score,
-  //     });
+  //     const userDocRef = doc(db, 'users', userId);
 
+  //     // Use a transaction to atomically update game and user stats
+  //     await runTransaction(db, async (transaction) => {
+  //       // 1. Read existing documents first
+  //       const gameDocSnap = await transaction.get(gameDocRef);
+  //       const userDocSnap = await transaction.get(userDocRef);
+
+  //       if (!gameDocSnap.exists() || !userDocSnap.exists()) {
+  //         throw new Error('Game or User document does not exist!');
+  //       }
+
+  //       const gameData = gameDocSnap.data() as GameDoc;
+  //       const userData = userDocSnap.data() as UserDoc;
+
+  //       // --- 2. Calculate New Stats ---
+  //       const stats = userData.stats;
+
+  //       // Overall stats
+  //       stats.gamesPlayed = (stats.gamesPlayed || 0) + 1;
+  //       if (isWin) {
+  //         stats.wins = (stats.wins || 0) + 1;
+  //         stats.currentStreak = (stats.currentStreak || 0) + 1;
+  //         stats.maxStreak = Math.max(stats.maxStreak || 0, stats.currentStreak);
+  //       } else {
+  //         stats.currentStreak = 0; // Reset streak on a loss
+  //       }
+  //       stats.winPercentage = Math.round((stats.wins / stats.gamesPlayed) * 100);
+
+  //       // Per-language, per-difficulty stats
+  //       gameData.shuffledLanguages.forEach((lang: Language) => {
+  //         const difficulty = gameData.difficulties[lang];
+  //         const solution = gameData.words[lang];
+  //         const langStats = stats.languages[lang][difficulty];
+
+  //         const winIndex = gameData.guessHistory.findIndex((g) => g === solution);
+
+  //         if (winIndex !== -1) {
+  //           // Board was solved
+  //           langStats.boardsSolved = (langStats.boardsSolved || 0) + 1;
+  //           const guessCount = winIndex + 1; // 1-based index
+  //           langStats.guessDistribution[guessCount - 1]++;
+  //         } else {
+  //           // Board was not solved
+  //           langStats.boardsFailed = (langStats.boardsFailed || 0) + 1;
+  //           langStats.guessDistribution[8]++; // Index 8 for losses
+  //         }
+  //       });
+
+  //       // --- 3. Write updates back to Firestore ---
+  //       // Update the user's stats
+  //       transaction.update(userDocRef, { stats });
+
+  //       // Finalize the game document
+  //       transaction.update(gameDocRef, {
+  //         isLiveGame: false,
+  //         isWin,
+  //         completedAt: serverTimestamp(),
+  //         score,
+  //       });
+  //     });
   //   },
   //   onSuccess: () => {
-  //     // Invalidate the current game session query
+  //     // Invalidate queries to refetch fresh data
   //     queryClient.invalidateQueries({ queryKey });
+  //     queryClient.invalidateQueries({ queryKey: ['userProfile', userId] }); // Invalidate user profile to update stats display
   //   },
   // });
 
@@ -166,6 +222,12 @@ export const useGameSession = () => {
 
         // Overall stats
         stats.gamesPlayed = (stats.gamesPlayed || 0) + 1;
+        stats.totalScore = (stats.totalScore || 0) + score; // NEW: Update total score
+        // NEW: Update high score (lower is better)
+        if (!stats.highScore || score < stats.highScore) {
+          stats.highScore = score;
+        }
+
         if (isWin) {
           stats.wins = (stats.wins || 0) + 1;
           stats.currentStreak = (stats.currentStreak || 0) + 1;
@@ -181,7 +243,9 @@ export const useGameSession = () => {
           const solution = gameData.words[lang];
           const langStats = stats.languages[lang][difficulty];
 
-          const winIndex = gameData.guessHistory.findIndex((g) => g === solution);
+          const winIndex = gameData.guessHistory.findIndex(
+            (g) => g.toLowerCase() === solution.toLowerCase()
+          );
 
           if (winIndex !== -1) {
             // Board was solved
@@ -192,6 +256,17 @@ export const useGameSession = () => {
             // Board was not solved
             langStats.boardsFailed = (langStats.boardsFailed || 0) + 1;
             langStats.guessDistribution[8]++; // Index 8 for losses
+          }
+
+          // NEW: Recalculate average guesses for this specific language/difficulty
+          const totalGuesses = langStats.guessDistribution
+            .slice(0, 8) // Only count wins (indices 0-7)
+            .reduce((acc, count, i) => acc + count * (i + 1), 0);
+
+          if (langStats.boardsSolved > 0) {
+            langStats.averageGuesses = totalGuesses / langStats.boardsSolved;
+          } else {
+            langStats.averageGuesses = 0;
           }
         });
 
@@ -211,7 +286,7 @@ export const useGameSession = () => {
     onSuccess: () => {
       // Invalidate queries to refetch fresh data
       queryClient.invalidateQueries({ queryKey });
-      queryClient.invalidateQueries({ queryKey: ['userProfile', userId] }); // Invalidate user profile to update stats display
+      queryClient.invalidateQueries({ queryKey: ['userProfile', userId] });
     },
   });
 

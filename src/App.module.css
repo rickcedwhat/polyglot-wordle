@@ -1,5 +1,5 @@
 .root {
-  background: radial-gradient(circle, #2c2e33 0%, #1a1b1e 100%);
+  /* background: radial-gradient(circle, #2c2e33 0%, #1a1b1e 100%); */
   min-height: 100vh;
   justify-content: space-between;
   flex-direction: column;

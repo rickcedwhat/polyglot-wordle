@@ -1,7 +1,17 @@
-import { FC } from 'react';
-import { Card, Center, Loader, SimpleGrid, Stack, Text, Title } from '@mantine/core';
-import { useUserProfile } from '@/hooks/useUserProfile'; // Assuming you have a hook to fetch a user profile
-
+import { FC, useEffect, useState } from 'react';
+import {
+  Card,
+  Center,
+  Grid,
+  Loader,
+  SegmentedControl,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
+import { useAuth } from '@/context/AuthContext';
+import { useUserProfile } from '@/hooks/useUserProfile';
 import type { Difficulty, Language } from '@/types/firestore';
 import { GuessDistributionChart } from '../GuessDistributionChart/GuessDistributionChart';
 
@@ -9,8 +19,57 @@ interface StatsTabProps {
   profileUserId: string;
 }
 
+const difficultyOrder: Difficulty[] = ['advanced', 'intermediate', 'basic'];
+
+const StatCard: FC<{ label: string; value: string | number }> = ({ label, value }) => (
+  <Card withBorder radius="md" ta="center">
+    <Text size="xl" fw={700}>
+      {value}
+    </Text>
+    <Text size="xs" c="dimmed">
+      {label}
+    </Text>
+  </Card>
+);
+
 export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
-  const { data: userProfile, isLoading } = useUserProfile(profileUserId);
+  const { currentUser } = useAuth();
+  const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile(profileUserId);
+  const { data: currentUserProfile, isLoading: isLoadingCurrentUser } = useUserProfile(
+    currentUser?.uid ?? ''
+  );
+
+  const [selectedDifficulties, setSelectedDifficulties] = useState<
+    Record<Language, Difficulty | null>
+  >({
+    en: null,
+    es: null,
+    fr: null,
+  });
+
+  const [defaultsAreSet, setDefaultsAreSet] = useState(false);
+
+  useEffect(() => {
+    if (userProfile?.stats && !defaultsAreSet) {
+      const defaults: Record<Language, Difficulty | null> = { en: null, es: null, fr: null };
+      const languages: Language[] = ['en', 'es', 'fr'];
+      languages.forEach((lang) => {
+        const defaultDifficulty = difficultyOrder.find(
+          (diff) =>
+            (userProfile.stats?.languages[lang]?.[diff]?.boardsSolved ?? 0) +
+              (userProfile.stats?.languages[lang]?.[diff]?.boardsFailed ?? 0) >
+            0
+        );
+        if (defaultDifficulty) {
+          defaults[lang] = defaultDifficulty;
+        }
+      });
+      setSelectedDifficulties(defaults);
+      setDefaultsAreSet(true);
+    }
+  }, [userProfile?.stats, defaultsAreSet]);
+
+  const isLoading = isLoadingProfile || isLoadingCurrentUser;
 
   if (isLoading) {
     return (
@@ -28,86 +87,115 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
     );
   }
 
-  const { stats } = userProfile;
+  const { stats: profileStats } = userProfile;
   const languages: Language[] = ['en', 'es', 'fr'];
-  const difficulties: Difficulty[] = ['basic', 'intermediate', 'advanced'];
+  const isOwnProfile = currentUser?.uid === profileUserId;
+  const profileDisplayName = userProfile.displayName || 'Profile';
 
   return (
     <Stack mt="md">
-      {/* Overall Stats */}
       <Title order={3}>Overall Performance</Title>
-      <SimpleGrid cols={{ base: 2, sm: 3, md: 5 }}>
-        <Card withBorder radius="md" ta="center">
-          <Text size="xl" fw={700}>
-            {stats.gamesPlayed || 0}
-          </Text>
-          <Text size="xs" c="dimmed">
-            Games Played
-          </Text>
-        </Card>
-        <Card withBorder radius="md" ta="center">
-          <Text size="xl" fw={700}>
-            {stats.wins || 0}
-          </Text>
-          <Text size="xs" c="dimmed">
-            Wins
-          </Text>
-        </Card>
-        <Card withBorder radius="md" ta="center">
-          <Text size="xl" fw={700}>
-            {stats.winPercentage || 0}%
-          </Text>
-          <Text size="xs" c="dimmed">
-            Win Rate
-          </Text>
-        </Card>
-        <Card withBorder radius="md" ta="center">
-          <Text size="xl" fw={700}>
-            {stats.currentStreak || 0}
-          </Text>
-          <Text size="xs" c="dimmed">
-            Current Streak
-          </Text>
-        </Card>
-        <Card withBorder radius="md" ta="center">
-          <Text size="xl" fw={700}>
-            {stats.maxStreak || 0}
-          </Text>
-          <Text size="xs" c="dimmed">
-            Max Streak
-          </Text>
-        </Card>
+      <SimpleGrid cols={{ base: 2, sm: 3, lg: 6 }}>
+        <StatCard
+          label="Wins - Losses"
+          value={`${profileStats.wins || 0} - ${
+            profileStats.gamesPlayed - (profileStats.wins ?? 0) || 0
+          }`}
+        />
+        <StatCard label="Win Rate" value={`${profileStats.winPercentage.toFixed(1) || 0}%`} />
+        <StatCard label="Current Streak" value={profileStats.currentStreak || 0} />
+        <StatCard label="Max Streak" value={profileStats.maxStreak || 0} />
+        <StatCard label="Best Score" value={profileStats.highScore || 0} />
       </SimpleGrid>
 
-      {/* Per-Language Stats */}
       <Stack mt="xl" gap="xl">
-        {languages.map((lang) => (
-          <div key={lang}>
-            <Title order={3} tt="capitalize">
-              {lang === 'en' ? 'English' : lang === 'es' ? 'Spanish' : 'French'}
-            </Title>
-            <SimpleGrid cols={{ base: 1, md: 3 }} mt="sm">
-              {difficulties.map((diff) => {
-                const langStats = stats.languages[lang]?.[diff];
-                if (!langStats || (langStats.boardsSolved === 0 && langStats.boardsFailed === 0)) {
-                  return null;
-                }
+        {languages.map((lang) => {
+          const profileLangData = profileStats.languages[lang];
+          const hasData =
+            profileLangData &&
+            difficultyOrder.some(
+              (diff) =>
+                (profileLangData[diff]?.boardsSolved ?? 0) +
+                  (profileLangData[diff]?.boardsFailed ?? 0) >
+                0
+            );
 
-                return (
-                  <Card key={diff} withBorder radius="md">
-                    <Text fw={500} tt="capitalize">
-                      {diff}
-                    </Text>
-                    <Text size="sm" c="dimmed">
-                      Guess Distribution
-                    </Text>
-                    <GuessDistributionChart distribution={langStats.guessDistribution} />
+          if (!hasData) {
+            return null;
+          }
+
+          const availableDifficulties = difficultyOrder
+            .filter(
+              (diff) =>
+                (profileLangData?.[diff]?.boardsSolved ?? 0) +
+                  (profileLangData?.[diff]?.boardsFailed ?? 0) >
+                0
+            )
+            .reverse();
+
+          const selectedDifficulty = selectedDifficulties[lang];
+          if (!selectedDifficulty) {
+            return <Loader key={lang} size="xs" />;
+          }
+
+          const langStats = profileLangData[selectedDifficulty];
+          const currentUserLangStats =
+            currentUserProfile?.stats?.languages[lang]?.[selectedDifficulty];
+
+          const solves = langStats.boardsSolved;
+          const fails = langStats.boardsFailed;
+          const totalBoards = solves + fails;
+          const percentage = totalBoards > 0 ? (solves / totalBoards) * 100 : 0;
+          const sfRatio = percentage.toFixed(1);
+
+          return (
+            <div key={lang}>
+              <Title order={3} tt="capitalize">
+                {lang === 'en' ? 'English' : lang === 'es' ? 'Spanish' : 'French'}
+              </Title>
+
+              {availableDifficulties.length > 1 && (
+                <SegmentedControl
+                  mt="sm"
+                  mb="md"
+                  value={selectedDifficulty}
+                  onChange={(value) =>
+                    setSelectedDifficulties((prev) => ({ ...prev, [lang]: value as Difficulty }))
+                  }
+                  data={availableDifficulties}
+                  tt="capitalize"
+                />
+              )}
+
+              <Grid gutter="xl">
+                <Grid.Col span={{ base: 12, md: 7 }}>
+                  <Card withBorder radius="md" p={{ base: 'xs', sm: 'md' }}>
+                    <GuessDistributionChart
+                      profileName={profileDisplayName}
+                      profileDistribution={langStats.guessDistribution}
+                      currentUserDistribution={
+                        !isOwnProfile ? currentUserLangStats?.guessDistribution : undefined
+                      }
+                    />
                   </Card>
-                );
-              })}
-            </SimpleGrid>
-          </div>
-        ))}
+                </Grid.Col>
+
+                <Grid.Col span={{ base: 12, md: 5 }}>
+                  <Stack>
+                    <Title order={4} tt="capitalize">
+                      {selectedDifficulty} Stats
+                    </Title>
+                    <SimpleGrid cols={3}>
+                      <StatCard label="Solve - Fails" value={`${solves} - ${fails}`} />
+                      <StatCard label="Solve Rate" value={`${sfRatio}%`} />
+                      <StatCard label="Avg. Guesses" value={langStats.averageGuesses.toFixed(2)} />
+                    </SimpleGrid>
+                  </Stack>
+                </Grid.Col>
+              </Grid>
+            </div>
+          );
+        })}
       </Stack>
     </Stack>
   );

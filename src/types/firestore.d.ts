@@ -52,7 +52,7 @@ export interface UserDoc {
     winPercentage: number;
     currentStreak: number; // Consecutive games won
     maxStreak: number;
-    averageScore: number;
+    totalScore: number;
     highScore: number;
     // --- Language Stats (broken down by difficulty) ---
     languages: {

@@ -1,0 +1,5 @@
+html,
+body {
+  background: radial-gradient(circle, #2c2e33 0%, #1a1b1e 100%);
+  color: var(--mantine-color-gray-4);
+}

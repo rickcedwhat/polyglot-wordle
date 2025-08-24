@@ -12,6 +12,8 @@ import { Router } from './Router';
 import { theme } from './theme';
 import classes from './App.module.css';
 
+import './globals.css';
+
 const defaultErrorHandler = (error: unknown) => {
   // `import.meta.env.DEV` is a boolean provided by Vite.
   // This code block will only run in your development environment.

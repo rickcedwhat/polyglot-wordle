@@ -55,7 +55,6 @@ firebase deploy
 [x] History Page
 [x] SidebarContent
 [x] When creating a new game - first check if the user has an empty one in their history - use that one instead and reset the startedAt field
-[ ] Challenge friends
 [ ] Pagination
 [ ] Button to suggest a word
 [ ] Achievements
@@ -67,13 +66,7 @@ For Gemini
 
 [ ] add friendships
 
-[ ] a challenge button that will create a challenge doc in firestore
-
-[x] profile pages where a user can pin 5 games and accept challenges on these games from anyone
-
-[ ] if someone has already completed the same game as you and either of you initiate a challenge, once the challenge is accepted it should auto-complete
-
-[ ] challenges have to be accepted and can be denied or ignored
+[x] profile pages where a user can pin 5 games
 
 ## Official Scoring Rules
 
