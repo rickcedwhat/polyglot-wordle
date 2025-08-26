@@ -13,7 +13,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext'; // 1. Import useAuth
 import type { GameDoc, Language, UserDoc } from '@/types/firestore.d.ts';
-import { getWordsFromUuid } from '@/utils/wordUtils';
+import { getWordsFromUuid, normalizeWord } from '@/utils/wordUtils';
 
 // The fetchOrCreateGame function remains the same.
 const fetchOrCreateGame = async (gameId: string, userId: string): Promise<GameDoc> => {
@@ -222,9 +222,8 @@ export const useGameSession = () => {
 
         // Overall stats
         stats.gamesPlayed = (stats.gamesPlayed || 0) + 1;
-        stats.totalScore = (stats.totalScore || 0) + score; // NEW: Update total score
-        // NEW: Update high score (lower is better)
-        if (!stats.highScore || score < stats.highScore) {
+        stats.totalScore = (stats.totalScore || 0) + score;
+        if (!stats.highScore || score > stats.highScore) {
           stats.highScore = score;
         }
 
@@ -244,7 +243,7 @@ export const useGameSession = () => {
           const langStats = stats.languages[lang][difficulty];
 
           const winIndex = gameData.guessHistory.findIndex(
-            (g) => g.toLowerCase() === solution.toLowerCase()
+            (guess) => guess === normalizeWord(solution)
           );
 
           if (winIndex !== -1) {

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IconChartBar, IconHistory, IconUsers } from '@tabler/icons-react';
+import { IconBooks, IconChartBar, IconUsers } from '@tabler/icons-react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Center, Container, Loader, Tabs, Text, Title } from '@mantine/core';
 import { FriendButton } from '@/components/FriendButton/FriendButton';
@@ -57,15 +57,23 @@ export const ProfilePage: FC = () => {
 
       {/* The Tabs component is now controlled by state derived from the URL */}
       <Tabs value={activeTab} onChange={handleTabChange} mt="xl">
-        <Tabs.List>
-          <Tabs.Tab value="history" leftSection={<IconHistory size={14} />}>
-            Game History
+        <Tabs.List grow>
+          {' '}
+          {/* Add grow to make tabs fill the space */}
+          <Tabs.Tab value="history" leftSection={<IconBooks size={16} />}>
+            <Text component="span" visibleFrom="xs">
+              Game History
+            </Text>
           </Tabs.Tab>
-          <Tabs.Tab value="stats" leftSection={<IconChartBar size={14} />}>
-            Stats
+          <Tabs.Tab value="stats" leftSection={<IconChartBar size={16} />}>
+            <Text component="span" visibleFrom="xs">
+              Stats
+            </Text>
           </Tabs.Tab>
-          <Tabs.Tab value="friends" leftSection={<IconUsers size={14} />}>
-            Friends
+          <Tabs.Tab value="friends" leftSection={<IconUsers size={16} />}>
+            <Text component="span" visibleFrom="xs">
+              Friends
+            </Text>
           </Tabs.Tab>
         </Tabs.List>
 

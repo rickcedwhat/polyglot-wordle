@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import {
-  IconBooks,
   IconHelpCircle,
   IconHome,
   IconLogout,
@@ -46,7 +45,6 @@ export const Sidebar: FC = () => {
     { label: 'Home', icon: IconHome, action: () => navigate('/') },
     { label: 'My Profile', icon: IconUser, action: () => navigate(`/profile/${currentUser?.uid}`) },
     { label: 'New Game', icon: IconRefresh, action: handleNewGameClick },
-    { label: 'History', icon: IconBooks, action: () => navigate('/history') },
   ];
 
   const toolLinks = [

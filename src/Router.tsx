@@ -4,7 +4,6 @@ import { GenericLayout } from './layouts/GenericLayout';
 import { SidebarLayout } from './layouts/SidebarLayout'; // Import the new layout
 
 import { GamePage } from './pages/Game.page';
-import { HistoryPage } from './pages/History.page';
 import { HomePage } from './pages/Home.page';
 import { LoginPage } from './pages/Login.page';
 import { ProfilePage } from './pages/Profile.page';
@@ -21,10 +20,6 @@ const router = createBrowserRouter([
         path: '/login',
         element: <LoginPage />,
       },
-      // {
-      //   path: '/invite/:inviteId',
-      //   element: <InvitePage />,
-      // },
     ],
   },
   {
@@ -35,14 +30,6 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <GamePage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/history',
-        element: (
-          <ProtectedRoute>
-            <HistoryPage />
           </ProtectedRoute>
         ),
       },

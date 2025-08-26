@@ -41,7 +41,6 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             boardsSolved: 0,
             boardsFailed: 0,
             averageGuesses: 0,
-            averageScore: 0, // This was added to this level in our discussion
             guessDistribution: [0, 0, 0, 0, 0, 0, 0, 0, 0], // 8 guesses + 1 for losses
           };
 

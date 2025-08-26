@@ -11,16 +11,18 @@ interface LeaderboardProps {
 }
 
 export const Leaderboard: FC<LeaderboardProps> = ({ gameId, onGameSelect, selectedUserId }) => {
-  const { globalQuery, friendsQuery } = useLeaderboard(gameId);
+  // const { globalQuery, friendsQuery } = useLeaderboard(gameId);
+  const { friendsQuery } = useLeaderboard(gameId);
 
   return (
-    <Tabs defaultValue="global" mt="lg">
+    // Set the default tab to "friends"
+    <Tabs defaultValue="friends" mt="lg">
       <Tabs.List grow>
-        <Tabs.Tab value="global">Global</Tabs.Tab>
+        {/* <Tabs.Tab value="global">Global</Tabs.Tab> */}
         <Tabs.Tab value="friends">Friends</Tabs.Tab>
       </Tabs.List>
 
-      <Tabs.Panel value="global" pt="xs">
+      {/* <Tabs.Panel value="global" pt="xs">
         {globalQuery.isLoading ? (
           <Center mt="md">
             <Loader />
@@ -38,7 +40,7 @@ export const Leaderboard: FC<LeaderboardProps> = ({ gameId, onGameSelect, select
             ))}
           </Stack>
         )}
-      </Tabs.Panel>
+      </Tabs.Panel> */}
 
       <Tabs.Panel value="friends" pt="xs">
         {friendsQuery.isLoading ? (
