@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import cx from 'clsx';
 import { Box, MantineProvider, useComputedColorScheme } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
 import { AuthProvider } from '@/context/AuthContext';
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ScoreProvider } from './context/ScoreContext';
@@ -46,13 +47,15 @@ export default function App() {
     // Provide the client to your App
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme} defaultColorScheme="dark">
-        <AuthProvider>
-          <SidebarProvider>
-            <ScoreProvider>
-              <AppContainer />
-            </ScoreProvider>
-          </SidebarProvider>
-        </AuthProvider>
+        <ModalsProvider>
+          <AuthProvider>
+            <SidebarProvider>
+              <ScoreProvider>
+                <AppContainer />
+              </ScoreProvider>
+            </SidebarProvider>
+          </AuthProvider>
+        </ModalsProvider>
       </MantineProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

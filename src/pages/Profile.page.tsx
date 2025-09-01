@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import { IconBooks, IconChartBar, IconUsers } from '@tabler/icons-react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Center, Container, Loader, Tabs, Text, Title } from '@mantine/core';
+import { Center, Container, Group, Loader, Tabs, Text, Title } from '@mantine/core';
 import { FriendButton } from '@/components/FriendButton/FriendButton';
 import { FriendListTab } from '@/components/FriendsListTab/FriendsListTab';
 import { GameHistoryTab } from '@/components/GameHistoryTab/GameHistoryTab';
+import { ShareProfileButton } from '@/components/ShareProfileButton/ShareProfileButton';
 import { StatsTab } from '@/components/StatsTab/StatsTab';
 import { useAuth } from '@/context/AuthContext';
 import { useUserProfile } from '@/hooks/useUserProfile';
@@ -49,11 +50,16 @@ export const ProfilePage: FC = () => {
 
   return (
     <Container size="lg" mt="lg">
-      <Title order={2} style={{ textTransform: 'capitalize' }}>
-        {userProfile.displayName}
-      </Title>
-      <Text c="dimmed">Member since {userProfile.joinedAt.toDate().toLocaleDateString()}</Text>
-      <FriendButton profileUserId={userId!} />
+      <Group justify="space-between" align="flex-start">
+        <div>
+          <Title order={2} style={{ textTransform: 'capitalize' }}>
+            {userProfile.displayName}
+          </Title>
+          <Text c="dimmed">Member since {userProfile.joinedAt.toDate().toLocaleDateString()}</Text>
+        </div>
+
+        {isOwnProfile ? <ShareProfileButton /> : <FriendButton profileUserId={userId!} />}
+      </Group>
 
       {/* The Tabs component is now controlled by state derived from the URL */}
       <Tabs value={activeTab} onChange={handleTabChange} mt="xl">

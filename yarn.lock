@@ -839,20 +839,20 @@
   resolved "https://registry.npmjs.org/@keyv/serialize/-/serialize-1.1.0.tgz"
   integrity sha512-RlDgexML7Z63Q8BSaqhXdCYNBy/JQnqYIwxofUrNLGCblOMHp+xux2Q8nLMLlPpgHQPoU0Do8Z6btCpRBEqZ8g==
 
-"@mantine/carousel@^8.2.5":
-  version "8.2.5"
-  resolved "https://registry.npmjs.org/@mantine/carousel/-/carousel-8.2.5.tgz"
-  integrity sha512-cKsFBAS0wXTV3WbW+3dEHy25f4g/rE9Ah6YZ+4Gy5rTPgqC/7jlKeQzbCRIr5PUhgZd3YbnDwMbiBf1/L0sDtA==
+"@mantine/carousel@^8.2.8":
+  version "8.2.8"
+  resolved "https://registry.npmjs.org/@mantine/carousel/-/carousel-8.2.8.tgz"
+  integrity sha512-FypLthS9y6Ta0ifQYt7oFdnxbOcJBvr2s0ilfmCSPIiEnY0WuRmXJYuVnWtJ1sW1HfayBMxjTO6iLR6UIUysjw==
 
-"@mantine/charts@^8.2.5":
-  version "8.2.5"
-  resolved "https://registry.npmjs.org/@mantine/charts/-/charts-8.2.5.tgz"
-  integrity sha512-37RXpl8hjc1PvFp9kY7Sbv/tF0dajMeFzl3NSmUejeTQPxgMNYzqGRnwls5NmNuPol0PfYskY49IgOGLIodGCA==
+"@mantine/charts@^8.2.8":
+  version "8.2.8"
+  resolved "https://registry.npmjs.org/@mantine/charts/-/charts-8.2.8.tgz"
+  integrity sha512-946gThrgoFOPl5sNOjQ7ILriGIsP/B24PQGt9GY0fL9Fg0B7Nmuhzn7lxZscBW5//NHgZTE7ul5zdU+Z00ST2Q==
 
-"@mantine/core@^8.2.5", "@mantine/core@8.2.5":
-  version "8.2.5"
-  resolved "https://registry.npmjs.org/@mantine/core/-/core-8.2.5.tgz"
-  integrity sha512-pqy0OLtfs4x7r3sKhzGN8Was4gNkTrxb6TfHuGH6Z4sCjYNYxZGjO9v5lsiuD1rg1FoPKtoFJdPNddzefgaQmQ==
+"@mantine/core@^8.2.8", "@mantine/core@8.2.8":
+  version "8.2.8"
+  resolved "https://registry.npmjs.org/@mantine/core/-/core-8.2.8.tgz"
+  integrity sha512-dybAXrlQ+QiIhpnVCkdH6P4Sjm9I9RymYXfDp97oj9KfGRMEJGLDdPAwp/2GhXe7UdDkzqD48JCkbfRWF2Q+qA==
   dependencies:
     "@floating-ui/react" "^0.26.28"
     clsx "^2.1.1"
@@ -861,10 +861,15 @@
     react-textarea-autosize "8.5.9"
     type-fest "^4.27.0"
 
-"@mantine/hooks@^8.2.5", "@mantine/hooks@8.2.5":
-  version "8.2.5"
-  resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-8.2.5.tgz"
-  integrity sha512-uIB7CN+isRZs81JrpcdOd/EmtReC3aMmOXCfuy55jlCLcWN374O5p2Ht+lC1FDk9+r5pFhw9iMzqMv5P0rbZAw==
+"@mantine/hooks@^8.2.8", "@mantine/hooks@8.2.8":
+  version "8.2.8"
+  resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-8.2.8.tgz"
+  integrity sha512-KK1krCcXizWT6JF8gWexv58imQBbviylAJqSqdZ4zUPgrpe81ehMyfxo5Z9EZsnSwMxkB4RLMhCCJhC5g8GvLA==
+
+"@mantine/modals@^8.2.8":
+  version "8.2.8"
+  resolved "https://registry.npmjs.org/@mantine/modals/-/modals-8.2.8.tgz"
+  integrity sha512-+RzHK4uy/Gsk6RspunD8An9WYF921If8S2pDeveMwxVhUeNMZXeh9FpQWESlqVV+SHSPDDP4QeTkwhJm9DWf2g==
 
 "@mdx-js/react@^3.0.0":
   version "3.1.0"
