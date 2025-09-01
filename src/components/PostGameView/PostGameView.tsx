@@ -2,21 +2,39 @@ import { FC, useEffect, useState } from 'react';
 import { Box, Grid } from '@mantine/core';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { Leaderboard } from '@/components/Leaderboard/Leaderboard';
+import { useScore } from '@/context/ScoreContext';
+import { useSidebar } from '@/context/SidebarContext';
 import type { GameDoc } from '@/types/firestore';
+import { Score } from '../Score/Score';
 
 interface PostGameViewProps {
   gameSession: GameDoc;
 }
 
 export const PostGameView: FC<PostGameViewProps> = ({ gameSession }) => {
+  const { words: solution, guessHistory } = gameSession;
   // This state will hold the game data for the board being displayed on the left.
   // It defaults to the player's own game.
   const [focusedGame, setFocusedGame] = useState<GameDoc>(gameSession);
-
+  const { recalculateScore } = useScore();
+  const { setSidebarContent } = useSidebar();
   // When the gameSession prop changes (e.g., new game), reset the focus
   useEffect(() => {
     setFocusedGame(gameSession);
   }, [gameSession]);
+
+  useEffect(() => {
+    setSidebarContent(<Score />);
+    return () => setSidebarContent(null);
+  }, [setSidebarContent]);
+
+  useEffect(() => {
+    // This effect now syncs all state when the game session loads
+    if (guessHistory && solution) {
+      // 1. Recalculate the score based on the loaded history
+      recalculateScore(guessHistory, solution);
+    }
+  }, [guessHistory, solution, recalculateScore]);
 
   return (
     <Grid gutter="xl">

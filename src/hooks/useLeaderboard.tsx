@@ -47,12 +47,12 @@ export const useLeaderboard = (gameId: string) => {
     .map((f) => f.id)
     .concat(currentUser?.uid || []); // Include your own ID
 
-  // Fetch the global leaderboard
-  const globalQuery = useQuery({
-    queryKey: ['leaderboard', gameId, 'global'],
-    queryFn: () => fetchLeaderboardData(gameId),
-    enabled: !!gameId,
-  });
+  // // Fetch the global leaderboard
+  // const globalQuery = useQuery({
+  //   queryKey: ['leaderboard', gameId, 'global'],
+  //   queryFn: () => fetchLeaderboardData(gameId),
+  //   enabled: !!gameId,
+  // });
 
   // Fetch the friends leaderboard
   const friendsQuery = useQuery({
@@ -61,5 +61,5 @@ export const useLeaderboard = (gameId: string) => {
     enabled: !!gameId && !!friendUids,
   });
 
-  return { globalQuery, friendsQuery };
+  return { friendsQuery };
 };
