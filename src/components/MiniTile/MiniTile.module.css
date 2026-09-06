@@ -25,9 +25,11 @@
 .tile[data-status='correct'] {
   background-color: var(--mantine-color-green-6);
 }
+
 .tile[data-status='present'] {
   background-color: var(--mantine-color-yellow-6);
 }
+
 .tile[data-status='absent'] {
   background-color: var(--mantine-color-dark-3);
 }
