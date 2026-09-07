@@ -1,4 +1,5 @@
 import { motion, Variants } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Carousel } from '@mantine/carousel';
 import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -66,6 +67,11 @@ export function HomePage() {
               Log In
             </Button>
           )}
+          <div style={{ marginTop: 12, textAlign: 'center' }}>
+            <Button component={Link} to="/sandbox" variant="subtle" size="xs" color="gray">
+              🧪 Open UI Sandbox Mode
+            </Button>
+          </div>
         </motion.div>
       </div>
     </motion.div>

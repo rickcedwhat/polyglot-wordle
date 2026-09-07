@@ -60,7 +60,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>(getInitialGameStatus());
 
   const handleTileClick = (index: number) => {
-    setCursorIndex(index);
+    setCursorIndex(Math.max(0, Math.min(4, index)));
   };
 
   useEffect(() => {
@@ -123,7 +123,6 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           }
         } else {
           // not a valid word or was already used before
-          // add animation
           setIsInvalidGuess(true);
           setTimeout(() => {
             setIsInvalidGuess(false);
@@ -131,23 +130,43 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         }
       } else if (lowerKey === 'del' || lowerKey === 'backspace') {
         const newGuess = [...currentGuess];
-        const newCursorIndex = Math.max(0, cursorIndex - 1);
-        newGuess[newCursorIndex] = ''; // Clear the character at the new cursor position
-        setCurrentGuess(newGuess);
-        setCursorIndex(newCursorIndex);
-      } else if (cursorIndex < 5 && /^[a-z]$/.test(lowerKey)) {
+        if (newGuess[cursorIndex]) {
+          // Current tile has a letter: clear it
+          newGuess[cursorIndex] = '';
+          setCurrentGuess(newGuess);
+        } else if (cursorIndex > 0) {
+          // Current tile is empty: step back and clear previous tile
+          const newCursorIndex = cursorIndex - 1;
+          newGuess[newCursorIndex] = '';
+          setCurrentGuess(newGuess);
+          setCursorIndex(newCursorIndex);
+        }
+      } else if (/^[a-z]$/.test(lowerKey)) {
         const newGuess = [...currentGuess];
-        newGuess[cursorIndex] = lowerKey; // Insert letter at the cursor
+        newGuess[cursorIndex] = lowerKey;
         setCurrentGuess(newGuess);
-        setCursorIndex(Math.min(5, cursorIndex + 1)); // Move cursor forward
+        setCursorIndex(Math.min(4, cursorIndex + 1));
       }
     },
-    [currentGuess, cursorIndex, gameStatus, guesses]
+    [
+      currentGuess,
+      cursorIndex,
+      endGame,
+      gameStatus,
+      guessHistory,
+      guesses,
+      recalculateScore,
+      shuffledLanguages,
+      solution,
+      updateGuessHistory,
+      updateLetterStatuses,
+      wordPools,
+    ]
   );
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Prevent the default browser action for some keys
+      // Prevent default scrolling for arrow keys
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         event.preventDefault();
       }
@@ -155,27 +174,21 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       // Handle cursor movement
       if (event.key === 'ArrowLeft') {
         setCursorIndex((prev) => Math.max(0, prev - 1));
-        return; // Stop after handling
+        return;
       }
       if (event.key === 'ArrowRight') {
-        setCursorIndex((prev) => Math.min(5, prev + 1));
-        return; // Stop after handling
+        setCursorIndex((prev) => Math.min(4, prev + 1));
+        return;
       }
 
       if (event.key === 'Delete') {
         event.preventDefault();
         const newGuess = [...currentGuess];
-        // Use splice to remove the character at the cursor's position
-        if (cursorIndex < 5) {
-          newGuess.splice(cursorIndex, 1);
-          // Add an empty string to the end to keep the array's length at 5
-          newGuess.push('');
-        }
+        newGuess[cursorIndex] = '';
         setCurrentGuess(newGuess);
-        return; // Stop after handling
+        return;
       }
 
-      // Delegate other keys to your main handler
       const { key } = event;
       if (key === 'Enter') {
         handleKeyPress('enter');
@@ -188,7 +201,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyPress]); // The dependencies are correct
+  }, [currentGuess, cursorIndex, handleKeyPress]); // The dependencies are correct
 
   // Render a loading state while the static word pools are being fetched
   if (arePoolsLoading) {
