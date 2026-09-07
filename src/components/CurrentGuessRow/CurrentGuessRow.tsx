@@ -29,25 +29,19 @@ export const CurrentGuessRow: FC<CurrentGuessRowProps> = ({
       style={{ width: '320px', margin: '20px auto' }}
     >
       {guess.map((letter, i) => {
-        if (letter) {
-          const letterStatus = letterStatusMap[letter].every(
-            (langStatus) => langStatus === 'absent'
-          )
-            ? 'absent'
-            : 'unknown';
-          return (
-            <LetterTile
-              key={i}
-              letter={letter}
-              isEmpty
-              status={letterStatus}
-              hasCursor={i === cursorIndex}
-              onClick={() => onTileClick(i)}
-            />
-          );
-        }
+        const isAbsentEverywhere =
+          letter && letterStatusMap[letter]?.every((langStatus) => langStatus === 'absent');
+        const letterStatus = isAbsentEverywhere ? 'absent' : 'unknown';
+
         return (
-          <LetterTile key={i} letter="" isEmpty status="unknown" hasCursor={i === cursorIndex} />
+          <LetterTile
+            key={i}
+            letter={letter}
+            isEmpty
+            status={letterStatus}
+            hasCursor={i === cursorIndex}
+            onClick={() => onTileClick(i)}
+          />
         );
       })}
     </SimpleGrid>

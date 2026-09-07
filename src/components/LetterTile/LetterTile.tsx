@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { Box } from '@mantine/core';
-import { useIsFirstRender } from '@/hooks/useIsFirstRender';
 import { LetterStatus } from '@/utils/wordUtils';
 import classes from './LetterTile.module.css';
 
@@ -19,13 +18,10 @@ export const LetterTile: FC<LetterTileProps> = ({
   onClick,
   isEmpty,
 }) => {
-  const isFirstRender = useIsFirstRender(); // 2. Call the hook
-
-  // 3. Conditionally add the shake class only if it's not the first render
   const tileClassName = `
     ${classes.tile}
-    ${hasCursor && !isFirstRender ? classes.shake : ''}
     ${isEmpty ? classes.empty : ''}
+    ${onClick ? classes.clickable : ''}
   `;
   return (
     <Box

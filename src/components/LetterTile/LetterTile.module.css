@@ -49,8 +49,18 @@
   border-color: #f90d0d;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  border-color: var(--mantine-color-blue-4);
+}
+
 .tile[data-has-cursor='true'] {
-  border-color: var(--mantine-color-text);
+  border-color: var(--mantine-color-blue-5);
+  box-shadow: 0 0 0 2px rgb(34 139 230 / 45%);
+  transform: scale(1.04);
 }
 
 .shake {
