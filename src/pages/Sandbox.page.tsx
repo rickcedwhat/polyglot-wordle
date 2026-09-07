@@ -10,6 +10,7 @@ import {
   Container,
   Group,
   Paper,
+  SegmentedControl,
   Stack,
   Text,
   TextInput,
@@ -19,7 +20,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { Game } from '@/components/Game/Game';
 import { PostGameView } from '@/components/PostGameView/PostGameView';
 import type { GameDoc } from '@/types/firestore';
-import { normalizeWord } from '@/utils/wordUtils';
+import { formatDefinition, normalizeWord, WordEntry } from '@/utils/wordUtils';
 
 const SANDBOX_STORAGE_KEY = 'polyglot_sandbox_state_v1';
 
@@ -66,6 +67,41 @@ export const SandboxPage: FC = () => {
     initial.shuffledLanguages
   );
   const [gameKey, setGameKey] = useState(0);
+
+  const [searchWord, setSearchWord] = useState('bonus');
+  const [inspectLang, setInspectLang] = useState<'en' | 'es' | 'fr'>('en');
+  const [inspectedDef, setInspectedDef] = useState<WordEntry | null>({
+    display: 'bonus',
+    d: 0.48,
+    pos: 'noun',
+    def: 'A premium given for a loan, or for a charter; an extra reward or payment added to regular compensation.',
+  });
+
+  const handleInspectWord = async (rawWord: string, lang: 'en' | 'es' | 'fr') => {
+    setSearchWord(rawWord);
+    setInspectLang(lang);
+    const normalized = normalizeWord(rawWord.trim());
+    if (!normalized) {
+      setInspectedDef(null);
+      return;
+    }
+    try {
+      const dictRes = await fetch(`/${lang}.json`).then((r) => r.json());
+      const entry = dictRes[normalized];
+      if (entry) {
+        setInspectedDef(entry);
+      } else {
+        setInspectedDef({
+          display: rawWord,
+          d: 0.5,
+          pos: 'unknown',
+          def: 'Word is currently not found in this dictionary.',
+        });
+      }
+    } catch (e) {
+      // Ignore inspect fetch error
+    }
+  };
 
   const [session, setSession] = useState<GameDoc>({
     userId: 'sandbox-user',
@@ -305,6 +341,53 @@ export const SandboxPage: FC = () => {
             </Stack>
           </Paper>
         </Collapse>
+      </Paper>
+
+      {/* Definition Inspector Box */}
+      <Paper p="sm" withBorder mb="md" radius="md" bg="var(--mantine-color-dark-7)">
+        <Group justify="space-between" align="center">
+          <Text size="xs" fw={700} c="blue.4">
+            📖 Live Definition Inspector
+          </Text>
+          <Text size="xs" c="dimmed">
+            (Click any word on the board or test words below)
+          </Text>
+        </Group>
+        <Group mt="xs" grow align="flex-end">
+          <TextInput
+            size="xs"
+            placeholder="Type word (e.g. bonus, queso, pomme)..."
+            value={searchWord}
+            onChange={(e) => handleInspectWord(e.currentTarget.value, inspectLang)}
+          />
+          <SegmentedControl
+            size="xs"
+            value={inspectLang}
+            onChange={(val) => handleInspectWord(searchWord, val as 'en' | 'es' | 'fr')}
+            data={[
+              { label: '🇬🇧 EN', value: 'en' },
+              { label: '🇪🇸 ES', value: 'es' },
+              { label: '🇫🇷 FR', value: 'fr' },
+            ]}
+          />
+        </Group>
+        {inspectedDef && (
+          <Paper p="xs" mt="xs" withBorder radius="sm" bg="var(--mantine-color-dark-8)">
+            <Stack gap={2}>
+              <Group gap={6} align="baseline">
+                <Text size="sm" fw={700}>
+                  {inspectedDef.display}
+                </Text>
+                <Text size="xs" c="dimmed" fs="italic">
+                  ({inspectedDef.pos})
+                </Text>
+              </Group>
+              <Text size="sm" style={{ lineHeight: 1.35 }}>
+                • {formatDefinition(inspectedDef.def)}
+              </Text>
+            </Stack>
+          </Paper>
+        )}
       </Paper>
 
       <Box>

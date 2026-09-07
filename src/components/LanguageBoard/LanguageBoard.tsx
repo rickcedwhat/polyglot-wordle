@@ -67,8 +67,8 @@ const SubmittedRow: FC<{
           </Text>
         )}
         {data && (
-          <Stack gap={4}>
-            <Group gap="xs" align="center">
+          <Stack gap={2}>
+            <Group gap={6} align="baseline">
               <Text size="sm" fw={700}>
                 {data.display}
               </Text>
@@ -76,7 +76,9 @@ const SubmittedRow: FC<{
                 ({data.pos})
               </Text>
             </Group>
-            <Text size="sm">{formatDefinition(data.def)}</Text>
+            <Text size="sm" style={{ lineHeight: 1.35 }}>
+              • {formatDefinition(data.def)}
+            </Text>
           </Stack>
         )}
       </Popover.Dropdown>
