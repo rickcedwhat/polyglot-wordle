@@ -9,7 +9,15 @@ import {
 import { Language } from '@/types/firestore';
 
 export type LetterStatus = 'unknown' | 'correct' | 'present' | 'absent';
-export type Dictionary = Record<string, number>;
+
+export interface WordEntry {
+  display: string;
+  d: number;
+  pos: string;
+  def: string;
+}
+
+export type Dictionary = Record<string, WordEntry>;
 
 // New function to remove accents and special characters
 export const normalizeWord = (word: string): string => {
@@ -124,7 +132,7 @@ export const getWordsFromUuid = async (uuid: string) => {
     const threshold = thresholds[difficulties[lang]];
     const dictionary = dictionaries[lang];
 
-    const wordList = Object.keys(dictionary).filter((word) => dictionary[word] <= threshold);
+    const wordList = Object.keys(dictionary).filter((word) => dictionary[word].d <= threshold);
 
     if (wordList.length === 0) {
       throw new Error(`No words found for language ${lang} at difficulty ${difficulties[lang]}`);

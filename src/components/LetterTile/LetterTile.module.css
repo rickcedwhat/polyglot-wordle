@@ -32,10 +32,12 @@
   background-color: #40c057; /* Mantine green[6] */
   border-color: #40c057;
 }
+
 .tile[data-status='present'] {
   background-color: #fcc419; /* Mantine yellow[5] */
   border-color: #fcc419;
 }
+
 .tile[data-status='absent'] {
   background-color: #495057; /* Mantine gray[6] */
   border-color: #495057;
@@ -60,9 +62,11 @@
   100% {
     transform: translateX(0);
   }
+
   25% {
     transform: translateX(-3px);
   }
+
   75% {
     transform: translateX(3px);
   }

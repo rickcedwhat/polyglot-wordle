@@ -66,8 +66,19 @@ const SubmittedRow: FC<{
             Definition not found.
           </Text>
         )}
-        {/* 2. Wrap the `data` in the formatting function */}
-        {data && <Text size="sm">{formatDefinition(data)}</Text>}
+        {data && (
+          <Stack gap={4}>
+            <Group gap="xs" align="center">
+              <Text size="sm" fw={700}>
+                {data.display}
+              </Text>
+              <Text size="xs" c="dimmed" fs="italic">
+                ({data.pos})
+              </Text>
+            </Group>
+            <Text size="sm">{formatDefinition(data.def)}</Text>
+          </Stack>
+        )}
       </Popover.Dropdown>
     </Popover>
   );

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
+import { Dictionary } from '@/utils/wordUtils';
 
 type DifficultyName = 'basic' | 'intermediate' | 'advanced';
 type Language = 'en' | 'es' | 'fr';
 type Difficulties = Record<Language, DifficultyName>;
-type Dictionary = Record<string, number>;
 
 /**
  * A utility function to fetch and combine word lists based on difficulty.
@@ -39,8 +39,8 @@ const fetchWordPools = async (
     const masterDict = masterDictionaries[lang];
 
     const filteredWords = Object.entries(masterDict)
-      .filter(([_word, score]) => score <= cutoff)
-      .map(([word, _score]) => word);
+      .filter(([_word, entry]) => entry.d <= cutoff)
+      .map(([word, _entry]) => word);
 
     filteredPools[lang] = filteredWords;
     masterPools[lang] = Object.keys(masterDict);
