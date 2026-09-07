@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProctedRoute/ProtectedRoute';
 import { GenericLayout } from './layouts/GenericLayout';
 import { SidebarLayout } from './layouts/SidebarLayout'; // Import the new layout
@@ -23,11 +23,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/sandbox',
-        element: <SandboxPage />,
+        element: import.meta.env.DEV ? <SandboxPage /> : <Navigate to="/" replace />,
       },
       {
         path: '/dev',
-        element: <SandboxPage />,
+        element: import.meta.env.DEV ? <SandboxPage /> : <Navigate to="/" replace />,
       },
     ],
   },

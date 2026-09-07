@@ -67,11 +67,13 @@ export function HomePage() {
               Log In
             </Button>
           )}
-          <div style={{ marginTop: 12, textAlign: 'center' }}>
-            <Button component={Link} to="/sandbox" variant="subtle" size="xs" color="gray">
-              🧪 Open UI Sandbox Mode
-            </Button>
-          </div>
+          {import.meta.env.DEV && (
+            <div style={{ marginTop: 12, textAlign: 'center' }}>
+              <Button component={Link} to="/sandbox" variant="subtle" size="xs" color="gray">
+                🧪 Open UI Sandbox Mode
+              </Button>
+            </div>
+          )}
         </motion.div>
       </div>
     </motion.div>
