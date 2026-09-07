@@ -21,39 +21,91 @@ import { PostGameView } from '@/components/PostGameView/PostGameView';
 import type { GameDoc } from '@/types/firestore';
 import { normalizeWord } from '@/utils/wordUtils';
 
+const SANDBOX_STORAGE_KEY = 'polyglot_sandbox_state_v1';
+
+interface SavedSandboxState {
+  enWord: string;
+  esWord: string;
+  frWord: string;
+  shuffledLanguages: ('en' | 'es' | 'fr')[];
+  guessHistory: string[];
+  isLiveGame: boolean;
+  isWin: boolean | null;
+  score: number | null;
+}
+
+const getInitialSandboxState = (): SavedSandboxState => {
+  try {
+    const saved = localStorage.getItem(SANDBOX_STORAGE_KEY);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+  } catch (e) {
+    // Ignore storage parse error
+  }
+  return {
+    enWord: 'apple',
+    esWord: 'queso',
+    frWord: 'fruit',
+    shuffledLanguages: ['en', 'es', 'fr'],
+    guessHistory: [],
+    isLiveGame: true,
+    isWin: null,
+    score: 0,
+  };
+};
+
 export const SandboxPage: FC = () => {
-  const [opened, { toggle: toggleSettings }] = useDisclosure(true);
-  const [enWord, setEnWord] = useState('apple');
-  const [esWord, setEsWord] = useState('queso');
-  const [frWord, setFrWord] = useState('fruit');
-  const [shuffledLanguages, setShuffledLanguages] = useState<('en' | 'es' | 'fr')[]>([
-    'en',
-    'es',
-    'fr',
-  ]);
+  const [opened, { toggle: toggleSettings }] = useDisclosure(false);
+  const initial = getInitialSandboxState();
+
+  const [enWord, setEnWord] = useState(initial.enWord);
+  const [esWord, setEsWord] = useState(initial.esWord);
+  const [frWord, setFrWord] = useState(initial.frWord);
+  const [shuffledLanguages, setShuffledLanguages] = useState<('en' | 'es' | 'fr')[]>(
+    initial.shuffledLanguages
+  );
   const [gameKey, setGameKey] = useState(0);
 
   const [session, setSession] = useState<GameDoc>({
     userId: 'sandbox-user',
     gameId: 'sandbox-mode',
     words: {
-      en: enWord,
-      es: esWord,
-      fr: frWord,
+      en: initial.enWord,
+      es: initial.esWord,
+      fr: initial.frWord,
     },
     difficulties: {
       en: 'basic',
       es: 'basic',
       fr: 'basic',
     },
-    shuffledLanguages: ['en', 'es', 'fr'],
-    isLiveGame: true,
-    guessHistory: [],
-    isWin: null,
-    score: 0,
+    shuffledLanguages: initial.shuffledLanguages,
+    isLiveGame: initial.isLiveGame,
+    guessHistory: initial.guessHistory,
+    isWin: initial.isWin,
+    score: initial.score,
     startedAt: Timestamp.now(),
     completedAt: null,
   });
+
+  const saveToStorage = (updatedSession: GameDoc) => {
+    try {
+      const stateToSave: SavedSandboxState = {
+        enWord: updatedSession.words.en,
+        esWord: updatedSession.words.es,
+        frWord: updatedSession.words.fr,
+        shuffledLanguages: updatedSession.shuffledLanguages,
+        guessHistory: updatedSession.guessHistory,
+        isLiveGame: updatedSession.isLiveGame,
+        isWin: updatedSession.isWin,
+        score: updatedSession.score,
+      };
+      localStorage.setItem(SANDBOX_STORAGE_KEY, JSON.stringify(stateToSave));
+    } catch (e) {
+      // Ignore storage write error
+    }
+  };
 
   const handleApplyWords = (
     newEn = enWord,
@@ -69,7 +121,7 @@ export const SandboxPage: FC = () => {
     setEsWord(cleanEs);
     setFrWord(cleanFr);
 
-    setSession({
+    const newSession: GameDoc = {
       userId: 'sandbox-user',
       gameId: 'sandbox-mode',
       words: {
@@ -89,7 +141,9 @@ export const SandboxPage: FC = () => {
       score: 0,
       startedAt: Timestamp.now(),
       completedAt: null,
-    });
+    };
+    setSession(newSession);
+    saveToStorage(newSession);
     setGameKey((prev) => prev + 1);
   };
 
@@ -115,7 +169,7 @@ export const SandboxPage: FC = () => {
       setFrWord(randFr);
       handleApplyWords(randEn, randEs, randFr);
     } catch (e) {
-      console.error('Failed to randomize words:', e);
+      // Ignore random fetch error
     }
   };
 
@@ -135,20 +189,28 @@ export const SandboxPage: FC = () => {
   };
 
   const updateGuessHistory = async (guess: string) => {
-    setSession((prev) => ({
-      ...prev,
-      guessHistory: [...prev.guessHistory, guess],
-    }));
+    setSession((prev) => {
+      const nextSession = {
+        ...prev,
+        guessHistory: [...prev.guessHistory, guess],
+      };
+      saveToStorage(nextSession);
+      return nextSession;
+    });
   };
 
   const endGame = async (result: { isWin: boolean; score: number }) => {
-    setSession((prev) => ({
-      ...prev,
-      isLiveGame: false,
-      isWin: result.isWin,
-      score: result.score,
-      completedAt: Timestamp.now(),
-    }));
+    setSession((prev) => {
+      const nextSession = {
+        ...prev,
+        isLiveGame: false,
+        isWin: result.isWin,
+        score: result.score,
+        completedAt: Timestamp.now(),
+      };
+      saveToStorage(nextSession);
+      return nextSession;
+    });
   };
 
   return (

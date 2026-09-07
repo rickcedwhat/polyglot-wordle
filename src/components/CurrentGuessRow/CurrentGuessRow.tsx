@@ -37,7 +37,7 @@ export const CurrentGuessRow: FC<CurrentGuessRowProps> = ({
           <LetterTile
             key={i}
             letter={letter}
-            isEmpty={!letter}
+            isEmpty
             status={letterStatus}
             hasCursor={i === cursorIndex}
             onClick={() => onTileClick(i)}
