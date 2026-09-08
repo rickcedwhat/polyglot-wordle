@@ -133,3 +133,6 @@ dist
 .firebase/
 scripts/*.txt
 scripts/*.json
+scripts/*.tar.xz
+scripts/spa-eng/
+scripts/fra-eng/

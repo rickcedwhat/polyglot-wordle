@@ -15,6 +15,7 @@ export interface WordEntry {
   d: number;
   pos: string;
   def: string;
+  reviewed?: boolean;
 }
 
 export type Dictionary = Record<string, WordEntry>;

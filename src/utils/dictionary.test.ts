@@ -41,6 +41,19 @@ describe('Dictionary validation test suite', () => {
           expect(entry.def).toBeDefined();
           const wordCount = entry.def.trim().split(/\s+/).length;
           expect(wordCount).toBeGreaterThanOrEqual(4);
+
+          // Zero placeholder or boilerplate phrases allowed
+          const lowerDef = entry.def.toLowerCase();
+          expect(lowerDef).not.toContain('vocabulary term denoting');
+          expect(lowerDef).not.toContain('recognized english term');
+          expect(lowerDef).not.toContain('established english word');
+          expect(lowerDef).not.toContain('five letter');
+          expect(lowerDef).not.toContain('common parlance');
+          expect(lowerDef).not.toContain('standard usage');
+          expect(lowerDef).not.toContain('not found in this dictionary');
+
+          // Must be reviewed and verified
+          expect((entry as any).reviewed).toBe(true);
         }
       });
     });
