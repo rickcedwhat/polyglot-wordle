@@ -3,6 +3,7 @@ import { ProtectedRoute } from './components/ProctedRoute/ProtectedRoute';
 import { GenericLayout } from './layouts/GenericLayout';
 import { SidebarLayout } from './layouts/SidebarLayout'; // Import the new layout
 
+import { DictionariesPage } from './pages/Dictionaries.page';
 import { GamePage } from './pages/Game.page';
 import { HomePage } from './pages/Home.page';
 import { LoginPage } from './pages/Login.page';
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: '/dev',
         element: import.meta.env.DEV ? <SandboxPage /> : <Navigate to="/" replace />,
+      },
+      {
+        path: '/dictionaries',
+        element: import.meta.env.DEV ? <DictionariesPage /> : <Navigate to="/" replace />,
       },
     ],
   },

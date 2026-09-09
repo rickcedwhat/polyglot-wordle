@@ -43,13 +43,14 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   useEffect(() => {
     // This effect now syncs all state when the game session loads
     if (guessHistory && solution) {
+      setGuesses(guessHistory);
       // 1. Recalculate the score based on the loaded history
       recalculateScore(guessHistory, solution);
 
       // 2. ALSO, update the letter statuses based on the loaded history
       updateLetterStatuses({ guesses: guessHistory, solution, shuffledLanguages });
     }
-  }, [guessHistory, solution, recalculateScore, updateLetterStatuses]);
+  }, [guessHistory, solution, recalculateScore, updateLetterStatuses, shuffledLanguages]);
 
   const getInitialGameStatus = () => {
     if (!gameSession.isLiveGame) {
@@ -97,7 +98,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           (wordPools.master.en.some((word) => normalizeWord(word) === guessString) ||
             wordPools.master.es.some((word) => normalizeWord(word) === guessString) ||
             wordPools.master.fr.some((word) => normalizeWord(word) === guessString)) &&
-          guessHistory.includes(guessString) === false;
+          !guesses.map(normalizeWord).includes(guessString);
 
         if (isValid) {
           const newGuesses = [...guesses, guessString];
@@ -166,6 +167,14 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
+      ) {
+        return;
+      }
+
       // Prevent default scrolling for arrow keys
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         event.preventDefault();
@@ -240,3 +249,5 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     </Box>
   );
 }
+
+export default Game;

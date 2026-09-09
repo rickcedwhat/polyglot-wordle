@@ -46,10 +46,10 @@ const SubmittedRow: FC<{
       <Popover.Target>
         <UnstyledButton
           onClick={handleClick}
-          className={languageMatch ? classes.languageMatch : ''}
-          style={{ cursor: languageMatch ? 'pointer' : 'default' }}
+          className={`${classes.rowButton} ${languageMatch ? classes.languageMatch : ''}`}
+          style={{ cursor: languageMatch ? 'pointer' : 'default', width: '100%', display: 'block' }}
         >
-          <Group gap="xs" wrap="nowrap">
+          <Group gap="xs" wrap="nowrap" grow w="100%">
             {guess.split('').map((letter, colIndex) => (
               <Box key={colIndex} style={{ flex: 1 }} className={classes.tileWrapper}>
                 <LetterTile letter={letter} status={statuses[colIndex]} />
@@ -119,7 +119,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
           })}
           {/* Render empty rows */}
           {Array.from({ length: emptyRowsCount }).map((_, rowIndex) => (
-            <Group key={rowIndex} gap="xs" wrap="nowrap">
+            <Group key={rowIndex} gap="xs" wrap="nowrap" grow w="100%">
               {Array.from({ length: 5 }).map((_, colIndex) => (
                 <Box key={colIndex} style={{ flex: 1 }} className={classes.tileWrapper}>
                   <LetterTile letter="" status="unknown" />
