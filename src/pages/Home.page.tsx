@@ -68,9 +68,12 @@ export function HomePage() {
             </Button>
           )}
           {import.meta.env.DEV && (
-            <div style={{ marginTop: 12, textAlign: 'center' }}>
+            <div style={{ marginTop: 12, display: 'flex', gap: 8, justifyContent: 'center' }}>
               <Button component={Link} to="/sandbox" variant="subtle" size="xs" color="gray">
                 🧪 Open UI Sandbox Mode
+              </Button>
+              <Button component={Link} to="/dictionaries" variant="subtle" size="xs" color="indigo">
+                📖 Browse Dictionaries
               </Button>
             </div>
           )}

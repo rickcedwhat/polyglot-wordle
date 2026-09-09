@@ -1,6 +1,7 @@
-import { FC, useState } from 'react';
-import { IconCheck, IconDice, IconRefresh, IconSettings } from '@tabler/icons-react';
+import { FC, useEffect, useState } from 'react';
+import { IconBooks, IconCheck, IconDice, IconRefresh, IconSettings } from '@tabler/icons-react';
 import { Timestamp } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 import {
   ActionIcon,
   Badge,
@@ -10,7 +11,6 @@ import {
   Container,
   Group,
   Paper,
-  SegmentedControl,
   Stack,
   Text,
   TextInput,
@@ -70,37 +70,48 @@ export const SandboxPage: FC = () => {
 
   const [searchWord, setSearchWord] = useState('bonus');
   const [inspectLang, setInspectLang] = useState<'en' | 'es' | 'fr'>('en');
-  const [inspectedDef, setInspectedDef] = useState<WordEntry | null>({
-    display: 'bonus',
-    d: 0.48,
-    pos: 'noun',
-    def: 'A premium given for a loan, or for a charter; an extra reward or payment added to regular compensation.',
+  const [dictCache, setDictCache] = useState<
+    Record<'en' | 'es' | 'fr', Record<string, WordEntry> | null>
+  >({
+    en: null,
+    es: null,
+    fr: null,
   });
 
-  const handleInspectWord = async (rawWord: string, lang: 'en' | 'es' | 'fr') => {
-    setSearchWord(rawWord);
-    setInspectLang(lang);
-    const normalized = normalizeWord(rawWord.trim());
-    if (!normalized) {
-      setInspectedDef(null);
-      return;
+  useEffect(() => {
+    Promise.all([
+      fetch('/en.json').then((r) => r.json()),
+      fetch('/es.json').then((r) => r.json()),
+      fetch('/fr.json').then((r) => r.json()),
+    ])
+      .then(([en, es, fr]) => {
+        setDictCache({ en, es, fr });
+      })
+      .catch(() => {});
+  }, []);
+
+  const normalizedSearch = normalizeWord(searchWord.trim());
+
+  const getLangStatus = (lang: 'en' | 'es' | 'fr'): boolean | null => {
+    if (!normalizedSearch) {
+      return null;
     }
-    try {
-      const dictRes = await fetch(`/${lang}.json`).then((r) => r.json());
-      const entry = dictRes[normalized];
-      if (entry) {
-        setInspectedDef(entry);
-      } else {
-        setInspectedDef({
-          display: rawWord,
-          d: 0.5,
-          pos: 'unknown',
-          def: 'Word is currently not found in this dictionary.',
-        });
-      }
-    } catch (e) {
-      // Ignore inspect fetch error
+    const dict = dictCache[lang];
+    if (!dict) {
+      return null;
     }
+    return Boolean(dict[normalizedSearch]);
+  };
+
+  const getInspectedEntry = (lang: 'en' | 'es' | 'fr'): WordEntry | null => {
+    if (!normalizedSearch) {
+      return null;
+    }
+    const dict = dictCache[lang];
+    if (!dict) {
+      return null;
+    }
+    return dict[normalizedSearch] || null;
   };
 
   const [session, setSession] = useState<GameDoc>({
@@ -346,47 +357,129 @@ export const SandboxPage: FC = () => {
       {/* Definition Inspector Box */}
       <Paper p="sm" withBorder mb="md" radius="md" bg="var(--mantine-color-dark-7)">
         <Group justify="space-between" align="center">
-          <Text size="xs" fw={700} c="blue.4">
-            📖 Live Definition Inspector
-          </Text>
-          <Text size="xs" c="dimmed">
-            (Click any word on the board or test words below)
-          </Text>
+          <Group gap="xs">
+            <Text size="xs" fw={700} c="blue.4">
+              📖 Live Definition Inspector
+            </Text>
+            <Text size="xs" c="dimmed">
+              (Click any word on the board or test words below)
+            </Text>
+          </Group>
+          <Button
+            component={Link}
+            to="/dictionaries"
+            size="xs"
+            variant="light"
+            color="indigo"
+            leftSection={<IconBooks size={14} />}
+          >
+            Browse All Dictionaries (/dictionaries)
+          </Button>
         </Group>
-        <Group mt="xs" grow align="flex-end">
+        <Group mt="xs" align="flex-end" wrap="wrap">
           <TextInput
+            style={{ flex: 1, minWidth: 200 }}
             size="xs"
-            placeholder="Type word (e.g. bonus, queso, pomme)..."
+            placeholder="Type word (e.g. treat, bonus, queso, pomme)..."
             value={searchWord}
-            onChange={(e) => handleInspectWord(e.currentTarget.value, inspectLang)}
+            onChange={(e) => setSearchWord(e.currentTarget.value)}
           />
-          <SegmentedControl
-            size="xs"
-            value={inspectLang}
-            onChange={(val) => handleInspectWord(searchWord, val as 'en' | 'es' | 'fr')}
-            data={[
-              { label: '🇬🇧 EN', value: 'en' },
-              { label: '🇪🇸 ES', value: 'es' },
-              { label: '🇫🇷 FR', value: 'fr' },
-            ]}
-          />
+          <Group gap={6}>
+            {[
+              { key: 'en' as const, flag: '🇬🇧', label: 'EN' },
+              { key: 'es' as const, flag: '🇪🇸', label: 'ES' },
+              { key: 'fr' as const, flag: '🇫🇷', label: 'FR' },
+            ].map((item) => {
+              const isSelected = inspectLang === item.key;
+              const status = getLangStatus(item.key);
+
+              let color = 'gray';
+              let badge = '';
+              if (status === true) {
+                color = 'teal';
+                badge = '✓';
+              } else if (status === false) {
+                color = 'red';
+                badge = '✕';
+              }
+
+              const variant = isSelected ? 'filled' : status !== null ? 'light' : 'default';
+
+              return (
+                <Button
+                  key={item.key}
+                  size="xs"
+                  color={color}
+                  variant={variant}
+                  onClick={() => setInspectLang(item.key)}
+                  style={{
+                    fontWeight: isSelected ? 700 : 500,
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {item.flag} {item.label}
+                  {badge && (
+                    <Text component="span" ml={5} size="xs" fw={700}>
+                      {badge}
+                    </Text>
+                  )}
+                </Button>
+              );
+            })}
+          </Group>
         </Group>
-        {inspectedDef && (
-          <Paper p="xs" mt="xs" withBorder radius="sm" bg="var(--mantine-color-dark-8)">
-            <Stack gap={2}>
-              <Group gap={6} align="baseline">
-                <Text size="sm" fw={700}>
-                  {inspectedDef.display}
-                </Text>
-                <Text size="xs" c="dimmed" fs="italic">
-                  ({inspectedDef.pos})
-                </Text>
-              </Group>
-              <Text size="sm" style={{ lineHeight: 1.35 }}>
-                • {formatDefinition(inspectedDef.def)}
-              </Text>
-            </Stack>
-          </Paper>
+
+        {normalizedSearch && (
+          <>
+            {getInspectedEntry(inspectLang) ? (
+              (() => {
+                const entry = getInspectedEntry(inspectLang)!;
+                return (
+                  <Paper
+                    p="xs"
+                    mt="xs"
+                    withBorder
+                    radius="sm"
+                    bg="var(--mantine-color-dark-8)"
+                    style={{ borderColor: 'var(--mantine-color-teal-8)' }}
+                  >
+                    <Stack gap={2}>
+                      <Group gap={6} align="baseline">
+                        <Text size="sm" fw={700} c="teal.4">
+                          {entry.display || normalizedSearch}
+                        </Text>
+                        <Text size="xs" c="dimmed" fs="italic">
+                          ({entry.pos})
+                        </Text>
+                        <Badge size="xs" variant="outline" color="teal">
+                          d: {entry.d}
+                        </Badge>
+                      </Group>
+                      <Text size="sm" style={{ lineHeight: 1.35 }}>
+                        • {formatDefinition(entry.def)}
+                      </Text>
+                    </Stack>
+                  </Paper>
+                );
+              })()
+            ) : (
+              <Paper
+                p="xs"
+                mt="xs"
+                withBorder
+                radius="sm"
+                bg="var(--mantine-color-dark-8)"
+                style={{ borderColor: 'var(--mantine-color-red-9)' }}
+              >
+                <Group gap="xs">
+                  <Text size="sm" c="red.4" fw={600}>
+                    ✕ &quot;{searchWord.trim()}&quot; is not found in the{' '}
+                    {inspectLang.toUpperCase()} dictionary.
+                  </Text>
+                </Group>
+              </Paper>
+            )}
+          </>
         )}
       </Paper>
 

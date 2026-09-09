@@ -1,21 +1,14 @@
 /* src/components/LanguageBoard/LanguageBoard.module.css */
 
+.rowButton {
+  width: 100%;
+  display: block;
+}
+
 .languageMatch {
   /* Keep this for the underline's positioning */
   position: relative;
-
-  /* Add this to make the button (the row) expand to the full width 
-    of its container, allowing the flexbox growth to be visible.
-  */
   width: 100%;
-
-  /*
-    These lines were removed as they were preventing the row from growing:
-    
-    width: fit-content; 
-    margin-left: auto;
-    margin-right: auto;
-  */
 }
 
 .languageMatch::after {
@@ -31,7 +24,6 @@
 .tileWrapper {
   /* This tells the browser to track this element's width */
   container-type: inline-size;
-
-  /* flex: grow | shrink | basis */
-  /* flex: 1 1 clamp(0.625rem, 6vw, 3.125rem); Min 10px, Max 50px */
+  flex: 1 1 0;
+  min-width: 0;
 }
