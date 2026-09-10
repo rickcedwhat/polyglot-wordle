@@ -2,13 +2,20 @@ import React, { FC, useEffect, useMemo, useState } from 'react';
 import {
   IconArrowLeft,
   IconBooks,
+  IconCheck,
   IconCode,
+  IconCopy,
+  IconFlag,
+  IconFlagFilled,
   IconLanguage,
+  IconMessageDots,
   IconSearch,
+  IconTrash,
   IconX,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import {
+  ActionIcon,
   Badge,
   Button,
   Card,
@@ -17,6 +24,7 @@ import {
   Divider,
   Group,
   Loader,
+  Modal,
   Pagination,
   Paper,
   Select,
@@ -24,10 +32,13 @@ import {
   Stack,
   Tabs,
   Text,
+  Textarea,
   TextInput,
   ThemeIcon,
   Tooltip,
 } from '@mantine/core';
+import { useClipboard, useDisclosure } from '@mantine/hooks';
+import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { formatDefinition, normalizeWord, WordEntry } from '@/utils/wordUtils';
 
 type LanguageKey = 'en' | 'es' | 'fr';
@@ -43,7 +54,21 @@ export const DictionariesPage: FC = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
   const [selectedPos, setSelectedPos] = useState<string>('all');
   const [multilingualOnly, setMultilingualOnly] = useState(false);
+  const [flaggedOnly, setFlaggedOnly] = useState(false);
   const [page, setPage] = useState(1);
+
+  const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
+
+  const {
+    flaggedWords,
+    isFlagged,
+    toggleFlag,
+    updateNote,
+    clearAllFlagged,
+    generateMarkdownSummary,
+  } = useFlaggedWords();
+
+  const clipboard = useClipboard({ timeout: 2500 });
 
   const [dictionaries, setDictionaries] = useState<
     Record<LanguageKey, Record<string, WordEntry> | null>
@@ -72,7 +97,15 @@ export const DictionariesPage: FC = () => {
   // Reset page when any filter changes
   useEffect(() => {
     setPage(1);
-  }, [activeLang, searchQuery, selectedLetter, selectedDifficulty, selectedPos, multilingualOnly]);
+  }, [
+    activeLang,
+    searchQuery,
+    selectedLetter,
+    selectedDifficulty,
+    selectedPos,
+    multilingualOnly,
+    flaggedOnly,
+  ]);
 
   const activeDict = dictionaries[activeLang];
 
@@ -103,6 +136,11 @@ export const DictionariesPage: FC = () => {
       .filter(([key, entry]) => {
         const wordKey = key.toLowerCase();
         const displayWord = (entry.display || key).toLowerCase();
+
+        // Flagged only filter
+        if (flaggedOnly && !isFlagged(activeLang, wordKey)) {
+          return false;
+        }
 
         // Letter filter (A-Z)
         if (selectedLetter !== 'all') {
@@ -163,8 +201,10 @@ export const DictionariesPage: FC = () => {
     selectedDifficulty,
     selectedPos,
     multilingualOnly,
+    flaggedOnly,
     activeLang,
     dictionaries,
+    isFlagged,
   ]);
 
   const totalPages = Math.ceil(filteredWords.length / ITEMS_PER_PAGE);
@@ -249,6 +289,8 @@ export const DictionariesPage: FC = () => {
   const esMeta = getLanguageMeta('es');
   const frMeta = getLanguageMeta('fr');
 
+  const flaggedCountForActiveLang = flaggedWords.filter((w) => w.lang === activeLang).length;
+
   return (
     <Container size="lg" py="lg">
       {/* Top Header Bar */}
@@ -279,6 +321,26 @@ export const DictionariesPage: FC = () => {
           </Group>
 
           <Group gap="xs">
+            <Button
+              variant={flaggedWords.length > 0 ? 'filled' : 'light'}
+              color="red"
+              size="xs"
+              leftSection={<IconFlag size={14} />}
+              onClick={openModal}
+            >
+              Flagged Words ({flaggedWords.length})
+            </Button>
+            {flaggedWords.length > 0 && (
+              <Button
+                variant="light"
+                color={clipboard.copied ? 'teal' : 'violet'}
+                size="xs"
+                leftSection={clipboard.copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
+                onClick={() => clipboard.copy(generateMarkdownSummary())}
+              >
+                {clipboard.copied ? 'Copied for Chat!' : 'Copy Flagged for AI'}
+              </Button>
+            )}
             <Button component={Link} to="/" variant="subtle" size="xs" color="dimmed">
               Home
             </Button>
@@ -464,6 +526,16 @@ export const DictionariesPage: FC = () => {
             >
               {multilingualOnly ? 'Shared Words ✓' : 'Shared in Other Langs'}
             </Button>
+
+            <Button
+              variant={flaggedOnly ? 'filled' : 'outline'}
+              color="red"
+              leftSection={flaggedOnly ? <IconFlagFilled size={16} /> : <IconFlag size={16} />}
+              onClick={() => setFlaggedOnly((prev) => !prev)}
+              style={{ alignSelf: 'flex-end' }}
+            >
+              {flaggedOnly ? `Flagged Only (${flaggedCountForActiveLang}) ✓` : `Flagged Only (${flaggedCountForActiveLang})`}
+            </Button>
           </Group>
 
           <Group justify="space-between" align="center">
@@ -478,7 +550,8 @@ export const DictionariesPage: FC = () => {
               selectedLetter !== 'all' ||
               selectedDifficulty !== 'all' ||
               selectedPos !== 'all' ||
-              multilingualOnly) && (
+              multilingualOnly ||
+              flaggedOnly) && (
               <Button
                 variant="subtle"
                 color="gray"
@@ -490,6 +563,7 @@ export const DictionariesPage: FC = () => {
                   setSelectedDifficulty('all');
                   setSelectedPos('all');
                   setMultilingualOnly(false);
+                  setFlaggedOnly(false);
                 }}
               >
                 Clear all filters
@@ -521,6 +595,8 @@ export const DictionariesPage: FC = () => {
                 (l) => l !== activeLang && Boolean(dictionaries[l]?.[item.key])
               );
               const diffBadge = getDifficultyBadge(item.d);
+              const flagged = isFlagged(activeLang, item.key);
+              const flaggedItem = flaggedWords.find((w) => w.id === `${activeLang}:${item.key.toLowerCase()}`);
 
               return (
                 <Card
@@ -528,11 +604,13 @@ export const DictionariesPage: FC = () => {
                   withBorder
                   p="sm"
                   radius="md"
-                  bg="var(--mantine-color-dark-8)"
+                  bg={flagged ? 'var(--mantine-color-red-9)' : 'var(--mantine-color-dark-8)'}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
+                    borderColor: flagged ? 'var(--mantine-color-red-6)' : undefined,
+                    transition: 'all 0.15s ease',
                   }}
                 >
                   <Stack gap={4}>
@@ -549,25 +627,59 @@ export const DictionariesPage: FC = () => {
                         </Badge>
                       </Group>
 
-                      {otherPresence.length > 0 && (
-                        <Group gap={4}>
-                          {otherPresence.map((lang) => (
-                            <Tooltip
-                              key={lang}
-                              label={`Also in ${getLanguageMeta(lang).name}: "${dictionaries[lang]![item.key].def}"`}
-                            >
-                              <Badge size="xs" color="violet" variant="outline">
-                                {getLanguageMeta(lang).flag} {lang.toUpperCase()}
-                              </Badge>
-                            </Tooltip>
-                          ))}
-                        </Group>
-                      )}
+                      <Group gap={6}>
+                        {otherPresence.length > 0 && (
+                          <Group gap={4}>
+                            {otherPresence.map((lang) => (
+                              <Tooltip
+                                key={lang}
+                                label={`Also in ${getLanguageMeta(lang).name}: "${dictionaries[lang]![item.key].def}"`}
+                              >
+                                <Badge size="xs" color="violet" variant="outline">
+                                  {getLanguageMeta(lang).flag} {lang.toUpperCase()}
+                                </Badge>
+                              </Tooltip>
+                            ))}
+                          </Group>
+                        )}
+
+                        <Tooltip label={flagged ? 'Unflag word' : 'Flag word for discussion'}>
+                          <ActionIcon
+                            variant={flagged ? 'filled' : 'light'}
+                            color="red"
+                            size="sm"
+                            onClick={() =>
+                              toggleFlag({
+                                lang: activeLang,
+                                wordKey: item.key,
+                                display: item.display || item.key,
+                                pos: item.pos,
+                                d: item.d,
+                                def: item.def,
+                              })
+                            }
+                          >
+                            {flagged ? <IconFlagFilled size={14} /> : <IconFlag size={14} />}
+                          </ActionIcon>
+                        </Tooltip>
+                      </Group>
                     </Group>
 
                     <Text size="sm" c="gray.2" style={{ lineHeight: 1.4 }}>
                       • {formatDefinition(item.def)}
                     </Text>
+
+                    {flagged && (
+                      <Stack gap={4} mt="xs">
+                        <TextInput
+                          size="xs"
+                          placeholder="Add discussion note (e.g., definition unclear, wrong difficulty)..."
+                          leftSection={<IconMessageDots size={14} />}
+                          value={flaggedItem?.note || ''}
+                          onChange={(e) => updateNote(activeLang, item.key, e.currentTarget.value)}
+                        />
+                      </Stack>
+                    )}
                   </Stack>
                 </Card>
               );
@@ -588,6 +700,128 @@ export const DictionariesPage: FC = () => {
           )}
         </Stack>
       )}
+
+      {/* Flagged Words Discussion Modal */}
+      <Modal
+        opened={modalOpened}
+        onClose={closeModal}
+        title={
+          <Group gap="xs">
+            <ThemeIcon color="red" variant="light" radius="xl" size="sm">
+              <IconFlagFilled size={14} />
+            </ThemeIcon>
+            <Text fw={700} size="md">
+              Flagged Words for Discussion ({flaggedWords.length})
+            </Text>
+          </Group>
+        }
+        size="lg"
+      >
+        <Stack gap="md">
+          <Text size="xs" c="dimmed">
+            Here are all the words you flagged across all dictionaries. You can edit notes for each
+            word, unflag them, or copy the formatted summary to paste into chat with your AI assistant.
+          </Text>
+
+          {flaggedWords.length === 0 ? (
+            <Paper p="lg" withBorder radius="md" bg="var(--mantine-color-dark-8)">
+              <Center>
+                <Text size="sm" c="dimmed">
+                  No words flagged yet! Click the flag icon on any word card to add it here.
+                </Text>
+              </Center>
+            </Paper>
+          ) : (
+            <Stack gap="sm" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+              {flaggedWords.map((item) => {
+                const flagEmoji = item.lang === 'en' ? '🇬🇧' : item.lang === 'es' ? '🇪🇸' : '🇫🇷';
+                return (
+                  <Paper key={item.id} p="xs" withBorder radius="md" bg="var(--mantine-color-dark-8)">
+                    <Stack gap={4}>
+                      <Group justify="space-between" align="center">
+                        <Group gap={6}>
+                          <Text size="sm" fw={700} c="blue.3">
+                            {item.display || item.wordKey}
+                          </Text>
+                          <Badge size="xs" color="gray" variant="light">
+                            {flagEmoji} {item.lang.toUpperCase()}
+                          </Badge>
+                          {item.pos && (
+                            <Badge size="xs" color="dark" variant="filled">
+                              {item.pos}
+                            </Badge>
+                          )}
+                          {item.d !== undefined && (
+                            <Badge size="xs" color="teal" variant="outline">
+                              d: {item.d}
+                            </Badge>
+                          )}
+                        </Group>
+                        <ActionIcon
+                          size="xs"
+                          color="red"
+                          variant="subtle"
+                          onClick={() =>
+                            toggleFlag({
+                              lang: item.lang,
+                              wordKey: item.wordKey,
+                            })
+                          }
+                        >
+                          <IconTrash size={14} />
+                        </ActionIcon>
+                      </Group>
+                      {item.def && (
+                        <Text size="xs" c="gray.3">
+                          • {formatDefinition(item.def)}
+                        </Text>
+                      )}
+                      <TextInput
+                        size="xs"
+                        placeholder="Discussion note (optional)..."
+                        value={item.note || ''}
+                        onChange={(e) => updateNote(item.lang, item.wordKey, e.currentTarget.value)}
+                      />
+                    </Stack>
+                  </Paper>
+                );
+              })}
+            </Stack>
+          )}
+
+          <Divider />
+
+          <Group justify="space-between" align="center">
+            {flaggedWords.length > 0 ? (
+              <Button
+                variant="subtle"
+                color="red"
+                size="xs"
+                leftSection={<IconTrash size={14} />}
+                onClick={clearAllFlagged}
+              >
+                Clear All Flagged
+              </Button>
+            ) : <div />}
+
+            <Group gap="xs">
+              <Button variant="default" size="xs" onClick={closeModal}>
+                Close
+              </Button>
+              {flaggedWords.length > 0 && (
+                <Button
+                  color={clipboard.copied ? 'teal' : 'violet'}
+                  size="xs"
+                  leftSection={clipboard.copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
+                  onClick={() => clipboard.copy(generateMarkdownSummary())}
+                >
+                  {clipboard.copied ? 'Copied to Clipboard!' : 'Copy Summary for AI Chat'}
+                </Button>
+              )}
+            </Group>
+          </Group>
+        </Stack>
+      </Modal>
     </Container>
   );
 };

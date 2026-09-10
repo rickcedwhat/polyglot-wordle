@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Center, Loader, Text } from '@mantine/core';
+import { Box, Center, Loader, Text } from '@mantine/core';
 import { Game } from '@/components/Game/Game';
 import { PostGameView } from '@/components/PostGameView/PostGameView';
 import { useGameSession } from '@/hooks/useGameSession';
@@ -29,5 +29,9 @@ export const GamePage: FC = () => {
     );
   }
 
-  return <PostGameView gameSession={gameSession} />;
+  return (
+    <Box h="100%" w="100%">
+      <PostGameView gameSession={gameSession} />
+    </Box>
+  );
 };

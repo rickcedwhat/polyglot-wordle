@@ -5,6 +5,7 @@ export interface DefinitionData {
   display: string;
   pos: string;
   def: string;
+  d?: number;
 }
 
 const fetchLocalDefinition = async (lang: string, word: string): Promise<DefinitionData> => {
@@ -29,6 +30,7 @@ const fetchLocalDefinition = async (lang: string, word: string): Promise<Definit
     display: entry.display || word,
     pos: entry.pos || 'word',
     def: entry.def || 'Definition available in standard dictionary.',
+    d: entry.d,
   };
 };
 
