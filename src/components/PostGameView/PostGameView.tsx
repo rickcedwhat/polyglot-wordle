@@ -46,7 +46,11 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
         onPlayAgain={onPlayAgain}
       />
 
-      <Group justify="flex-end" p="xs" style={{ position: 'absolute', top: 0, right: 0, zIndex: 10 }}>
+      <Group
+        justify="flex-end"
+        p="xs"
+        style={{ position: 'absolute', top: 0, right: 0, zIndex: 10 }}
+      >
         <Button
           size="xs"
           variant="gradient"
@@ -61,9 +65,22 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
       <Grid gutter="xl" style={{ width: '100%', height: '100%', alignItems: 'center' }}>
         <Grid.Col
           span={{ base: 12, md: 9 }}
-          style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <Box style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Box
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <GameBoard
               solution={focusedGame.words}
               guesses={focusedGame.guessHistory}

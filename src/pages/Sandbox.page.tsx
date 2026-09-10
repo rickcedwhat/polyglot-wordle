@@ -1,6 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 import {
-  IconAdjustmentsHorizontal,
   IconBooks,
   IconCheck,
   IconDice,
@@ -18,7 +17,6 @@ import {
   Button,
   Center,
   Collapse,
-  Container,
   Drawer,
   Group,
   Paper,

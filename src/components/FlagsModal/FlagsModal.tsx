@@ -49,7 +49,8 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
       <Stack gap="md">
         <Text size="xs" c="dimmed">
           Choose any flag or emoji to represent each language across the game boards and column
-          deduction tags. (Presets contain country flags, but custom inputs accept any single emoji).
+          deduction tags. (Presets contain country flags, but custom inputs accept any single
+          emoji).
         </Text>
 
         <Paper p="xs" withBorder radius="md" bg="var(--mantine-color-dark-8)">
@@ -127,12 +128,7 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
             Reset Defaults ({DEFAULT_FLAGS.en} {DEFAULT_FLAGS.es} {DEFAULT_FLAGS.fr})
           </Button>
 
-          <Button
-            size="xs"
-            color="blue"
-            leftSection={<IconCheck size={14} />}
-            onClick={onClose}
-          >
+          <Button size="xs" color="blue" leftSection={<IconCheck size={14} />} onClick={onClose}>
             Done
           </Button>
         </Group>

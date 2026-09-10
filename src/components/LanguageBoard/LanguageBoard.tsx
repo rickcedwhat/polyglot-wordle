@@ -1,6 +1,16 @@
 import { FC, memo, useEffect, useState } from 'react';
 import { IconFlag, IconFlagFilled } from '@tabler/icons-react';
-import { ActionIcon, Box, Group, Loader, Paper, Popover, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Group,
+  Loader,
+  Popover,
+  Stack,
+  Text,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
@@ -36,7 +46,9 @@ const SubmittedRow: FC<{
 
   // Close the popover automatically whenever any key is pressed (typing a guess, backspace, etc.)
   useEffect(() => {
-    if (!opened) return;
+    if (!opened) {
+      return;
+    }
 
     const handleKeyDown = () => {
       setOpened(false);
@@ -142,7 +154,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     words,
     dictionary,
     candidateLanguages = ['en', 'es', 'fr'] as Language[],
-    isConfirmed = false,
+    isConfirmed: _isConfirmed = false,
     hideFlags = false,
   }) => {
     const { flags } = useLanguageFlags();
@@ -162,7 +174,10 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
 
     if (hideFlags) {
       return (
-        <Box h="100%" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <Box
+          h="100%"
+          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+        >
           <Stack gap="xs" style={{ width: '100%' }} mx="auto">
             {relevantGuesses.map((guess, rowIndex) => {
               const normGuess = normalizeWord(guess);
@@ -170,7 +185,8 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
               const languageMatch = !!matchingWordKey;
 
               const dictEntry =
-                dictionary?.[normGuess] || (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
+                dictionary?.[normGuess] ||
+                (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
               const displayGuess =
                 dictEntry?.display ||
                 (matchingWordKey && dictionary?.[matchingWordKey]?.display) ||
@@ -211,7 +227,8 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
 
             // Preserve accents: check dictionary entry display property (e.g. 'baños' instead of 'banos')
             const dictEntry =
-              dictionary?.[normGuess] || (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
+              dictionary?.[normGuess] ||
+              (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
             const displayGuess =
               dictEntry?.display ||
               (matchingWordKey && dictionary?.[matchingWordKey]?.display) ||

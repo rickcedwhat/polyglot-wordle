@@ -32,7 +32,6 @@ import {
   Stack,
   Tabs,
   Text,
-  Textarea,
   TextInput,
   ThemeIcon,
   Tooltip,
@@ -534,7 +533,9 @@ export const DictionariesPage: FC = () => {
               onClick={() => setFlaggedOnly((prev) => !prev)}
               style={{ alignSelf: 'flex-end' }}
             >
-              {flaggedOnly ? `Flagged Only (${flaggedCountForActiveLang}) ✓` : `Flagged Only (${flaggedCountForActiveLang})`}
+              {flaggedOnly
+                ? `Flagged Only (${flaggedCountForActiveLang}) ✓`
+                : `Flagged Only (${flaggedCountForActiveLang})`}
             </Button>
           </Group>
 
@@ -596,7 +597,9 @@ export const DictionariesPage: FC = () => {
               );
               const diffBadge = getDifficultyBadge(item.d);
               const flagged = isFlagged(activeLang, item.key);
-              const flaggedItem = flaggedWords.find((w) => w.id === `${activeLang}:${item.key.toLowerCase()}`);
+              const flaggedItem = flaggedWords.find(
+                (w) => w.id === `${activeLang}:${item.key.toLowerCase()}`
+              );
 
               return (
                 <Card
@@ -720,7 +723,8 @@ export const DictionariesPage: FC = () => {
         <Stack gap="md">
           <Text size="xs" c="dimmed">
             Here are all the words you flagged across all dictionaries. You can edit notes for each
-            word, unflag them, or copy the formatted summary to paste into chat with your AI assistant.
+            word, unflag them, or copy the formatted summary to paste into chat with your AI
+            assistant.
           </Text>
 
           {flaggedWords.length === 0 ? (
@@ -736,7 +740,13 @@ export const DictionariesPage: FC = () => {
               {flaggedWords.map((item) => {
                 const flagEmoji = item.lang === 'en' ? '🇬🇧' : item.lang === 'es' ? '🇪🇸' : '🇫🇷';
                 return (
-                  <Paper key={item.id} p="xs" withBorder radius="md" bg="var(--mantine-color-dark-8)">
+                  <Paper
+                    key={item.id}
+                    p="xs"
+                    withBorder
+                    radius="md"
+                    bg="var(--mantine-color-dark-8)"
+                  >
                     <Stack gap={4}>
                       <Group justify="space-between" align="center">
                         <Group gap={6}>
@@ -802,7 +812,9 @@ export const DictionariesPage: FC = () => {
               >
                 Clear All Flagged
               </Button>
-            ) : <div />}
+            ) : (
+              <div />
+            )}
 
             <Group gap="xs">
               <Button variant="default" size="xs" onClick={closeModal}>

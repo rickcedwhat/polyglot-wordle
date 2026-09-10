@@ -28,7 +28,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const { recalculateScore } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
   const [activeKey, setActiveKey] = useState<string | null>(null);
-  const { data: wordPools, isLoading: arePoolsLoading } = useWordPools(difficulties);
+  const { data: wordPools } = useWordPools(difficulties);
   const [guesses, setGuesses] = useState<string[]>(guessHistory);
   const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
   const [cursorIndex, setCursorIndex] = useState(0);
@@ -230,11 +230,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         height: '100%',
       }}
     >
-      <PostGameModal
-        opened={gameOverOpened}
-        onClose={closeGameOver}
-        gameSession={gameSession}
-      />
+      <PostGameModal opened={gameOverOpened} onClose={closeGameOver} gameSession={gameSession} />
 
       <Center style={{ overflow: 'visible' }}>
         <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />

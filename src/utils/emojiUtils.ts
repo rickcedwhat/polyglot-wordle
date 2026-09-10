@@ -3,10 +3,14 @@
  */
 
 export const extractSingleEmoji = (input: string): string | null => {
-  if (!input) return null;
+  if (!input) {
+    return null;
+  }
 
   const trimmed = input.trim();
-  if (!trimmed) return null;
+  if (!trimmed) {
+    return null;
+  }
 
   // Split string into Unicode grapheme clusters
   let clusters: string[] = [];
@@ -37,6 +41,8 @@ export const extractSingleEmoji = (input: string): string | null => {
 };
 
 export const isValidEmoji = (input: string): boolean => {
-  if (!input) return false;
+  if (!input) {
+    return false;
+  }
   return extractSingleEmoji(input) !== null;
 };
