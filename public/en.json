@@ -1,11 +1,4 @@
 {
-  "aargh": {
-    "display": "aargh",
-    "d": 0.95,
-    "pos": "intj",
-    "def": "Alternative form of argh.",
-    "reviewed": true
-  },
   "aback": {
     "display": "aback",
     "d": 0.95,
@@ -122,7 +115,7 @@
     "display": "acids",
     "d": 0.95,
     "pos": "noun",
-    "def": "A term denoting plural of acid.",
+    "def": "Plural of acid: chemical substances with a pH below 7 that neutralize alkalis.",
     "reviewed": true
   },
   "acorn": {
@@ -186,13 +179,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "One who, or that which, adds.",
-    "reviewed": true
-  },
-  "addie": {
-    "display": "addie",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Adderall, especially when used as a cognitive enhancer or recreational drug.",
     "reviewed": true
   },
   "adept": {
@@ -262,7 +248,7 @@
     "display": "aegis",
     "d": 0.95,
     "pos": "noun",
-    "def": "A shield or protective armor; : A shield.",
+    "def": "A shield or protective armor; sponsorship or protection.",
     "reviewed": true
   },
   "afoot": {
@@ -636,13 +622,6 @@
     "def": "To make minor changes in order to make fairer or better.",
     "reviewed": true
   },
-  "amigo": {
-    "display": "amigo",
-    "d": 0.74,
-    "pos": "noun",
-    "def": "A term denoting a friend.",
-    "reviewed": true
-  },
   "amish": {
     "display": "amish",
     "d": 0.95,
@@ -899,7 +878,7 @@
     "display": "argus",
     "d": 0.95,
     "pos": "noun",
-    "def": "A fabulous being of antiquity, said to have had a hundred eyes, who has placed by Juno to guard Io.",
+    "def": "A vigilant, watchful guardian; or a large East Asian pheasant with eye-marked plumage.",
     "reviewed": true
   },
   "arias": {
@@ -977,13 +956,6 @@
     "d": 0.44,
     "pos": "noun",
     "def": "A weapon consisting of a shaft with a pointed head.",
-    "reviewed": true
-  },
-  "arses": {
-    "display": "arses",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Slang term for the buttocks, posteriors, or rear anatomy.",
     "reviewed": true
   },
   "arson": {
@@ -1158,7 +1130,7 @@
     "display": "aunty",
     "d": 0.55,
     "pos": "noun",
-    "def": "Alternative spelling of auntie.",
+    "def": "Alternative spelling of auntie: an aunt (the sister of one's parent).",
     "reviewed": true
   },
   "avail": {
@@ -18329,7 +18301,7 @@
     "display": "roach",
     "d": 0.95,
     "pos": "noun",
-    "def": "Certain members of the fish family Cyprinidae, including:.",
+    "def": "A cockroach; or a small freshwater fish of the carp family.",
     "reviewed": true
   },
   "roads": {
@@ -25175,7 +25147,7 @@
     "display": "whirs",
     "d": 0.95,
     "pos": "noun",
-    "def": "A term denoting plural of whir.",
+    "def": "Plural of whir: low, continuous humming or buzzing sounds (like spinning blades or a motor).",
     "reviewed": true
   },
   "whisk": {

@@ -13,6 +13,7 @@ const fetchWordPools = async (
 ): Promise<{
   filtered: Record<Language, string[]>;
   master: Record<Language, string[]>;
+  dictionaries: Record<Language, Dictionary>;
 }> => {
   // 1. Define the score cutoffs for each difficulty level
   const thresholds: Record<DifficultyName, number> = {
@@ -34,8 +35,8 @@ const fetchWordPools = async (
 
   // 3. Filter each dictionary based on the selected difficulty's score threshold
   (['en', 'es', 'fr'] as const).forEach((lang) => {
-    const selectedDifficulty = difficulties[lang];
-    const cutoff = thresholds[selectedDifficulty];
+    const selectedDifficulty = difficulties[lang] || 'basic';
+    const cutoff = thresholds[selectedDifficulty] || 0.4;
     const masterDict = masterDictionaries[lang];
 
     const filteredWords = Object.entries(masterDict)
@@ -46,16 +47,17 @@ const fetchWordPools = async (
     masterPools[lang] = Object.keys(masterDict);
   });
 
-  // 4. Return the object containing the three filtered word pools
-  return { filtered: filteredPools, master: masterPools };
+  // 4. Return the object containing the three filtered word pools and full dictionaries
+  return { filtered: filteredPools, master: masterPools, dictionaries: masterDictionaries };
 };
 
 /**
  * A TanStack Query hook to fetch and cache the validation word lists.
+ * Uses primitive difficulty values in queryKey to prevent unnecessary re-fetching on object reference changes.
  */
 export const useWordPools = (difficulties: Difficulties | undefined) => {
   return useQuery({
-    queryKey: ['wordPools', difficulties],
+    queryKey: ['wordPools', difficulties?.en, difficulties?.es, difficulties?.fr],
     queryFn: () => {
       if (!difficulties) {
         throw new Error('Difficulties are required to fetch word pools.');
@@ -65,7 +67,6 @@ export const useWordPools = (difficulties: Difficulties | undefined) => {
     // This data is static, so we can cache it forever.
     staleTime: Infinity,
     gcTime: Infinity,
-    // Only run the query if the difficulties object is available.
     enabled: !!difficulties,
   });
 };

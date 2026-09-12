@@ -23,14 +23,6 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: '/sandbox',
-        element: import.meta.env.DEV ? <SandboxPage /> : <Navigate to="/" replace />,
-      },
-      {
-        path: '/dev',
-        element: import.meta.env.DEV ? <SandboxPage /> : <Navigate to="/" replace />,
-      },
-      {
         path: '/dictionaries',
         element: import.meta.env.DEV ? <DictionariesPage /> : <Navigate to="/" replace />,
       },
@@ -39,6 +31,14 @@ const router = createBrowserRouter([
   {
     element: <SidebarLayout />,
     children: [
+      {
+        path: '/sandbox',
+        element: import.meta.env.DEV ? <SandboxPage /> : <Navigate to="/" replace />,
+      },
+      {
+        path: '/dev',
+        element: import.meta.env.DEV ? <SandboxPage /> : <Navigate to="/" replace />,
+      },
       {
         path: '/game/:uuid',
         element: (

@@ -1,9 +1,10 @@
 import { FC, useState } from 'react';
 import cx from 'clsx';
-import { motion } from 'framer-motion'; // 1. Import motion
+import { motion } from 'framer-motion';
 import { Group } from '@mantine/core';
 import { useWordPools } from '@/hooks/useWordPools';
 import { Language } from '@/types/firestore';
+import { deduceColumnLanguages } from '@/utils/deductionUtils';
 import LanguageBoard from '../LanguageBoard/LanguageBoard';
 import classes from './Gameboard.module.css';
 
@@ -11,19 +12,27 @@ interface GameBoardProps {
   solution: { [key: string]: string };
   guesses: string[];
   shuffledLanguages: Language[];
+  hideFlags?: boolean;
 }
 
-export const GameBoard: FC<GameBoardProps> = ({ solution, guesses, shuffledLanguages }) => {
+export const GameBoard: FC<GameBoardProps> = ({
+  solution,
+  guesses,
+  shuffledLanguages,
+  hideFlags = false,
+}) => {
   const [activeIndex, setActiveIndex] = useState(1);
-  const { data: wordPools, isLoading: arePoolsLoading } = useWordPools({
+  const { data: wordPools } = useWordPools({
     en: 'advanced',
     es: 'advanced',
     fr: 'advanced',
   });
 
-  if (arePoolsLoading || !wordPools) {
+  if (!wordPools) {
     return <div>Loading boards...</div>;
   }
+
+  const deduction = deduceColumnLanguages(guesses, shuffledLanguages, wordPools.dictionaries);
 
   return (
     <Group
@@ -35,14 +44,13 @@ export const GameBoard: FC<GameBoardProps> = ({ solution, guesses, shuffledLangu
     >
       {shuffledLanguages.map((lang, index) => {
         const isActive = index === activeIndex;
+        const candidateLanguages = deduction.candidates[index] || ['en', 'es', 'fr'];
+        const isConfirmed = deduction.isConfirmed[index];
 
         return (
-          // 2. Use motion.div instead of Box
           <motion.div
             key={lang}
-            // 3. Add the magic `layout` prop
             layout
-            // 4. Define the animation transition
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             className={cx(classes.boardWrapper, { [classes.active]: isActive })}
             onClick={() => setActiveIndex(index)}
@@ -52,6 +60,10 @@ export const GameBoard: FC<GameBoardProps> = ({ solution, guesses, shuffledLangu
               solutionWord={solution[lang]}
               submittedGuesses={guesses}
               words={wordPools.master[lang as Language]}
+              dictionary={wordPools.dictionaries[lang as Language]}
+              candidateLanguages={candidateLanguages}
+              isConfirmed={isConfirmed}
+              hideFlags={hideFlags}
             />
           </motion.div>
         );

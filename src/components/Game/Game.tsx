@@ -11,7 +11,7 @@ import type { GameDoc } from '@/types/firestore.d.ts';
 import { normalizeWord } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
-import { GameOver } from '../GameOver/GameOver';
+import { PostGameModal } from '../PostGameModal/PostGameModal';
 import { Score } from '../Score/Score';
 
 // Define the props the component will receive
@@ -28,7 +28,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const { recalculateScore } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
   const [activeKey, setActiveKey] = useState<string | null>(null);
-  const { data: wordPools, isLoading: arePoolsLoading } = useWordPools(difficulties);
+  const { data: wordPools } = useWordPools(difficulties);
   const [guesses, setGuesses] = useState<string[]>(guessHistory);
   const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
   const [cursorIndex, setCursorIndex] = useState(0);
@@ -212,8 +212,8 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentGuess, cursorIndex, handleKeyPress]); // The dependencies are correct
 
-  // Render a loading state while the static word pools are being fetched
-  if (arePoolsLoading) {
+  // Render a loading state while the static word pools are being fetched for the first time
+  if (!wordPools) {
     return (
       <Center style={{ height: '80vh' }}>
         <Loader />
@@ -230,11 +230,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         height: '100%',
       }}
     >
-      <GameOver
-        opened={gameOverOpened}
-        onClose={closeGameOver}
-        status={gameStatus === 'playing' ? 'won' : gameStatus}
-      />
+      <PostGameModal opened={gameOverOpened} onClose={closeGameOver} gameSession={gameSession} />
 
       <Center style={{ overflow: 'visible' }}>
         <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />
