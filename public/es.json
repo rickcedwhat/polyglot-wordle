@@ -594,13 +594,6 @@
     "def": "first-person singular present indicative of alojar.",
     "reviewed": true
   },
-  "alpes": {
-    "display": "Alpes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A major mountain range in Europe, known for its high peaks, glaciers, and popular ski resorts.",
-    "reviewed": true
-  },
   "altar": {
     "display": "altar",
     "d": 0.6,
@@ -613,13 +606,6 @@
     "d": 0.47,
     "pos": "adj",
     "def": "Describing things or people that are of great vertical extent, elevated, or tall (feminine plural form of 'alto').",
-    "reviewed": true
-  },
-  "alter": {
-    "display": "alter",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb altar; Denoting altar.",
     "reviewed": true
   },
   "altos": {
@@ -809,13 +795,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "third-person plural present subjunctive.",
-    "reviewed": true
-  },
-  "andes": {
-    "display": "andes",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "second-person singular present subjunctive of andar.",
     "reviewed": true
   },
   "anexo": {
@@ -1168,13 +1147,6 @@
     "def": "A piece of jewelry worn on the ear, typically attached to the earlobe by a piercing or a clip.",
     "reviewed": true
   },
-  "argel": {
-    "display": "argel",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being moody; rude.",
-    "reviewed": true
-  },
   "arido": {
     "display": "árido",
     "d": 0.95,
@@ -1259,13 +1231,6 @@
     "def": "The various branches of creative activity, such as painting, music, literature, and dance.",
     "reviewed": true
   },
-  "aruba": {
-    "display": "Aruba",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A constituent country of the Kingdom of the Netherlands, located in the southern Caribbean Sea, known for its beaches.",
-    "reviewed": true
-  },
   "asada": {
     "display": "asada",
     "d": 0.95,
@@ -1301,13 +1266,6 @@
     "def": "A slight appearance or hint of something; also, the act of showing oneself or peeking out (first-person singular present tense of \"asomar\").",
     "reviewed": true
   },
-  "aspen": {
-    "display": "aspen",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "third-person plural present subjunctive.",
-    "reviewed": true
-  },
   "astas": {
     "display": "astas",
     "d": 0.95,
@@ -1320,13 +1278,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A flowering plant of the daisy family, typically with bright, star-shaped flowers, blooming in late summer and autumn.",
-    "reviewed": true
-  },
-  "astra": {
-    "display": "astra",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Latin-derived term for the stars and celestial bodies.",
     "reviewed": true
   },
   "astro": {
@@ -1733,13 +1684,6 @@
     "d": 0.9,
     "pos": "noun",
     "def": "A flat, buoyant structure, typically made of logs or inflatable material, used as a boat or floating platform.",
-    "reviewed": true
-  },
-  "bambi": {
-    "display": "bambi",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A young deer, often used as a term of endearment or referring to the famous Disney character.",
     "reviewed": true
   },
   "bambu": {
@@ -2407,13 +2351,6 @@
     "def": "A small, typically round fastener sewn onto clothing, or a pushable control on a device that activates a function.",
     "reviewed": true
   },
-  "botox": {
-    "display": "botox",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "unadapted form of bótox.",
-    "reviewed": true
-  },
   "boxeo": {
     "display": "boxeo",
     "d": 0.61,
@@ -2475,13 +2412,6 @@
     "d": 0.39,
     "pos": "adj",
     "def": "Characterized by being brief, short.",
-    "reviewed": true
-  },
-  "brice": {
-    "display": "brice",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "first/third-person singular present subjunctive.",
     "reviewed": true
   },
   "brisa": {
@@ -2778,41 +2708,6 @@
     "def": "Establishments where coffee and other refreshments are served; also refers to multiple cups of coffee.",
     "reviewed": true
   },
-  "cagan": {
-    "display": "cagan",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "third-person plural present indicative of cagar.",
-    "reviewed": true
-  },
-  "cagar": {
-    "display": "cagar",
-    "d": 0.65,
-    "pos": "verb",
-    "def": "To engage in the action of to shit.",
-    "reviewed": true
-  },
-  "cagas": {
-    "display": "cagas",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "second-person singular present indicative of cagar.",
-    "reviewed": true
-  },
-  "cagon": {
-    "display": "cagón",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being coward, fearful.",
-    "reviewed": true
-  },
-  "cague": {
-    "display": "cague",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "first/third-person singular present subjunctive.",
-    "reviewed": true
-  },
   "caian": {
     "display": "caían",
     "d": 0.95,
@@ -3056,13 +2951,6 @@
     "d": 0.14,
     "pos": "adj",
     "def": "Characterized by being able, capable.",
-    "reviewed": true
-  },
-  "capri": {
-    "display": "capri",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A style of trousers for women that are typically close-fitting and extend to just below the knee.",
     "reviewed": true
   },
   "capta": {
@@ -3317,13 +3205,6 @@
     "def": "An African wild horse with black-and-white stripes and an erect mane.",
     "reviewed": true
   },
-  "cedar": {
-    "display": "cedar",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb ceder; to cede, to hand over, to convey.",
-    "reviewed": true
-  },
   "ceder": {
     "display": "ceder",
     "d": 0.75,
@@ -3490,13 +3371,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "female equivalent of checo.",
-    "reviewed": true
-  },
-  "check": {
-    "display": "check",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "To examine something in order to determine its state or accuracy.",
     "reviewed": true
   },
   "checo": {
@@ -3807,25 +3681,11 @@
     "def": "Small devices, often made of metal or plastic, used for holding things together or attaching them.",
     "reviewed": true
   },
-  "clive": {
-    "display": "clive",
-    "d": 0.74,
-    "pos": "verb",
-    "def": "first/third-person singular present subjunctive.",
-    "reviewed": true
-  },
   "cloro": {
     "display": "cloro",
     "d": 0.95,
     "pos": "noun",
     "def": "A chemical element, a greenish-yellow gas, used as a disinfectant and in various industrial processes.",
-    "reviewed": true
-  },
-  "cloud": {
-    "display": "cloud",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A visible mass of condensed water vapor floating in the sky.",
     "reviewed": true
   },
   "clubs": {
@@ -3968,13 +3828,6 @@
     "def": "Conjugated form of the verb cojear; limp.",
     "reviewed": true
   },
-  "cojer": {
-    "display": "cojer",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To misspelling of coger.",
-    "reviewed": true
-  },
   "cojin": {
     "display": "cojín",
     "d": 0.95,
@@ -4106,13 +3959,6 @@
     "d": 0.45,
     "pos": "verb",
     "def": "third-person singular preterite indicative of comer.",
-    "reviewed": true
-  },
-  "compa": {
-    "display": "compa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A close friend or companion in work or leisure.",
     "reviewed": true
   },
   "comun": {
@@ -4612,13 +4458,6 @@
     "def": "The act of looking after someone or something, providing protection, attention, and maintenance.",
     "reviewed": true
   },
-  "culos": {
-    "display": "culos",
-    "d": 0.7,
-    "pos": "noun",
-    "def": "The buttocks or rear end of a person or animal (plural form of \"culo\"). Often used informally or vulgarly.",
-    "reviewed": true
-  },
   "culpa": {
     "display": "culpa",
     "d": 0.09,
@@ -4708,13 +4547,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "third-person plural present subjunctive.",
-    "reviewed": true
-  },
-  "curie": {
-    "display": "curie",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A unit of radioactivity, equivalent to 3.7 x 10^10 disintegrations per second, named after Marie Curie.",
     "reviewed": true
   },
   "curro": {
@@ -5074,13 +4906,6 @@
     "def": "Negative subjunctive of dejar; do not leave or allow.",
     "reviewed": true
   },
-  "della": {
-    "display": "della",
-    "d": 0.95,
-    "pos": "contraction",
-    "def": "contraction of de + ella, literally .",
-    "reviewed": true
-  },
   "delta": {
     "display": "delta",
     "d": 0.6,
@@ -5114,13 +4939,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "With opposite sides or surfaces that are a great distance apart; not thin.",
-    "reviewed": true
-  },
-  "depto": {
-    "display": "depto",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An abbreviation for \"departamento,\" commonly used to refer to an apartment or flat in a building.",
     "reviewed": true
   },
   "desde": {
@@ -5270,13 +5088,6 @@
     "def": "first-person plural preterite indicative of dar.",
     "reviewed": true
   },
-  "dinos": {
-    "display": "dinos",
-    "d": 0.5,
-    "pos": "verb",
-    "def": "The imperative form of \"decir\" (to say/tell), meaning \"tell us\" or \"say to us\" (second-person plural informal command).",
-    "reviewed": true
-  },
   "diosa": {
     "display": "diosa",
     "d": 0.49,
@@ -5331,13 +5142,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A long, backless sofa or couch, often without arms, used for reclining or seating multiple people.",
-    "reviewed": true
-  },
-  "dixie": {
-    "display": "dixie",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A historical nickname for the Southern United States, particularly the states that formed the Confederacy.",
     "reviewed": true
   },
   "dobla": {
@@ -5746,13 +5550,6 @@
     "def": "first-person singular preterite indicative.",
     "reviewed": true
   },
-  "elena": {
-    "display": "elena",
-    "d": 0.39,
-    "pos": "noun",
-    "def": "female equivalent of eleno.",
-    "reviewed": true
-  },
   "eleva": {
     "display": "eleva",
     "d": 0.95,
@@ -5975,13 +5772,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "second-person plural imperfect indicative of ser.",
-    "reviewed": true
-  },
-  "erase": {
-    "display": "érase",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Compound of the imperfect era and the pronoun se.",
     "reviewed": true
   },
   "erizo": {
@@ -6670,13 +6460,6 @@
     "def": "Devices that produce light, such as light bulbs, or the central points of attention or interest (plural of \"foco\").",
     "reviewed": true
   },
-  "folla": {
-    "display": "folla",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To engage in sexual intercourse; a vulgar term for having sex (third-person singular present tense of \"follar\").",
-    "reviewed": true
-  },
   "fonda": {
     "display": "fonda",
     "d": 0.95,
@@ -6766,13 +6549,6 @@
     "d": 0.36,
     "pos": "noun",
     "def": "A small group of words forming a conceptual unit within a sentence, but not necessarily a complete clause.",
-    "reviewed": true
-  },
-  "fredo": {
-    "display": "fredo",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "obsolete form of frío.",
     "reviewed": true
   },
   "freir": {
@@ -7230,13 +7006,6 @@
     "def": "A movement of part of the body, especially a hand or the head, to express an idea or meaning.",
     "reviewed": true
   },
-  "gilda": {
-    "display": "gilda",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A popular Spanish tapa consisting of an olive, an anchovy, and a pickled guindilla pepper skewered together.",
-    "reviewed": true
-  },
   "giran": {
     "display": "giran",
     "d": 0.95,
@@ -7622,13 +7391,6 @@
     "def": "A current medium of exchange in the form of coins and banknotes.",
     "reviewed": true
   },
-  "gupta": {
-    "display": "gupta",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being gupta.",
-    "reviewed": true
-  },
   "gusta": {
     "display": "gusta",
     "d": 0.05,
@@ -7774,13 +7536,6 @@
     "d": 0.49,
     "pos": "noun",
     "def": "Mythical, small, winged beings with magical powers, often depicted as benevolent and beautiful creatures in folklore and stories.",
-    "reviewed": true
-  },
-  "hades": {
-    "display": "hades",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb hadar; to determine by fate.",
     "reviewed": true
   },
   "hagan": {
@@ -7965,13 +7720,6 @@
     "def": "A person admired for their courage, outstanding achievements, or noble qualities, often in the face of danger.",
     "reviewed": true
   },
-  "herve": {
-    "display": "hervé",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb hervir; boil.",
-    "reviewed": true
-  },
   "hielo": {
     "display": "hielo",
     "d": 0.2,
@@ -8054,13 +7802,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "An activity pursued for pleasure or relaxation during one's leisure time, not as a main occupation.",
-    "reviewed": true
-  },
-  "hogan": {
-    "display": "hogan",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb hogar; Denoting home.",
     "reviewed": true
   },
   "hogar": {
@@ -8194,13 +7935,6 @@
     "d": 0.57,
     "pos": "verb",
     "def": "first-person singular present indicative of oler.",
-    "reviewed": true
-  },
-  "hueon": {
-    "display": "hueón",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "pronunciation spelling of huevón.",
     "reviewed": true
   },
   "hueso": {
@@ -8637,13 +8371,6 @@
     "def": "Specialized vocabulary or expressions used by a particular profession or group, often difficult for outsiders to understand; slang.",
     "reviewed": true
   },
-  "jesus": {
-    "display": "Jesús",
-    "d": 0.56,
-    "pos": "noun",
-    "def": "The name of the central figure of Christianity, revered as the Son of God and savior.",
-    "reviewed": true
-  },
   "jodan": {
     "display": "jodan",
     "d": 0.48,
@@ -8686,13 +8413,6 @@
     "def": "third-person singular preterite indicative of joder.",
     "reviewed": true
   },
-  "jorge": {
-    "display": "jorge",
-    "d": 0.61,
-    "pos": "noun",
-    "def": "A common European beetle, also known as a May bug, characterized by its large size and nocturnal flight.",
-    "reviewed": true
-  },
   "joven": {
     "display": "joven",
     "d": 0.09,
@@ -8705,13 +8425,6 @@
     "d": 0.36,
     "pos": "noun",
     "def": "Ornaments like rings, necklaces, or bracelets, made of precious metals and stones, worn for adornment; jewels.",
-    "reviewed": true
-  },
-  "judas": {
-    "display": "judas",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "A person who betrays a friend, cause, or country, often associated with the biblical figure Judas Iscariot.",
     "reviewed": true
   },
   "judia": {
@@ -9638,13 +9351,6 @@
     "def": "attainment, achievement, accomplishment, success.",
     "reviewed": true
   },
-  "lolly": {
-    "display": "lolly",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "alternative form of loli ().",
-    "reviewed": true
-  },
   "lomas": {
     "display": "lomas",
     "d": 0.95,
@@ -9755,13 +9461,6 @@
     "d": 0.05,
     "pos": "noun",
     "def": "A particular position or point in space, or an area with definite boundaries.",
-    "reviewed": true
-  },
-  "luger": {
-    "display": "luger",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb lugar; Denoting place.",
     "reviewed": true
   },
   "lujos": {
@@ -9876,13 +9575,6 @@
     "def": "People who perform magic tricks for entertainment, or individuals believed to possess supernatural powers; magicians.",
     "reviewed": true
   },
-  "major": {
-    "display": "major",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The principal subject or course of study chosen by a student at a college or university.",
-    "reviewed": true
-  },
   "majos": {
     "display": "majos",
     "d": 0.95,
@@ -9902,13 +9594,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Evils, misfortunes, or harms; also, illnesses or ailments (plural of \"mal\").",
-    "reviewed": true
-  },
-  "malia": {
-    "display": "malía",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The quality of being mischievous or malicious; a tendency to cause trouble or harm through cunning or ill will.",
     "reviewed": true
   },
   "malla": {
@@ -10086,13 +9771,6 @@
     "def": "A type of soil or sediment consisting of clay and calcium carbonate, often used as a fertilizer.",
     "reviewed": true
   },
-  "maris": {
-    "display": "maris",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A common diminutive of the Spanish name María, often used informally (plural form).",
-    "reviewed": true
-  },
   "marlo": {
     "display": "marlo",
     "d": 0.95,
@@ -10163,13 +9841,6 @@
     "def": "third-person plural present subjunctive.",
     "reviewed": true
   },
-  "mater": {
-    "display": "mater",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb matar; To kill, slay.",
-    "reviewed": true
-  },
   "mates": {
     "display": "mates",
     "d": 0.52,
@@ -10182,13 +9853,6 @@
     "d": 0.66,
     "pos": "noun",
     "def": "A person who intimidates or harms others, often for hire or as part of a gang; a bully or ruffian.",
-    "reviewed": true
-  },
-  "maura": {
-    "display": "maura",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A large scavenger bird with dark plumage and a featherless red head, known for feeding on carrion.",
     "reviewed": true
   },
   "mayas": {
@@ -10476,13 +10140,6 @@
     "d": 0.49,
     "pos": "noun",
     "def": "Excavations in the earth for extracting minerals, or explosive devices used in warfare (plural of mina).",
-    "reviewed": true
-  },
-  "mingo": {
-    "display": "mingo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "In some cue sports, the white ball that players aim to hit with their cue stick.",
     "reviewed": true
   },
   "miope": {
@@ -10814,13 +10471,6 @@
     "def": "A common winged insect, often considered a pest, known for its ability to fly and land on surfaces.",
     "reviewed": true
   },
-  "moscu": {
-    "display": "Moscú",
-    "d": 0.44,
-    "pos": "noun",
-    "def": "The capital city of Russia, a major political, economic, cultural, and scientific center.",
-    "reviewed": true
-  },
   "motel": {
     "display": "motel",
     "d": 0.44,
@@ -11150,20 +10800,6 @@
     "def": "second-person singular present indicative of nadar.",
     "reviewed": true
   },
-  "nader": {
-    "display": "nader",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb nadar; To swim.",
-    "reviewed": true
-  },
-  "nadia": {
-    "display": "nadia",
-    "d": 0.7,
-    "pos": "verb",
-    "def": "Conjugated form of the verb nadar; To swim.",
-    "reviewed": true
-  },
   "nadie": {
     "display": "nadie",
     "d": 0.05,
@@ -11325,13 +10961,6 @@
     "def": "Atmospheric water vapor frozen into ice crystals falling in light white flakes.",
     "reviewed": true
   },
-  "never": {
-    "display": "never",
-    "d": 0.91,
-    "pos": "verb",
-    "def": "Conjugated form of the verb nevar; To snow.",
-    "reviewed": true
-  },
   "nidos": {
     "display": "nidos",
     "d": 0.95,
@@ -11430,13 +11059,6 @@
     "def": "A horizontal plane or line with respect to the distance above or below.",
     "reviewed": true
   },
-  "nobel": {
-    "display": "nobel",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An international award given annually for outstanding achievements in physics, chemistry, medicine, literature, peace, and economics.",
-    "reviewed": true
-  },
   "noble": {
     "display": "noble",
     "d": 0.36,
@@ -11456,13 +11078,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A deciduous tree that produces walnuts, valued for its edible nuts and its strong, attractive timber.",
-    "reviewed": true
-  },
-  "nomas": {
-    "display": "nomás",
-    "d": 0.95,
-    "pos": "adv",
-    "def": "In the manner, degree, or condition of only, just.",
     "reviewed": true
   },
   "norma": {
@@ -12023,13 +11638,6 @@
     "d": 0.69,
     "pos": "noun",
     "def": "A domesticated ruminant animal with a thick woolly coat and typically horns.",
-    "reviewed": true
-  },
-  "ovnis": {
-    "display": "ovnis",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Unidentified flying objects, often associated with extraterrestrial spacecraft or unexplained aerial phenomena (plural of \"ovni\").",
     "reviewed": true
   },
   "ovulo": {
@@ -12837,13 +12445,6 @@
     "def": "A green sauce originating from Genoa, Italy, made with basil, pine nuts, garlic, Parmesan cheese, and olive oil.",
     "reviewed": true
   },
-  "petra": {
-    "display": "petra",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Myrceugenia exsucca, a tree of Chile and Argentina.",
-    "reviewed": true
-  },
   "pezon": {
     "display": "pezón",
     "d": 0.95,
@@ -13110,13 +12711,6 @@
     "def": "A savory dish of Italian origin, consisting of a usually round, flattened base of leavened wheat-based dough topped with tomatoes, cheese, and often various other ingredients.",
     "reviewed": true
   },
-  "placa": {
-    "display": "plaça",
-    "d": 0.35,
-    "pos": "noun",
-    "def": "obsolete form of plaza.",
-    "reviewed": true
-  },
   "place": {
     "display": "place",
     "d": 0.78,
@@ -13327,13 +12921,6 @@
     "def": "The plural form of \"poli,\" which is a colloquial short form for \"policía,\" referring to police officers or the police force.",
     "reviewed": true
   },
-  "polla": {
-    "display": "polla",
-    "d": 0.47,
-    "pos": "noun",
-    "def": "Having lived or existed for only a short time; not old.",
-    "reviewed": true
-  },
   "pollo": {
     "display": "pollo",
     "d": 0.23,
@@ -13416,20 +13003,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The plural form of \"poni,\" referring to small horses, typically under a certain height, known for their sturdy build.",
-    "reviewed": true
-  },
-  "porfa": {
-    "display": "porfa",
-    "d": 0.95,
-    "pos": "adv",
-    "def": "contraction of por favor ().",
-    "reviewed": true
-  },
-  "porno": {
-    "display": "porno",
-    "d": 0.4,
-    "pos": "noun",
-    "def": "Short for pornography, referring to sexually explicit material, such as films or images, intended to arouse.",
     "reviewed": true
   },
   "poros": {
@@ -13537,13 +13110,6 @@
     "def": "The plural form of \"pozo,\" referring to deep holes or shafts dug into the ground to obtain water, oil, or gas.",
     "reviewed": true
   },
-  "prada": {
-    "display": "prada",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A meadow or grassy field, or high fashion brand name.",
-    "reviewed": true
-  },
   "prado": {
     "display": "prado",
     "d": 0.95,
@@ -13633,13 +13199,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Characterized by being honest, upright.",
-    "reviewed": true
-  },
-  "profe": {
-    "display": "profe",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A colloquial or informal term for a teacher or professor, someone who instructs students in a school or university.",
     "reviewed": true
   },
   "prosa": {
@@ -13810,20 +13369,6 @@
     "def": "Masculine plural adjective describing something clean, untainted, or free from impurities; pure or unblemished.",
     "reviewed": true
   },
-  "putas": {
-    "display": "putas",
-    "d": 0.39,
-    "pos": "adv",
-    "def": "In the manner, degree, or condition of the fuck, fucking.",
-    "reviewed": true
-  },
-  "putos": {
-    "display": "putos",
-    "d": 0.56,
-    "pos": "adj",
-    "def": "Masculine plural adjective, often used colloquially and offensively to describe someone as cowardly, contemptible, or effeminate.",
-    "reviewed": true
-  },
   "puzle": {
     "display": "puzle",
     "d": 0.95,
@@ -13929,13 +13474,6 @@
     "def": "Relative or interrogative pronoun referring to a person; who or whom.",
     "reviewed": true
   },
-  "quier": {
-    "display": "quier",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Root form of querer; wishing, loving, or desiring.",
-    "reviewed": true
-  },
   "quise": {
     "display": "quise",
     "d": 0.16,
@@ -13976,13 +13514,6 @@
     "d": 0.79,
     "pos": "adv",
     "def": "Expressing possibility, uncertainty, or doubt; maybe or perhaps.",
-    "reviewed": true
-  },
-  "quizo": {
-    "display": "quizo",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To misspelling of quiso.",
     "reviewed": true
   },
   "rabia": {
@@ -14202,13 +13733,6 @@
     "def": "Structures made of interlacing material, used for catching things or as barriers; networks (plural of red).",
     "reviewed": true
   },
-  "regan": {
-    "display": "regan",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb regar; To irrigate.",
-    "reviewed": true
-  },
   "regar": {
     "display": "regar",
     "d": 0.95,
@@ -14249,13 +13773,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "To make the spontaneous sounds and movements of the face and body showing amusement.",
-    "reviewed": true
-  },
-  "reich": {
-    "display": "Reich",
-    "d": 0.86,
-    "pos": "noun",
-    "def": "A German word meaning \"realm\" or \"empire,\" often used historically to refer to the German state.",
     "reviewed": true
   },
   "reido": {
@@ -14496,13 +14013,6 @@
     "def": "Describes people or things that possess a great deal of money, possessions, or valuable resources (masculine plural of \"rich\").",
     "reviewed": true
   },
-  "rider": {
-    "display": "rider",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A person who is riding a horse, bicycle, or other vehicle.",
-    "reviewed": true
-  },
   "riego": {
     "display": "riego",
     "d": 0.95,
@@ -14515,13 +14025,6 @@
     "d": 0.45,
     "pos": "noun",
     "def": "A gun, especially one fired from shoulder level, having a rifled barrel.",
-    "reviewed": true
-  },
-  "right": {
-    "display": "right",
-    "d": 0.77,
-    "pos": "noun",
-    "def": "Morally good, justified, or acceptable, or the opposite direction of left.",
     "reviewed": true
   },
   "rigor": {
@@ -14564,13 +14067,6 @@
     "d": 0.63,
     "pos": "verb",
     "def": "first-person singular present indicative of rendir.",
-    "reviewed": true
-  },
-  "ringo": {
-    "display": "ringo",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "first-person singular present indicative of ringar.",
     "reviewed": true
   },
   "rinon": {
@@ -14690,13 +14186,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Tiny drops of water that form on cool surfaces at night as atmospheric vapor condenses, especially on grass.",
-    "reviewed": true
-  },
-  "rocks": {
-    "display": "rocks",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Hard, solid mineral matter forming part of the earth's crust, or broken pieces of such material.",
     "reviewed": true
   },
   "rodar": {
@@ -15441,13 +14930,6 @@
     "def": "first-person singular preterite indicative.",
     "reviewed": true
   },
-  "segun": {
-    "display": "segun",
-    "d": 0.95,
-    "pos": "prep",
-    "def": "obsolete spelling of según.",
-    "reviewed": true
-  },
   "sella": {
     "display": "sella",
     "d": 0.95,
@@ -15952,13 +15434,6 @@
     "def": "A slender, flexible instrument used to explore or examine a cavity, wound, or body part, or to collect data.",
     "reviewed": true
   },
-  "sonia": {
-    "display": "sonia",
-    "d": 0.63,
-    "pos": "verb",
-    "def": "Conjugated form of the verb sonar; to sound, to ring.",
-    "reviewed": true
-  },
   "sopas": {
     "display": "sopas",
     "d": 0.95,
@@ -16029,25 +15504,11 @@
     "def": "alternative form of espray.",
     "reviewed": true
   },
-  "squad": {
-    "display": "squad",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A small group of people organized for a specific purpose, often military, police, or sports-related (an English loanword).",
-    "reviewed": true
-  },
   "stand": {
     "display": "stand",
     "d": 0.95,
     "pos": "noun",
     "def": "To have or maintain an upright position on the feet firmly.",
-    "reviewed": true
-  },
-  "still": {
-    "display": "still",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Not moving or making a sound; calm and quiet, often referring to a state of rest or lack of motion.",
     "reviewed": true
   },
   "stock": {
@@ -16293,13 +15754,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Plural form or feminine plural describing sum; multiple instances.",
-    "reviewed": true
-  },
-  "super": {
-    "display": "super",
-    "d": 0.38,
-    "pos": "adj",
-    "def": "Characterized by being very, mega.",
     "reviewed": true
   },
   "supon": {
@@ -17534,13 +16988,6 @@
     "def": "An underground passage, typically constructed through a hill or under a river, for roads, railways, or utilities.",
     "reviewed": true
   },
-  "tunez": {
-    "display": "Túnez",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The capital city of Tunisia, located on the Mediterranean coast of North Africa; also refers to the country itself.",
-    "reviewed": true
-  },
   "turba": {
     "display": "turba",
     "d": 0.95,
@@ -18171,13 +17618,6 @@
     "def": "Characterized by being green (color/colour).",
     "reviewed": true
   },
-  "verga": {
-    "display": "verga",
-    "d": 0.64,
-    "pos": "noun",
-    "def": "A long, slender piece of wood or metal, often used as a mast or yard on a ship.",
-    "reviewed": true
-  },
   "veria": {
     "display": "vería",
     "d": 0.95,
@@ -18190,20 +17630,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A barrier, typically made of metal bars or wood, used to enclose an area or provide access.",
-    "reviewed": true
-  },
-  "verme": {
-    "display": "verme",
-    "d": 0.17,
-    "pos": "noun",
-    "def": "A soft-bodied, legless invertebrate animal with a long, cylindrical body, often found in soil.",
-    "reviewed": true
-  },
-  "veros": {
-    "display": "veros",
-    "d": 0.7,
-    "pos": "adj",
-    "def": "True or real; authentic and genuine (masculine plural form of \"vero\").",
     "reviewed": true
   },
   "verso": {
@@ -18281,13 +17707,6 @@
     "d": 0.08,
     "pos": "adj",
     "def": "Characterized by being old.",
-    "reviewed": true
-  },
-  "viena": {
-    "display": "Viena",
-    "d": 0.66,
-    "pos": "noun",
-    "def": "The capital and largest city of Austria, known for its rich history, culture, and architecture.",
     "reviewed": true
   },
   "viene": {
@@ -18409,13 +17828,6 @@
     "def": "Conjugated form of the verb virar; to veer in a vehicle.",
     "reviewed": true
   },
-  "virgo": {
-    "display": "virgo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Virgo, a constellation and sign in astrology.",
-    "reviewed": true
-  },
   "viril": {
     "display": "viril",
     "d": 0.95,
@@ -18484,13 +17896,6 @@
     "d": 0.5,
     "pos": "adj",
     "def": "Characterized by being vital.",
-    "reviewed": true
-  },
-  "vitro": {
-    "display": "vitro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "clipping of vitrocerámica, a ceramic stovetop.",
     "reviewed": true
   },
   "viuda": {
@@ -18624,13 +18029,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "first-person singular preterite indicative of volver.",
-    "reviewed": true
-  },
-  "volvo": {
-    "display": "volvo",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb volver; turnaway, go back, return, come back, turn, turn around, turnround.",
     "reviewed": true
   },
   "voraz": {
@@ -18822,13 +18220,6 @@
     "def": "first-person singular present indicative of zarpar.",
     "reviewed": true
   },
-  "zelda": {
-    "display": "Zelda",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "alternative form of zelda.",
-    "reviewed": true
-  },
   "zombi": {
     "display": "zombi",
     "d": 0.71,
@@ -18841,13 +18232,6 @@
     "d": 0.59,
     "pos": "noun",
     "def": "Designated areas or regions, often with specific characteristics or purposes, such as a residential zone or a danger zone.",
-    "reviewed": true
-  },
-  "zorra": {
-    "display": "zorra",
-    "d": 0.31,
-    "pos": "noun",
-    "def": "A female fox, an animal known for its cunning. Informally, it can also be a derogatory term for a promiscuous woman.",
     "reviewed": true
   },
   "zorro": {

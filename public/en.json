@@ -13,13 +13,6 @@
     "def": "To beat down; to overthrow.",
     "reviewed": true
   },
-  "abbas": {
-    "display": "abbas",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Fathers, especially used as a title for a bishop or patriarch in some Eastern Christian churches.",
-    "reviewed": true
-  },
   "abbey": {
     "display": "abbey",
     "d": 0.72,
@@ -32,13 +25,6 @@
     "d": 0.88,
     "pos": "noun",
     "def": "The superior or head of an abbey or monastery.",
-    "reviewed": true
-  },
-  "abdul": {
-    "display": "abdul",
-    "d": 0.91,
-    "pos": "noun",
-    "def": "A common Arabic male given name, meaning \"servant of\" or \"slave of,\" often part of a longer name.",
     "reviewed": true
   },
   "abhor": {
@@ -200,13 +186,6 @@
     "d": 0.86,
     "pos": "intj",
     "def": "Alternative spelling of adios.",
-    "reviewed": true
-  },
-  "admin": {
-    "display": "admin",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Administration, or administrative work.",
     "reviewed": true
   },
   "admit": {
@@ -384,25 +363,11 @@
     "def": "An exclamation expressive of sorrow.",
     "reviewed": true
   },
-  "alamo": {
-    "display": "alamo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A poplar tree of Southwestern U.S.; a cottonwood .",
-    "reviewed": true
-  },
   "alarm": {
     "display": "alarm",
     "d": 0.22,
     "pos": "noun",
     "def": "An anxious awareness of danger or a warning sound.",
-    "reviewed": true
-  },
-  "alban": {
-    "display": "alban",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Of the color of milk or fresh snow, reflecting all light rays.",
     "reviewed": true
   },
   "album": {
@@ -468,32 +433,11 @@
     "def": "Similar to each other in appearance or character.",
     "reviewed": true
   },
-  "aline": {
-    "display": "aline",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The area of variation between upper and lower limits on a scale.",
-    "reviewed": true
-  },
   "alive": {
     "display": "alive",
     "d": 0.1,
     "pos": "adj",
     "def": "Containing or holding as much or as many as possible; complete.",
-    "reviewed": true
-  },
-  "allah": {
-    "display": "allah",
-    "d": 0.47,
-    "pos": "noun",
-    "def": "Alternative letter-case form of Allah.",
-    "reviewed": true
-  },
-  "allen": {
-    "display": "allen",
-    "d": 0.44,
-    "pos": "noun",
-    "def": "Ellipsis of Allen wrench.",
     "reviewed": true
   },
   "alley": {
@@ -587,13 +531,6 @@
     "def": "To change or cause to change in character or composition.",
     "reviewed": true
   },
-  "alway": {
-    "display": "alway",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Always; [Archaic or Poetic] I would not live alway.",
-    "reviewed": true
-  },
   "amass": {
     "display": "amass",
     "d": 0.95,
@@ -620,13 +557,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "To make minor changes in order to make fairer or better.",
-    "reviewed": true
-  },
-  "amish": {
-    "display": "amish",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A strict Anabaptist sect living mainly in Pennsylvania, Ohio, and Indiana.",
     "reviewed": true
   },
   "amiss": {
@@ -692,13 +622,6 @@
     "def": "Feeling or showing strong annoyance, displeasure, or hostility.",
     "reviewed": true
   },
-  "angus": {
-    "display": "angus",
-    "d": 0.77,
-    "pos": "noun",
-    "def": "A breed of black, hornless beef cattle, originally from Scotland, known for its high-quality meat.",
-    "reviewed": true
-  },
   "anime": {
     "display": "anime",
     "d": 0.95,
@@ -711,13 +634,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "An umbelliferous plant growing naturally in Egypt, and cultivated in Spain, Malta, etc., for its carminative and aromatic seeds.",
-    "reviewed": true
-  },
-  "anker": {
-    "display": "anker",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A liquid measure in various countries of Europe.",
     "reviewed": true
   },
   "ankle": {
@@ -797,13 +713,6 @@
     "def": "To make a formal application or put into practical use.",
     "reviewed": true
   },
-  "april": {
-    "display": "april",
-    "d": 0.27,
-    "pos": "noun",
-    "def": "The fourth month of the year.",
-    "reviewed": true
-  },
   "apron": {
     "display": "apron",
     "d": 0.76,
@@ -816,13 +725,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "In an apt or suitable manner; fitly.",
-    "reviewed": true
-  },
-  "arabs": {
-    "display": "arabs",
-    "d": 0.75,
-    "pos": "noun",
-    "def": "Members of an Arabic-speaking people, primarily inhabiting the Middle East and North Africa.",
     "reviewed": true
   },
   "arbor": {
@@ -860,13 +762,6 @@
     "def": "A substance regarded as an element, contained in the atmosphere and remarkable for its chemical inertness.",
     "reviewed": true
   },
-  "argos": {
-    "display": "argos",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "The name of the ship which carried Jason and his fifty-four companions to Colchis, in quest of the Golden Fleece.",
-    "reviewed": true
-  },
   "argue": {
     "display": "argue",
     "d": 0.32,
@@ -893,13 +788,6 @@
     "d": 0.74,
     "pos": "noun",
     "def": "Having or showing a friendly, generous, and considerate nature.",
-    "reviewed": true
-  },
-  "aries": {
-    "display": "aries",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "On the subject of or concerning someone or something.",
     "reviewed": true
   },
   "arise": {
@@ -965,32 +853,11 @@
     "def": "The crime of deliberately starting a fire with intent to cause damage.",
     "reviewed": true
   },
-  "aryan": {
-    "display": "aryan",
-    "d": 0.93,
-    "pos": "noun",
-    "def": "In reference to a pseudoscientific historical race theory:.",
-    "reviewed": true
-  },
-  "asher": {
-    "display": "asher",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A member of the alt.suicide.holiday newsgroup, which deals with the topics of suicide and depression.",
-    "reviewed": true
-  },
   "ashes": {
     "display": "ashes",
     "d": 0.42,
     "pos": "noun",
     "def": "The powdery residue that remains after something has been completely burned, often used symbolically for destruction or grief.",
-    "reviewed": true
-  },
-  "asian": {
-    "display": "asian",
-    "d": 0.52,
-    "pos": "noun",
-    "def": "A person from the continent of Asia, or a descendant thereof - especially:.",
     "reviewed": true
   },
   "aside": {
@@ -1040,20 +907,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A genus of herbs with compound white or bluish flowers; starwort.",
-    "reviewed": true
-  },
-  "aston": {
-    "display": "aston",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A road vehicle, typically with four wheels, powered by an engine.",
-    "reviewed": true
-  },
-  "astro": {
-    "display": "astro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A player for the Houston Astros.",
     "reviewed": true
   },
   "atlas": {
@@ -1224,13 +1077,6 @@
     "def": "simple past of awake.",
     "reviewed": true
   },
-  "aztec": {
-    "display": "aztec",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Of or pertaining to the Mexica people.",
-    "reviewed": true
-  },
   "azure": {
     "display": "azure",
     "d": 0.95,
@@ -1287,13 +1133,6 @@
     "def": "Loose and hanging in folds; fitting loosely on the body.",
     "reviewed": true
   },
-  "bahar": {
-    "display": "bahar",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A weight used in certain parts of the East Indies, varying considerably in different localities, the range being from 223 to 625 pounds.",
-    "reviewed": true
-  },
   "baked": {
     "display": "baked",
     "d": 0.58,
@@ -1341,13 +1180,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Having the qualities of balm; odoriferous.",
-    "reviewed": true
-  },
-  "bambi": {
-    "display": "bambi",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A deer, especially a fawn.",
     "reviewed": true
   },
   "banal": {
@@ -1546,13 +1378,6 @@
     "def": "Characterized by being mad, crazy, silly.",
     "reviewed": true
   },
-  "bauer": {
-    "display": "bauer",
-    "d": 0.66,
-    "pos": "noun",
-    "def": "A German farmer or peasant.",
-    "reviewed": true
-  },
   "bawdy": {
     "display": "bawdy",
     "d": 0.95,
@@ -1593,13 +1418,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The hard, pointed jaws and bills of birds and turtles.",
-    "reviewed": true
-  },
-  "beals": {
-    "display": "beals",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "A small inflammatory tumor; a pustule.",
     "reviewed": true
   },
   "beams": {
@@ -1649,13 +1467,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Happening or done before the usual or expected time.",
-    "reviewed": true
-  },
-  "becky": {
-    "display": "becky",
-    "d": 0.46,
-    "pos": "noun",
-    "def": "An adult human female person; the counterpart to a man.",
     "reviewed": true
   },
   "beech": {
@@ -1819,13 +1630,6 @@
     "def": "Divided into an even number of bends.",
     "reviewed": true
   },
-  "benny": {
-    "display": "benny",
-    "d": 0.43,
-    "pos": "noun",
-    "def": "A slang term for an amphetamine tablet, often used as a stimulant.",
-    "reviewed": true
-  },
   "beret": {
     "display": "beret",
     "d": 0.95,
@@ -1838,13 +1642,6 @@
     "d": 0.71,
     "pos": "noun",
     "def": "Of a size that is less than normal or usual; little.",
-    "reviewed": true
-  },
-  "berta": {
-    "display": "berta",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Nilo-Saharan ethnolinguistic group native to the border of Ethiopia and Sudan.",
     "reviewed": true
   },
   "berth": {
@@ -1896,13 +1693,6 @@
     "def": "Of a size that is less than normal or usual; little.",
     "reviewed": true
   },
-  "biggs": {
-    "display": "biggs",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "third-person singular simple present indicative of bigg.",
-    "reviewed": true
-  },
   "bigot": {
     "display": "bigot",
     "d": 0.95,
@@ -1929,13 +1719,6 @@
     "d": 0.66,
     "pos": "noun",
     "def": "Vehicles with two wheels, such as bicycles or motorcycles, used for transportation or recreation.",
-    "reviewed": true
-  },
-  "bilbo": {
-    "display": "bilbo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A type of long, slender sword, especially a rapier; also, an iron bar with shackles for prisoners' feet.",
     "reviewed": true
   },
   "bilge": {
@@ -2050,25 +1833,11 @@
     "def": "The flat cutting edge of a knife, tool, or sword.",
     "reviewed": true
   },
-  "blake": {
-    "display": "blake",
-    "d": 0.28,
-    "pos": "adj",
-    "def": "Yellow, as butter or cheese.",
-    "reviewed": true
-  },
   "blame": {
     "display": "blame",
     "d": 0.17,
     "pos": "verb/noun",
     "def": "To assign responsibility for a fault or wrong.",
-    "reviewed": true
-  },
-  "blanc": {
-    "display": "blanc",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Of the color of milk or fresh snow, reflecting all light rays.",
     "reviewed": true
   },
   "bland": {
@@ -2237,13 +2006,6 @@
     "d": 0.53,
     "pos": "noun/verb",
     "def": "A flower or state of flowering; to produce sweet flowers.",
-    "reviewed": true
-  },
-  "blore": {
-    "display": "blore",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The act of blowing; a roaring wind.",
     "reviewed": true
   },
   "blown": {
@@ -2526,13 +2288,6 @@
     "def": "past participle of bear.",
     "reviewed": true
   },
-  "bosch": {
-    "display": "bosch",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Alternative form of Boche.",
-    "reviewed": true
-  },
   "bosom": {
     "display": "bosom",
     "d": 0.84,
@@ -2552,13 +2307,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A swelling on the skin; a large ulcerous affection.",
-    "reviewed": true
-  },
-  "botox": {
-    "display": "botox",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To engage in the action of to inject botox.",
     "reviewed": true
   },
   "bough": {
@@ -2645,39 +2393,11 @@
     "def": "A member of a Russian aristocratic order abolished by Peter the Great.",
     "reviewed": true
   },
-  "boyer": {
-    "display": "boyer",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Flemish sloop with a castle at each end.",
-    "reviewed": true
-  },
-  "boyle": {
-    "display": "boyle",
-    "d": 0.83,
-    "pos": "verb",
-    "def": "Obsolete spelling of boil.",
-    "reviewed": true
-  },
   "brace": {
     "display": "brace",
     "d": 0.66,
     "pos": "noun",
     "def": "A curved instrument or handle of iron or wood, for holding and turning bits, etc.; a bitstock.",
-    "reviewed": true
-  },
-  "brack": {
-    "display": "brack",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An opening caused by the parting of any solid body; a crack or breach.",
-    "reviewed": true
-  },
-  "brady": {
-    "display": "brady",
-    "d": 0.6,
-    "pos": "noun",
-    "def": "An abnormally slow heart rate, a medical condition known as bradycardia.",
     "reviewed": true
   },
   "brags": {
@@ -2799,20 +2519,6 @@
     "def": "To produce offspring sexually; to bear young.",
     "reviewed": true
   },
-  "brest": {
-    "display": "brest",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "for Bursteth; A torus.",
-    "reviewed": true
-  },
-  "brett": {
-    "display": "brett",
-    "d": 0.59,
-    "pos": "noun",
-    "def": "Alternative letter-case form of Brett ().",
-    "reviewed": true
-  },
   "brews": {
     "display": "brews",
     "d": 0.95,
@@ -2904,13 +2610,6 @@
     "def": "Informal term for people from Great Britain, or small fish like sprats.",
     "reviewed": true
   },
-  "britt": {
-    "display": "britt",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Having lived or existed for only a short time; not old.",
-    "reviewed": true
-  },
   "broad": {
     "display": "broad",
     "d": 0.44,
@@ -2918,32 +2617,11 @@
     "def": "Having an ample distance from side to side; wide.",
     "reviewed": true
   },
-  "brock": {
-    "display": "brock",
-    "d": 0.76,
-    "pos": "noun",
-    "def": "A badger, especially a male one. It is an older, regional term for the animal.",
-    "reviewed": true
-  },
-  "brody": {
-    "display": "brody",
-    "d": 0.59,
-    "pos": "noun",
-    "def": "Intentionally spinning in circles and sliding in an automobile.",
-    "reviewed": true
-  },
   "broke": {
     "display": "broke",
     "d": 0.13,
     "pos": "verb",
     "def": "simple past of break.",
-    "reviewed": true
-  },
-  "bronx": {
-    "display": "bronx",
-    "d": 0.78,
-    "pos": "noun",
-    "def": "A cocktail containing gin, vermouth, and orange juice.",
     "reviewed": true
   },
   "brood": {
@@ -3030,13 +2708,6 @@
     "def": "Male deer, rabbits, or goats, or informal term for dollars.",
     "reviewed": true
   },
-  "bucky": {
-    "display": "bucky",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A slang or informal term for a gun or firearm, though not widely recognized in general usage.",
-    "reviewed": true
-  },
   "buddy": {
     "display": "buddy",
     "d": 0.13,
@@ -3058,13 +2729,6 @@
     "def": "A sort of leather, prepared from the skin of the buffalo, dressed with oil, like chamois; also, the skins of oxen, elks, and other animals, dressed in like manner.",
     "reviewed": true
   },
-  "buffy": {
-    "display": "buffy",
-    "d": 0.67,
-    "pos": "adj",
-    "def": "Having a yellowish-tan or pale brownish-yellow color, resembling the color of unbleached leather.",
-    "reviewed": true
-  },
   "buggy": {
     "display": "buggy",
     "d": 0.94,
@@ -3077,13 +2741,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A horn used by hunters.",
-    "reviewed": true
-  },
-  "buick": {
-    "display": "buick",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A road vehicle, typically with four wheels, powered by an engine.",
     "reviewed": true
   },
   "build": {
@@ -3156,13 +2813,6 @@
     "def": "A number of things grouped together in a cluster.",
     "reviewed": true
   },
-  "bundy": {
-    "display": "bundy",
-    "d": 0.86,
-    "pos": "noun",
-    "def": "A woody perennial plant with an elongated stem or trunk and branches.",
-    "reviewed": true
-  },
   "bunks": {
     "display": "bunks",
     "d": 0.95,
@@ -3182,13 +2832,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "The solid mineral material forming part of the surface of the earth.",
-    "reviewed": true
-  },
-  "burke": {
-    "display": "burke",
-    "d": 0.53,
-    "pos": "verb",
-    "def": "To murder by suffocation.",
     "reviewed": true
   },
   "burly": {
@@ -3231,13 +2874,6 @@
     "d": 0.42,
     "pos": "verb/noun",
     "def": "To separate into pieces as a result of a blow or shock.",
-    "reviewed": true
-  },
-  "busby": {
-    "display": "busby",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A military headdress or cap, used in the British army.",
     "reviewed": true
   },
   "buses": {
@@ -3380,20 +3016,6 @@
     "def": "Sweet baked desserts, often made from flour, sugar, and eggs, and typically decorated.",
     "reviewed": true
   },
-  "calla": {
-    "display": "calla",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A genus of plants, of the order Araceæ.",
-    "reviewed": true
-  },
-  "calle": {
-    "display": "calle",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Having or showing a friendly, generous, and considerate nature.",
-    "reviewed": true
-  },
   "calls": {
     "display": "calls",
     "d": 0.15,
@@ -3497,20 +3119,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "A piece or point of land, extending beyind the adjacent coast into the sea or a lake; a promonotory.",
-    "reviewed": true
-  },
-  "capra": {
-    "display": "capra",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A genus of ruminants, including the common goat.",
-    "reviewed": true
-  },
-  "capri": {
-    "display": "capri",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Extending far down from the top or surface to the bottom.",
     "reviewed": true
   },
   "carat": {
@@ -3674,13 +3282,6 @@
     "def": "To bring or come to an end; to stop.",
     "reviewed": true
   },
-  "cecil": {
-    "display": "cecil",
-    "d": 0.85,
-    "pos": "noun",
-    "def": "A fried ball of minced meat, breadcrumbs, onions, etc.",
-    "reviewed": true
-  },
   "cedar": {
     "display": "cedar",
     "d": 0.95,
@@ -3716,13 +3317,6 @@
     "def": "Monetary units equal to one hundredth of a dollar or other main currency unit in various countries.",
     "reviewed": true
   },
-  "ceres": {
-    "display": "ceres",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A female child in relation to her parents.",
-    "reviewed": true
-  },
   "chaff": {
     "display": "chaff",
     "d": 0.95,
@@ -3756,13 +3350,6 @@
     "d": 0.49,
     "pos": "noun",
     "def": "A person who has defeated all rivals in competition.",
-    "reviewed": true
-  },
-  "chang": {
-    "display": "chang",
-    "d": 0.49,
-    "pos": "noun",
-    "def": "A traditional harp of central and southwest Asia.",
     "reviewed": true
   },
   "chant": {
@@ -3884,13 +3471,6 @@
     "def": "A common abbreviation for chemotherapy, a powerful drug treatment used to kill fast-growing cancer cells in the body.",
     "reviewed": true
   },
-  "cheng": {
-    "display": "cheng",
-    "d": 0.72,
-    "pos": "noun",
-    "def": "Alternative form of sheng.",
-    "reviewed": true
-  },
   "chess": {
     "display": "chess",
     "d": 0.45,
@@ -3903,13 +3483,6 @@
     "d": 0.23,
     "pos": "noun",
     "def": "The front surface of a person body between neck and stomach.",
-    "reviewed": true
-  },
-  "chevy": {
-    "display": "chevy",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A hunt or pursuit; a chase.",
     "reviewed": true
   },
   "chews": {
@@ -3982,20 +3555,6 @@
     "def": "A common abbreviation for chimpanzee, an intelligent and highly social great ape native to the forests of tropical Africa.",
     "reviewed": true
   },
-  "ching": {
-    "display": "ching",
-    "d": 0.68,
-    "pos": "noun",
-    "def": "A pair of small bowl-shaped finger cymbals made of thick and heavy bronze, used in the music of Thailand and Cambodia.",
-    "reviewed": true
-  },
-  "chink": {
-    "display": "chink",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A narrow opening such as a fissure or crack.",
-    "reviewed": true
-  },
   "chino": {
     "display": "chino",
     "d": 0.95,
@@ -4029,13 +3588,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "To stop or fasten, as with a wedge, or block; to scotch.",
-    "reviewed": true
-  },
-  "chode": {
-    "display": "chode",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Having lived or existed for a long time; not young or new.",
     "reviewed": true
   },
   "choir": {
@@ -4150,13 +3702,6 @@
     "def": "A simple saddle girth used in Mexico.",
     "reviewed": true
   },
-  "cisco": {
-    "display": "cisco",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Any North American freshwater fish of certain species of the genus Coregonus that live in cold-water lakes.",
-    "reviewed": true
-  },
   "cissy": {
     "display": "cissy",
     "d": 0.95,
@@ -4239,13 +3784,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "Strikes the palms of one's hands together, typically to show approval or appreciation (third-person singular present tense of clap).",
-    "reviewed": true
-  },
-  "clare": {
-    "display": "clare",
-    "d": 0.74,
-    "pos": "noun",
-    "def": "Synonym of Poor Clare: a nun of the Order of Saint Clare.",
     "reviewed": true
   },
   "clary": {
@@ -4346,25 +3884,11 @@
     "def": "Vibrations that travel through the air or another medium and can be heard.",
     "reviewed": true
   },
-  "clint": {
-    "display": "clint",
-    "d": 0.77,
-    "pos": "noun",
-    "def": "The relatively flat part of a limestone pavement between the grikes.",
-    "reviewed": true
-  },
   "clips": {
     "display": "clips",
     "d": 0.94,
     "pos": "noun",
     "def": "Devices, often made of metal or plastic, used for holding things together or attaching them; also, short excerpts from films or broadcasts.",
-    "reviewed": true
-  },
-  "clive": {
-    "display": "clive",
-    "d": 0.63,
-    "pos": "verb",
-    "def": "To go upward or ascend using hands and feet.",
     "reviewed": true
   },
   "cloak": {
@@ -4542,13 +4066,6 @@
     "def": "A written or printed work consisting of pages bound together within covers.",
     "reviewed": true
   },
-  "cohen": {
-    "display": "cohen",
-    "d": 0.72,
-    "pos": "noun",
-    "def": "A male sibling sharing one or both parents with another person.",
-    "reviewed": true
-  },
   "coils": {
     "display": "coils",
     "d": 0.95,
@@ -4570,13 +4087,6 @@
     "def": "A simpleton; a gull.",
     "reviewed": true
   },
-  "colby": {
-    "display": "colby",
-    "d": 0.64,
-    "pos": "noun",
-    "def": "Easy to mold, cut, compress, or fold; not hard or firm.",
-    "reviewed": true
-  },
   "colds": {
     "display": "colds",
     "d": 0.95,
@@ -4584,25 +4094,11 @@
     "def": "Common viral infections of the nose and throat; respiratory illnesses.",
     "reviewed": true
   },
-  "coles": {
-    "display": "coles",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "A plant of the Brassica or Cabbage genus; esp.",
-    "reviewed": true
-  },
   "colic": {
     "display": "colic",
     "d": 0.95,
     "pos": "noun",
     "def": "A severe paroxysmal pain in the abdomen, due to spasm, obstruction, or distention of some one of the hollow viscera.",
-    "reviewed": true
-  },
-  "colin": {
-    "display": "colin",
-    "d": 0.42,
-    "pos": "noun",
-    "def": "The American quail or bobwhite, or related species.",
     "reviewed": true
   },
   "colon": {
@@ -4675,25 +4171,11 @@
     "def": "Pertaining to comedy, as a literary genre.",
     "reviewed": true
   },
-  "comin": {
-    "display": "comin",
-    "d": 0.36,
-    "pos": "verb",
-    "def": "Pronunciation spelling of coming.",
-    "reviewed": true
-  },
   "comma": {
     "display": "comma",
     "d": 0.95,
     "pos": "noun",
     "def": "The punctuation mark ⟨,⟩ used to indicate a set of parts of a sentence or between elements of a list.",
-    "reviewed": true
-  },
-  "comms": {
-    "display": "comms",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An informal abbreviation for communications, referring to the means of sending or receiving information, especially in military or technical contexts.",
     "reviewed": true
   },
   "conch": {
@@ -4724,27 +4206,6 @@
     "def": "The Jamaican coney , a hutia endemic to Jamaica.",
     "reviewed": true
   },
-  "congo": {
-    "display": "congo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country in Central Africa, officially the Republic of the Congo, or a major river flowing through Central Africa.",
-    "reviewed": true
-  },
-  "conny": {
-    "display": "conny",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Ready to face and endure danger without showing fear.",
-    "reviewed": true
-  },
-  "conte": {
-    "display": "conte",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Measuring a small distance from end to end; not long or tall.",
-    "reviewed": true
-  },
   "cooks": {
     "display": "cooks",
     "d": 0.65,
@@ -4773,13 +4234,6 @@
     "def": "Solid, firm, and resistant to pressure; not easily broken or pierced.",
     "reviewed": true
   },
-  "corby": {
-    "display": "corby",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "(Zoöl.) The raven; [Scot.] 2.",
-    "reviewed": true
-  },
   "cords": {
     "display": "cords",
     "d": 0.95,
@@ -4799,13 +4253,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "A body of individuals; an assemblage.",
-    "reviewed": true
-  },
-  "corey": {
-    "display": "corey",
-    "d": 0.7,
-    "pos": "noun",
-    "def": "A common given name for males, of Irish Gaelic origin, meaning 'from the hollow' or 'from the hill'.",
     "reviewed": true
   },
   "corks": {
@@ -4848,13 +4295,6 @@
     "d": 0.93,
     "pos": "noun",
     "def": "A cosmopolitan, a cocktail containing vodka, triple sec, lime juice, and cranberry juice.",
-    "reviewed": true
-  },
-  "costa": {
-    "display": "costa",
-    "d": 0.72,
-    "pos": "noun",
-    "def": "A rib or rib-like structure, especially in anatomy or botany, such as the main vein of a leaf or the rib of a shell.",
     "reviewed": true
   },
   "costs": {
@@ -4927,13 +4367,6 @@
     "def": "To wish for with eagerness; to desire possession of; 1.",
     "reviewed": true
   },
-  "cowan": {
-    "display": "cowan",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "One who works as a mason without having served a regular apprenticeship.",
-    "reviewed": true
-  },
   "cower": {
     "display": "cower",
     "d": 0.95,
@@ -4960,13 +4393,6 @@
     "d": 0.56,
     "pos": "noun",
     "def": "An activity involving skill in making things by hand.",
-    "reviewed": true
-  },
-  "craig": {
-    "display": "craig",
-    "d": 0.38,
-    "pos": "noun",
-    "def": "A steep, rugged rock or cliff; also, a common given name for males, of Scottish Gaelic origin.",
     "reviewed": true
   },
   "cramp": {
@@ -5114,13 +4540,6 @@
     "d": 0.9,
     "pos": "noun",
     "def": "The summit of a hill or mountain ridge.",
-    "reviewed": true
-  },
-  "crete": {
-    "display": "crete",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A large Greek island in the Mediterranean Sea, known for its ancient Minoan civilization and diverse landscapes.",
     "reviewed": true
   },
   "crews": {
@@ -5403,13 +4822,6 @@
     "def": "A mythical short humanoid creature renowned for underground craftsmanship.",
     "reviewed": true
   },
-  "cunts": {
-    "display": "cunts",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A highly offensive and vulgar term for the female genitals; also used as a derogatory and insulting term for a person.",
-    "reviewed": true
-  },
   "cupid": {
     "display": "cupid",
     "d": 0.87,
@@ -5557,25 +4969,11 @@
     "def": "A wild flowering plant of species Bellis perennis of the family Asteraceae, with a yellow head and white petals.",
     "reviewed": true
   },
-  "dalek": {
-    "display": "dalek",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A member of a species of extraterrestrial cyborg mutants who appear in the television programme Doctor Who and are known for travelling in metallic shells, having monotone, mechanically distorted voices, repeating a limited number of phrases, and their fanatical obsession with exterminating other, non-Dalek beings.",
-    "reviewed": true
-  },
   "dales": {
     "display": "dales",
     "d": 0.95,
     "pos": "noun/verb",
     "def": "A low place between hills; a vle or valley.",
-    "reviewed": true
-  },
-  "daley": {
-    "display": "daley",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A supporter of Rochdale Association Football Club.",
     "reviewed": true
   },
   "dally": {
@@ -5599,13 +4997,6 @@
     "def": "A series of rhythmic steps and movements matched to music.",
     "reviewed": true
   },
-  "dandi": {
-    "display": "dandi",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A boatman; an oarsman.",
-    "reviewed": true
-  },
   "dandy": {
     "display": "dandy",
     "d": 0.82,
@@ -5618,20 +5009,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "People who are natives or citizens of Denmark; also, a breed of large, powerful dogs known as Great Danes.",
-    "reviewed": true
-  },
-  "darby": {
-    "display": "darby",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A specialized tool used to smooth and level the surface of wet concrete, consisting of a stiff wedge or triangle of wood or metal.",
-    "reviewed": true
-  },
-  "darcy": {
-    "display": "darcy",
-    "d": 0.74,
-    "pos": "noun",
-    "def": "A unit of permeability used in measuring the permeability of porous mediums such as sand.",
     "reviewed": true
   },
   "dared": {
@@ -5737,13 +5114,6 @@
     "d": 0.78,
     "pos": "noun",
     "def": "A performer's first performance to the public, in sport, the arts or some other area.",
-    "reviewed": true
-  },
-  "decaf": {
-    "display": "decaf",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "That has caffeine removed.",
     "reviewed": true
   },
   "decay": {
@@ -5928,13 +5298,6 @@
     "def": "One of a breed of hardy cattle originating in Devon, England.",
     "reviewed": true
   },
-  "dewey": {
-    "display": "dewey",
-    "d": 0.69,
-    "pos": "adj",
-    "def": "Obsolete form of dewy.",
-    "reviewed": true
-  },
   "dials": {
     "display": "dials",
     "d": 0.95,
@@ -5968,13 +5331,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Unsound, unreliable, or in poor condition; often used informally to describe a feeling of being unwell or shaky.",
-    "reviewed": true
-  },
-  "didnt": {
-    "display": "didnt",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Represents the past tense negative form of the verb \"do\", indicating that an action was not performed (contraction of \"did not\").",
     "reviewed": true
   },
   "didst": {
@@ -6138,25 +5494,11 @@
     "def": "Experiencing a sensation of whirling and of being giddy, unbalanced, or lightheaded.",
     "reviewed": true
   },
-  "dobby": {
-    "display": "dobby",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An apparatus resembling a Jacquard for weaving small figures .",
-    "reviewed": true
-  },
   "docks": {
     "display": "docks",
     "d": 0.7,
     "pos": "noun",
     "def": "Platforms built out over water for mooring boats or loading cargo. Also, the enclosed areas of a courtroom.",
-    "reviewed": true
-  },
-  "dodds": {
-    "display": "dodds",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "To cut off, as wool from sheep's tails; to lop or clip off.",
     "reviewed": true
   },
   "dodge": {
@@ -6201,13 +5543,6 @@
     "def": "present participle and gerund of do.",
     "reviewed": true
   },
-  "dolan": {
-    "display": "dolan",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A member of a people from what is now Xinjiang Uyghur Autonomous Region, China.",
-    "reviewed": true
-  },
   "dolce": {
     "display": "dolce",
     "d": 0.95,
@@ -6234,20 +5569,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "A building; a house.",
-    "reviewed": true
-  },
-  "donna": {
-    "display": "donna",
-    "d": 0.32,
-    "pos": "noun",
-    "def": "A woman of high social standing, refinement, or aristocratic status.",
-    "reviewed": true
-  },
-  "donny": {
-    "display": "donny",
-    "d": 0.66,
-    "pos": "noun",
-    "def": "Informal slang term for a man, fellow, or bloke.",
     "reviewed": true
   },
   "donor": {
@@ -6290,13 +5611,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Characterized by being stupid, silly.",
-    "reviewed": true
-  },
-  "doris": {
-    "display": "doris",
-    "d": 0.59,
-    "pos": "noun",
-    "def": "One's girlfriend, wife or significant other.",
     "reviewed": true
   },
   "dorms": {
@@ -6376,13 +5690,6 @@
     "def": "Payment, such as property or money, paid by the bride's family to the groom or his family at the time of marriage.",
     "reviewed": true
   },
-  "doyle": {
-    "display": "doyle",
-    "d": 0.52,
-    "pos": "noun",
-    "def": "An informal and often derogatory term for a foolish or stupid person; an idiot.",
-    "reviewed": true
-  },
   "dozed": {
     "display": "dozed",
     "d": 0.95,
@@ -6402,13 +5709,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "One who dozes or drowses.",
-    "reviewed": true
-  },
-  "draco": {
-    "display": "draco",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The Dragon, a northern constellation within which is the north pole of the ecliptic.",
     "reviewed": true
   },
   "draft": {
@@ -6698,13 +5998,6 @@
     "def": "A composition for two performers, whether vocal or instrumental.",
     "reviewed": true
   },
-  "duffy": {
-    "display": "duffy",
-    "d": 0.93,
-    "pos": "noun",
-    "def": "Archaic form of duppy ().",
-    "reviewed": true
-  },
   "dukes": {
     "display": "dukes",
     "d": 0.95,
@@ -6775,13 +6068,6 @@
     "def": "One who dupes another.",
     "reviewed": true
   },
-  "duras": {
-    "display": "duras",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "Measuring a small distance from end to end; not long or tall.",
-    "reviewed": true
-  },
   "dusky": {
     "display": "dusky",
     "d": 0.95,
@@ -6822,20 +6108,6 @@
     "d": 0.16,
     "pos": "adj",
     "def": "On the subject of or concerning someone or something.",
-    "reviewed": true
-  },
-  "dykes": {
-    "display": "dykes",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "The spelling dyke is restricted by some to the geological meaning.",
-    "reviewed": true
-  },
-  "dyson": {
-    "display": "dyson",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A cyclonic vacuum cleaner.",
     "reviewed": true
   },
   "eager": {
@@ -6915,25 +6187,11 @@
     "def": "The edges or lower borders of the roof of a building, which overhang the walls, and cast off the water that falls on the roof.",
     "reviewed": true
   },
-  "ebola": {
-    "display": "ebola",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A severe and often fatal disease in humans and other primates, caused by infection with ebolaviruses.",
-    "reviewed": true
-  },
   "ebony": {
     "display": "ebony",
     "d": 0.95,
     "pos": "noun",
     "def": "Solid, firm, and resistant to pressure; not easily broken or pierced.",
-    "reviewed": true
-  },
-  "edgar": {
-    "display": "edgar",
-    "d": 0.53,
-    "pos": "noun",
-    "def": "An Edgar Allan Poe Award, honoring works in the mystery genre.",
     "reviewed": true
   },
   "edges": {
@@ -7006,32 +6264,11 @@
     "def": "To choose someone to hold public office by voting in an election.",
     "reviewed": true
   },
-  "elisa": {
-    "display": "elisa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Initialism of enzyme-linked immunosorbent assay ().",
-    "reviewed": true
-  },
   "elite": {
     "display": "elite",
     "d": 0.56,
     "pos": "noun/adj",
     "def": "A select group that is superior in abilities or qualities.",
-    "reviewed": true
-  },
-  "ellen": {
-    "display": "ellen",
-    "d": 0.33,
-    "pos": "noun",
-    "def": "An archaic or rare term referring to passionate enthusiasm or fervor for a cause or person.",
-    "reviewed": true
-  },
-  "elmer": {
-    "display": "elmer",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A person who provides personal guidance and assistance to ham radio enthusiasts.",
     "reviewed": true
   },
   "elope": {
@@ -7053,13 +6290,6 @@
     "d": 0.83,
     "pos": "noun",
     "def": "Mythical, supernatural beings, often depicted as small, human-like creatures with pointed ears, known for magic.",
-    "reviewed": true
-  },
-  "elvis": {
-    "display": "elvis",
-    "d": 0.5,
-    "pos": "noun",
-    "def": "An impersonator of Elvis Presley.",
     "reviewed": true
   },
   "email": {
@@ -7144,13 +6374,6 @@
     "d": 0.14,
     "pos": "verb",
     "def": "To take delight or pleasure in an activity or occasion.",
-    "reviewed": true
-  },
-  "enron": {
-    "display": "enron",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The events that led up to the bankruptcy of the Enron Corporation, or by extension any similar events.",
     "reviewed": true
   },
   "ensue": {
@@ -7265,13 +6488,6 @@
     "def": "An ethereal salt, or compound ether, consisting of an organic radical united with the residue of any oxygen acid, organic or inorganic; thus the natural fats are esters of glycerin and the fatty acids, oleic, etc.",
     "reviewed": true
   },
-  "ethel": {
-    "display": "ethel",
-    "d": 0.67,
-    "pos": "noun",
-    "def": "A common female given name of Old English origin, meaning 'noble.' It was popular in the late 19th and early 20th centuries.",
-    "reviewed": true
-  },
   "ether": {
     "display": "ether",
     "d": 0.95,
@@ -7312,13 +6528,6 @@
     "d": 0.24,
     "pos": "noun",
     "def": "An object to which one need not or cannot give a specific name.",
-    "reviewed": true
-  },
-  "evers": {
-    "display": "evers",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "At any time; at any period or point of time.",
     "reviewed": true
   },
   "evert": {
@@ -7426,13 +6635,6 @@
     "def": "To discharge through pores or incisions, as moisture or other liquid matter; to give out.",
     "reviewed": true
   },
-  "faber": {
-    "display": "faber",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "comparative form of fabe: more fabe.",
-    "reviewed": true
-  },
   "fable": {
     "display": "fable",
     "d": 0.95,
@@ -7459,13 +6661,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "One side of something many-sided, especially of a cut gem.",
-    "reviewed": true
-  },
-  "facto": {
-    "display": "facto",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "In fact; by the act or fact.",
     "reviewed": true
   },
   "facts": {
@@ -7587,13 +6782,6 @@
     "def": "Long, sharp, pointed teeth, especially those of a carnivorous animal used for seizing and tearing prey, or a snake's venomous teeth.",
     "reviewed": true
   },
-  "fanny": {
-    "display": "fanny",
-    "d": 0.52,
-    "pos": "noun",
-    "def": "The buttocks or rear end of a person (primarily American English). In British English, it refers to female genitalia.",
-    "reviewed": true
-  },
   "farce": {
     "display": "farce",
     "d": 0.92,
@@ -7690,13 +6878,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Having a head of hair; hairy.",
-    "reviewed": true
-  },
-  "fayed": {
-    "display": "fayed",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Complete trust or confidence in someone or something, or religious belief.",
     "reviewed": true
   },
   "fears": {
@@ -8014,13 +7195,6 @@
     "def": "Sums of money required to be paid as a penalty for an offense or infringement of a law.",
     "reviewed": true
   },
-  "finns": {
-    "display": "finns",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Natives of Finland; Finlanders.",
-    "reviewed": true
-  },
   "fired": {
     "display": "fired",
     "d": 0.18,
@@ -8222,13 +7396,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A flake; also, a lock, as of wool.",
-    "reviewed": true
-  },
-  "fleed": {
-    "display": "fleed",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Past tense of flee; ran away from danger or pursuit.",
     "reviewed": true
   },
   "flees": {
@@ -8462,13 +7629,6 @@
     "def": "Layers or creases formed by bending something over on itself; also, enclosures for sheep.",
     "reviewed": true
   },
-  "foley": {
-    "display": "foley",
-    "d": 0.92,
-    "pos": "noun",
-    "def": "The creation of sound effects, and their addition to film and TV images.",
-    "reviewed": true
-  },
   "folks": {
     "display": "folks",
     "d": 0.19,
@@ -8623,13 +7783,6 @@
     "def": "A lobby, corridor, anteroom, or waiting room.",
     "reviewed": true
   },
-  "foyle": {
-    "display": "foyle",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Obsolete spelling of foil.",
-    "reviewed": true
-  },
   "frail": {
     "display": "frail",
     "d": 0.95,
@@ -8693,13 +7846,6 @@
     "def": "Recently made or obtained; not stale, sour, or preserved.",
     "reviewed": true
   },
-  "freya": {
-    "display": "freya",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A female child in relation to her parents.",
-    "reviewed": true
-  },
   "friar": {
     "display": "friar",
     "d": 0.95,
@@ -8721,13 +7867,6 @@
     "def": "Pieces of potato cut into strips and deep-fried, commonly served as a side dish; also, young fish.",
     "reviewed": true
   },
-  "frigg": {
-    "display": "frigg",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The wife of Odin and mother of the gods; the supreme goddess.",
-    "reviewed": true
-  },
   "frisk": {
     "display": "frisk",
     "d": 0.95,
@@ -8742,25 +7881,11 @@
     "def": "In the time following an event or another period.",
     "reviewed": true
   },
-  "fritz": {
-    "display": "fritz",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "A German person, usually male.",
-    "reviewed": true
-  },
   "frock": {
     "display": "frock",
     "d": 0.95,
     "pos": "noun",
     "def": "A one-piece garment for a woman or girl covering body and legs.",
-    "reviewed": true
-  },
-  "frodo": {
-    "display": "frodo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Synonym of Frodo Baggins.",
     "reviewed": true
   },
   "frogs": {
@@ -8817,13 +7942,6 @@
     "d": 0.28,
     "pos": "noun",
     "def": "Having the pleasant taste characteristic of sugar or honey; not salty.",
-    "reviewed": true
-  },
-  "fuchs": {
-    "display": "fuchs",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A student of the first year.",
     "reviewed": true
   },
   "fudge": {
@@ -8938,13 +8056,6 @@
     "def": "Obtains or secures something desired or advantageous, or increases in amount or extent (third-person singular present tense of gain).",
     "reviewed": true
   },
-  "galen": {
-    "display": "galen",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An ancient Greek physician, surgeon, and philosopher whose theories dominated European medicine for over a millennium.",
-    "reviewed": true
-  },
   "gales": {
     "display": "gales",
     "d": 0.95,
@@ -8966,13 +8077,6 @@
     "def": "The third letter of the Greek alphabet (Γ, γ), preceded by beta (Β, β) and followed by delta, (Δ, δ).",
     "reviewed": true
   },
-  "ganga": {
-    "display": "ganga",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A type of sandgrouse, a bird found in arid regions of Africa and Eurasia, known for its distinctive plumage.",
-    "reviewed": true
-  },
   "gangs": {
     "display": "gangs",
     "d": 0.65,
@@ -8992,13 +8096,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Obsolete form of guard.",
-    "reviewed": true
-  },
-  "garth": {
-    "display": "garth",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A grassy quadrangle surrounded by cloisters.",
     "reviewed": true
   },
   "gases": {
@@ -9057,25 +8154,11 @@
     "def": "The Anglicized form of Gallia, which in the time of the Romans included France and Upper Italy.",
     "reviewed": true
   },
-  "gault": {
-    "display": "gault",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A series of beds of clay and marl in the South of England, between the upper and lower greensand of the Cretaceous period.",
-    "reviewed": true
-  },
   "gaunt": {
     "display": "gaunt",
     "d": 0.95,
     "pos": "noun",
     "def": "Attenuated, as with fasting or suffering; lean.",
-    "reviewed": true
-  },
-  "gauss": {
-    "display": "gauss",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Being the same in quantity, size, degree, or value as another.",
     "reviewed": true
   },
   "gauze": {
@@ -9090,13 +8173,6 @@
     "d": 0.86,
     "pos": "noun",
     "def": "A small hammer used by a presiding officer, such as a judge or auctioneer, to call for order or signal a decision.",
-    "reviewed": true
-  },
-  "gayle": {
-    "display": "gayle",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Puerperal septicemia in sheep.",
     "reviewed": true
   },
   "gazes": {
@@ -9134,13 +8210,6 @@
     "def": "Large water birds with long necks and webbed feet, typically larger than ducks. They are the plural form of 'goose'.",
     "reviewed": true
   },
-  "gemma": {
-    "display": "gemma",
-    "d": 0.59,
-    "pos": "noun",
-    "def": "An asexual reproductive structure, as found in animals such as hydra and plants such as liverworts , consisting of a cluster of cells from which new individuals can develop; a bud.",
-    "reviewed": true
-  },
   "genes": {
     "display": "genes",
     "d": 0.61,
@@ -9153,13 +8222,6 @@
     "d": 0.79,
     "pos": "noun",
     "def": "A jinn, a being descended from the jann, normally invisible to the human eye, but who may also appear in animal or human form.",
-    "reviewed": true
-  },
-  "genoa": {
-    "display": "genoa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A large foresail on a yacht, extending aft of the mast, used to increase sail area and speed.",
     "reviewed": true
   },
   "genre": {
@@ -9230,27 +8292,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Respiratory organs found in aquatic animals, such as fish, that allow them to extract oxygen from water.",
-    "reviewed": true
-  },
-  "gilly": {
-    "display": "gilly",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A male child or young male person.",
-    "reviewed": true
-  },
-  "gimme": {
-    "display": "gimme",
-    "d": 0.39,
-    "pos": "verb",
-    "def": "An informal, colloquial pronunciation of 'give me,' often used in casual speech to request something.",
-    "reviewed": true
-  },
-  "ginny": {
-    "display": "ginny",
-    "d": 0.76,
-    "pos": "adj",
-    "def": "Affected by gin; resembling or characteristic of gin.",
     "reviewed": true
   },
   "girly": {
@@ -9370,13 +8411,6 @@
     "d": 0.56,
     "pos": "noun",
     "def": "The planet on which we live; the world or soil.",
-    "reviewed": true
-  },
-  "glock": {
-    "display": "glock",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A handgun made by the Glock company.",
     "reviewed": true
   },
   "gloom": {
@@ -9533,13 +8567,6 @@
     "def": "Hard solid non-metallic mineral matter of which rock is made.",
     "reviewed": true
   },
-  "gould": {
-    "display": "gould",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Obsolete form of gold.",
-    "reviewed": true
-  },
   "gourd": {
     "display": "gourd",
     "d": 0.95,
@@ -9580,13 +8607,6 @@
     "d": 0.28,
     "pos": "noun/verb",
     "def": "A particular level of rank, quality, proficiency, or value.",
-    "reviewed": true
-  },
-  "graff": {
-    "display": "graff",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A steward; an overseer.",
     "reviewed": true
   },
   "graft": {
@@ -9743,13 +8763,6 @@
     "def": "Intense sorrow, especially caused by someone's death; a deep and poignant emotional suffering.",
     "reviewed": true
   },
-  "griff": {
-    "display": "griff",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A short form of griffin, a mythical creature with the head and wings of an eagle and the body of a lion.",
-    "reviewed": true
-  },
   "grill": {
     "display": "grill",
     "d": 0.59,
@@ -9862,13 +8875,6 @@
     "def": "Of a size that is less than normal or usual; little.",
     "reviewed": true
   },
-  "grovy": {
-    "display": "grovy",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Pertaining to, or resembling, a grove; situated in, or frequenting, groves.",
-    "reviewed": true
-  },
   "growl": {
     "display": "growl",
     "d": 0.89,
@@ -9939,13 +8945,6 @@
     "def": "A tropical tree, or its fruit, of the genus Psidium.",
     "reviewed": true
   },
-  "gucci": {
-    "display": "gucci",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An item sold by the fashion house Gucci.",
-    "reviewed": true
-  },
   "guess": {
     "display": "guess",
     "d": 0.07,
@@ -9965,13 +8964,6 @@
     "d": 0.31,
     "pos": "noun/verb",
     "def": "A person who advises or shows the way to others on a journey.",
-    "reviewed": true
-  },
-  "guido": {
-    "display": "guido",
-    "d": 0.88,
-    "pos": "noun",
-    "def": "Alternative letter-case form of guido.",
     "reviewed": true
   },
   "guild": {
@@ -10063,13 +9055,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "A sudden squall; a violent blast of wind.",
-    "reviewed": true
-  },
-  "gypsy": {
-    "display": "gypsy",
-    "d": 0.57,
-    "pos": "noun",
-    "def": "An itinerant person or any person, not necessarily Romani; a tinker, a traveller or a carny.",
     "reviewed": true
   },
   "habit": {
@@ -10231,13 +9216,6 @@
     "d": 0.44,
     "pos": "adj",
     "def": "Unpleasantly rough or jarring to the senses, or unpleasantly severe.",
-    "reviewed": true
-  },
-  "hasta": {
-    "display": "hasta",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "third-person singular simple present indicative of hafta: Contraction of has to ().",
     "reviewed": true
   },
   "haste": {
@@ -10436,13 +9414,6 @@
     "def": "Of great weight; difficult to lift or move due to density.",
     "reviewed": true
   },
-  "heinz": {
-    "display": "heinz",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A five and a seven as starting cards in Texas hold 'em.",
-    "reviewed": true
-  },
   "heirs": {
     "display": "heirs",
     "d": 0.95,
@@ -10513,13 +9484,6 @@
     "def": "Large groups of animals, especially hoofed mammals, that live and feed together.",
     "reviewed": true
   },
-  "heres": {
-    "display": "heres",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "Characterized by or pertaining to of them; their.",
-    "reviewed": true
-  },
   "heron": {
     "display": "heron",
     "d": 0.95,
@@ -10527,32 +9491,11 @@
     "def": "Any wading bird of the genus Ardea and allied genera, of the family Ardeidæ.",
     "reviewed": true
   },
-  "hetty": {
-    "display": "hetty",
-    "d": 0.86,
-    "pos": "noun",
-    "def": "An informal term for a heterosexual person, someone attracted to people of the opposite sex.",
-    "reviewed": true
-  },
-  "hewes": {
-    "display": "hewes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Cuts or strokes made by chopping, especially wood or stone, using an axe or similar tool.",
-    "reviewed": true
-  },
   "hides": {
     "display": "hides",
     "d": 0.66,
     "pos": "noun",
     "def": "The skin of an animal, especially when tanned or dressed for use in leather.",
-    "reviewed": true
-  },
-  "higgs": {
-    "display": "higgs",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "pertaining to the Higgs mechanism/Higgs force.",
     "reviewed": true
   },
   "highs": {
@@ -10581,13 +9524,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Abounding with hills; uneven in surface.",
-    "reviewed": true
-  },
-  "hines": {
-    "display": "hines",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "A servant; a farm laborer.",
     "reviewed": true
   },
   "hinge": {
@@ -10667,13 +9603,6 @@
     "def": "To deceive or cheat; Halliwell.",
     "reviewed": true
   },
-  "hodge": {
-    "display": "hodge",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A rustic; a country person.",
-    "reviewed": true
-  },
   "hodja": {
     "display": "hodja",
     "d": 0.95,
@@ -10749,13 +9678,6 @@
     "d": 0.88,
     "pos": "noun",
     "def": "Someone, particularly a friend or male acquaintance, from one's hometown.",
-    "reviewed": true
-  },
-  "honda": {
-    "display": "honda",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A closed loop or eyelet at one end of a lariat or lasso, through which the other end of the rope is passed to form a much larger loop.",
     "reviewed": true
   },
   "honey": {
@@ -10882,13 +9804,6 @@
     "d": 0.9,
     "pos": "noun",
     "def": "People who entertain guests; also, large numbers of people or things.",
-    "reviewed": true
-  },
-  "hotch": {
-    "display": "hotch",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To move irregularly up and down.",
     "reviewed": true
   },
   "hotel": {
@@ -11045,13 +9960,6 @@
     "def": "A state of urgency or great haste; the need to act quickly.",
     "reviewed": true
   },
-  "hurst": {
-    "display": "hurst",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The hard fibrous material forming the main substance of trunks of trees.",
-    "reviewed": true
-  },
   "hurts": {
     "display": "hurts",
     "d": 0.21,
@@ -11129,13 +10037,6 @@
     "def": "Extremely active, excited, or energetic; often used informally to describe someone with hyperactivity.",
     "reviewed": true
   },
-  "hyung": {
-    "display": "hyung",
-    "d": 0.76,
-    "pos": "noun",
-    "def": "An affectionate term of address for an older brother or somewhat older man.",
-    "reviewed": true
-  },
   "icing": {
     "display": "icing",
     "d": 0.95,
@@ -11148,13 +10049,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Graphic symbols on a screen, or famous admired cultural figures.",
-    "reviewed": true
-  },
-  "idaho": {
-    "display": "idaho",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "In full Idaho potato: a variety of potato grown in Idaho, especially the Russet Burbank.",
     "reviewed": true
   },
   "ideal": {
@@ -11197,13 +10091,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "An Eskimo snow house; 2.",
-    "reviewed": true
-  },
-  "iliad": {
-    "display": "iliad",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A celebrated Greek epic poem, in twenty-four books, on the destruction of Ilium, the ancient Troy.",
     "reviewed": true
   },
   "image": {
@@ -11253,13 +10140,6 @@
     "d": 0.85,
     "pos": "noun",
     "def": "An alphabetical listing of items and their location.",
-    "reviewed": true
-  },
-  "india": {
-    "display": "india",
-    "d": 0.26,
-    "pos": "noun",
-    "def": "Alternative letter-case form of India from the NATO/ICAO Phonetic Alphabet.",
     "reviewed": true
   },
   "indie": {
@@ -11353,13 +10233,6 @@
     "def": "Feeling or showing strong annoyance, displeasure, or hostility.",
     "reviewed": true
   },
-  "irene": {
-    "display": "irene",
-    "d": 0.5,
-    "pos": "noun",
-    "def": "The hydrocarbon formed by dehydration of an irone.",
-    "reviewed": true
-  },
   "irish": {
     "display": "irish",
     "d": 0.41,
@@ -11379,13 +10252,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "The expression of meaning through language that signifies the opposite.",
-    "reviewed": true
-  },
-  "islam": {
-    "display": "islam",
-    "d": 0.68,
-    "pos": "noun",
-    "def": "The religion of the Mohammedans; Mohammedanism.",
     "reviewed": true
   },
   "isles": {
@@ -11430,46 +10296,11 @@
     "def": "Devices for lifting heavy objects; also, playing cards with a picture of a man.",
     "reviewed": true
   },
-  "jacky": {
-    "display": "jacky",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An informal or affectionate nickname for someone named Jack or Jacqueline.",
-    "reviewed": true
-  },
-  "jaffa": {
-    "display": "jaffa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A type of sweet, seedless orange, originally cultivated in Jaffa, Israel.",
-    "reviewed": true
-  },
   "jails": {
     "display": "jails",
     "d": 0.95,
     "pos": "noun",
     "def": "Public prisons where people are confined, especially for minor offenses or while awaiting trial.",
-    "reviewed": true
-  },
-  "janus": {
-    "display": "janus",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Latin deity represented with two faces looking in opposite directions.",
-    "reviewed": true
-  },
-  "japan": {
-    "display": "japan",
-    "d": 0.28,
-    "pos": "noun",
-    "def": "Solid, firm, and resistant to pressure; not easily broken or pierced.",
-    "reviewed": true
-  },
-  "jared": {
-    "display": "jared",
-    "d": 0.57,
-    "pos": "verb",
-    "def": "Past tense or past participle of jar; A turn.",
     "reviewed": true
   },
   "jaunt": {
@@ -11514,20 +10345,6 @@
     "def": "Characterized by physical jerking, or by sudden and uneven progress.",
     "reviewed": true
   },
-  "jesse": {
-    "display": "jesse",
-    "d": 0.3,
-    "pos": "noun",
-    "def": "A representation of the genealogy of Christ, in decorative art, such as a genealogical tree in stained glass or a branched candlestick.",
-    "reviewed": true
-  },
-  "jesus": {
-    "display": "jesus",
-    "d": 0.11,
-    "pos": "noun",
-    "def": "The central figure of Christianity, revered as the Son of God and the Messiah.",
-    "reviewed": true
-  },
   "jetty": {
     "display": "jetty",
     "d": 0.95,
@@ -11547,13 +10364,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A very short, unspecified length of time.",
-    "reviewed": true
-  },
-  "jihad": {
-    "display": "jihad",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A holy war undertaken by Muslims.",
     "reviewed": true
   },
   "jinks": {
@@ -11612,25 +10422,11 @@
     "def": "Containing or holding as much or as many as possible; complete.",
     "reviewed": true
   },
-  "jones": {
-    "display": "jones",
-    "d": 0.29,
-    "pos": "noun",
-    "def": "A strong craving or addiction, especially for a drug, or an intense desire for something.",
-    "reviewed": true
-  },
   "joust": {
     "display": "joust",
     "d": 0.95,
     "pos": "noun",
     "def": "To engage in mock combat on horseback, as two knights in the lists; to tilt.",
-    "reviewed": true
-  },
-  "judas": {
-    "display": "judas",
-    "d": 0.74,
-    "pos": "noun",
-    "def": "Alternative letter-case form of Judas ().",
     "reviewed": true
   },
   "judge": {
@@ -11689,13 +10485,6 @@
     "def": "A person who is a member of a jury, chosen to hear evidence and make a decision in a legal case.",
     "reviewed": true
   },
-  "jussi": {
-    "display": "jussi",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A delicate fiber, produced in the Philippine Islands from an unidentified plant, of which dresses, etc., are made.",
-    "reviewed": true
-  },
   "juvie": {
     "display": "juvie",
     "d": 0.95,
@@ -11710,32 +10499,11 @@
     "def": "A traditional eye cosmetic, similar to kohl, used to darken and beautify the eyes, especially in South Asia.",
     "reviewed": true
   },
-  "kamal": {
-    "display": "kamal",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A navigation device, known to the Arabs and Chinese of the ancient world, consisting of a wooden card and knotted string.",
-    "reviewed": true
-  },
-  "kanye": {
-    "display": "kanye",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To interrupt the speech of .",
-    "reviewed": true
-  },
   "kappa": {
     "display": "kappa",
     "d": 0.92,
     "pos": "noun",
     "def": "The tenth letter of the Greek alphabet.",
-    "reviewed": true
-  },
-  "karel": {
-    "display": "karel",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Karelian, Kareli; a native of Karelia.",
     "reviewed": true
   },
   "karma": {
@@ -11771,13 +10539,6 @@
     "d": 0.18,
     "pos": "verb",
     "def": "Continues to have or hold something; retains possession of (third-person singular present tense of keep).",
-    "reviewed": true
-  },
-  "kerry": {
-    "display": "kerry",
-    "d": 0.77,
-    "pos": "noun",
-    "def": "An animal belonging to a rare breed of dairy cattle, native to Ireland.",
     "reviewed": true
   },
   "keyed": {
@@ -11983,60 +10744,11 @@
     "def": "A tree-dwelling marsupial, Phascolarctos cinereus, that resembles a small bear with a broad head, large ears and sharp claws, mainly found in eastern Australia.",
     "reviewed": true
   },
-  "kodak": {
-    "display": "kodak",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Having or showing a friendly, generous, and considerate nature.",
-    "reviewed": true
-  },
-  "koran": {
-    "display": "koran",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Dated spelling of Qur'an.",
-    "reviewed": true
-  },
-  "kraft": {
-    "display": "kraft",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Having or showing a friendly, generous, and considerate nature.",
-    "reviewed": true
-  },
-  "krang": {
-    "display": "krang",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The portions of a whale that remain after the blubber has been removed, especially the flesh and organs.",
-    "reviewed": true
-  },
-  "kraut": {
-    "display": "kraut",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Finely shredded cabbage that has been fermented in brine, commonly served as a side dish, especially in German cuisine.",
-    "reviewed": true
-  },
   "kudos": {
     "display": "kudos",
     "d": 0.95,
     "pos": "noun",
     "def": "High renown or honor won by notable achievements in life.",
-    "reviewed": true
-  },
-  "kurds": {
-    "display": "kurds",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "A native or inhabitant of a mountainous region of Western Asia belonging to the Turkish and Persian monarchies.",
-    "reviewed": true
-  },
-  "kylie": {
-    "display": "kylie",
-    "d": 0.87,
-    "pos": "noun",
-    "def": "A type of boomerang, especially one that does not return to the thrower, traditionally used by Aboriginal Australians for hunting.",
     "reviewed": true
   },
   "label": {
@@ -12065,13 +10777,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Cords or strings used to fasten shoes or clothing, or delicate openwork fabric. This word is the plural form of 'lace'.",
-    "reviewed": true
-  },
-  "lacey": {
-    "display": "lacey",
-    "d": 0.61,
-    "pos": "adj",
-    "def": "Alternative spelling of lacy.",
     "reviewed": true
   },
   "lacks": {
@@ -12312,13 +11017,6 @@
     "def": "A large rectangular piece of cotton or other fabric used on a bed.",
     "reviewed": true
   },
-  "lazar": {
-    "display": "lazar",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A person infected with a filthy or pestilential disease; a leper.",
-    "reviewed": true
-  },
   "leach": {
     "display": "leach",
     "d": 0.95,
@@ -12375,13 +11073,6 @@
     "def": "To gain or acquire knowledge of or skill in something by study or experience.",
     "reviewed": true
   },
-  "leary": {
-    "display": "leary",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Alternative spelling of leery.",
-    "reviewed": true
-  },
   "lease": {
     "display": "lease",
     "d": 0.58,
@@ -12431,13 +11122,6 @@
     "def": "A typically aquatic blood-sucking annelid of the subclass Hirudinea, especially Hirudo medicinalis.",
     "reviewed": true
   },
-  "leeds": {
-    "display": "Leeds",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A major city in West Yorkshire, England, known for its vibrant culture, universities, and historical industrial significance.",
-    "reviewed": true
-  },
   "leeks": {
     "display": "leeks",
     "d": 0.95,
@@ -12471,13 +11155,6 @@
     "d": 0.71,
     "pos": "noun",
     "def": "A legitimate; a legitimate actor.",
-    "reviewed": true
-  },
-  "leigh": {
-    "display": "Leigh",
-    "d": 0.89,
-    "pos": "noun",
-    "def": "A common English surname or given name, often associated with places named for a clearing or meadow.",
     "reviewed": true
   },
   "lemon": {
@@ -12536,53 +11213,11 @@
     "def": "A rigid piece which is capable of turning about one point, or axis , and in which are two or more other points where forces are applied; — used for transmitting and modifying force and motion.",
     "reviewed": true
   },
-  "levin": {
-    "display": "levin",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Lightning; Levin brand, a thunderbolt.",
-    "reviewed": true
-  },
-  "lewis": {
-    "display": "lewis",
-    "d": 0.33,
-    "pos": "noun",
-    "def": "A cramp iron inserted into a cavity in order to lift heavy stones; used as a symbol of strength in Freemasonry.",
-    "reviewed": true
-  },
-  "lexie": {
-    "display": "lexie",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A minimal unit of reading, such as a sentence or sentence fragment.",
-    "reviewed": true
-  },
-  "lexus": {
-    "display": "lexus",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An automobile of this marque. Often used as an example of a luxury car or luxuriousness in general.",
-    "reviewed": true
-  },
   "liana": {
     "display": "liana",
     "d": 0.95,
     "pos": "noun",
     "def": "A luxuriant woody plant, climbing high trees and having ropelike stems.",
-    "reviewed": true
-  },
-  "liane": {
-    "display": "liane",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A luxuriant woody plant, climbing high trees and having ropelike stems.",
-    "reviewed": true
-  },
-  "liang": {
-    "display": "liang",
-    "d": 0.7,
-    "pos": "noun",
-    "def": "Synonym of tael, a former Chinese unit of weight (about 40 g) and a related unit of silver currency.",
     "reviewed": true
   },
   "liars": {
@@ -12662,13 +11297,6 @@
     "def": "A shrub of the genus Syringa.",
     "reviewed": true
   },
-  "lilly": {
-    "display": "lilly",
-    "d": 0.66,
-    "pos": "noun",
-    "def": "A Lilly Pulitzer dress.",
-    "reviewed": true
-  },
   "limbo": {
     "display": "limbo",
     "d": 0.95,
@@ -12695,13 +11323,6 @@
     "d": 0.36,
     "pos": "noun/verb",
     "def": "A small round mark or dot, or the sharp end of a tool or weapon.",
-    "reviewed": true
-  },
-  "lindy": {
-    "display": "lindy",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Produced, introduced, or discovered recently or for the first time.",
     "reviewed": true
   },
   "lined": {
@@ -12809,20 +11430,6 @@
     "def": "Of the very darkest color owing to the absence of light.",
     "reviewed": true
   },
-  "livin": {
-    "display": "livin",
-    "d": 0.73,
-    "pos": "noun",
-    "def": "A particular protein that inhibits apoptosis.",
-    "reviewed": true
-  },
-  "lizzy": {
-    "display": "Lizzy",
-    "d": 0.87,
-    "pos": "noun",
-    "def": "A diminutive or informal name for Elizabeth; also, a common nickname for a girl or woman named Elizabeth.",
-    "reviewed": true
-  },
   "llama": {
     "display": "llama",
     "d": 0.95,
@@ -12870,13 +11477,6 @@
     "d": 0.19,
     "pos": "adj",
     "def": "From or in a nearby location.",
-    "reviewed": true
-  },
-  "locke": {
-    "display": "locke",
-    "d": 0.91,
-    "pos": "noun",
-    "def": "Archaic spelling of lock.",
     "reviewed": true
   },
   "locks": {
@@ -12963,13 +11563,6 @@
     "def": "Directs one's gaze in a particular direction; also, appears to be (third-person singular present tense of look).",
     "reviewed": true
   },
-  "looky": {
-    "display": "looky",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To engage in the action of to look.",
-    "reviewed": true
-  },
   "loony": {
     "display": "loony",
     "d": 0.92,
@@ -12998,13 +11591,6 @@
     "def": "Rulers or masters, especially in feudal societies, or members of the nobility. This word is the plural form of 'lord'.",
     "reviewed": true
   },
-  "lordy": {
-    "display": "lordy",
-    "d": 0.95,
-    "pos": "intj",
-    "def": "Expressing mild emotion, such as exasperation or frustration.",
-    "reviewed": true
-  },
   "lorry": {
     "display": "lorry",
     "d": 0.86,
@@ -13026,20 +11612,6 @@
     "def": "third-person singular simple present indicative of lose.",
     "reviewed": true
   },
-  "lotta": {
-    "display": "lotta",
-    "d": 0.84,
-    "pos": "contraction",
-    "def": "Contraction of lot + of.",
-    "reviewed": true
-  },
-  "lotte": {
-    "display": "Lotte",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A feminine given name, often a diminutive of Charlotte, popular in various European countries.",
-    "reviewed": true
-  },
   "lotto": {
     "display": "lotto",
     "d": 0.95,
@@ -13052,13 +11624,6 @@
     "d": 0.72,
     "pos": "noun",
     "def": "Any member of the genus Nelumbo of aquatic plants in the family Nelumbonaceae.",
-    "reviewed": true
-  },
-  "louie": {
-    "display": "louie",
-    "d": 0.53,
-    "pos": "noun",
-    "def": "Alternative form of looey.",
     "reviewed": true
   },
   "louse": {
@@ -13115,13 +11680,6 @@
     "d": 0.9,
     "pos": "adj",
     "def": "Not high; not elevated in place.",
-    "reviewed": true
-  },
-  "lowry": {
-    "display": "lowry",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Allowing access, passage, or a view through an unblocked entrance.",
     "reviewed": true
   },
   "loyal": {
@@ -13257,13 +11815,6 @@
     "def": "Exhibiting lust or vigor; stout.",
     "reviewed": true
   },
-  "lydia": {
-    "display": "lydia",
-    "d": 0.49,
-    "pos": "noun",
-    "def": "An ancient kingdom in western Asia Minor, known for its wealth and for inventing coinage. Also a common female given name.",
-    "reviewed": true
-  },
   "lying": {
     "display": "lying",
     "d": 0.13,
@@ -13285,13 +11836,6 @@
     "def": "To execute without a proper legal trial or procedure, especially by hanging and backed by a mob.",
     "reviewed": true
   },
-  "lyons": {
-    "display": "lyons",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A major city in east-central France, known for its historical and architectural landmarks and its culinary tradition.",
-    "reviewed": true
-  },
   "lyric": {
     "display": "lyric",
     "d": 0.95,
@@ -13311,13 +11855,6 @@
     "d": 0.16,
     "pos": "noun",
     "def": "A polite form of address for a woman or lady.",
-    "reviewed": true
-  },
-  "madge": {
-    "display": "madge",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A familiar form of the female given name Margaret. It can also refer to a barn owl, though this usage is less common.",
     "reviewed": true
   },
   "madly": {
@@ -13353,13 +11890,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A palace, mansion, or grand building, especially in India or other parts of Asia, often used in proper names like Taj Mahal.",
-    "reviewed": true
-  },
-  "mahdi": {
-    "display": "mahdi",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Situated more or less centrally in relation to several other things.",
     "reviewed": true
   },
   "maids": {
@@ -13404,32 +11934,11 @@
     "def": "third-person singular simple present indicative of make.",
     "reviewed": true
   },
-  "makin": {
-    "display": "makin",
-    "d": 0.68,
-    "pos": "verb",
-    "def": "Alternative form of makkin.",
-    "reviewed": true
-  },
-  "malay": {
-    "display": "malay",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "One of a race of a brown or copper complexion in the Malay Peninsula and the western islands of the Indian Archipelago.",
-    "reviewed": true
-  },
   "males": {
     "display": "males",
     "d": 0.61,
     "pos": "noun",
     "def": "Individuals belonging to the sex that produces sperm, or men and boys. This word is the plural form of 'male'.",
-    "reviewed": true
-  },
-  "malik": {
-    "display": "malik",
-    "d": 0.72,
-    "pos": "noun",
-    "def": "A tribal chieftain in certain areas of Afghanistan and Pakistan, especially among the Pashtuns.",
     "reviewed": true
   },
   "malls": {
@@ -13446,25 +11955,11 @@
     "def": "A lively Latin American dance similar to the rumba, or the music for this dance, originating in Cuba.",
     "reviewed": true
   },
-  "mamie": {
-    "display": "mamie",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Alternative form of mamey.",
-    "reviewed": true
-  },
   "mamma": {
     "display": "mamma",
     "d": 0.68,
     "pos": "noun",
     "def": "The milk-secreting organ of female humans and other mammals which includes the mammary gland and the nipple or teat; a breast.",
-    "reviewed": true
-  },
-  "mandy": {
-    "display": "mandy",
-    "d": 0.54,
-    "pos": "noun",
-    "def": "A common female given name, often a diminutive of Amanda. It is also slang for the drug MDMA.",
     "reviewed": true
   },
   "manga": {
@@ -13523,32 +12018,11 @@
     "def": "Any nutritious substance consumed to sustain life and support growth.",
     "reviewed": true
   },
-  "manny": {
-    "display": "manny",
-    "d": 0.51,
-    "pos": "noun",
-    "def": "A male nanny, employed to care for children in a household.",
-    "reviewed": true
-  },
   "manor": {
     "display": "manor",
     "d": 0.72,
     "pos": "noun",
     "def": "A large country house with lands; the principal house of a landed estate.",
-    "reviewed": true
-  },
-  "manos": {
-    "display": "manos",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "The muller, or crushing and grinding stone, used in grinding corn on a metate.",
-    "reviewed": true
-  },
-  "maori": {
-    "display": "maori",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "One of the aboriginal inhabitants of New Zealand; also, the original language of New Zealand.",
     "reviewed": true
   },
   "maple": {
@@ -13570,20 +12044,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "The female of the horse and other equine quadrupeds.",
-    "reviewed": true
-  },
-  "marge": {
-    "display": "marge",
-    "d": 0.56,
-    "pos": "noun",
-    "def": "A common female given name, often a diminutive of Margaret. It can also refer to a margin or edge.",
-    "reviewed": true
-  },
-  "margo": {
-    "display": "margo",
-    "d": 0.84,
-    "pos": "noun",
-    "def": "A female given name, a variant of Margot or Margaret. It is also an archaic term for a border or margin.",
     "reviewed": true
   },
   "marks": {
@@ -13614,25 +12074,11 @@
     "def": "An area of low, wet land, often with tall grass or herbaceous plants.",
     "reviewed": true
   },
-  "masha": {
-    "display": "masha",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Alternative spelling of maasha.",
-    "reviewed": true
-  },
   "masks": {
     "display": "masks",
     "d": 0.59,
     "pos": "noun",
     "def": "Coverings worn over the face to conceal identity, protect, or for theatrical purposes. This word is the plural form of 'mask'.",
-    "reviewed": true
-  },
-  "massa": {
-    "display": "massa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Pronunciation spelling of master.",
     "reviewed": true
   },
   "masse": {
@@ -13698,13 +12144,6 @@
     "def": "A partly reduced copper sulphide, obtained by alternately roasting and melting copper ore in separating the metal from associated iron ores, and called coarse metal, fine metal, etc., according to the grade of fineness.",
     "reviewed": true
   },
-  "matty": {
-    "display": "matty",
-    "d": 0.59,
-    "pos": "adj",
-    "def": "Characterized by being matted.",
-    "reviewed": true
-  },
   "mauve": {
     "display": "mauve",
     "d": 0.95,
@@ -13726,13 +12165,6 @@
     "def": "A self-evident axiom or premise; a pithy expression of a general principle or rule.",
     "reviewed": true
   },
-  "mayan": {
-    "display": "mayan",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Of or relating to the Maya people of Central America and southeastern Mexico.",
-    "reviewed": true
-  },
   "maybe": {
     "display": "maybe",
     "d": 0.05,
@@ -13745,20 +12177,6 @@
     "d": 0.22,
     "pos": "noun",
     "def": "A leader or ruler of a people, clan, or organization.",
-    "reviewed": true
-  },
-  "mccoy": {
-    "display": "mccoy",
-    "d": 0.67,
-    "pos": "noun",
-    "def": "Synonym of real McCoy.",
-    "reviewed": true
-  },
-  "meade": {
-    "display": "meade",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Obsolete form of mead.",
     "reviewed": true
   },
   "meals": {
@@ -13789,13 +12207,6 @@
     "def": "Various types or cuts of animal flesh prepared and consumed as food, such as beef, pork, or poultry.",
     "reviewed": true
   },
-  "mecca": {
-    "display": "mecca",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Any place considered to be a very important place to visit by people with a particular interest.",
-    "reviewed": true
-  },
   "medal": {
     "display": "medal",
     "d": 0.45,
@@ -13815,20 +12226,6 @@
     "d": 0.66,
     "pos": "adj",
     "def": "Of or pertaining to medicines; medical.",
-    "reviewed": true
-  },
-  "meeks": {
-    "display": "meeks",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "Mild of temper; not easily provoked or orritated.",
-    "reviewed": true
-  },
-  "meena": {
-    "display": "meena",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A member of a certain tribe of Rajasthan, India.",
     "reviewed": true
   },
   "meets": {
@@ -13950,32 +12347,11 @@
     "def": "Alternative form of metro, used for a system in a French-speaking city.",
     "reviewed": true
   },
-  "mette": {
-    "display": "mette",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A female given name of Danish and Norwegian origin, often a diminutive of Margaret.",
-    "reviewed": true
-  },
-  "micky": {
-    "display": "micky",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Alternative spelling of Mickey.",
-    "reviewed": true
-  },
   "micro": {
     "display": "micro",
     "d": 0.95,
     "pos": "adj",
     "def": "Very small in scale or scope.",
-    "reviewed": true
-  },
-  "midas": {
-    "display": "midas",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A genus of longeared South American monkeys, including numerous species of marmosets.",
     "reviewed": true
   },
   "midge": {
@@ -14020,13 +12396,6 @@
     "def": "Buildings containing machinery for grinding grain into flour, or for processing raw materials like textiles or lumber.",
     "reviewed": true
   },
-  "milly": {
-    "display": "milly",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A common female given name, often a diminutive of Mildred or Millicent.",
-    "reviewed": true
-  },
   "mimes": {
     "display": "mimes",
     "d": 0.95,
@@ -14041,13 +12410,6 @@
     "def": "To imitate, especially in order to ridicule.",
     "reviewed": true
   },
-  "minas": {
-    "display": "minas",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "An ancient weight or denomination of money, of varying value.",
-    "reviewed": true
-  },
   "mince": {
     "display": "mince",
     "d": 0.95,
@@ -14060,13 +12422,6 @@
     "d": 0.3,
     "pos": "noun",
     "def": "The conscious and unconscious faculties of thought, feeling, and will, encompassing a person's intellect and awareness.",
-    "reviewed": true
-  },
-  "mindy": {
-    "display": "mindy",
-    "d": 0.7,
-    "pos": "noun",
-    "def": "A common female given name, often a diminutive of Melinda or Miranda.",
     "reviewed": true
   },
   "mined": {
@@ -14097,13 +12452,6 @@
     "def": "Lesser in importance, seriousness, or significance than other things.",
     "reviewed": true
   },
-  "minos": {
-    "display": "minos",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A male sovereign monarch of a nation, territory, or people.",
-    "reviewed": true
-  },
   "mints": {
     "display": "mints",
     "d": 0.95,
@@ -14132,13 +12480,6 @@
     "def": "Merriment; gayety accompanied with laughter.",
     "reviewed": true
   },
-  "mirza": {
-    "display": "mirza",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The common title of honor in Persia, prefixed to the surname of an individual.",
-    "reviewed": true
-  },
   "miser": {
     "display": "miser",
     "d": 0.95,
@@ -14158,13 +12499,6 @@
     "d": 0.88,
     "pos": "adj",
     "def": "Covered in mist; foggy.",
-    "reviewed": true
-  },
-  "mitch": {
-    "display": "mitch",
-    "d": 0.42,
-    "pos": "verb",
-    "def": "To engage in the action of to pilfer; filch.",
     "reviewed": true
   },
   "mites": {
@@ -14200,13 +12534,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "Combines or blends different substances or elements together (third-person singular present tense of mix).",
-    "reviewed": true
-  },
-  "mmhmm": {
-    "display": "mmhmm",
-    "d": 0.95,
-    "pos": "intj",
-    "def": "Elongated form of mhm.",
     "reviewed": true
   },
   "moans": {
@@ -14256,13 +12583,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A person of the Mongolian race.",
-    "reviewed": true
-  },
-  "moira": {
-    "display": "moira",
-    "d": 0.93,
-    "pos": "noun",
-    "def": "The deity who assigns to every man his lot.",
     "reviewed": true
   },
   "moist": {
@@ -14349,13 +12669,6 @@
     "def": "Men who are members of a religious community, typically living under vows of poverty, chastity, and obedience.",
     "reviewed": true
   },
-  "monte": {
-    "display": "monte",
-    "d": 0.7,
-    "pos": "noun",
-    "def": "A game in which three or four cards are dealt face-up and players bet on which of them will first be matched in suit by others dealt.",
-    "reviewed": true
-  },
   "month": {
     "display": "month",
     "d": 0.13,
@@ -14412,13 +12725,6 @@
     "def": "Concerned with the principles of right and wrong behavior and goodness.",
     "reviewed": true
   },
-  "moran": {
-    "display": "moran",
-    "d": 0.88,
-    "pos": "noun",
-    "def": "An unmarried Maasai or Samburu warrior.",
-    "reviewed": true
-  },
   "moray": {
     "display": "moray",
     "d": 0.95,
@@ -14440,32 +12746,11 @@
     "def": "The essential customs and conventions of a community or society, regarded as being of fundamental importance to its existence.",
     "reviewed": true
   },
-  "morin": {
-    "display": "morin",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A yellow crystalline substance of acid properties extracted from fustic.",
-    "reviewed": true
-  },
   "moron": {
     "display": "moron",
     "d": 0.38,
     "pos": "noun",
     "def": "A stupid person; an idiot.",
-    "reviewed": true
-  },
-  "morse": {
-    "display": "morse",
-    "d": 0.7,
-    "pos": "noun",
-    "def": "Clipping of Morse code.",
-    "reviewed": true
-  },
-  "moses": {
-    "display": "moses",
-    "d": 0.58,
-    "pos": "intj",
-    "def": "An exclamation of shock.",
     "reviewed": true
   },
   "mosey": {
@@ -14657,13 +12942,6 @@
     "def": "To chew with a grinding, crunching sound, and with the mouth closed.",
     "reviewed": true
   },
-  "mungo": {
-    "display": "mungo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A fibrous material obtained by deviling rags or the remnants of woolen goods.",
-    "reviewed": true
-  },
   "mural": {
     "display": "mural",
     "d": 0.95,
@@ -14711,13 +12989,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Confused, dazed, or unclear in thought; feeling slightly unwell or dizzy.",
-    "reviewed": true
-  },
-  "myron": {
-    "display": "myron",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A consecrated oil, typically mixed with balsam, used in some Christian churches for anointing during religious rites.",
     "reviewed": true
   },
   "myrrh": {
@@ -14909,13 +13180,6 @@
     "def": "To utter the cry of the horse; to whinny.",
     "reviewed": true
   },
-  "nelly": {
-    "display": "nelly",
-    "d": 0.93,
-    "pos": "noun",
-    "def": "A feminine given name, often a diminutive of Helen or Eleanor. Also, a slang term for an effeminate man.",
-    "reviewed": true
-  },
   "nerds": {
     "display": "nerds",
     "d": 0.86,
@@ -14942,13 +13206,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Structures built by birds or other animals, typically for laying eggs, raising young, or providing shelter.",
-    "reviewed": true
-  },
-  "neuro": {
-    "display": "neuro",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Relating to nerves or the nervous system; often used as a prefix in medical and scientific terms.",
     "reviewed": true
   },
   "never": {
@@ -15014,20 +13271,6 @@
     "def": "Having the required qualities; pleasing, beneficial, or morally admirable.",
     "reviewed": true
   },
-  "nigel": {
-    "display": "nigel",
-    "d": 0.53,
-    "pos": "noun",
-    "def": "Synonym of dweeb ().",
-    "reviewed": true
-  },
-  "nigga": {
-    "display": "nigga",
-    "d": 0.46,
-    "pos": "noun",
-    "def": "Pronunciation spelling of nigger.",
-    "reviewed": true
-  },
   "night": {
     "display": "night",
     "d": 0.05,
@@ -15063,39 +13306,11 @@
     "def": "The ordinal form of the number nine.",
     "reviewed": true
   },
-  "niobe": {
-    "display": "niobe",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A female child in relation to her parents.",
-    "reviewed": true
-  },
-  "nitro": {
-    "display": "nitro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The univalent NO₂ functional group.",
-    "reviewed": true
-  },
-  "nixon": {
-    "display": "nixon",
-    "d": 0.71,
-    "pos": "noun",
-    "def": "A drug of low quality and low potency passed off as a powerful, pure drug.",
-    "reviewed": true
-  },
   "nobby": {
     "display": "nobby",
     "d": 0.95,
     "pos": "adj",
     "def": "Stylish and fashionable; elegant and smart in appearance.",
-    "reviewed": true
-  },
-  "nobel": {
-    "display": "nobel",
-    "d": 0.78,
-    "pos": "adj",
-    "def": "Characterized by being misspelling of noble.",
     "reviewed": true
   },
   "noble": {
@@ -15147,13 +13362,6 @@
     "def": "The one or single occasion; the present call or purpose.",
     "reviewed": true
   },
-  "nonny": {
-    "display": "nonny",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A silly fellow; a ninny.",
-    "reviewed": true
-  },
   "nooks": {
     "display": "nooks",
     "d": 0.95,
@@ -15161,32 +13369,11 @@
     "def": "A narrow place formed by an angle in bodies or between bodies; a corner.",
     "reviewed": true
   },
-  "noona": {
-    "display": "noona",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An affectionate term of address for an older sister or somewhat older woman.",
-    "reviewed": true
-  },
-  "noone": {
-    "display": "noone",
-    "d": 0.95,
-    "pos": "pron",
-    "def": "Nonstandard spelling of no one.",
-    "reviewed": true
-  },
   "noose": {
     "display": "noose",
     "d": 0.85,
     "pos": "noun",
     "def": "An adjustable loop of rope, such as the one placed around the neck in hangings, or the one at the end of a lasso.",
-    "reviewed": true
-  },
-  "norma": {
-    "display": "norma",
-    "d": 0.68,
-    "pos": "noun",
-    "def": "A feminine given name of Latin origin, meaning \"standard\" or \"rule.\" Also, a small constellation.",
     "reviewed": true
   },
   "norms": {
@@ -15243,13 +13430,6 @@
     "d": 0.38,
     "pos": "noun/adj",
     "def": "A fictitious prose narrative of book length, typically representing characters.",
-    "reviewed": true
-  },
-  "nubia": {
-    "display": "nubia",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The natural agent that stimulates sight and makes things visible to eyes.",
     "reviewed": true
   },
   "nudes": {
@@ -15427,13 +13607,6 @@
     "def": "An aerial maneuver in which one catches air by leaping off the ground with the skateboard and into the air.",
     "reviewed": true
   },
-  "omaha": {
-    "display": "omaha",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A member of a tribe of Native Americans currently residing in northeastern Nebraska and western Iowa.",
-    "reviewed": true
-  },
   "omega": {
     "display": "omega",
     "d": 0.77,
@@ -15460,13 +13633,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The initial phase of a disease or condition, in which symptoms first become apparent.",
-    "reviewed": true
-  },
-  "ooooh": {
-    "display": "ooooh",
-    "d": 0.95,
-    "pos": "intj",
-    "def": "Elongated form of ooh.",
     "reviewed": true
   },
   "oozes": {
@@ -15497,13 +13663,6 @@
     "def": "A yellow-brown, addictive narcotic drug obtained from the dried juice of unripe pods of the opium poppy, Papaver somniferum, and containing alkaloids such as morphine, codeine, and papaverine.",
     "reviewed": true
   },
-  "oprah": {
-    "display": "oprah",
-    "d": 0.8,
-    "pos": "verb",
-    "def": "To feature on The Oprah Winfrey Show.",
-    "reviewed": true
-  },
   "optic": {
     "display": "optic",
     "d": 0.95,
@@ -15530,20 +13689,6 @@
     "d": 0.47,
     "pos": "noun",
     "def": "A part of an organism that is typically self-contained and has a specific vital function.",
-    "reviewed": true
-  },
-  "orion": {
-    "display": "orion",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "A large and bright constellation on the equator, between the stars Aldebaran and Sirius.",
-    "reviewed": true
-  },
-  "osman": {
-    "display": "osman",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Synonym of Ottoman ().",
     "reviewed": true
   },
   "other": {
@@ -15770,13 +13915,6 @@
     "def": "The inner surfaces of the hands, extending from the wrist to the base of the fingers, or tropical trees with large fan-like leaves.",
     "reviewed": true
   },
-  "palos": {
-    "display": "palos",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "A pole or timber of any kind; [Sp.",
-    "reviewed": true
-  },
   "palsy": {
     "display": "palsy",
     "d": 0.95,
@@ -15838,13 +13976,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Measuring a small distance from end to end; not long or tall.",
-    "reviewed": true
-  },
-  "paolo": {
-    "display": "paolo",
-    "d": 0.72,
-    "pos": "noun",
-    "def": "Having lived or existed for a long time; not young or new.",
     "reviewed": true
   },
   "papal": {
@@ -15952,13 +14083,6 @@
     "def": "A portion of an object or of material, produced by cutting, tearing, or breaking.",
     "reviewed": true
   },
-  "patel": {
-    "display": "patel",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A common Indian surname, particularly associated with the agricultural community, often historically denoting a village headman.",
-    "reviewed": true
-  },
   "paths": {
     "display": "paths",
     "d": 0.58,
@@ -15978,13 +14102,6 @@
     "d": 0.77,
     "pos": "noun",
     "def": "A person who is easily manipulated, victimized, or made to take the blame for something.",
-    "reviewed": true
-  },
-  "patti": {
-    "display": "patti",
-    "d": 0.92,
-    "pos": "noun",
-    "def": "A traditional residential subdivision or unit found in settlements of Punjab.",
     "reviewed": true
   },
   "patty": {
@@ -16020,13 +14137,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "Past tense or past participle of pay; To cover, as bottom of a vessel, a seam, a spar, etc., with tar or pitch, or waterproof composition of tallow, resin, etc.",
-    "reviewed": true
-  },
-  "payne": {
-    "display": "payne",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Obsolete spelling of pain.",
     "reviewed": true
   },
   "peace": {
@@ -16113,13 +14223,6 @@
     "def": "People who are of the same age, social status, or level of ability as another, or members of the nobility.",
     "reviewed": true
   },
-  "peggy": {
-    "display": "peggy",
-    "d": 0.45,
-    "pos": "noun",
-    "def": "Any of several small warblers, the whitethroat, etc.",
-    "reviewed": true
-  },
   "pelts": {
     "display": "pelts",
     "d": 0.95,
@@ -16155,13 +14258,6 @@
     "def": "A living organism of the kind exemplified by trees, shrubs, herbs, and grasses.",
     "reviewed": true
   },
-  "pepsi": {
-    "display": "pepsi",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A popular brand of carbonated soft drink, dark in color and sweet in taste, sold worldwide.",
-    "reviewed": true
-  },
   "perch": {
     "display": "perch",
     "d": 0.95,
@@ -16188,13 +14284,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Lively and often cheerful and enthusiastic.",
-    "reviewed": true
-  },
-  "perry": {
-    "display": "perry",
-    "d": 0.45,
-    "pos": "noun",
-    "def": "A fermented alcoholic beverage made from pears, similar to hard apple cider.",
     "reviewed": true
   },
   "pesky": {
@@ -16328,13 +14417,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "A foot soldier's weapon, consisting of a long wooden shaft or staff, with a pointed steel head.",
-    "reviewed": true
-  },
-  "pilar": {
-    "display": "pilar",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being relating to hair.",
     "reviewed": true
   },
   "piled": {
@@ -16659,13 +14741,6 @@
     "def": "A textile fabric with a nap or shag on one side, longer and softer than the nap of velvet.",
     "reviewed": true
   },
-  "pluto": {
-    "display": "pluto",
-    "d": 0.9,
-    "pos": "verb",
-    "def": "To demote or devalue something.",
-    "reviewed": true
-  },
   "poach": {
     "display": "poach",
     "d": 0.95,
@@ -16685,13 +14760,6 @@
     "d": 0.83,
     "pos": "noun",
     "def": "People who write poems, especially as a literary art form, expressing thoughts and emotions through verse.",
-    "reviewed": true
-  },
-  "pogue": {
-    "display": "pogue",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A derogatory term for a non-combat soldier or marine, or someone considered soft or inexperienced.",
     "reviewed": true
   },
   "point": {
@@ -16764,25 +14832,11 @@
     "def": "Processes of voting in an election. Also, surveys of public opinion.",
     "reviewed": true
   },
-  "polly": {
-    "display": "polly",
-    "d": 0.55,
-    "pos": "noun",
-    "def": "A prefect at Uppingham School in Rutland, England.",
-    "reviewed": true
-  },
   "ponds": {
     "display": "ponds",
     "d": 0.95,
     "pos": "noun",
     "def": "Small inland bodies of still fresh water surrounded by land.",
-    "reviewed": true
-  },
-  "pongo": {
-    "display": "pongo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Any large ape; especially, the chimpanzee and the orang-outang.",
     "reviewed": true
   },
   "pooch": {
@@ -16862,20 +14916,6 @@
     "def": "Characterized by being pornographic.",
     "reviewed": true
   },
-  "porta": {
-    "display": "porta",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The part of the liver or other organ where its vessels and nerves enter; the hilus.",
-    "reviewed": true
-  },
-  "porte": {
-    "display": "porte",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The Ottoman court; the government of the Turkish empire, officially called the Sublime Porte, from the gate of the sultan's palace at which justice was administered.",
-    "reviewed": true
-  },
   "ports": {
     "display": "ports",
     "d": 0.95,
@@ -16918,13 +14958,6 @@
     "def": "Upright pieces of timber or metal fixed in the ground. Also, messages published online or positions of employment.",
     "reviewed": true
   },
-  "potts": {
-    "display": "potts",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Small containers, typically round and deep, used for cooking, serving, or storing food and liquids.",
-    "reviewed": true
-  },
   "potty": {
     "display": "potty",
     "d": 0.95,
@@ -16965,13 +14998,6 @@
     "d": 0.57,
     "pos": "noun",
     "def": "A practical joke or mischievous trick.",
-    "reviewed": true
-  },
-  "pratt": {
-    "display": "pratt",
-    "d": 0.78,
-    "pos": "noun",
-    "def": "An often-made but previously debunked argument.",
     "reviewed": true
   },
   "prawn": {
@@ -17289,13 +15315,6 @@
     "def": "Free from dirt, marks, or stains; unsoiled and neat.",
     "reviewed": true
   },
-  "purim": {
-    "display": "purim",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Jewish festival, called also the Feast of Lots, instituted to commemorate the deliverance of the Jews from the machinations of Haman.",
-    "reviewed": true
-  },
   "purrs": {
     "display": "purrs",
     "d": 0.95,
@@ -17548,13 +15567,6 @@
     "def": "Competitions of speed, such as running or driving. Also, groups of people sharing common ancestry, culture, or physical traits.",
     "reviewed": true
   },
-  "rache": {
-    "display": "rache",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A domesticated carnivorous mammal known for loyalty and barking.",
-    "reviewed": true
-  },
   "racks": {
     "display": "racks",
     "d": 0.95,
@@ -17646,13 +15658,6 @@
     "def": "A public gathering or mass meeting that is not mainly a protest and is organized to inspire enthusiasm for a cause.",
     "reviewed": true
   },
-  "rambo": {
-    "display": "rambo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "One who is reckless, disregards orders, uses violence to solve all problems, and bravely charges headlong into the teeth of the enemy.",
-    "reviewed": true
-  },
   "ramen": {
     "display": "ramen",
     "d": 0.95,
@@ -17665,13 +15670,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "Moves or causes to move up or down a slope; increases or decreases sharply (third-person singular present tense of ramp).",
-    "reviewed": true
-  },
-  "rance": {
-    "display": "rance",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A prop or shore; [Scot.] 2.",
     "reviewed": true
   },
   "ranch": {
@@ -17756,13 +15754,6 @@
     "d": 0.87,
     "pos": "noun",
     "def": "The quantitative relation between two amounts showing the number of times one contains another.",
-    "reviewed": true
-  },
-  "raton": {
-    "display": "raton",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Of a size that is less than normal or usual; little.",
     "reviewed": true
   },
   "ravel": {
@@ -17870,20 +15861,6 @@
     "def": "To seal again with a cap.",
     "reviewed": true
   },
-  "recon": {
-    "display": "recon",
-    "d": 0.86,
-    "pos": "noun",
-    "def": "Short for reconnaissance, referring to military observation of a region to locate an enemy or ascertain strategic features.",
-    "reviewed": true
-  },
-  "reddy": {
-    "display": "reddy",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A member of a Telugu caste, mostly from Andhra Pradesh and Telangana.",
-    "reviewed": true
-  },
   "reeds": {
     "display": "reeds",
     "d": 0.95,
@@ -17910,13 +15887,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "Cylinders around which film or fishing line is wound.",
-    "reviewed": true
-  },
-  "reese": {
-    "display": "reese",
-    "d": 0.55,
-    "pos": "noun",
-    "def": "Synonym of peanut butter cup.",
     "reviewed": true
   },
   "reeve": {
@@ -17959,13 +15929,6 @@
     "d": 0.6,
     "pos": "noun",
     "def": "The exercise of sovereign power.",
-    "reviewed": true
-  },
-  "reims": {
-    "display": "reims",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "A strip of oxhide, deprived of hair, and rendered pliable, , etc.",
     "reviewed": true
   },
   "reins": {
@@ -18087,13 +16050,6 @@
     "def": "A large meal, typically one in celebration of something special.",
     "reviewed": true
   },
-  "rhine": {
-    "display": "rhine",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A watercourse; a ditch for water.",
-    "reviewed": true
-  },
   "rhino": {
     "display": "rhino",
     "d": 0.87,
@@ -18106,13 +16062,6 @@
     "d": 0.71,
     "pos": "noun",
     "def": "A correspondence of sound between words or the endings of words, especially when used at the ends of lines in poetry.",
-    "reviewed": true
-  },
-  "rican": {
-    "display": "rican",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Clipping of Puerto Rican.",
     "reviewed": true
   },
   "ricks": {
@@ -18148,13 +16097,6 @@
     "d": 0.4,
     "pos": "noun",
     "def": "A gun, especially one fired from shoulder level, having a rifled barrel.",
-    "reviewed": true
-  },
-  "riggs": {
-    "display": "riggs",
-    "d": 0.91,
-    "pos": "noun",
-    "def": "This word is primarily known as a surname, such as in the name Bobby Riggs, a famous American tennis player.",
     "reviewed": true
   },
   "right": {
@@ -18360,13 +16302,6 @@
     "def": "Consisting or full of rock or rocks, or unpleasantly unstable.",
     "reviewed": true
   },
-  "roddy": {
-    "display": "roddy",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Containing or holding as much or as many as possible; complete.",
-    "reviewed": true
-  },
   "rodeo": {
     "display": "rodeo",
     "d": 0.72,
@@ -18379,13 +16314,6 @@
     "d": 0.56,
     "pos": "noun",
     "def": "A scoundrel, rascal or unprincipled, deceitful, and unreliable person.",
-    "reviewed": true
-  },
-  "rohan": {
-    "display": "rohan",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An East Indian timber tree.",
     "reviewed": true
   },
   "roles": {
@@ -18407,13 +16335,6 @@
     "d": 0.31,
     "pos": "adj",
     "def": "Upright, as opposed to italic.",
-    "reviewed": true
-  },
-  "romeo": {
-    "display": "romeo",
-    "d": 0.45,
-    "pos": "noun",
-    "def": "A passionate male lover or suitor, often referring to the romantic male protagonist in Shakespeare's play \"Romeo and Juliet.\"",
     "reviewed": true
   },
   "rondo": {
@@ -18493,25 +16414,11 @@
     "def": "A form of croquet modified for greater accuracy of play.",
     "reviewed": true
   },
-  "rosen": {
-    "display": "rosen",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Made of or consisting of roses.",
-    "reviewed": true
-  },
   "roses": {
     "display": "roses",
     "d": 0.41,
     "pos": "noun",
     "def": "Thorny shrubs or climbing plants of the genus Rosa, bearing fragrant flowers with many petals.",
-    "reviewed": true
-  },
-  "rosie": {
-    "display": "rosie",
-    "d": 0.45,
-    "pos": "noun",
-    "def": "A female factory worker during World War II (after the 1942 song Rosie the Riveter).",
     "reviewed": true
   },
   "rotor": {
@@ -18687,13 +16594,6 @@
     "d": 0.45,
     "pos": "adj",
     "def": "Marked or corroded by rust.",
-    "reviewed": true
-  },
-  "ryder": {
-    "display": "ryder",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "A yellow malleable precious metallic element resistant to corrosion.",
     "reviewed": true
   },
   "saber": {
@@ -18913,13 +16813,6 @@
     "def": "Lively, bold, and full of spirit; cheeky in a playful way.",
     "reviewed": true
   },
-  "satan": {
-    "display": "satan",
-    "d": 0.45,
-    "pos": "noun",
-    "def": "A demon follower of Satan ; a fallen angel.",
-    "reviewed": true
-  },
   "satin": {
     "display": "satin",
     "d": 0.95,
@@ -18946,13 +16839,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Similar to sauce; having the consistency or texture of sauce.",
-    "reviewed": true
-  },
-  "saudi": {
-    "display": "saudi",
-    "d": 0.91,
-    "pos": "adj",
-    "def": "From, or pertaining to Saudi Arabia, the Saudi Arabian people or language, or the House of Saud.",
     "reviewed": true
   },
   "sauna": {
@@ -19016,13 +16902,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "One who says; an utterer; Mr.",
-    "reviewed": true
-  },
-  "sayid": {
-    "display": "sayid",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Alternative spelling of Sayyid.",
     "reviewed": true
   },
   "scabs": {
@@ -19333,13 +17212,6 @@
     "def": "Abounding with seeds; bearing seeds.",
     "reviewed": true
   },
-  "seein": {
-    "display": "seein",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Pronunciation spelling of seeing.",
-    "reviewed": true
-  },
   "seeks": {
     "display": "seeks",
     "d": 0.77,
@@ -19380,13 +17252,6 @@
     "d": 0.51,
     "pos": "verb",
     "def": "third-person singular simple present indicative of sell.",
-    "reviewed": true
-  },
-  "selma": {
-    "display": "selma",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A confrontation where authorities brutally repress those wanting civil rights, similar to Bloody Sunday in Selma, Alabama.",
     "reviewed": true
   },
   "semen": {
@@ -19564,13 +17429,6 @@
     "def": "An uncomfortable or painful feeling due to recognition or consciousness of one's own impropriety or dishonor, or something being exposed that should have been kept private.",
     "reviewed": true
   },
-  "shang": {
-    "display": "shang",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Chinese unit of land area equivalent to 15 mu or about one hectare.",
-    "reviewed": true
-  },
   "shank": {
     "display": "shank",
     "d": 0.95,
@@ -19634,13 +17492,6 @@
     "def": "To cut, clip, or sever anything from with shears or a like instrument; to shear cloth.",
     "reviewed": true
   },
-  "sheba": {
-    "display": "sheba",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An ancient kingdom in the Near East, famously associated with the Queen of Sheba, known for its wealth and trade.",
-    "reviewed": true
-  },
   "sheds": {
     "display": "sheds",
     "d": 0.95,
@@ -19697,25 +17548,11 @@
     "def": "Solid, firm, and resistant to pressure; not easily broken or pierced.",
     "reviewed": true
   },
-  "sheng": {
-    "display": "sheng",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Chinese wind instrument, a free-reed mouth organ consisting of 13 or more bamboo pipes of various lengths, which are fixed at their bases in a wind chest made from a dried gourd .",
-    "reviewed": true
-  },
   "shift": {
     "display": "shift",
     "d": 0.28,
     "pos": "verb/noun",
     "def": "To move or cause to move from one place or position to another.",
-    "reviewed": true
-  },
-  "shifu": {
-    "display": "shifu",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Synonym of sifu: the Mandarin Chinese-derived name.",
     "reviewed": true
   },
   "shine": {
@@ -19760,13 +17597,6 @@
     "def": "To procure by petty fraud and trickery; to obtain by mean solicitation.",
     "reviewed": true
   },
-  "shiro": {
-    "display": "shiro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A stew of Ethiopia and Eritrea origin whose primary ingredient is powdered chickpeas or broad-bean meal.",
-    "reviewed": true
-  },
   "shirt": {
     "display": "shirt",
     "d": 0.21,
@@ -19779,13 +17609,6 @@
     "d": 0.87,
     "pos": "noun",
     "def": "Slang term for rubbish, nonsense, or poor quality things.",
-    "reviewed": true
-  },
-  "shiva": {
-    "display": "shiva",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "A weeklong period of formal mourning for a close relative.",
     "reviewed": true
   },
   "shoal": {
@@ -19898,13 +17721,6 @@
     "d": 0.84,
     "pos": "noun/verb",
     "def": "A strip of some material, such as paper, cloth, or food.",
-    "reviewed": true
-  },
-  "shrek": {
-    "display": "shrek",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An extremely ugly person.",
     "reviewed": true
   },
   "shrew": {
@@ -20026,13 +17842,6 @@
     "def": "Marks, symbols, or gestures used to convey information. They can also be indications or omens of a future event or condition.",
     "reviewed": true
   },
-  "sikhs": {
-    "display": "sikhs",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A religious sect noted for warlike traits, founded in the Punjab at the end of the 15th century.",
-    "reviewed": true
-  },
   "silks": {
     "display": "silks",
     "d": 0.95,
@@ -20059,20 +17868,6 @@
     "d": 0.95,
     "pos": "noun/verb",
     "def": "A pit or vat for packing away green fodder for winter use so as to exclude air and outside moisture.",
-    "reviewed": true
-  },
-  "silva": {
-    "display": "silva",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The forest trees of a particular area.",
-    "reviewed": true
-  },
-  "simms": {
-    "display": "simms",
-    "d": 0.94,
-    "pos": "noun",
-    "def": "Single In-line Memory Modules, which are types of circuit boards containing computer memory chips. They were commonly used in older computers.",
     "reviewed": true
   },
   "since": {
@@ -20173,13 +17968,6 @@
     "def": "The overall extent or magnitude of something. They also refer to specific measurements for clothing, shoes, or other items.",
     "reviewed": true
   },
-  "skank": {
-    "display": "skank",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A lewd and disreputable person, often female, especially an unattractive person with an air of tawdry promiscuity.",
-    "reviewed": true
-  },
   "skate": {
     "display": "skate",
     "d": 0.72,
@@ -20278,13 +18066,6 @@
     "def": "The part of anything that hangs loose, having no strain upon it.",
     "reviewed": true
   },
-  "slade": {
-    "display": "slade",
-    "d": 0.84,
-    "pos": "noun",
-    "def": "A valley, a flat grassy area, a glade.",
-    "reviewed": true
-  },
   "slags": {
     "display": "slags",
     "d": 0.95,
@@ -20353,13 +18134,6 @@
     "d": 0.31,
     "pos": "noun",
     "def": "A person who is held in servitude as the property of another person, and whose labor is subject to the owner's volition and control.",
-    "reviewed": true
-  },
-  "slavs": {
-    "display": "slavs",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "One of a race of people occupying a large part of Eastern and Northern Europe, including the Russians, Bulgarians, Roumanians, Servo-Croats, Slovenes, Poles, Czechs, Wends or Sorbs, Slovaks, etc.",
     "reviewed": true
   },
   "slays": {
@@ -20614,13 +18388,6 @@
     "def": "Characterized by being filled with smoke.",
     "reviewed": true
   },
-  "smurf": {
-    "display": "smurf",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A blue pixie with a white stocking cap, from the media franchise The Smurfs.",
-    "reviewed": true
-  },
   "snack": {
     "display": "snack",
     "d": 0.49,
@@ -20647,13 +18414,6 @@
     "d": 0.28,
     "pos": "noun/verb",
     "def": "Measuring a great distance from end to end in space or duration in time.",
-    "reviewed": true
-  },
-  "snape": {
-    "display": "snape",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "To bevel the end of a timber to fit against an inclined surface.",
     "reviewed": true
   },
   "snaps": {
@@ -20838,13 +18598,6 @@
     "def": "Carbonated soft drinks, often sweetened and flavored. They also refer to various compounds containing sodium, such as baking soda.",
     "reviewed": true
   },
-  "sodom": {
-    "display": "sodom",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A large permanent settlement with a complex infrastructure of buildings.",
-    "reviewed": true
-  },
   "sofas": {
     "display": "sofas",
     "d": 0.95,
@@ -20955,13 +18708,6 @@
     "d": 0.05,
     "pos": "adj",
     "def": "Regretful or apologetic for one's actions.",
-    "reviewed": true
-  },
-  "sorta": {
-    "display": "sorta",
-    "d": 0.94,
-    "pos": "adv",
-    "def": "Contraction of sort of.",
     "reviewed": true
   },
   "sorts": {
@@ -21090,13 +18836,6 @@
     "def": "The rapidity in moving, travelling, or proceeding with quick velocity.",
     "reviewed": true
   },
-  "speer": {
-    "display": "speer",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To ask or inquire, especially in an earnest or persistent manner (an archaic or dialectal verb).",
-    "reviewed": true
-  },
   "spell": {
     "display": "spell",
     "d": 0.26,
@@ -21221,13 +18960,6 @@
     "d": 0.22,
     "pos": "verb",
     "def": "To divide fully or partly along a more or less straight line.",
-    "reviewed": true
-  },
-  "spock": {
-    "display": "spock",
-    "d": 0.61,
-    "pos": "noun",
-    "def": "A person or character like a Star Trek Vulcan; someone resembling Star Trek's character Spock.",
     "reviewed": true
   },
   "spoil": {
@@ -21363,13 +19095,6 @@
     "def": "Relatively short or low, and thick or broad.",
     "reviewed": true
   },
-  "squaw": {
-    "display": "squaw",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A term historically used to refer to a Native American woman.",
-    "reviewed": true
-  },
   "squid": {
     "display": "squid",
     "d": 0.76,
@@ -21389,13 +19114,6 @@
     "d": 0.58,
     "pos": "noun",
     "def": "A neatly arranged pile of objects, one on top of another, or a large quantity of something.",
-    "reviewed": true
-  },
-  "stacy": {
-    "display": "stacy",
-    "d": 0.61,
-    "pos": "noun",
-    "def": "An attractive, genetically gifted and popular woman who is sexually active, often conceived as the female counterpart of a Chad.",
     "reviewed": true
   },
   "staff": {
@@ -21489,13 +19207,6 @@
     "def": "Characterized by being hard, firm; obdurate.",
     "reviewed": true
   },
-  "starr": {
-    "display": "starr",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A receipt given by Jews on payment of debt.",
-    "reviewed": true
-  },
   "stars": {
     "display": "stars",
     "d": 0.19,
@@ -21522,13 +19233,6 @@
     "d": 0.12,
     "pos": "noun/verb",
     "def": "The particular condition that someone or something is in at a specific time.",
-    "reviewed": true
-  },
-  "stats": {
-    "display": "stats",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Clipping of statistics .",
     "reviewed": true
   },
   "stave": {
@@ -21587,13 +19291,6 @@
     "def": "Solid, firm, and resistant to pressure; not easily broken or pierced.",
     "reviewed": true
   },
-  "steen": {
-    "display": "steen",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A vessel of clay or stone.",
-    "reviewed": true
-  },
   "steep": {
     "display": "steep",
     "d": 0.76,
@@ -21613,13 +19310,6 @@
     "d": 0.79,
     "pos": "noun",
     "def": "An alcoholic beverage brewed from fermented malt and flavored with hops.",
-    "reviewed": true
-  },
-  "stell": {
-    "display": "stell",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A particular position or point in space, or an area with definite boundaries.",
     "reviewed": true
   },
   "stems": {
@@ -21648,13 +19338,6 @@
     "d": 0.66,
     "pos": "adj",
     "def": "Having a hardness and severity of nature or manner.",
-    "reviewed": true
-  },
-  "stian": {
-    "display": "stian",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An inflamed swelling on the edge of an eyelid, resembling a small boil (an archaic spelling of sty).",
     "reviewed": true
   },
   "stick": {
@@ -21958,13 +19641,6 @@
     "def": "The value equivalent to that of someone or something under consideration.",
     "reviewed": true
   },
-  "sudan": {
-    "display": "sudan",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A traditional Korean punch, made from boiled rice flour cakes and honeyed water, often consumed on holidays.",
-    "reviewed": true
-  },
   "suede": {
     "display": "suede",
     "d": 0.95,
@@ -22040,13 +19716,6 @@
     "d": 0.81,
     "pos": "noun",
     "def": "An overflow of a large amount of water beyond its normal limits.",
-    "reviewed": true
-  },
-  "susan": {
-    "display": "susan",
-    "d": 0.27,
-    "pos": "adj",
-    "def": "Of or pertaining to the ancient city of Susa.",
     "reviewed": true
   },
   "sushi": {
@@ -22273,20 +19942,6 @@
     "def": "simple past and past participle of swing.",
     "reviewed": true
   },
-  "sybil": {
-    "display": "sybil",
-    "d": 0.9,
-    "pos": "noun",
-    "def": "A woman in ancient Greece or Rome believed to possess prophetic powers and deliver oracles; a prophetess.",
-    "reviewed": true
-  },
-  "sykes": {
-    "display": "sykes",
-    "d": 0.93,
-    "pos": "noun",
-    "def": "Small streams, ditches, or narrow channels, often found in marshy or boggy areas. These are typically natural watercourses.",
-    "reviewed": true
-  },
   "synod": {
     "display": "synod",
     "d": 0.95,
@@ -22441,32 +20096,11 @@
     "def": "One who tames or subdues.",
     "reviewed": true
   },
-  "tamil": {
-    "display": "tamil",
-    "d": 0.94,
-    "pos": "adj",
-    "def": "Of or pertaining to the Tamil people, culture, or language.",
-    "reviewed": true
-  },
-  "tammy": {
-    "display": "tammy",
-    "d": 0.6,
-    "pos": "noun",
-    "def": "Having or showing a friendly, generous, and considerate nature.",
-    "reviewed": true
-  },
   "tango": {
     "display": "tango",
     "d": 0.64,
     "pos": "noun",
     "def": "A standard ballroom dance in 4/4 time; or a social dance, the Argentine tango.",
-    "reviewed": true
-  },
-  "tania": {
-    "display": "tania",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Produced, introduced, or discovered recently or for the first time.",
     "reviewed": true
   },
   "tanks": {
@@ -22481,13 +20115,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Any plant of the composite genus Tanacetum.",
-    "reviewed": true
-  },
-  "tanya": {
-    "display": "tanya",
-    "d": 0.54,
-    "pos": "noun",
-    "def": "Alternative form of tania ().",
     "reviewed": true
   },
   "tapas": {
@@ -22777,13 +20404,6 @@
     "def": "In the International System of Units, the derived unit of magnetic flux density or magnetic inductivity.",
     "reviewed": true
   },
-  "tessa": {
-    "display": "tessa",
-    "d": 0.69,
-    "pos": "noun",
-    "def": "Acronym of tax-exempt special savings account.",
-    "reviewed": true
-  },
   "tests": {
     "display": "tests",
     "d": 0.28,
@@ -22817,13 +20437,6 @@
     "d": 0.05,
     "pos": "noun",
     "def": "singular of thanks ().",
-    "reviewed": true
-  },
-  "thats": {
-    "display": "thats",
-    "d": 0.62,
-    "pos": "noun",
-    "def": "Refers to multiple instances of the word 'that' when discussed linguistically, or sometimes used informally as a plural demonstrative pronoun (non-standard).",
     "reviewed": true
   },
   "theft": {
@@ -22987,13 +20600,6 @@
     "def": "Violent, aggressive criminals or ruffians, often involved in organized crime or street gangs.",
     "reviewed": true
   },
-  "thule": {
-    "display": "thule",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A word or phrase by which a person, place, or thing is designated.",
-    "reviewed": true
-  },
   "thumb": {
     "display": "thumb",
     "d": 0.48,
@@ -23027,13 +20633,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The three-tiered papal crown.",
-    "reviewed": true
-  },
-  "tibet": {
-    "display": "tibet",
-    "d": 0.94,
-    "pos": "noun",
-    "def": "Of the very darkest color owing to the absence of light.",
     "reviewed": true
   },
   "tibia": {
@@ -23090,13 +20689,6 @@
     "d": 0.85,
     "pos": "verb",
     "def": "Covers a surface with tiles, typically for decorative or protective purposes (third-person singular present tense of tile).",
-    "reviewed": true
-  },
-  "tilly": {
-    "display": "tilly",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An extra product given to a customer at no additional charge; a lagniappe.",
     "reviewed": true
   },
   "timed": {
@@ -23176,13 +20768,6 @@
     "def": "A word or phrase by which a person, place, or thing is designated.",
     "reviewed": true
   },
-  "titty": {
-    "display": "titty",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An informal and somewhat vulgar term for a woman's breast or nipple.",
-    "reviewed": true
-  },
   "toads": {
     "display": "toads",
     "d": 0.95,
@@ -23253,13 +20838,6 @@
     "def": "Gives a particular quality or character to something; changes the color or shade of (third-person singular present tense of tone).",
     "reviewed": true
   },
-  "tonga": {
-    "display": "tonga",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A drug useful in neuralgia, derived from a Fijian plant supposed to be of the aroid genus Epipremnum.",
-    "reviewed": true
-  },
   "tongs": {
     "display": "tongs",
     "d": 0.95,
@@ -23272,13 +20850,6 @@
     "d": 0.76,
     "pos": "adj",
     "def": "Pertaining to tension, especially of the muscles.",
-    "reviewed": true
-  },
-  "tonya": {
-    "display": "tonya",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The action of buying and selling goods and services between parties.",
     "reviewed": true
   },
   "tools": {
@@ -23813,13 +21384,6 @@
     "def": "A turbocharger, an exhaust-gas-driven supercharger that increases an engine's power output. Often used as an adjective.",
     "reviewed": true
   },
-  "turks": {
-    "display": "turks",
-    "d": 0.77,
-    "pos": "noun",
-    "def": "People who are natives or citizens of Turkey, or people of Turkish descent.",
-    "reviewed": true
-  },
   "turns": {
     "display": "turns",
     "d": 0.16,
@@ -24044,13 +21608,6 @@
     "def": "The particular condition that someone or something is in at a specific time.",
     "reviewed": true
   },
-  "unsub": {
-    "display": "unsub",
-    "d": 0.69,
-    "pos": "noun",
-    "def": "Abbreviation of unknown subject of an investigation..",
-    "reviewed": true
-  },
   "untie": {
     "display": "untie",
     "d": 0.59,
@@ -24079,13 +21636,6 @@
     "def": "Feeling or showing strong annoyance, displeasure, or hostility.",
     "reviewed": true
   },
-  "urals": {
-    "display": "urals",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "Pertaining to, or designating, the Urals, a mountain range between Europe and Asia.",
-    "reviewed": true
-  },
   "urban": {
     "display": "urban",
     "d": 0.61,
@@ -24112,13 +21662,6 @@
     "d": 0.59,
     "pos": "noun",
     "def": "Liquid waste consisting of water, salts, and urea, which is made in the kidneys, stored in the bladder, then released through the urethra.",
-    "reviewed": true
-  },
-  "ursus": {
-    "display": "ursus",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A genus of Carnivora including the common bears.",
     "reviewed": true
   },
   "usage": {
@@ -24175,13 +21718,6 @@
     "d": 0.64,
     "pos": "adj",
     "def": "Comprising the whole number or amount; complete and absolute.",
-    "reviewed": true
-  },
-  "vader": {
-    "display": "vader",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Ellipsis of Vader Jam.",
     "reviewed": true
   },
   "vague": {
@@ -24310,13 +21846,6 @@
     "def": "A particular position or point in space, or an area with definite boundaries.",
     "reviewed": true
   },
-  "venus": {
-    "display": "venus",
-    "d": 0.54,
-    "pos": "noun",
-    "def": "Sexual activity or intercourse; sex; lust, love.",
-    "reviewed": true
-  },
   "verbs": {
     "display": "verbs",
     "d": 0.95,
@@ -24343,20 +21872,6 @@
     "d": 0.66,
     "pos": "noun",
     "def": "A single line of poetry, or a group of lines forming a stanza in a poem or song.",
-    "reviewed": true
-  },
-  "vespa": {
-    "display": "vespa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A genus of Hymenoptera including the common wasps and hornets.",
-    "reviewed": true
-  },
-  "vesta": {
-    "display": "vesta",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "One of the great divinities of the ancient Romans, identical with the Greek Hestia.",
     "reviewed": true
   },
   "vests": {
@@ -24401,13 +21916,6 @@
     "def": "Immoral or wicked behavior, or particular immoral habits or weaknesses. Also, tools with two jaws for holding an object.",
     "reviewed": true
   },
-  "vicky": {
-    "display": "vicky",
-    "d": 0.5,
-    "pos": "noun",
-    "def": "A common diminutive or nickname for the female given name Victoria.",
-    "reviewed": true
-  },
   "video": {
     "display": "video",
     "d": 0.18,
@@ -24450,13 +21958,6 @@
     "def": "Plants with long, flexible stems that trail along the ground or climb by clinging to a support.",
     "reviewed": true
   },
-  "vinny": {
-    "display": "vinny",
-    "d": 0.91,
-    "pos": "adj",
-    "def": "Characterized by being vinewed, mouldy.",
-    "reviewed": true
-  },
   "vinyl": {
     "display": "vinyl",
     "d": 0.95,
@@ -24483,13 +21984,6 @@
     "d": 0.79,
     "pos": "adj",
     "def": "Of or relating to a biological virus.",
-    "reviewed": true
-  },
-  "virgo": {
-    "display": "virgo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A sign of the zodiac which the sun enters about the 21st of August, marked thus [ A constellation of the zodiac, now occupying chiefly the sign Libra, and containing the bright star Spica.",
     "reviewed": true
   },
   "virus": {
@@ -24583,25 +22077,11 @@
     "def": "An exclamation used when unveiling or presenting something.",
     "reviewed": true
   },
-  "volta": {
-    "display": "volta",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A turning or return, especially in music, indicating a repeat of a section with a different ending.",
-    "reviewed": true
-  },
   "volts": {
     "display": "volts",
     "d": 0.95,
     "pos": "noun",
     "def": "Units of electromotive force, the difference in electrical potential between two points, causing current to flow.",
-    "reviewed": true
-  },
-  "volvo": {
-    "display": "volvo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A machine, especially one powered by electricity or internal combustion, that supplies power.",
     "reviewed": true
   },
   "vomit": {
@@ -24770,13 +22250,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The period of light between sunrise and sunset; daytime.",
-    "reviewed": true
-  },
-  "waldo": {
-    "display": "waldo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A remote-controlled manipulator, often used in hazardous environments, or a character in the \"Where's Waldo?\" puzzle books.",
     "reviewed": true
   },
   "wales": {
@@ -25003,13 +22476,6 @@
     "def": "Having an unusually strange character or behaviour.",
     "reviewed": true
   },
-  "welch": {
-    "display": "welch",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A person who defaults on an obligation, especially a small one.",
-    "reviewed": true
-  },
   "wells": {
     "display": "wells",
     "d": 0.5,
@@ -25050,13 +22516,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "An artificial landing place for ships on a riverbank or shore.",
-    "reviewed": true
-  },
-  "whats": {
-    "display": "whats",
-    "d": 0.76,
-    "pos": "noun",
-    "def": "Informal term referring to the essential nature or identity of things, often used when discussing various aspects.",
     "reviewed": true
   },
   "wheal": {
@@ -25234,13 +22693,6 @@
     "def": "To handle with skill and ease, especially a weapon or tool.",
     "reviewed": true
   },
-  "wilde": {
-    "display": "wilde",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Obsolete spelling of wild.",
-    "reviewed": true
-  },
   "wilds": {
     "display": "wilds",
     "d": 0.95,
@@ -25260,20 +22712,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Legal documents declaring a person's wishes regarding the disposal of their property after death.",
-    "reviewed": true
-  },
-  "willy": {
-    "display": "willy",
-    "d": 0.51,
-    "pos": "adj",
-    "def": "In a suitable state for an activity, action, or situation; prepared.",
-    "reviewed": true
-  },
-  "wilma": {
-    "display": "wilma",
-    "d": 0.91,
-    "pos": "intj",
-    "def": "A substitute for wilco when used for the phonetic W.",
     "reviewed": true
   },
   "winch": {
@@ -25386,13 +22824,6 @@
     "d": 0.81,
     "pos": "verb",
     "def": "past participle of wake.",
-    "reviewed": true
-  },
-  "wolfe": {
-    "display": "wolfe",
-    "d": 0.77,
-    "pos": "noun",
-    "def": "Obsolete spelling of wolf.",
     "reviewed": true
   },
   "woman": {
@@ -25612,13 +23043,6 @@
     "def": "Units of length equal to three feet or approximately 0.914 meters, or areas of ground next to a building.",
     "reviewed": true
   },
-  "yates": {
-    "display": "yates",
-    "d": 0.89,
-    "pos": "noun",
-    "def": "A common English surname, often referring to individuals or families bearing this name.",
-    "reviewed": true
-  },
   "yawns": {
     "display": "yawns",
     "d": 0.95,
@@ -25661,13 +23085,6 @@
     "def": "Emits a short, sharp cry, typically of pain or excitement, like a dog (third-person singular present tense of yelp).",
     "reviewed": true
   },
-  "yemen": {
-    "display": "yemen",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country located at the southern end of the Arabian Peninsula in Western Asia, known for its ancient history.",
-    "reviewed": true
-  },
   "yield": {
     "display": "yield",
     "d": 0.69,
@@ -25708,13 +23125,6 @@
     "d": 0.08,
     "pos": "adj/noun",
     "def": "Having lived or existed for only a short time; not old.",
-    "reviewed": true
-  },
-  "youre": {
-    "display": "youre",
-    "d": 0.93,
-    "pos": "verb",
-    "def": "An informal or common misspelling of ",
     "reviewed": true
   },
   "yours": {
@@ -25773,34 +23183,6 @@
     "def": "Numerical figures representing the absence of quantity or magnitude; the digit 0.",
     "reviewed": true
   },
-  "zhang": {
-    "display": "zhang",
-    "d": 0.68,
-    "pos": "noun",
-    "def": "A traditional Chinese unit of length, 10 Chinese feet or ¹/₁₅₀ Chinese mile.",
-    "reviewed": true
-  },
-  "zheng": {
-    "display": "zheng",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Chinese plucked string instrument, similar to a zither, with a long resonating body and movable bridges.",
-    "reviewed": true
-  },
-  "ziggy": {
-    "display": "ziggy",
-    "d": 0.86,
-    "pos": "adj",
-    "def": "Characterized by being zigzaggy.",
-    "reviewed": true
-  },
-  "zohar": {
-    "display": "zohar",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Jewish cabalistic book attributed by tradition to Rabbi Simon ben Yochi, who lived about the end of the 1st century, a.",
-    "reviewed": true
-  },
   "zoned": {
     "display": "zoned",
     "d": 0.95,
@@ -25813,13 +23195,6 @@
     "d": 0.92,
     "pos": "noun",
     "def": "Areas or regions distinguished by a particular characteristic, purpose, or use.",
-    "reviewed": true
-  },
-  "zorro": {
-    "display": "zorro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The direction toward the point of the horizon ninety degrees clockwise from east.",
     "reviewed": true
   }
 }

@@ -13,13 +13,6 @@
     "def": "A localized collection of pus surrounded by inflamed tissue, typically caused by bacterial infection.",
     "reviewed": true
   },
-  "abdos": {
-    "display": "abdos",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The abdominal muscles, often referred to informally, especially when discussing exercise or physical fitness.",
-    "reviewed": true
-  },
   "abime": {
     "display": "abîme",
     "d": 0.86,
@@ -90,13 +83,6 @@
     "def": "The means or opportunity to approach or enter a place, or to obtain or use something.",
     "reviewed": true
   },
-  "accro": {
-    "display": "accro",
-    "d": 0.47,
-    "pos": "adj",
-    "def": "Characterized by being hooked.",
-    "reviewed": true
-  },
   "achat": {
     "display": "achat",
     "d": 0.6,
@@ -144,13 +130,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A short, pithy statement expressing a general truth or piece of advice; a proverb.",
-    "reviewed": true
-  },
-  "adele": {
-    "display": "adèle",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A genus of small moths, commonly known as fairy longhorn moths, characterized by their extremely long antennae.",
     "reviewed": true
   },
   "adieu": {
@@ -440,13 +419,6 @@
     "def": "Unforeseen risks, uncertainties, or hazards that may occur, often implying an element of chance.",
     "reviewed": true
   },
-  "alger": {
-    "display": "Alger",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The capital and largest city of Algeria, located on the Mediterranean coast, known for its historic architecture.",
-    "reviewed": true
-  },
   "algue": {
     "display": "algue",
     "d": 0.95,
@@ -531,13 +503,6 @@
     "def": "At that time, in that case, or as a logical consequence; then or so.",
     "reviewed": true
   },
-  "alpes": {
-    "display": "Alpes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A major mountain range in Europe, extending across several countries, known for its high peaks and winter sports.",
-    "reviewed": true
-  },
   "alpha": {
     "display": "alpha",
     "d": 0.42,
@@ -545,25 +510,11 @@
     "def": "The first letter of the Greek alphabet, often used to denote the beginning or the dominant member of a group.",
     "reviewed": true
   },
-  "alvin": {
-    "display": "alvin",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being alvine.",
-    "reviewed": true
-  },
   "amant": {
     "display": "amant",
     "d": 0.39,
     "pos": "noun",
     "def": "A person who is in a romantic or sexual relationship with someone, often outside of marriage; a lover.",
-    "reviewed": true
-  },
-  "amber": {
-    "display": "amber",
-    "d": 0.51,
-    "pos": "verb",
-    "def": "Conjugated form of the verb ambre; Denoting amber.",
     "reviewed": true
   },
   "ambre": {
@@ -601,13 +552,6 @@
     "def": "Female companions or close acquaintances with whom one shares a bond of mutual affection.",
     "reviewed": true
   },
-  "amira": {
-    "display": "amira",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb amer; acerbic, bitter.",
-    "reviewed": true
-  },
   "amont": {
     "display": "amont",
     "d": 0.95,
@@ -627,13 +571,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "plentiful, abundant, copious, profuse, ample.",
-    "reviewed": true
-  },
-  "ampli": {
-    "display": "ampli",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A colloquial short form for an amplifier, an electronic device that increases the power of an audio signal.",
     "reviewed": true
   },
   "amuse": {
@@ -685,13 +622,6 @@
     "def": "The time taken by a planet to make one revolution around the sun.",
     "reviewed": true
   },
-  "anniv": {
-    "display": "anniv",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "clipping of anniversaire ().",
-    "reviewed": true
-  },
   "antan": {
     "display": "antan",
     "d": 0.95,
@@ -739,13 +669,6 @@
     "d": 0.12,
     "pos": "noun",
     "def": "An act of calling, such as a phone call, or a formal request or summons for someone to appear.",
-    "reviewed": true
-  },
-  "appli": {
-    "display": "appli",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A colloquial short form for an application, a software program designed to perform a specific function for a user.",
     "reviewed": true
   },
   "appui": {
@@ -823,13 +746,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The specialized vocabulary and idiom used by a particular group or profession, often to exclude outsiders; slang.",
-    "reviewed": true
-  },
-  "argus": {
-    "display": "Argus",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A mythical giant with a hundred eyes, or a type of large, brightly colored butterfly known for its eyespots.",
     "reviewed": true
   },
   "aride": {
@@ -1154,13 +1070,6 @@
     "def": "A colorless, odorless, gaseous chemical element that forms about 78% of the Earth's atmosphere; nitrogen.",
     "reviewed": true
   },
-  "babel": {
-    "display": "Babel",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A biblical city where the Tower of Babel was built, often symbolizing confusion of languages or disorder.",
-    "reviewed": true
-  },
   "bache": {
     "display": "bâche",
     "d": 0.95,
@@ -1236,13 +1145,6 @@
     "d": 0.35,
     "pos": "noun",
     "def": "The plural form of \"bain,\" referring to baths or bathing, often in the context of a public bathhouse or spa.",
-    "reviewed": true
-  },
-  "baise": {
-    "display": "baisé",
-    "d": 0.36,
-    "pos": "verb",
-    "def": "past participle of baiser.",
     "reviewed": true
   },
   "balai": {
@@ -1784,13 +1686,6 @@
     "def": "A light touch or caress with the lips, typically as a sign of affection, greeting, or farewell; a kiss.",
     "reviewed": true
   },
-  "bites": {
-    "display": "bites",
-    "d": 0.79,
-    "pos": "noun",
-    "def": "The plural form of \"bite,\" which is a vulgar slang term for a penis.",
-    "reviewed": true
-  },
   "bitte": {
     "display": "bitte",
     "d": 0.95,
@@ -1903,13 +1798,6 @@
     "def": "A glass jar or container, typically cylindrical, used for storing food or other items.",
     "reviewed": true
   },
-  "boche": {
-    "display": "Boche",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "alternative letter-case form of boche.",
-    "reviewed": true
-  },
   "boeuf": {
     "display": "boeuf",
     "d": 0.64,
@@ -1978,13 +1866,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Leaps or jumps, often indicating a sudden movement. Also, financial instruments representing debt.",
-    "reviewed": true
-  },
-  "bones": {
-    "display": "bones",
-    "d": 0.59,
-    "pos": "adj",
-    "def": "Feminine plural form of bon.",
     "reviewed": true
   },
   "bongo": {
@@ -2062,13 +1943,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Characterized by being hunchbacked, round-shouldered.",
-    "reviewed": true
-  },
-  "botox": {
-    "display": "botox",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A cosmetic treatment involving injections of botulinum toxin to temporarily reduce facial wrinkles.",
     "reviewed": true
   },
   "botte": {
@@ -2321,13 +2195,6 @@
     "d": 0.7,
     "pos": "noun",
     "def": "A thin sphere of liquid enclosing air or another gas, often seen in carbonated drinks or soap suds.",
-    "reviewed": true
-  },
-  "bulls": {
-    "display": "bulls",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Large, powerful male animals of the bovine family, often kept for breeding or meat (plural form of \"bull\").",
     "reviewed": true
   },
   "buste": {
@@ -2596,13 +2463,6 @@
     "def": "The hinged cover over the engine of a motor vehicle, allowing access for maintenance and repairs.",
     "reviewed": true
   },
-  "capri": {
-    "display": "capri",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Women's trousers that typically extend to just below the knee or mid-calf, popular in warm weather.",
-    "reviewed": true
-  },
   "capte": {
     "display": "capté",
     "d": 0.78,
@@ -2629,13 +2489,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The flesh of animals consumed as nutritional food by humans.",
-    "reviewed": true
-  },
-  "caron": {
-    "display": "caron",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "háček (the háček diacritic).",
     "reviewed": true
   },
   "carpe": {
@@ -2692,20 +2545,6 @@
     "d": 0.88,
     "pos": "noun",
     "def": "A form of wrestling, often theatrical and choreographed, popular as a spectator sport; professional wrestling.",
-    "reviewed": true
-  },
-  "catho": {
-    "display": "catho",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Catholic, often one who is overly pontifical.",
-    "reviewed": true
-  },
-  "catin": {
-    "display": "catin",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An offensive and derogatory term for a prostitute or a woman considered to be promiscuous.",
     "reviewed": true
   },
   "cause": {
@@ -2939,20 +2778,6 @@
     "def": "A domesticated canine mammal kept as a pet or working animal; dog.",
     "reviewed": true
   },
-  "chier": {
-    "display": "chier",
-    "d": 0.21,
-    "pos": "verb",
-    "def": "To engage in the action of to shit, defecate.",
-    "reviewed": true
-  },
-  "chies": {
-    "display": "chies",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of chier.",
-    "reviewed": true
-  },
   "chili": {
     "display": "chili",
     "d": 0.61,
@@ -3135,25 +2960,11 @@
     "def": "Groups of people united by kinship or descent, often sharing a common ancestor and cultural identity (plural of \"clan\").",
     "reviewed": true
   },
-  "clare": {
-    "display": "clare",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb clair; Characterized by being clear.",
-    "reviewed": true
-  },
   "clash": {
     "display": "clash",
     "d": 0.95,
     "pos": "noun",
     "def": "A loud, jarring sound made by two hard objects striking together; a conflict or disagreement.",
-    "reviewed": true
-  },
-  "claus": {
-    "display": "claus",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb clair; Characterized by being clear.",
     "reviewed": true
   },
   "clebs": {
@@ -3189,13 +3000,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Short, sharp sounds, often produced by pressing a button on a computer mouse or a switch (plural of \"clic\").",
-    "reviewed": true
-  },
-  "cline": {
-    "display": "cline",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "First or third-person present of cligner; winks with an eye.",
     "reviewed": true
   },
   "clins": {
@@ -3387,13 +3191,6 @@
     "def": "A sticky substance used for joining objects or materials together, commonly known as glue or adhesive.",
     "reviewed": true
   },
-  "coloc": {
-    "display": "coloc",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "clipping of colocataire ().",
-    "reviewed": true
-  },
   "colon": {
     "display": "colon",
     "d": 0.95,
@@ -3429,13 +3226,6 @@
     "def": "An informal, slang term for a police officer or a cop, often used in a familiar or slightly derogatory way.",
     "reviewed": true
   },
-  "condo": {
-    "display": "condo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A residential unit in a building owned individually, with shared ownership of common areas, short for condominium.",
-    "reviewed": true
-  },
   "cones": {
     "display": "cônes",
     "d": 0.95,
@@ -3448,20 +3238,6 @@
     "d": 0.34,
     "pos": "noun",
     "def": "Official permission to be absent from work or duty, often referring to a day off, leave, or vacation.",
-    "reviewed": true
-  },
-  "congo": {
-    "display": "congo",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being congo.",
-    "reviewed": true
-  },
-  "conne": {
-    "display": "conne",
-    "d": 0.54,
-    "pos": "adj",
-    "def": "A derogatory and vulgar term describing a woman as stupid, foolish, or idiotic.",
     "reviewed": true
   },
   "connu": {
@@ -3511,13 +3287,6 @@
     "d": 0.29,
     "pos": "noun",
     "def": "A long, strong, flexible material made from twisted strands, used for tying, pulling, or climbing.",
-    "reviewed": true
-  },
-  "coree": {
-    "display": "Corée",
-    "d": 0.49,
-    "pos": "noun",
-    "def": "A country in East Asia, divided into North Korea and South Korea, known for its distinct culture and history.",
     "reviewed": true
   },
   "corne": {
@@ -3744,13 +3513,6 @@
     "def": "A very thin pancake, typically made from wheat flour, often served with sweet or savory fillings.",
     "reviewed": true
   },
-  "crete": {
-    "display": "Crète",
-    "d": 0.88,
-    "pos": "noun",
-    "def": "A large Greek island in the Mediterranean Sea, known for its ancient history and beautiful landscapes.",
-    "reviewed": true
-  },
   "creux": {
     "display": "creux",
     "d": 0.73,
@@ -3798,20 +3560,6 @@
     "d": 0.2,
     "pos": "noun",
     "def": "A time of intense difficulty, trouble, or danger, often marking a turning point or instability.",
-    "reviewed": true
-  },
-  "criss": {
-    "display": "criss",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A type of asymmetrical dagger with a distinctive wavy blade, originating from Indonesia and Malaysia.",
-    "reviewed": true
-  },
-  "croco": {
-    "display": "croco",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A short, informal term for a crocodile, a large predatory reptile found in tropical regions.",
     "reviewed": true
   },
   "crocs": {
@@ -3989,13 +3737,6 @@
     "def": "A short, pointed knife with a sharp blade, primarily used for stabbing in close combat.",
     "reviewed": true
   },
-  "dakar": {
-    "display": "Dakar",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The capital and largest city of Senegal, located on the Cap-Vert peninsula on the Atlantic coast of Africa.",
-    "reviewed": true
-  },
   "dalle": {
     "display": "dalle",
     "d": 0.44,
@@ -4022,13 +3763,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "first/third-person singular present indicative/subjunctive.",
-    "reviewed": true
-  },
-  "dance": {
-    "display": "dance",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "A series of rhythmic steps and movements matched to music.",
     "reviewed": true
   },
   "dandy": {
@@ -4318,13 +4052,6 @@
     "def": "To repeat or copy out words from a text or speech written by another author.",
     "reviewed": true
   },
-  "devon": {
-    "display": "devon",
-    "d": 0.74,
-    "pos": "noun",
-    "def": "A type of fine, soft wool fabric, often used for clothing, originating from the county of Devon in England.",
-    "reviewed": true
-  },
   "devra": {
     "display": "devra",
     "d": 0.29,
@@ -4465,13 +4192,6 @@
     "def": "Present subjunctive of dire; that you say or tell.",
     "reviewed": true
   },
-  "dispo": {
-    "display": "dispo",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "clipping of disponible ().",
-    "reviewed": true
-  },
   "dites": {
     "display": "dites",
     "d": 0.09,
@@ -4575,13 +4295,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "second-person singular present indicative/subjunctive of dorer.",
-    "reviewed": true
-  },
-  "doris": {
-    "display": "doris",
-    "d": 0.64,
-    "pos": "verb",
-    "def": "Conjugated form of the verb dorer; gild.",
     "reviewed": true
   },
   "dorme": {
@@ -4801,13 +4514,6 @@
     "def": "A soft quilt or comforter, typically filled with down or synthetic fibers, used as a bed covering.",
     "reviewed": true
   },
-  "eagle": {
-    "display": "eagle",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A large bird of prey with a massive hooked bill and broad wings.",
-    "reviewed": true
-  },
   "ebats": {
     "display": "ébats",
     "d": 0.95,
@@ -4862,13 +4568,6 @@
     "d": 0.82,
     "pos": "noun",
     "def": "An educational establishment where instruction is provided to pupils; school.",
-    "reviewed": true
-  },
-  "ecolo": {
-    "display": "écolo",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being green, eco.",
     "reviewed": true
   },
   "ecope": {
@@ -4983,25 +4682,11 @@
     "def": "Mythical supernatural beings, often depicted as small, human-like creatures with pointed ears and magical powers (plural of elfe).",
     "reviewed": true
   },
-  "elias": {
-    "display": "élias",
-    "d": 0.94,
-    "pos": "verb",
-    "def": "second-person singular past historic of élier.",
-    "reviewed": true
-  },
   "elire": {
     "display": "élire",
     "d": 0.95,
     "pos": "verb",
     "def": "To choose someone to hold public office by voting in an election.",
-    "reviewed": true
-  },
-  "elise": {
-    "display": "élise",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "first/third-person singular present subjunctive of élire.",
     "reviewed": true
   },
   "elite": {
@@ -5408,13 +5093,6 @@
     "d": 0.14,
     "pos": "adj",
     "def": "Characterized by being exact; precise.",
-    "reviewed": true
-  },
-  "exams": {
-    "display": "exams",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Formal tests of a person's knowledge or proficiency in a particular subject or skill (plural of exam).",
     "reviewed": true
   },
   "exces": {
@@ -5984,13 +5662,6 @@
     "def": "Informal and often derogatory term for police officers or cops (plural of \"flic\").",
     "reviewed": true
   },
-  "flint": {
-    "display": "flint",
-    "d": 0.84,
-    "pos": "noun",
-    "def": "A hard, gray, or black stone, a form of chert, used for striking sparks or making tools.",
-    "reviewed": true
-  },
   "flirt": {
     "display": "flirt",
     "d": 0.95,
@@ -6320,13 +5991,6 @@
     "def": "Cooked by deep-frying in hot oil or fat until crispy and golden brown (masculine plural adjective).",
     "reviewed": true
   },
-  "fritz": {
-    "display": "fritz",
-    "d": 0.77,
-    "pos": "noun",
-    "def": "An informal and sometimes derogatory term for a German person, often used during wartime or in historical contexts.",
-    "reviewed": true
-  },
   "froid": {
     "display": "froid",
     "d": 0.14,
@@ -6481,13 +6145,6 @@
     "def": "The triangular upper part of a wall at the end of a ridged roof, between the eaves and the ridge.",
     "reviewed": true
   },
-  "gabon": {
-    "display": "Gabon",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country located on the west coast of Central Africa, known for its rich natural resources and national parks.",
-    "reviewed": true
-  },
   "gache": {
     "display": "gâche",
     "d": 0.38,
@@ -6544,13 +6201,6 @@
     "def": "Increases in wealth, profit, or advantage, or improvements in strength or ability (plural of gain).",
     "reviewed": true
   },
-  "gallo": {
-    "display": "gallo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Romance language spoken in parts of Brittany, France, distinct from Breton and French, often considered a regional language.",
-    "reviewed": true
-  },
   "galon": {
     "display": "galon",
     "d": 0.95,
@@ -6586,13 +6236,6 @@
     "def": "A series of musical notes arranged in ascending or descending order of pitch, forming a scale.",
     "reviewed": true
   },
-  "gange": {
-    "display": "Gange",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A major trans-boundary river of Asia, flowing through India and Bangladesh, sacred in Hinduism.",
-    "reviewed": true
-  },
   "gangs": {
     "display": "gangs",
     "d": 0.58,
@@ -6605,13 +6248,6 @@
     "d": 0.37,
     "pos": "noun",
     "def": "Coverings for the hands, typically with separate sheaths for each finger and the thumb (plural of gant).",
-    "reviewed": true
-  },
-  "garce": {
-    "display": "garce",
-    "d": 0.36,
-    "pos": "noun",
-    "def": "A female child or young female person.",
     "reviewed": true
   },
   "garde": {
@@ -6873,13 +6509,6 @@
     "def": "A movement of part of the body, especially a hand or the head, to express an idea or meaning.",
     "reviewed": true
   },
-  "ghana": {
-    "display": "Ghana",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country located in West Africa, known for its diverse culture, rich history, and natural resources.",
-    "reviewed": true
-  },
   "gicle": {
     "display": "giclé",
     "d": 0.95,
@@ -6929,13 +6558,6 @@
     "def": "A colorless, transparent, odorless liquid that forms the seas, lakes, and rivers.",
     "reviewed": true
   },
-  "gland": {
-    "display": "gland",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The fruit of the oak tree, consisting of a nut held in a woody cup-shaped base.",
-    "reviewed": true
-  },
   "globe": {
     "display": "globe",
     "d": 0.71,
@@ -6962,13 +6584,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "To engage in the action of to swallow whole.",
-    "reviewed": true
-  },
-  "gogol": {
-    "display": "gogol",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A very large number, specifically the number 1 followed by 100 zeros (10^100).",
     "reviewed": true
   },
   "golfe": {
@@ -7076,20 +6691,6 @@
     "def": "past participle of gravir.",
     "reviewed": true
   },
-  "great": {
-    "display": "gréât",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "third-person singular imperfect subjunctive of gréer.",
-    "reviewed": true
-  },
-  "grece": {
-    "display": "Grèce",
-    "d": 0.72,
-    "pos": "noun",
-    "def": "A country in Southeast Europe with thousands of islands and a rich ancient history.",
-    "reviewed": true
-  },
   "grecs": {
     "display": "grecs",
     "d": 0.78,
@@ -7144,13 +6745,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A person employed in a hotel to carry luggage, run errands, and attend to guests' needs; a bellboy.",
-    "reviewed": true
-  },
-  "gross": {
-    "display": "gross",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "With opposite sides or surfaces that are a great distance apart; not thin.",
     "reviewed": true
   },
   "gruau": {
@@ -7249,13 +6843,6 @@
     "d": 0.31,
     "pos": "noun",
     "def": "Intense dislike or ill will; a strong feeling of animosity or aversion towards someone or something.",
-    "reviewed": true
-  },
-  "haiti": {
-    "display": "Haïti",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Caribbean country sharing the island of Hispaniola with the Dominican Republic, known for its rich culture.",
     "reviewed": true
   },
   "hales": {
@@ -7454,13 +7041,6 @@
     "def": "A person who is fully grown or developed.",
     "reviewed": true
   },
-  "homos": {
-    "display": "homos",
-    "d": 0.8,
-    "pos": "noun",
-    "def": "A colloquial and sometimes derogatory term for homosexual individuals (plural form).",
-    "reviewed": true
-  },
   "honte": {
     "display": "honte",
     "d": 0.16,
@@ -7480,13 +7060,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A block of the Earth's crust that has been uplifted between two parallel faults.",
-    "reviewed": true
-  },
-  "hosto": {
-    "display": "hosto",
-    "d": 0.83,
-    "pos": "noun",
-    "def": "Informal, slang term for a hospital, a place where sick or injured people receive medical treatment.",
     "reviewed": true
   },
   "hotel": {
@@ -7573,13 +7146,6 @@
     "def": "A song of praise or adoration, typically addressed to a deity or a nation.",
     "reviewed": true
   },
-  "hyper": {
-    "display": "hyper",
-    "d": 0.63,
-    "pos": "adv",
-    "def": "In the manner, degree, or condition of very, a lot.",
-    "reviewed": true
-  },
   "icone": {
     "display": "icone",
     "d": 0.95,
@@ -7629,20 +7195,6 @@
     "def": "past participle of imiter.",
     "reviewed": true
   },
-  "impec": {
-    "display": "impec",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Having the required qualities; pleasing, beneficial, or morally admirable.",
-    "reviewed": true
-  },
-  "imper": {
-    "display": "imper",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A short form of \"imperméable,\" referring to a waterproof coat or raincoat.",
-    "reviewed": true
-  },
   "impie": {
     "display": "impie",
     "d": 0.95,
@@ -7655,13 +7207,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A compulsory financial contribution levied by a government on income, property, or goods and services.",
-    "reviewed": true
-  },
-  "impro": {
-    "display": "impro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A shortened, informal term for improvisation, especially in theater or music, performed without preparation.",
     "reviewed": true
   },
   "impur": {
@@ -7678,20 +7223,6 @@
     "def": "A list of names, subjects, etc., usually in alphabetical order, at the end of a book.",
     "reviewed": true
   },
-  "indic": {
-    "display": "indic",
-    "d": 0.67,
-    "pos": "noun",
-    "def": "Vegetation consisting of typically short plants with narrow leaves.",
-    "reviewed": true
-  },
-  "infos": {
-    "display": "infos",
-    "d": 0.22,
-    "pos": "noun",
-    "def": "Short for \"informations,\" referring to facts or details about a particular subject or event (plural).",
-    "reviewed": true
-  },
   "innee": {
     "display": "innée",
     "d": 0.95,
@@ -7706,20 +7237,6 @@
     "def": "Characterized by being unheard.",
     "reviewed": true
   },
-  "inter": {
-    "display": "inter",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Measuring a small distance from end to end; not long or tall.",
-    "reviewed": true
-  },
-  "intro": {
-    "display": "intro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A shortened, informal term for an introduction, the beginning part of something larger.",
-    "reviewed": true
-  },
   "irais": {
     "display": "irais",
     "d": 0.34,
@@ -7732,13 +7249,6 @@
     "d": 0.31,
     "pos": "verb",
     "def": "Third-person conditional of aller; would go.",
-    "reviewed": true
-  },
-  "irene": {
-    "display": "irène",
-    "d": 0.83,
-    "pos": "noun",
-    "def": "A female given name of Greek origin, meaning \"peace.\"",
     "reviewed": true
   },
   "iriez": {
@@ -7811,13 +7321,6 @@
     "def": "Affected by alcohol to the extent of losing control of one's faculties or behavior (plural form of \"ivre\").",
     "reviewed": true
   },
-  "jacky": {
-    "display": "jacky",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A derogatory slang term for a person, typically male, who is considered uncultured or flashy.",
-    "reviewed": true
-  },
   "jadis": {
     "display": "jadis",
     "d": 0.69,
@@ -7830,13 +7333,6 @@
     "d": 0.22,
     "pos": "noun",
     "def": "One of the two lower limbs of the human body, extending from the hip to the foot.",
-    "reviewed": true
-  },
-  "japon": {
-    "display": "japon",
-    "d": 0.34,
-    "pos": "noun",
-    "def": "The country of Japan, an island nation in East Asia, known for its unique culture and technology.",
     "reviewed": true
   },
   "jarre": {
@@ -7984,13 +7480,6 @@
     "d": 0.53,
     "pos": "adj",
     "def": "Describing things or people that are attractive, pleasing to the eye, or generally nice (masculine plural form of \"joli\").",
-    "reviewed": true
-  },
-  "josue": {
-    "display": "Josué",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The French equivalent of the biblical Hebrew name Joshua, often referring to the leader who succeeded Moses.",
     "reviewed": true
   },
   "jouee": {
@@ -8252,13 +7741,6 @@
     "def": "A tag or sticker attached to an item, providing information about its contents, quality, or origin.",
     "reviewed": true
   },
-  "labos": {
-    "display": "labos",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Informal term for laboratories, places equipped for scientific experiments, research, or manufacturing (plural of \"labo\").",
-    "reviewed": true
-  },
   "lacet": {
     "display": "lacet",
     "d": 0.95,
@@ -8413,13 +7895,6 @@
     "def": "A milky fluid found in many plants, especially rubber trees, or a synthetic rubber-like material used in various products.",
     "reviewed": true
   },
-  "latif": {
-    "display": "latif",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A grammatical case indicating motion towards or into a place, found in some Uralic and Caucasian languages.",
-    "reviewed": true
-  },
   "latin": {
     "display": "latin",
     "d": 0.58,
@@ -8432,20 +7907,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A thin, flat strip of wood, typically used as a support for plaster, tiles, or other building materials.",
-    "reviewed": true
-  },
-  "lauer": {
-    "display": "lauer",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb laure; Denoting lavra or laura.",
-    "reviewed": true
-  },
-  "laure": {
-    "display": "laure",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A common French female given name, equivalent to Laura in English, meaning \"laurel\" or \"bay tree.\"",
     "reviewed": true
   },
   "lavee": {
@@ -8602,13 +8063,6 @@
     "def": "Characterized by being free, at liberty.",
     "reviewed": true
   },
-  "libye": {
-    "display": "Libye",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country located in North Africa, bordered by the Mediterranean Sea to the north.",
-    "reviewed": true
-  },
   "liees": {
     "display": "liées",
     "d": 0.65,
@@ -8670,13 +8124,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A popular flowering shrub known for its fragrant purple or white blossoms, typically blooming in spring.",
-    "reviewed": true
-  },
-  "lines": {
-    "display": "lines",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Flax plants, cultivated for their fibers used in making linen fabric and for their seeds, which yield linseed oil (plural of 'lin').",
     "reviewed": true
   },
   "linge": {
@@ -8761,13 +8208,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A metric unit of volume equal to one cubic decimeter, commonly used for liquids.",
-    "reviewed": true
-  },
-  "lives": {
-    "display": "lives",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb livre; Denoting book.",
     "reviewed": true
   },
   "livre": {
@@ -8973,13 +8413,6 @@
     "def": "A faint or flickering light; a soft, diffused radiance or glow.",
     "reviewed": true
   },
-  "luger": {
-    "display": "luger",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To engage in the action of to luge.",
-    "reviewed": true
-  },
   "lumen": {
     "display": "lumen",
     "d": 0.95,
@@ -9029,13 +8462,6 @@
     "def": "a public secondary school.",
     "reviewed": true
   },
-  "lyons": {
-    "display": "lyons",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb lyre; lyre.",
-    "reviewed": true
-  },
   "macha": {
     "display": "mâcha",
     "d": 0.95,
@@ -9055,13 +8481,6 @@
     "d": 0.94,
     "pos": "noun",
     "def": "One who is excessively or aggressively masculine or misogynistic; a chauvinist.",
-    "reviewed": true
-  },
-  "machu": {
-    "display": "machu",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb macher; chew.",
     "reviewed": true
   },
   "macon": {
@@ -9197,13 +8616,6 @@
     "def": "An affectionate and informal term for a grandmother, similar to 'granny' or 'grandma' in English.",
     "reviewed": true
   },
-  "mammy": {
-    "display": "mammy",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "alternative spelling of mamie.",
-    "reviewed": true
-  },
   "manga": {
     "display": "manga",
     "d": 0.95,
@@ -9225,13 +8637,6 @@
     "def": "An excessive enthusiasm or obsession for something; a strong, often irrational, compulsion or habit.",
     "reviewed": true
   },
-  "manif": {
-    "display": "manif",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "clipping of manifestation ().",
-    "reviewed": true
-  },
   "manne": {
     "display": "manne",
     "d": 0.95,
@@ -9244,13 +8649,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A predatory insect, typically green or brown, known for its distinctive upright posture and grasping forelegs (e.g., praying mantis).",
-    "reviewed": true
-  },
-  "marde": {
-    "display": "marde",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "alternative form of merde.",
     "reviewed": true
   },
   "mardi": {
@@ -9295,13 +8693,6 @@
     "def": "Units of currency formerly used in Germany (Deutsche Mark) or Finland (Finnish Markka), often referred to in plural.",
     "reviewed": true
   },
-  "maroc": {
-    "display": "Maroc",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country located in North Africa, known for its rich culture, history, and diverse landscapes.",
-    "reviewed": true
-  },
   "marre": {
     "display": "marré",
     "d": 0.21,
@@ -9344,13 +8735,6 @@
     "def": "second-person plural present indicative.",
     "reviewed": true
   },
-  "maths": {
-    "display": "maths",
-    "d": 0.43,
-    "pos": "noun",
-    "def": "The science of numbers, quantities, and shapes, and the relations between them; short for mathematics.",
-    "reviewed": true
-  },
   "matin": {
     "display": "matin",
     "d": 0.08,
@@ -9363,13 +8747,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "An informal and somewhat derogatory term for a prison guard or jailer.",
-    "reviewed": true
-  },
-  "matos": {
-    "display": "matos",
-    "d": 0.68,
-    "pos": "noun",
-    "def": "Informal term for equipment, gear, or stuff, often referring to tools, materials, or personal belongings.",
     "reviewed": true
   },
   "matou": {
@@ -9386,13 +8763,6 @@
     "def": "first/third-person singular present indicative/subjunctive.",
     "reviewed": true
   },
-  "maure": {
-    "display": "Maure",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A member of a Muslim people of mixed Berber and Arab descent, inhabiting northwestern Africa.",
-    "reviewed": true
-  },
   "mauve": {
     "display": "mauve",
     "d": 0.95,
@@ -9407,13 +8777,6 @@
     "def": "Pertaining to the ancient Mesoamerican civilization known for its advanced writing, art, architecture, and mathematical systems (plural adjective).",
     "reviewed": true
   },
-  "meant": {
-    "display": "meant",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "A female parent of a human child or animal offspring.",
-    "reviewed": true
-  },
   "meche": {
     "display": "mèche",
     "d": 0.61,
@@ -9426,20 +8789,6 @@
     "d": 0.58,
     "pos": "noun",
     "def": "The main means of mass communication, such as television, radio, newspapers, and the internet.",
-    "reviewed": true
-  },
-  "medoc": {
-    "display": "Médoc",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A renowned wine-producing region in Bordeaux, France, famous for its high-quality red wines.",
-    "reviewed": true
-  },
-  "meera": {
-    "display": "meera",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "A female parent of a human child or animal offspring.",
     "reviewed": true
   },
   "mefie": {
@@ -9496,13 +8845,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Affectionate and informal terms for grandmothers, similar to 'grannies' or 'grandmas' (plural of 'mémé').",
-    "reviewed": true
-  },
-  "memos": {
-    "display": "mémos",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Short written notes or records used for communication within an organization (plural of 'mémo').",
     "reviewed": true
   },
   "menee": {
@@ -9603,13 +8945,6 @@
     "def": "A solid material that is typically hard, shiny, malleable, and conducts electricity.",
     "reviewed": true
   },
-  "meteo": {
-    "display": "météo",
-    "d": 0.47,
-    "pos": "noun",
-    "def": "Short for meteorology, referring to the state of the atmosphere at a particular place and time; the weather forecast.",
-    "reviewed": true
-  },
   "metis": {
     "display": "métis",
     "d": 0.95,
@@ -9622,13 +8957,6 @@
     "d": 0.64,
     "pos": "noun",
     "def": "The fundamental unit of length in the metric system, equal to 100 centimeters or approximately 39.37 inches.",
-    "reviewed": true
-  },
-  "metro": {
-    "display": "métro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "metro; subway , underground , Tube.",
     "reviewed": true
   },
   "mette": {
@@ -9694,13 +9022,6 @@
     "def": "Shaped like or approximately like a circle or cylinder; spherical.",
     "reviewed": true
   },
-  "micro": {
-    "display": "micro",
-    "d": 0.38,
-    "pos": "noun",
-    "def": "clipping of microphone (): mic.",
-    "reviewed": true
-  },
   "miens": {
     "display": "miens",
     "d": 0.37,
@@ -9755,13 +9076,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "kitty; puss or pussy.",
-    "reviewed": true
-  },
-  "minou": {
-    "display": "minou",
-    "d": 0.68,
-    "pos": "noun",
-    "def": "kitty, pussy, a small cat.",
     "reviewed": true
   },
   "minus": {
@@ -9846,20 +9160,6 @@
     "d": 0.05,
     "pos": "adv/prep",
     "def": "To a lesser degree, smaller amount, or minus; less or fewer.",
-    "reviewed": true
-  },
-  "moira": {
-    "display": "moira",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb more; Moor.",
-    "reviewed": true
-  },
-  "moise": {
-    "display": "moïse",
-    "d": 0.8,
-    "pos": "noun",
-    "def": "A small, portable basket or bassinet, often made of wicker, used as a bed for infants.",
     "reviewed": true
   },
   "moisi": {
@@ -10107,13 +9407,6 @@
     "def": "to mature, to become mature.",
     "reviewed": true
   },
-  "muscu": {
-    "display": "muscu",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Informal short for \"musculation,\" referring to bodybuilding or strength training exercises to develop muscles.",
-    "reviewed": true
-  },
   "musee": {
     "display": "musée",
     "d": 0.95,
@@ -10149,13 +9442,6 @@
     "def": "A traditional story, especially one concerning the early history of a people or explaining a natural or social phenomenon.",
     "reviewed": true
   },
-  "mytho": {
-    "display": "mytho",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Informal term for a mythomaniac, someone who has an excessive or abnormal propensity for lying and fabricating stories.",
-    "reviewed": true
-  },
   "nabot": {
     "display": "nabot",
     "d": 0.95,
@@ -10189,13 +9475,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "second-person plural present indicative.",
-    "reviewed": true
-  },
-  "nagus": {
-    "display": "nagus",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb nager; To swim.",
     "reviewed": true
   },
   "naifs": {
@@ -10310,13 +9589,6 @@
     "def": "feminine singular of nazi.",
     "reviewed": true
   },
-  "nazir": {
-    "display": "nazir",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "In ancient Israel, a person consecrated to God by a vow, abstaining from wine, cutting hair, and contact with the dead.",
-    "reviewed": true
-  },
   "nazis": {
     "display": "nazis",
     "d": 0.56,
@@ -10343,13 +9615,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The plural form of neon, referring to multiple neon lights or the chemical element itself.",
-    "reviewed": true
-  },
-  "nepal": {
-    "display": "Népal",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A landlocked country in South Asia, located primarily in the Himalayas, known for Mount Everest.",
     "reviewed": true
   },
   "nerfs": {
@@ -10422,20 +9687,6 @@
     "def": "Conjugated form of the verb nier; deny.",
     "reviewed": true
   },
-  "niger": {
-    "display": "Niger",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A landlocked country in West Africa, named after the Niger River, known for its desert climate.",
-    "reviewed": true
-  },
-  "nique": {
-    "display": "niqué",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "past participle of niquer.",
-    "reviewed": true
-  },
   "noble": {
     "display": "noble",
     "d": 0.37,
@@ -10504,13 +9755,6 @@
     "d": 0.81,
     "pos": "noun",
     "def": "A woman who has taken sacred vows and dedicated her life to religious service, typically living in a convent.",
-    "reviewed": true
-  },
-  "norma": {
-    "display": "norma",
-    "d": 0.78,
-    "pos": "verb",
-    "def": "third-person singular past historic of normer.",
     "reviewed": true
   },
   "norme": {
@@ -10821,20 +10065,6 @@
     "def": "feminine singular of oral.",
     "reviewed": true
   },
-  "order": {
-    "display": "order",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb ordre; Denoting order.",
-    "reviewed": true
-  },
-  "ordis": {
-    "display": "ordis",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The plural, informal term for computers, referring to multiple personal or desktop computing devices.",
-    "reviewed": true
-  },
   "ordre": {
     "display": "ordre",
     "d": 0.12,
@@ -10863,13 +10093,6 @@
     "def": "A large, predatory marine mammal of the dolphin family, known for its distinctive black and white markings; a killer whale.",
     "reviewed": true
   },
-  "ortho": {
-    "display": "ortho",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An informal abbreviation for 'orthographe,' referring to the correct spelling of words in a language.",
-    "reviewed": true
-  },
   "osais": {
     "display": "osais",
     "d": 0.95,
@@ -10896,20 +10119,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "third-person singular future of oser.",
-    "reviewed": true
-  },
-  "osman": {
-    "display": "Osman",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "synonym of Ottoman ().",
-    "reviewed": true
-  },
-  "ostie": {
-    "display": "ostie",
-    "d": 0.78,
-    "pos": "noun",
-    "def": "An expletive and intensifier for all purposes.",
     "reviewed": true
   },
   "otage": {
@@ -10980,13 +10189,6 @@
     "d": 0.95,
     "pos": "adj",
     "def": "Characterized by being oval.",
-    "reviewed": true
-  },
-  "ovnis": {
-    "display": "ovnis",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Unidentified flying objects; mysterious aerial phenomena often associated with extraterrestrial spacecraft (plural of OVNI).",
     "reviewed": true
   },
   "ovule": {
@@ -11148,13 +10350,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Informal term for fathers or male parents (plural of 'papa').",
-    "reviewed": true
-  },
-  "parce": {
-    "display": "parce",
-    "d": 0.05,
-    "pos": "conj",
-    "def": "Used with que to introduce the explanation or reason for an event; because.",
     "reviewed": true
   },
   "parcs": {
@@ -11444,13 +10639,6 @@
     "def": "alternative spelling of pécho.",
     "reviewed": true
   },
-  "pedes": {
-    "display": "pédés",
-    "d": 0.81,
-    "pos": "noun",
-    "def": "A derogatory and offensive slang term for homosexual men (plural of 'pédé').",
-    "reviewed": true
-  },
   "pegre": {
     "display": "pègre",
     "d": 0.95,
@@ -11633,25 +10821,11 @@
     "def": "A lustrous round gem produced inside the shell of a mollusk; pearl.",
     "reviewed": true
   },
-  "perou": {
-    "display": "Pérou",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country located in western South America, known for its ancient Inca ruins, Amazon rainforest, and Andean mountains.",
-    "reviewed": true
-  },
   "perse": {
     "display": "perse",
     "d": 0.95,
     "pos": "adj",
     "def": "Characterized by being persian.",
-    "reviewed": true
-  },
-  "perso": {
-    "display": "perso",
-    "d": 0.89,
-    "pos": "adj",
-    "def": "Characterized by being personal.",
     "reviewed": true
   },
   "perte": {
@@ -11731,13 +10905,6 @@
     "def": "A distinct period or stage in a series of events or a process of change.",
     "reviewed": true
   },
-  "philo": {
-    "display": "philo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A common informal abbreviation for philosophy, referring to the study of fundamental questions about existence, knowledge, values, and reason.",
-    "reviewed": true
-  },
   "phlox": {
     "display": "phlox",
     "d": 0.95,
@@ -11750,13 +10917,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A unit of loudness for pure tones, equal in number to the sound pressure level in decibels of a 1000 Hz tone judged equally loud.",
-    "reviewed": true
-  },
-  "photo": {
-    "display": "photo",
-    "d": 0.11,
-    "pos": "noun",
-    "def": "A picture made using a camera, in which an image is focused onto film.",
     "reviewed": true
   },
   "piano": {
@@ -11843,13 +11003,6 @@
     "def": "A tool with two arms that can be closed to grip or hold something; also, the claw of a crustacean.",
     "reviewed": true
   },
-  "pines": {
-    "display": "pines",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of piner.",
-    "reviewed": true
-  },
   "pinot": {
     "display": "pinot",
     "d": 0.95,
@@ -11878,13 +11031,6 @@
     "def": "To engage in the action of to pipe.",
     "reviewed": true
   },
-  "pipes": {
-    "display": "pipes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Hollow cylinders or tubes used for conveying liquids or gases; also, smoking devices or musical wind instruments (plural form of \"pipe\").",
-    "reviewed": true
-  },
   "pique": {
     "display": "pique",
     "d": 0.47,
@@ -11897,13 +11043,6 @@
     "d": 0.41,
     "pos": "adj",
     "def": "Of worse quality, condition, or character; more unpleasant, harmful, or severe than something else (plural form of \"pire\").",
-    "reviewed": true
-  },
-  "pisse": {
-    "display": "pisse",
-    "d": 0.47,
-    "pos": "noun",
-    "def": "The act of urinating; also, urine itself (vulgar slang). It can also refer to a conjugated verb form.",
     "reviewed": true
   },
   "piste": {
@@ -12298,13 +11437,6 @@
     "def": "Tiny openings in the skin or other surfaces, allowing for the passage of sweat, oil, or other substances (plural of pore).",
     "reviewed": true
   },
-  "porno": {
-    "display": "porno",
-    "d": 0.38,
-    "pos": "noun",
-    "def": "Material, such as films or magazines, that depicts explicit sexual activity, intended to cause sexual arousal.",
-    "reviewed": true
-  },
   "porta": {
     "display": "porta",
     "d": 0.95,
@@ -12417,20 +11549,6 @@
     "def": "third-person singular present indicative of prendre.",
     "reviewed": true
   },
-  "prepa": {
-    "display": "prépa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Classe préparatoire aux grandes écoles.",
-    "reviewed": true
-  },
-  "press": {
-    "display": "press",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A short distance away or having strong affection and intimacy.",
-    "reviewed": true
-  },
   "prete": {
     "display": "prête",
     "d": 0.95,
@@ -12515,13 +11633,6 @@
     "def": "socket, wall socket (also prise électrique).",
     "reviewed": true
   },
-  "prius": {
-    "display": "prius",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb prier; To pray.",
-    "reviewed": true
-  },
   "prive": {
     "display": "privé",
     "d": 0.95,
@@ -12529,25 +11640,11 @@
     "def": "Characterized by being private.",
     "reviewed": true
   },
-  "profs": {
-    "display": "profs",
-    "d": 0.63,
-    "pos": "noun",
-    "def": "Short for professors, referring to university teachers of the highest rank, or any teacher (plural of prof).",
-    "reviewed": true
-  },
   "proie": {
     "display": "proie",
     "d": 0.56,
     "pos": "noun",
     "def": "An animal hunted and killed by another for food, or a person vulnerable to exploitation.",
-    "reviewed": true
-  },
-  "promo": {
-    "display": "promo",
-    "d": 0.51,
-    "pos": "noun",
-    "def": "A short form for promotion, referring to an activity that advertises or publicizes a product, event, or person.",
     "reviewed": true
   },
   "promu": {
@@ -12739,13 +11836,6 @@
     "def": "Liquid manure, typically collected from livestock, used as a fertilizer in agriculture.",
     "reviewed": true
   },
-  "putes": {
-    "display": "putes",
-    "d": 0.45,
-    "pos": "noun",
-    "def": "A derogatory and offensive term for women, implying promiscuity or prostitution (plural of pute).",
-    "reviewed": true
-  },
   "quais": {
     "display": "quais",
     "d": 0.86,
@@ -12807,13 +11897,6 @@
     "d": 0.24,
     "pos": "noun",
     "def": "The hindmost part of an animal's body, extending beyond the torso, or a line of people or vehicles.",
-    "reviewed": true
-  },
-  "quick": {
-    "display": "quick",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Moving fast or doing something in a short time; prompt.",
     "reviewed": true
   },
   "quint": {
@@ -13187,13 +12270,6 @@
     "def": "A narrative, account, or story, often a detailed description of events or experiences.",
     "reviewed": true
   },
-  "recre": {
-    "display": "récré",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "To separate into pieces as a result of a blow or shock.",
-    "reviewed": true
-  },
   "recue": {
     "display": "reçue",
     "d": 0.84,
@@ -13283,13 +12359,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A principle or instruction that states how things should be done, or a ruler for drawing lines.",
-    "reviewed": true
-  },
-  "reglo": {
-    "display": "réglo",
-    "d": 0.64,
-    "pos": "adj",
-    "def": "correct, on the level, stand-up.",
     "reviewed": true
   },
   "regne": {
@@ -13488,20 +12557,6 @@
     "def": "The remaining portion or remainder, or third-person of rester; rest or remains.",
     "reviewed": true
   },
-  "resto": {
-    "display": "resto",
-    "d": 0.43,
-    "pos": "noun",
-    "def": "A casual or informal term for a restaurant, a place where meals are served to customers.",
-    "reviewed": true
-  },
-  "retro": {
-    "display": "rétro",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "any mirror on a vehicle.",
-    "reviewed": true
-  },
   "reuni": {
     "display": "réuni",
     "d": 0.78,
@@ -13563,20 +12618,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "Seen again or reviewed; examined or considered once more (masculine plural past participle of 'revoir').",
-    "reviewed": true
-  },
-  "rhade": {
-    "display": "rhade",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "the Rade language, an Austronesian language spoken by the Rade people.",
-    "reviewed": true
-  },
-  "rhino": {
-    "display": "rhino",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A large, thick-skinned mammal with one or two horns on its snout, native to Africa and Asia.",
     "reviewed": true
   },
   "rhume": {
@@ -13696,13 +12737,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "An outburst of laughter, often derisive, or a person who is the object of ridicule or mockery.",
-    "reviewed": true
-  },
-  "rital": {
-    "display": "rital",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A derogatory and offensive slang term for a person of Italian descent, typically used in a prejudiced manner.",
     "reviewed": true
   },
   "rites": {
@@ -14039,13 +13073,6 @@
     "d": 0.28,
     "pos": "adj",
     "def": "Characterized by being russian.",
-    "reviewed": true
-  },
-  "saber": {
-    "display": "saber",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb sabre; Denoting a single-edged sword.",
     "reviewed": true
   },
   "sable": {
@@ -14426,13 +13453,6 @@
     "def": "sect (offshoot of a larger religion or denomination, usually and especially one with unorthodox or extreme political and/or religious beliefs).",
     "reviewed": true
   },
-  "seine": {
-    "display": "seine",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A long fishing net with weights at the bottom and floats at the top, designed to hang vertically in the water.",
-    "reviewed": true
-  },
   "seins": {
     "display": "seins",
     "d": 0.27,
@@ -14615,20 +13635,6 @@
     "def": "The two main categories (male and female) into which humans and many other living things are divided (plural of \"sexe\").",
     "reviewed": true
   },
-  "shaka": {
-    "display": "shaka",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "third-person singular past historic of shaker.",
-    "reviewed": true
-  },
-  "sheng": {
-    "display": "sheng",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A Chinese mouth-blown free reed instrument consisting of vertical pipes, used in traditional Chinese music.",
-    "reviewed": true
-  },
   "shoot": {
     "display": "shoot",
     "d": 0.95,
@@ -14683,13 +13689,6 @@
     "d": 0.15,
     "pos": "noun",
     "def": "A mark, symbol, or gesture used to represent something or convey information; an indication.",
-    "reviewed": true
-  },
-  "silas": {
-    "display": "silas",
-    "d": 0.79,
-    "pos": "verb",
-    "def": "second-person singular past historic of siler.",
     "reviewed": true
   },
   "silex": {
@@ -14767,13 +13766,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "To engage in the action of to ski.",
-    "reviewed": true
-  },
-  "skies": {
-    "display": "skies",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of skier.",
     "reviewed": true
   },
   "slave": {
@@ -14958,13 +13950,6 @@
     "def": "first/third-person singular present indicative/subjunctive.",
     "reviewed": true
   },
-  "souls": {
-    "display": "souls",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Refers to something that is drunk or inebriated (masculine plural of saoul).",
-    "reviewed": true
-  },
   "soupe": {
     "display": "soupe",
     "d": 0.29,
@@ -15091,25 +14076,11 @@
     "def": "A thick slice of meat, typically beef, cut across the muscle fibers and often cooked by grilling or frying.",
     "reviewed": true
   },
-  "steno": {
-    "display": "sténo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A shortened form of writing using symbols or abbreviations, primarily for speed; also refers to a stenographer.",
-    "reviewed": true
-  },
   "stock": {
     "display": "stock",
     "d": 0.57,
     "pos": "noun",
     "def": "stock, goods in supply.",
-    "reviewed": true
-  },
-  "stone": {
-    "display": "stone",
-    "d": 0.41,
-    "pos": "adj",
-    "def": "Characterized by being stoned.",
     "reviewed": true
   },
   "store": {
@@ -15299,20 +14270,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A genre of jazz music popular in the 1930s and 1940s; also a swinging movement or a dance style.",
-    "reviewed": true
-  },
-  "sympa": {
-    "display": "sympa",
-    "d": 0.13,
-    "pos": "adj",
-    "def": "Characterized by being nice; likeable.",
-    "reviewed": true
-  },
-  "syrie": {
-    "display": "Syrie",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country in Western Asia, known for its ancient history and diverse cultural heritage.",
     "reviewed": true
   },
   "tabac": {
@@ -15567,13 +14524,6 @@
     "def": "Vehicles for hire, typically with a meter, used for transporting passengers for a fee (plural of \"taxi\").",
     "reviewed": true
   },
-  "tchad": {
-    "display": "Tchad",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A landlocked country located in North-Central Africa, officially known as the Republic of Chad.",
-    "reviewed": true
-  },
   "tchao": {
     "display": "tchao",
     "d": 0.95,
@@ -15586,13 +14536,6 @@
     "d": 0.7,
     "pos": "verb",
     "def": "past participle of teindre.",
-    "reviewed": true
-  },
-  "teles": {
-    "display": "télés",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Short for \"télévisions,\" referring to television sets or television broadcasts (plural of \"télé\").",
     "reviewed": true
   },
   "telle": {
@@ -15700,13 +14643,6 @@
     "def": "Characterized by being dull; colourless.",
     "reviewed": true
   },
-  "terra": {
-    "display": "terra",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "third-person singular past historic of terrer.",
-    "reviewed": true
-  },
   "terre": {
     "display": "terre",
     "d": 0.08,
@@ -15719,13 +14655,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "alternative spelling of terril.",
-    "reviewed": true
-  },
-  "tesla": {
-    "display": "tesla",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The SI unit of magnetic flux density, named after Nikola Tesla. Also, a brand of electric vehicles.",
     "reviewed": true
   },
   "teste": {
@@ -15777,13 +14706,6 @@
     "def": "Stubborn or obstinate; unwilling to change one's opinion or course of action (masculine plural of \"têtu\").",
     "reviewed": true
   },
-  "texan": {
-    "display": "Texan",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A person from the state of Texas in the United States. It can also refer to something related to Texas.",
-    "reviewed": true
-  },
   "texte": {
     "display": "texte",
     "d": 0.44,
@@ -15833,13 +14755,6 @@
     "def": "Informal French slang for money or cash, often referring to a small amount or a coin.",
     "reviewed": true
   },
-  "tibet": {
-    "display": "Tibet",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A high-altitude region in Asia, often referred to as the \"Roof of the World,\" known for its unique culture.",
-    "reviewed": true
-  },
   "tibia": {
     "display": "tibia",
     "d": 0.95,
@@ -15873,13 +14788,6 @@
     "d": 0.58,
     "pos": "adj",
     "def": "Characterized by being third.",
-    "reviewed": true
-  },
-  "tiger": {
-    "display": "tiger",
-    "d": 0.86,
-    "pos": "verb",
-    "def": "Conjugated form of the verb tigre; Denoting tiger.",
     "reviewed": true
   },
   "tiges": {
@@ -15971,13 +14879,6 @@
     "d": 0.26,
     "pos": "noun",
     "def": "The designated heading of a book, document, or artistic composition; title.",
-    "reviewed": true
-  },
-  "titus": {
-    "display": "titus",
-    "d": 0.87,
-    "pos": "verb",
-    "def": "The name of a book, composition, or other artistic work.",
     "reviewed": true
   },
   "toast": {
@@ -16155,13 +15056,6 @@
     "def": "past participle of tramer.",
     "reviewed": true
   },
-  "trans": {
-    "display": "trans",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being trans.",
-    "reviewed": true
-  },
   "treve": {
     "display": "trêve",
     "d": 0.68,
@@ -16195,13 +15089,6 @@
     "d": 0.95,
     "pos": "verb",
     "def": "past participle of trimer.",
-    "reviewed": true
-  },
-  "troie": {
-    "display": "Troie",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An ancient city in modern-day Turkey, famous for the Trojan War in Greek mythology (proper noun).",
     "reviewed": true
   },
   "trois": {
@@ -16351,13 +15238,6 @@
     "def": "Melodies or musical compositions, often referring to popular songs or pieces (plural of 'tune').",
     "reviewed": true
   },
-  "tunis": {
-    "display": "Tunis",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The capital city of Tunisia, located on the Mediterranean coast, known for its historical sites and vibrant culture.",
-    "reviewed": true
-  },
   "tuons": {
     "display": "tuons",
     "d": 0.95,
@@ -16370,13 +15250,6 @@
     "d": 0.94,
     "pos": "noun",
     "def": "People from Turkey, or of Turkish descent (masculine plural of 'Turc').",
-    "reviewed": true
-  },
-  "turin": {
-    "display": "Turin",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A major city in northern Italy, known for its automotive industry, historic architecture, and cultural institutions.",
     "reviewed": true
   },
   "tuyau": {
@@ -16813,13 +15686,6 @@
     "def": "Behavior showing high moral standards, or a quality considered morally good or desirable.",
     "reviewed": true
   },
-  "vespa": {
-    "display": "Vespa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A brand of motor scooter, originally Italian, known for its distinctive design and popularity worldwide.",
-    "reviewed": true
-  },
   "veste": {
     "display": "veste",
     "d": 0.25,
@@ -17247,13 +16113,6 @@
     "def": "second-person plural present indicative.",
     "reviewed": true
   },
-  "volga": {
-    "display": "Volga",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The longest river in Europe, flowing through central Russia into the Caspian Sea.",
-    "reviewed": true
-  },
   "volts": {
     "display": "volts",
     "d": 0.95,
@@ -17401,25 +16260,11 @@
     "def": "The SI unit of magnetic flux, named after German physicist Wilhelm Eduard Weber.",
     "reviewed": true
   },
-  "worth": {
-    "display": "worth",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "The value equivalent to that of someone or something under consideration.",
-    "reviewed": true
-  },
   "xeres": {
     "display": "xérès",
     "d": 0.95,
     "pos": "noun",
     "def": "A fortified wine originally from Jerez de la Frontera in Spain, typically dry or sweet.",
-    "reviewed": true
-  },
-  "xiang": {
-    "display": "xiang",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A group of Sinitic languages spoken mainly in Hunan province and parts of Guangxi and Hubei.",
     "reviewed": true
   },
   "yacht": {
@@ -17436,13 +16281,6 @@
     "def": "Units of length equal to three feet or 0.9144 meters; plural form of \"yard\".",
     "reviewed": true
   },
-  "yemen": {
-    "display": "Yémen",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A country located at the southern end of the Arabian Peninsula in Western Asia.",
-    "reviewed": true
-  },
   "youpi": {
     "display": "youpi",
     "d": 0.95,
@@ -17455,13 +16293,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The plural form of yuan, referring to the primary unit of currency in China, also known as the renminbi.",
-    "reviewed": true
-  },
-  "yukon": {
-    "display": "Yukon",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A large territory in northwestern Canada, known for its vast wilderness, mountains, and the historic Yukon River.",
     "reviewed": true
   },
   "zappe": {
