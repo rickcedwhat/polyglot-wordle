@@ -136,3 +136,4 @@ scripts/*.json
 scripts/*.tar.xz
 scripts/spa-eng/
 scripts/fra-eng/
+public/*.json.bak
