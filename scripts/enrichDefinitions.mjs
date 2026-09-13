@@ -77,7 +77,17 @@ function isLowQuality(def) {
     d.includes('only used in') ||
     d.includes('post-1990') ||
     d.includes('recognized word used') ||
-    d.includes('state, object, or action')
+    d.includes('state, object, or action') ||
+    (d.includes('person') &&
+      (d.includes('indicative') || d.includes('subjunctive') || d.includes('imperative'))) ||
+    d.startsWith('past participle') ||
+    d.startsWith('present participle') ||
+    d.includes('participle of') ||
+    d.startsWith('third-person') ||
+    d.startsWith('first-person') ||
+    d.startsWith('second-person') ||
+    d.endsWith('present indicative.') ||
+    d.endsWith('present subjunctive.')
   ) {
     return true;
   }
@@ -107,7 +117,14 @@ Instructions:
 2. Length: 10 to 25 words per definition. Concise, clear, educational, and natural.
 3. Quality Rules:
    - NEVER use lazy or circular formulas like "A term denoting X", "Plural of X", "Pertaining to X", or "Only used in...".
-   - If a word is a conjugated verb or plural form, explain its core meaning and note the inflection naturally (e.g., for "whirs": "Produces a continuous low buzzing or humming sound, like spinning blades or a motor (third-person singular present tense of whir).").
+   - If a word is an inflected form (conjugated verb or plural noun), explain what the word actually MEANS in English first, and place the grammatical inflection in parentheses at the very end.
+     Format strictly as: "[Clear, concise English definition of what the word means] (inflection note, e.g. present tense of frenar)."
+     Example for Spanish "frena": "Slows down, stops, or applies the brakes to a vehicle or motion (present tense of frenar)."
+     Example for Spanish "place": "Pleases, gratifies, or satisfies someone (present tense of placer)."
+     Example for French "admet": "Accepts, acknowledges, or allows someone or something in (present tense of admettre)."
+     Example for English "begun": "Started, initiated, or set into motion (past participle of begin)."
+     Example for English "whirs": "Produces a continuous low buzzing or humming sound (third-person singular present of whir)."
+     NEVER return a definition that is ONLY a grammatical label like "third-person singular present indicative." without explaining what the word means!
    - For words with archaic or obsolete meanings, prioritize the primary MODERN everyday meaning (e.g. for English "abode", define "A place of residence or home", NOT "act of waiting").
    - For French/Spanish loanwords (e.g. "short" in Spanish), define how it is commonly used in that language ("Casual above-the-knee pants worn for sports or warm weather.").
 4. POS: Must be strictly one of: "noun", "verb", "adj", "adv".

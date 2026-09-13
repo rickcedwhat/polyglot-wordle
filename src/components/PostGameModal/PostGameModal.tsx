@@ -27,7 +27,8 @@ import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { GameDoc, Language } from '@/types/firestore';
-import { formatDefinition, normalizeWord } from '@/utils/wordUtils';
+import { normalizeWord } from '@/utils/wordUtils';
+import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 
 interface PostGameModalProps {
   opened: boolean;
@@ -147,9 +148,7 @@ const WordSummaryCard: FC<{
                     </ActionIcon>
                   </Tooltip>
                 </Group>
-                <Text size="xs" style={{ lineHeight: 1.35 }}>
-                  • {formatDefinition(data.def)}
-                </Text>
+                <FormattedDefinition def={data.def} size="xs" />
               </Stack>
             )}
           </Paper>

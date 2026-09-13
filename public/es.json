@@ -6560,9 +6560,9 @@
   },
   "frena": {
     "display": "frena",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "Slows down, stops, or applies the brakes to a vehicle or action (present tense of frenar).",
     "reviewed": true
   },
   "freno": {
@@ -12715,7 +12715,7 @@
     "display": "place",
     "d": 0.78,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "Pleases, gratifies, or brings satisfaction to someone (present tense of placer).",
     "reviewed": true
   },
   "plaga": {

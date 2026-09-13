@@ -49,3 +49,25 @@ describe('calculateScoreFromHistory', () => {
     expect(score).toBe(-450);
   });
 });
+
+describe('splitDefinition', () => {
+  it('correctly splits definitions with trailing parenthetical inflection notes', () => {
+    const res = wordUtils.splitDefinition(
+      'Slows down, stops, or applies the brakes to a vehicle or action (present tense of frenar).'
+    );
+    expect(res.main).toBe('Slows down, stops, or applies the brakes to a vehicle or action.');
+    expect(res.note).toBe('present tense of frenar');
+  });
+
+  it('handles definitions without parentheticals', () => {
+    const res = wordUtils.splitDefinition('The superior or head of an abbey or monastery.');
+    expect(res.main).toBe('The superior or head of an abbey or monastery.');
+    expect(res.note).toBeUndefined();
+  });
+
+  it('handles empty or blank input', () => {
+    const res = wordUtils.splitDefinition('');
+    expect(res.main).toBe('');
+    expect(res.note).toBeUndefined();
+  });
+});

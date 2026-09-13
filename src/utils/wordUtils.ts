@@ -322,3 +322,32 @@ export const formatDefinition = (text: string): string => {
 
   return formattedText;
 };
+
+export interface SplitDefinition {
+  main: string;
+  note?: string;
+}
+
+/**
+ * Splits a definition into its main descriptive meaning and an optional
+ * trailing parenthetical inflection/grammar note (e.g. "(present tense of frenar)").
+ */
+export const splitDefinition = (text: string): SplitDefinition => {
+  if (!text) {
+    return { main: '' };
+  }
+
+  const trimmed = text.trim();
+  const match = trimmed.match(/^(.*?)\s*\(([^()]+)\)\.?$/);
+
+  if (match && match[1].trim().length > 0) {
+    return {
+      main: formatDefinition(match[1].trim()),
+      note: match[2].trim(),
+    };
+  }
+
+  return {
+    main: formatDefinition(trimmed),
+  };
+};

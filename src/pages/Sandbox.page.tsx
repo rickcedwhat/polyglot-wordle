@@ -27,12 +27,13 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { FlagsModal } from '@/components/FlagsModal/FlagsModal';
+import { FormattedDefinition } from '@/components/FormattedDefinition/FormattedDefinition';
 import { Game } from '@/components/Game/Game';
 import { PostGameView } from '@/components/PostGameView/PostGameView';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useSandboxDrawer } from '@/hooks/useSandboxDrawer';
 import type { GameDoc } from '@/types/firestore';
-import { formatDefinition, normalizeWord, WordEntry } from '@/utils/wordUtils';
+import { normalizeWord, WordEntry } from '@/utils/wordUtils';
 
 const SANDBOX_STORAGE_KEY = 'polyglot_sandbox_state_v1';
 
@@ -533,9 +534,7 @@ export const SandboxPage: FC = () => {
                                 </ActionIcon>
                               </Tooltip>
                             </Group>
-                            <Text size="sm" style={{ lineHeight: 1.35 }}>
-                              • {formatDefinition(entry.def)}
-                            </Text>
+                            <FormattedDefinition def={entry.def} size="sm" />
                           </Stack>
                         </Paper>
                       );
