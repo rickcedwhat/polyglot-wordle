@@ -54,6 +54,9 @@ export const GameBoard: FC<GameBoardProps> = ({
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             className={cx(classes.boardWrapper, { [classes.active]: isActive })}
             onClick={() => setActiveIndex(index)}
+            onLayoutAnimationComplete={() => {
+              window.dispatchEvent(new Event('resize'));
+            }}
           >
             <LanguageBoard
               language={lang}
@@ -64,6 +67,8 @@ export const GameBoard: FC<GameBoardProps> = ({
               candidateLanguages={candidateLanguages}
               isConfirmed={isConfirmed}
               hideFlags={hideFlags}
+              isActive={isActive}
+              onActivate={() => setActiveIndex(index)}
             />
           </motion.div>
         );

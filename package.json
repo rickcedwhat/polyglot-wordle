@@ -16,6 +16,8 @@
     "vitest": "vitest run",
     "vitest:watch": "vitest",
     "test:dict": "vitest run src/utils/dictionary.test.ts",
+    "enrich:dict": "node scripts/enrichDefinitions.mjs",
+    "audit:words": "node scripts/auditPuzzleWords.mjs",
     "test": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"

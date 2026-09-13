@@ -1,7 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 import {
-  IconCheck,
-  IconCopy,
   IconFlag,
   IconFlagFilled,
   IconHelpCircle,
@@ -167,19 +165,11 @@ export const PostGameModal: FC<PostGameModalProps> = ({
   gameSession,
   onPlayAgain,
 }) => {
-  const [copied, setCopied] = useState(false);
   const { words, guessHistory, isWin, score } = gameSession;
 
   const solvedCount = (['en', 'es', 'fr'] as Language[]).filter((l) =>
     guessHistory.map(normalizeWord).includes(normalizeWord(words[l]))
   ).length;
-
-  const handleCopyShare = () => {
-    const text = `Polyglot Wordle ${guessHistory.length}/${MAX_GUESSES}\nScore: ${score || 0} pts (${solvedCount}/3 Solved)\n${isWin ? '🏆 Victory!' : '❌ Game Over'}`;
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <Modal
@@ -208,7 +198,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
                   ? `🎉 Victory! All 3 Solved in ${guessHistory.length}/${MAX_GUESSES} turns`
                   : `❌ ${solvedCount}/3 Languages Solved in ${guessHistory.length}/${MAX_GUESSES} turns`}
               </Text>
-              <Text size="xs" c="dimmed">
+              <Text size="xs" c={isWin ? 'teal.1' : 'gray.4'} fw={600} opacity={0.9}>
                 Final Score: {score || 0} pts
               </Text>
             </Box>
@@ -234,36 +224,24 @@ export const PostGameModal: FC<PostGameModalProps> = ({
         </Stack>
 
         {/* Action Controls */}
-        <Group justify="space-between" mt="xs">
-          <Button
-            size="xs"
-            variant="light"
-            color="indigo"
-            leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
-            onClick={handleCopyShare}
-          >
-            {copied ? 'Copied Summary!' : 'Copy Summary'}
-          </Button>
-
-          <Group gap="xs">
-            {onPlayAgain && (
-              <Button
-                size="xs"
-                variant="filled"
-                color="blue"
-                leftSection={<IconRefresh size={14} />}
-                onClick={() => {
-                  onClose();
-                  onPlayAgain();
-                }}
-              >
-                Play Again
-              </Button>
-            )}
-            <Button size="xs" variant="default" onClick={onClose}>
-              Close & View Boards
+        <Group justify="flex-end" mt="xs" gap="xs">
+          {onPlayAgain && (
+            <Button
+              size="xs"
+              variant="filled"
+              color="blue"
+              leftSection={<IconRefresh size={14} />}
+              onClick={() => {
+                onClose();
+                onPlayAgain();
+              }}
+            >
+              Play Again
             </Button>
-          </Group>
+          )}
+          <Button size="xs" variant="default" onClick={onClose}>
+            Close & View Boards
+          </Button>
         </Group>
       </Stack>
     </Modal>

@@ -29,6 +29,8 @@ interface LanguageBoardProps {
   candidateLanguages?: Language[];
   isConfirmed?: boolean;
   hideFlags?: boolean;
+  isActive?: boolean;
+  onActivate?: () => void;
 }
 
 // 1. We create a dedicated component for a single, submitted guess row.
@@ -37,7 +39,9 @@ const SubmittedRow: FC<{
   language: 'en' | 'es' | 'fr';
   solutionWord: string;
   languageMatch: boolean;
-}> = ({ guess, language, solutionWord, languageMatch }) => {
+  isActive?: boolean;
+  onActivate?: () => void;
+}> = ({ guess, language, solutionWord, languageMatch, isActive = true, onActivate }) => {
   const [opened, setOpened] = useState(false);
   const statuses = getGuessStatuses(guess, solutionWord);
 
@@ -60,10 +64,42 @@ const SubmittedRow: FC<{
     };
   }, [opened]);
 
+  // While opened, continuously update popover position during board layout/flex transitions
+  useEffect(() => {
+    if (!opened) {
+      return;
+    }
+
+    let frameId: number;
+    const start = performance.now();
+    const duration = 500;
+
+    const track = (now: number) => {
+      window.dispatchEvent(new Event('resize'));
+      if (now - start < duration) {
+        frameId = requestAnimationFrame(track);
+      }
+    };
+
+    frameId = requestAnimationFrame(track);
+    return () => cancelAnimationFrame(frameId);
+  }, [opened, isActive]);
+
   const handleClick = () => {
     if (languageMatch) {
       refetch();
-      setOpened((prev) => !prev);
+      if (!isActive && onActivate) {
+        onActivate();
+        if (!opened) {
+          setTimeout(() => {
+            setOpened(true);
+          }, 150);
+        } else {
+          setOpened(false);
+        }
+      } else {
+        setOpened((prev) => !prev);
+      }
     }
   };
 
@@ -156,6 +192,8 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     candidateLanguages = ['en', 'es', 'fr'] as Language[],
     isConfirmed: _isConfirmed = false,
     hideFlags = false,
+    isActive = true,
+    onActivate,
   }) => {
     const { flags } = useLanguageFlags();
 
@@ -200,6 +238,8 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
                   solutionWord={solutionWord}
                   language={language}
                   languageMatch={languageMatch}
+                  isActive={isActive}
+                  onActivate={onActivate}
                 />
               );
             })}
@@ -245,6 +285,8 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
                     solutionWord={solutionWord}
                     language={language}
                     languageMatch={languageMatch}
+                    isActive={isActive}
+                    onActivate={onActivate}
                   />
                 </Box>
                 <Box
