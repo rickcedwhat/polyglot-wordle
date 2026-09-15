@@ -5,7 +5,7 @@ import path from 'path';
 const args = process.argv.slice(2);
 const options = {
   lang: 'all',
-  batchSize: 50,
+  batchSize: 40,
   limit: Infinity,
   filter: 'low-quality', // default to low-quality when running passes
   dryRun: false,
@@ -74,15 +74,12 @@ function isLowQuality(def) {
   if (
     d.includes('a term denoting') ||
     d.includes('plural of') ||
-    d.includes('only used in') ||
+    /\bonly used in\b/.test(d) ||
     d.includes('post-1990') ||
     d.includes('recognized word used') ||
     d.includes('state, object, or action') ||
-    (d.includes('person') &&
-      (d.includes('indicative') || d.includes('subjunctive') || d.includes('imperative'))) ||
     d.startsWith('past participle') ||
     d.startsWith('present participle') ||
-    d.includes('participle of') ||
     d.startsWith('third-person') ||
     d.startsWith('first-person') ||
     d.startsWith('second-person') ||
@@ -174,7 +171,7 @@ ${JSON.stringify(
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-        signal: AbortSignal.timeout(35000),
+        signal: AbortSignal.timeout(75000),
       });
 
       if (!res.ok) {
@@ -307,8 +304,9 @@ async function processLanguage(lang) {
       }
     } catch (err) {
       console.error(`❌ Batch ${bIndex + 1} failed:`, err.message);
-      console.error('Stopping further batches for this language. Checkpoint saved up to last successful batch.');
-      break;
+      console.error('Proceeding to next batch. Checkpoint saved up to last successful batch.');
+      await sleep(3000);
+      continue;
     }
   }
 }

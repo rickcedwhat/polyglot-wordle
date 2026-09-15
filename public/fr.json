@@ -38,7 +38,7 @@
     "display": "aboli",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of abolir.",
+    "def": "Ended, cancelled, or done away with, often referring to laws, customs, or institutions (past participle of abolir).",
     "reviewed": true
   },
   "abord": {
@@ -143,14 +143,14 @@
     "display": "admet",
     "d": 0.92,
     "pos": "verb",
-    "def": "third-person singular present indicative of admettre.",
+    "def": "Accepts, acknowledges, or allows someone or something in, often implying recognition or permission (third-person singular present of admettre).",
     "reviewed": true
   },
   "admis": {
     "display": "admis",
     "d": 0.53,
     "pos": "verb",
-    "def": "past participle of admettre.",
+    "def": "Accepted, acknowledged, or allowed into a place, group, or consideration (past participle of admettre).",
     "reviewed": true
   },
   "adore": {
@@ -178,7 +178,7 @@
     "display": "agacé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of agacer.",
+    "def": "Annoyed, irritated, or provoked, often by something minor or repetitive (past participle of agacer).",
     "reviewed": true
   },
   "agees": {
@@ -206,14 +206,14 @@
     "display": "agira",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular future of agir.",
+    "def": "Will act, will operate, or will behave in a certain way (third-person singular future of agir).",
     "reviewed": true
   },
   "agite": {
     "display": "agité",
     "d": 0.92,
     "pos": "verb",
-    "def": "past participle of agiter.",
+    "def": "Shaken, stirred, or agitated, often referring to a liquid or a person's state of mind (past participle of agiter).",
     "reviewed": true
   },
   "agree": {
@@ -248,14 +248,14 @@
     "display": "aidez",
     "d": 0.39,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Help, assist, or give aid to someone or something (second-person plural present of aider).",
     "reviewed": true
   },
   "aient": {
     "display": "aient",
     "d": 0.29,
     "pos": "verb",
-    "def": "third-person plural present subjunctive of avoir.",
+    "def": "That they have or possess something, expressing a wish, doubt, or necessity (third-person plural present subjunctive of avoir).",
     "reviewed": true
   },
   "aieul": {
@@ -290,7 +290,7 @@
     "display": "aigri",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of aigrir.",
+    "def": "Soured, embittered, or made resentful, often due to disappointment or hardship (past participle of aigrir).",
     "reviewed": true
   },
   "aigue": {
@@ -346,14 +346,14 @@
     "display": "aimes",
     "d": 0.11,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of aimer.",
+    "def": "Love, like, or are fond of someone or something (second-person singular present of aimer).",
     "reviewed": true
   },
   "aimez": {
     "display": "aimez",
     "d": 0.18,
     "pos": "verb",
-    "def": "second-person plural present indicative/imperative of aimer.",
+    "def": "Love, like, or are fond of someone or something (second-person plural present of aimer).",
     "reviewed": true
   },
   "ainee": {
@@ -458,7 +458,7 @@
     "display": "allai",
     "d": 0.95,
     "pos": "verb",
-    "def": "first-person singular past historic of aller.",
+    "def": "Went or proceeded to a place or state (first-person singular past historic of aller).",
     "reviewed": true
   },
   "allee": {
@@ -485,8 +485,8 @@
   "allez": {
     "display": "allez",
     "d": 0.05,
-    "pos": "verb/interj",
-    "def": "Second-person plural present or imperative of aller; go or you go.",
+    "pos": "verb",
+    "def": "Go, proceed, or move to a place or state (second-person plural present of aller).",
     "reviewed": true
   },
   "allie": {
@@ -528,7 +528,7 @@
     "display": "amené",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of amener.",
+    "def": "Brought, led, or taken to a specific place or situation (past participle of amener).",
     "reviewed": true
   },
   "amere": {
@@ -773,14 +773,14 @@
     "display": "armes",
     "d": 0.12,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of armer.",
+    "def": "Arm or equip with weapons, or prepare for conflict (second-person singular present of armer).",
     "reviewed": true
   },
   "armez": {
     "display": "armez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Arm or equip yourselves with weapons, or prepare for conflict (second-person plural present of armer).",
     "reviewed": true
   },
   "arome": {
@@ -892,21 +892,21 @@
     "display": "aurai",
     "d": 0.13,
     "pos": "verb",
-    "def": "first-person singular future of avoir.",
+    "def": "Will have or will possess something in the future (first-person singular future of avoir).",
     "reviewed": true
   },
   "auras": {
     "display": "auras",
     "d": 0.14,
     "pos": "verb",
-    "def": "second-person singular future of avoir.",
+    "def": "Will have or will possess something in the future (second-person singular future of avoir).",
     "reviewed": true
   },
   "aurez": {
     "display": "aurez",
     "d": 0.16,
     "pos": "verb",
-    "def": "second-person plural future of avoir.",
+    "def": "Will have or will possess something in the future (second-person plural future of avoir).",
     "reviewed": true
   },
   "aussi": {
@@ -948,7 +948,7 @@
     "display": "avait",
     "d": 0.05,
     "pos": "verb",
-    "def": "third-person singular imperfect indicative of avoir.",
+    "def": "Had or used to have something in the past (third-person singular imperfect of avoir).",
     "reviewed": true
   },
   "avale": {
@@ -976,7 +976,7 @@
     "display": "avéré",
     "d": 0.39,
     "pos": "verb",
-    "def": "past participle of avérer.",
+    "def": "Proven, confirmed, or shown to be true or real (past participle of avérer).",
     "reviewed": true
   },
   "aveux": {
@@ -997,7 +997,7 @@
     "display": "aviez",
     "d": 0.12,
     "pos": "verb",
-    "def": "Second-person plural imperfect of avoir; you possessed.",
+    "def": "Had or used to have something in the past (second-person plural imperfect of avoir).",
     "reviewed": true
   },
   "avion": {
@@ -1025,7 +1025,7 @@
     "display": "avons",
     "d": 0.05,
     "pos": "verb",
-    "def": "First-person plural present of avoir; we possess.",
+    "def": "Have or possess something in the present moment (first-person plural present of avoir).",
     "reviewed": true
   },
   "avoue": {
@@ -1053,7 +1053,7 @@
     "display": "ayons",
     "d": 0.44,
     "pos": "verb",
-    "def": "first-person plural present subjunctive/imperative of avoir.",
+    "def": "That we have or let's have something, expressing a wish, doubt, or command (first-person plural present subjunctive of avoir).",
     "reviewed": true
   },
   "ayoye": {
@@ -1081,7 +1081,7 @@
     "display": "bâclé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of bâcler.",
+    "def": "Botched, rushed, or done carelessly and poorly, often resulting in low quality (past participle of bâcler).",
     "reviewed": true
   },
   "badge": {
@@ -1200,7 +1200,7 @@
     "display": "banni",
     "d": 0.83,
     "pos": "verb",
-    "def": "past participle of bannir.",
+    "def": "Banished, exiled, or prohibited from a place or activity (past participle of bannir).",
     "reviewed": true
   },
   "barbe": {
@@ -1228,7 +1228,7 @@
     "display": "bardé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of barder.",
+    "def": "Covered, armored, or equipped with protective layers, often referring to a person or object (past participle of barder).",
     "reviewed": true
   },
   "barge": {
@@ -1305,7 +1305,7 @@
     "display": "bâtes",
     "d": 0.68,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of bâter.",
+    "def": "Saddle or put a pack saddle on an animal (second-person singular present of bâter).",
     "reviewed": true
   },
   "batie": {
@@ -1326,14 +1326,14 @@
     "display": "bâtis",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Build, construct, or erect a structure or something similar (first/second-person singular present of bâtir).",
     "reviewed": true
   },
   "batit": {
     "display": "bâtit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "Builds, constructs, or erects a structure or something similar (third-person singular present of bâtir).",
     "reviewed": true
   },
   "baton": {
@@ -1375,7 +1375,7 @@
     "display": "baves",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of baver.",
+    "def": "Drool, slobber, or let saliva flow from the mouth (second-person singular present of baver).",
     "reviewed": true
   },
   "bayou": {
@@ -1487,7 +1487,7 @@
     "display": "bénis",
     "d": 0.8,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Bless, consecrate, or make holy (first/second-person singular present of bénir).",
     "reviewed": true
   },
   "benit": {
@@ -1508,7 +1508,7 @@
     "display": "bercé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of bercer.",
+    "def": "Rocked, cradled, or lulled gently, often to soothe or put to sleep (past participle of bercer).",
     "reviewed": true
   },
   "beret": {
@@ -1655,7 +1655,7 @@
     "display": "bipez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Beep, make a short high-pitched sound, or scan with a beeping device (second-person plural present of biper).",
     "reviewed": true
   },
   "bique": {
@@ -1809,7 +1809,7 @@
     "display": "boira",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular future of boire.",
+    "def": "Will drink or consume a liquid (third-person singular future of boire).",
     "reviewed": true
   },
   "boire": {
@@ -1823,7 +1823,7 @@
     "display": "boisé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of boiser.",
+    "def": "Wooded, forested, or covered with trees (past participle of boiser).",
     "reviewed": true
   },
   "boite": {
@@ -1858,7 +1858,7 @@
     "display": "bondi",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of bondir.",
+    "def": "Leaped, jumped, or bounced with sudden force or energy (past participle of bondir).",
     "reviewed": true
   },
   "bonds": {
@@ -1935,7 +1935,7 @@
     "display": "bossé",
     "d": 0.27,
     "pos": "verb",
-    "def": "past participle of bosser.",
+    "def": "Worked hard, toiled, or studied diligently (past participle of bosser).",
     "reviewed": true
   },
   "bossu": {
@@ -1963,7 +1963,7 @@
     "display": "boudé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of bouder.",
+    "def": "Sulked, pouted, or showed displeasure by remaining silent and withdrawn (past participle of bouder).",
     "reviewed": true
   },
   "bouee": {
@@ -1977,7 +1977,7 @@
     "display": "bougé",
     "d": 0.13,
     "pos": "verb",
-    "def": "past participle of bouger.",
+    "def": "Moved, stirred, or shifted position (past participle of bouger).",
     "reviewed": true
   },
   "boule": {
@@ -2117,7 +2117,7 @@
     "display": "broyé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of broyer.",
+    "def": "Ground, crushed, or milled into small particles or powder (past participle of broyer).",
     "reviewed": true
   },
   "bruit": {
@@ -2131,7 +2131,7 @@
     "display": "brûlé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of brûler.",
+    "def": "Burned, scorched, or consumed by fire (past participle of brûler).",
     "reviewed": true
   },
   "brume": {
@@ -2229,7 +2229,7 @@
     "display": "butes",
     "d": 0.95,
     "pos": "verb",
-    "def": "Second-person present of buter; you stumble or aim at a goal.",
+    "def": "You stumble, hit against something, or aim at a specific goal (second-person singular present tense of buter).",
     "reviewed": true
   },
   "butin": {
@@ -2250,7 +2250,7 @@
     "display": "buvez",
     "d": 0.38,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You drink a liquid, consuming it for hydration or pleasure (second-person plural present tense of boire).",
     "reviewed": true
   },
   "cable": {
@@ -2306,21 +2306,21 @@
     "display": "cafés",
     "d": 0.73,
     "pos": "noun",
-    "def": "Establishments where coffee, other beverages, and light meals are served, often with a relaxed atmosphere (plural of \"café\").",
+    "def": "Establishments where coffee, other beverages, and light meals are served, often with a relaxed atmosphere (plural of café).",
     "reviewed": true
   },
   "cages": {
     "display": "cages",
     "d": 0.95,
     "pos": "noun",
-    "def": "Structures made of wire or bars used for confining animals or birds, or for protecting something (plural of \"cage\").",
+    "def": "Structures made of wire or bars used for confining animals or birds, or for protecting something (plural of cage).",
     "reviewed": true
   },
   "caids": {
     "display": "caïds",
     "d": 0.95,
     "pos": "noun",
-    "def": "Leaders or influential figures, often associated with organized crime or local authority in North African contexts (plural of \"caïd\").",
+    "def": "Leaders or influential figures, often associated with organized crime or local authority in North African contexts (plural of caïd).",
     "reviewed": true
   },
   "cajou": {
@@ -2334,7 +2334,7 @@
     "display": "cakes",
     "d": 0.95,
     "pos": "noun",
-    "def": "Sweet baked desserts, often made from flour, sugar, eggs, and fat, and typically decorated (plural of \"cake\").",
+    "def": "Sweet baked desserts, often made from flour, sugar, eggs, and fat, and typically decorated (plural of cake).",
     "reviewed": true
   },
   "caler": {
@@ -2348,7 +2348,7 @@
     "display": "cales",
     "d": 0.95,
     "pos": "noun",
-    "def": "Wooden wedges or chocks used to secure objects, especially wheels, to prevent movement (plural of \"cale\").",
+    "def": "Wooden wedges or chocks used to secure objects, especially wheels, to prevent movement (plural of cale).",
     "reviewed": true
   },
   "calin": {
@@ -2376,7 +2376,7 @@
     "display": "cames",
     "d": 0.95,
     "pos": "noun",
-    "def": "Mechanical components, typically rotating or sliding, that convert rotary motion into reciprocating motion (plural of \"came\").",
+    "def": "Mechanical components, typically rotating or sliding, that convert rotary motion into reciprocating motion (plural of came).",
     "reviewed": true
   },
   "campe": {
@@ -2390,7 +2390,7 @@
     "display": "camps",
     "d": 0.57,
     "pos": "noun",
-    "def": "Places where people stay temporarily in tents or shelters, often for recreation, military training, or refuge (plural of \"camp\").",
+    "def": "Places where people stay temporarily in tents or shelters, often for recreation, military training, or refuge (plural of camp).",
     "reviewed": true
   },
   "camus": {
@@ -2453,7 +2453,7 @@
     "display": "capes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of caper.",
+    "def": "You prune, lop off branches, or castrate an animal (second-person singular present tense of caper).",
     "reviewed": true
   },
   "capot": {
@@ -2467,7 +2467,7 @@
     "display": "capté",
     "d": 0.78,
     "pos": "verb",
-    "def": "past participle of capter.",
+    "def": "Captured, intercepted, received (a signal), or understood (past participle of capter).",
     "reviewed": true
   },
   "cargo": {
@@ -2523,7 +2523,7 @@
     "display": "cases",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of caser.",
+    "def": "You place, fit, or settle something or someone into a specific spot (second-person singular present tense of caser).",
     "reviewed": true
   },
   "casse": {
@@ -2558,7 +2558,7 @@
     "display": "caves",
     "d": 0.95,
     "pos": "noun",
-    "def": "Natural underground chambers or large hollows in the earth, often formed by erosion (plural of \"cave\").",
+    "def": "Natural underground chambers or large hollows in the earth, often formed by erosion (plural of cave).",
     "reviewed": true
   },
   "ceder": {
@@ -2579,7 +2579,7 @@
     "display": "cédez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You yield, give up, or concede something to another person or force (second-person plural present tense of céder).",
     "reviewed": true
   },
   "cedre": {
@@ -2621,14 +2621,14 @@
     "display": "cents",
     "d": 0.3,
     "pos": "noun",
-    "def": "Units of currency, typically one hundredth of a dollar or euro, used as small denominations (plural of \"cent\").",
+    "def": "Units of currency, typically one hundredth of a dollar or euro, used as small denominations (plural of cent).",
     "reviewed": true
   },
   "cerfs": {
     "display": "cerfs",
     "d": 0.95,
     "pos": "noun",
-    "def": "Large, majestic male deer, especially red deer, known for their impressive antlers (plural of \"cerf\").",
+    "def": "Large, majestic male deer, especially red deer, known for their impressive antlers (plural of cerf).",
     "reviewed": true
   },
   "cerne": {
@@ -2642,7 +2642,7 @@
     "display": "cessé",
     "d": 0.27,
     "pos": "verb",
-    "def": "past participle of cesser.",
+    "def": "Stopped, ceased, or brought to an end (past participle of cesser).",
     "reviewed": true
   },
   "cette": {
@@ -2691,14 +2691,14 @@
     "display": "chars",
     "d": 0.93,
     "pos": "noun",
-    "def": "Wheeled vehicles, often referring to tanks, chariots, or sometimes cars (plural of \"char\").",
+    "def": "Wheeled vehicles, often referring to tanks, chariots, or sometimes cars (plural of char).",
     "reviewed": true
   },
   "chats": {
     "display": "chats",
     "d": 0.36,
     "pos": "noun",
-    "def": "Small, domesticated carnivorous mammals often kept as pets, known for their agility and purring (plural of \"chat\").",
+    "def": "Small, domesticated carnivorous mammals often kept as pets, known for their agility and purring (plural of chat).",
     "reviewed": true
   },
   "chaud": {
@@ -2726,7 +2726,7 @@
     "display": "chefs",
     "d": 0.4,
     "pos": "noun",
-    "def": "Professional cooks, especially the head cook in a restaurant or kitchen (plural of \"chef\").",
+    "def": "Professional cooks, especially the head cook in a restaurant or kitchen (plural of chef).",
     "reviewed": true
   },
   "cheik": {
@@ -2754,7 +2754,7 @@
     "display": "chéri",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of chérir.",
+    "def": "Cherished, held dear, or greatly loved and cared for (past participle of chérir).",
     "reviewed": true
   },
   "chers": {
@@ -2768,7 +2768,7 @@
     "display": "chics",
     "d": 0.95,
     "pos": "adj",
-    "def": "Stylish and elegant in appearance or manner, often referring to fashion or design (masculine plural of \"chic\").",
+    "def": "Stylish and elegant in appearance or manner, often referring to fashion or design (masculine plural of chic).",
     "reviewed": true
   },
   "chien": {
@@ -2810,7 +2810,7 @@
     "display": "chocs",
     "d": 0.95,
     "pos": "noun",
-    "def": "Sudden, forceful impacts or collisions between objects, often resulting in a jolt or sound (plural of \"choc\").",
+    "def": "Sudden, forceful impacts or collisions between objects, often resulting in a jolt or sound (plural of choc).",
     "reviewed": true
   },
   "choix": {
@@ -2838,7 +2838,7 @@
     "display": "choux",
     "d": 0.85,
     "pos": "noun",
-    "def": "Various types of cabbage or similar leafy green vegetables; also used as a term of endearment (plural of \"chou\").",
+    "def": "Various types of cabbage or similar leafy green vegetables; also used as a term of endearment (plural of chou).",
     "reviewed": true
   },
   "chums": {
@@ -2880,7 +2880,7 @@
     "display": "cieux",
     "d": 0.52,
     "pos": "noun",
-    "def": "The expanse of sky or heavens above the Earth, often associated with celestial bodies or divine realms (plural of \"ciel\").",
+    "def": "The expanse of sky or heavens above the Earth, often associated with celestial bodies or divine realms (plural of ciel).",
     "reviewed": true
   },
   "cimes": {
@@ -2915,14 +2915,14 @@
     "display": "cites",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of citer.",
+    "def": "You quote, cite, or mention something, or summon someone to appear (second-person singular present tense of citer).",
     "reviewed": true
   },
   "citez": {
     "display": "citez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You quote, cite, or mention something, or summon someone to appear (second-person plural present tense of citer).",
     "reviewed": true
   },
   "civil": {
@@ -2943,7 +2943,7 @@
     "display": "clamé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of clamer.",
+    "def": "Proclaimed, shouted, or claimed loudly and publicly (past participle of clamer).",
     "reviewed": true
   },
   "clamp": {
@@ -2957,7 +2957,7 @@
     "display": "clans",
     "d": 0.95,
     "pos": "noun",
-    "def": "Groups of people united by kinship or descent, often sharing a common ancestor and cultural identity (plural of \"clan\").",
+    "def": "Groups of people united by kinship or descent, often sharing a common ancestor and cultural identity (plural of clan).",
     "reviewed": true
   },
   "clash": {
@@ -2978,7 +2978,7 @@
     "display": "clefs",
     "d": 0.6,
     "pos": "noun",
-    "def": "Symbols placed at the beginning of a musical staff to indicate the pitch of the notes (plural of \"clef\").",
+    "def": "Symbols placed at the beginning of a musical staff to indicate the pitch of the notes (plural of clef).",
     "reviewed": true
   },
   "clerc": {
@@ -2999,21 +2999,21 @@
     "display": "clics",
     "d": 0.95,
     "pos": "noun",
-    "def": "Short, sharp sounds, often produced by pressing a button on a computer mouse or a switch (plural of \"clic\").",
+    "def": "Short, sharp sounds, often produced by pressing a button on a computer mouse or a switch (plural of clic).",
     "reviewed": true
   },
   "clins": {
     "display": "clins",
     "d": 0.95,
     "pos": "noun",
-    "def": "Brief, intentional closures of one eyelid, often used as a signal of greeting, amusement, or shared secret (plural of \"clin\").",
+    "def": "Brief, intentional closures of one eyelid, often used as a signal of greeting, amusement, or shared secret (plural of clin).",
     "reviewed": true
   },
   "clips": {
     "display": "clips",
     "d": 0.95,
     "pos": "noun",
-    "def": "Small devices, often made of metal or plastic, used for holding things together or attaching them (plural of \"clip\").",
+    "def": "Small devices, often made of metal or plastic, used for holding things together or attaching them (plural of clip).",
     "reviewed": true
   },
   "clive": {
@@ -3069,14 +3069,14 @@
     "display": "cloué",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of clouer.",
+    "def": "Nailed, fastened, or fixed firmly with a nail or nails (past participle of clouer).",
     "reviewed": true
   },
   "clous": {
     "display": "clous",
     "d": 0.72,
     "pos": "noun",
-    "def": "Small metal spikes with a flat head, used for fastening things together or hanging objects (plural of \"clou\").",
+    "def": "Small metal spikes with a flat head, used for fastening things together or hanging objects (plural of clou).",
     "reviewed": true
   },
   "clown": {
@@ -3090,7 +3090,7 @@
     "display": "clubs",
     "d": 0.57,
     "pos": "noun",
-    "def": "Organizations or associations of people with common interests, or venues for entertainment and socializing (plural of \"club\").",
+    "def": "Organizations or associations of people with common interests, or venues for entertainment and socializing (plural of club).",
     "reviewed": true
   },
   "coach": {
@@ -3125,14 +3125,14 @@
     "display": "cocos",
     "d": 0.95,
     "pos": "noun",
-    "def": "The large, hard-shelled fruits of the coconut palm, containing white flesh and sweet liquid (plural of \"coco\").",
+    "def": "The large, hard-shelled fruits of the coconut palm, containing white flesh and sweet liquid (plural of coco).",
     "reviewed": true
   },
   "codes": {
     "display": "codes",
     "d": 0.51,
     "pos": "noun",
-    "def": "Systems of rules, symbols, or signals used to represent information or regulate behavior (plural of \"code\").",
+    "def": "Systems of rules, symbols, or signals used to represent information or regulate behavior (plural of code).",
     "reviewed": true
   },
   "codex": {
@@ -3153,21 +3153,21 @@
     "display": "cogné",
     "d": 0.72,
     "pos": "verb",
-    "def": "past participle of cogner.",
+    "def": "Struck, hit, or knocked against something with force (past participle of cogner).",
     "reviewed": true
   },
   "coins": {
     "display": "coins",
     "d": 0.63,
     "pos": "noun",
-    "def": "The internal or external angles or corners of a room, building, or object (plural of \"coin\").",
+    "def": "The internal or external angles or corners of a room, building, or object (plural of coin).",
     "reviewed": true
   },
   "coles": {
     "display": "coles",
     "d": 0.95,
     "pos": "noun",
-    "def": "Narrow mountain passes, or the parts of a garment that encircle the neck, such as collars (plural of \"col\").",
+    "def": "Narrow mountain passes, or the parts of a garment that encircle the neck, such as collars (plural of col).",
     "reviewed": true
   },
   "colin": {
@@ -3216,7 +3216,7 @@
     "display": "conçu",
     "d": 0.46,
     "pos": "verb",
-    "def": "past participle of concevoir.",
+    "def": "Conceived, designed, or devised in the mind; thought up or created (past participle of concevoir).",
     "reviewed": true
   },
   "conde": {
@@ -3265,7 +3265,7 @@
     "display": "copié",
     "d": 0.33,
     "pos": "verb",
-    "def": "past participle of copier.",
+    "def": "Copied, reproduced, or imitated something; made a duplicate (past participle of copier).",
     "reviewed": true
   },
   "coque": {
@@ -3342,7 +3342,7 @@
     "display": "coulé",
     "d": 0.43,
     "pos": "verb",
-    "def": "past participle of couler.",
+    "def": "Flowed, sunk, or cast into a mold; also, failed or gone bankrupt (past participle of couler).",
     "reviewed": true
   },
   "coupe": {
@@ -3384,21 +3384,21 @@
     "display": "couru",
     "d": 0.4,
     "pos": "verb",
-    "def": "past participle of courir.",
+    "def": "Run, having moved quickly on foot; also, sought after or popular (past participle of courir).",
     "reviewed": true
   },
   "cousu": {
     "display": "cousu",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of coudre.",
+    "def": "Sewn, stitched, or joined together with needle and thread (past participle of coudre).",
     "reviewed": true
   },
   "coute": {
     "display": "coûté",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of coûter.",
+    "def": "Cost, having had a certain price or required a specific amount of money (past participle of coûter).",
     "reviewed": true
   },
   "couts": {
@@ -3412,7 +3412,7 @@
     "display": "couvé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of couver.",
+    "def": "Brooded, hatched, or incubated eggs; also, harbored or nurtured a feeling (past participle of couver).",
     "reviewed": true
   },
   "crabe": {
@@ -3489,14 +3489,14 @@
     "display": "crées",
     "d": 0.88,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of créer.",
+    "def": "You create, make, or bring something into existence (second-person singular present indicative/subjunctive of créer).",
     "reviewed": true
   },
   "creez": {
     "display": "créez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You create, make, or bring something into existence (second-person plural present indicative of créer).",
     "reviewed": true
   },
   "creme": {
@@ -3538,14 +3538,14 @@
     "display": "cries",
     "d": 0.79,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of crier.",
+    "def": "You cry, shout, or scream loudly (second-person singular present indicative/subjunctive of crier).",
     "reviewed": true
   },
   "criez": {
     "display": "criez",
     "d": 0.76,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You cry, shout, or scream loudly (second-person plural present indicative of crier).",
     "reviewed": true
   },
   "crime": {
@@ -3580,14 +3580,14 @@
     "display": "crois",
     "d": 0.05,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "I/You believe, think, or trust in something or someone (first/second-person singular present indicative of croire).",
     "reviewed": true
   },
   "croit": {
     "display": "croît",
     "d": 0.17,
     "pos": "verb",
-    "def": "third-person singular present indicative of croître.",
+    "def": "Grows, increases in size, quantity, or intensity (third-person singular present indicative of croître).",
     "reviewed": true
   },
   "croix": {
@@ -3678,7 +3678,7 @@
     "display": "cures",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of curer.",
+    "def": "You clean, clear out, or cure something (second-person singular present indicative/subjunctive of curer).",
     "reviewed": true
   },
   "curie": {
@@ -3748,7 +3748,7 @@
     "display": "damas",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular past historic of damer.",
+    "def": "You crowned or topped a piece in checkers; also, you defeated or checkmated (second-person singular past historic of damer).",
     "reviewed": true
   },
   "dames": {
@@ -3797,7 +3797,7 @@
     "display": "dates",
     "d": 0.68,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of dater.",
+    "def": "You date, assign a date to, or originate from a specific time (second-person singular present indicative/subjunctive of dater).",
     "reviewed": true
   },
   "daube": {
@@ -3846,7 +3846,7 @@
     "display": "déchu",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of déchoir.",
+    "def": "Fallen, forfeited, or deprived of a right, status, or position (past participle of déchoir).",
     "reviewed": true
   },
   "decor": {
@@ -3874,14 +3874,14 @@
     "display": "dédié",
     "d": 0.9,
     "pos": "verb",
-    "def": "past participle of dédier.",
+    "def": "Dedicated, devoted, or consecrated to a particular purpose or person (past participle of dédier).",
     "reviewed": true
   },
   "defie": {
     "display": "défié",
     "d": 0.77,
     "pos": "verb",
-    "def": "past participle of défier.",
+    "def": "Defied, challenged, or dared someone to do something; also, distrusted (past participle of défier).",
     "reviewed": true
   },
   "defis": {
@@ -3916,7 +3916,7 @@
     "display": "délia",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of délier.",
+    "def": "Untied, unbound, or loosened something; also, released or freed (third-person singular past historic of délier).",
     "reviewed": true
   },
   "delit": {
@@ -3986,7 +3986,7 @@
     "display": "déplu",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of déplaire.",
+    "def": "Displeased, annoyed, or offended someone; failed to satisfy (past participle of déplaire).",
     "reviewed": true
   },
   "depot": {
@@ -4028,14 +4028,14 @@
     "display": "devez",
     "d": 0.09,
     "pos": "verb",
-    "def": "second-person plural present indicative of devoir.",
+    "def": "You must, have to, or owe something (second-person plural present indicative of devoir).",
     "reviewed": true
   },
   "devie": {
     "display": "dévié",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of dévier.",
+    "def": "Deviated, diverted, or turned aside from a course or standard (past participle of dévier).",
     "reviewed": true
   },
   "devin": {
@@ -4056,7 +4056,7 @@
     "display": "devra",
     "d": 0.29,
     "pos": "verb",
-    "def": "third-person singular future of devoir.",
+    "def": "He/She/It will have to, must, or owe something in the future (third-person singular future of devoir).",
     "reviewed": true
   },
   "diane": {
@@ -4070,7 +4070,7 @@
     "display": "dicté",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of dicter.",
+    "def": "Dictated, commanded, or spoken aloud for someone to write down (past participle of dicter).",
     "reviewed": true
   },
   "diese": {
@@ -4091,7 +4091,7 @@
     "display": "dieux",
     "d": 0.26,
     "pos": "noun",
-    "def": "Supernatural beings or deities worshipped as having power over human fortunes and the natural world; gods (plural of dieu).",
+    "def": "Supernatural beings or deities worshipped as having power over human fortunes and the natural world (plural of dieu).",
     "reviewed": true
   },
   "digne": {
@@ -4133,14 +4133,14 @@
     "display": "dînes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of dîner.",
+    "def": "You eat dinner or have your evening meal (second-person singular present indicative/subjunctive of dîner).",
     "reviewed": true
   },
   "dinez": {
     "display": "dînez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You eat dinner or have your evening meal (second-person plural present indicative/imperative of dîner).",
     "reviewed": true
   },
   "dingo": {
@@ -4154,14 +4154,14 @@
     "display": "dirai",
     "d": 0.16,
     "pos": "verb",
-    "def": "First-person future of dire; I will say or tell.",
+    "def": "I will say, tell, or express something verbally (first-person singular future of dire).",
     "reviewed": true
   },
   "diras": {
     "display": "diras",
     "d": 0.38,
     "pos": "verb",
-    "def": "Second-person future of dire; you will say or tell.",
+    "def": "You will say, tell, or express something verbally (second-person singular future of dire).",
     "reviewed": true
   },
   "dires": {
@@ -4175,7 +4175,7 @@
     "display": "direz",
     "d": 0.43,
     "pos": "verb",
-    "def": "second-person plural future of dire.",
+    "def": "You will say, tell, or express something verbally (second-person plural future of dire).",
     "reviewed": true
   },
   "disco": {
@@ -4196,7 +4196,7 @@
     "display": "dites",
     "d": 0.09,
     "pos": "verb",
-    "def": "second-person plural indicative present.",
+    "def": "You say, tell, or express something verbally (second-person plural present indicative/imperative of dire).",
     "reviewed": true
   },
   "divan": {
@@ -4259,7 +4259,7 @@
     "display": "donna",
     "d": 0.3,
     "pos": "verb",
-    "def": "third-person singular past historic of donner.",
+    "def": "He, she, or it gave, bestowed, or provided something (third-person singular past historic of donner).",
     "reviewed": true
   },
   "donne": {
@@ -4294,7 +4294,7 @@
     "display": "dores",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of dorer.",
+    "def": "You gild, brown, or give a golden color to something (second-person singular present indicative/subjunctive of dorer).",
     "reviewed": true
   },
   "dorme": {
@@ -4308,14 +4308,14 @@
     "display": "dormi",
     "d": 0.25,
     "pos": "verb",
-    "def": "past participle of dormir.",
+    "def": "Slept or was in a state of sleep, having rested (past participle of dormir).",
     "reviewed": true
   },
   "doses": {
     "display": "doses",
     "d": 0.84,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of doser.",
+    "def": "You measure or administer a specific quantity of something, like medicine (second-person singular present indicative/subjunctive of doser).",
     "reviewed": true
   },
   "dotee": {
@@ -4329,7 +4329,7 @@
     "display": "dotes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of doter.",
+    "def": "You endow, provide, or furnish someone or something with a quality or gift (second-person singular present indicative/subjunctive of doter).",
     "reviewed": true
   },
   "douce": {
@@ -4392,7 +4392,7 @@
     "display": "draps",
     "d": 0.46,
     "pos": "noun",
-    "def": "Pieces of cloth, typically rectangular, used for covering a bed or for other domestic purposes; sheets (plural of drap).",
+    "def": "Pieces of cloth, typically rectangular, used for covering a bed or for other domestic purposes (plural of drap).",
     "reviewed": true
   },
   "drill": {
@@ -4483,7 +4483,7 @@
     "display": "dupes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of duper.",
+    "def": "You deceive, trick, or fool someone into believing something false (second-person singular present indicative/subjunctive of duper).",
     "reviewed": true
   },
   "duree": {
@@ -4560,7 +4560,7 @@
     "display": "éclos",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of éclore.",
+    "def": "Hatched, emerged from an egg, or bloomed, having developed (past participle of éclore).",
     "reviewed": true
   },
   "ecole": {
@@ -4588,14 +4588,14 @@
     "display": "écris",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "I or you write, compose, or put words down on paper or a screen (first/second-person singular present indicative of écrire).",
     "reviewed": true
   },
   "ecrit": {
     "display": "écrit",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of écrire.",
+    "def": "Written, composed, or put down in text, having been recorded (past participle of écrire).",
     "reviewed": true
   },
   "ecrou": {
@@ -4616,7 +4616,7 @@
     "display": "édité",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of éditer.",
+    "def": "Edited, published, or prepared for publication, having been processed (past participle of éditer).",
     "reviewed": true
   },
   "effet": {
@@ -4644,7 +4644,7 @@
     "display": "égaré",
     "d": 0.88,
     "pos": "verb",
-    "def": "past participle of égarer.",
+    "def": "Lost, misled, or gone astray, indicating a state of being disoriented (past participle of égarer).",
     "reviewed": true
   },
   "egaux": {
@@ -4699,8 +4699,8 @@
   "elles": {
     "display": "elles",
     "d": 0.06,
-    "pos": "pron",
-    "def": "Third-person plural feminine personal pronoun; they or them.",
+    "pos": "noun",
+    "def": "They or them, referring to a group of two or more feminine persons or things (third-person plural feminine pronoun).",
     "reviewed": true
   },
   "eloge": {
@@ -4721,21 +4721,21 @@
     "display": "émané",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of émaner.",
+    "def": "Emanated, issued, or originated from a source, having flowed forth (past participle of émaner).",
     "reviewed": true
   },
   "emeut": {
     "display": "émeut",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative of émouvoir.",
+    "def": "He, she, or it moves, stirs, or deeply affects someone emotionally (third-person singular present indicative of émouvoir).",
     "reviewed": true
   },
   "empli": {
     "display": "empli",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of emplir.",
+    "def": "Filled or made full, indicating a state of being complete (past participle of emplir).",
     "reviewed": true
   },
   "encas": {
@@ -4777,7 +4777,7 @@
     "display": "enfui",
     "d": 0.38,
     "pos": "verb",
-    "def": "past participle of enfuir.",
+    "def": "Fled, escaped, or ran away, indicating a hasty departure (past participle of enfuir).",
     "reviewed": true
   },
   "engin": {
@@ -4812,7 +4812,7 @@
     "display": "entra",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of entrer.",
+    "def": "He, she, or it entered, went in, or came into a place (third-person singular past historic of entrer).",
     "reviewed": true
   },
   "entre": {
@@ -4854,7 +4854,7 @@
     "display": "épaté",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of épater.",
+    "def": "Astonished, amazed, or impressed, causing a feeling of wonder (past participle of épater).",
     "reviewed": true
   },
   "epave": {
@@ -4910,7 +4910,7 @@
     "display": "érigé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of ériger.",
+    "def": "Erected, built, or established, indicating something set up (past participle of ériger).",
     "reviewed": true
   },
   "errer": {
@@ -4959,14 +4959,14 @@
     "display": "était",
     "d": 0.3,
     "pos": "verb",
-    "def": "Third-person singular imperfect of etre; was in a condition or state.",
+    "def": "He, she, or it was in a certain condition, state, or location (third-person singular imperfect of être).",
     "reviewed": true
   },
   "etale": {
     "display": "étalé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of étaler.",
+    "def": "Spread out, displayed, or exhibited, often in a visible manner (past participle of étaler).",
     "reviewed": true
   },
   "etang": {
@@ -4980,7 +4980,7 @@
     "display": "étant",
     "d": 0.76,
     "pos": "verb",
-    "def": "present participle of être.",
+    "def": "Being, existing, or in the process of doing something (present participle of être).",
     "reviewed": true
   },
   "etape": {
@@ -5001,7 +5001,7 @@
     "display": "étend",
     "d": 0.8,
     "pos": "verb",
-    "def": "third-person singular present indicative of étendre.",
+    "def": "Spreads, extends, or stretches something out; also, lays something flat (present tense of étendre).",
     "reviewed": true
   },
   "ether": {
@@ -5015,7 +5015,7 @@
     "display": "étiez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural imperfect indicative of être.",
+    "def": "Were, used to be, or were being (second-person plural imperfect of être).",
     "reviewed": true
   },
   "etire": {
@@ -5064,7 +5064,7 @@
     "display": "évadé",
     "d": 0.8,
     "pos": "verb",
-    "def": "past participle of évader.",
+    "def": "Escaped or broken free from confinement, a place, or a difficult situation (past participle of évader).",
     "reviewed": true
   },
   "eveil": {
@@ -5085,7 +5085,7 @@
     "display": "évité",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of éviter.",
+    "def": "Avoided, prevented, or kept away from something or someone (past participle of éviter).",
     "reviewed": true
   },
   "exact": {
@@ -5113,7 +5113,7 @@
     "display": "exigé",
     "d": 0.42,
     "pos": "verb",
-    "def": "past participle of exiger.",
+    "def": "Demanded, required, or insisted upon something as necessary (past participle of exiger).",
     "reviewed": true
   },
   "exile": {
@@ -5190,7 +5190,7 @@
     "display": "fallu",
     "d": 0.32,
     "pos": "verb",
-    "def": "past participle of falloir.",
+    "def": "Been necessary or required; often used impersonally to express obligation (past participle of falloir).",
     "reviewed": true
   },
   "farce": {
@@ -5204,7 +5204,7 @@
     "display": "farci",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of farcir.",
+    "def": "Stuffed or filled with a mixture of ingredients, typically in cooking (past participle of farcir).",
     "reviewed": true
   },
   "fasse": {
@@ -5253,7 +5253,7 @@
     "display": "feint",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of feindre.",
+    "def": "Feigned, pretended, or faked an emotion, action, or state (past participle of feindre).",
     "reviewed": true
   },
   "felee": {
@@ -5295,7 +5295,7 @@
     "display": "fendu",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of fendre.",
+    "def": "Split, cleaved, or cracked open; divided into two or more parts (past participle of fendre).",
     "reviewed": true
   },
   "fente": {
@@ -5309,21 +5309,21 @@
     "display": "ferai",
     "d": 0.1,
     "pos": "verb",
-    "def": "First-person future of faire; I will do or make.",
+    "def": "Will do or will make; indicates a future action or creation by the speaker (first-person singular future of faire).",
     "reviewed": true
   },
   "feras": {
     "display": "feras",
     "d": 0.25,
     "pos": "verb",
-    "def": "Second-person future of faire; you will do or make.",
+    "def": "Will do or will make; indicates a future action or creation by the person addressed (second-person singular future of faire).",
     "reviewed": true
   },
   "ferez": {
     "display": "ferez",
     "d": 0.32,
     "pos": "verb",
-    "def": "second-person plural future of faire.",
+    "def": "Will do or will make; indicates a future action or creation by a group of people addressed (second-person plural future of faire).",
     "reviewed": true
   },
   "ferie": {
@@ -5344,7 +5344,7 @@
     "display": "ferre",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/third-person singular present indicative.",
+    "def": "Shoes (a horse), irons (clothes), or arms with iron; also, hooks a fish (present tense of ferrer).",
     "reviewed": true
   },
   "ferry": {
@@ -5379,7 +5379,7 @@
     "display": "fêtez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Celebrate or observe a special occasion with festivities and joy (second-person plural present of fêter).",
     "reviewed": true
   },
   "feves": {
@@ -5428,7 +5428,7 @@
     "display": "fiers",
     "d": 0.47,
     "pos": "adj",
-    "def": "Feeling deep pleasure or satisfaction as a result of one's own achievements or those of someone close (masculine plural of \"fier\").",
+    "def": "Feeling deep pleasure or satisfaction as a result of one's own achievements or those of someone close (masculine plural of fier).",
     "reviewed": true
   },
   "figee": {
@@ -5477,7 +5477,7 @@
     "display": "files",
     "d": 0.81,
     "pos": "noun",
-    "def": "Collections of related data or documents stored under a single name. Also, lines of people or objects (plural of \"file\").",
+    "def": "Collections of related data or documents stored under a single name. Also, lines of people or objects (plural of file).",
     "reviewed": true
   },
   "filet": {
@@ -5491,7 +5491,7 @@
     "display": "filez",
     "d": 0.69,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Spin (thread), stream (liquid), or informally, leave quickly; also, give or hand over (second-person plural present of filer).",
     "reviewed": true
   },
   "fille": {
@@ -5505,14 +5505,14 @@
     "display": "filmé",
     "d": 0.7,
     "pos": "verb",
-    "def": "past participle of filmer.",
+    "def": "Filmed, recorded, or captured on camera as a movie or video (past participle of filmer).",
     "reviewed": true
   },
   "films": {
     "display": "films",
     "d": 0.2,
     "pos": "noun",
-    "def": "Motion pictures or movies, typically shown in cinemas or on television. Also, thin layers or coatings (plural of \"film\").",
+    "def": "Motion pictures or movies, typically shown in cinemas or on television. Also, thin layers or coatings (plural of film).",
     "reviewed": true
   },
   "filon": {
@@ -5540,7 +5540,7 @@
     "display": "fines",
     "d": 0.95,
     "pos": "adj",
-    "def": "Of high quality, delicate, or slender in form; excellent or refined (feminine plural of \"fin\").",
+    "def": "Of high quality, delicate, or slender in form; excellent or refined (feminine plural of fin).",
     "reviewed": true
   },
   "finie": {
@@ -5561,14 +5561,14 @@
     "display": "finis",
     "d": 0.31,
     "pos": "adj",
-    "def": "Completed, ended, or finished; brought to a conclusion (masculine plural of \"fini\").",
+    "def": "Completed, ended, or finished; brought to a conclusion (masculine plural of fini).",
     "reviewed": true
   },
   "finit": {
     "display": "finît",
     "d": 0.27,
     "pos": "verb",
-    "def": "third-person singular imperfect subjunctive of finir.",
+    "def": "Might finish or would finish; expresses a hypothetical or desired completion of an action (third-person singular imperfect subjunctive of finir).",
     "reviewed": true
   },
   "fiole": {
@@ -5610,14 +5610,14 @@
     "display": "fixes",
     "d": 0.95,
     "pos": "adj",
-    "def": "Not moving or changing; permanently in position or established (masculine and feminine plural of \"fixe\").",
+    "def": "Not moving or changing; permanently in position or established (masculine and feminine plural of fixe).",
     "reviewed": true
   },
   "fixez": {
     "display": "fixez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Fix, attach, or set something firmly in place; also, stare at or determine (second-person plural present of fixer).",
     "reviewed": true
   },
   "flair": {
@@ -5659,7 +5659,7 @@
     "display": "flics",
     "d": 0.14,
     "pos": "noun",
-    "def": "Informal and often derogatory term for police officers or cops (plural of \"flic\").",
+    "def": "Informal and often derogatory term for police officers or cops (plural of flic).",
     "reviewed": true
   },
   "flirt": {
@@ -5680,7 +5680,7 @@
     "display": "flots",
     "d": 0.95,
     "pos": "noun",
-    "def": "Waves or surges of water, especially large ones. Also, a large quantity or flow of something (plural of \"flot\").",
+    "def": "Waves or surges of water, especially large ones. Also, a large quantity or flow of something (plural of flot).",
     "reviewed": true
   },
   "floue": {
@@ -5694,7 +5694,7 @@
     "display": "flous",
     "d": 0.95,
     "pos": "adj",
-    "def": "Lacking sharpness or clarity; blurred, indistinct, or vague (masculine plural of \"flou\").",
+    "def": "Lacking sharpness or clarity; blurred, indistinct, or vague (masculine plural of flou).",
     "reviewed": true
   },
   "flush": {
@@ -5722,14 +5722,14 @@
     "display": "foies",
     "d": 0.95,
     "pos": "noun",
-    "def": "The large glandular organs in the abdomen of vertebrates, responsible for metabolic functions (plural of \"foie\").",
+    "def": "The large glandular organs in the abdomen of vertebrates, responsible for metabolic functions (plural of foie).",
     "reviewed": true
   },
   "foins": {
     "display": "foins",
     "d": 0.95,
     "pos": "noun",
-    "def": "Grass that has been mown and dried for use as animal fodder, especially for livestock (plural of \"foin\").",
+    "def": "Grass that has been mown and dried for use as animal fodder, especially for livestock (plural of foin).",
     "reviewed": true
   },
   "foire": {
@@ -5764,7 +5764,7 @@
     "display": "fonda",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of fonder.",
+    "def": "Founded, established, or laid the groundwork for something, such as an institution or idea (past historic of fonder).",
     "reviewed": true
   },
   "fonde": {
@@ -5778,7 +5778,7 @@
     "display": "fonds",
     "d": 0.29,
     "pos": "noun",
-    "def": "Money or other liquid assets available for use. Also, the bottom or background of something (plural of \"fond\").",
+    "def": "Money or other liquid assets available for use. Also, the bottom or background of something (plural of fond).",
     "reviewed": true
   },
   "fondu": {
@@ -5841,7 +5841,7 @@
     "display": "forts",
     "d": 0.36,
     "pos": "adj",
-    "def": "Having great physical power or strength; robust, powerful, or intense (masculine plural of \"fort\").",
+    "def": "Having great physical power or strength; robust, powerful, or intense (masculine plural of fort).",
     "reviewed": true
   },
   "forum": {
@@ -5890,7 +5890,7 @@
     "display": "foutu",
     "d": 0.2,
     "pos": "verb",
-    "def": "past participle of foutre.",
+    "def": "Done, put, or thrown; often used to mean ruined or messed up (past participle of foutre).",
     "reviewed": true
   },
   "foyer": {
@@ -6002,7 +6002,7 @@
     "display": "frôlé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of frôler.",
+    "def": "Brushed against, grazed, or lightly touched something while passing by (past participle of frôler).",
     "reviewed": true
   },
   "front": {
@@ -6058,14 +6058,14 @@
     "display": "fumes",
     "d": 0.7,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of fumer.",
+    "def": "You smoke or are smoking (second-person singular present indicative/subjunctive of fumer).",
     "reviewed": true
   },
   "fumez": {
     "display": "fumez",
     "d": 0.91,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You smoke or are smoking (second-person plural present indicative of fumer).",
     "reviewed": true
   },
   "funky": {
@@ -6121,7 +6121,7 @@
     "display": "fûtes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural past historic of être.",
+    "def": "You were (second-person plural past historic of être).",
     "reviewed": true
   },
   "futur": {
@@ -6135,7 +6135,7 @@
     "display": "fuyez",
     "d": 0.71,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You flee, run away, or escape from a situation or place (second-person plural present indicative of fuir).",
     "reviewed": true
   },
   "gable": {
@@ -6170,14 +6170,14 @@
     "display": "gagna",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of gagner.",
+    "def": "He/she/it won or earned something (third-person singular past historic of gagner).",
     "reviewed": true
   },
   "gagne": {
     "display": "gagné",
     "d": 0.19,
     "pos": "verb",
-    "def": "past participle of gagner.",
+    "def": "Won or earned, referring to a victory, prize, or money (past participle of gagner).",
     "reviewed": true
   },
   "gaies": {
@@ -6191,7 +6191,7 @@
     "display": "gainé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of gainer.",
+    "def": "Sheathed, encased, or covered with a protective layer (past participle of gainer).",
     "reviewed": true
   },
   "gains": {
@@ -6282,14 +6282,14 @@
     "display": "garez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You park a vehicle or put something in a sheltered place (second-person plural present indicative of garer).",
     "reviewed": true
   },
   "garni": {
     "display": "garni",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of garnir.",
+    "def": "Furnished, decorated, or garnished with something (past participle of garnir).",
     "reviewed": true
   },
   "garou": {
@@ -6317,7 +6317,7 @@
     "display": "gâtes",
     "d": 0.68,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of gâter.",
+    "def": "You spoil, pamper, or damage something or someone (second-person singular present indicative/subjunctive of gâter).",
     "reviewed": true
   },
   "gaule": {
@@ -6380,7 +6380,7 @@
     "display": "gèles",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of geler.",
+    "def": "You freeze or cause something to turn into ice (second-person singular present indicative/subjunctive of geler).",
     "reviewed": true
   },
   "gemir": {
@@ -6401,7 +6401,7 @@
     "display": "gémit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "He/she/it groans or moans, often due to pain, sadness, or discomfort (third-person singular present indicative of gémir).",
     "reviewed": true
   },
   "genee": {
@@ -6422,14 +6422,14 @@
     "display": "gênes",
     "d": 0.73,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of gêner.",
+    "def": "You bother, disturb, or embarrass someone or something (second-person singular present indicative/subjunctive of gêner).",
     "reviewed": true
   },
   "genez": {
     "display": "gênez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You bother, disturb, or embarrass someone or something (second-person plural present indicative of gêner).",
     "reviewed": true
   },
   "genie": {
@@ -6485,14 +6485,14 @@
     "display": "gères",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of gérer.",
+    "def": "You manage, handle, or administer something, such as a business or task (second-person singular present indicative/subjunctive of gérer).",
     "reviewed": true
   },
   "gerez": {
     "display": "gérez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You manage, handle, or administer something, such as a business or task (second-person plural present indicative of gérer).",
     "reviewed": true
   },
   "germe": {
@@ -6513,7 +6513,7 @@
     "display": "giclé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of gicler.",
+    "def": "Squirted or spurted out forcefully in a stream or jet (past participle of gicler).",
     "reviewed": true
   },
   "gifle": {
@@ -6604,7 +6604,7 @@
     "display": "gonds",
     "d": 0.95,
     "pos": "noun",
-    "def": "The metal fittings that allow a door or window to swing open and close (plural of \"gond\").",
+    "def": "The metal fittings that allow a door or window to swing open and close (plural of gond).",
     "reviewed": true
   },
   "gorge": {
@@ -6625,14 +6625,14 @@
     "display": "goûté",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of goûter.",
+    "def": "Tasted or tried, referring to food or drink (past participle of goûter).",
     "reviewed": true
   },
   "gouts": {
     "display": "goûts",
     "d": 0.63,
     "pos": "noun",
-    "def": "The sensations produced when a substance in the mouth reacts chemically with taste receptor cells (plural of \"goût\").",
+    "def": "The sensations produced when a substance in the mouth reacts chemically with taste receptor cells (plural of goût).",
     "reviewed": true
   },
   "graal": {
@@ -6688,7 +6688,7 @@
     "display": "gravi",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of gravir.",
+    "def": "Climbed or ascended, typically referring to a mountain or a difficult path (past participle of gravir).",
     "reviewed": true
   },
   "grecs": {
@@ -6758,7 +6758,7 @@
     "display": "grues",
     "d": 0.95,
     "pos": "noun",
-    "def": "Large, long-legged, and long-necked birds, typically found in wetlands (plural of \"grue\").",
+    "def": "Large, long-legged, and long-necked birds, typically found in wetlands (plural of grue).",
     "reviewed": true
   },
   "guepe": {
@@ -6779,7 +6779,7 @@
     "display": "guéri",
     "d": 0.52,
     "pos": "verb",
-    "def": "past participle of guérir.",
+    "def": "Healed or cured from an illness, injury, or ailment (past participle of guérir).",
     "reviewed": true
   },
   "gueux": {
@@ -6849,7 +6849,7 @@
     "display": "hales",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of haler.",
+    "def": "You haul, pull, or tow something, often with effort (second-person singular present indicative/subjunctive of haler).",
     "reviewed": true
   },
   "halle": {
@@ -7003,7 +7003,7 @@
     "display": "hissé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of hisser.",
+    "def": "Hoisted or raised something upwards, such as a flag or sail (past participle of hisser).",
     "reviewed": true
   },
   "hiver": {
@@ -7024,7 +7024,7 @@
     "display": "hoché",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of hocher.",
+    "def": "Nodded or shaken, typically referring to one's head in agreement or disagreement (past participle of hocher).",
     "reviewed": true
   },
   "homes": {
@@ -7073,7 +7073,7 @@
     "display": "hôtes",
     "d": 0.78,
     "pos": "noun",
-    "def": "People who receive or entertain guests, or individuals staying at a hotel or guesthouse (plural of \"hôte\").",
+    "def": "People who receive or entertain guests, or individuals staying at a hotel or guesthouse (plural of hôte).",
     "reviewed": true
   },
   "hotte": {
@@ -7094,7 +7094,7 @@
     "display": "huées",
     "d": 0.95,
     "pos": "noun",
-    "def": "Loud shouts or jeers expressing disapproval, derision, or contempt from a crowd (plural of \"huée\").",
+    "def": "Loud shouts or jeers expressing disapproval, derision, or contempt from a crowd (plural of huée).",
     "reviewed": true
   },
   "huile": {
@@ -7164,7 +7164,7 @@
     "display": "idées",
     "d": 0.95,
     "pos": "noun",
-    "def": "Thoughts, concepts, or mental impressions formed in the mind (plural of \"idée\").",
+    "def": "Thoughts, concepts, or mental impressions formed in the mind (plural of idée).",
     "reviewed": true
   },
   "idiot": {
@@ -7192,7 +7192,7 @@
     "display": "imité",
     "d": 0.91,
     "pos": "verb",
-    "def": "past participle of imiter.",
+    "def": "Imitated or mimicked, copying the actions, speech, or mannerisms of someone or something (past participle of imiter).",
     "reviewed": true
   },
   "impie": {
@@ -7248,35 +7248,35 @@
     "display": "irait",
     "d": 0.31,
     "pos": "verb",
-    "def": "Third-person conditional of aller; would go.",
+    "def": "He/she/it would go (third-person singular conditional of aller).",
     "reviewed": true
   },
   "iriez": {
     "display": "iriez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural conditional of aller.",
+    "def": "You would go or you would be going to a place or event (second-person plural conditional of aller).",
     "reviewed": true
   },
   "irisa": {
     "display": "irisa",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of iriser.",
+    "def": "He, she, or it gave a shimmering, rainbow-like quality or color to something (third-person singular past historic of iriser).",
     "reviewed": true
   },
   "irons": {
     "display": "irons",
     "d": 0.47,
     "pos": "verb",
-    "def": "First-person plural future of aller; we will go.",
+    "def": "We will go or we shall go to a specific place, event, or destination (first-person plural future of aller).",
     "reviewed": true
   },
   "iront": {
     "display": "iront",
     "d": 0.56,
     "pos": "verb",
-    "def": "third-person plural future of aller.",
+    "def": "They will go or they shall go to a particular place, event, or destination (third-person plural future of aller).",
     "reviewed": true
   },
   "islam": {
@@ -7284,13 +7284,6 @@
     "d": 0.9,
     "pos": "noun",
     "def": "The monotheistic religion of Muslims, based on the teachings of Muhammad as recorded in the Quran.",
-    "reviewed": true
-  },
-  "isles": {
-    "display": "isles",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Small islands or landmasses completely surrounded by water (plural of \"île\").",
     "reviewed": true
   },
   "isole": {
@@ -7402,7 +7395,7 @@
     "display": "jetez",
     "d": 0.45,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You throw, cast, or toss something away, or you discard an object (second-person plural present indicative of jeter).",
     "reviewed": true
   },
   "jeton": {
@@ -7444,21 +7437,21 @@
     "display": "joies",
     "d": 0.91,
     "pos": "noun",
-    "def": "Feelings of great pleasure and happiness; moments or sources of delight and gladness (plural of \"joie\").",
+    "def": "Feelings of great pleasure, happiness, or delight; sources of gladness or moments of joy (plural of joie).",
     "reviewed": true
   },
   "joins": {
     "display": "joins",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "I or you connect, unite, or combine things together; I or you also join a group (first/second-person singular present indicative of joindre).",
     "reviewed": true
   },
   "joint": {
     "display": "joint",
     "d": 0.52,
     "pos": "verb",
-    "def": "past participle of joindre.",
+    "def": "Connected, united, or combined together; having been joined to a group or entity (past participle of joindre).",
     "reviewed": true
   },
   "joker": {
@@ -7500,7 +7493,7 @@
     "display": "joues",
     "d": 0.26,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of jouer.",
+    "def": "You play a game, an instrument, or a role; you are playing or you may play (second-person singular present indicative/subjunctive of jouer).",
     "reviewed": true
   },
   "jouet": {
@@ -7514,7 +7507,7 @@
     "display": "jouez",
     "d": 0.31,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You play a game, an instrument, or a role; you are playing or you may play (second-person plural present indicative of jouer).",
     "reviewed": true
   },
   "jouir": {
@@ -7528,7 +7521,7 @@
     "display": "jouis",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "I or you enjoy, benefit from, or experience pleasure from something (first/second-person singular present indicative of jouir).",
     "reviewed": true
   },
   "jouit": {
@@ -7542,14 +7535,14 @@
     "display": "jours",
     "d": 0.06,
     "pos": "noun",
-    "def": "Periods of 24 hours, from midnight to midnight, or the time between sunrise and sunset (plural of \"jour\").",
+    "def": "Periods of twenty-four hours, from midnight to midnight, or the daytime between sunrise and sunset (plural of jour).",
     "reviewed": true
   },
   "joute": {
     "display": "jouté",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of jouter.",
+    "def": "Jousting, having engaged in a combat or contest with lances; having debated or verbally sparred (past participle of jouter).",
     "reviewed": true
   },
   "joyau": {
@@ -7584,14 +7577,14 @@
     "display": "juges",
     "d": 0.5,
     "pos": "noun",
-    "def": "Individuals appointed to preside over legal proceedings, interpret laws, and make impartial decisions in a court of justice (plural of \"juge\").",
+    "def": "Individuals appointed to preside over legal proceedings, interpret laws, and make impartial decisions in a court of justice (plural of juge).",
     "reviewed": true
   },
   "jugez": {
     "display": "jugez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You judge, evaluate, or form an opinion about someone or something (second-person plural present indicative of juger).",
     "reviewed": true
   },
   "juifs": {
@@ -7619,7 +7612,7 @@
     "display": "jupes",
     "d": 0.95,
     "pos": "noun",
-    "def": "Garments worn by women and girls, hanging from the waist and covering part or all of the legs (plural of \"jupe\").",
+    "def": "Garments worn by women and girls, hanging from the waist and covering part or all of the legs (plural of jupe).",
     "reviewed": true
   },
   "jupon": {
@@ -7647,14 +7640,14 @@
     "display": "jures",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of jurer.",
+    "def": "You swear an oath, make a solemn promise, or curse (second-person singular present indicative/subjunctive of jurer).",
     "reviewed": true
   },
   "jurez": {
     "display": "jurez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You swear an oath, make a solemn promise, or curse (second-person plural present indicative of jurer).",
     "reviewed": true
   },
   "juste": {
@@ -7696,7 +7689,7 @@
     "display": "keufs",
     "d": 0.95,
     "pos": "noun",
-    "def": "A slang term for police officers or cops, commonly used in informal French (plural of \"keuf\").",
+    "def": "A slang term for police officers or cops, commonly used in informal French (plural of keuf).",
     "reviewed": true
   },
   "kiffe": {
@@ -7710,7 +7703,7 @@
     "display": "kilos",
     "d": 0.37,
     "pos": "noun",
-    "def": "Units of mass equal to one thousand grams, commonly used for measuring weight (plural of \"kilo\").",
+    "def": "Units of mass equal to one thousand grams, commonly used for measuring weight (plural of kilo).",
     "reviewed": true
   },
   "koala": {
@@ -7773,7 +7766,7 @@
     "display": "laids",
     "d": 0.95,
     "pos": "adj",
-    "def": "Describing things or people that are unpleasant or repulsive to look at; not beautiful or attractive (masculine plural of \"laid\").",
+    "def": "Describing things or people that are unpleasant or repulsive to look at; not beautiful or attractive (masculine plural of laid).",
     "reviewed": true
   },
   "laine": {
@@ -7794,7 +7787,7 @@
     "display": "lames",
     "d": 0.88,
     "pos": "noun",
-    "def": "Thin, flat pieces of metal, typically sharpened on one edge, forming the cutting part of a knife or tool (plural of \"lame\").",
+    "def": "Thin, flat pieces of metal, typically sharpened on one edge, forming the cutting part of a knife or tool (plural of lame).",
     "reviewed": true
   },
   "lampe": {
@@ -7934,7 +7927,7 @@
     "display": "lavez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You wash or clean something, or you wash yourselves (second-person plural present indicative of laver).",
     "reviewed": true
   },
   "leche": {
@@ -7969,7 +7962,7 @@
     "display": "légué",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of léguer.",
+    "def": "Bequeathed, having been left as a legacy or passed on to an heir (past participle of léguer).",
     "reviewed": true
   },
   "lente": {
@@ -8018,14 +8011,14 @@
     "display": "lèves",
     "d": 0.87,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of lever.",
+    "def": "You raise, lift, or get up; you are raising or you may raise (second-person singular present indicative/subjunctive of lever).",
     "reviewed": true
   },
   "levez": {
     "display": "levez",
     "d": 0.44,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You raise, lift, or get up; you are raising or you may raise (second-person plural present indicative of lever).",
     "reviewed": true
   },
   "levre": {
@@ -8053,7 +8046,7 @@
     "display": "liant",
     "d": 0.95,
     "pos": "verb",
-    "def": "present participle of lier.",
+    "def": "Binding, connecting, or linking things together; creating a bond or relationship (present participle of lier).",
     "reviewed": true
   },
   "libre": {
@@ -8088,14 +8081,14 @@
     "display": "lient",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person plural present indicative/subjunctive of lier.",
+    "def": "They bind, connect, or link things together; they create a bond or relationship (third-person plural present indicative/subjunctive of lier).",
     "reviewed": true
   },
   "lieux": {
     "display": "lieux",
     "d": 0.27,
     "pos": "noun",
-    "def": "Specific places, locations, or sites; often used in phrases like 'in lieu of' (plural of 'lieu').",
+    "def": "Specific places, locations, or sites; often used in phrases like 'in lieu of' or 'places of interest' (plural of lieu).",
     "reviewed": true
   },
   "light": {
@@ -8137,56 +8130,56 @@
     "display": "lions",
     "d": 0.6,
     "pos": "verb",
-    "def": "first-person plural present indicative.",
+    "def": "We bind, connect, or link things together; we create a bond or relationship (first-person plural present indicative of lier).",
     "reviewed": true
   },
   "lirai": {
     "display": "lirai",
     "d": 0.95,
     "pos": "verb",
-    "def": "first-person singular future of lire.",
+    "def": "I will read or I shall read a book, text, or any written material (first-person singular future of lire).",
     "reviewed": true
   },
   "liras": {
     "display": "liras",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular future of lire.",
+    "def": "You will read or you shall read a book, text, or any written material (second-person singular future of lire).",
     "reviewed": true
   },
   "lires": {
     "display": "lires",
     "d": 0.71,
     "pos": "noun",
-    "def": "Former monetary units of Italy, Turkey, and other countries, now largely replaced by other currencies (plural of 'lire').",
+    "def": "Former monetary units of Italy, Turkey, and other countries, now largely replaced by other currencies (plural of lire).",
     "reviewed": true
   },
   "lirez": {
     "display": "lirez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural future of lire.",
+    "def": "You will read or you shall read a book, text, or any written material (second-person plural future of lire).",
     "reviewed": true
   },
   "lises": {
     "display": "lises",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present subjunctive of lire.",
+    "def": "That you read or that you may read a book, text, or any written material (second-person singular present subjunctive of lire).",
     "reviewed": true
   },
   "lisez": {
     "display": "lisez",
     "d": 0.43,
     "pos": "verb",
-    "def": "second-person plural present indicative of lire.",
+    "def": "You read or you are reading a book, text, or any written material (second-person plural present indicative of lire).",
     "reviewed": true
   },
   "lissa": {
     "display": "lissa",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of lisser.",
+    "def": "He, she, or it smoothed, straightened, or made something sleek and even (third-person singular past historic of lisser).",
     "reviewed": true
   },
   "lisse": {
@@ -8228,7 +8221,7 @@
     "display": "lobes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of lober.",
+    "def": "You lob or chip a ball over an opponent in sports; you are lobbing or you may lob (second-person singular present indicative/subjunctive of lober).",
     "reviewed": true
   },
   "local": {
@@ -8263,7 +8256,7 @@
     "display": "loges",
     "d": 0.95,
     "pos": "noun",
-    "def": "Small, private compartments or boxes in a theater or opera house, typically for a small group of spectators (plural of 'loge').",
+    "def": "Small, private compartments or boxes in a theater or opera house, typically for a small group of spectators (plural of loge).",
     "reviewed": true
   },
   "logis": {
@@ -8333,14 +8326,14 @@
     "display": "loues",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of louer.",
+    "def": "Praises, commends, or expresses admiration for someone or something; also, rents or hires out (second-person singular present of louer).",
     "reviewed": true
   },
   "louez": {
     "display": "louez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Praise, commend, or express admiration for someone or something; also, rent or hire out (second-person plural present of louer).",
     "reviewed": true
   },
   "loupe": {
@@ -8382,7 +8375,7 @@
     "display": "loves",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of lover.",
+    "def": "Coils or winds a rope, cable, or hose into a neat spiral (second-person singular present of lover).",
     "reviewed": true
   },
   "loyal": {
@@ -8466,14 +8459,14 @@
     "display": "mâcha",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of mâcher.",
+    "def": "Chewed or masticated food, tobacco, or other substances (third-person singular past historic of mâcher).",
     "reviewed": true
   },
   "mache": {
     "display": "mâché",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of mâcher.",
+    "def": "Chewed or masticated, referring to food or other substances that have been processed by the teeth (past participle of mâcher).",
     "reviewed": true
   },
   "macho": {
@@ -8697,7 +8690,7 @@
     "display": "marré",
     "d": 0.21,
     "pos": "verb",
-    "def": "past participle of marrer.",
+    "def": "Laughed or had a good time, often in a casual or informal manner (past participle of se marrer).",
     "reviewed": true
   },
   "masse": {
@@ -8725,14 +8718,14 @@
     "display": "mates",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of mater.",
+    "def": "Looks at, observes, or watches something or someone intently; also, subdues or checks (second-person singular present of mater).",
     "reviewed": true
   },
   "matez": {
     "display": "matez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Look at, observe, or watch something or someone intently; also, subdue or check (second-person plural present of mater).",
     "reviewed": true
   },
   "matin": {
@@ -8795,7 +8788,7 @@
     "display": "méfié",
     "d": 0.83,
     "pos": "verb",
-    "def": "past participle of méfier.",
+    "def": "Distrusted or been wary of someone or something, showing caution or suspicion (past participle of se méfier).",
     "reviewed": true
   },
   "megot": {
@@ -8823,14 +8816,14 @@
     "display": "mêles",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of mêler.",
+    "def": "Mixes, blends, or combines different elements; also, involves or entangles someone in a situation (second-person singular present of mêler).",
     "reviewed": true
   },
   "melez": {
     "display": "mêlez",
     "d": 0.94,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Mix, blend, or combine different elements; also, involve or entangle someone in a situation (second-person plural present of mêler).",
     "reviewed": true
   },
   "melon": {
@@ -8865,14 +8858,14 @@
     "display": "mènes",
     "d": 0.89,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of mener.",
+    "def": "Leads, conducts, or guides someone or something; also, drives or takes to a certain place (second-person singular present of mener).",
     "reviewed": true
   },
   "menez": {
     "display": "menez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Lead, conduct, or guide someone or something; also, drive or take to a certain place (second-person plural present of mener).",
     "reviewed": true
   },
   "mente": {
@@ -8886,7 +8879,7 @@
     "display": "menti",
     "d": 0.16,
     "pos": "verb",
-    "def": "past participle of mentir.",
+    "def": "Lied or told an untruth, having intentionally given false information (past participle of mentir).",
     "reviewed": true
   },
   "ments": {
@@ -8984,21 +8977,21 @@
     "display": "meure",
     "d": 0.45,
     "pos": "verb",
-    "def": "first/third-person singular present subjunctive.",
+    "def": "Dies or passes away, ceasing to live (first/third-person singular present subjunctive of mourir).",
     "reviewed": true
   },
   "meurs": {
     "display": "meurs",
     "d": 0.24,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Die or pass away, ceasing to live (first/second-person singular present of mourir).",
     "reviewed": true
   },
   "meurt": {
     "display": "meurt",
     "d": 0.22,
     "pos": "verb",
-    "def": "third-person singular present indicative of mourir.",
+    "def": "Dies or passes away, ceasing to live (third-person singular present of mourir).",
     "reviewed": true
   },
   "meute": {
@@ -9103,14 +9096,14 @@
     "display": "misez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Bet or stake money or something of value in a game or contest (second-person plural present of miser).",
     "reviewed": true
   },
   "mites": {
     "display": "mites",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of miter.",
+    "def": "Joins two pieces of wood or other material at an angle, typically 45 degrees, to form a corner (second-person singular present of miter).",
     "reviewed": true
   },
   "mixer": {
@@ -9166,7 +9159,7 @@
     "display": "moisi",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of moisir.",
+    "def": "Molded or become covered with mold, indicating decay or spoilage (past participle of moisir).",
     "reviewed": true
   },
   "moite": {
@@ -9229,7 +9222,7 @@
     "display": "moqué",
     "d": 0.32,
     "pos": "verb",
-    "def": "past participle of moquer.",
+    "def": "Mocked or made fun of someone or something, often in a disrespectful or teasing manner (past participle of se moquer).",
     "reviewed": true
   },
   "moral": {
@@ -9250,14 +9243,14 @@
     "display": "mords",
     "d": 0.85,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Bites or sinks teeth into something; also, takes a bait (first/second-person singular present of mordre).",
     "reviewed": true
   },
   "mordu": {
     "display": "mordu",
     "d": 0.43,
     "pos": "verb",
-    "def": "past participle of mordre.",
+    "def": "Bitten or having been subjected to a bite, often leaving a mark (past participle of mordre).",
     "reviewed": true
   },
   "morne": {
@@ -9320,7 +9313,7 @@
     "display": "motos",
     "d": 0.87,
     "pos": "noun",
-    "def": "Motorized two-wheeled vehicles used for transport or sport; motorcycles (plural of \"moto\").",
+    "def": "Motorized two-wheeled vehicles used for transport or sport; motorcycles (plural of moto).",
     "reviewed": true
   },
   "motte": {
@@ -9362,7 +9355,7 @@
     "display": "muets",
     "d": 0.95,
     "pos": "adj",
-    "def": "Describes individuals who are unable to speak or are temporarily silent; mute or speechless (masculine plural of \"muet\").",
+    "def": "Describes individuals who are unable to speak or are temporarily silent; mute or speechless (masculine plural of muet).",
     "reviewed": true
   },
   "mufle": {
@@ -9390,14 +9383,14 @@
     "display": "murât",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular imperfect subjunctive of murer.",
+    "def": "That he, she, or it might wall up or brick something in (third-person singular imperfect subjunctive of murer).",
     "reviewed": true
   },
   "mures": {
     "display": "mures",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of murer.",
+    "def": "You wall up or brick something in (second-person singular present indicative or subjunctive of murer).",
     "reviewed": true
   },
   "murir": {
@@ -9467,21 +9460,21 @@
     "display": "nages",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of nager.",
+    "def": "You move through water using your limbs; you swim (second-person singular present indicative or subjunctive of nager).",
     "reviewed": true
   },
   "nagez": {
     "display": "nagez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural or formal) move through water using your limbs; you swim (second-person plural present indicative of nager).",
     "reviewed": true
   },
   "naifs": {
     "display": "naïfs",
     "d": 0.95,
     "pos": "adj",
-    "def": "Describes people or art that are innocent, unsophisticated, or lacking worldly experience (masculine plural of \"naïf\").",
+    "def": "Describes people or art that are innocent, unsophisticated, or lacking worldly experience (masculine plural of naïf).",
     "reviewed": true
   },
   "naine": {
@@ -9495,7 +9488,7 @@
     "display": "nains",
     "d": 0.8,
     "pos": "noun",
-    "def": "Mythological small, often bearded human-like creatures, or people of unusually small stature; dwarfs (plural of \"nain\").",
+    "def": "Mythological small, often bearded human-like creatures, or people of unusually small stature; dwarfs (plural of nain).",
     "reviewed": true
   },
   "naive": {
@@ -9509,7 +9502,7 @@
     "display": "nanas",
     "d": 0.52,
     "pos": "noun",
-    "def": "Informal and somewhat colloquial term for women or girls, often used in a familiar or casual context (plural of \"nana\").",
+    "def": "Informal and somewhat colloquial term for women or girls, often used in a familiar or casual context (plural of nana).",
     "reviewed": true
   },
   "nappe": {
@@ -9530,7 +9523,7 @@
     "display": "nases",
     "d": 0.95,
     "pos": "adj",
-    "def": "Slang term describing things or situations that are bad, rotten, or useless; also refers to being out of luck (plural of \"nase\").",
+    "def": "Slang term describing things or situations that are bad, rotten, or useless; also refers to being out of luck (plural of nase).",
     "reviewed": true
   },
   "natal": {
@@ -9572,7 +9565,7 @@
     "display": "navré",
     "d": 0.31,
     "pos": "verb",
-    "def": "past participle of navrer.",
+    "def": "Having caused deep sorrow, regret, or distress to someone; having grieved or upset (past participle of navrer).",
     "reviewed": true
   },
   "nazes": {
@@ -9677,7 +9670,7 @@
     "display": "nient",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person plural present indicative/subjunctive of nier.",
+    "def": "They declare something to be untrue; they deny or contradict (third-person plural present indicative or subjunctive of nier).",
     "reviewed": true
   },
   "niera": {
@@ -9747,7 +9740,7 @@
     "display": "nommé",
     "d": 0.64,
     "pos": "verb",
-    "def": "past participle of nommer.",
+    "def": "Having been given a name or designated for a position; named or appointed (past participle of nommer).",
     "reviewed": true
   },
   "nonne": {
@@ -9789,7 +9782,7 @@
     "display": "notez",
     "d": 0.77,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural or formal) write something down or take notice of it; you note (second-person plural present indicative of noter).",
     "reviewed": true
   },
   "notre": {
@@ -9901,14 +9894,14 @@
     "display": "obéis",
     "d": 0.65,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "I or you comply with an order or rule; I or you obey (first or second-person singular present indicative of obéir).",
     "reviewed": true
   },
   "obeit": {
     "display": "obéit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "He, she, or it complies with an order or rule; he, she, or it obeys (third-person singular present indicative of obéir).",
     "reviewed": true
   },
   "obese": {
@@ -10034,7 +10027,7 @@
     "display": "opéré",
     "d": 0.74,
     "pos": "verb",
-    "def": "past participle of opérer.",
+    "def": "Having performed or undergone a surgical procedure; operated on (past participle of opérer).",
     "reviewed": true
   },
   "opium": {
@@ -10104,21 +10097,21 @@
     "display": "osait",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular imperfect indicative of oser.",
+    "def": "He, she, or it had the courage or boldness to do something; he, she, or it dared (third-person singular imperfect indicative of oser).",
     "reviewed": true
   },
   "osent": {
     "display": "osent",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person plural present indicative/subjunctive of oser.",
+    "def": "They have the courage or boldness to do something; they dare (third-person plural present indicative or subjunctive of oser).",
     "reviewed": true
   },
   "osera": {
     "display": "osera",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular future of oser.",
+    "def": "He, she, or it will have the courage or boldness to do something; he, she, or it will dare (third-person singular future of oser).",
     "reviewed": true
   },
   "otage": {
@@ -10223,7 +10216,7 @@
     "display": "packs",
     "d": 0.95,
     "pos": "noun",
-    "def": "Collections of items wrapped or tied together, or groups of animals or people (plural of 'pack').",
+    "def": "Collections of items wrapped or tied together, or groups of animals or people (plural of pack).",
     "reviewed": true
   },
   "pacte": {
@@ -10244,7 +10237,7 @@
     "display": "pages",
     "d": 0.4,
     "pos": "noun",
-    "def": "The individual sheets of paper forming a book, magazine, or document (plural of 'page').",
+    "def": "The individual sheets of paper forming a book, magazine, or document (plural of page).",
     "reviewed": true
   },
   "paien": {
@@ -10258,14 +10251,14 @@
     "display": "paies",
     "d": 0.66,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of payer.",
+    "def": "You give money in exchange for goods, services, or to settle a debt; you pay (second-person singular present indicative or subjunctive of payer).",
     "reviewed": true
   },
   "pains": {
     "display": "pains",
     "d": 0.82,
     "pos": "noun",
-    "def": "Loaves or pieces of bread, a staple food made from flour, water, and yeast (plural of 'pain').",
+    "def": "Loaves or pieces of bread, a staple food made from flour, water, and yeast (plural of pain).",
     "reviewed": true
   },
   "paire": {
@@ -10286,7 +10279,7 @@
     "display": "pales",
     "d": 0.95,
     "pos": "noun",
-    "def": "The blades of a propeller, fan, or turbine, designed to rotate and move air or water (plural of 'pale').",
+    "def": "The blades of a propeller, fan, or turbine, designed to rotate and move air or water (plural of pale).",
     "reviewed": true
   },
   "palet": {
@@ -10335,28 +10328,28 @@
     "display": "pansé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of panser.",
+    "def": "Having had a wound dressed or an animal groomed; bandaged or cared for (past participle of panser).",
     "reviewed": true
   },
   "paons": {
     "display": "paons",
     "d": 0.95,
     "pos": "noun",
-    "def": "Large, colorful birds known for the male's iridescent tail feathers, often displayed in courtship (plural of 'paon').",
+    "def": "Large, colorful birds known for the male's iridescent tail feathers, often displayed in courtship (plural of paon).",
     "reviewed": true
   },
   "papas": {
     "display": "papas",
     "d": 0.95,
     "pos": "noun",
-    "def": "Informal term for fathers or male parents (plural of 'papa').",
+    "def": "Informal term for fathers or male parents (plural of papa).",
     "reviewed": true
   },
   "parcs": {
     "display": "parcs",
     "d": 0.89,
     "pos": "noun",
-    "def": "Large public green spaces, often with recreational facilities, or areas for parking vehicles (plural of 'parc').",
+    "def": "Large public green spaces, often with recreational facilities, or areas for parking vehicles (plural of parc).",
     "reviewed": true
   },
   "pardi": {
@@ -10384,14 +10377,14 @@
     "display": "pares",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of parer.",
+    "def": "You adorn, prepare, or ward off something; you get ready or fend off (second-person singular present indicative or subjunctive of parer).",
     "reviewed": true
   },
   "parez": {
     "display": "parez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural or formal) adorn, prepare, or ward off something; you get ready or fend off (second-person plural present indicative of parer).",
     "reviewed": true
   },
   "paria": {
@@ -10405,14 +10398,14 @@
     "display": "parié",
     "d": 0.18,
     "pos": "verb",
-    "def": "past participle of parier.",
+    "def": "Having made a wager or risked money on an outcome; bet or gambled (past participle of parier).",
     "reviewed": true
   },
   "parla": {
     "display": "parla",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of parler.",
+    "def": "He, she, or it communicated using words; he, she, or it spoke or talked (third-person singular past historic of parler).",
     "reviewed": true
   },
   "parle": {
@@ -10461,7 +10454,7 @@
     "display": "parts",
     "d": 0.6,
     "pos": "noun",
-    "def": "Portions or sections of a whole; also, roles played by actors in a performance (plural of 'part').",
+    "def": "Portions or sections of a whole; also, roles played by actors in a performance (plural of part).",
     "reviewed": true
   },
   "party": {
@@ -10482,7 +10475,7 @@
     "display": "passa",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of passer.",
+    "def": "He, she, or it moved past or went by; he, she, or it passed (third-person singular past historic of passer).",
     "reviewed": true
   },
   "passe": {
@@ -10517,7 +10510,7 @@
     "display": "pâtes",
     "d": 0.64,
     "pos": "noun",
-    "def": "Various dough-like mixtures, such as pastry dough, or pasta in its many forms (plural of 'pâte').",
+    "def": "Various dough-like mixtures, such as pastry dough, or pasta in its many forms (plural of pâte).",
     "reviewed": true
   },
   "patin": {
@@ -10573,7 +10566,7 @@
     "display": "paves",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of paver.",
+    "def": "You cover a surface with flat stones or bricks; you pave (second-person singular present indicative or subjunctive of paver).",
     "reviewed": true
   },
   "pavot": {
@@ -10601,14 +10594,14 @@
     "display": "payes",
     "d": 0.78,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of payer.",
+    "def": "You give money in exchange for goods, services, or to settle a debt; you pay (second-person singular present indicative or subjunctive of payer).",
     "reviewed": true
   },
   "payez": {
     "display": "payez",
     "d": 0.53,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural or formal) give money in exchange for goods, services, or to settle a debt; you pay (second-person plural present indicative of payer).",
     "reviewed": true
   },
   "peage": {
@@ -10622,7 +10615,7 @@
     "display": "peaux",
     "d": 0.94,
     "pos": "noun",
-    "def": "The outer covering of an animal body or fruit; also, animal hides or skins (plural of 'peau').",
+    "def": "The outer covering of an animal body or fruit; also, animal hides or skins (plural of peau).",
     "reviewed": true
   },
   "peche": {
@@ -10657,14 +10650,14 @@
     "display": "peins",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Apply color or pigment to a surface, creating an image or coating (first or second-person singular present tense of peindre).",
     "reviewed": true
   },
   "peint": {
     "display": "peint",
     "d": 0.49,
     "pos": "verb",
-    "def": "past participle of peindre.",
+    "def": "Covered or decorated with paint; having an image or design created using colors (past participle of peindre).",
     "reviewed": true
   },
   "pekin": {
@@ -10706,14 +10699,14 @@
     "display": "pends",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Suspend something from above, allowing it to dangle freely (first or second-person singular present tense of pendre).",
     "reviewed": true
   },
   "pendu": {
     "display": "pendu",
     "d": 0.47,
     "pos": "verb",
-    "def": "past participle of pendre.",
+    "def": "Suspended or attached from above, often referring to something that is hanging (past participle of pendre).",
     "reviewed": true
   },
   "penny": {
@@ -10727,7 +10720,7 @@
     "display": "pensa",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of penser.",
+    "def": "Thought or considered something; formed an idea or opinion in one's mind (third-person singular past historic of penser).",
     "reviewed": true
   },
   "pense": {
@@ -10755,14 +10748,14 @@
     "display": "percé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of percer.",
+    "def": "Pierced, drilled, or made a hole through something; having been penetrated (past participle of percer).",
     "reviewed": true
   },
   "percu": {
     "display": "perçu",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of percevoir.",
+    "def": "Perceived, noticed, or become aware of something; also, collected or received money (past participle of percevoir).",
     "reviewed": true
   },
   "perde": {
@@ -10776,14 +10769,14 @@
     "display": "perds",
     "d": 0.23,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Lose something, either physically or in a competition; to misplace or be deprived of (first or second-person singular present tense of perdre).",
     "reviewed": true
   },
   "perdu": {
     "display": "perdu",
     "d": 0.07,
     "pos": "verb",
-    "def": "past participle of perdre.",
+    "def": "Lost, misplaced, or no longer possessed; also, feeling disoriented or without direction (past participle of perdre).",
     "reviewed": true
   },
   "peres": {
@@ -10853,7 +10846,7 @@
     "display": "pèses",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of peser.",
+    "def": "Weigh something, determine its heaviness; also, to consider or ponder carefully (second-person singular present tense of peser).",
     "reviewed": true
   },
   "peste": {
@@ -10874,7 +10867,7 @@
     "display": "pètes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of péter.",
+    "def": "Break, burst, or explode; also, to fart (second-person singular present tense of péter).",
     "reviewed": true
   },
   "petit": {
@@ -10972,21 +10965,21 @@
     "display": "piges",
     "d": 0.58,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of piger.",
+    "def": "Understand or grasp something, often informally; to comprehend a situation or concept (second-person singular present tense of piger).",
     "reviewed": true
   },
   "pigez": {
     "display": "pigez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Understand or grasp something, often informally; to comprehend a situation or concept (second-person plural present tense of piger).",
     "reviewed": true
   },
   "piles": {
     "display": "piles",
     "d": 0.71,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of piler.",
+    "def": "Pound, crush, or grind something into a powder or smaller pieces (second-person singular present tense of piler).",
     "reviewed": true
   },
   "pille": {
@@ -11014,7 +11007,7 @@
     "display": "pinté",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of pinter.",
+    "def": "Drunk heavily or excessively; having consumed a large amount of alcohol (past participle of pinter).",
     "reviewed": true
   },
   "pions": {
@@ -11105,14 +11098,14 @@
     "display": "plais",
     "d": 0.43,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Please or be agreeable to someone; to be liked or to like something (first or second-person singular present tense of plaire).",
     "reviewed": true
   },
   "plait": {
-    "display": "plait",
+    "display": "plaît",
     "d": 0.11,
     "pos": "verb",
-    "def": "Is pleasing or agreeable to someone; to like or be liked (third-person singular present tense of \"plaire,\" post-1990 spelling).",
+    "def": "Is pleasing or agreeable to someone; to like or be liked (third-person singular present tense of plaire).",
     "reviewed": true
   },
   "plane": {
@@ -11161,7 +11154,7 @@
     "display": "pleut",
     "d": 0.49,
     "pos": "verb",
-    "def": "third-person singular present indicative of pleuvoir.",
+    "def": "Rains; precipitation falls from the clouds (third-person singular present tense of pleuvoir, an impersonal verb).",
     "reviewed": true
   },
   "pliee": {
@@ -11182,14 +11175,14 @@
     "display": "plies",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of plier.",
+    "def": "Fold something, bend it over on itself; to make something compact by folding (second-person singular present tense of plier).",
     "reviewed": true
   },
   "pliez": {
     "display": "pliez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Fold something, bend it over on itself; to make something compact by folding (second-person plural present tense of plier).",
     "reviewed": true
   },
   "plomb": {
@@ -11350,7 +11343,7 @@
     "display": "polis",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Polish or make something smooth and shiny; to refine or improve (first or second-person singular present tense of polir).",
     "reviewed": true
   },
   "polka": {
@@ -11392,7 +11385,7 @@
     "display": "pondu",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of pondre.",
+    "def": "Laid (referring to eggs); produced or deposited eggs (past participle of pondre).",
     "reviewed": true
   },
   "poney": {
@@ -11420,7 +11413,7 @@
     "display": "poolé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of pooler.",
+    "def": "Pooled or combined resources, efforts, or funds for a common purpose (past participle of pooler).",
     "reviewed": true
   },
   "porcs": {
@@ -11441,7 +11434,7 @@
     "display": "porta",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of porter.",
+    "def": "Carried or wore something; bore or supported a burden (third-person singular past historic of porter).",
     "reviewed": true
   },
   "porte": {
@@ -11483,14 +11476,14 @@
     "display": "poses",
     "d": 0.63,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of poser.",
+    "def": "Place or put something down; to set or lay (second-person singular present tense of poser).",
     "reviewed": true
   },
   "posez": {
     "display": "posez",
     "d": 0.34,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Place or put something down; to set or lay (second-person plural present tense of poser).",
     "reviewed": true
   },
   "poste": {
@@ -11546,7 +11539,7 @@
     "display": "prend",
     "d": 0.09,
     "pos": "verb",
-    "def": "third-person singular present indicative of prendre.",
+    "def": "Takes, seizes, or grasps something; to pick up or consume (third-person singular present tense of prendre).",
     "reviewed": true
   },
   "prete": {
@@ -11595,21 +11588,21 @@
     "display": "pries",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of prier.",
+    "def": "Pray or make a solemn request to a deity; to beg or implore someone (second-person singular present tense of prier).",
     "reviewed": true
   },
   "priez": {
     "display": "priez",
     "d": 0.7,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Pray or make a solemn request to a deity; to beg or implore someone (second-person plural present tense of prier).",
     "reviewed": true
   },
   "prima": {
     "display": "prima",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of primer.",
+    "def": "Primed or prepared something; also, excelled or took precedence (third-person singular past historic of primer).",
     "reviewed": true
   },
   "prime": {
@@ -11651,7 +11644,7 @@
     "display": "promu",
     "d": 0.73,
     "pos": "verb",
-    "def": "past participle of promouvoir.",
+    "def": "Promoted or advanced to a higher position or rank; also, encouraged or supported (past participle of promouvoir).",
     "reviewed": true
   },
   "prone": {
@@ -11700,14 +11693,14 @@
     "display": "puait",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular imperfect indicative of puer.",
+    "def": "Stank or reeked; emitted a strong, unpleasant smell (third-person singular imperfect tense of puer).",
     "reviewed": true
   },
   "puant": {
     "display": "puant",
     "d": 0.91,
     "pos": "verb",
-    "def": "present participle of puer.",
+    "def": "Stinking or reeking; emitting a strong, unpleasant smell (present participle of puer).",
     "reviewed": true
   },
   "pubis": {
@@ -11728,14 +11721,14 @@
     "display": "puent",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person plural present indicative/subjunctive of puer.",
+    "def": "They smell bad, stink, or give off an unpleasant odor (third-person plural present of puer).",
     "reviewed": true
   },
   "puise": {
     "display": "puisé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of puiser.",
+    "def": "Drawn, fetched, or extracted, often referring to water or resources (past participle of puiser).",
     "reviewed": true
   },
   "puits": {
@@ -11791,14 +11784,14 @@
     "display": "punis",
     "d": 0.73,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Punish, penalize, or impose a penalty on someone for an offense (first or second-person singular present of punir).",
     "reviewed": true
   },
   "punit": {
     "display": "punit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "Punishes, penalizes, or imposes a penalty on someone for an offense (third-person singular present of punir).",
     "reviewed": true
   },
   "punks": {
@@ -11931,7 +11924,7 @@
     "display": "raclé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of racler.",
+    "def": "Scraped, rasped, or cleared by scraping, often referring to a surface or throat (past participle of racler).",
     "reviewed": true
   },
   "radar": {
@@ -11945,7 +11938,7 @@
     "display": "radié",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of radier.",
+    "def": "Struck off, removed from a list, or expelled from a register (past participle of radier).",
     "reviewed": true
   },
   "radin": {
@@ -11980,7 +11973,7 @@
     "display": "raflé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of rafler.",
+    "def": "Swept away, seized, or rounded up, often referring to items or people (past participle of rafler).",
     "reviewed": true
   },
   "rager": {
@@ -12022,7 +12015,7 @@
     "display": "raina",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of rainer.",
+    "def": "Grooved, channeled, or scored a surface with lines (third-person singular past historic of rainer).",
     "reviewed": true
   },
   "raler": {
@@ -12036,7 +12029,7 @@
     "display": "râles",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of râler.",
+    "def": "You grumble, complain, or moan, often in a low, continuous sound (second-person singular present of râler).",
     "reviewed": true
   },
   "ramer": {
@@ -12050,14 +12043,14 @@
     "display": "rames",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of ramer.",
+    "def": "You row a boat, paddle, or struggle to achieve something (second-person singular present of ramer).",
     "reviewed": true
   },
   "ramez": {
     "display": "ramez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural) row a boat, paddle, or struggle to achieve something (second-person plural present of ramer).",
     "reviewed": true
   },
   "rampe": {
@@ -12120,7 +12113,7 @@
     "display": "rases",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of raser.",
+    "def": "You shave, trim closely, or graze a surface (second-person singular present of raser).",
     "reviewed": true
   },
   "rasta": {
@@ -12148,14 +12141,14 @@
     "display": "rates",
     "d": 0.86,
     "pos": "noun",
-    "def": "The spleen, an organ located in the upper left abdomen that filters blood (plural of rate, though often used singularly).",
+    "def": "The spleens, internal organs located in the upper left abdomen that filter blood (plural of rate).",
     "reviewed": true
   },
   "ratez": {
     "display": "ratez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural) miss, fail, or make a mistake in an action or attempt (second-person plural present of rater).",
     "reviewed": true
   },
   "ratio": {
@@ -12204,7 +12197,7 @@
     "display": "ravit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "Delights, enchants, or fills someone with great pleasure and joy (third-person singular present of ravir).",
     "reviewed": true
   },
   "rayee": {
@@ -12239,14 +12232,14 @@
     "display": "réagi",
     "d": 0.56,
     "pos": "verb",
-    "def": "past participle of réagir.",
+    "def": "Reacted, responded, or behaved in a particular way to a stimulus or situation (past participle of réagir).",
     "reviewed": true
   },
   "rebut": {
     "display": "rebut",
     "d": 0.95,
-    "pos": "verb",
-    "def": "third-person singular past historic of reboire.",
+    "pos": "noun",
+    "def": "Waste, refuse, or discarded items; something rejected as inferior or worthless.",
     "reviewed": true
   },
   "recel": {
@@ -12295,7 +12288,7 @@
     "display": "reçut",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of recevoir.",
+    "def": "Received, got, or obtained something (third-person singular past historic of recevoir).",
     "reviewed": true
   },
   "redis": {
@@ -12309,7 +12302,7 @@
     "display": "redit",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of redire.",
+    "def": "Said again, repeated, or reiterated something previously stated (past participle of redire).",
     "reviewed": true
   },
   "reels": {
@@ -12323,7 +12316,7 @@
     "display": "réélu",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of réélire.",
+    "def": "Re-elected, chosen again for a position or office (past participle of réélire).",
     "reviewed": true
   },
   "refus": {
@@ -12351,7 +12344,7 @@
     "display": "régis",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Rule, govern, or administer; you manage or control something (first or second-person singular present of régir).",
     "reviewed": true
   },
   "regle": {
@@ -12414,7 +12407,7 @@
     "display": "relis",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Reread, read again, or review something previously read (first or second-person singular present of relire).",
     "reviewed": true
   },
   "relou": {
@@ -12428,7 +12421,7 @@
     "display": "remet",
     "d": 0.44,
     "pos": "verb",
-    "def": "third-person singular present indicative of remettre.",
+    "def": "Puts back, hands over, postpones, or recovers from an illness (third-person singular present of remettre).",
     "reviewed": true
   },
   "remis": {
@@ -12442,7 +12435,7 @@
     "display": "remué",
     "d": 0.84,
     "pos": "verb",
-    "def": "past participle of remuer.",
+    "def": "Stirred, moved, or agitated; often referring to liquids, emotions, or objects (past participle of remuer).",
     "reviewed": true
   },
   "remus": {
@@ -12463,7 +12456,7 @@
     "display": "rends",
     "d": 0.2,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Return, give back, or render; you surrender or make something (first or second-person singular present of rendre).",
     "reviewed": true
   },
   "rendu": {
@@ -12491,7 +12484,7 @@
     "display": "renié",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of renier.",
+    "def": "Denied, disowned, or renounced, often referring to a belief, person, or connection (past participle of renier).",
     "reviewed": true
   },
   "renne": {
@@ -12512,7 +12505,7 @@
     "display": "renté",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of renter.",
+    "def": "Provided with an income or annuity, or having been endowed with a regular revenue (past participle of renter).",
     "reviewed": true
   },
   "repas": {
@@ -12547,7 +12540,7 @@
     "display": "resta",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of rester.",
+    "def": "Stayed, remained, or was left in a particular place or condition (third-person singular past historic of rester).",
     "reviewed": true
   },
   "reste": {
@@ -12561,7 +12554,7 @@
     "display": "réuni",
     "d": 0.78,
     "pos": "verb",
-    "def": "past participle of réunir.",
+    "def": "Reunited, gathered, or brought together, referring to people or things (past participle of réunir).",
     "reviewed": true
   },
   "revee": {
@@ -12589,7 +12582,7 @@
     "display": "rêvez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Dream, imagine, or fantasize (second-person plural present indicative of rêver).",
     "reviewed": true
   },
   "revis": {
@@ -12603,7 +12596,7 @@
     "display": "revit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of revoir.",
+    "def": "Saw again, revisited, or experienced once more (third-person singular past historic of revoir).",
     "reviewed": true
   },
   "revue": {
@@ -12638,14 +12631,14 @@
     "display": "riait",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular imperfect indicative of rire.",
+    "def": "Was laughing, used to laugh, or laughed repeatedly (third-person singular imperfect indicative of rire).",
     "reviewed": true
   },
   "riant": {
     "display": "riant",
     "d": 0.95,
     "pos": "verb",
-    "def": "present participle of rire.",
+    "def": "Laughing, smiling, or cheerful (present participle of rire).",
     "reviewed": true
   },
   "riche": {
@@ -12687,7 +12680,7 @@
     "display": "rient",
     "d": 0.79,
     "pos": "verb",
-    "def": "third-person plural present indicative/subjunctive of rire.",
+    "def": "Laugh, smile, or find something amusing (third-person plural present indicative/subjunctive of rire).",
     "reviewed": true
   },
   "rieur": {
@@ -12764,7 +12757,7 @@
     "display": "rives",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of river.",
+    "def": "Rivet, fix, or fasten something securely with a rivet (second-person singular present indicative/subjunctive of river).",
     "reviewed": true
   },
   "robes": {
@@ -12841,21 +12834,21 @@
     "display": "romps",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Break, rupture, or sever a connection or object (first/second-person singular present indicative of rompre).",
     "reviewed": true
   },
   "rompt": {
     "display": "rompt",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative of rompre.",
+    "def": "Breaks, ruptures, or severs a connection or object (third-person singular present indicative of rompre).",
     "reviewed": true
   },
   "rompu": {
     "display": "rompu",
     "d": 0.3,
     "pos": "verb",
-    "def": "past participle of rompre.",
+    "def": "Broken, ruptured, or severed, often referring to a relationship, object, or silence (past participle of rompre).",
     "reviewed": true
   },
   "ronde": {
@@ -12876,7 +12869,7 @@
     "display": "rongé",
     "d": 0.9,
     "pos": "verb",
-    "def": "past participle of ronger.",
+    "def": "Gnawed, eroded, or consumed slowly, often by worry or rust (past participle of ronger).",
     "reviewed": true
   },
   "rosee": {
@@ -12953,7 +12946,7 @@
     "display": "roulé",
     "d": 0.31,
     "pos": "verb",
-    "def": "past participle of rouler.",
+    "def": "Rolled, driven, or moved along by rotating (past participle of rouler).",
     "reviewed": true
   },
   "round": {
@@ -13023,7 +13016,7 @@
     "display": "rugit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "Roars, bellows, or makes a loud, deep, guttural sound (third-person singular present indicative of rugir).",
     "reviewed": true
   },
   "ruine": {
@@ -13100,7 +13093,7 @@
     "display": "sache",
     "d": 0.18,
     "pos": "verb",
-    "def": "first/third-person singular present subjunctive.",
+    "def": "Know, be aware of, or understand (first/third-person singular present subjunctive of savoir).",
     "reviewed": true
   },
   "sacre": {
@@ -13149,7 +13142,7 @@
     "display": "saisi",
     "d": 0.48,
     "pos": "verb",
-    "def": "past participle of saisir.",
+    "def": "Seized, grasped, or captured, often quickly or forcefully (past participle of saisir).",
     "reviewed": true
   },
   "salee": {
@@ -13163,7 +13156,7 @@
     "display": "sales",
     "d": 0.32,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of saler.",
+    "def": "Salt, season with salt, or preserve with salt (second-person singular present indicative/subjunctive of saler).",
     "reviewed": true
   },
   "salir": {
@@ -13177,14 +13170,14 @@
     "display": "salis",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Dirty, soil, or make something unclean (first/second-person singular present indicative of salir).",
     "reviewed": true
   },
   "salit": {
     "display": "salit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "Dirties, soils, or makes something unclean (third-person singular present indicative of salir).",
     "reviewed": true
   },
   "salle": {
@@ -13212,7 +13205,7 @@
     "display": "salué",
     "d": 0.5,
     "pos": "verb",
-    "def": "past participle of saluer.",
+    "def": "Greeted, saluted, or acknowledged with a gesture or words (past participle of saluer).",
     "reviewed": true
   },
   "salut": {
@@ -13338,14 +13331,14 @@
     "display": "saura",
     "d": 0.23,
     "pos": "verb",
-    "def": "third-person singular future of savoir.",
+    "def": "Will know, will be aware of, or will understand (third-person singular future of savoir).",
     "reviewed": true
   },
   "saute": {
     "display": "sauté",
     "d": 0.3,
     "pos": "verb",
-    "def": "past participle of sauter.",
+    "def": "Jumped, leaped, or skipped over something (past participle of sauter).",
     "reviewed": true
   },
   "sauts": {
@@ -13366,7 +13359,7 @@
     "display": "savez",
     "d": 0.05,
     "pos": "verb",
-    "def": "Second-person plural present of savoir; you know or understand.",
+    "def": "Know, understand, or are aware of something (second-person plural present indicative of savoir).",
     "reviewed": true
   },
   "savon": {
@@ -13436,7 +13429,7 @@
     "display": "seaux",
     "d": 0.95,
     "pos": "noun",
-    "def": "Open-topped, cylindrical containers with a handle, used for carrying liquids or other materials; buckets (plural of \"seau\").",
+    "def": "Open-topped, cylindrical containers with a handle, used for carrying liquids or other materials; buckets (plural of seau).",
     "reviewed": true
   },
   "seche": {
@@ -13499,7 +13492,7 @@
     "display": "sèmes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of semer.",
+    "def": "Sow, scatter seeds, or spread something widely (second-person singular present indicative/subjunctive of semer).",
     "reviewed": true
   },
   "senat": {
@@ -13527,21 +13520,21 @@
     "display": "senti",
     "d": 0.24,
     "pos": "verb",
-    "def": "past participle of sentir.",
+    "def": "Felt, sensed, or smelled something (past participle of sentir).",
     "reviewed": true
   },
   "serai": {
     "display": "serai",
     "d": 0.09,
     "pos": "verb",
-    "def": "First-person future of etre; I will be.",
+    "def": "Will be, exist, or happen (first-person singular future indicative of être).",
     "reviewed": true
   },
   "seras": {
     "display": "seras",
     "d": 0.13,
     "pos": "verb",
-    "def": "Second-person future of etre; you will be.",
+    "def": "Will be, exist, or happen (second-person singular future indicative of être).",
     "reviewed": true
   },
   "serbe": {
@@ -13555,7 +13548,7 @@
     "display": "serez",
     "d": 0.15,
     "pos": "verb",
-    "def": "second-person plural future indicative of être.",
+    "def": "Will be, exist, or happen (second-person plural future indicative of être).",
     "reviewed": true
   },
   "serie": {
@@ -13590,7 +13583,7 @@
     "display": "servi",
     "d": 0.24,
     "pos": "verb",
-    "def": "past participle of servir.",
+    "def": "Served, provided, or used for a particular purpose (past participle of servir).",
     "reviewed": true
   },
   "seuil": {
@@ -13625,14 +13618,14 @@
     "display": "sévit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "Rages, is rampant, or punishes severely (third-person singular present indicative of sévir).",
     "reviewed": true
   },
   "sexes": {
     "display": "sexes",
     "d": 0.95,
     "pos": "noun",
-    "def": "The two main categories (male and female) into which humans and many other living things are divided (plural of \"sexe\").",
+    "def": "The two main categories (male and female) into which humans and many other living things are divided (plural of sexe).",
     "reviewed": true
   },
   "shoot": {
@@ -13751,7 +13744,7 @@
     "display": "situé",
     "d": 0.86,
     "pos": "verb",
-    "def": "past participle of situer.",
+    "def": "Located, placed, or situated in a particular position or context (past participle of situer).",
     "reviewed": true
   },
   "skate": {
@@ -13779,7 +13772,7 @@
     "display": "slips",
     "d": 0.95,
     "pos": "noun",
-    "def": "Brief undergarments, typically worn by men, covering the area from the waist to the top of the thighs (plural of \"slip\").",
+    "def": "Brief undergarments, typically worn by men, covering the area from the waist to the top of the thighs (plural of slip).",
     "reviewed": true
   },
   "smash": {
@@ -13800,7 +13793,7 @@
     "display": "snobs",
     "d": 0.95,
     "pos": "noun",
-    "def": "People who believe their tastes and interests are superior to those of others, often looking down on them (plural of \"snob\").",
+    "def": "People who believe their tastes and interests are superior to those of others, often looking down on them (plural of snob).",
     "reviewed": true
   },
   "sobre": {
@@ -13856,7 +13849,7 @@
     "display": "soldé",
     "d": 0.75,
     "pos": "verb",
-    "def": "past participle of solder.",
+    "def": "Settled, cleared, or paid off, referring to an account or debt; also means sold at a reduced price (past participle of solder).",
     "reviewed": true
   },
   "somme": {
@@ -13905,7 +13898,7 @@
     "display": "sorti",
     "d": 0.13,
     "pos": "verb",
-    "def": "past participle of sortir.",
+    "def": "Exited, left, or gone out from a place; also refers to something that has been released or published (past participle of sortir).",
     "reviewed": true
   },
   "sorts": {
@@ -13968,7 +13961,7 @@
     "display": "souri",
     "d": 0.83,
     "pos": "verb",
-    "def": "past participle of sourire.",
+    "def": "Smiled, having formed a pleased, kind, or amused expression with the mouth (past participle of sourire).",
     "reviewed": true
   },
   "soute": {
@@ -14129,7 +14122,7 @@
     "display": "subis",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Undergo, endure, or suffer something; experience a particular action or consequence (first/second-person singular present of subir).",
     "reviewed": true
   },
   "subit": {
@@ -14150,7 +14143,7 @@
     "display": "suces",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of sucer.",
+    "def": "Suck, draw liquid or food into the mouth by suction; also means to absorb or take in (second-person singular present of sucer).",
     "reviewed": true
   },
   "sucon": {
@@ -14185,7 +14178,7 @@
     "display": "suffi",
     "d": 0.79,
     "pos": "verb",
-    "def": "past participle of suffire.",
+    "def": "Been enough or sufficient; satisfied a requirement or need (past participle of suffire).",
     "reviewed": true
   },
   "suite": {
@@ -14231,7 +14224,7 @@
     "reviewed": true
   },
   "sures": {
-    "display": "sures",
+    "display": "sûres",
     "d": 0.95,
     "pos": "adj",
     "def": "Feeling certain or confident about something; also refers to things that are reliable, safe, or secure (feminine plural of sûr).",
@@ -14241,14 +14234,14 @@
     "display": "surfé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of surfer.",
+    "def": "Ridden a wave on a surfboard; also browsed the internet (past participle of surfer).",
     "reviewed": true
   },
   "surgi": {
     "display": "surgi",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of surgir.",
+    "def": "Emerged, appeared suddenly, or arisen from a hidden or unknown place (past participle of surgir).",
     "reviewed": true
   },
   "sushi": {
@@ -14374,7 +14367,7 @@
     "display": "tapas",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular past historic of taper.",
+    "def": "Hit, strike, or type (second-person singular past historic of taper).",
     "reviewed": true
   },
   "tapee": {
@@ -14395,14 +14388,14 @@
     "display": "tapes",
     "d": 0.86,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of taper.",
+    "def": "Hit, strike, or type; also means to tap or knock lightly (second-person singular present of taper).",
     "reviewed": true
   },
   "tapez": {
     "display": "tapez",
     "d": 0.88,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Hit, strike, or type; also means to tap or knock lightly (second-person plural present of taper).",
     "reviewed": true
   },
   "tapin": {
@@ -14437,7 +14430,7 @@
     "display": "tares",
     "d": 0.72,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of tarer.",
+    "def": "Tare, deduct the weight of a container or packaging from the gross weight (second-person singular present of tarer).",
     "reviewed": true
   },
   "tarif": {
@@ -14535,7 +14528,7 @@
     "display": "teint",
     "d": 0.7,
     "pos": "verb",
-    "def": "past participle of teindre.",
+    "def": "Dyed or colored, having had its hue changed by a dye or pigment (past participle of teindre).",
     "reviewed": true
   },
   "telle": {
@@ -14570,21 +14563,21 @@
     "display": "tends",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Stretch, extend, or hold out; also means to tend towards or aim for (first/second-person singular present of tendre).",
     "reviewed": true
   },
   "tendu": {
     "display": "tendu",
     "d": 0.45,
     "pos": "verb",
-    "def": "past participle of tendre.",
+    "def": "Stretched, extended, or held out; also means tense or strained (past participle of tendre).",
     "reviewed": true
   },
   "tenez": {
     "display": "tenez",
     "d": 0.16,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Hold, keep, or take; also means to maintain or consider (second-person plural present of tenir).",
     "reviewed": true
   },
   "tenir": {
@@ -14605,7 +14598,7 @@
     "display": "tenta",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of tenter.",
+    "def": "Attempted, tried, or tempted; made an effort to do something (third-person singular past historic of tenter).",
     "reviewed": true
   },
   "tente": {
@@ -14682,7 +14675,7 @@
     "display": "tètes",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of téter.",
+    "def": "Suckle or nurse, drawing milk from a breast or bottle (second-person singular present of téter).",
     "reviewed": true
   },
   "teton": {
@@ -14780,7 +14773,7 @@
     "display": "tient",
     "d": 0.16,
     "pos": "verb",
-    "def": "third-person singular present indicative of tenir.",
+    "def": "Holds, keeps, or takes; also means to maintain or consider (third-person singular present of tenir).",
     "reviewed": true
   },
   "tiers": {
@@ -14829,7 +14822,7 @@
     "display": "tires",
     "d": 0.55,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of tirer.",
+    "def": "Pull, draw, or shoot; also means to print or take a photograph (second-person singular present of tirer).",
     "reviewed": true
   },
   "tiret": {
@@ -14843,7 +14836,7 @@
     "display": "tirez",
     "d": 0.25,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "Pull, draw, or shoot; also means to print or take a photograph (second-person plural present of tirer).",
     "reviewed": true
   },
   "tisse": {
@@ -14871,7 +14864,7 @@
     "display": "titra",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of titrer.",
+    "def": "Gave a title to a work; also means to determine the concentration of a substance (third-person singular past historic of titrer).",
     "reviewed": true
   },
   "titre": {
@@ -14906,7 +14899,7 @@
     "display": "tomba",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of tomber.",
+    "def": "Fell, dropped, or tumbled down; also means to fall in love or to fail (third-person singular past historic of tomber).",
     "reviewed": true
   },
   "tombe": {
@@ -14948,7 +14941,7 @@
     "display": "tords",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "Twist, wring, or distort something; also means to sprain a joint (first/second-person singular present of tordre).",
     "reviewed": true
   },
   "tordu": {
@@ -15032,7 +15025,7 @@
     "display": "trahi",
     "d": 0.35,
     "pos": "verb",
-    "def": "past participle of trahir ().",
+    "def": "Betrayed or deceived someone's trust, loyalty, or confidence (past participle of trahir).",
     "reviewed": true
   },
   "train": {
@@ -15053,7 +15046,7 @@
     "display": "tramé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of tramer.",
+    "def": "Woven or interlaced threads to form a fabric; also, secretly plotted or schemed (past participle of tramer).",
     "reviewed": true
   },
   "treve": {
@@ -15088,7 +15081,7 @@
     "display": "trimé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of trimer.",
+    "def": "Toiled or worked very hard, often implying strenuous or difficult labor (past participle of trimer).",
     "reviewed": true
   },
   "trois": {
@@ -15172,21 +15165,21 @@
     "display": "tuait",
     "d": 0.86,
     "pos": "verb",
-    "def": "third-person singular imperfect indicative of tuer.",
+    "def": "Was killing or used to kill someone or something (third-person singular imperfect of tuer).",
     "reviewed": true
   },
   "tuant": {
     "display": "tuant",
     "d": 0.61,
     "pos": "verb",
-    "def": "present participle of tuer.",
+    "def": "Killing or causing the death of someone or something (present participle of tuer).",
     "reviewed": true
   },
   "tubes": {
     "display": "tubes",
     "d": 0.71,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of tuber.",
+    "def": "You form into a tube, or you pipe something (second-person singular present of tuber).",
     "reviewed": true
   },
   "tuees": {
@@ -15200,14 +15193,14 @@
     "display": "tuent",
     "d": 0.44,
     "pos": "verb",
-    "def": "third-person plural present indicative/subjunctive of tuer.",
+    "def": "They kill or cause the death of someone or something (third-person plural present of tuer).",
     "reviewed": true
   },
   "tuera": {
     "display": "tuera",
     "d": 0.37,
     "pos": "verb",
-    "def": "third-person singular future of tuer.",
+    "def": "Will kill or cause the death of someone or something in the future (third-person singular future of tuer).",
     "reviewed": true
   },
   "tueur": {
@@ -15221,7 +15214,7 @@
     "display": "tuiez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural imperfect indicative.",
+    "def": "You (plural) were killing or used to kill someone or something (second-person plural imperfect of tuer).",
     "reviewed": true
   },
   "tuile": {
@@ -15242,7 +15235,7 @@
     "display": "tuons",
     "d": 0.95,
     "pos": "verb",
-    "def": "first-person plural present indicative.",
+    "def": "We kill or cause the death of someone or something (first-person plural present of tuer).",
     "reviewed": true
   },
   "turcs": {
@@ -15354,7 +15347,7 @@
     "display": "usant",
     "d": 0.95,
     "pos": "verb",
-    "def": "present participle of user.",
+    "def": "Wearing out, using up, or exhausting something through continuous use (present participle of user).",
     "reviewed": true
   },
   "usees": {
@@ -15438,14 +15431,14 @@
     "display": "valez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative of valoir.",
+    "def": "You (plural) are worth, are valid, or have a certain value (second-person plural present of valoir).",
     "reviewed": true
   },
   "valse": {
     "display": "valsé",
     "d": 0.94,
     "pos": "verb",
-    "def": "past participle of valser.",
+    "def": "Danced the waltz, a ballroom dance in triple time (past participle of valser).",
     "reviewed": true
   },
   "valve": {
@@ -15522,7 +15515,7 @@
     "display": "vécut",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of vivre.",
+    "def": "Lived or resided in a particular place or during a specific time (third-person singular past historic of vivre).",
     "reviewed": true
   },
   "veine": {
@@ -15550,28 +15543,28 @@
     "display": "vends",
     "d": 0.37,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "I sell or you sell something, exchanging it for money (first/second-person singular present of vendre).",
     "reviewed": true
   },
   "vendu": {
     "display": "vendu",
     "d": 0.22,
     "pos": "verb",
-    "def": "past participle of vendre.",
+    "def": "Sold or exchanged for money; also, betrayed or given away (past participle of vendre).",
     "reviewed": true
   },
   "venez": {
     "display": "venez",
     "d": 0.08,
     "pos": "verb",
-    "def": "Second-person plural present or imperative of venir; you come or come here.",
+    "def": "You come or come here, addressing multiple people or formally (second-person plural present or imperative of venir).",
     "reviewed": true
   },
   "venge": {
     "display": "vengé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of venger.",
+    "def": "Avenged or retaliated for a wrong or injury (past participle of venger).",
     "reviewed": true
   },
   "venin": {
@@ -15634,14 +15627,14 @@
     "display": "verni",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of vernir.",
+    "def": "Varnished, polished, or coated with a glossy protective layer (past participle of vernir).",
     "reviewed": true
   },
   "verra": {
     "display": "verra",
     "d": 0.17,
     "pos": "verb",
-    "def": "third-person singular future of voir.",
+    "def": "Will see, perceive, or understand something in the future (third-person singular future of voir).",
     "reviewed": true
   },
   "verre": {
@@ -15655,7 +15648,7 @@
     "display": "versa",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of verser.",
+    "def": "Poured a liquid from one container to another, or paid a sum of money (third-person singular past historic of verser).",
     "reviewed": true
   },
   "verse": {
@@ -15739,14 +15732,14 @@
     "display": "vexez",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural) vex, annoy, or irritate someone (second-person plural present of vexer).",
     "reviewed": true
   },
   "vibre": {
     "display": "vibré",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of vibrer.",
+    "def": "Vibrated or moved rapidly back and forth with small oscillations (past participle of vibrer).",
     "reviewed": true
   },
   "vices": {
@@ -15795,7 +15788,7 @@
     "display": "videz",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural) empty or clear out the contents of something (second-person plural present of vider).",
     "reviewed": true
   },
   "vieil": {
@@ -15809,14 +15802,14 @@
     "display": "viens",
     "d": 0.05,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "I come or you come to a place or event (first/second-person singular present of venir).",
     "reviewed": true
   },
   "vient": {
     "display": "vient",
     "d": 0.06,
     "pos": "verb",
-    "def": "third-person singular present indicative of venir.",
+    "def": "He, she, or it comes to a place or event (third-person singular present of venir).",
     "reviewed": true
   },
   "vieux": {
@@ -15858,14 +15851,14 @@
     "display": "viola",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of violer.",
+    "def": "Violated, infringed upon, or desecrated something (third-person singular past historic of violer).",
     "reviewed": true
   },
   "viole": {
     "display": "violé",
     "d": 0.89,
     "pos": "verb",
-    "def": "past participle of violer.",
+    "def": "Violated, infringed upon, or desecrated something (past participle of violer).",
     "reviewed": true
   },
   "viols": {
@@ -15900,14 +15893,14 @@
     "display": "vires",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of virer.",
+    "def": "You turn, change direction, or transfer money (second-person singular present of virer).",
     "reviewed": true
   },
   "virez": {
     "display": "virez",
     "d": 0.89,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You (plural) turn, change direction, or transfer money (second-person plural present of virer).",
     "reviewed": true
   },
   "viril": {
@@ -15928,7 +15921,7 @@
     "display": "visas",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular past historic of viser.",
+    "def": "You aimed, targeted, or pointed something towards a specific goal or object (second-person singular past historic of viser).",
     "reviewed": true
   },
   "visee": {
@@ -15949,14 +15942,14 @@
     "display": "vises",
     "d": 0.95,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of viser.",
+    "def": "You aim, target, or point something towards a specific goal or object (second-person singular present indicative/subjunctive of viser).",
     "reviewed": true
   },
   "visez": {
     "display": "visez",
     "d": 0.74,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You aim, target, or point something towards a specific goal or object (second-person plural present indicative of viser).",
     "reviewed": true
   },
   "vison": {
@@ -15991,14 +15984,14 @@
     "display": "vivez",
     "d": 0.42,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You live, exist, or experience life (second-person plural present indicative of vivre).",
     "reviewed": true
   },
   "vivra": {
     "display": "vivra",
     "d": 0.62,
     "pos": "verb",
-    "def": "third-person singular future of vivre.",
+    "def": "He, she, or it will live, exist, or experience life (third-person singular future of vivre).",
     "reviewed": true
   },
   "vivre": {
@@ -16096,7 +16089,7 @@
     "display": "voles",
     "d": 0.77,
     "pos": "verb",
-    "def": "second-person singular present indicative/subjunctive of voler.",
+    "def": "You steal something, or you fly through the air (second-person singular present indicative/subjunctive of voler).",
     "reviewed": true
   },
   "volet": {
@@ -16110,7 +16103,7 @@
     "display": "volez",
     "d": 0.87,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You steal something, or you fly through the air (second-person plural present indicative of voler).",
     "reviewed": true
   },
   "volts": {
@@ -16131,14 +16124,14 @@
     "display": "vomis",
     "d": 0.95,
     "pos": "verb",
-    "def": "first/second-person singular present indicative.",
+    "def": "I or you vomit, throw up, or expel contents from the stomach (first/second-person singular present indicative of vomir).",
     "reviewed": true
   },
   "vomit": {
     "display": "vomit",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular present indicative.",
+    "def": "He, she, or it vomits, throws up, or expels contents from the stomach (third-person singular present indicative of vomir).",
     "reviewed": true
   },
   "votee": {
@@ -16166,7 +16159,7 @@
     "display": "votez",
     "d": 0.81,
     "pos": "verb",
-    "def": "second-person plural present indicative.",
+    "def": "You cast a ballot or express a choice in an election or decision (second-person plural present indicative of voter).",
     "reviewed": true
   },
   "votre": {
@@ -16187,7 +16180,7 @@
     "display": "voulu",
     "d": 0.1,
     "pos": "verb",
-    "def": "past participle of vouloir.",
+    "def": "Wished, desired, or intended; something that was wanted or required (past participle of vouloir).",
     "reviewed": true
   },
   "voute": {
@@ -16201,7 +16194,7 @@
     "display": "voyez",
     "d": 0.1,
     "pos": "verb",
-    "def": "Second-person plural present of voir; you see or notice.",
+    "def": "You see, perceive, or notice something with your eyes or understanding (second-person plural present indicative of voir).",
     "reviewed": true
   },
   "voyou": {
@@ -16313,7 +16306,7 @@
     "display": "zébra",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular past historic of zébrer.",
+    "def": "He, she, or it marked with stripes or streaks, resembling a zebra's pattern (third-person singular past historic of zébrer).",
     "reviewed": true
   },
   "zebre": {
@@ -16334,7 +16327,7 @@
     "display": "zesté",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of zester.",
+    "def": "Flavored or garnished with zest, typically from citrus fruit (past participle of zester).",
     "reviewed": true
   },
   "zones": {
@@ -16348,7 +16341,7 @@
     "display": "zoomé",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of zoomer.",
+    "def": "Magnified or brought into closer view using a camera lens or digital function (past participle of zoomer).",
     "reviewed": true
   }
 }

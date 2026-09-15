@@ -87,7 +87,7 @@
     "display": "ached",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of ach; A name given to several species of plants.",
+    "def": "Felt a continuous, dull pain or discomfort in a part of the body (past tense of ache).",
     "reviewed": true
   },
   "aches": {
@@ -122,7 +122,7 @@
     "display": "acted",
     "d": 0.41,
     "pos": "verb",
-    "def": "simple past and past participle of act.",
+    "def": "Took action, performed a role in a play, or behaved in a particular way (past tense of act).",
     "reviewed": true
   },
   "actor": {
@@ -157,7 +157,7 @@
     "display": "added",
     "d": 0.41,
     "pos": "verb",
-    "def": "simple past and past participle of add.",
+    "def": "Joined something to another thing, increased a quantity, or included something extra (past tense of add).",
     "reviewed": true
   },
   "adder": {
@@ -283,7 +283,7 @@
     "display": "aging",
     "d": 0.86,
     "pos": "verb",
-    "def": "present participle and gerund of age.",
+    "def": "The process of growing older or maturing, or causing something to show signs of age (present participle of age).",
     "reviewed": true
   },
   "aglow": {
@@ -339,14 +339,14 @@
     "display": "aimed",
     "d": 0.78,
     "pos": "verb",
-    "def": "simple past and past participle of aim.",
+    "def": "Directed a weapon or object towards a target, or intended to achieve a particular goal (past tense of aim).",
     "reviewed": true
   },
   "aired": {
     "display": "aired",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of air.",
+    "def": "Exposed something to the open air to ventilate or dry it, or broadcast something publicly (past tense of air).",
     "reviewed": true
   },
   "aisle": {
@@ -871,7 +871,7 @@
     "display": "asked",
     "d": 0.08,
     "pos": "verb",
-    "def": "simple past and past participle of ask.",
+    "def": "Put a question to someone, requested something, or invited someone to an event (past tense of ask).",
     "reviewed": true
   },
   "askew": {
@@ -1137,7 +1137,7 @@
     "display": "baked",
     "d": 0.58,
     "pos": "verb",
-    "def": "simple past and past participle of bake.",
+    "def": "Cooked food, especially bread or cakes, using dry heat in an oven (past tense of bake).",
     "reviewed": true
   },
   "baker": {
@@ -1347,7 +1347,7 @@
     "display": "bates",
     "d": 0.7,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of bate.",
+    "def": "Lessens or reduces the force or intensity of something, often used in 'with bated breath' (third-person singular present of bate).",
     "reviewed": true
   },
   "bathe": {
@@ -1543,7 +1543,7 @@
     "display": "begun",
     "d": 0.37,
     "pos": "verb",
-    "def": "past participle of begin.",
+    "def": "Started, initiated, or set into motion (past participle of begin).",
     "reviewed": true
   },
   "beige": {
@@ -2271,7 +2271,7 @@
     "display": "bored",
     "d": 0.29,
     "pos": "verb",
-    "def": "simple past and past participle of bore.",
+    "def": "Made someone feel weary and uninterested by dullness, or made a hole with a tool (past tense of bore).",
     "reviewed": true
   },
   "bores": {
@@ -2285,7 +2285,7 @@
     "display": "borne",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of bear.",
+    "def": "Carried or transported something, or endured a burden or difficulty (past participle of bear).",
     "reviewed": true
   },
   "bosom": {
@@ -2334,7 +2334,7 @@
     "display": "bowed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of bow.",
+    "def": "Bent the head or upper body as a sign of respect or greeting, or yielded to pressure (past tense of bow).",
     "reviewed": true
   },
   "bowel": {
@@ -2369,7 +2369,7 @@
     "display": "boxed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of box.",
+    "def": "Placed something into a container, or fought with fists as a sport (past tense of box).",
     "reviewed": true
   },
   "boxer": {
@@ -2845,14 +2845,14 @@
     "display": "burns",
     "d": 0.33,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of burn.",
+    "def": "Is on fire, consumes with fire, or produces light and heat (third-person singular present of burn).",
     "reviewed": true
   },
   "burnt": {
     "display": "burnt",
     "d": 0.39,
     "pos": "verb",
-    "def": "simple past and past participle of burn.",
+    "def": "Damaged or destroyed by fire or heat, or consumed by flames (past tense of burn).",
     "reviewed": true
   },
   "burps": {
@@ -3027,7 +3027,7 @@
     "display": "calms",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of calm.",
+    "def": "Makes someone or something peaceful, quiet, or free from agitation (third-person singular present of calm).",
     "reviewed": true
   },
   "camel": {
@@ -3104,7 +3104,7 @@
     "display": "caped",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of cap; A covering for the head.",
+    "def": "Covered or dressed with a cape, or performed an action like a bullfighter (past tense of cape).",
     "reviewed": true
   },
   "caper": {
@@ -3146,14 +3146,14 @@
     "display": "cared",
     "d": 0.37,
     "pos": "verb",
-    "def": "simple past and past participle of care.",
+    "def": "Felt concern or interest for someone or something, or provided for someone's needs (past tense of care).",
     "reviewed": true
   },
   "cares": {
     "display": "cares",
     "d": 0.22,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of care.",
+    "def": "Feels concern or interest for someone or something, or provides for someone's needs (third-person singular present of care).",
     "reviewed": true
   },
   "cargo": {
@@ -3265,7 +3265,7 @@
     "display": "caved",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of cave.",
+    "def": "Collapsed inward, or gave in to pressure or demands (past tense of cave).",
     "reviewed": true
   },
   "caves": {
@@ -3573,7 +3573,7 @@
     "display": "chips",
     "d": 0.37,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of chip.",
+    "def": "Breaks a small piece off something, or contributes money to a common fund (third-person singular present of chip).",
     "reviewed": true
   },
   "chirp": {
@@ -3713,7 +3713,7 @@
     "display": "cited",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of cite.",
+    "def": "Quoted or referred to a source as evidence, or mentioned someone for an award (past tense of cite).",
     "reviewed": true
   },
   "civic": {
@@ -3965,7 +3965,7 @@
     "display": "clubs",
     "d": 0.45,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of club.",
+    "def": "Hits someone or something with a heavy stick, or gathers together in a group (third-person singular present of club).",
     "reviewed": true
   },
   "cluck": {
@@ -4147,7 +4147,7 @@
     "display": "comes",
     "d": 0.08,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of come.",
+    "def": "Moves or travels towards a speaker or a specified place (third-person singular present of come).",
     "reviewed": true
   },
   "comet": {
@@ -4217,7 +4217,7 @@
     "display": "cools",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of cool.",
+    "def": "Becomes or makes something less warm, or calms down after being angry (third-person singular present of cool).",
     "reviewed": true
   },
   "coped": {
@@ -4532,7 +4532,7 @@
     "display": "crept",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of creep.",
+    "def": "Moved slowly and carefully, typically to avoid being noticed (past tense of creep).",
     "reviewed": true
   },
   "crest": {
@@ -4567,7 +4567,7 @@
     "display": "cried",
     "d": 0.36,
     "pos": "verb",
-    "def": "simple past and past participle of cry.",
+    "def": "Shed tears as an expression of distress or pain, or shouted loudly (past tense of cry).",
     "reviewed": true
   },
   "crier": {
@@ -4581,7 +4581,7 @@
     "display": "cries",
     "d": 0.37,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of cry.",
+    "def": "Sheds tears as an expression of distress or pain, or shouts loudly (third-person singular present of cry).",
     "reviewed": true
   },
   "crime": {
@@ -4833,7 +4833,7 @@
     "display": "cured",
     "d": 0.49,
     "pos": "verb",
-    "def": "simple past and past participle of cure.",
+    "def": "Relieved a person or animal of a disease, or preserved food by drying or salting (past tense of cure).",
     "reviewed": true
   },
   "cures": {
@@ -5015,7 +5015,7 @@
     "display": "dared",
     "d": 0.6,
     "pos": "verb",
-    "def": "simple past and past participle of dare.",
+    "def": "Had the courage to do something, or challenged someone to do something risky (past tense of dare).",
     "reviewed": true
   },
   "dares": {
@@ -5071,7 +5071,7 @@
     "display": "dealt",
     "d": 0.48,
     "pos": "verb",
-    "def": "simple past and past participle of deal.",
+    "def": "Distributed cards in a game, or handled or managed a situation or problem (past tense of deal).",
     "reviewed": true
   },
   "dears": {
@@ -5155,7 +5155,7 @@
     "display": "deeks",
     "d": 0.78,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of deek.",
+    "def": "Looks or glances quickly, often in a secretive manner (third-person singular present of deek).",
     "reviewed": true
   },
   "deems": {
@@ -5386,7 +5386,7 @@
     "display": "dined",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of dine.",
+    "def": "Ate dinner, typically a main meal of the day (past tense of dine).",
     "reviewed": true
   },
   "diner": {
@@ -5540,7 +5540,7 @@
     "display": "doing",
     "d": 0.05,
     "pos": "verb",
-    "def": "present participle and gerund of do.",
+    "def": "Performing an action, carrying out a task, or engaging in an activity (present participle of do).",
     "reviewed": true
   },
   "dolce": {
@@ -5596,7 +5596,7 @@
     "display": "doped",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of dop; A little copper cup in which a diamond is held while being cut.",
+    "def": "Administered a drug to someone, especially illegally to enhance performance, or treated with a chemical (past tense of dope).",
     "reviewed": true
   },
   "dopes": {
@@ -5694,7 +5694,7 @@
     "display": "dozed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of doze.",
+    "def": "Slept lightly or briefly, often unintentionally during the day (past tense of doze).",
     "reviewed": true
   },
   "dozen": {
@@ -5764,7 +5764,7 @@
     "display": "drawn",
     "d": 0.39,
     "pos": "verb",
-    "def": "past participle of draw.",
+    "def": "Pulled or dragged something, created a picture with lines, or attracted attention (past participle of draw).",
     "reviewed": true
   },
   "draws": {
@@ -6058,7 +6058,7 @@
     "display": "duped",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of dupe.",
+    "def": "Deceived or tricked someone into believing something false or doing something foolish (past tense of dupe).",
     "reviewed": true
   },
   "duper": {
@@ -6142,7 +6142,7 @@
     "display": "earns",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of earn.",
+    "def": "Obtains money in return for labor or services, or gains something through effort (third-person singular present of earn).",
     "reviewed": true
   },
   "earth": {
@@ -6170,7 +6170,7 @@
     "display": "eaten",
     "d": 0.28,
     "pos": "verb",
-    "def": "past participle of eat.",
+    "def": "Consumes food, ingests a meal, or corrodes away (past participle of eat).",
     "reviewed": true
   },
   "eater": {
@@ -6226,7 +6226,7 @@
     "display": "egged",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of egg; The oval or roundish body laid by domestic poultry and other birds, tortoises, etc.",
+    "def": "Urged or encouraged someone to do something, often something foolish or risky (past tense of egg).",
     "reviewed": true
   },
   "eight": {
@@ -6345,7 +6345,7 @@
     "display": "ended",
     "d": 0.21,
     "pos": "verb",
-    "def": "simple past and past participle of end.",
+    "def": "Brought something to a conclusion, finished, or ceased to exist (past tense of end).",
     "reviewed": true
   },
   "ender": {
@@ -6457,7 +6457,7 @@
     "display": "erred",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of err; To wander.",
+    "def": "Made a mistake, was incorrect, or deviated from what is right or accurate (past tense of err).",
     "reviewed": true
   },
   "error": {
@@ -6646,7 +6646,7 @@
     "display": "faced",
     "d": 0.46,
     "pos": "verb",
-    "def": "simple past and past participle of face.",
+    "def": "Confronted a difficult situation, turned towards something, or covered a surface (past tense of face).",
     "reviewed": true
   },
   "faces": {
@@ -6688,7 +6688,7 @@
     "display": "fails",
     "d": 0.57,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of fail.",
+    "def": "Is unsuccessful in achieving a goal, neglects to do something, or ceases to function (third-person singular present of fail).",
     "reviewed": true
   },
   "faint": {
@@ -6723,7 +6723,7 @@
     "display": "faked",
     "d": 0.74,
     "pos": "verb",
-    "def": "simple past and past participle of fake.",
+    "def": "Produced a fraudulent copy, pretended to feel an emotion, or simulated an action (past tense of fake).",
     "reviewed": true
   },
   "faker": {
@@ -6793,7 +6793,7 @@
     "display": "fared",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of far; A young pig, or a litter of pigs.",
+    "def": "Performed in a particular way, progressed, or experienced a certain outcome (past tense of fare).",
     "reviewed": true
   },
   "fares": {
@@ -7108,7 +7108,7 @@
     "display": "filed",
     "d": 0.46,
     "pos": "verb",
-    "def": "simple past and past participle of file.",
+    "def": "Arranged documents in a systematic order, submitted a legal document, or smoothed with a tool (past tense of file).",
     "reviewed": true
   },
   "files": {
@@ -7129,7 +7129,7 @@
     "display": "fills",
     "d": 0.73,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of fill.",
+    "def": "Makes something full, occupies a space, or satisfies a need or requirement (third-person singular present of fill).",
     "reviewed": true
   },
   "filly": {
@@ -7178,7 +7178,7 @@
     "display": "fined",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of fine.",
+    "def": "Subjected to a monetary penalty for breaking a law or rule (past tense and past participle of fine).",
     "reviewed": true
   },
   "finer": {
@@ -7269,7 +7269,7 @@
     "display": "fixed",
     "d": 0.25,
     "pos": "verb",
-    "def": "simple past and past participle of fix.",
+    "def": "Repaired or made something secure; established or decided upon (past tense and past participle of fix).",
     "reviewed": true
   },
   "fixer": {
@@ -7535,7 +7535,7 @@
     "display": "flown",
     "d": 0.63,
     "pos": "verb",
-    "def": "past participle of fly.",
+    "def": "Moved through the air using wings or an aircraft; traveled by air (past participle of fly).",
     "reviewed": true
   },
   "flows": {
@@ -7570,7 +7570,7 @@
     "display": "flung",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of fling.",
+    "def": "Threw or hurled something with great force or passion (past tense and past participle of fling).",
     "reviewed": true
   },
   "flunk": {
@@ -7822,7 +7822,7 @@
     "display": "freed",
     "d": 0.59,
     "pos": "verb",
-    "def": "simple past and past participle of free.",
+    "def": "Released from captivity, restraint, or obligation; made available (past tense and past participle of free).",
     "reviewed": true
   },
   "freer": {
@@ -7857,7 +7857,7 @@
     "display": "fried",
     "d": 0.42,
     "pos": "verb",
-    "def": "simple past and past participle of fry.",
+    "def": "Cooked food in hot fat or oil, typically until browned and crispy (past tense and past participle of fry).",
     "reviewed": true
   },
   "fries": {
@@ -8011,7 +8011,7 @@
     "display": "fused",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of fuse.",
+    "def": "Joined or blended together to form a single entity; melted together (past tense and past participle of fuse).",
     "reviewed": true
   },
   "fuses": {
@@ -8312,7 +8312,7 @@
     "display": "given",
     "d": 0.11,
     "pos": "verb",
-    "def": "past participle of give.",
+    "def": "Handed over, presented, or provided something to someone (past participle of give).",
     "reviewed": true
   },
   "giver": {
@@ -8326,7 +8326,7 @@
     "display": "gives",
     "d": 0.16,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of give.",
+    "def": "Hands over, presents, or provides something to someone (third-person singular present of give).",
     "reviewed": true
   },
   "gizmo": {
@@ -8487,7 +8487,7 @@
     "display": "going",
     "d": 0.05,
     "pos": "verb",
-    "def": "present participle and gerund of go.",
+    "def": "Moving from one place to another; proceeding or happening (present participle of go).",
     "reviewed": true
   },
   "golly": {
@@ -8886,14 +8886,14 @@
     "display": "grown",
     "d": 0.24,
     "pos": "verb",
-    "def": "past participle of grow.",
+    "def": "Increased in size, developed, or matured; cultivated or raised (past participle of grow).",
     "reviewed": true
   },
   "grows": {
     "display": "grows",
     "d": 0.42,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of grow.",
+    "def": "Increases in size, develops, or matures; cultivates or raises (third-person singular present of grow).",
     "reviewed": true
   },
   "grubs": {
@@ -9152,7 +9152,7 @@
     "display": "hangs",
     "d": 0.56,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of hang.",
+    "def": "Suspends or is suspended from above; attaches or is attached to something (third-person singular present of hang).",
     "reviewed": true
   },
   "hanks": {
@@ -9327,7 +9327,7 @@
     "display": "heals",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of heal.",
+    "def": "Becomes sound or healthy again; restores to health or wholeness (third-person singular present of heal).",
     "reviewed": true
   },
   "heaps": {
@@ -9341,14 +9341,14 @@
     "display": "heard",
     "d": 0.06,
     "pos": "verb",
-    "def": "simple past and past participle of hear.",
+    "def": "Perceived sound with the ear; listened to or was informed of something (past tense and past participle of hear).",
     "reviewed": true
   },
   "hears": {
     "display": "hears",
     "d": 0.48,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of hear.",
+    "def": "Perceives sound with the ear; listens to or is informed of something (third-person singular present of hear).",
     "reviewed": true
   },
   "heart": {
@@ -9369,7 +9369,7 @@
     "display": "heats",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of heat.",
+    "def": "Makes or becomes warm or hot; applies warmth to something (third-person singular present of heat).",
     "reviewed": true
   },
   "heave": {
@@ -9453,7 +9453,7 @@
     "display": "helps",
     "d": 0.28,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of help.",
+    "def": "Assists someone in doing something; makes it easier for something to happen (third-person singular present of help).",
     "reviewed": true
   },
   "hence": {
@@ -9558,7 +9558,7 @@
     "display": "hired",
     "d": 0.25,
     "pos": "verb",
-    "def": "simple past and past participle of hire.",
+    "def": "Employed someone for wages; obtained the temporary use of something for payment (past tense and past participle of hire).",
     "reviewed": true
   },
   "hires": {
@@ -9635,7 +9635,7 @@
     "display": "holed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of hole.",
+    "def": "Made a hole in something; put something into a hole (past tense and past participle of hole).",
     "reviewed": true
   },
   "holes": {
@@ -9754,7 +9754,7 @@
     "display": "hoped",
     "d": 0.36,
     "pos": "verb",
-    "def": "simple past and past participle of hope.",
+    "def": "Wished for something to happen; felt optimistic about a future event (past tense and past participle of hope).",
     "reviewed": true
   },
   "hopes": {
@@ -9964,7 +9964,7 @@
     "display": "hurts",
     "d": 0.21,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of hurt.",
+    "def": "Causes pain or injury to; feels pain or suffers damage (third-person singular present of hurt).",
     "reviewed": true
   },
   "husky": {
@@ -10027,7 +10027,7 @@
     "display": "hyped",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of hyp; An abbreviation of hypochonaria.",
+    "def": "Promoted or publicized something enthusiastically; made something exciting (past tense and past participle of hype).",
     "reviewed": true
   },
   "hyper": {
@@ -10734,7 +10734,7 @@
     "display": "knows",
     "d": 0.08,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of know.",
+    "def": "Possesses information, understanding, or skill through experience or education (third-person singular present of know).",
     "reviewed": true
   },
   "koala": {
@@ -11406,7 +11406,7 @@
     "display": "lived",
     "d": 0.15,
     "pos": "verb",
-    "def": "simple past and past participle of live.",
+    "def": "Resided in a place; experienced life or a particular way of life (past tense and past participle of live).",
     "reviewed": true
   },
   "liver": {
@@ -11420,7 +11420,7 @@
     "display": "lives",
     "d": 0.1,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of live.",
+    "def": "Resides in a place; experiences life or a particular way of life (third-person singular present of live).",
     "reviewed": true
   },
   "livid": {
@@ -11609,7 +11609,7 @@
     "display": "loses",
     "d": 0.46,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of lose.",
+    "def": "Ceases to have or retain something; is deprived of something (third-person singular present of lose).",
     "reviewed": true
   },
   "lotto": {
@@ -11651,7 +11651,7 @@
     "display": "loved",
     "d": 0.11,
     "pos": "verb",
-    "def": "simple past and past participle of love.",
+    "def": "Felt deep affection or care for someone or something; cherished (past tense and past participle of love).",
     "reviewed": true
   },
   "lover": {
@@ -11714,7 +11714,7 @@
     "display": "lumps",
     "d": 0.95,
     "pos": "noun",
-    "def": "Irregularly shaped masses or pieces of something, often soft or solid, or swellings on a body. This is the plural of 'lump'.",
+    "def": "Irregularly shaped masses or pieces of something, often soft or solid, or swellings on a body.",
     "reviewed": true
   },
   "lumpy": {
@@ -11777,7 +11777,7 @@
     "display": "lured",
     "d": 0.85,
     "pos": "verb",
-    "def": "simple past and past participle of lure.",
+    "def": "Enticed or attracted someone or something into a trap or a desired situation (past tense and past participle of lure).",
     "reviewed": true
   },
   "lures": {
@@ -11819,7 +11819,7 @@
     "display": "lying",
     "d": 0.13,
     "pos": "verb",
-    "def": "present participle and gerund of lie ().",
+    "def": "Being in a horizontal or resting position; telling untruths (present participle of lie).",
     "reviewed": true
   },
   "lymph": {
@@ -11931,7 +11931,7 @@
     "display": "makes",
     "d": 0.08,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of make.",
+    "def": "Forms or creates something; causes something to exist or happen (third-person singular present of make).",
     "reviewed": true
   },
   "males": {
@@ -12050,7 +12050,7 @@
     "display": "marks",
     "d": 0.28,
     "pos": "noun",
-    "def": "Visible signs, symbols, or impressions left on a surface, or points awarded in an assessment. This is the plural of 'mark'.",
+    "def": "Visible signs, symbols, or impressions left on a surface, or points awarded in an assessment.",
     "reviewed": true
   },
   "marly": {
@@ -12183,7 +12183,7 @@
     "display": "meals",
     "d": 0.48,
     "pos": "noun",
-    "def": "Occasions when food is eaten, such as breakfast, lunch, or dinner, or the food itself. This is the plural of 'meal'.",
+    "def": "Occasions when food is eaten, such as breakfast, lunch, or dinner, or the food itself.",
     "reviewed": true
   },
   "means": {
@@ -12197,7 +12197,7 @@
     "display": "meant",
     "d": 0.12,
     "pos": "verb",
-    "def": "simple past and past participle of mean.",
+    "def": "Intended to convey or express something; signified or denoted (past tense and past participle of mean).",
     "reviewed": true
   },
   "meats": {
@@ -12470,7 +12470,7 @@
     "display": "mired",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of mir; A Russian village community.",
+    "def": "Caused to become stuck in mud or a difficult situation; entangled (past tense and past participle of mire).",
     "reviewed": true
   },
   "mirth": {
@@ -12519,7 +12519,7 @@
     "display": "mixed",
     "d": 0.31,
     "pos": "verb",
-    "def": "simple past and past participle of mix.",
+    "def": "Combined or blended different substances or elements together (past tense and past participle of mix).",
     "reviewed": true
   },
   "mixer": {
@@ -12869,7 +12869,7 @@
     "display": "mowed",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of mow; A wry face.",
+    "def": "Cut down grass or crops with a machine or scythe (past tense and past participle of mow).",
     "reviewed": true
   },
   "mower": {
@@ -13548,7 +13548,7 @@
     "display": "offed",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of off; In a general sense, denoting from or away from.",
+    "def": "Killed someone; eliminated or got rid of something (past tense and past participle of off).",
     "reviewed": true
   },
   "offer": {
@@ -13730,7 +13730,7 @@
     "display": "outed",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of out; In its original and strict sense, out means from the interior of something.",
+    "def": "Revealed someone's secret, especially their homosexuality, without their consent (past tense and past participle of out).",
     "reviewed": true
   },
   "outer": {
@@ -13779,7 +13779,7 @@
     "display": "owned",
     "d": 0.41,
     "pos": "verb",
-    "def": "simple past and past participle of own.",
+    "def": "Possessed something; had legal title to something (past tense and past participle of own).",
     "reviewed": true
   },
   "owner": {
@@ -13807,7 +13807,7 @@
     "display": "paced",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of pac; A kind of moccasin, having the edges of the sole turned up and sewed to the upper.",
+    "def": "Walked back and forth, often restlessly or anxiously; set the speed for something (past tense and past participle of pace).",
     "reviewed": true
   },
   "pacer": {
@@ -14136,7 +14136,7 @@
     "display": "payed",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of pay; To cover, as bottom of a vessel, a seam, a spar, etc., with tar or pitch, or waterproof composition of tallow, resin, etc.",
+    "def": "Let out a rope or cable by slackening it, especially on a ship (past tense and past participle of pay, nautical use).",
     "reviewed": true
   },
   "peace": {
@@ -14423,7 +14423,7 @@
     "display": "piled",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of pile.",
+    "def": "Arranged things in a stack or heap; accumulated in a large quantity (past tense and past participle of pile).",
     "reviewed": true
   },
   "piles": {
@@ -14626,7 +14626,7 @@
     "display": "plans",
     "d": 0.18,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of plan.",
+    "def": "Decides on and arranges a course of action in advance (third-person singular present of plan).",
     "reviewed": true
   },
   "plant": {
@@ -14780,7 +14780,7 @@
     "display": "poked",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of poke.",
+    "def": "Jabbed or pushed something with a finger or pointed object; protruded (past tense and past participle of poke).",
     "reviewed": true
   },
   "poker": {
@@ -14927,7 +14927,7 @@
     "display": "posed",
     "d": 0.91,
     "pos": "verb",
-    "def": "simple past and past participle of pose.",
+    "def": "Held a particular position for a photograph or artwork; presented a question or problem (past tense and past participle of pose).",
     "reviewed": true
   },
   "poser": {
@@ -14983,7 +14983,7 @@
     "display": "pours",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of pour.",
+    "def": "Flows rapidly in a stream; causes a liquid to flow from a container (third-person singular present of pour).",
     "reviewed": true
   },
   "power": {
@@ -15011,7 +15011,7 @@
     "display": "prays",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of pray.",
+    "def": "Addresses God or a deity with adoration, confession, supplication, or thanksgiving (third-person singular present of pray).",
     "reviewed": true
   },
   "press": {
@@ -15228,7 +15228,7 @@
     "display": "puffs",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of puff.",
+    "def": "Emits a small cloud of smoke or vapor, often from a cigarette, or breathes heavily with short, quick breaths (third-person singular present of puff).",
     "reviewed": true
   },
   "puffy": {
@@ -15242,7 +15242,7 @@
     "display": "puked",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of puke.",
+    "def": "Vomited or thrown up food from the stomach (past tense and past participle of puke).",
     "reviewed": true
   },
   "pukes": {
@@ -15550,7 +15550,7 @@
     "display": "raced",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of race.",
+    "def": "Competed in a contest of speed or moved very quickly (past tense and past participle of race).",
     "reviewed": true
   },
   "racer": {
@@ -15711,7 +15711,7 @@
     "display": "raped",
     "d": 0.34,
     "pos": "verb",
-    "def": "simple past and past participle of rape.",
+    "def": "Forcibly had sexual intercourse with someone without their consent (past tense and past participle of rape).",
     "reviewed": true
   },
   "rapes": {
@@ -16082,7 +16082,7 @@
     "display": "rides",
     "d": 0.58,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of ride.",
+    "def": "Sits on and controls a bicycle, horse, or motorcycle, or travels in a vehicle (third-person singular present of ride).",
     "reviewed": true
   },
   "ridge": {
@@ -16124,7 +16124,7 @@
     "display": "riled",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of rile.",
+    "def": "Made someone annoyed or irritated, or stirred up water to make it muddy (past tense and past participle of rile).",
     "reviewed": true
   },
   "riles": {
@@ -16173,7 +16173,7 @@
     "display": "risen",
     "d": 0.77,
     "pos": "verb",
-    "def": "past participle of rise.",
+    "def": "Moved from a lower to a higher position, or increased in amount, level, or status (past participle of rise).",
     "reviewed": true
   },
   "riser": {
@@ -16187,7 +16187,7 @@
     "display": "rises",
     "d": 0.59,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of rise.",
+    "def": "Moves from a lower to a higher position, or increased in amount, level, or status (third-person singular present of rise).",
     "reviewed": true
   },
   "rishi": {
@@ -16390,7 +16390,7 @@
     "display": "roped",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of rope.",
+    "def": "Tied or secured with a rope, or caught an animal with a lasso (past tense and past participle of rope).",
     "reviewed": true
   },
   "roper": {
@@ -16852,7 +16852,7 @@
     "display": "saved",
     "d": 0.14,
     "pos": "verb",
-    "def": "simple past and past participle of save.",
+    "def": "Rescued someone or something from harm or danger, or kept something from being lost or spent (past tense and past participle of save).",
     "reviewed": true
   },
   "saves": {
@@ -17174,7 +17174,7 @@
     "display": "sears",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of sear.",
+    "def": "Burns or scorches the surface of something with sudden, intense heat, or causes a painful burning sensation (third-person singular present of sear).",
     "reviewed": true
   },
   "seats": {
@@ -17216,14 +17216,14 @@
     "display": "seeks",
     "d": 0.77,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of seek.",
+    "def": "Tries to find or obtain something, or attempts to achieve a particular goal (third-person singular present of seek).",
     "reviewed": true
   },
   "seems": {
     "display": "seems",
     "d": 0.09,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of seem.",
+    "def": "Gives the impression of being something or appears to be a certain way (third-person singular present of seem).",
     "reviewed": true
   },
   "seeps": {
@@ -17251,7 +17251,7 @@
     "display": "sells",
     "d": 0.51,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of sell.",
+    "def": "Exchanges goods or services for money, or persuades someone to accept something (third-person singular present of sell).",
     "reviewed": true
   },
   "semen": {
@@ -17265,7 +17265,7 @@
     "display": "sends",
     "d": 0.4,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of send.",
+    "def": "Causes to go or be conveyed to a destination, or dispatches a message or person (third-person singular present of send).",
     "reviewed": true
   },
   "senna": {
@@ -17342,7 +17342,7 @@
     "display": "sewed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of sew.",
+    "def": "Joined or repaired fabric by making stitches with a needle and thread (past tense and past participle of sew).",
     "reviewed": true
   },
   "sewer": {
@@ -17419,7 +17419,7 @@
     "display": "shalt",
     "d": 0.81,
     "pos": "verb",
-    "def": "second-person singular simple present indicative of shall.",
+    "def": "An archaic form of \"shall,\" used to express a command, promise, or future action for the singular \"you\" (second-person singular present of shall).",
     "reviewed": true
   },
   "shame": {
@@ -17636,7 +17636,7 @@
     "display": "shone",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of shine.",
+    "def": "Emitted light, glowed brightly, or excelled in a particular area (past tense and past participle of shine).",
     "reviewed": true
   },
   "shook": {
@@ -17699,7 +17699,7 @@
     "display": "shown",
     "d": 0.33,
     "pos": "verb",
-    "def": "past participle of show.",
+    "def": "Displayed or presented for others to see, or demonstrated or proven something (past participle of show).",
     "reviewed": true
   },
   "shows": {
@@ -17769,7 +17769,7 @@
     "display": "shuts",
     "d": 0.59,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of shut.",
+    "def": "Moves something into a closed position, such as a door, window, or lid (third-person singular present of shut).",
     "reviewed": true
   },
   "sicko": {
@@ -17888,7 +17888,7 @@
     "display": "sings",
     "d": 0.44,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of sing.",
+    "def": "Produces musical sounds with the voice, often performing a song (third-person singular present of sing).",
     "reviewed": true
   },
   "sinks": {
@@ -17909,7 +17909,7 @@
     "display": "sired",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of sir; A man of social authority and dignity.",
+    "def": "Fathered an offspring, acting as the male parent (past tense and past participle of sir).",
     "reviewed": true
   },
   "siren": {
@@ -18077,7 +18077,7 @@
     "display": "slain",
     "d": 0.93,
     "pos": "verb",
-    "def": "past participle of slay.",
+    "def": "Killed someone or something in a violent or forceful manner (past participle of slay).",
     "reviewed": true
   },
   "slams": {
@@ -18168,7 +18168,7 @@
     "display": "slept",
     "d": 0.22,
     "pos": "verb",
-    "def": "simple past and past participle of sleep.",
+    "def": "Rested in a state of unconsciousness, typically lying down (past tense and past participle of sleep).",
     "reviewed": true
   },
   "slice": {
@@ -18224,7 +18224,7 @@
     "display": "slips",
     "d": 0.76,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of slip.",
+    "def": "Loses one's footing and slides unintentionally, or moves smoothly or secretly (third-person singular present of slip).",
     "reviewed": true
   },
   "sloop": {
@@ -18259,7 +18259,7 @@
     "display": "slows",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of slow.",
+    "def": "Reduces speed or pace, causing something to become less rapid (third-person singular present of slow).",
     "reviewed": true
   },
   "slugs": {
@@ -18539,7 +18539,7 @@
     "display": "snuck",
     "d": 0.65,
     "pos": "verb",
-    "def": "simple past and past participle of sneak.",
+    "def": "Moved stealthily or secretly, often to avoid being seen or heard (past tense and past participle of sneak).",
     "reviewed": true
   },
   "snuff": {
@@ -18882,7 +18882,7 @@
     "display": "spied",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of spy.",
+    "def": "Saw or noticed something, especially with difficulty, or secretly gathered information (past tense and past participle of spy).",
     "reviewed": true
   },
   "spies": {
@@ -19449,7 +19449,7 @@
     "display": "stood",
     "d": 0.26,
     "pos": "verb",
-    "def": "simple past and past participle of stand.",
+    "def": "Was in an upright position on one's feet, or remained in a particular place or condition (past tense and past participle of stand).",
     "reviewed": true
   },
   "stool": {
@@ -19568,7 +19568,7 @@
     "display": "stuck",
     "d": 0.16,
     "pos": "verb",
-    "def": "simple past and past participle of stick.",
+    "def": "Became fixed in a particular position or was unable to move (past tense and past participle of stick).",
     "reviewed": true
   },
   "studs": {
@@ -19603,7 +19603,7 @@
     "display": "stung",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of sting.",
+    "def": "Pricked or wounded with a sharp, pointed part, often injecting venom, or caused a sharp, burning pain (past tense and past participle of sting).",
     "reviewed": true
   },
   "stunt": {
@@ -19659,7 +19659,7 @@
     "display": "suing",
     "d": 0.75,
     "pos": "verb",
-    "def": "present participle and gerund of sue.",
+    "def": "Instituting legal proceedings against someone to claim damages or enforce a right (present participle of sue).",
     "reviewed": true
   },
   "suite": {
@@ -19834,7 +19834,7 @@
     "display": "swept",
     "d": 0.61,
     "pos": "verb",
-    "def": "Cleaned a surface or area by brushing away dirt or debris. Also, moved quickly and forcefully (past tense and past participle of sweep).",
+    "def": "Cleaned a surface or area by brushing away dirt or debris, or moved quickly and forcefully (past tense and past participle of sweep).",
     "reviewed": true
   },
   "swift": {
@@ -19932,14 +19932,14 @@
     "display": "sworn",
     "d": 0.5,
     "pos": "verb",
-    "def": "past participle of swear.",
+    "def": "Made a solemn promise or oath, or used offensive language (past participle of swear).",
     "reviewed": true
   },
   "swung": {
     "display": "swung",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of swing.",
+    "def": "Moved back and forth or from side to side while suspended, or turned or pivoted (past tense and past participle of swing).",
     "reviewed": true
   },
   "synod": {
@@ -20044,7 +20044,7 @@
     "display": "takes",
     "d": 0.11,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of take.",
+    "def": "Lays hold of something with one's hands, removes or carries away, or accepts (third-person singular present of take).",
     "reviewed": true
   },
   "takin": {
@@ -20128,7 +20128,7 @@
     "display": "taped",
     "d": 0.78,
     "pos": "verb",
-    "def": "simple past and past participle of tape.",
+    "def": "Fastened or secured with adhesive tape, or recorded audio or video (past tense and past participle of tape).",
     "reviewed": true
   },
   "taper": {
@@ -20219,7 +20219,7 @@
     "display": "taxed",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of tax; A charge, especially a pecuniary burden which is imposed by authority.",
+    "def": "Imposed a tax on someone or something, or made heavy demands on someone's resources or abilities (past tense and past participle of tax).",
     "reviewed": true
   },
   "taxes": {
@@ -20317,7 +20317,7 @@
     "display": "tells",
     "d": 0.19,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of tell.",
+    "def": "Communicates information, a story, or a secret to someone (third-person singular present of tell).",
     "reviewed": true
   },
   "telly": {
@@ -20345,7 +20345,7 @@
     "display": "tends",
     "d": 0.78,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of tend.",
+    "def": "Regularly behaves in a particular way, has a certain characteristic, or cares for something (third-person singular present of tend).",
     "reviewed": true
   },
   "tenor": {
@@ -20505,8 +20505,8 @@
   "thine": {
     "display": "thine",
     "d": 0.84,
-    "pos": "det",
-    "def": "Second-person singular prevocalic possessive determiner (preconsonantal form: thy).",
+    "pos": "adj",
+    "def": "An archaic possessive pronoun or adjective meaning \"yours\" or \"your,\" typically used before a vowel sound (archaic possessive pronoun/adjective).",
     "reviewed": true
   },
   "thing": {
@@ -20618,7 +20618,7 @@
     "display": "thunk",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of think.",
+    "def": "Considered or formed an idea in one's mind (nonstandard past participle of think).",
     "reviewed": true
   },
   "thyme": {
@@ -20695,7 +20695,7 @@
     "display": "timed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of time.",
+    "def": "Measured the duration of an event or scheduled something for a particular moment (past tense and past participle of time).",
     "reviewed": true
   },
   "timer": {
@@ -20744,7 +20744,7 @@
     "display": "tired",
     "d": 0.12,
     "pos": "verb",
-    "def": "simple past and past participle of tire.",
+    "def": "Caused someone to feel sleepy or exhausted, or became weary (past tense and past participle of tire).",
     "reviewed": true
   },
   "tires": {
@@ -20954,7 +20954,7 @@
     "display": "towed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of tow.",
+    "def": "Pulled a vehicle or boat along with a rope or chain (past tense and past participle of tow).",
     "reviewed": true
   },
   "towel": {
@@ -20996,7 +20996,7 @@
     "display": "toyed",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of toy; A plaything for children.",
+    "def": "Played with something idly or without serious intent, or considered an idea casually (past tense and past participle of toy).",
     "reviewed": true
   },
   "trace": {
@@ -21353,7 +21353,7 @@
     "display": "tuned",
     "d": 0.72,
     "pos": "verb",
-    "def": "simple past and past participle of tune.",
+    "def": "Adjusted a musical instrument to the correct pitch, or adapted to a particular situation (past tense and past participle of tune).",
     "reviewed": true
   },
   "tuner": {
@@ -21388,7 +21388,7 @@
     "display": "turns",
     "d": 0.16,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of turn.",
+    "def": "Moves in a circular direction around an axis or point, or changes direction (third-person singular present of turn).",
     "reviewed": true
   },
   "tusks": {
@@ -21500,7 +21500,7 @@
     "display": "typed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of type.",
+    "def": "Wrote something using a keyboard, or classified or categorized something (past tense and past participle of type).",
     "reviewed": true
   },
   "types": {
@@ -21689,7 +21689,7 @@
     "display": "using",
     "d": 0.13,
     "pos": "verb",
-    "def": "present participle and gerund of use.",
+    "def": "Employing something for a particular purpose or applying something to achieve a result (present participle of use).",
     "reviewed": true
   },
   "usual": {
@@ -21885,7 +21885,7 @@
     "display": "vexed",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of vex; To White curl the waves, and the vexed ocean roars.",
+    "def": "Made someone feel annoyed, frustrated, or worried by small problems or concerns (past tense or past participle of vex).",
     "reviewed": true
   },
   "vials": {
@@ -22123,7 +22123,7 @@
     "display": "vowed",
     "d": 0.95,
     "pos": "verb",
-    "def": "past participle of vow.",
+    "def": "Solemnly promised to do a specified thing or declared something to be true (past tense or past participle of vow).",
     "reviewed": true
   },
   "vowel": {
@@ -22319,7 +22319,7 @@
     "display": "warms",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of warm.",
+    "def": "Makes or becomes warm, or causes someone to feel affection or enthusiasm (third-person singular present of warm).",
     "reviewed": true
   },
   "warns": {
@@ -22375,7 +22375,7 @@
     "display": "waved",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of wave.",
+    "def": "Moved one's hand to and fro in greeting or as a signal, or moved something gently back and forth (past tense or past participle of wave).",
     "reviewed": true
   },
   "waver": {
@@ -22396,7 +22396,7 @@
     "display": "waxed",
     "d": 0.95,
     "pos": "verb",
-    "def": "simple past and past participle of wax.",
+    "def": "Covered or treated something with wax, or (of the moon) appeared progressively larger in its illuminated phase (past tense or past participle of wax).",
     "reviewed": true
   },
   "wears": {
@@ -22459,7 +22459,7 @@
     "display": "weeps",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of weep.",
+    "def": "Sheds tears, often as an expression of sadness, grief, or other strong emotion (third-person singular present of weep).",
     "reviewed": true
   },
   "weigh": {
@@ -22760,7 +22760,7 @@
     "display": "wiped",
     "d": 0.46,
     "pos": "verb",
-    "def": "simple past and past participle of wipe.",
+    "def": "Cleaned or dried a surface by rubbing it with a cloth or hand, or removed something completely (past tense or past participle of wipe).",
     "reviewed": true
   },
   "wiper": {
@@ -22823,7 +22823,7 @@
     "display": "woken",
     "d": 0.81,
     "pos": "verb",
-    "def": "past participle of wake.",
+    "def": "Emerged or caused someone to emerge from sleep, or became aware of something (past participle of wake).",
     "reviewed": true
   },
   "woman": {
@@ -22858,7 +22858,7 @@
     "display": "wooed",
     "d": 0.95,
     "pos": "verb",
-    "def": "Past tense or past participle of woo; To solicit in love.",
+    "def": "Tried to gain the love or affection of someone, or sought to attract support or custom (past tense or past participle of woo).",
     "reviewed": true
   },
   "words": {
@@ -23047,7 +23047,7 @@
     "display": "yawns",
     "d": 0.95,
     "pos": "verb",
-    "def": "third-person singular simple present indicative of yawn.",
+    "def": "Involuntarily opens one's mouth wide and inhales deeply, typically due to tiredness or boredom (third-person singular present of yawn).",
     "reviewed": true
   },
   "yearn": {
