@@ -37,8 +37,9 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useClipboard, useDisclosure } from '@mantine/hooks';
+import { FormattedDefinition } from '@/components/FormattedDefinition/FormattedDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
-import { formatDefinition, normalizeWord, WordEntry } from '@/utils/wordUtils';
+import { normalizeWord, WordEntry } from '@/utils/wordUtils';
 
 type LanguageKey = 'en' | 'es' | 'fr';
 
@@ -668,9 +669,7 @@ export const DictionariesPage: FC = () => {
                       </Group>
                     </Group>
 
-                    <Text size="sm" c="gray.2" style={{ lineHeight: 1.4 }}>
-                      • {formatDefinition(item.def)}
-                    </Text>
+                    <FormattedDefinition def={item.def} size="sm" />
 
                     {flagged && (
                       <Stack gap={4} mt="xs">
@@ -781,11 +780,7 @@ export const DictionariesPage: FC = () => {
                           <IconTrash size={14} />
                         </ActionIcon>
                       </Group>
-                      {item.def && (
-                        <Text size="xs" c="gray.3">
-                          • {formatDefinition(item.def)}
-                        </Text>
-                      )}
+                      {item.def && <FormattedDefinition def={item.def} size="xs" />}
                       <TextInput
                         size="xs"
                         placeholder="Discussion note (optional)..."

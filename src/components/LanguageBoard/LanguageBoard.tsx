@@ -16,7 +16,8 @@ import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { Language } from '@/types/firestore';
-import { Dictionary, formatDefinition, getGuessStatuses, normalizeWord } from '@/utils/wordUtils';
+import { Dictionary, getGuessStatuses, normalizeWord } from '@/utils/wordUtils';
+import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 import { LetterTile } from '../LetterTile/LetterTile';
 import classes from './LanguageBoard.module.css';
 
@@ -171,9 +172,7 @@ const SubmittedRow: FC<{
                 </ActionIcon>
               </Tooltip>
             </Group>
-            <Text size="sm" style={{ lineHeight: 1.35 }}>
-              • {formatDefinition(data.def)}
-            </Text>
+            <FormattedDefinition def={data.def} size="sm" />
           </Stack>
         )}
       </Popover.Dropdown>
