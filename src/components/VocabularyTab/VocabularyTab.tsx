@@ -1,9 +1,11 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import {
+  IconAlertCircle,
   IconBook2,
   IconCheck,
   IconExternalLink,
   IconFilter,
+  IconRefresh,
   IconSearch,
   IconSortAscending,
 } from '@tabler/icons-react';
@@ -90,7 +92,13 @@ const formatTimeAgo = (isoString: string): string => {
 };
 
 export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
-  const { vocabulary, counts, isLoading: isVocabLoading } = useVocabulary(profileUserId);
+  const {
+    vocabulary,
+    counts,
+    isLoading: isVocabLoading,
+    isError: isVocabError,
+    refetch: refetchVocab,
+  } = useVocabulary(profileUserId);
 
   const [selectedLang, setSelectedLang] = useState<Language>('es');
   const [searchQuery, setSearchQuery] = useState('');
@@ -103,21 +111,43 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
     fr: null,
   });
   const [isDictLoading, setIsDictLoading] = useState(true);
+  const [dictError, setDictError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadDictionaries = () => {
+    setIsDictLoading(true);
+    setDictError(null);
     Promise.all([
-      fetch('/en.json').then((res) => res.json() as Promise<Dictionary>),
-      fetch('/es.json').then((res) => res.json() as Promise<Dictionary>),
-      fetch('/fr.json').then((res) => res.json() as Promise<Dictionary>),
+      fetch('/en.json').then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to load English dictionary');
+        }
+        return res.json() as Promise<Dictionary>;
+      }),
+      fetch('/es.json').then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to load Spanish dictionary');
+        }
+        return res.json() as Promise<Dictionary>;
+      }),
+      fetch('/fr.json').then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to load French dictionary');
+        }
+        return res.json() as Promise<Dictionary>;
+      }),
     ])
       .then(([en, es, fr]) => {
         setDictionaries({ en, es, fr });
         setIsDictLoading(false);
       })
       .catch((err) => {
-        console.error('Failed to load dictionary files:', err);
+        setDictError(err instanceof Error ? err.message : 'Failed to load dictionary files');
         setIsDictLoading(false);
       });
+  };
+
+  useEffect(() => {
+    loadDictionaries();
   }, []);
 
   const currentDict = dictionaries[selectedLang];
@@ -202,6 +232,43 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
     );
   }
 
+  if (isVocabError || dictError) {
+    return (
+      <Center py={60}>
+        <Paper p="xl" radius="md" withBorder ta="center" bg="var(--mantine-color-dark-8)">
+          <Stack align="center" gap="sm">
+            <ThemeIcon size={48} radius="xl" color="red" variant="light">
+              <IconAlertCircle size={24} />
+            </ThemeIcon>
+            <Text fw={600} size="md">
+              Failed to load vocabulary data
+            </Text>
+            <Text size="xs" c="dimmed" maw={360}>
+              {dictError ||
+                'We could not fetch your vocabulary records. Please check your connection and try again.'}
+            </Text>
+            <Button
+              size="xs"
+              variant="light"
+              color="blue"
+              leftSection={<IconRefresh size={14} />}
+              onClick={() => {
+                if (isVocabError) {
+                  refetchVocab();
+                }
+                if (dictError) {
+                  loadDictionaries();
+                }
+              }}
+            >
+              Retry
+            </Button>
+          </Stack>
+        </Paper>
+      </Center>
+    );
+  }
+
   return (
     <Stack gap="lg" mt="md">
       {/* LANGUAGE SELECTOR CARDS WITH PROGRESS */}
@@ -217,12 +284,17 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
           return (
             <Paper
               key={lang}
+              component="button"
+              type="button"
+              aria-pressed={isSelected}
               p="md"
               radius="lg"
               withBorder
               onClick={() => setSelectedLang(lang)}
               style={{
                 cursor: 'pointer',
+                textAlign: 'left',
+                width: '100%',
                 transition: 'all 0.2s ease',
                 borderColor: isSelected ? meta.hoverBorder : undefined,
                 borderWidth: isSelected ? 2 : 1,

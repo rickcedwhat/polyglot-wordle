@@ -24,12 +24,6 @@ Base URL: `http://localhost:4000`
 ## Register a project
 
 ```bash
-node "/Users/cedrick/Documents/Projects/local-dev-dashboard/register.mjs" "<Project Name>" "<absolute-directory>" <port>
-```
-
-Or:
-
-```bash
 curl -sS -X POST http://localhost:4000/api/register \
   -H 'Content-Type: application/json' \
   -d '{"protocol":1,"name":"Project Name","directory":"/absolute/path","port":5180}'
@@ -52,7 +46,7 @@ curl -sS -X POST http://localhost:4000/api/agent-activity \
     "protocol": 1,
     "phase": "start",
     "directory": "/absolute/path/to/this/project",
-    "pr": 129,
+    "pr": <pr-number>,
     "summary": "Fixing CodeRabbit actionable comments",
     "agent": "cursor"
   }'

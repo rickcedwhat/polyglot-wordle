@@ -114,16 +114,23 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             matchedLangs.push('fr');
           }
 
-          const isSolutionWord =
-            normGuess === normalizeWord(solution.en) ||
-            normGuess === normalizeWord(solution.es) ||
-            normGuess === normalizeWord(solution.fr);
+          const solutionLangs: Language[] = [];
+          if (normGuess === normalizeWord(solution.en)) {
+            solutionLangs.push('en');
+          }
+          if (normGuess === normalizeWord(solution.es)) {
+            solutionLangs.push('es');
+          }
+          if (normGuess === normalizeWord(solution.fr)) {
+            solutionLangs.push('fr');
+          }
 
-          // Record discovered word into player's personal vocabulary
+          // Record discovered word into player's personal vocabulary with language-specific solved tagging
           recordGuess({
             guess: guessString,
             matchedLangs,
-            isSolution: isSolutionWord,
+            solutionLangs,
+            isSolution: solutionLangs.length > 0,
           });
 
           const newGuesses = [...guesses, guessString];
