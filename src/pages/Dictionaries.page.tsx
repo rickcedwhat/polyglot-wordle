@@ -7,6 +7,7 @@ import {
   IconCopy,
   IconFlag,
   IconFlagFilled,
+  IconHistory,
   IconLanguage,
   IconMessageDots,
   IconSearch,
@@ -39,6 +40,7 @@ import {
 import { useClipboard, useDisclosure } from '@mantine/hooks';
 import { FormattedDefinition } from '@/components/FormattedDefinition/FormattedDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
+import { useVocabulary } from '@/hooks/useVocabulary';
 import { normalizeWord, WordEntry } from '@/utils/wordUtils';
 
 type LanguageKey = 'en' | 'es' | 'fr';
@@ -55,7 +57,10 @@ export const DictionariesPage: FC = () => {
   const [selectedPos, setSelectedPos] = useState<string>('all');
   const [multilingualOnly, setMultilingualOnly] = useState(false);
   const [flaggedOnly, setFlaggedOnly] = useState(false);
+  const [discoveredOnly, setDiscoveredOnly] = useState(false);
   const [page, setPage] = useState(1);
+
+  const { vocabulary, counts } = useVocabulary();
 
   const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false);
 
@@ -105,6 +110,7 @@ export const DictionariesPage: FC = () => {
     selectedPos,
     multilingualOnly,
     flaggedOnly,
+    discoveredOnly,
   ]);
 
   const activeDict = dictionaries[activeLang];
@@ -131,11 +137,17 @@ export const DictionariesPage: FC = () => {
 
     const normQuery = normalizeWord(searchQuery.trim());
     const textQuery = searchQuery.trim().toLowerCase();
+    const userLangVocab = vocabulary[activeLang] || {};
 
     const filtered = Object.entries(activeDict)
       .filter(([key, entry]) => {
         const wordKey = key.toLowerCase();
         const displayWord = (entry.display || key).toLowerCase();
+
+        // Discovered only filter
+        if (discoveredOnly && !userLangVocab[wordKey]) {
+          return false;
+        }
 
         // Flagged only filter
         if (flaggedOnly && !isFlagged(activeLang, wordKey)) {
@@ -202,9 +214,11 @@ export const DictionariesPage: FC = () => {
     selectedPos,
     multilingualOnly,
     flaggedOnly,
+    discoveredOnly,
     activeLang,
     dictionaries,
     isFlagged,
+    vocabulary,
   ]);
 
   const totalPages = Math.ceil(filteredWords.length / ITEMS_PER_PAGE);
@@ -528,6 +542,18 @@ export const DictionariesPage: FC = () => {
             </Button>
 
             <Button
+              variant={discoveredOnly ? 'filled' : 'outline'}
+              color="teal"
+              leftSection={<IconHistory size={16} />}
+              onClick={() => setDiscoveredOnly((prev) => !prev)}
+              style={{ alignSelf: 'flex-end' }}
+            >
+              {discoveredOnly
+                ? `Discovered (${counts[activeLang]}) ✓`
+                : `Discovered (${counts[activeLang]})`}
+            </Button>
+
+            <Button
               variant={flaggedOnly ? 'filled' : 'outline'}
               color="red"
               leftSection={flaggedOnly ? <IconFlagFilled size={16} /> : <IconFlag size={16} />}
@@ -629,6 +655,17 @@ export const DictionariesPage: FC = () => {
                         <Badge size="xs" color={diffBadge.color} variant="filled">
                           {diffBadge.label}
                         </Badge>
+                        {vocabulary[activeLang]?.[item.key.toLowerCase()] && (
+                          <Tooltip
+                            label={`Discovered! Guessed ${vocabulary[activeLang][item.key.toLowerCase()].timesGuessed} time(s)`}
+                            withArrow
+                          >
+                            <Badge size="xs" color="teal" variant="light">
+                              Discovered (
+                              {vocabulary[activeLang][item.key.toLowerCase()].timesGuessed}x)
+                            </Badge>
+                          </Tooltip>
+                        )}
                       </Group>
 
                       <Group gap={6}>

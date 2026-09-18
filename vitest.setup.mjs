@@ -28,3 +28,38 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver;
+
+// Node 26 jsdom localStorage fallback
+if (!globalThis.localStorage || typeof globalThis.localStorage.clear !== 'function') {
+  const createStorage = () => {
+    let store = {};
+    return {
+      getItem: vi.fn((key) => store[key] || null),
+      setItem: vi.fn((key, val) => {
+        store[key] = String(val);
+      }),
+      removeItem: vi.fn((key) => {
+        delete store[key];
+      }),
+      clear: vi.fn(() => {
+        store = {};
+      }),
+      key: vi.fn((idx) => Object.keys(store)[idx] || null),
+      get length() {
+        return Object.keys(store).length;
+      },
+    };
+  };
+
+  const storageMock = createStorage();
+  Object.defineProperty(window, 'localStorage', {
+    value: storageMock,
+    writable: true,
+    configurable: true,
+  });
+  Object.defineProperty(globalThis, 'localStorage', {
+    value: storageMock,
+    writable: true,
+    configurable: true,
+  });
+}
