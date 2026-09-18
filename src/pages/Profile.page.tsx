@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IconBooks, IconChartBar, IconUsers } from '@tabler/icons-react';
+import { IconBooks, IconChartBar, IconUsers, IconVocabulary } from '@tabler/icons-react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Center, Container, Group, Loader, Tabs, Text, Title } from '@mantine/core';
 import { FriendButton } from '@/components/FriendButton/FriendButton';
@@ -7,6 +7,7 @@ import { FriendListTab } from '@/components/FriendsListTab/FriendsListTab';
 import { GameHistoryTab } from '@/components/GameHistoryTab/GameHistoryTab';
 import { ShareProfileButton } from '@/components/ShareProfileButton/ShareProfileButton';
 import { StatsTab } from '@/components/StatsTab/StatsTab';
+import { VocabularyTab } from '@/components/VocabularyTab/VocabularyTab';
 import { useAuth } from '@/context/AuthContext';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
@@ -20,8 +21,8 @@ export const ProfilePage: FC = () => {
 
   const isOwnProfile = currentUser?.uid === userId;
 
-  // Determine active tab from URL hash, default to 'stats'
-  const validTabs = ['history', 'stats', 'friends'];
+  // Determine active tab from URL hash, default to 'history'
+  const validTabs = ['history', 'stats', 'vocabulary', 'friends'];
   const activeTabFromUrl = location.hash.slice(1);
   const activeTab = validTabs.includes(activeTabFromUrl) ? activeTabFromUrl : 'history';
 
@@ -76,6 +77,11 @@ export const ProfilePage: FC = () => {
               Stats
             </Text>
           </Tabs.Tab>
+          <Tabs.Tab value="vocabulary" leftSection={<IconVocabulary size={16} />}>
+            <Text component="span" visibleFrom="xs">
+              Vocabulary
+            </Text>
+          </Tabs.Tab>
           <Tabs.Tab value="friends" leftSection={<IconUsers size={16} />}>
             <Text component="span" visibleFrom="xs">
               Friends
@@ -91,12 +97,16 @@ export const ProfilePage: FC = () => {
           />
         </Tabs.Panel>
 
-        <Tabs.Panel value="friends" pt="xs">
-          <FriendListTab profileUserId={userId!} />
-        </Tabs.Panel>
-
         <Tabs.Panel value="stats" pt="xs">
           <StatsTab profileUserId={userId!} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="vocabulary" pt="xs">
+          <VocabularyTab profileUserId={userId!} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="friends" pt="xs">
+          <FriendListTab profileUserId={userId!} />
         </Tabs.Panel>
       </Tabs>
     </Container>

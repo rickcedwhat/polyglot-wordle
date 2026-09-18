@@ -6,8 +6,9 @@ import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
+import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
-import type { GameDoc } from '@/types/firestore.d.ts';
+import type { GameDoc, Language } from '@/types/firestore.d.ts';
 import { normalizeWord } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
@@ -27,6 +28,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
   const { recalculateScore } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
+  const { recordGuess } = useVocabulary();
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const { data: wordPools } = useWordPools(difficulties);
   const [guesses, setGuesses] = useState<string[]>(guessHistory);
@@ -94,13 +96,43 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           return;
         }
 
-        const isValid =
-          (wordPools.master.en.some((word) => normalizeWord(word) === guessString) ||
-            wordPools.master.es.some((word) => normalizeWord(word) === guessString) ||
-            wordPools.master.fr.some((word) => normalizeWord(word) === guessString)) &&
-          !guesses.map(normalizeWord).includes(guessString);
+        const normGuess = normalizeWord(guessString);
+        const inEn = wordPools.master.en.some((word) => normalizeWord(word) === normGuess);
+        const inEs = wordPools.master.es.some((word) => normalizeWord(word) === normGuess);
+        const inFr = wordPools.master.fr.some((word) => normalizeWord(word) === normGuess);
+        const isValid = (inEn || inEs || inFr) && !guesses.map(normalizeWord).includes(guessString);
 
         if (isValid) {
+          const matchedLangs: Language[] = [];
+          if (inEn) {
+            matchedLangs.push('en');
+          }
+          if (inEs) {
+            matchedLangs.push('es');
+          }
+          if (inFr) {
+            matchedLangs.push('fr');
+          }
+
+          const solutionLangs: Language[] = [];
+          if (normGuess === normalizeWord(solution.en)) {
+            solutionLangs.push('en');
+          }
+          if (normGuess === normalizeWord(solution.es)) {
+            solutionLangs.push('es');
+          }
+          if (normGuess === normalizeWord(solution.fr)) {
+            solutionLangs.push('fr');
+          }
+
+          // Record discovered word into player's personal vocabulary with language-specific solved tagging
+          recordGuess({
+            guess: guessString,
+            matchedLangs,
+            solutionLangs,
+            isSolution: solutionLangs.length > 0,
+          });
+
           const newGuesses = [...guesses, guessString];
           setGuesses(newGuesses);
           setCurrentGuess(Array(5).fill(''));
@@ -157,6 +189,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       guessHistory,
       guesses,
       recalculateScore,
+      recordGuess,
       shuffledLanguages,
       solution,
       updateGuessHistory,
