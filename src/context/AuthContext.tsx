@@ -1,5 +1,12 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
-import { onAuthStateChanged, signInWithPopup, signOut, type User } from 'firebase/auth';
+import {
+  getRedirectResult,
+  onAuthStateChanged,
+  signInWithPopup,
+  signInWithRedirect,
+  signOut,
+  type User,
+} from 'firebase/auth';
 import { doc, getDoc, getFirestore, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { auth, googleProvider } from '@/firebase';
 import { UserDoc } from '@/types/firestore';
@@ -20,8 +27,20 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error('Error during Google popup sign-in:', error);
+    } catch (error: any) {
+      if (
+        error?.code === 'auth/popup-blocked' ||
+        error?.code === 'auth/popup-closed-by-user' ||
+        error?.code === 'auth/cancelled-popup-request'
+      ) {
+        try {
+          await signInWithRedirect(auth, googleProvider);
+        } catch (redirectError) {
+          console.error('Error during Google redirect sign-in:', redirectError);
+        }
+      } else {
+        console.error('Error during Google popup sign-in:', error);
+      }
     }
   };
 
@@ -30,6 +49,10 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   useEffect(() => {
+    getRedirectResult(auth).catch((error) => {
+      console.error('Error getting redirect result:', error);
+    });
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         // "Get or Create" the user document in Firestore
