@@ -4,9 +4,14 @@ import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import type { GameDoc, UserDoc } from '@/types/firestore';
 
+export interface ChallengerProfile {
+  displayName: string;
+  photoURL?: string;
+}
+
 export interface ChallengeData {
   challengerId: string;
-  user: UserDoc | null;
+  user: ChallengerProfile | null;
   game: GameDoc | null;
 }
 
@@ -29,12 +34,19 @@ export const useChallenge = (gameId: string | undefined) => {
       const db = getFirestore();
 
       // Fetch user profile & match doc concurrently
+      // Allow game doc read failures to reject so React Query can retry
       const [userSnap, gameSnap] = await Promise.all([
         getDoc(doc(db, 'users', activeChallengerId)).catch(() => null),
-        getDoc(doc(db, 'games', `${activeChallengerId}_${gameId}`)).catch(() => null),
+        getDoc(doc(db, 'games', `${activeChallengerId}_${gameId}`)),
       ]);
 
-      const user = userSnap && userSnap.exists() ? (userSnap.data() as UserDoc) : null;
+      const user: ChallengerProfile | null =
+        userSnap && userSnap.exists()
+          ? {
+              displayName: (userSnap.data() as UserDoc).displayName || 'A Friend',
+              photoURL: (userSnap.data() as UserDoc).photoURL || '',
+            }
+          : null;
       const game = gameSnap && gameSnap.exists() ? (gameSnap.data() as GameDoc) : null;
 
       return {

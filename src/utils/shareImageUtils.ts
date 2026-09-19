@@ -160,7 +160,7 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
   ctx.font = '600 16px system-ui, -apple-system, sans-serif';
   ctx.fillStyle = '#868e96';
   const subtitle = challengerName
-    ? `Challenge issued by ${challengerName}`
+    ? `Challenge against ${challengerName}`
     : 'English • Spanish • French Daily Puzzle';
   ctx.fillText(subtitle, 50, 102);
 
@@ -359,17 +359,16 @@ export const shareGameResult = async ({
       type: 'image/png',
     });
 
-    if (
-      typeof navigator !== 'undefined' &&
-      navigator.canShare &&
-      navigator.canShare({ files: [file] })
-    ) {
-      await navigator.share({
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      const shareData: ShareData = {
         title: 'Polyglot Wordle Challenge',
         text: `Can you beat my score of ${gameSession.score ?? 0} pts in Polyglot Wordle?`,
         url: challengeUrl,
-        files: [file],
-      });
+      };
+      if (navigator.canShare?.({ files: [file] })) {
+        shareData.files = [file];
+      }
+      await navigator.share(shareData);
       onSuccess?.();
       return;
     }

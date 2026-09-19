@@ -2,10 +2,11 @@ import { FC, useState } from 'react';
 import { IconSwords } from '@tabler/icons-react';
 import { Avatar, Badge, CloseButton, Group, Paper, Text } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
-import type { GameDoc, UserDoc } from '@/types/firestore';
+import type { ChallengerProfile } from '@/hooks/useChallenge';
+import type { GameDoc } from '@/types/firestore';
 
 interface ChallengeBannerProps {
-  challengerUser: UserDoc | null;
+  challengerUser: ChallengerProfile | null;
   challengerGame: GameDoc;
 }
 

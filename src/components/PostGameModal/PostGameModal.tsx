@@ -28,10 +28,11 @@ import {
 } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import { useAuth } from '@/context/AuthContext';
+import { ChallengerProfile } from '@/hooks/useChallenge';
 import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
-import { GameDoc, Language, UserDoc } from '@/types/firestore';
+import { GameDoc, Language } from '@/types/firestore';
 import { shareGameResult } from '@/utils/shareImageUtils';
 import { normalizeWord } from '@/utils/wordUtils';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
@@ -41,7 +42,7 @@ interface PostGameModalProps {
   onClose: () => void;
   gameSession: GameDoc;
   onPlayAgain?: () => void;
-  challengerUser?: UserDoc | null;
+  challengerUser?: ChallengerProfile | null;
   challengerGame?: GameDoc | null;
 }
 
@@ -177,6 +178,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
   const { words, guessHistory, isWin, score } = gameSession;
   const { currentUser } = useAuth();
   const [copied, setCopied] = useState(false);
+  const [shareError, setShareError] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
 
   const solvedCount = (['en', 'es', 'fr'] as Language[]).filter((l) =>
@@ -185,6 +187,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
 
   const handleShare = async () => {
     setIsSharing(true);
+    setShareError(false);
     try {
       await shareGameResult({
         gameSession,
@@ -195,6 +198,11 @@ export const PostGameModal: FC<PostGameModalProps> = ({
           setTimeout(() => setCopied(false), 3000);
         },
       });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to share game result:', err);
+      setShareError(true);
+      setTimeout(() => setShareError(false), 3000);
     } finally {
       setIsSharing(false);
     }
@@ -322,12 +330,20 @@ export const PostGameModal: FC<PostGameModalProps> = ({
           <Button
             size="xs"
             variant="filled"
-            color={copied ? 'teal' : 'blue'}
-            leftSection={copied ? <IconCheck size={14} /> : <IconShare size={14} />}
+            color={shareError ? 'red' : copied ? 'teal' : 'blue'}
+            leftSection={
+              shareError ? (
+                <IconMoodSad size={14} />
+              ) : copied ? (
+                <IconCheck size={14} />
+              ) : (
+                <IconShare size={14} />
+              )
+            }
             onClick={handleShare}
             loading={isSharing}
           >
-            {copied ? 'Link Copied!' : 'Share Challenge'}
+            {shareError ? 'Share Failed' : copied ? 'Link Copied!' : 'Share Challenge'}
           </Button>
           {onPlayAgain && (
             <Button

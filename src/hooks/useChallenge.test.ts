@@ -124,6 +124,46 @@ describe('useChallenge hook', () => {
     expect(result.current.isChallenge).toBe(true);
     expect(result.current.challengerId).toBe('challenger_456');
     expect(result.current.challengerUser?.displayName).toBe('Alice Champion');
+    expect(result.current.challengerUser?.photoURL).toBe('https://example.com/pic.jpg');
+    expect((result.current.challengerUser as any)?.email).toBeUndefined();
     expect(result.current.challengerGame?.score).toBe(380);
+  });
+
+  it('rejects query when game document fetch fails', async () => {
+    vi.mocked(reactRouterDom.useSearchParams).mockReturnValue([
+      new URLSearchParams('challenger=challenger_456'),
+      vi.fn(),
+    ]);
+    vi.mocked(authContext.useAuth).mockReturnValue({
+      currentUser: { uid: 'user_1' } as any,
+      loading: false,
+      signInWithGoogle: vi.fn(),
+      logout: vi.fn(),
+    });
+
+    vi.mocked(firestore.getDoc).mockImplementation(async (docRef: any) => {
+      if (docRef?.path?.includes('games')) {
+        throw new Error('Firestore read failure');
+      }
+      return {
+        exists: () => true,
+        data: () => ({ displayName: 'Alice' }),
+      } as any;
+    });
+
+    vi.mocked(firestore.doc).mockImplementation((_db: any, ...pathSegments: string[]) => {
+      return { path: pathSegments.join('/') } as any;
+    });
+
+    const { result } = renderHook(() => useChallenge('game_123'), {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.isChallenge).toBe(false);
+    expect(result.current.challengerGame).toBeNull();
   });
 });
