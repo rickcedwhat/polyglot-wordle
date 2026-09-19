@@ -120,68 +120,74 @@ export const useVocabulary = (targetUserId?: string) => {
     queryKey,
     queryFn: async (): Promise<UserVocabularyMap> => {
       if (effectiveUserId) {
-        const remote = await fetchUserVocabulary(effectiveUserId);
+        try {
+          const remote = await fetchUserVocabulary(effectiveUserId);
 
-        // If it's the current user's profile, migrate any anonymous guest records into Firestore atomically
-        if (currentUser?.uid === effectiveUserId) {
-          const anonymousLocal = getLocalVocabulary();
-          const langsToSync: Language[] = [];
+          // If it's the current user's profile, migrate any anonymous guest records into Firestore atomically
+          if (currentUser?.uid === effectiveUserId) {
+            const anonymousLocal = getLocalVocabulary();
+            const langsToSync: Language[] = [];
 
-          (['en', 'es', 'fr'] as Language[]).forEach((lang) => {
-            if (Object.keys(anonymousLocal[lang]).length > 0) {
-              langsToSync.push(lang);
-            }
-          });
-
-          if (langsToSync.length > 0) {
-            const db = getFirestore();
-            for (const lang of langsToSync) {
-              try {
-                const docRef = doc(db, 'users', effectiveUserId, 'vocabulary', lang);
-                await runTransaction(db, async (transaction) => {
-                  const snap = await transaction.get(docRef);
-                  const currentWords: Record<string, DiscoveredWordRecord> = snap.exists()
-                    ? sanitizeLanguageMap(snap.data()?.words)
-                    : { ...remote[lang] };
-
-                  for (const [key, guestRec] of Object.entries(anonymousLocal[lang])) {
-                    const existing = currentWords[key];
-                    if (existing) {
-                      currentWords[key] = {
-                        timesGuessed: existing.timesGuessed + guestRec.timesGuessed,
-                        firstSeen:
-                          new Date(guestRec.firstSeen) < new Date(existing.firstSeen)
-                            ? guestRec.firstSeen
-                            : existing.firstSeen,
-                        lastSeen:
-                          new Date(guestRec.lastSeen) > new Date(existing.lastSeen)
-                            ? guestRec.lastSeen
-                            : existing.lastSeen,
-                        isSolved: existing.isSolved || guestRec.isSolved,
-                      };
-                    } else {
-                      currentWords[key] = guestRec;
-                    }
-                  }
-
-                  transaction.set(
-                    docRef,
-                    { words: currentWords, totalCount: Object.keys(currentWords).length },
-                    { merge: true }
-                  );
-                  remote[lang] = currentWords;
-                });
-              } catch (err) {
-                console.error(`Failed to migrate anonymous vocabulary for ${lang}:`, err);
+            (['en', 'es', 'fr'] as Language[]).forEach((lang) => {
+              if (Object.keys(anonymousLocal[lang]).length > 0) {
+                langsToSync.push(lang);
               }
+            });
+
+            if (langsToSync.length > 0) {
+              const db = getFirestore();
+              for (const lang of langsToSync) {
+                try {
+                  const docRef = doc(db, 'users', effectiveUserId, 'vocabulary', lang);
+                  await runTransaction(db, async (transaction) => {
+                    const snap = await transaction.get(docRef);
+                    const currentWords: Record<string, DiscoveredWordRecord> = snap.exists()
+                      ? sanitizeLanguageMap(snap.data()?.words)
+                      : { ...remote[lang] };
+
+                    for (const [key, guestRec] of Object.entries(anonymousLocal[lang])) {
+                      const existing = currentWords[key];
+                      if (existing) {
+                        currentWords[key] = {
+                          timesGuessed: existing.timesGuessed + guestRec.timesGuessed,
+                          firstSeen:
+                            new Date(guestRec.firstSeen) < new Date(existing.firstSeen)
+                              ? guestRec.firstSeen
+                              : existing.firstSeen,
+                          lastSeen:
+                            new Date(guestRec.lastSeen) > new Date(existing.lastSeen)
+                              ? guestRec.lastSeen
+                              : existing.lastSeen,
+                          isSolved: existing.isSolved || guestRec.isSolved,
+                        };
+                      } else {
+                        currentWords[key] = guestRec;
+                      }
+                    }
+
+                    transaction.set(
+                      docRef,
+                      { words: currentWords, totalCount: Object.keys(currentWords).length },
+                      { merge: true }
+                    );
+                    remote[lang] = currentWords;
+                  });
+                } catch (err) {
+                  console.error(`Failed to migrate anonymous vocabulary for ${lang}:`, err);
+                }
+              }
+              clearAnonymousVocabulary();
             }
-            clearAnonymousVocabulary();
           }
+          return remote;
+        } catch (e) {
+          console.error('Failed to sync remote vocabulary, falling back to local storage:', e);
+          return getLocalVocabulary(effectiveUserId);
         }
-        return remote;
       }
       return getLocalVocabulary();
     },
+    throwOnError: false,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 

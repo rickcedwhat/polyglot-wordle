@@ -1,0 +1,81 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Users Collection ---
+    // Users can read anyone's public profile (for finding friends),
+    // but can only create and update their own document.
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth.uid == userId;
+      allow delete: if false; // Disallow deleting users from the client
+
+      match /friendships/{friendId} {
+        // Allow a user to READ a friends list, but only if the profile is not private.
+        allow read: if request.auth != null &&
+                       (request.auth.uid == userId ||
+                        get(/databases/$(database)/documents/users/$(userId)).data.isPrivate == false);
+
+        // The create rule is correct from before.
+        allow create: if
+          (request.auth.uid == userId && request.resource.data.direction == 'outgoing') ||
+          (request.auth.uid == friendId && request.resource.data.status == 'pending' && request.resource.data.direction == 'incoming');
+
+        // Allow a user to UPDATE or DELETE a document if...
+        allow update, delete: if
+          // 1. They are modifying a friendship in their OWN list.
+          request.auth.uid == userId ||
+          // 2. OR they are the friend being referenced in the OTHER user's list.
+          request.auth.uid == friendId;
+      }
+
+      // --- Vocabulary Collection ---
+      // Users can track their discovered words and view public profiles' vocabularies
+      match /vocabulary/{lang} {
+        allow read: if request.auth != null &&
+                       (request.auth.uid == userId ||
+                        get(/databases/$(database)/documents/users/$(userId)).data.isPrivate == false);
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // --- Games Collection ---
+    match /games/{gameDocId} {
+      // --- READ RULES ---
+      // Allow reading a game document if:
+      // 1. It belongs to the current user, OR
+      // 2. The user viewing it is authenticated and the owner's profile is not private.
+      allow get: if request.auth != null &&
+                    (request.auth.uid == gameDocId.split('_')[0] ||
+                     get(/databases/$(database)/documents/users/$(gameDocId.split('_')[0])).data.isPrivate == false);
+
+      // UPDATED: This rule now allows fetching another user's game history
+      // if their profile is not private.
+      allow list: if
+        // 1. A user can always query for their own games.
+        (request.auth != null && request.auth.uid == resource.data.userId) ||
+        // 2. A logged-in user can query for another user's games IF that user's profile is public.
+        (request.auth != null &&
+         get(/databases/$(database)/documents/users/$(resource.data.userId)).data.isPrivate == false);
+
+      // --- WRITE RULES ---
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow delete: if false;
+    }
+    
+    // --- Invites Collection ---
+    match /invites/{inviteId} {
+      // Anyone can read an invite to see the landing page.
+      allow read: if true;
+
+      // Only a logged-in user can create an invite for themselves.
+      allow create: if request.auth != null &&
+                       request.auth.uid == request.resource.data.challengerId;
+
+      // Only a logged-in user can update an invite (to claim it).
+      allow update: if request.auth != null;
+    }
+  }
+}

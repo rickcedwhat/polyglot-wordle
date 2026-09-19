@@ -16,17 +16,8 @@ import classes from './App.module.css';
 import './globals.css';
 
 const defaultErrorHandler = (error: unknown) => {
-  // `import.meta.env.DEV` is a boolean provided by Vite.
-  // This code block will only run in your development environment.
-  if (import.meta.env.DEV) {
-    console.error('Global Query Error:', error);
-  }
-
-  // Best Practice:
-  // - Return `false` in dev to prevent your UI from breaking on every error.
-  // - Return `true` in prod to allow Error Boundaries to catch the error and
-  //   show a user-friendly message instead of a broken app.
-  return !import.meta.env.DEV;
+  console.error('Query Error:', error);
+  return false;
 };
 
 const queryClient = new QueryClient({
