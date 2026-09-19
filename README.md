@@ -1,8 +1,15 @@
-# Mantine Vite template
+# Polyglot Wordle
+
+A multilingual Wordle-style puzzle game played across English, Spanish, and French simultaneously.
+
+**Live App**: [https://polyglot-wordle.web.app](https://polyglot-wordle.web.app)
 
 ## Features
 
-This template comes with the following features:
+- Simultaneous tri-language deduction (English 🇬🇧, Spanish 🇪🇸, French 🇫🇷).
+- Asynchronous head-to-head multiplayer challenges.
+- Automated dictionary difficulty ratings and in-game word definitions.
+- Mobile PWA and web app built with React, Mantine, Vite, and Firebase.
 
 - [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
 - [TypeScript](https://www.typescriptlang.org/)
