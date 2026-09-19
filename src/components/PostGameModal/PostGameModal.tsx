@@ -1,10 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import {
+  IconCheck,
   IconFlag,
   IconFlagFilled,
   IconHelpCircle,
   IconMoodSad,
   IconRefresh,
+  IconShare,
+  IconSwords,
   IconTrophy,
 } from '@tabler/icons-react';
 import {
@@ -17,16 +20,19 @@ import {
   Loader,
   Modal,
   Paper,
+  SimpleGrid,
   Stack,
   Text,
   ThemeIcon,
   Tooltip,
 } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
+import { useAuth } from '@/context/AuthContext';
 import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
-import { GameDoc, Language } from '@/types/firestore';
+import { GameDoc, Language, UserDoc } from '@/types/firestore';
+import { shareGameResult } from '@/utils/shareImageUtils';
 import { normalizeWord } from '@/utils/wordUtils';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 
@@ -35,6 +41,8 @@ interface PostGameModalProps {
   onClose: () => void;
   gameSession: GameDoc;
   onPlayAgain?: () => void;
+  challengerUser?: UserDoc | null;
+  challengerGame?: GameDoc | null;
 }
 
 const WordSummaryCard: FC<{
@@ -163,12 +171,40 @@ export const PostGameModal: FC<PostGameModalProps> = ({
   onClose,
   gameSession,
   onPlayAgain,
+  challengerUser,
+  challengerGame,
 }) => {
   const { words, guessHistory, isWin, score } = gameSession;
+  const { currentUser } = useAuth();
+  const [copied, setCopied] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
 
   const solvedCount = (['en', 'es', 'fr'] as Language[]).filter((l) =>
     guessHistory.map(normalizeWord).includes(normalizeWord(words[l]))
   ).length;
+
+  const handleShare = async () => {
+    setIsSharing(true);
+    try {
+      await shareGameResult({
+        gameSession,
+        currentUserId: currentUser?.uid,
+        challengerName: challengerUser?.displayName,
+        onFallbackCopied: () => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 3000);
+        },
+      });
+    } finally {
+      setIsSharing(false);
+    }
+  };
+
+  const myScore = score || 0;
+  const theirScore = challengerGame?.score ?? 0;
+  const hasChallenger = !!challengerGame;
+  const isChallengerWin = myScore > theirScore;
+  const isChallengerLoss = myScore < theirScore;
 
   return (
     <Modal
@@ -207,6 +243,65 @@ export const PostGameModal: FC<PostGameModalProps> = ({
           </Group>
         </Paper>
 
+        {/* Head-to-Head Showdown (if challenge mode) */}
+        {hasChallenger && (
+          <Paper
+            p="xs"
+            radius="md"
+            withBorder
+            bg="dark.8"
+            style={{
+              borderColor: isChallengerWin
+                ? 'var(--mantine-color-teal-6)'
+                : isChallengerLoss
+                  ? 'var(--mantine-color-red-6)'
+                  : 'var(--mantine-color-yellow-6)',
+            }}
+          >
+            <Group justify="space-between" align="center" mb={6}>
+              <Group gap={6}>
+                <IconSwords size={16} color="var(--mantine-color-yellow-4)" />
+                <Text size="xs" fw={700} c="dimmed">
+                  HEAD-TO-HEAD SHOWDOWN
+                </Text>
+              </Group>
+              <Badge
+                color={isChallengerWin ? 'teal' : isChallengerLoss ? 'red' : 'yellow'}
+                variant="light"
+                size="sm"
+              >
+                {isChallengerWin ? '🏆 You Won!' : isChallengerLoss ? '🥈 Defeated' : '🤝 Tied'}
+              </Badge>
+            </Group>
+
+            <SimpleGrid cols={2} spacing="xs">
+              <Paper p="xs" radius="sm" bg="dark.7" withBorder>
+                <Text size="xs" c="dimmed">
+                  You
+                </Text>
+                <Text size="sm" fw={800} c={isChallengerWin ? 'teal.4' : 'gray.1'}>
+                  {myScore} pts
+                </Text>
+                <Text size="xs" c="dimmed">
+                  {guessHistory.length}/{MAX_GUESSES} turns
+                </Text>
+              </Paper>
+
+              <Paper p="xs" radius="sm" bg="dark.7" withBorder>
+                <Text size="xs" c="dimmed">
+                  {challengerUser?.displayName || 'Challenger'}
+                </Text>
+                <Text size="sm" fw={800} c={isChallengerLoss ? 'teal.4' : 'gray.1'}>
+                  {theirScore} pts
+                </Text>
+                <Text size="xs" c="dimmed">
+                  {challengerGame.guessHistory.length}/{MAX_GUESSES} turns
+                </Text>
+              </Paper>
+            </SimpleGrid>
+          </Paper>
+        )}
+
         {/* Target Words & Definitions */}
         <Stack gap="xs">
           <Text size="xs" fw={700} c="dimmed">
@@ -224,11 +319,21 @@ export const PostGameModal: FC<PostGameModalProps> = ({
 
         {/* Action Controls */}
         <Group justify="flex-end" mt="xs" gap="xs">
+          <Button
+            size="xs"
+            variant="filled"
+            color={copied ? 'teal' : 'blue'}
+            leftSection={copied ? <IconCheck size={14} /> : <IconShare size={14} />}
+            onClick={handleShare}
+            loading={isSharing}
+          >
+            {copied ? 'Link Copied!' : 'Share Challenge'}
+          </Button>
           {onPlayAgain && (
             <Button
               size="xs"
-              variant="filled"
-              color="blue"
+              variant="light"
+              color="gray"
               leftSection={<IconRefresh size={14} />}
               onClick={() => {
                 onClose();
