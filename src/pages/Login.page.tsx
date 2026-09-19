@@ -9,15 +9,26 @@ export const LoginPage: FC = () => {
   const navigate = useNavigate();
   const location = useLocation(); // 2. Get the location object
 
-  // 3. Get the "from" path out of the state, with a fallback to the home page
-  const from = location.state?.from?.pathname || '/';
+  // 3. Get the "from" path out of the state (preserving query params), with a fallback to sessionStorage or '/'
+  const redirectTarget = location.state?.from
+    ? `${location.state.from.pathname}${location.state.from.search || ''}`
+    : sessionStorage.getItem('auth_redirect_from') || '/';
 
   useEffect(() => {
     if (currentUser) {
+      sessionStorage.removeItem('auth_redirect_from');
       // 4. Navigate to the original path instead of always to '/'
-      navigate(from, { replace: true });
+      navigate(redirectTarget, { replace: true });
     }
-  }, [currentUser, navigate, from]);
+  }, [currentUser, navigate, redirectTarget]);
+
+  const handleSignIn = async () => {
+    if (location.state?.from) {
+      const fullPath = `${location.state.from.pathname}${location.state.from.search || ''}`;
+      sessionStorage.setItem('auth_redirect_from', fullPath);
+    }
+    await signInWithGoogle();
+  };
 
   return (
     <Container size="xs" style={{ display: 'flex' }}>
@@ -27,7 +38,7 @@ export const LoginPage: FC = () => {
             <Title order={2} ta="center">
               Welcome to Polyglot Wordle!
             </Title>
-            <Button leftSection={<IconBrandGoogle />} onClick={signInWithGoogle} variant="outline">
+            <Button leftSection={<IconBrandGoogle />} onClick={handleSignIn} variant="outline">
               Sign in with Google
             </Button>
           </Stack>
