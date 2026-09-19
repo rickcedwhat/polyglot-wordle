@@ -210,10 +210,10 @@ export const ScenarioNewGame: Story = {
   ),
 };
 
-// --- Interactive Keyboard Typing Playground ---
+const DEFAULT_PLAYGROUND_SOLUTION = { en: 'apple', es: 'audio', fr: 'fruit' };
 
 const InteractiveKeyboardHarness = () => {
-  const solution = { en: 'apple', es: 'audio', fr: 'fruit' };
+  const solution = DEFAULT_PLAYGROUND_SOLUTION;
   const [guesses, setGuesses] = useState<string[]>(['crane', 'audio']);
   const [currentGuess, setCurrentGuess] = useState('');
   const [activeKey, setActiveKey] = useState<string | null>(null);

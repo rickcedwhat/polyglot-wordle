@@ -9,13 +9,20 @@ import { Box, MantineProvider, useMantineColorScheme } from '@mantine/core';
 import { theme } from '../src/theme';
 
 const channel = addons.getChannel();
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
-});
+function StoryQueryClientProvider({ children }: { children: React.ReactNode }) {
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: false,
+          },
+        },
+      })
+  );
+
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+}
 
 export const parameters = {
   layout: 'fullscreen',
@@ -54,11 +61,11 @@ function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export const decorators = [
-  (renderStory: any) => (
-    <QueryClientProvider client={queryClient}>
+  (renderStory: any, context: { id: string }) => (
+    <StoryQueryClientProvider key={context.id}>
       <MantineProvider theme={theme} defaultColorScheme="dark">
         <ColorSchemeWrapper>{renderStory()}</ColorSchemeWrapper>
       </MantineProvider>
-    </QueryClientProvider>
+    </StoryQueryClientProvider>
   ),
 ];

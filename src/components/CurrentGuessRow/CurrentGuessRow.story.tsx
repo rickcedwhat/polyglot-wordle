@@ -149,6 +149,7 @@ const InteractiveGuessRowHarness = () => {
   const handleClear = () => {
     setGuess(Array(5).fill(''));
     setCursorIndex(0);
+    setIsInvalid(false);
   };
 
   useEffect(() => {

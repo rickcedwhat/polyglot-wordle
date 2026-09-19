@@ -31,16 +31,19 @@
 .tile[data-status='correct'] {
   background-color: #40c057; /* Mantine green[6] */
   border-color: #40c057;
+  color: var(--mantine-color-white);
 }
 
 .tile[data-status='present'] {
   background-color: #fcc419; /* Mantine yellow[5] */
   border-color: #fcc419;
+  color: var(--mantine-color-white);
 }
 
 .tile[data-status='absent'] {
   background-color: #495057; /* Mantine gray[6] */
   border-color: #495057;
+  color: var(--mantine-color-white);
 }
 
 .tile.empty[data-status='absent'] {
