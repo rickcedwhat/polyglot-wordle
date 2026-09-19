@@ -41,9 +41,9 @@ function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
 export const decorators = [
   (renderStory: any) => (
     <QueryClientProvider client={queryClient}>
-      <ColorSchemeWrapper>
-        <MantineProvider theme={theme}>{renderStory()}</MantineProvider>
-      </ColorSchemeWrapper>
+      <MantineProvider theme={theme}>
+        <ColorSchemeWrapper>{renderStory()}</ColorSchemeWrapper>
+      </MantineProvider>
     </QueryClientProvider>
   ),
 ];
