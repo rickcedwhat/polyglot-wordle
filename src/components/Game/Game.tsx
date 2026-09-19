@@ -5,12 +5,14 @@ import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';
 import { useSidebar } from '@/context/SidebarContext';
+import { useChallenge } from '@/hooks/useChallenge';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc, Language } from '@/types/firestore.d.ts';
 import { normalizeWord } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
+import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
 import { PostGameModal } from '../PostGameModal/PostGameModal';
 import { Score } from '../Score/Score';
@@ -31,6 +33,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const { recordGuess } = useVocabulary();
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const { data: wordPools } = useWordPools(difficulties);
+  const { challengerUser, challengerGame, isChallenge } = useChallenge(gameSession.gameId);
   const [guesses, setGuesses] = useState<string[]>(guessHistory);
   const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
   const [cursorIndex, setCursorIndex] = useState(0);
@@ -263,11 +266,30 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         height: '100%',
       }}
     >
-      <PostGameModal opened={gameOverOpened} onClose={closeGameOver} gameSession={gameSession} />
+      <PostGameModal
+        opened={gameOverOpened}
+        onClose={closeGameOver}
+        gameSession={gameSession}
+        challengerUser={challengerUser}
+        challengerGame={challengerGame}
+      />
 
-      <Center style={{ overflow: 'visible' }}>
-        <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />
-      </Center>
+      <Box
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+          overflow: 'visible',
+        }}
+      >
+        {isChallenge && challengerGame && (
+          <ChallengeBanner challengerUser={challengerUser} challengerGame={challengerGame} />
+        )}
+        <Center style={{ overflow: 'visible', width: '100%' }}>
+          <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />
+        </Center>
+      </Box>
       <CurrentGuessRow
         guess={currentGuess}
         cursorIndex={cursorIndex}
