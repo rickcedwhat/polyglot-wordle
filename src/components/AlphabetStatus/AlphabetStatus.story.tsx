@@ -47,6 +47,14 @@ const meta: Meta<AlphabetStoryControls> = {
       description: 'Simulate pressing or focusing a specific key (e.g. "a", "enter", "del").',
     },
   },
+  args: {
+    scenario: 'midGame',
+    englishWord: 'apple',
+    spanishWord: 'audio',
+    frenchWord: 'fruit',
+    guesses: 'adopt, crane, pilot',
+    activeKey: '',
+  },
 };
 
 export default meta;
@@ -78,13 +86,13 @@ const PRESET_SCENARIOS: Record<string, { en: string; es: string; fr: string; gue
 
 // Component that drives the keyboard from Storybook controls
 const ControlsDrivenKeyboard = ({
-  scenario,
-  englishWord,
-  spanishWord,
-  frenchWord,
-  guesses,
-  activeKey,
-}: AlphabetStoryControls) => {
+  scenario = 'midGame',
+  englishWord = 'apple',
+  spanishWord = 'audio',
+  frenchWord = 'fruit',
+  guesses = 'adopt, crane, pilot',
+  activeKey = '',
+}: Partial<AlphabetStoryControls>) => {
   const { updateLetterStatuses } = useLetterStatus();
 
   useEffect(() => {

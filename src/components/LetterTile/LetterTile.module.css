@@ -13,7 +13,7 @@
   border: 2px solid #495057;
   font-weight: 700;
   text-transform: uppercase;
-  color: white;
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
   background-color: transparent;
   transition:
     background-color 0.3s ease,

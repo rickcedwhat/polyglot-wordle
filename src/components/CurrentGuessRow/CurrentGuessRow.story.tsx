@@ -46,13 +46,18 @@ const meta: Meta<StoryArgs> = {
       description: 'Triggers the shake error animation when word is not in dictionary or invalid.',
     },
   },
+  args: {
+    word: 'HELLO',
+    cursorIndex: 5,
+    isInvalid: false,
+  },
 };
 
 export default meta;
 type Story = StoryObj<StoryArgs>;
 
-const parseWordToGuess = (word: string = ''): string[] => {
-  const letters = word
+const parseWordToGuess = (word: string = 'HELLO'): string[] => {
+  const letters = (word || 'HELLO')
     .toLowerCase()
     .replace(/[^a-z]/g, '')
     .slice(0, 5)
@@ -62,7 +67,7 @@ const parseWordToGuess = (word: string = ''): string[] => {
 
 export const ControlsPlayground: Story = {
   name: 'Controls Playground',
-  render: ({ word, cursorIndex, isInvalid }) => {
+  render: ({ word = 'HELLO', cursorIndex = 5, isInvalid = false }) => {
     const guess = parseWordToGuess(word);
     return (
       <CurrentGuessRow
