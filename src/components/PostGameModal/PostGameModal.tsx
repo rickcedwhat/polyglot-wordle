@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import {
   IconCheck,
   IconFlag,
@@ -34,7 +34,7 @@ import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { GameDoc, Language } from '@/types/firestore';
 import { shareGameResult } from '@/utils/shareImageUtils';
-import { normalizeWord } from '@/utils/wordUtils';
+import { calculateScoreFromHistory, normalizeWord } from '@/utils/wordUtils';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 
 interface PostGameModalProps {
@@ -185,12 +185,23 @@ export const PostGameModal: FC<PostGameModalProps> = ({
     guessHistory.map(normalizeWord).includes(normalizeWord(words[l]))
   ).length;
 
+  const effectiveIsWin = isWin ?? solvedCount === 3;
+  const calculatedScore = useMemo(
+    () => calculateScoreFromHistory(guessHistory, words),
+    [guessHistory, words]
+  );
+  const effectiveScore = score ?? calculatedScore;
+
   const handleShare = async () => {
     setIsSharing(true);
     setShareError(false);
     try {
       await shareGameResult({
-        gameSession,
+        gameSession: {
+          ...gameSession,
+          score: effectiveScore,
+          isWin: effectiveIsWin,
+        },
         currentUserId: currentUser?.uid,
         challengerName: challengerUser?.displayName,
         onFallbackCopied: () => {
@@ -208,7 +219,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
     }
   };
 
-  const myScore = score || 0;
+  const myScore = effectiveScore;
   const theirScore = challengerGame?.score ?? 0;
   const hasChallenger = !!challengerGame;
   const isChallengerWin = myScore > theirScore;
@@ -222,31 +233,36 @@ export const PostGameModal: FC<PostGameModalProps> = ({
       size="md"
       title={
         <Group gap="xs">
-          <ThemeIcon color={isWin ? 'yellow' : 'gray'} variant="light" radius="xl" size="sm">
-            {isWin ? <IconTrophy size={14} /> : <IconMoodSad size={14} />}
+          <ThemeIcon
+            color={effectiveIsWin ? 'yellow' : 'gray'}
+            variant="light"
+            radius="xl"
+            size="sm"
+          >
+            {effectiveIsWin ? <IconTrophy size={14} /> : <IconMoodSad size={14} />}
           </ThemeIcon>
           <Text fw={700} size="md">
-            {isWin ? 'Match Summary & Results' : 'Game Over — Solutions Revealed'}
+            {effectiveIsWin ? 'Match Summary & Results' : 'Game Over — Solutions Revealed'}
           </Text>
         </Group>
       }
     >
       <Stack gap="md">
         {/* Banner */}
-        <Paper p="xs" radius="md" bg={isWin ? 'teal.9' : 'dark.7'} withBorder>
+        <Paper p="xs" radius="md" bg={effectiveIsWin ? 'teal.9' : 'dark.7'} withBorder>
           <Group justify="space-between" align="center">
             <Box>
-              <Text size="sm" fw={700} c={isWin ? 'teal.1' : 'gray.2'}>
-                {isWin
+              <Text size="sm" fw={700} c={effectiveIsWin ? 'teal.1' : 'gray.2'}>
+                {effectiveIsWin
                   ? `🎉 Victory! All 3 Solved in ${guessHistory.length}/${MAX_GUESSES} turns`
                   : `❌ ${solvedCount}/3 Languages Solved in ${guessHistory.length}/${MAX_GUESSES} turns`}
               </Text>
-              <Text size="xs" c={isWin ? 'teal.1' : 'gray.4'} fw={600} opacity={0.9}>
-                Final Score: {score || 0} pts
+              <Text size="xs" c={effectiveIsWin ? 'teal.1' : 'gray.4'} fw={600} opacity={0.9}>
+                Final Score: {effectiveScore} pts
               </Text>
             </Box>
-            <Badge color={isWin ? 'teal' : 'red'} size="lg">
-              {score || 0} PTS
+            <Badge color={effectiveIsWin ? 'teal' : 'red'} size="lg">
+              {effectiveScore} PTS
             </Badge>
           </Group>
         </Paper>

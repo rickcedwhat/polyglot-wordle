@@ -7,6 +7,7 @@ import { Leaderboard } from '@/components/Leaderboard/Leaderboard';
 import { PostGameModal } from '@/components/PostGameModal/PostGameModal';
 import { useScore } from '@/context/ScoreContext';
 import { useSidebar } from '@/context/SidebarContext';
+import { useChallenge } from '@/hooks/useChallenge';
 import type { GameDoc } from '@/types/firestore';
 import { Score } from '../Score/Score';
 
@@ -21,6 +22,7 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
   const [focusedGame, setFocusedGame] = useState<GameDoc>(gameSession);
   const { recalculateScore } = useScore();
   const { setSidebarContent } = useSidebar();
+  const { challengerUser, challengerGame } = useChallenge(gameSession.gameId);
 
   useEffect(() => {
     setFocusedGame(gameSession);
@@ -44,6 +46,8 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
         onClose={closeModal}
         gameSession={focusedGame}
         onPlayAgain={onPlayAgain}
+        challengerUser={challengerUser}
+        challengerGame={challengerGame}
       />
 
       <Group
