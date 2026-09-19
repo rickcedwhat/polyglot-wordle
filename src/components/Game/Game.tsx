@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, Center, Loader } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
@@ -40,6 +40,11 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const [isInvalidGuess, setIsInvalidGuess] = useState(false);
   const { setSidebarContent } = useSidebar();
 
+  const currentScore = useMemo(
+    () => recalculateScore(guesses, solution),
+    [guesses, solution, recalculateScore]
+  );
+
   useEffect(() => {
     setSidebarContent(<Score />);
     return () => setSidebarContent(null);
@@ -64,6 +69,18 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     return 'playing';
   };
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>(getInitialGameStatus());
+
+  const activeGameSession: GameDoc = useMemo(
+    () => ({
+      ...gameSession,
+      guessHistory: guesses,
+      score: gameSession.score ?? currentScore,
+      isWin:
+        gameStatus === 'won' ? true : gameStatus === 'lost' ? false : (gameSession.isWin ?? false),
+      isLiveGame: gameStatus === 'playing',
+    }),
+    [gameSession, guesses, currentScore, gameStatus]
+  );
 
   const handleTileClick = (index: number) => {
     setCursorIndex(Math.max(0, Math.min(4, index)));
@@ -145,9 +162,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
           const finalScore = recalculateScore(newGuesses, solution);
 
-          const enSolved = newGuesses.includes(normalizeWord(solution.en));
-          const esSolved = newGuesses.includes(normalizeWord(solution.es));
-          const frSolved = newGuesses.includes(normalizeWord(solution.fr));
+          const normGuesses = newGuesses.map(normalizeWord);
+          const enSolved = normGuesses.includes(normalizeWord(solution.en));
+          const esSolved = normGuesses.includes(normalizeWord(solution.es));
+          const frSolved = normGuesses.includes(normalizeWord(solution.fr));
           const allSolutionsFound = enSolved && esSolved && frSolved;
 
           if (allSolutionsFound) {
@@ -269,7 +287,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       <PostGameModal
         opened={gameOverOpened}
         onClose={closeGameOver}
-        gameSession={gameSession}
+        gameSession={activeGameSession}
         challengerUser={challengerUser}
         challengerGame={challengerGame}
       />
