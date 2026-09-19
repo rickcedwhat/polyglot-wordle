@@ -19,7 +19,6 @@
     "enrich:dict": "node scripts/enrichDefinitions.mjs",
     "audit:words": "node scripts/auditPuzzleWords.mjs",
     "test": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
-    "tunnel": "lt --port 3333 --subdomain pg-wordle",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"
   },
@@ -64,7 +63,6 @@
     "eslint-plugin-react": "^7.37.5",
     "identity-obj-proxy": "^3.0.0",
     "jsdom": "^26.1.0",
-    "localtunnel": "^2.0.2",
     "postcss": "^8.5.5",
     "postcss-preset-mantine": "1.17.0",
     "postcss-simple-vars": "^7.0.1",
