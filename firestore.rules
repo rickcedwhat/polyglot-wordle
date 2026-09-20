@@ -77,5 +77,20 @@ service cloud.firestore {
       // Only a logged-in user can update an invite (to claim it).
       allow update: if request.auth != null;
     }
+
+    // --- Challenges Collection ---
+    // 1v1 duel records for share links (and future in-app friend invites).
+    match /challenges/{challengeId} {
+      allow read: if request.auth != null &&
+                     request.auth.uid in resource.data.participantIds;
+
+      allow create: if request.auth != null &&
+                       request.auth.uid in request.resource.data.participantIds;
+
+      allow update: if request.auth != null &&
+                       request.auth.uid in resource.data.participantIds;
+
+      allow delete: if false;
+    }
   }
 }

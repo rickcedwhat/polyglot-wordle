@@ -3,6 +3,7 @@ import { ProtectedRoute } from './components/ProctedRoute/ProtectedRoute';
 import { GenericLayout } from './layouts/GenericLayout';
 import { SidebarLayout } from './layouts/SidebarLayout'; // Import the new layout
 
+import { ChallengesPage } from './pages/Challenges.page';
 import { DictionariesPage } from './pages/Dictionaries.page';
 import { GamePage } from './pages/Game.page';
 import { HomePage } from './pages/Home.page';
@@ -44,6 +45,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <GamePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/challenges',
+        element: (
+          <ProtectedRoute>
+            <ChallengesPage />
           </ProtectedRoute>
         ),
       },
