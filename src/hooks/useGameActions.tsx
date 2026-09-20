@@ -28,7 +28,7 @@ export const useGameActions = () => {
     if (!currentUser) {
       console.error('Cannot create a new game without a logged-in user.');
       // Optional: show a notification to the user
-      return;
+      return false;
     }
 
     try {
@@ -38,7 +38,7 @@ export const useGameActions = () => {
 
       if (!prefs) {
         console.error('User difficulty preferences not found.');
-        return;
+        return false;
       }
 
       // Query for an existing empty game that matches the user's current preferences
@@ -78,8 +78,10 @@ export const useGameActions = () => {
         gameId = newGameId;
       }
       navigate(`/game/${gameId}`);
+      return true;
     } catch (error) {
       console.error('Failed to create new game:', error);
+      return false;
     }
   };
 

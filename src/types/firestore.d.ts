@@ -103,13 +103,20 @@ export interface GameDoc {
 /**
  * A document in the top-level 'challenges' collection.
  * Manages a match between two players for a specific gameId.
+ *
+ * Share-link challenges are created when the opponent submits their first guess.
+ * Future in-app friend invites can use source: 'friend_invite' with opponent
+ * rsvp: 'pending' before play starts.
  */
 export interface ChallengeDoc {
   gameId: string;
   createdAt: Timestamp;
-  createdBy: string; // The UID of the user who created the challenge
+  createdBy: string; // The UID of the user who created the challenge (challenger)
+  /** How the challenge was initiated. 'share' today; 'friend_invite' reserved for in-app. */
+  source: 'share' | 'friend_invite';
   type: 'direct' | 'open';
   maxPlayers: number | null; // The limit for 'open' challenges
+  status: 'pending' | 'active' | 'completed';
   participants: {
     [userId: string]: {
       displayName: string;
@@ -117,6 +124,8 @@ export interface ChallengeDoc {
       score: number | null;
       rsvp: 'pending' | 'accepted' | 'declined' | null;
       completedAt: Timestamp | null;
+      /** Set when this user has seen the final result (clears inbox badge). */
+      resultSeenAt?: Timestamp | null;
     };
   };
   participantIds: string[];

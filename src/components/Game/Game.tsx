@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Box, Center, Loader } from '@mantine/core';
+import { Box, Center, Loader, Notification } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { MAX_GUESSES } from '@/config';
+import { useAuth } from '@/context/AuthContext';
 import { useScore } from '@/context/ScoreContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useChallenge } from '@/hooks/useChallenge';
@@ -39,6 +40,36 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isInvalidGuess, setIsInvalidGuess] = useState(false);
   const { setSidebarContent } = useSidebar();
+  const { currentUser } = useAuth();
+  const [rematchNotice, setRematchNotice] = useState<string | null>(null);
+
+  // Rematch from Challenges inbox: copy share link once the new game exists
+  useEffect(() => {
+    const raw = sessionStorage.getItem('polyglot_pending_rematch');
+    if (!raw || !currentUser || !gameSession.gameId) {
+      return;
+    }
+    try {
+      const pending = JSON.parse(raw) as { opponentName?: string };
+      const url = `${window.location.origin}/game/${gameSession.gameId}?challenger=${currentUser.uid}`;
+      navigator.clipboard.writeText(url).then(
+        () => {
+          setRematchNotice(
+            `Rematch link copied — send to ${pending.opponentName || 'your friend'}`
+          );
+          sessionStorage.removeItem('polyglot_pending_rematch');
+          window.setTimeout(() => setRematchNotice(null), 6000);
+        },
+        () => {
+          setRematchNotice('Could not copy the rematch link. Please try sharing it manually.');
+          sessionStorage.removeItem('polyglot_pending_rematch');
+          window.setTimeout(() => setRematchNotice(null), 6000);
+        }
+      );
+    } catch {
+      sessionStorage.removeItem('polyglot_pending_rematch');
+    }
+  }, [currentUser, gameSession.gameId]);
 
   const currentScore = useMemo(
     () => recalculateScore(guesses, solution),
@@ -303,6 +334,18 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       >
         {isChallenge && challengerGame && (
           <ChallengeBanner challengerUser={challengerUser} challengerGame={challengerGame} />
+        )}
+        {rematchNotice && (
+          <Notification
+            color="blue"
+            mb="sm"
+            maw={420}
+            withCloseButton
+            onClose={() => setRematchNotice(null)}
+            title="Rematch ready"
+          >
+            {rematchNotice}
+          </Notification>
         )}
         <Center style={{ overflow: 'visible', width: '100%' }}>
           <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />
