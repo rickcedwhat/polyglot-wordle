@@ -231,8 +231,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
       const matchingWordKey = words.find((word) => normalizeWord(word) === normGuess);
       const languageMatch = !!matchingWordKey;
       const dictEntry =
-        dictionary?.[normGuess] ||
-        (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
+        dictionary?.[normGuess] || (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
       const displayGuess =
         dictEntry?.display ||
         (matchingWordKey && dictionary?.[matchingWordKey]?.display) ||
@@ -254,11 +253,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     return (
       <Box h="100%" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         {flagsAbove && (
-          <CandidateFlags
-            candidateLanguages={candidateLanguages}
-            flags={flags}
-            placement="above"
-          />
+          <CandidateFlags candidateLanguages={candidateLanguages} flags={flags} placement="above" />
         )}
         <Stack gap="xs" style={{ width: '100%' }} mx="auto">
           {relevantGuesses.map((guess, rowIndex) => {
