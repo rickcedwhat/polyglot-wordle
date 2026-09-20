@@ -52,11 +52,20 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     try {
       const pending = JSON.parse(raw) as { opponentName?: string };
       const url = `${window.location.origin}/game/${gameSession.gameId}?challenger=${currentUser.uid}`;
-      navigator.clipboard.writeText(url).then(() => {
-        setRematchNotice(`Rematch link copied — send to ${pending.opponentName || 'your friend'}`);
-        sessionStorage.removeItem('polyglot_pending_rematch');
-        window.setTimeout(() => setRematchNotice(null), 6000);
-      });
+      navigator.clipboard.writeText(url).then(
+        () => {
+          setRematchNotice(
+            `Rematch link copied — send to ${pending.opponentName || 'your friend'}`
+          );
+          sessionStorage.removeItem('polyglot_pending_rematch');
+          window.setTimeout(() => setRematchNotice(null), 6000);
+        },
+        () => {
+          setRematchNotice('Could not copy the rematch link. Please try sharing it manually.');
+          sessionStorage.removeItem('polyglot_pending_rematch');
+          window.setTimeout(() => setRematchNotice(null), 6000);
+        }
+      );
     } catch {
       sessionStorage.removeItem('polyglot_pending_rematch');
     }

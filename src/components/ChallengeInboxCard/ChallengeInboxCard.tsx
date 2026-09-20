@@ -68,9 +68,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
     }
     setRematchBusy(true);
     try {
-      // Start a fresh game as the challenger, then copy a share link for the opponent.
-      await createNewGame();
-      // createNewGame navigates away; stash rematch target for the game page to copy link.
+      // Stash before navigate so the destination Game mount can copy the link.
       sessionStorage.setItem(
         'polyglot_pending_rematch',
         JSON.stringify({
@@ -78,6 +76,10 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           opponentName: other?.displayName || 'Friend',
         })
       );
+      const gameStarted = await createNewGame();
+      if (!gameStarted) {
+        sessionStorage.removeItem('polyglot_pending_rematch');
+      }
     } finally {
       setRematchBusy(false);
     }

@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   IconAdjustmentsHorizontal,
   IconFlag,
@@ -24,6 +24,11 @@ import { openSandboxDrawer } from '@/hooks/useSandboxDrawer';
 import { BlurButton as Button } from '../BlurButton/BlurButton';
 import classes from './Sidebar.module.css';
 
+interface ChallengeToast {
+  challengeId: string;
+  message: string;
+}
+
 export const Sidebar: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,13 +40,31 @@ export const Sidebar: FC = () => {
   const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
     useDisclosure(false);
   const [flagsModalOpened, { open: openFlagsModal, close: closeFlagsModal }] = useDisclosure(false);
-  const [toast, setToast] = useState<string | null>(null);
+  const [toast, setToast] = useState<ChallengeToast | null>(null);
+  const toastQueueRef = useRef<ChallengeToast[]>([]);
 
-  const handleToast = useCallback((item: { challengeId: string; message: string }) => {
-    setToast(item.message);
-    window.setTimeout(() => setToast(null), 6000);
+  const handleToast = useCallback((item: ChallengeToast) => {
+    setToast((currentToast) => {
+      if (currentToast) {
+        toastQueueRef.current.push(item);
+        return currentToast;
+      }
+      return item;
+    });
   }, []);
   useChallengeResultToasts(handleToast);
+
+  useEffect(() => {
+    if (!toast) {
+      return undefined;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setToast(toastQueueRef.current.shift() ?? null);
+    }, 6000);
+
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
 
   const handleNewGameClick = () => {
     if (preferencesNotSet) {
@@ -157,14 +180,14 @@ export const Sidebar: FC = () => {
               withBorder
               maw={360}
               onClick={() => {
-                setToast(null);
+                setToast(toastQueueRef.current.shift() ?? null);
                 navigate('/challenges');
                 closeSidebar();
               }}
             >
               <Group gap="xs" wrap="nowrap">
                 <IconSwords size={16} />
-                <Text size="sm">{toast}</Text>
+                <Text size="sm">{toast?.message}</Text>
               </Group>
             </Paper>
           )}

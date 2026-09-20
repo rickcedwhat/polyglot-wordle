@@ -2,6 +2,7 @@ import {
   doc,
   getDoc,
   getFirestore,
+  runTransaction,
   serverTimestamp,
   setDoc,
   Timestamp,
@@ -141,46 +142,43 @@ export const recordChallengeGameCompletion = async (args: {
 const applyCompletion = async (challengeId: string, userId: string, score: number) => {
   const db = getFirestore();
   const challengeRef = doc(db, 'challenges', challengeId);
-  const snap = await getDoc(challengeRef);
-  if (!snap.exists()) {
-    return;
-  }
+  await runTransaction(db, async (transaction) => {
+    const snap = await transaction.get(challengeRef);
+    if (!snap.exists()) {
+      return;
+    }
 
-  const data = snap.data() as ChallengeDoc;
-  if (!data.participantIds.includes(userId)) {
-    return;
-  }
+    const data = snap.data() as ChallengeDoc;
+    if (!data.participantIds.includes(userId) || !data.participants[userId]) {
+      return;
+    }
 
-  const participants = {
-    ...data.participants,
-    [userId]: {
-      ...data.participants[userId],
-      score,
-      completedAt: serverTimestamp() as Timestamp,
-      // Finisher has seen their own result; clear for the other player
-      resultSeenAt: serverTimestamp() as Timestamp,
-    },
-  };
-
-  // Mark the other participant's result as unseen so they get a badge/toast
-  data.participantIds.forEach((id) => {
-    if (id !== userId && participants[id]) {
-      participants[id] = {
-        ...participants[id],
+    const completedAt = serverTimestamp() as Timestamp;
+    const participants = {
+      ...data.participants,
+      [userId]: {
+        ...data.participants[userId],
+        score,
+        completedAt,
         resultSeenAt: null,
+      },
+    };
+    const bothDone = data.participantIds.every(
+      (id) => participants[id]?.score !== null && participants[id]?.score !== undefined
+    );
+
+    if (bothDone) {
+      participants[userId] = {
+        ...participants[userId],
+        resultSeenAt: completedAt,
       };
     }
-  });
 
-  const winnerId = computeWinner(participants, data.participantIds);
-  const bothDone = data.participantIds.every(
-    (id) => participants[id]?.score !== null && participants[id]?.score !== undefined
-  );
-
-  await updateDoc(challengeRef, {
-    participants,
-    winnerId,
-    status: bothDone ? 'completed' : data.status,
+    transaction.update(challengeRef, {
+      participants,
+      winnerId: computeWinner(participants, data.participantIds),
+      status: bothDone ? 'completed' : data.status,
+    });
   });
 };
 

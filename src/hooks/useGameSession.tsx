@@ -116,22 +116,24 @@ export const useGameSession = () => {
   // --- Mutations ---
   const db = getFirestore(); // Get db instance for mutations
 
+  type GuessMutationVariables = {
+    guess: string;
+  };
+
   const updateGuessHistoryMutation = useMutation({
-    mutationFn: async (guess: string) => {
+    mutationFn: async ({ guess }: GuessMutationVariables) => {
       if (!userId || !gameId) {
         throw new Error('Cannot update game without IDs.');
       }
       const gameDocRef = doc(db, 'games', `${userId}_${gameId}`);
 
-      const previousGameSession = queryClient.getQueryData<GameDoc>(queryKey);
-      const isFirstGuess = (previousGameSession?.guessHistory.length ?? 0) === 0;
-
       await updateDoc(gameDocRef, {
         guessHistory: arrayUnion(guess),
       });
 
-      // Share challenges: create the duel record when the opponent submits guess #1
-      if (isFirstGuess && activeChallengerId && user) {
+      // Share challenges: create (or recover) the duel record while playing a challenge link.
+      // Idempotent — retries on later guesses if the first-guess create failed transiently.
+      if (activeChallengerId && user) {
         const { ensureShareChallengeOnFirstGuess } = await import('@/utils/challengeUtils');
         try {
           await ensureShareChallengeOnFirstGuess({
@@ -146,12 +148,12 @@ export const useGameSession = () => {
           queryClient.invalidateQueries({ queryKey: ['challenges', userId] });
         } catch (err) {
           // eslint-disable-next-line no-console
-          console.warn('Failed to record share challenge on first guess:', err);
+          console.warn('Failed to record share challenge:', err);
         }
       }
     },
     // This logic runs BEFORE the mutation
-    onMutate: async (newGuess: string) => {
+    onMutate: async (variables: GuessMutationVariables) => {
       // 1. Cancel any ongoing refetches so they don't overwrite our optimistic update
       await queryClient.cancelQueries({ queryKey });
 
@@ -162,7 +164,7 @@ export const useGameSession = () => {
       if (previousGameSession) {
         queryClient.setQueryData<GameDoc>(queryKey, {
           ...previousGameSession,
-          guessHistory: [...previousGameSession.guessHistory, newGuess],
+          guessHistory: [...previousGameSession.guessHistory, variables.guess],
         });
       }
 
@@ -317,7 +319,7 @@ export const useGameSession = () => {
 
   return {
     ...gameQuery,
-    updateGuessHistory: updateGuessHistoryMutation.mutateAsync,
+    updateGuessHistory: (guess: string) => updateGuessHistoryMutation.mutateAsync({ guess }),
     endGame: endGameMutation.mutateAsync,
   };
 };

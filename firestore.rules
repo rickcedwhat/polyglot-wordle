@@ -81,14 +81,161 @@ service cloud.firestore {
     // --- Challenges Collection ---
     // 1v1 duel records for share links (and future in-app friend invites).
     match /challenges/{challengeId} {
-      allow read: if request.auth != null &&
-                     request.auth.uid in resource.data.participantIds;
+      function isParticipant() {
+        return request.auth != null && request.auth.uid in resource.data.participantIds;
+      }
 
-      allow create: if request.auth != null &&
-                       request.auth.uid in request.resource.data.participantIds;
+      function hasValidParticipants(data) {
+        return data.participantIds is list &&
+               data.participantIds.size() == 2 &&
+               data.participantIds[0] != data.participantIds[1] &&
+               data.participants is map &&
+               data.participants.keys().hasOnly(data.participantIds) &&
+               data.participants.keys().hasAll(data.participantIds);
+      }
 
-      allow update: if request.auth != null &&
-                       request.auth.uid in resource.data.participantIds;
+      function hasValidChallengeShape(data) {
+        return data.keys().hasAll([
+                 'gameId', 'createdAt', 'createdBy', 'source', 'type', 'maxPlayers',
+                 'status', 'participants', 'participantIds', 'winnerId'
+               ]) &&
+               data.keys().hasOnly([
+                 'gameId', 'createdAt', 'createdBy', 'source', 'type', 'maxPlayers',
+                 'status', 'participants', 'participantIds', 'winnerId'
+               ]);
+      }
+
+      function hasValidParticipantShape(participant) {
+        return participant.keys().hasAll([
+                 'displayName', 'photoURL', 'score', 'rsvp', 'completedAt', 'resultSeenAt'
+               ]) &&
+               participant.keys().hasOnly([
+                 'displayName', 'photoURL', 'score', 'rsvp', 'completedAt', 'resultSeenAt'
+               ]);
+      }
+
+      function bothPlayersFinished(data) {
+        return data.participants[data.participantIds[0]].score is number &&
+               data.participants[data.participantIds[1]].score is number;
+      }
+
+      function hasValidWinner(data) {
+        let firstId = data.participantIds[0];
+        let secondId = data.participantIds[1];
+        let firstScore = data.participants[firstId].score;
+        let secondScore = data.participants[secondId].score;
+        return (firstScore == secondScore && data.winnerId == 'tie') ||
+               (firstScore > secondScore && data.winnerId == firstId) ||
+               (secondScore > firstScore && data.winnerId == secondId);
+      }
+
+      function hasValidResultState() {
+        return bothPlayersFinished(request.resource.data)
+          ? request.resource.data.status == 'completed' &&
+            hasValidWinner(request.resource.data)
+          : request.resource.data.status != 'completed' &&
+            request.resource.data.winnerId == resource.data.winnerId;
+      }
+
+      function hasValidStatusTransition() {
+        return request.resource.data.status == resource.data.status ||
+               (resource.data.status == 'pending' &&
+                request.resource.data.status == 'active' &&
+                request.resource.data.participants[request.auth.uid].rsvp == 'accepted') ||
+               (resource.data.status != 'completed' &&
+                request.resource.data.status == 'completed');
+      }
+
+      function isValidClientCreate() {
+        let data = request.resource.data;
+        return request.auth != null &&
+               hasValidChallengeShape(data) &&
+               hasValidParticipants(data) &&
+               hasValidParticipantShape(data.participants[data.createdBy]) &&
+               hasValidParticipantShape(data.participants[request.auth.uid]) &&
+               request.auth.uid in data.participantIds &&
+               data.createdBy in data.participantIds &&
+               request.auth.uid != data.createdBy &&
+               data.createdAt == request.time &&
+               data.source == 'share' &&
+               data.type == 'direct' &&
+               data.maxPlayers == 2 &&
+               data.status == 'active' &&
+               data.winnerId == null &&
+               data.participants[data.createdBy].rsvp == 'accepted' &&
+               data.participants[data.createdBy].resultSeenAt == null &&
+               data.participants[request.auth.uid].score == null &&
+               data.participants[request.auth.uid].rsvp == 'accepted' &&
+               data.participants[request.auth.uid].completedAt == null &&
+               data.participants[request.auth.uid].resultSeenAt == null &&
+               challengeId == data.createdBy + '_' + data.gameId &&
+               exists(/databases/$(database)/documents/games/$(data.createdBy + '_' + data.gameId)) &&
+               get(/databases/$(database)/documents/games/$(data.createdBy + '_' + data.gameId)).data.userId == data.createdBy &&
+               get(/databases/$(database)/documents/games/$(data.createdBy + '_' + data.gameId)).data.gameId == data.gameId &&
+               data.participants[data.createdBy].score == get(/databases/$(database)/documents/games/$(data.createdBy + '_' + data.gameId)).data.score &&
+               data.participants[data.createdBy].completedAt == get(/databases/$(database)/documents/games/$(data.createdBy + '_' + data.gameId)).data.completedAt &&
+               exists(/databases/$(database)/documents/games/$(request.auth.uid + '_' + data.gameId)) &&
+               get(/databases/$(database)/documents/games/$(request.auth.uid + '_' + data.gameId)).data.userId == request.auth.uid &&
+               get(/databases/$(database)/documents/games/$(request.auth.uid + '_' + data.gameId)).data.gameId == data.gameId &&
+               get(/databases/$(database)/documents/games/$(request.auth.uid + '_' + data.gameId)).data.guessHistory.size() > 0;
+      }
+
+      function ownParticipantScoreLocked() {
+        let oldMe = resource.data.participants[request.auth.uid];
+        let newMe = request.resource.data.participants[request.auth.uid];
+        return oldMe.score == null ||
+               (newMe.score == oldMe.score && newMe.completedAt == oldMe.completedAt);
+      }
+
+      // After the duel is completed, only the caller's resultSeenAt may change.
+      function isPostCompletionSeenUpdate() {
+        let oldMe = resource.data.participants[request.auth.uid];
+        let newMe = request.resource.data.participants[request.auth.uid];
+        return resource.data.status == 'completed' &&
+               request.resource.data.status == 'completed' &&
+               request.resource.data.winnerId == resource.data.winnerId &&
+               request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['participants']) &&
+               request.resource.data.participants.diff(resource.data.participants).affectedKeys()
+                 .hasOnly([request.auth.uid]) &&
+               newMe.score == oldMe.score &&
+               newMe.completedAt == oldMe.completedAt &&
+               newMe.rsvp == oldMe.rsvp &&
+               newMe.displayName == oldMe.displayName &&
+               newMe.photoURL == oldMe.photoURL;
+      }
+
+      function isValidActiveDuelUpdate() {
+        return resource.data.status != 'completed' &&
+               hasValidParticipants(request.resource.data) &&
+               request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['participants', 'winnerId', 'status']) &&
+               request.resource.data.participants.diff(resource.data.participants).affectedKeys()
+                 .hasOnly([request.auth.uid]) &&
+               ownParticipantScoreLocked() &&
+               (resource.data.participants[request.auth.uid].score != null ||
+                request.resource.data.participants[request.auth.uid].score ==
+                  get(/databases/$(database)/documents/games/$(request.auth.uid + '_' + resource.data.gameId)).data.score) &&
+               hasValidStatusTransition() &&
+               hasValidResultState();
+      }
+
+      function isValidClientUpdate() {
+        return isParticipant() &&
+               (isPostCompletionSeenUpdate() || isValidActiveDuelUpdate());
+      }
+
+      // A direct get may probe a deterministic ID before the challenge exists.
+      allow get: if request.auth != null &&
+                   (!exists(/databases/$(database)/documents/challenges/$(challengeId)) ||
+                    request.auth.uid in resource.data.participantIds);
+
+      allow list: if isParticipant();
+
+      // Trusted Admin SDK writes bypass these client rules.
+      allow create: if isValidClientCreate();
+
+      allow update: if isValidClientUpdate();
 
       allow delete: if false;
     }

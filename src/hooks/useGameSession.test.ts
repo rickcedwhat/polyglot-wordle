@@ -1,10 +1,11 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import * as firestore from 'firebase/firestore';
 import * as reactRouterDom from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as authContext from '@/context/AuthContext';
+import * as challengeUtils from '@/utils/challengeUtils';
 import * as wordUtils from '@/utils/wordUtils';
 import { fetchOrCreateGame, useGameSession } from './useGameSession';
 
@@ -19,6 +20,11 @@ vi.mock('react-router-dom', async () => {
 
 vi.mock('@/context/AuthContext', () => ({
   useAuth: vi.fn(),
+}));
+
+vi.mock('@/utils/challengeUtils', () => ({
+  ensureShareChallengeOnFirstGuess: vi.fn(),
+  recordChallengeGameCompletion: vi.fn(),
 }));
 
 vi.mock('@/utils/wordUtils', async () => {
@@ -188,6 +194,52 @@ describe('useGameSession & fetchOrCreateGame', () => {
 
       await waitFor(() => expect(result.current.isSuccess).toBe(true));
       expect(result.current.data).toEqual(userGame);
+    });
+
+    it.each([
+      { initialGuesses: [], label: 'first' },
+      { initialGuesses: ['prior'], label: 'later' },
+    ])('ensures the share challenge on a $label guess (idempotent recovery)', async (testCase) => {
+      const gameId = 'b3e47403d2ec4ec9beb8a41faa0b3e47';
+      vi.mocked(reactRouterDom.useParams).mockReturnValue({ uuid: gameId });
+      vi.mocked(reactRouterDom.useSearchParams).mockReturnValue([
+        new URLSearchParams('challenger=challenger_123'),
+        vi.fn(),
+      ]);
+      vi.mocked(authContext.useAuth).mockReturnValue({
+        currentUser: {
+          uid: 'user_current',
+          displayName: 'Current User',
+          photoURL: 'avatar.png',
+        } as any,
+        loading: false,
+        signInWithGoogle: vi.fn(),
+        logout: vi.fn(),
+      });
+
+      vi.mocked(firestore.getDoc).mockResolvedValueOnce({
+        exists: () => true,
+        data: () => ({
+          userId: 'user_current',
+          gameId,
+          guessHistory: testCase.initialGuesses,
+          words: { en: 'apple', es: 'queso', fr: 'fruit' },
+          difficulties: { en: 'basic', es: 'basic', fr: 'basic' },
+          shuffledLanguages: ['en', 'es', 'fr'],
+          isLiveGame: true,
+        }),
+      } as any);
+
+      const { result } = renderHook(() => useGameSession(), {
+        wrapper: createWrapper(),
+      });
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+      await act(async () => {
+        await result.current.updateGuessHistory('apple');
+      });
+
+      expect(challengeUtils.ensureShareChallengeOnFirstGuess).toHaveBeenCalledTimes(1);
     });
   });
 });
