@@ -38,6 +38,10 @@
   pointer-events: none;
 }
 
+.flagsAbove .flagEmoji {
+  font-size: 0.75rem;
+}
+
 .flagsBeside {
   display: flex;
   flex-direction: column;
