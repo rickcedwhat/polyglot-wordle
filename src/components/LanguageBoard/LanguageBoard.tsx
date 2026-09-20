@@ -180,6 +180,20 @@ const SubmittedRow: FC<{
   );
 };
 
+const CandidateFlags: FC<{
+  candidateLanguages: Language[];
+  flags: Record<Language, string>;
+  placement: 'above' | 'beside';
+}> = ({ candidateLanguages, flags, placement }) => (
+  <Box className={placement === 'above' ? classes.flagsAbove : classes.flagsBeside}>
+    {candidateLanguages.map((cand) => (
+      <Text key={cand} size="md" className={classes.flagEmoji}>
+        {flags[cand]}
+      </Text>
+    ))}
+  </Box>
+);
+
 // 2. The main LanguageBoard component.
 const LanguageBoard: FC<LanguageBoardProps> = memo(
   ({
@@ -205,178 +219,106 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     const emptyRowsCount = MAX_GUESSES - lastRelevantGuessIndex - 1;
     const relevantGuesses = submittedGuesses.slice(0, lastRelevantGuessIndex + 1);
 
-    // Target row index for displaying the flag chip:
+    // Target row index for side-aligned flags on the active board:
     // Align with the latest guess row, or row 0 (top-aligned) if no guesses yet.
     const targetRowIndex = relevantGuesses.length === 0 ? 0 : relevantGuesses.length - 1;
+    // Inactive (mini) boards put flags above the grid so the side gutter doesn't crowd tiles.
+    const flagsAbove = !isActive && !hideFlags;
+    const showSideFlags = !hideFlags && !flagsAbove;
 
-    if (hideFlags) {
-      return (
-        <Box
-          h="100%"
-          style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
-        >
-          <Stack gap="xs" style={{ width: '100%' }} mx="auto">
-            {relevantGuesses.map((guess, rowIndex) => {
-              const normGuess = normalizeWord(guess);
-              const matchingWordKey = words.find((word) => normalizeWord(word) === normGuess);
-              const languageMatch = !!matchingWordKey;
+    const resolveDisplayGuess = (guess: string) => {
+      const normGuess = normalizeWord(guess);
+      const matchingWordKey = words.find((word) => normalizeWord(word) === normGuess);
+      const languageMatch = !!matchingWordKey;
+      const dictEntry =
+        dictionary?.[normGuess] ||
+        (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
+      const displayGuess =
+        dictEntry?.display ||
+        (matchingWordKey && dictionary?.[matchingWordKey]?.display) ||
+        matchingWordKey ||
+        guess;
+      return { displayGuess, languageMatch };
+    };
 
-              const dictEntry =
-                dictionary?.[normGuess] ||
-                (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
-              const displayGuess =
-                dictEntry?.display ||
-                (matchingWordKey && dictionary?.[matchingWordKey]?.display) ||
-                matchingWordKey ||
-                guess;
-
-              return (
-                <SubmittedRow
-                  key={rowIndex}
-                  guess={displayGuess}
-                  solutionWord={solutionWord}
-                  language={language}
-                  languageMatch={languageMatch}
-                  isActive={isActive}
-                  onActivate={onActivate}
-                />
-              );
-            })}
-            {Array.from({ length: emptyRowsCount }).map((_, rowIndex) => (
-              <Group key={rowIndex} gap="xs" wrap="nowrap" grow w="100%">
-                {Array.from({ length: 5 }).map((_, colIndex) => (
-                  <Box key={colIndex} style={{ flex: 1 }} className={classes.tileWrapper}>
-                    <LetterTile letter="" status="unknown" />
-                  </Box>
-                ))}
-              </Group>
-            ))}
-          </Stack>
-        </Box>
-      );
-    }
+    const renderEmptyTiles = () => (
+      <Group gap="xs" wrap="nowrap" grow w="100%">
+        {Array.from({ length: 5 }).map((_, colIndex) => (
+          <Box key={colIndex} style={{ flex: 1 }} className={classes.tileWrapper}>
+            <LetterTile letter="" status="unknown" />
+          </Box>
+        ))}
+      </Group>
+    );
 
     return (
       <Box h="100%" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        {flagsAbove && (
+          <CandidateFlags
+            candidateLanguages={candidateLanguages}
+            flags={flags}
+            placement="above"
+          />
+        )}
         <Stack gap="xs" style={{ width: '100%' }} mx="auto">
           {relevantGuesses.map((guess, rowIndex) => {
-            const normGuess = normalizeWord(guess);
-            const matchingWordKey = words.find((word) => normalizeWord(word) === normGuess);
-            const languageMatch = !!matchingWordKey;
+            const { displayGuess, languageMatch } = resolveDisplayGuess(guess);
+            const showFlagHere = showSideFlags && rowIndex === targetRowIndex;
+            const row = (
+              <SubmittedRow
+                guess={displayGuess}
+                solutionWord={solutionWord}
+                language={language}
+                languageMatch={languageMatch}
+                isActive={isActive}
+                onActivate={onActivate}
+              />
+            );
 
-            // Preserve accents: check dictionary entry display property (e.g. 'baños' instead of 'banos')
-            const dictEntry =
-              dictionary?.[normGuess] ||
-              (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
-            const displayGuess =
-              dictEntry?.display ||
-              (matchingWordKey && dictionary?.[matchingWordKey]?.display) ||
-              matchingWordKey ||
-              guess;
-
-            const showFlagHere = rowIndex === targetRowIndex;
+            if (!showSideFlags) {
+              return <Box key={rowIndex}>{row}</Box>;
+            }
 
             return (
               <Group key={rowIndex} gap={4} wrap="nowrap" align="center" style={{ width: '100%' }}>
-                <Box style={{ flex: 1, minWidth: 0 }}>
-                  <SubmittedRow
-                    guess={displayGuess}
-                    solutionWord={solutionWord}
-                    language={language}
-                    languageMatch={languageMatch}
-                    isActive={isActive}
-                    onActivate={onActivate}
-                  />
-                </Box>
-                <Box
-                  style={{
-                    width: 22,
-                    flexShrink: 0,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
+                <Box style={{ flex: 1, minWidth: 0 }}>{row}</Box>
+                <Box className={classes.flagGutter}>
                   {showFlagHere && (
-                    <Box
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '2px',
-                        userSelect: 'none',
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      {candidateLanguages.map((cand) => (
-                        <Text
-                          key={cand}
-                          size="md"
-                          style={{
-                            fontSize: '1rem',
-                            lineHeight: 1,
-                            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.6))',
-                          }}
-                        >
-                          {flags[cand as Language]}
-                        </Text>
-                      ))}
-                    </Box>
+                    <CandidateFlags
+                      candidateLanguages={candidateLanguages}
+                      flags={flags}
+                      placement="beside"
+                    />
                   )}
                 </Box>
               </Group>
             );
           })}
-          {/* Render empty rows */}
           {Array.from({ length: emptyRowsCount }).map((_, rowIndex) => {
             const actualRowIndex = relevantGuesses.length + rowIndex;
-            const showFlagHere = relevantGuesses.length === 0 && actualRowIndex === 0;
+            const showFlagHere =
+              showSideFlags && relevantGuesses.length === 0 && actualRowIndex === 0;
+
+            if (!showSideFlags) {
+              return <Box key={`empty-${rowIndex}`}>{renderEmptyTiles()}</Box>;
+            }
 
             return (
-              <Group key={rowIndex} gap={4} wrap="nowrap" align="center" style={{ width: '100%' }}>
-                <Group gap="xs" wrap="nowrap" grow style={{ flex: 1, minWidth: 0 }}>
-                  {Array.from({ length: 5 }).map((_, colIndex) => (
-                    <Box key={colIndex} style={{ flex: 1 }} className={classes.tileWrapper}>
-                      <LetterTile letter="" status="unknown" />
-                    </Box>
-                  ))}
-                </Group>
-                <Box
-                  style={{
-                    width: 22,
-                    flexShrink: 0,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
+              <Group
+                key={`empty-${rowIndex}`}
+                gap={4}
+                wrap="nowrap"
+                align="center"
+                style={{ width: '100%' }}
+              >
+                <Box style={{ flex: 1, minWidth: 0 }}>{renderEmptyTiles()}</Box>
+                <Box className={classes.flagGutter}>
                   {showFlagHere && (
-                    <Box
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '2px',
-                        userSelect: 'none',
-                        pointerEvents: 'none',
-                      }}
-                    >
-                      {candidateLanguages.map((cand) => (
-                        <Text
-                          key={cand}
-                          size="md"
-                          style={{
-                            fontSize: '1rem',
-                            lineHeight: 1,
-                            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.6))',
-                          }}
-                        >
-                          {flags[cand as Language]}
-                        </Text>
-                      ))}
-                    </Box>
+                    <CandidateFlags
+                      candidateLanguages={candidateLanguages}
+                      flags={flags}
+                      placement="beside"
+                    />
                   )}
                 </Box>
               </Group>
