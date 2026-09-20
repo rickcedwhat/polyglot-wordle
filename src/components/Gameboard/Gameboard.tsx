@@ -5,14 +5,24 @@ import { Group } from '@mantine/core';
 import { useWordPools } from '@/hooks/useWordPools';
 import { Language } from '@/types/firestore';
 import { deduceColumnLanguages } from '@/utils/deductionUtils';
+import { Dictionary } from '@/utils/wordUtils';
 import LanguageBoard from '../LanguageBoard/LanguageBoard';
 import classes from './Gameboard.module.css';
+
+export type GameBoardWordPools = {
+  master: Record<Language, string[]>;
+  dictionaries: Record<Language, Dictionary>;
+};
 
 interface GameBoardProps {
   solution: { [key: string]: string };
   guesses: string[];
   shuffledLanguages: Language[];
   hideFlags?: boolean;
+  /** Initial focused board index (0–2). Used by Storybook and tests. */
+  initialActiveIndex?: number;
+  /** Skip waiting on network — provide pools directly (Storybook / tests). */
+  wordPoolsOverride?: GameBoardWordPools;
 }
 
 export const GameBoard: FC<GameBoardProps> = ({
@@ -20,13 +30,16 @@ export const GameBoard: FC<GameBoardProps> = ({
   guesses,
   shuffledLanguages,
   hideFlags = false,
+  initialActiveIndex = 1,
+  wordPoolsOverride,
 }) => {
-  const [activeIndex, setActiveIndex] = useState(1);
-  const { data: wordPools } = useWordPools({
+  const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
+  const { data: fetchedPools } = useWordPools({
     en: 'advanced',
     es: 'advanced',
     fr: 'advanced',
   });
+  const wordPools = wordPoolsOverride ?? fetchedPools;
 
   if (!wordPools) {
     return <div>Loading boards...</div>;
