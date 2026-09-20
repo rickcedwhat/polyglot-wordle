@@ -34,11 +34,15 @@ export const GameBoard: FC<GameBoardProps> = ({
   wordPoolsOverride,
 }) => {
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
-  const { data: fetchedPools } = useWordPools({
-    en: 'advanced',
-    es: 'advanced',
-    fr: 'advanced',
-  });
+  const { data: fetchedPools } = useWordPools(
+    wordPoolsOverride
+      ? undefined
+      : {
+          en: 'advanced',
+          es: 'advanced',
+          fr: 'advanced',
+        }
+  );
   const wordPools = wordPoolsOverride ?? fetchedPools;
 
   if (!wordPools) {

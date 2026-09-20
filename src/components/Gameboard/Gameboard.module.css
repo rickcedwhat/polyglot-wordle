@@ -34,3 +34,13 @@
   max-width: 280px;
   cursor: default;
 }
+
+@media (max-width: 360px) {
+  .boardWrapper {
+    min-width: 48px;
+  }
+
+  .active {
+    min-width: 120px;
+  }
+}
