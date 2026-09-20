@@ -12,21 +12,25 @@
     This makes the distribution of space purely proportional to the flex-grow factor.
   */
   flex: 1 1 0;
-
-  /* These are the hard limits for any board */
-  min-width: 50px;
-  max-width: 280px;
-
-  /* transition: all 300ms ease; */
+  min-width: 56px;
+  /* Keep inactive (mini) boards clearly smaller than the active board */
+  max-width: 100px;
   cursor: pointer;
+  /* Fill flex width so tile columns size from the wrapper, not intrinsic content */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
-.boardWrapper.active {
-  /*
-  By giving the active board a much higher flex-grow value,
-  it gets priority to take up any available free space until it hits its max-width.
-  The other boards will share what's left.
-  */
+/*
+  Standalone .active class — more reliable with CSS modules than
+  `.boardWrapper.active` compound selectors missing an exported token.
+*/
+.active {
   flex-grow: 10;
+  flex-shrink: 1;
+  flex-basis: 0;
+  min-width: 140px;
+  max-width: 280px;
   cursor: default;
 }

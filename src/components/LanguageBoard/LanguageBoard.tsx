@@ -251,7 +251,11 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     );
 
     return (
-      <Box h="100%" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <Box
+        h="100%"
+        w="100%"
+        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+      >
         {flagsAbove && (
           <CandidateFlags candidateLanguages={candidateLanguages} flags={flags} placement="above" />
         )}
