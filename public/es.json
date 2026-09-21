@@ -321,13 +321,6 @@
     "def": "Relating to or occurring in the air; airborne or aerial.",
     "reviewed": true
   },
-  "after": {
-    "display": "after",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An informal gathering or party that takes place after a main event, often continuing late into the night.",
-    "reviewed": true
-  },
   "agita": {
     "display": "agita",
     "d": 0.65,
@@ -505,7 +498,7 @@
   },
   "alejo": {
     "display": "alejo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I move away or distance myself from a place or person (first-person singular present tense of alejar).",
     "reviewed": true
@@ -673,7 +666,7 @@
   },
   "ambar": {
     "display": "ámbar",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A hard, translucent fossilized resin, typically yellowish-brown, used for jewelry and ornamental objects.",
     "reviewed": true
@@ -1205,7 +1198,7 @@
   },
   "arpia": {
     "display": "arpía",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "In Greek mythology, a monstrous winged spirit with a woman's head and a bird's body; also, a cruel, grasping woman.",
     "reviewed": true
@@ -1268,7 +1261,7 @@
   },
   "astas": {
     "display": "astas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The horns of an animal, especially a deer, or the poles used for flags (plural of asta).",
     "reviewed": true
@@ -1842,7 +1835,7 @@
   },
   "basas": {
     "display": "basas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Conjugated form of the verb basar; base.",
     "reviewed": true
@@ -1870,7 +1863,7 @@
   },
   "basto": {
     "display": "basto",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Coarse, rough, or crude in texture or manner; unrefined.",
     "reviewed": true
@@ -2010,7 +2003,7 @@
   },
   "belga": {
     "display": "belga",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "A person from Belgium, a country in Western Europe, or something related to Belgium.",
     "reviewed": true
@@ -2248,7 +2241,7 @@
   },
   "bombo": {
     "display": "bombo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A large drum that produces a deep, resonant sound, typically used in orchestras or bands.",
     "reviewed": true
@@ -2365,13 +2358,6 @@
     "def": "alternative spelling of bóxer.",
     "reviewed": true
   },
-  "boxes": {
-    "display": "boxes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Enclosed areas, often for storage or seating; also refers to the sport of boxing (plural of box).",
-    "reviewed": true
-  },
   "braga": {
     "display": "braga",
     "d": 0.65,
@@ -2398,13 +2384,6 @@
     "d": 0.19,
     "pos": "noun",
     "def": "Each of the two upper limbs of the human body, extending from the shoulder to the hand.",
-    "reviewed": true
-  },
-  "break": {
-    "display": "break",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A pause from work or activity, a short rest period, or a sudden change in direction.",
     "reviewed": true
   },
   "breve": {
@@ -2479,7 +2458,7 @@
   },
   "bucal": {
     "display": "bucal",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Relating to or located in the mouth, such as oral hygiene or dental procedures.",
     "reviewed": true
@@ -3074,7 +3053,7 @@
   },
   "casen": {
     "display": "casen",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "They or you (formal plural) marry or get married, joining two people in matrimony (present subjunctive of casar).",
     "reviewed": true
@@ -3144,7 +3123,7 @@
   },
   "cause": {
     "display": "cause",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A reason or motive for an action or event; also, a principle or movement one supports.",
     "reviewed": true
@@ -3172,7 +3151,7 @@
   },
   "caven": {
     "display": "caven",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "They or you (formal plural) dig or excavate the ground (present subjunctive or imperative of cavar).",
     "reviewed": true
@@ -3375,16 +3354,9 @@
   },
   "checo": {
     "display": "checo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Relating to the Czech Republic, its people, or its language; a person from the Czech Republic.",
-    "reviewed": true
-  },
-  "chefs": {
-    "display": "chefs",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Professional cooks, especially the head cook in a restaurant or other kitchen (plural of chef).",
     "reviewed": true
   },
   "chelo": {
@@ -3410,7 +3382,7 @@
   },
   "chili": {
     "display": "chili",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A small, hot-tasting pod of a variety of capsicum, used in cooking to add a spicy flavor.",
     "reviewed": true
@@ -3466,7 +3438,7 @@
   },
   "chula": {
     "display": "chula",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Pretty, cute, or lovely, often used to describe a charming or attractive person or thing (feminine form).",
     "reviewed": true
@@ -3494,7 +3466,7 @@
   },
   "chupo": {
     "display": "chupo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I suck, I lick, or I absorb something (first-person singular present of chupar).",
     "reviewed": true
@@ -3788,7 +3760,7 @@
   },
   "cogia": {
     "display": "cogía",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "first/third-person singular imperfect indicative of coger.",
     "reviewed": true
@@ -4283,13 +4255,6 @@
     "def": "A soft white limestone used for writing on blackboards.",
     "reviewed": true
   },
-  "crews": {
-    "display": "crews",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Groups of people working together, especially on a ship, aircraft, or in a film production.",
-    "reviewed": true
-  },
   "creyo": {
     "display": "creyó",
     "d": 0.42,
@@ -4600,7 +4565,7 @@
   },
   "cuyas": {
     "display": "cuyas",
-    "d": 0.93,
+    "d": 0.82,
     "pos": "adj",
     "def": "Whose or of which (feminine plural possessive pronoun or adjective).",
     "reviewed": true
@@ -5319,13 +5284,6 @@
     "def": "addicted to drugs; drug-addicted.",
     "reviewed": true
   },
-  "drone": {
-    "display": "drone",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An unmanned aerial vehicle, often controlled remotely, used for various purposes like surveillance or delivery.",
-    "reviewed": true
-  },
   "ducha": {
     "display": "ducha",
     "d": 0.31,
@@ -5370,7 +5328,7 @@
   },
   "duela": {
     "display": "duela",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "It hurts or pains someone; that it hurts or causes pain (third-person singular present indicative or present subjunctive of doler).",
     "reviewed": true
@@ -6257,13 +6215,6 @@
     "def": "I film, shoot, or record a movie or video with a camera (first-person singular present of filmar).",
     "reviewed": true
   },
-  "films": {
-    "display": "films",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Motion pictures or movies, especially those produced for cinema or television (plural of film).",
-    "reviewed": true
-  },
   "final": {
     "display": "final",
     "d": 0.09,
@@ -6462,7 +6413,7 @@
   },
   "fonda": {
     "display": "fonda",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A traditional, modest inn or small restaurant, especially one serving local cuisine, often found in rural areas.",
     "reviewed": true
@@ -6714,7 +6665,7 @@
   },
   "fumes": {
     "display": "fumes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "That you (informal singular) smoke tobacco or other substances, or that you emit smoke (second-person singular present subjunctive of fumar).",
     "reviewed": true
@@ -6738,13 +6689,6 @@
     "d": 0.82,
     "pos": "noun",
     "def": "A large rural property or estate, typically used for agriculture or as a country residence.",
-    "reviewed": true
-  },
-  "funky": {
-    "display": "funky",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Having a strong, often unpleasant, smell; also, stylish, modern, or unconventional in a lively way.",
     "reviewed": true
   },
   "furia": {
@@ -7650,13 +7594,6 @@
     "def": "Deciduous trees known for their smooth, gray bark and hard wood, often found in temperate forests.",
     "reviewed": true
   },
-  "heavy": {
-    "display": "heavy",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Referring to something that is of great weight, difficult to lift, or intense in nature, often used colloquially.",
-    "reviewed": true
-  },
   "heces": {
     "display": "heces",
     "d": 0.65,
@@ -8289,7 +8226,7 @@
   },
   "jamas": {
     "display": "jamás",
-    "d": 0.87,
+    "d": 0.65,
     "pos": "adv",
     "def": "In the manner, degree, or condition of never.",
     "reviewed": true
@@ -8975,7 +8912,7 @@
   },
   "liada": {
     "display": "liada",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Entangled, complicated, or involved in a difficult situation; also, a mess or predicament (feminine past participle of liar).",
     "reviewed": true
@@ -9066,7 +9003,7 @@
   },
   "ligue": {
     "display": "ligue",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A flirtation, a casual romantic encounter, or a brief relationship; a hookup.",
     "reviewed": true
@@ -9365,20 +9302,6 @@
     "def": "Having considerable extent from one end to the other; not short, often referring to physical length or duration.",
     "reviewed": true
   },
-  "looks": {
-    "display": "looks",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The overall appearance or style of a person or thing, often referring to fashion or aesthetic appeal (plural).",
-    "reviewed": true
-  },
-  "lores": {
-    "display": "lores",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Individuals holding positions of power, authority, or nobility, often used as a title of respect (plural of lor, meaning lord).",
-    "reviewed": true
-  },
   "loros": {
     "display": "loros",
     "d": 0.65,
@@ -9612,7 +9535,7 @@
   },
   "mamar": {
     "display": "mamar",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To feed a baby or young animal from the breast or udder; to suck.",
     "reviewed": true
@@ -9633,7 +9556,7 @@
   },
   "mamon": {
     "display": "mamón",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Relating to the act of sucking, or describing someone who is naive or easily fooled.",
     "reviewed": true
@@ -10536,7 +10459,7 @@
   },
   "mozos": {
     "display": "mozos",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Describing young men or boys as youthful, unmarried, or in the prime of their life (masculine plural adjective form of mozo).",
     "reviewed": true
@@ -10571,7 +10494,7 @@
   },
   "mudas": {
     "display": "mudas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "You change, move, or shed something, often referring to clothes or location (second-person singular present of mudar).",
     "reviewed": true
@@ -10809,7 +10732,7 @@
   },
   "nadir": {
     "display": "nadir",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The lowest point in the fortunes of a person or organization; the point directly opposite the zenith.",
     "reviewed": true
@@ -10886,7 +10809,7 @@
   },
   "nazca": {
     "display": "nazca",
-    "d": 0.93,
+    "d": 0.82,
     "pos": "verb",
     "def": "That I/he/she/it be born or arise; that it originate or come into existence (first/third-person singular present subjunctive of nacer).",
     "reviewed": true
@@ -11943,7 +11866,7 @@
   },
   "parta": {
     "display": "parta",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "That I/he/she/it leaves or divides something (first/third-person singular present subjunctive of partir).",
     "reviewed": true
@@ -12090,7 +12013,7 @@
   },
   "pateo": {
     "display": "pateo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I strike something or someone with my foot (first-person singular present of patear).",
     "reviewed": true
@@ -12118,7 +12041,7 @@
   },
   "pauta": {
     "display": "pauta",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A guideline, standard, or pattern that serves as a model or framework for action or behavior.",
     "reviewed": true
@@ -12440,7 +12363,7 @@
   },
   "pesto": {
     "display": "pesto",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A green sauce originating from Genoa, Italy, made with basil, pine nuts, garlic, Parmesan cheese, and olive oil.",
     "reviewed": true
@@ -12573,7 +12496,7 @@
   },
   "pines": {
     "display": "pines",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Evergreen coniferous trees with needle-like leaves, often grown for timber or as ornamental plants (plural of pino).",
     "reviewed": true
@@ -12888,14 +12811,14 @@
   },
   "poker": {
     "display": "póker",
-    "d": 0.93,
+    "d": 0.65,
     "pos": "noun",
     "def": "A popular card game where players bet on the strength of their hand, with the goal of winning the pot.",
     "reviewed": true
   },
   "polar": {
     "display": "polar",
-    "d": 0.93,
+    "d": 0.65,
     "pos": "adj",
     "def": "Relating to the Earth's geographical poles or the regions around them; characterized by extreme cold.",
     "reviewed": true
@@ -13154,7 +13077,7 @@
   },
   "prime": {
     "display": "prime",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Of the highest quality or importance; excellent or principal, often referring to a premium status.",
     "reviewed": true
@@ -13455,7 +13378,7 @@
   },
   "quero": {
     "display": "quero",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "verb",
     "def": "I want, desire, or love something or someone (first-person singular present of querer).",
     "reviewed": true
@@ -13637,7 +13560,7 @@
   },
   "rasca": {
     "display": "rasca",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "verb",
     "def": "Scratches, scrapes, or rubs an itchy area with nails or a rough object (present tense of rascar).",
     "reviewed": true
@@ -13910,7 +13833,7 @@
   },
   "reten": {
     "display": "retén",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A police checkpoint or roadblock, or a small military detachment held in reserve.",
     "reviewed": true
@@ -13924,7 +13847,7 @@
   },
   "retro": {
     "display": "retro",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Relating to or characteristic of a past time, often implying nostalgia or a deliberate imitation of styles from the past.",
     "reviewed": true
@@ -14253,7 +14176,7 @@
   },
   "rompa": {
     "display": "rompa",
-    "d": 0.76,
+    "d": 0.65,
     "pos": "verb",
     "def": "Breaks, tears, or shatters something (first/third-person singular present subjunctive of romper).",
     "reviewed": true
@@ -14330,7 +14253,7 @@
   },
   "rosco": {
     "display": "rosco",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "doughnut or other ring-shaped pastry.",
     "reviewed": true
@@ -14848,7 +14771,7 @@
   },
   "saudi": {
     "display": "saudí",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Relating to or characteristic of Saudi Arabia, its people, or its culture.",
     "reviewed": true
@@ -14918,7 +14841,7 @@
   },
   "sedan": {
     "display": "sedán",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An enclosed automobile with two or four doors and a separate trunk, designed to carry four or more people.",
     "reviewed": true
@@ -15147,20 +15070,6 @@
     "def": "A sudden upsetting or surprising event or experience that startles.",
     "reviewed": true
   },
-  "short": {
-    "display": "short",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Casual above-the-knee pants worn for sports or warm weather, often made of light fabric.",
-    "reviewed": true
-  },
-  "shows": {
-    "display": "shows",
-    "d": 0.86,
-    "pos": "noun",
-    "def": "Public performances or displays, such as plays, concerts, or exhibitions (plural of the English loanword show).",
-    "reviewed": true
-  },
   "sidra": {
     "display": "sidra",
     "d": 0.65,
@@ -15254,14 +15163,14 @@
   },
   "siria": {
     "display": "siria",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Relating to or characteristic of Syria, its people, or its culture (feminine form of sirio).",
     "reviewed": true
   },
   "sirio": {
     "display": "sirio",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Relating to or characteristic of Syria, its people, or its culture; of Syrian origin or nationality.",
     "reviewed": true
@@ -15483,13 +15392,6 @@
     "def": "Characterized by being deaf.",
     "reviewed": true
   },
-  "sorry": {
-    "display": "sorry",
-    "d": 0.35,
-    "pos": "adj",
-    "def": "Feeling regret or penitence; expressing an apology for an offense or misfortune (a common English loanword used in Spanish).",
-    "reviewed": true
-  },
   "sport": {
     "display": "sport",
     "d": 0.95,
@@ -15502,20 +15404,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A liquid that is forced out of a container in a fine mist or jet; also, the container itself.",
-    "reviewed": true
-  },
-  "stand": {
-    "display": "stand",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A booth or designated area at an exhibition, market, or event for displaying goods or information.",
-    "reviewed": true
-  },
-  "stock": {
-    "display": "stock",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "The supply of goods or materials available for sale or distribution; inventory held by a business (an English loanword).",
     "reviewed": true
   },
   "suave": {
@@ -15810,13 +15698,6 @@
     "d": 0.43,
     "pos": "adj",
     "def": "Belonging to him, her, it, or them; indicating possession or ownership (masculine plural form of the possessive pronoun/adjective 'suyo').",
-    "reviewed": true
-  },
-  "swing": {
-    "display": "swing",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A seat suspended by ropes or chains, on which one can move back and forth, or a style of jazz music (an English loanword).",
     "reviewed": true
   },
   "tabla": {
@@ -16122,7 +16003,7 @@
   },
   "teman": {
     "display": "teman",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "That they fear, are afraid of, or dread something or someone (present subjunctive of temer).",
     "reviewed": true
@@ -16346,7 +16227,7 @@
   },
   "tiesa": {
     "display": "tiesa",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Feminine of tieso; rigid, firm, inflexible, or stiff.",
     "reviewed": true
@@ -16710,7 +16591,7 @@
   },
   "traba": {
     "display": "traba",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An obstacle, hindrance, or impediment that prevents progress or movement.",
     "reviewed": true
@@ -16752,7 +16633,7 @@
   },
   "traga": {
     "display": "traga",
-    "d": 0.93,
+    "d": 0.65,
     "pos": "verb",
     "def": "He/she/it swallows or gulps down food or drink (third-person singular present of tragar).",
     "reviewed": true
@@ -17004,7 +16885,7 @@
   },
   "turca": {
     "display": "turca",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Relating to Turkey or its people, language, or culture (feminine singular).",
     "reviewed": true
@@ -17207,7 +17088,7 @@
   },
   "vacie": {
     "display": "vacíe",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "I/he/she/it empties or makes something empty (first/third-person singular present subjunctive of vaciar).",
     "reviewed": true
@@ -17298,7 +17179,7 @@
   },
   "valgo": {
     "display": "valgo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I am worth, I am valid, or I serve a purpose (first-person singular present of valer).",
     "reviewed": true
@@ -18173,7 +18054,7 @@
   },
   "yerba": {
     "display": "yerba",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A general term for a plant with soft stems, especially one used for medicinal purposes or as an herb.",
     "reviewed": true

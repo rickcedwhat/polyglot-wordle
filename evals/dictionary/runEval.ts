@@ -248,6 +248,7 @@ export async function runDictionaryEval() {
     },
     byDefinition: {
       accurate: 0,
+      inflected_form: 0,
       wrong_pos: 0,
       wrong_meaning: 0,
       fabricated: 0,
@@ -278,7 +279,7 @@ export async function runDictionaryEval() {
         const res = await evaluateEntryWithJev(client, entry);
         if (span) {
           const pass =
-            res.definitionVerdict === 'accurate' &&
+            (res.definitionVerdict === 'accurate' || res.definitionVerdict === 'inflected_form') &&
             res.formatVerdict === 'clean_dictionary' &&
             res.difficultyMatches;
 

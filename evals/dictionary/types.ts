@@ -15,9 +15,12 @@ export interface DictionaryEntry extends RawDictionaryEntry {
   lang: Language;
 }
 
-export type DifficultyTier = 'elementary' | 'intermediate' | 'advanced' | 'obscure';
-
-export type DefinitionVerdict = 'accurate' | 'wrong_pos' | 'wrong_meaning' | 'fabricated';
+export type DefinitionVerdict =
+  | 'accurate'
+  | 'inflected_form'
+  | 'wrong_pos'
+  | 'wrong_meaning'
+  | 'fabricated';
 
 export type FormatVerdict =
   | 'clean_dictionary'

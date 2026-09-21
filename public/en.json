@@ -995,7 +995,7 @@
   },
   "avant": {
     "display": "avant",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Denoting something that is new and experimental, especially in the arts or culture (as in \"avant-garde\").",
     "reviewed": true
@@ -1233,7 +1233,7 @@
   },
   "barbs": {
     "display": "barbs",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Sharp, pointed projections extending backward from a main point, like on a fishhook or arrow (plural of barb).",
     "reviewed": true
@@ -1520,7 +1520,7 @@
   },
   "beget": {
     "display": "beget",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To produce offspring; to cause or bring about something, often a result or consequence.",
     "reviewed": true
@@ -1625,7 +1625,7 @@
   },
   "bendy": {
     "display": "bendy",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Capable of being easily bent or flexed without breaking, indicating flexibility or pliancy.",
     "reviewed": true
@@ -2066,7 +2066,7 @@
   },
   "boars": {
     "display": "boars",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun/verb",
     "def": "The uncastrated male of swine; specifically, the wild hog.",
     "reviewed": true
@@ -2304,7 +2304,7 @@
   },
   "botch": {
     "display": "botch",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To carry out a task or repair badly or clumsily, resulting in a spoiled or inferior outcome.",
     "reviewed": true
@@ -2486,7 +2486,7 @@
   },
   "brawn": {
     "display": "brawn",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Physical strength in terms of muscle, often implying a robust and powerful physique.",
     "reviewed": true
@@ -2731,7 +2731,7 @@
   },
   "buggy": {
     "display": "buggy",
-    "d": 0.94,
+    "d": 0.65,
     "pos": "adj",
     "def": "Infested with or full of insects, or having defects or errors, especially in computer software.",
     "reviewed": true
@@ -2815,7 +2815,7 @@
   },
   "bunks": {
     "display": "bunks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Narrow beds, typically stacked one above another, used in dormitories, ships, or camps (plural of bunk).",
     "reviewed": true
@@ -3004,7 +3004,7 @@
   },
   "cajun": {
     "display": "cajun",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "In Louisiana, a person reputed to be Acadian French descent.",
     "reviewed": true
@@ -4614,7 +4614,7 @@
   },
   "crock": {
     "display": "crock",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A stoneware or earthenware jar or storage container.",
     "reviewed": true
@@ -4642,7 +4642,7 @@
   },
   "croon": {
     "display": "croon",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To sing or hum in a soft, low, and gentle voice, often in a sentimental way.",
     "reviewed": true
@@ -4817,7 +4817,7 @@
   },
   "cumin": {
     "display": "cumin",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An aromatic spice made from the dried seed of a plant in the parsley family, used in cooking.",
     "reviewed": true
@@ -4978,7 +4978,7 @@
   },
   "dally": {
     "display": "dally",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To waste time or procrastinate; to act playfully or flirtatiously without serious intent.",
     "reviewed": true
@@ -5566,7 +5566,7 @@
   },
   "domes": {
     "display": "domes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Rounded vaults forming the roof of a building or structure (plural of dome).",
     "reviewed": true
@@ -5706,7 +5706,7 @@
   },
   "dozer": {
     "display": "dozer",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A large, powerful tractor with a broad blade at the front, used for pushing earth and debris.",
     "reviewed": true
@@ -5790,7 +5790,7 @@
   },
   "dregs": {
     "display": "dregs",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun/verb",
     "def": "Corrupt or defiling matter contained in a liquid, or precipitated from it; refuse.",
     "reviewed": true
@@ -6035,7 +6035,7 @@
   },
   "dumpy": {
     "display": "dumpy",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Short and stout; having a stocky or squat build, often considered unattractive.",
     "reviewed": true
@@ -6301,7 +6301,7 @@
   },
   "ember": {
     "display": "ember",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A small piece of glowing coal or wood, typically found in a dying fire or after a fire has burned down.",
     "reviewed": true
@@ -6490,7 +6490,7 @@
   },
   "ether": {
     "display": "ether",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The substance formerly supposed to fill the upper regions of the atmosphere above the clouds, in particular as a medium breathed by deities.",
     "reviewed": true
@@ -6700,7 +6700,7 @@
   },
   "fairs": {
     "display": "fairs",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Public events where goods are bought and sold, often with entertainment, or exhibitions of agricultural products (plural of fair).",
     "reviewed": true
@@ -6875,7 +6875,7 @@
   },
   "faxed": {
     "display": "faxed",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Sent a document or image electronically using a fax machine (past tense of fax).",
     "reviewed": true
@@ -7288,7 +7288,7 @@
   },
   "flack": {
     "display": "flack",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Strong criticism or opposition; also, anti-aircraft fire, especially when heavy and intense.",
     "reviewed": true
@@ -7393,7 +7393,7 @@
   },
   "fleck": {
     "display": "fleck",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A very small patch or spot of color or light; a tiny mark or particle.",
     "reviewed": true
@@ -7659,7 +7659,7 @@
   },
   "footy": {
     "display": "footy",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Relating to or resembling a foot; also, an informal term for football, especially Australian rules football.",
     "reviewed": true
@@ -7897,7 +7897,7 @@
   },
   "frond": {
     "display": "frond",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The leaf or leaf-like part of a fern, palm, or similar plant, often large and divided.",
     "reviewed": true
@@ -8562,7 +8562,7 @@
   },
   "gouge": {
     "display": "gouge",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To scoop out or make a groove or hole with a tool or by force; to overcharge someone.",
     "reviewed": true
@@ -8793,7 +8793,7 @@
   },
   "gripe": {
     "display": "gripe",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To complain persistently and peevishly; to cause sharp, spasmodic pain in the bowels.",
     "reviewed": true
@@ -8863,7 +8863,7 @@
   },
   "grout": {
     "display": "grout",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A thin mortar used to fill the spaces between tiles or stones, or to strengthen masonry.",
     "reviewed": true
@@ -9010,7 +9010,7 @@
   },
   "gully": {
     "display": "gully",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A deep ditch or channel cut in the earth by running water, especially after heavy rains.",
     "reviewed": true
@@ -9066,7 +9066,7 @@
   },
   "hacks": {
     "display": "hacks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Cuts or chops roughly; gains unauthorized access to a computer system (third-person singular present of hack).",
     "reviewed": true
@@ -9122,7 +9122,7 @@
   },
   "hallo": {
     "display": "hallo",
-    "d": 0.9,
+    "d": 0.35,
     "pos": "verb",
     "def": "To shout \"hallo\" or \"hello\" to attract attention or greet someone (often used as an interjection).",
     "reviewed": true
@@ -9185,7 +9185,7 @@
   },
   "hares": {
     "display": "hares",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Swift, long-eared mammals resembling rabbits but typically larger, with longer hind legs (plural of hare).",
     "reviewed": true
@@ -9913,7 +9913,7 @@
   },
   "humph": {
     "display": "humph",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To make a sound expressing doubt, disapproval, or a slight grunt of effort.",
     "reviewed": true
@@ -9934,7 +9934,7 @@
   },
   "hunks": {
     "display": "hunks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Large, thick pieces or chunks of something, or physically attractive and muscular men (plural of hunk).",
     "reviewed": true
@@ -9969,7 +9969,7 @@
   },
   "husky": {
     "display": "husky",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Having a deep, slightly hoarse voice, or strongly built and sturdy in physique.",
     "reviewed": true
@@ -10123,7 +10123,7 @@
   },
   "incas": {
     "display": "incas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Members of the South American Indian people who established an empire in Peru before the Spanish conquest (plural of Inca).",
     "reviewed": true
@@ -10459,7 +10459,7 @@
   },
   "jumps": {
     "display": "jumps",
-    "d": 0.65,
+    "d": 0.35,
     "pos": "verb",
     "def": "Propels oneself upward into the air, or moves suddenly and quickly (third-person singular present tense of jump).",
     "reviewed": true
@@ -10571,7 +10571,7 @@
   },
   "kiddy": {
     "display": "kiddy",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Suitable for or appealing to children; childish or childlike in nature.",
     "reviewed": true
@@ -10620,7 +10620,7 @@
   },
   "kiosk": {
     "display": "kiosk",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A small open-fronted hut or cubicle from which newspapers, refreshments, or tickets are sold.",
     "reviewed": true
@@ -10921,7 +10921,7 @@
   },
   "larks": {
     "display": "larks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun/verb",
     "def": "A frolic; a jolly time.",
     "reviewed": true
@@ -11131,7 +11131,7 @@
   },
   "lefts": {
     "display": "lefts",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Turns or directions towards the left side; also, political groups or ideologies on the left (plural of left).",
     "reviewed": true
@@ -11194,7 +11194,7 @@
   },
   "levee": {
     "display": "levee",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "An embankment built to prevent the overflow of a river, often found along the Mississippi River.",
     "reviewed": true
@@ -11313,7 +11313,7 @@
   },
   "limes": {
     "display": "limes",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
     "def": "Small, round, green citrus fruits, known for their tart juice (plural of lime).",
     "reviewed": true
@@ -11432,7 +11432,7 @@
   },
   "llama": {
     "display": "llama",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A domesticated South American camelid, known for its wool and its use as a pack animal.",
     "reviewed": true
@@ -11705,7 +11705,7 @@
   },
   "lumen": {
     "display": "lumen",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The SI unit of luminous flux, measuring the total amount of visible light emitted by a source; also, the inner space of a tube.",
     "reviewed": true
@@ -11901,7 +11901,7 @@
   },
   "mains": {
     "display": "mains",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The principal pipes, conduits, or cables that supply water, gas, or electricity to buildings (plural of main).",
     "reviewed": true
@@ -12398,7 +12398,7 @@
   },
   "mimes": {
     "display": "mimes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Imitates or copies the actions, gestures, or speech of another person, often for entertainment (third-person singular present of mime).",
     "reviewed": true
@@ -12503,7 +12503,7 @@
   },
   "mites": {
     "display": "mites",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Tiny, often parasitic, arachnids that infest plants, animals, or food (plural of mite). Also, very small amounts.",
     "reviewed": true
@@ -12580,7 +12580,7 @@
   },
   "mogul": {
     "display": "mogul",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "An important, powerful, or influential person, especially in a particular industry or business.",
     "reviewed": true
@@ -12594,7 +12594,7 @@
   },
   "molar": {
     "display": "molar",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A large, flat tooth located at the back of the mouth, used for grinding food.",
     "reviewed": true
@@ -12825,7 +12825,7 @@
   },
   "mousy": {
     "display": "mousy",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Resembling a mouse in color, appearance, or behavior; often implying quietness, timidity, or shyness.",
     "reviewed": true
@@ -12958,7 +12958,7 @@
   },
   "muses": {
     "display": "muses",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Thinks deeply or reflects at length about something, often in a contemplative or absorbed manner (third-person singular present of muse).",
     "reviewed": true
@@ -13861,7 +13861,7 @@
   },
   "paged": {
     "display": "paged",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Called out someone's name, often over a public address system, to find them (past tense of page).",
     "reviewed": true
@@ -13917,7 +13917,7 @@
   },
   "palsy": {
     "display": "palsy",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Paralysis, complete or partial.",
     "reviewed": true
@@ -13938,7 +13938,7 @@
   },
   "panes": {
     "display": "panes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Single sheets of glass in a window or door frame (plural of pane).",
     "reviewed": true
@@ -14204,7 +14204,7 @@
   },
   "peels": {
     "display": "peels",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "verb",
     "def": "Removes the outer covering or skin from a fruit or vegetable (third-person singular present of peel).",
     "reviewed": true
@@ -14225,7 +14225,7 @@
   },
   "pelts": {
     "display": "pelts",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun/verb",
     "def": "The skin of a beast with the hair on; a raw or undressed hide.",
     "reviewed": true
@@ -14316,7 +14316,7 @@
   },
   "petit": {
     "display": "petit",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Small in size or amount; often used in legal contexts or as a loanword from French.",
     "reviewed": true
@@ -14526,7 +14526,7 @@
   },
   "piped": {
     "display": "piped",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Conveyed or supplied through a pipe; also, uttered in a high-pitched voice (past tense of pipe).",
     "reviewed": true
@@ -14862,14 +14862,14 @@
   },
   "poops": {
     "display": "poops",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "verb",
     "def": "To defecate; also, to become exhausted or fail (third-person singular present of poop).",
     "reviewed": true
   },
   "popes": {
     "display": "popes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The bishops of Rome, who are the heads of the Roman Catholic Church (plural of pope).",
     "reviewed": true
@@ -15212,7 +15212,7 @@
   },
   "pucks": {
     "display": "pucks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Flat, round, hard rubber discs used in ice hockey, which players hit with sticks (plural of puck).",
     "reviewed": true
@@ -15366,7 +15366,7 @@
   },
   "quads": {
     "display": "quads",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The large group of four muscles located at the front of the thigh (plural of quad).",
     "reviewed": true
@@ -15422,7 +15422,7 @@
   },
   "quell": {
     "display": "quell",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To put an end to something, typically by force; to suppress a rebellion or a strong emotion.",
     "reviewed": true
@@ -15492,7 +15492,7 @@
   },
   "quirk": {
     "display": "quirk",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A peculiar behavioral habit or characteristic; an odd or unusual feature of something.",
     "reviewed": true
@@ -15681,7 +15681,7 @@
   },
   "randy": {
     "display": "randy",
-    "d": 0.35,
+    "d": 0.65,
     "pos": "adj",
     "def": "Sexually aroused or lustful; having a strong desire for sexual activity.",
     "reviewed": true
@@ -15835,7 +15835,7 @@
   },
   "reams": {
     "display": "reams",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Large quantities of paper, typically 500 sheets, or an abundance of written material (plural of ream).",
     "reviewed": true
@@ -16339,7 +16339,7 @@
   },
   "rondo": {
     "display": "rondo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A musical form with a recurring leading theme that alternates with contrasting episodes.",
     "reviewed": true
@@ -16395,7 +16395,7 @@
   },
   "roper": {
     "display": "roper",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A person who uses a lasso or rope, especially in a rodeo to catch cattle.",
     "reviewed": true
@@ -16486,7 +16486,7 @@
   },
   "rowed": {
     "display": "rowed",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Propelled a boat through water using oars (past tense or past participle of row).",
     "reviewed": true
@@ -16640,14 +16640,14 @@
   },
   "safes": {
     "display": "safes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Strong, lockable metal boxes or cabinets used for securely storing money, jewelry, or other valuable items (plural of safe).",
     "reviewed": true
   },
   "sages": {
     "display": "sages",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Individuals who are profoundly wise and experienced, often respected for their deep knowledge and sound judgment (plural of sage).",
     "reviewed": true
@@ -16745,7 +16745,7 @@
   },
   "salve": {
     "display": "salve",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "An ointment or balm applied to the skin to heal wounds, soothe irritation, or protect from harm.",
     "reviewed": true
@@ -16766,7 +16766,7 @@
   },
   "sands": {
     "display": "sands",
-    "d": 0.75,
+    "d": 0.35,
     "pos": "noun",
     "def": "Loose granular material, typically consisting of finely divided rock and mineral particles, found on beaches and deserts.",
     "reviewed": true
@@ -17074,7 +17074,7 @@
   },
   "scots": {
     "display": "scots",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Pertaining to Scotland, its people, or its language; Scottish.",
     "reviewed": true
@@ -17144,7 +17144,7 @@
   },
   "scuff": {
     "display": "scuff",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A mark or scratch caused by rubbing against a rough surface, or a type of slipper.",
     "reviewed": true
@@ -17403,7 +17403,7 @@
   },
   "shale": {
     "display": "shale",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A soft, finely stratified sedimentary rock that formed from consolidated mud or clay.",
     "reviewed": true
@@ -17592,7 +17592,7 @@
   },
   "shirk": {
     "display": "shirk",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To avoid or neglect a duty, responsibility, or work that one is supposed to do.",
     "reviewed": true
@@ -17613,7 +17613,7 @@
   },
   "shoal": {
     "display": "shoal",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large number of fish swimming together as a group, or a sandbank or sandbar that makes water shallow.",
     "reviewed": true
@@ -17746,14 +17746,14 @@
   },
   "shuck": {
     "display": "shuck",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To remove the outer covering or husk from something, such as corn, oysters, or nuts.",
     "reviewed": true
   },
   "shunt": {
     "display": "shunt",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To push or pull something, especially a train, from one track to another; to divert or move aside.",
     "reviewed": true
@@ -18215,7 +18215,7 @@
   },
   "slink": {
     "display": "slink",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To move in a quiet, stealthy, or furtive manner, often with a sense of shame or secrecy.",
     "reviewed": true
@@ -18334,7 +18334,7 @@
   },
   "smelt": {
     "display": "smelt",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To extract metal from its ore by heating it in a furnace, or the past tense of smell.",
     "reviewed": true
@@ -18432,7 +18432,7 @@
   },
   "snarl": {
     "display": "snarl",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To make an aggressive growl with bared teeth, or to become tangled and knotted.",
     "reviewed": true
@@ -18614,7 +18614,7 @@
   },
   "soils": {
     "display": "soils",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
     "def": "The upper layer of earth in which plants grow, or makes something dirty or stained (plural of soil).",
     "reviewed": true
@@ -19041,7 +19041,7 @@
   },
   "spuds": {
     "display": "spuds",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Potatoes, especially as a casual or informal term (plural of spud).",
     "reviewed": true
@@ -19321,7 +19321,7 @@
   },
   "stent": {
     "display": "stent",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A small mesh tube inserted into a bodily duct or vessel to keep it open, often in an artery.",
     "reviewed": true
@@ -19412,7 +19412,7 @@
   },
   "stoke": {
     "display": "stoke",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To add fuel to a fire or furnace to make it burn more fiercely, or to encourage a feeling or emotion.",
     "reviewed": true
@@ -19622,7 +19622,7 @@
   },
   "suave": {
     "display": "suave",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Charming, confident, and elegant, often in a smooth and sophisticated manner, especially a man.",
     "reviewed": true
@@ -19888,7 +19888,7 @@
   },
   "swish": {
     "display": "swish",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To move with a soft, rustling sound, or to make such a sound by moving something quickly through the air.",
     "reviewed": true
@@ -19979,7 +19979,7 @@
   },
   "tacks": {
     "display": "tacks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Small, sharp-pointed nails with flat heads, or courses sailed obliquely into the wind (plural of tack).",
     "reviewed": true
@@ -20119,7 +20119,7 @@
   },
   "tapas": {
     "display": "tapas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Small savory dishes, snacks, or appetizers of Spanish cuisine, often served with drinks.",
     "reviewed": true
@@ -20161,7 +20161,7 @@
   },
   "tarry": {
     "display": "tarry",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To stay longer than intended; to delay leaving a place or doing something.",
     "reviewed": true
@@ -20392,7 +20392,7 @@
   },
   "terra": {
     "display": "terra",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Earth or land, often used in scientific or Latin-derived terms like 'terra firma' or 'terracotta'.",
     "reviewed": true
@@ -20623,7 +20623,7 @@
   },
   "thyme": {
     "display": "thyme",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Any plant of the labiate genus Thymus.",
     "reviewed": true
@@ -20665,7 +20665,7 @@
   },
   "tiers": {
     "display": "tiers",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Rows or levels arranged one above another, often in a series or hierarchy (plural of tier).",
     "reviewed": true
@@ -21057,7 +21057,7 @@
   },
   "trams": {
     "display": "trams",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Public passenger vehicles powered by electricity, running on rails, typically in urban areas (plural of tram).",
     "reviewed": true
@@ -21176,7 +21176,7 @@
   },
   "trill": {
     "display": "trill",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To sing or utter with a rapid alternation of vocal tones; to make a vibrating sound.",
     "reviewed": true
@@ -21274,7 +21274,7 @@
   },
   "truss": {
     "display": "truss",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A framework, typically made of beams, supporting a roof, bridge, or other structure.",
     "reviewed": true
@@ -21309,7 +21309,7 @@
   },
   "tucks": {
     "display": "tucks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Pushes, folds, or gathers something into a small space or a neat fold (third-person singular present of tuck).",
     "reviewed": true
@@ -21330,7 +21330,7 @@
   },
   "tulle": {
     "display": "tulle",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A fine, lightweight, stiff netting made of silk, rayon, or nylon, used for veils and dresses.",
     "reviewed": true
@@ -22114,7 +22114,7 @@
   },
   "vouch": {
     "display": "vouch",
-    "d": 0.8,
+    "d": 0.65,
     "pos": "verb",
     "def": "To assert or confirm as a result of one's own experience that something is true or accurate.",
     "reviewed": true
@@ -22247,7 +22247,7 @@
   },
   "wakey": {
     "display": "wakey",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An informal term used to call someone to wake up, often repeated as \"wakey, wakey.\"",
     "reviewed": true
@@ -22310,7 +22310,7 @@
   },
   "wares": {
     "display": "wares",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Goods or merchandise offered for sale, typically by a vendor or merchant (plural of ware).",
     "reviewed": true
@@ -22611,7 +22611,7 @@
   },
   "whisk": {
     "display": "whisk",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A kitchen utensil with loops of wire used for beating or stirring light foods like eggs or cream.",
     "reviewed": true
@@ -22653,7 +22653,7 @@
   },
   "wicks": {
     "display": "wicks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Pieces of absorbent material, typically cord, that draw fuel to the flame in candles, lamps, or lighters (plural of wick).",
     "reviewed": true
@@ -22695,7 +22695,7 @@
   },
   "wilds": {
     "display": "wilds",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Uninhabited, uncultivated, or desolate regions, often characterized by dense vegetation and natural landscapes (plural of wild).",
     "reviewed": true
@@ -23150,7 +23150,7 @@
   },
   "yowls": {
     "display": "yowls",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Makes a loud, prolonged, and mournful cry or howl, typically expressing pain, distress, or strong emotion (third-person singular present of yowl).",
     "reviewed": true
@@ -23185,7 +23185,7 @@
   },
   "zoned": {
     "display": "zoned",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Divided into distinct areas or regions, especially for specific purposes like urban planning or land use (past participle of zone).",
     "reviewed": true

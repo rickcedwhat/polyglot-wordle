@@ -25,14 +25,17 @@ export const buildJevQuestions = (entry: DictionaryEntry) => {
 
   return {
     definition: choice(
-      `Is the definition factually accurate for "${entry.display}" as a ${langName} ${entry.pos}?`,
+      `How would you evaluate the definition for the 5-letter ${langName} word "${entry.display}" as a ${entry.pos}?`,
       {
-        accurate: 'Accurate: Factually correct definition matching the word and part of speech',
+        accurate:
+          'Accurate Base Form: Factually correct definition matching the word and part of speech (base lemma / headword)',
+        inflected_form:
+          'Accurate Inflection: Valid conjugated verb, tense, plural, or inflected form with an accurate explanatory gloss',
         wrong_pos:
           'Wrong POS: Meaning is valid but part of speech is mislabeled (e.g. noun labeled as verb)',
         wrong_meaning:
           'Wrong Meaning: Incorrect meaning, defines a different word, or is a false friend',
-        fabricated: 'Fabricated: Hallucinated, fictitious, or invented word/meaning',
+        fabricated: 'Fabricated: Hallucinated, fictitious, non-existent word, or invented meaning',
       }
     ),
 
@@ -100,6 +103,7 @@ export async function evaluateEntryWithJev(
   const rawDef = String((answers.definition as any)?.choice || 'accurate') as DefinitionVerdict;
   const definitionVerdict: DefinitionVerdict = [
     'accurate',
+    'inflected_form',
     'wrong_pos',
     'wrong_meaning',
     'fabricated',

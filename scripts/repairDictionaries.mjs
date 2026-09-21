@@ -126,23 +126,7 @@ for (const lang of LANGS) {
         entry.d = newD;
         difficultyUpdated++;
       }
-    }
-
-    // 2. Restore corrupted definitions if available in prevDict
-    const isFlagged = flaggedDefMap.has(word);
-    const looksCorrupted = isCorrupted(entry.def);
-
-    if ((isFlagged || looksCorrupted) && prevDict[word] && prevDict[word].def) {
-      const prevDef = prevDict[word].def.trim();
-      // Ensure the previous definition is valid and not itself a corrupted placeholder
-      if (prevDef.length >= 15 && !isCorrupted(prevDef) && prevDef !== entry.def) {
-        entry.def = prevDef;
-        if (prevDict[word].pos) {
-          entry.pos = prevDict[word].pos;
-        }
-        definitionsRestored++;
-      }
-    }
+    }    }
   }
 
   // Save back cleanly formatted

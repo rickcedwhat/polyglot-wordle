@@ -309,7 +309,7 @@
   },
   "ailee": {
     "display": "ailée",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Feminine of ailé; equipped with anatomical wings for flight.",
     "reviewed": true
@@ -799,7 +799,7 @@
   },
   "aryen": {
     "display": "aryen",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Relating to or denoting a people speaking an Indo-European language, historically associated with a controversial racial theory.",
     "reviewed": true
@@ -1310,7 +1310,7 @@
   },
   "batie": {
     "display": "bâtie",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Constructed or erected, referring to a building or structure (feminine past participle of bâtir).",
     "reviewed": true
@@ -1471,7 +1471,7 @@
   },
   "benin": {
     "display": "bénin",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Gentle, kind, or not harmful; especially in medicine, not malignant.",
     "reviewed": true
@@ -1583,7 +1583,7 @@
   },
   "bidet": {
     "display": "bidet",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A low basin, typically installed in a bathroom, used for washing the perineum.",
     "reviewed": true
@@ -1863,7 +1863,7 @@
   },
   "bonds": {
     "display": "bonds",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Financial instruments representing a loan made by an investor to a borrower, typically issued by governments or corporations.",
     "reviewed": true
@@ -2087,7 +2087,7 @@
   },
   "brins": {
     "display": "brins",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Small strands or sprigs of something, such as grass, hair, or thread.",
     "reviewed": true
@@ -2885,7 +2885,7 @@
   },
   "cimes": {
     "display": "cimes",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The highest points or summits of mountains or trees, representing their peaks or tops (plural of cime).",
     "reviewed": true
@@ -3291,7 +3291,7 @@
   },
   "corne": {
     "display": "corne",
-    "d": 0.81,
+    "d": 0.65,
     "pos": "noun",
     "def": "A hard, pointed growth on an animal's head, or a musical instrument; also, a corner or dog-ear on a page.",
     "reviewed": true
@@ -3676,7 +3676,7 @@
   },
   "cures": {
     "display": "cures",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Cleans, clears out, or provides a remedy for something (first/second-person singular present indicative/subjunctive of curer).",
     "reviewed": true
@@ -3760,14 +3760,14 @@
   },
   "damne": {
     "display": "damné",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Condemned, damned, or doomed to eternal punishment; also, a person who is damned (masculine singular past participle of damner).",
     "reviewed": true
   },
   "dandy": {
     "display": "dandy",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A man who is excessively concerned with his appearance, fashion, and refined tastes.",
     "reviewed": true
@@ -4047,7 +4047,7 @@
   },
   "devis": {
     "display": "devis",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An estimate or quotation for work to be done or services to be provided (singular or plural noun).",
     "reviewed": true
@@ -4376,7 +4376,7 @@
   },
   "drain": {
     "display": "drain",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A pipe or channel designed to carry away unwanted liquid, or the act of removing fluid from a place.",
     "reviewed": true
@@ -4523,7 +4523,7 @@
   },
   "ebene": {
     "display": "ébène",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Having the deep, dark black color characteristic of ebony wood; very dark.",
     "reviewed": true
@@ -4803,7 +4803,7 @@
   },
   "enter": {
     "display": "entre",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "verb",
     "def": "Enters, goes into, or comes into a place or state (present tense of entrer).",
     "reviewed": true
@@ -5006,7 +5006,7 @@
   },
   "ether": {
     "display": "éther",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A class of organic compounds containing an oxygen atom bonded to two alkyl or aryl groups. Also, the upper regions of air.",
     "reviewed": true
@@ -5174,7 +5174,7 @@
   },
   "faite": {
     "display": "faîte",
-    "d": 0.19,
+    "d": 0.82,
     "pos": "noun",
     "def": "The highest point or summit of a roof, mountain, or structure; the ridge.",
     "reviewed": true
@@ -5209,7 +5209,7 @@
   },
   "fasse": {
     "display": "fasse",
-    "d": 0.13,
+    "d": 0.65,
     "pos": "verb",
     "def": "May do or may make; indicating a desired or hypothetical action (first/third-person singular present subjunctive of faire).",
     "reviewed": true
@@ -5384,7 +5384,7 @@
   },
   "feves": {
     "display": "fèves",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Large, flat, edible beans, typically broad beans or fava beans, used in various culinary dishes (plural of fève).",
     "reviewed": true
@@ -5517,7 +5517,7 @@
   },
   "filon": {
     "display": "filon",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A rich vein of ore or a valuable discovery; metaphorically, a good opportunity or a profitable source of income.",
     "reviewed": true
@@ -5608,7 +5608,7 @@
   },
   "fixes": {
     "display": "fixes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Not moving or changing; permanently in position or established (masculine and feminine plural of fixe).",
     "reviewed": true
@@ -5741,7 +5741,7 @@
   },
   "folie": {
     "display": "folie",
-    "d": 0.23,
+    "d": 0.65,
     "pos": "noun",
     "def": "madness, folly, insanity; silliness, craziness.",
     "reviewed": true
@@ -5769,7 +5769,7 @@
   },
   "fonde": {
     "display": "fonde",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Melts, dissolves, or casts metal (present tense of fondre); also, establishes or founds (present tense of fonder).",
     "reviewed": true
@@ -6301,7 +6301,7 @@
   },
   "gatee": {
     "display": "gâtée",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Spoiled, pampered, or rotten; having been treated with excessive indulgence (past participle of gâter, used as an adjective).",
     "reviewed": true
@@ -6889,7 +6889,7 @@
   },
   "harem": {
     "display": "harem",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The separate part of a Muslim household reserved for women, or the women themselves.",
     "reviewed": true
@@ -7694,7 +7694,7 @@
   },
   "kiffe": {
     "display": "kiffe",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Likes, enjoys, or appreciates something or someone (first/third-person singular present indicative/subjunctive of kiffer, informal).",
     "reviewed": true
@@ -7904,7 +7904,7 @@
   },
   "lavee": {
     "display": "lavée",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Washed or cleaned, typically referring to something that has been cleansed with water and soap (feminine singular past participle of laver).",
     "reviewed": true
@@ -7981,7 +7981,7 @@
   },
   "lepre": {
     "display": "lèpre",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A chronic, infectious disease caused by bacteria, primarily affecting the skin, nerves, and respiratory tract.",
     "reviewed": true
@@ -8310,7 +8310,7 @@
   },
   "louee": {
     "display": "louée",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Rented, leased, or hired for a period of time (feminine singular past participle of louer).",
     "reviewed": true
@@ -8471,7 +8471,7 @@
   },
   "macho": {
     "display": "macho",
-    "d": 0.94,
+    "d": 0.65,
     "pos": "noun",
     "def": "One who is excessively or aggressively masculine or misogynistic; a chauvinist.",
     "reviewed": true
@@ -8835,7 +8835,7 @@
   },
   "memes": {
     "display": "mémés",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Affectionate and informal terms for grandmothers, similar to 'grannies' or 'grandmas' (plural of 'mémé').",
     "reviewed": true
@@ -9010,7 +9010,7 @@
   },
   "miche": {
     "display": "miche",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A large, round loaf of bread, typically rustic and often with a thick crust.",
     "reviewed": true
@@ -9416,7 +9416,7 @@
   },
   "muter": {
     "display": "muter",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To transfer an employee to a different position or location; also, to undergo a biological change or mutation.",
     "reviewed": true
@@ -9528,7 +9528,7 @@
   },
   "natal": {
     "display": "natal",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Relating to the place or time of one's birth; associated with the circumstances of being born.",
     "reviewed": true
@@ -9577,7 +9577,7 @@
   },
   "nazie": {
     "display": "nazie",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "feminine singular of nazi.",
     "reviewed": true
@@ -9717,7 +9717,7 @@
   },
   "noies": {
     "display": "noies",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Drowns, submerges, or overwhelms someone or something (present tense of noyer).",
     "reviewed": true
@@ -9759,7 +9759,7 @@
   },
   "notee": {
     "display": "notée",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "feminine singular of noté.",
     "reviewed": true
@@ -9955,7 +9955,7 @@
   },
   "ogive": {
     "display": "ogive",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A pointed arch, especially in Gothic architecture, or the pointed nose cone of a projectile or rocket.",
     "reviewed": true
@@ -10151,7 +10151,7 @@
   },
   "ouste": {
     "display": "ouste",
-    "d": 0.88,
+    "d": 0.65,
     "pos": "adv",
     "def": "An exclamation used to tell someone to leave or get out; a forceful dismissal.",
     "reviewed": true
@@ -10361,14 +10361,14 @@
   },
   "paree": {
     "display": "parée",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Adorned, decorated, or dressed up, especially in a fancy or elaborate way (feminine singular past participle of parer).",
     "reviewed": true
   },
   "parer": {
     "display": "parer",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To adorn or decorate something or someone; also, to prepare or make ready, or to ward off a blow.",
     "reviewed": true
@@ -11124,7 +11124,7 @@
   },
   "plant": {
     "display": "plant",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To place a seed or young plant in the ground to grow; to establish or set firmly in place.",
     "reviewed": true
@@ -11320,7 +11320,7 @@
   },
   "polie": {
     "display": "polie",
-    "d": 0.92,
+    "d": 0.65,
     "pos": "adj",
     "def": "Polite, courteous, or well-mannered; also, smooth and shiny, having been polished (feminine singular of poli).",
     "reviewed": true
@@ -11334,7 +11334,7 @@
   },
   "polir": {
     "display": "polir",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "To make a surface smooth and shiny by rubbing it; to polish or refine something.",
     "reviewed": true
@@ -11397,7 +11397,7 @@
   },
   "ponte": {
     "display": "ponte",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The act of laying eggs by a bird or animal; also, a bridge or a leading expert in a specific field.",
     "reviewed": true
@@ -11999,7 +11999,7 @@
   },
   "raies": {
     "display": "raies",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Long, narrow marks or bands, often parallel, on a surface; also, several species of flat-bodied marine fish (plural of raie).",
     "reviewed": true
@@ -12559,7 +12559,7 @@
   },
   "revee": {
     "display": "rêvée",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Dreamed of, imagined, or longed for; something that was envisioned (feminine singular past participle of rêver).",
     "reviewed": true
@@ -12608,7 +12608,7 @@
   },
   "revus": {
     "display": "revus",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Seen again, reviewed, or revised; having been re-examined (masculine plural past participle of revoir).",
     "reviewed": true
@@ -12825,7 +12825,7 @@
   },
   "rompe": {
     "display": "rompe",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Breaks, separates into pieces, or ends a relationship or agreement (first or third-person singular present subjunctive of rompre).",
     "reviewed": true
@@ -13028,7 +13028,7 @@
   },
   "rumba": {
     "display": "rumba",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A rhythmic ballroom dance of Cuban origin, characterized by a quick-quick-slow step pattern and swaying hip movements.",
     "reviewed": true
@@ -13091,7 +13091,7 @@
   },
   "sache": {
     "display": "sache",
-    "d": 0.18,
+    "d": 0.65,
     "pos": "verb",
     "def": "Know, be aware of, or understand (first/third-person singular present subjunctive of savoir).",
     "reviewed": true
@@ -13763,7 +13763,7 @@
   },
   "slave": {
     "display": "slave",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A person who is the legal property of another and forced to obey them; also, relating to such a person.",
     "reviewed": true
@@ -14344,7 +14344,7 @@
   },
   "tanks": {
     "display": "tanks",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Large, armored military vehicles equipped with heavy weaponry; also refers to large containers for liquids or gases (plural of tank).",
     "reviewed": true
@@ -14407,7 +14407,7 @@
   },
   "tapis": {
     "display": "tapis",
-    "d": 0.3,
+    "d": 0.82,
     "pos": "verb",
     "def": "Refers to being hidden or concealed, often in a crouching position (masculine plural past participle of se tapir).",
     "reviewed": true
@@ -14617,7 +14617,7 @@
   },
   "tenus": {
     "display": "tenus",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Held, kept, or maintained; also, refers to being obliged or bound (past participle of tenir, masculine plural).",
     "reviewed": true
@@ -15457,7 +15457,7 @@
   },
   "vante": {
     "display": "vante",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Boasts, praises, or extols the merits of oneself or something (first or third-person singular present indicative or subjunctive of vanter).",
     "reviewed": true
@@ -15870,7 +15870,7 @@
   },
   "viral": {
     "display": "viral",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Relating to or caused by a virus; also, spreading rapidly and widely via the internet.",
     "reviewed": true
@@ -16010,7 +16010,7 @@
   },
   "vocal": {
     "display": "vocal",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Relating to the human voice; expressed or performed by singing or speaking.",
     "reviewed": true
@@ -16073,7 +16073,7 @@
   },
   "volee": {
     "display": "volée",
-    "d": 0.38,
+    "d": 0.65,
     "pos": "noun",
     "def": "A flight or flock of birds; also, a volley (in sports) or a burst of something.",
     "reviewed": true
@@ -16339,7 +16339,7 @@
   },
   "zoome": {
     "display": "zoomé",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Magnified or brought into closer view using a camera lens or digital function (past participle of zoomer).",
     "reviewed": true
