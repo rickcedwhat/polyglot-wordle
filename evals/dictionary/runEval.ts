@@ -145,6 +145,7 @@ export async function runDictionaryEval() {
   const isPilot = args.includes('--pilot');
   const isDryRun = args.includes('--dry-run');
   const isFull = args.includes('--full');
+  const useBraintrust = args.includes('--braintrust');
 
   let langArg: Language | null = null;
   if (args.includes('--en')) {
@@ -163,12 +164,18 @@ export async function runDictionaryEval() {
   const braintrustKey = process.env.BRAINTRUST_API_KEY;
   const typesafeKey = process.env.TYPESAFE_API_KEY;
 
-  if (!isDryRun && (!typesafeKey || !braintrustKey)) {
-    console.error(`\n❌ Error: Missing API credentials!`);
-    console.error(`Please provide BRAINTRUST_API_KEY and TYPESAFE_API_KEY in:`);
+  if (!isDryRun && !typesafeKey) {
+    console.error(`\n❌ Error: Missing TYPESAFE_API_KEY credentials!`);
+    console.error(`Please provide TYPESAFE_API_KEY in:`);
     console.error(`  ${path.resolve(process.cwd(), '.env.local')}\n`);
     console.error(`Or run with --dry-run to test the pipeline with simulated responses:\n`);
     console.error(`  npm run eval:dict:pilot -- --dry-run\n`);
+    process.exit(1);
+  }
+
+  if (useBraintrust && !braintrustKey) {
+    console.error(`\n❌ Error: Missing BRAINTRUST_API_KEY credentials!`);
+    console.error(`Please provide BRAINTRUST_API_KEY in .env.local to log to Braintrust.\n`);
     process.exit(1);
   }
 
@@ -186,11 +193,14 @@ export async function runDictionaryEval() {
     entries = loadPilotSample(25);
   }
 
-  console.log(`\n🚀 Initializing Braintrust + Jev Dictionary QA...`);
+  console.log(`\n🚀 Initializing Jev Dictionary QA...`);
   console.log(
     `Mode: ${langArg ? `Single Language [${langArg.toUpperCase()}] (${entries.length} words)` : isFull ? 'Full Dictionary (all words)' : 'Pilot Sample'}`
   );
-  console.log(`Dry Run: ${isDryRun ? 'YES (mock client)' : 'NO (live Jev & Braintrust API)'}`);
+  console.log(`Dry Run: ${isDryRun ? 'YES (mock client)' : 'NO (live Jev API)'}`);
+  console.log(
+    `Braintrust: ${useBraintrust ? 'ENABLED (recording experiment)' : 'DISABLED (local evaluation only; pass --braintrust to enable)'}`
+  );
 
   let client: any;
   let experiment: any = null;
@@ -198,24 +208,28 @@ export async function runDictionaryEval() {
   if (isDryRun) {
     client = new MockTypeSafeClient();
   } else {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const prefix = langArg
-      ? `${langArg}-dictionary-qa`
-      : isFull
-        ? 'full-dictionary-qa'
-        : 'pilot-qa';
-    const expName = `${prefix}-${timestamp}`;
-    experiment = initExperiment('polyglot-wordle-dict-qa', {
-      experiment: expName,
-      metadata: {
-        mode: langArg ? `full-${langArg}` : isFull ? 'full' : 'pilot',
-        language: langArg || 'all',
-        model: 'jev-latest',
-        entriesCount: entries.length,
-      },
-    });
     const rawClient = new TypeSafeClient({ apiKey: typesafeKey });
-    client = wrapTypeSafe(rawClient);
+    if (useBraintrust) {
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const prefix = langArg
+        ? `${langArg}-dictionary-qa`
+        : isFull
+          ? 'full-dictionary-qa'
+          : 'pilot-qa';
+      const expName = `${prefix}-${timestamp}`;
+      experiment = initExperiment('polyglot-wordle-dict-qa', {
+        experiment: expName,
+        metadata: {
+          mode: langArg ? `full-${langArg}` : isFull ? 'full' : 'pilot',
+          language: langArg || 'all',
+          model: 'jev-latest',
+          entriesCount: entries.length,
+        },
+      });
+      client = wrapTypeSafe(rawClient);
+    } else {
+      client = rawClient;
+    }
   }
 
   console.log(`Loaded ${entries.length} entries for evaluation.`);
@@ -386,6 +400,10 @@ export async function runDictionaryEval() {
     if (summary && (summary as any).experimentUrl) {
       console.log(`🔗 Experiment URL: ${(summary as any).experimentUrl}`);
     }
+  } else if (!isDryRun) {
+    console.log(
+      `\n💡 Braintrust Logging: DISABLED (ran locally with Jev; pass --braintrust to log to Braintrust)`
+    );
   }
 
   // Ensure artifacts directory exists
