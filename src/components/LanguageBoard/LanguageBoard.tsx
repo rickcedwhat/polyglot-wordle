@@ -228,15 +228,16 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
 
     const resolveDisplayGuess = (guess: string) => {
       const normGuess = normalizeWord(guess);
+      const isSolution = normGuess === normalizeWord(solutionWord);
       const matchingWordKey = words.find((word) => normalizeWord(word) === normGuess);
-      const languageMatch = !!matchingWordKey;
+      const languageMatch = !!matchingWordKey || isSolution;
       const dictEntry =
         dictionary?.[normGuess] || (matchingWordKey ? dictionary?.[matchingWordKey] : undefined);
       const displayGuess =
         dictEntry?.display ||
         (matchingWordKey && dictionary?.[matchingWordKey]?.display) ||
         matchingWordKey ||
-        guess;
+        (isSolution ? solutionWord : guess);
       return { displayGuess, languageMatch };
     };
 

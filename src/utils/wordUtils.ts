@@ -351,3 +351,101 @@ export const splitDefinition = (text: string): SplitDefinition => {
     main: formatDefinition(trimmed),
   };
 };
+
+export interface ValidateGuessParams {
+  guess: string;
+  masterPools: {
+    en: string[];
+    es: string[];
+    fr: string[];
+  };
+  solution: {
+    en: string;
+    es: string;
+    fr: string;
+  };
+  isChallenge?: boolean;
+  previousGuesses?: string[];
+}
+
+export interface GuessValidationResult {
+  isValid: boolean;
+  matchedLangs: Language[];
+  solutionLangs: Language[];
+}
+
+/**
+ * Validates a 5-letter guess against the loaded master dictionaries.
+ *
+ * In challenge mode (isChallenge: true), inherited solution words from the
+ * challenger's session are always accepted as valid guesses even if they
+ * are absent from the local/current master dictionary (preventing soft-locks
+ * caused by dictionary drift).
+ */
+export const validateGuess = ({
+  guess,
+  masterPools,
+  solution,
+  isChallenge = false,
+  previousGuesses = [],
+}: ValidateGuessParams): GuessValidationResult => {
+  const normGuess = normalizeWord(guess);
+
+  if (normGuess.length !== 5) {
+    return { isValid: false, matchedLangs: [], solutionLangs: [] };
+  }
+
+  if (previousGuesses.map(normalizeWord).includes(normGuess)) {
+    return { isValid: false, matchedLangs: [], solutionLangs: [] };
+  }
+
+  const inMasterEn = masterPools.en.some((w) => normalizeWord(w) === normGuess);
+  const inMasterEs = masterPools.es.some((w) => normalizeWord(w) === normGuess);
+  const inMasterFr = masterPools.fr.some((w) => normalizeWord(w) === normGuess);
+
+  const isSolEn = Boolean(solution?.en && normGuess === normalizeWord(solution.en));
+  const isSolEs = Boolean(solution?.es && normGuess === normalizeWord(solution.es));
+  const isSolFr = Boolean(solution?.fr && normGuess === normalizeWord(solution.fr));
+
+  const inEn = inMasterEn || (isChallenge && isSolEn);
+  const inEs = inMasterEs || (isChallenge && isSolEs);
+  const inFr = inMasterFr || (isChallenge && isSolFr);
+
+  const isValid = inEn || inEs || inFr;
+
+  if (!isValid) {
+    return {
+      isValid: false,
+      matchedLangs: [],
+      solutionLangs: [],
+    };
+  }
+
+  const matchedLangs: Language[] = [];
+  if (inEn) {
+    matchedLangs.push('en');
+  }
+  if (inEs) {
+    matchedLangs.push('es');
+  }
+  if (inFr) {
+    matchedLangs.push('fr');
+  }
+
+  const solutionLangs: Language[] = [];
+  if (isSolEn) {
+    solutionLangs.push('en');
+  }
+  if (isSolEs) {
+    solutionLangs.push('es');
+  }
+  if (isSolFr) {
+    solutionLangs.push('fr');
+  }
+
+  return {
+    isValid: true,
+    matchedLangs,
+    solutionLangs,
+  };
+};

@@ -10,8 +10,8 @@ import { useChallenge } from '@/hooks/useChallenge';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
-import type { GameDoc, Language } from '@/types/firestore.d.ts';
-import { normalizeWord } from '@/utils/wordUtils';
+import type { GameDoc } from '@/types/firestore.d.ts';
+import { normalizeWord, validateGuess } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
@@ -147,35 +147,16 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           return;
         }
 
-        const normGuess = normalizeWord(guessString);
-        const inEn = wordPools.master.en.some((word) => normalizeWord(word) === normGuess);
-        const inEs = wordPools.master.es.some((word) => normalizeWord(word) === normGuess);
-        const inFr = wordPools.master.fr.some((word) => normalizeWord(word) === normGuess);
-        const isValid = (inEn || inEs || inFr) && !guesses.map(normalizeWord).includes(guessString);
+        const isChallengeSession = Boolean(isChallenge || challengerGame);
+        const { isValid, matchedLangs, solutionLangs } = validateGuess({
+          guess: guessString,
+          masterPools: wordPools.master,
+          solution,
+          isChallenge: isChallengeSession,
+          previousGuesses: guesses,
+        });
 
         if (isValid) {
-          const matchedLangs: Language[] = [];
-          if (inEn) {
-            matchedLangs.push('en');
-          }
-          if (inEs) {
-            matchedLangs.push('es');
-          }
-          if (inFr) {
-            matchedLangs.push('fr');
-          }
-
-          const solutionLangs: Language[] = [];
-          if (normGuess === normalizeWord(solution.en)) {
-            solutionLangs.push('en');
-          }
-          if (normGuess === normalizeWord(solution.es)) {
-            solutionLangs.push('es');
-          }
-          if (normGuess === normalizeWord(solution.fr)) {
-            solutionLangs.push('fr');
-          }
-
           // Record discovered word into player's personal vocabulary with language-specific solved tagging
           recordGuess({
             guess: guessString,
@@ -236,10 +217,12 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     [
       currentGuess,
       cursorIndex,
+      challengerGame,
       endGame,
       gameStatus,
       guessHistory,
       guesses,
+      isChallenge,
       recalculateScore,
       recordGuess,
       shuffledLanguages,
