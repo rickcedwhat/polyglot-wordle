@@ -172,7 +172,10 @@ export function loadPilotSample(perLang = 25): DictionaryEntry[] {
     // Add calibration entries for this language first
     const calibWords = new Set(calibrationFixtures.map((fixture) => fixture.word));
     const calibEntries = calibrationFixtures.map(
-      ({ expectedFlag: _expectedFlag, notes: _notes, mockAnswers: _mockAnswers, ...entry }) => entry
+      ({ expectedFlag: _expectedFlag, notes: _notes, mockAnswers: _mockAnswers, ...entry }) => ({
+        ...entry,
+        isCalibration: true,
+      })
     );
     sample.push(...calibEntries);
 

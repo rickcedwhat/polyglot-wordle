@@ -16,6 +16,7 @@ import {
   EvaluationFailure,
   JevEvaluationResult,
   Language,
+  mapScoreToTier,
   ReviewQueueItem,
 } from './types';
 
@@ -140,10 +141,29 @@ export function generateMarkdownSummary(stats: EvalRunStats, items: ReviewQueueI
 }
 
 // Mock client for dry-runs and automated pipeline testing
-class MockTypeSafeClient {
-  async systemOne({ state }: { state: any }) {
+export class MockTypeSafeClient {
+  async systemOne({
+    state,
+  }: {
+    state: {
+      word: string;
+      display: string;
+      languageCode: Language;
+      partOfSpeech: string;
+      definition: string;
+      currentDifficultyTier: string;
+      isCalibration?: boolean;
+    };
+  }) {
     const fixture = CALIBRATION_BENCHMARK.find(
-      (item) => item.word === state.word && item.lang === state.languageCode
+      (item) =>
+        item.word === state.word &&
+        item.lang === state.languageCode &&
+        (state.isCalibration === true ||
+          (item.display === state.display &&
+            item.pos === state.partOfSpeech &&
+            item.def === state.definition &&
+            mapScoreToTier(item.d) === state.currentDifficultyTier))
     );
     const answers = fixture?.mockAnswers;
 
@@ -248,15 +268,12 @@ export async function runDictionaryEval() {
 
   // Load dataset
   let entries: DictionaryEntry[] = [];
-  const calibrationLabels = new Map<string, boolean>();
+  const calibrationLabels = new Map<DictionaryEntry, boolean>();
   if (isQueue) {
     entries = loadReviewQueueEntries();
   } else if (langArg) {
     if (isPilot) {
       entries = loadPilotSample(25).filter((e) => e.lang === langArg);
-      for (const fixture of CALIBRATION_BENCHMARK.filter((item) => item.lang === langArg)) {
-        calibrationLabels.set(`${fixture.lang}:${fixture.word}`, fixture.expectedFlag);
-      }
     } else {
       entries = loadDictionary(langArg);
     }
@@ -264,8 +281,17 @@ export async function runDictionaryEval() {
     entries = loadAllDictionaries();
   } else {
     entries = loadPilotSample(25);
-    for (const fixture of CALIBRATION_BENCHMARK) {
-      calibrationLabels.set(`${fixture.lang}:${fixture.word}`, fixture.expectedFlag);
+  }
+
+  for (const entry of entries) {
+    if (!entry.isCalibration) {
+      continue;
+    }
+    const fixture = CALIBRATION_BENCHMARK.find(
+      (item) => item.word === entry.word && item.lang === entry.lang
+    );
+    if (fixture) {
+      calibrationLabels.set(entry, fixture.expectedFlag);
     }
   }
 
@@ -443,7 +469,7 @@ export async function runDictionaryEval() {
 
   await Promise.all(workers);
 
-  for (const res of rawResults) {
+  for (const [index, res] of rawResults.entries()) {
     if (!res) {
       continue;
     }
@@ -456,7 +482,7 @@ export async function runDictionaryEval() {
     totalLatency += res.latencyMs;
 
     const calibrationKey = `${res.lang}:${res.word}`;
-    const expectedFlag = calibrationLabels.get(calibrationKey);
+    const expectedFlag = calibrationLabels.get(entries[index]);
     if (expectedFlag !== undefined) {
       const actualFlag = res.severity !== 'none';
       stats.calibration.total++;

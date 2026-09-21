@@ -3,7 +3,12 @@ import os from 'os';
 import path from 'path';
 import { describe, expect, it } from 'vitest';
 import { loadCalibrationBenchmark, loadPilotSample } from './dataset';
-import { generateCsv, generateMarkdownSummary, loadReviewQueueEntries } from './runEval';
+import {
+  generateCsv,
+  generateMarkdownSummary,
+  loadReviewQueueEntries,
+  MockTypeSafeClient,
+} from './runEval';
 import { evaluateEntryWithJev } from './scorers';
 import { DictionaryEntry, EvalRunStats, ReviewQueueItem } from './types';
 
@@ -38,6 +43,46 @@ describe('Dictionary Dataset Loader', () => {
     expect(en.length).toBeGreaterThanOrEqual(10);
     expect(es.length).toBeGreaterThanOrEqual(10);
     expect(fr.length).toBeGreaterThanOrEqual(10);
+  });
+
+  it('marks calibration fixtures in the pilot sample', () => {
+    const calibrationEntries = loadPilotSample(10).filter((entry) => entry.isCalibration);
+
+    expect(calibrationEntries).toHaveLength(loadCalibrationBenchmark().length);
+  });
+});
+
+describe('Dry-run Calibration Fixtures', () => {
+  const client = new MockTypeSafeClient();
+  const chairState = {
+    word: 'chair',
+    display: 'chair',
+    languageCode: 'en' as const,
+    partOfSpeech: 'noun',
+    definition: 'A separate seat for one person, with a back and legs.',
+    currentDifficultyTier: 'elementary',
+  };
+
+  it('does not apply calibration answers to an ordinary entry with different fixture data', async () => {
+    const response = await client.systemOne({ state: chairState });
+
+    expect(response.answers.definition.choice).toBe('accurate');
+  });
+
+  it('applies calibration answers when all fixture fields match', async () => {
+    const response = await client.systemOne({
+      state: { ...chairState, partOfSpeech: 'verb' },
+    });
+
+    expect(response.answers.definition.choice).toBe('wrong_pos');
+  });
+
+  it('applies calibration answers when the entry is explicitly marked', async () => {
+    const response = await client.systemOne({
+      state: { ...chairState, isCalibration: true },
+    });
+
+    expect(response.answers.definition.choice).toBe('wrong_pos');
   });
 });
 
@@ -131,6 +176,40 @@ describe('Jev Evaluation Logic', () => {
     await expect(evaluateEntryWithJev(mockClient, mockEntry)).rejects.toThrow(
       'Invalid evaluation response'
     );
+  });
+
+  it.each([-0.01, 1.01])('rejects confidence outside the unit interval: %s', async (confidence) => {
+    const mockClient = {
+      systemOne: async () => ({
+        answers: {
+          definition: { choice: 'accurate', confidence },
+          format: { choice: 'clean_dictionary', confidence: 0.9 },
+          difficulty: { choice: 'intermediate', confidence: 0.9 },
+        },
+      }),
+    } as any;
+
+    await expect(evaluateEntryWithJev(mockClient, mockEntry)).rejects.toThrow(
+      'definition.confidence must be between 0 and 1'
+    );
+  });
+
+  it.each([0, 1])('accepts confidence at the unit interval boundary: %s', async (confidence) => {
+    const mockClient = {
+      systemOne: async () => ({
+        answers: {
+          definition: { choice: 'accurate', confidence },
+          format: { choice: 'clean_dictionary', confidence },
+          difficulty: { choice: 'intermediate', confidence },
+        },
+      }),
+    } as any;
+
+    await expect(evaluateEntryWithJev(mockClient, mockEntry)).resolves.toMatchObject({
+      definitionConfidence: confidence,
+      formatConfidence: confidence,
+      difficultyConfidence: confidence,
+    });
   });
 });
 

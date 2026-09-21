@@ -87,6 +87,7 @@ export async function evaluateEntryWithJev(
     partOfSpeech: entry.pos,
     definition: entry.def,
     currentDifficultyTier: ourTier,
+    isCalibration: entry.isCalibration === true,
   };
 
   const questions = buildJevQuestions(entry);
@@ -126,8 +127,13 @@ export async function evaluateEntryWithJev(
     if (confidence === null || confidence === undefined) {
       throw new Error(`Invalid evaluation response: ${name}.confidence is required`);
     }
-    if (typeof confidence !== 'number' || !Number.isFinite(confidence)) {
-      throw new Error(`Invalid evaluation response: ${name}.confidence must be a finite number`);
+    if (
+      typeof confidence !== 'number' ||
+      !Number.isFinite(confidence) ||
+      confidence < 0 ||
+      confidence > 1
+    ) {
+      throw new Error(`Invalid evaluation response: ${name}.confidence must be between 0 and 1`);
     }
 
     return { choice: answerChoice as T, confidence };

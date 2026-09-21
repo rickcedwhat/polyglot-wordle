@@ -13,6 +13,7 @@ export type RawDictionary = Record<string, RawDictionaryEntry>;
 export interface DictionaryEntry extends RawDictionaryEntry {
   word: string;
   lang: Language;
+  isCalibration?: boolean;
 }
 
 export type DefinitionVerdict =
