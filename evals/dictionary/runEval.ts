@@ -3,7 +3,7 @@ import path from 'path';
 import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { initExperiment, wrapTypeSafe } from 'braintrust';
 import dotenv from 'dotenv';
-import { loadAllDictionaries, loadPilotSample } from './dataset';
+import { loadAllDictionaries, loadDictionary, loadPilotSample } from './dataset';
 import { evaluateEntryWithJev } from './scorers';
 import {
   DictionaryEntry,
@@ -142,9 +142,23 @@ class MockTypeSafeClient {
 
 export async function runDictionaryEval() {
   const args = process.argv.slice(2);
-  const isPilot = args.includes('--pilot') || args.length === 0;
+  const isPilot = args.includes('--pilot');
   const isDryRun = args.includes('--dry-run');
   const isFull = args.includes('--full');
+
+  let langArg: Language | null = null;
+  if (args.includes('--en')) {
+    langArg = 'en';
+  } else if (args.includes('--es')) {
+    langArg = 'es';
+  } else if (args.includes('--fr')) {
+    langArg = 'fr';
+  } else {
+    const langIdx = args.indexOf('--lang');
+    if (langIdx !== -1 && args[langIdx + 1]) {
+      langArg = args[langIdx + 1] as Language;
+    }
+  }
 
   const braintrustKey = process.env.BRAINTRUST_API_KEY;
   const typesafeKey = process.env.TYPESAFE_API_KEY;
@@ -158,32 +172,44 @@ export async function runDictionaryEval() {
     process.exit(1);
   }
 
+  // Load dataset
+  let entries: DictionaryEntry[] = [];
+  if (langArg) {
+    if (isPilot) {
+      entries = loadPilotSample(25).filter((e) => e.lang === langArg);
+    } else {
+      entries = loadDictionary(langArg);
+    }
+  } else if (isFull) {
+    entries = loadAllDictionaries();
+  } else {
+    entries = loadPilotSample(25);
+  }
+
   console.log(`\n🚀 Initializing Braintrust + Jev Dictionary QA...`);
   console.log(
-    `Mode: ${isFull ? 'Full Dictionary (all words)' : isPilot ? 'Pilot Sample (25/lang)' : 'Custom Sample'}`
+    `Mode: ${langArg ? `Single Language [${langArg.toUpperCase()}] (${entries.length} words)` : isFull ? 'Full Dictionary (all words)' : 'Pilot Sample'}`
   );
   console.log(`Dry Run: ${isDryRun ? 'YES (mock client)' : 'NO (live Jev & Braintrust API)'}`);
 
   let client: any;
   let experiment: any = null;
 
-  // Load dataset
-  let entries: DictionaryEntry[] = [];
-  if (isFull) {
-    entries = loadAllDictionaries();
-  } else {
-    entries = loadPilotSample(25);
-  }
-
   if (isDryRun) {
     client = new MockTypeSafeClient();
   } else {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const expName = isFull ? `full-dictionary-qa-${timestamp}` : `pilot-qa-${timestamp}`;
+    const prefix = langArg
+      ? `${langArg}-dictionary-qa`
+      : isFull
+        ? 'full-dictionary-qa'
+        : 'pilot-qa';
+    const expName = `${prefix}-${timestamp}`;
     experiment = initExperiment('polyglot-wordle-dict-qa', {
       experiment: expName,
       metadata: {
-        mode: isFull ? 'full' : 'pilot',
+        mode: langArg ? `full-${langArg}` : isFull ? 'full' : 'pilot',
+        language: langArg || 'all',
         model: 'jev-latest',
         entriesCount: entries.length,
       },
@@ -227,18 +253,21 @@ export async function runDictionaryEval() {
     averageLatencyMs: 0,
   };
 
+  const concurrency = isDryRun ? 10 : 8;
+  let completed = 0;
   let totalLatency = 0;
+  const startTime = Date.now();
 
-  for (let i = 0; i < entries.length; i++) {
-    const entry = entries[i];
-    process.stdout.write(
-      `\rEvaluating [${i + 1}/${entries.length}] [${entry.lang.toUpperCase()}] ${entry.word}... `
-    );
-
-    try {
+  const processEntry = async (entry: DictionaryEntry): Promise<JevEvaluationResult | null> => {
+    const runOnce = async () => {
       const evalFn = async (span?: any) => {
         const res = await evaluateEntryWithJev(client, entry);
         if (span) {
+          const pass =
+            res.definitionVerdict === 'accurate' &&
+            res.formatVerdict === 'clean_dictionary' &&
+            res.difficultyMatches;
+
           span.log({
             input: {
               word: entry.word,
@@ -256,15 +285,7 @@ export async function runDictionaryEval() {
               reasons: res.reasons,
             },
             scores: {
-              good_definition: res.definitionVerdict === 'accurate' ? 1.0 : 0.0,
-              clean_format: res.formatVerdict === 'clean_dictionary' ? 1.0 : 0.0,
-              difficulty_match: res.difficultyMatches ? 1.0 : 0.0,
-              all_pass:
-                res.definitionVerdict === 'accurate' &&
-                res.formatVerdict === 'clean_dictionary' &&
-                res.difficultyMatches
-                  ? 1.0
-                  : 0.0,
+              quality_pass: pass ? 1.0 : 0.0,
             },
             metadata: {
               severity: res.severity,
@@ -278,46 +299,80 @@ export async function runDictionaryEval() {
         return res;
       };
 
-      const res: JevEvaluationResult = experiment
-        ? await experiment.traced(evalFn, { name: entry.word })
-        : await evalFn();
+      return experiment ? await experiment.traced(evalFn, { name: entry.word }) : await evalFn();
+    };
 
-      results.push(res);
-
-      stats.totalProcessed++;
-      stats.byLanguage[entry.lang].total++;
-      stats.byDefinition[res.definitionVerdict]++;
-      stats.byFormat[res.formatVerdict]++;
-      stats.byJevTier[res.jevTier]++;
-      totalLatency += res.latencyMs;
-
-      if (!res.difficultyMatches) {
-        stats.difficultyMismatches++;
+    try {
+      const res = await runOnce();
+      completed++;
+      if (completed % 25 === 0 || completed === entries.length) {
+        const elapsedSec = ((Date.now() - startTime) / 1000).toFixed(0);
+        const rate = (completed / Math.max(1, (Date.now() - startTime) / 1000)).toFixed(1);
+        process.stdout.write(
+          `\rProgress: [${completed}/${entries.length}] (${((completed / entries.length) * 100).toFixed(1)}%) | ${rate} words/sec | ${elapsedSec}s elapsed`
+        );
       }
-
-      if (res.severity !== 'none') {
-        stats.flaggedCount++;
-        stats.byLanguage[entry.lang].flagged++;
-        stats.byLanguage[entry.lang].bySeverity[res.severity]++;
-
-        items.push({
-          word: res.word,
-          lang: res.lang,
-          display: res.display,
-          pos: res.currentPos,
-          currentDef: res.currentDef,
-          currentD: res.currentD,
-          ourTier: res.ourTier,
-          jevTier: res.jevTier,
-          difficultyMatches: res.difficultyMatches,
-          definitionVerdict: res.definitionVerdict,
-          formatVerdict: res.formatVerdict,
-          severity: res.severity,
-          reasons: res.reasons,
-        });
+      return res;
+    } catch {
+      // Retry once on transient network glitch
+      try {
+        const res = await runOnce();
+        completed++;
+        return res;
+      } catch (err: any) {
+        console.error(`\nFailed evaluating "${entry.word}":`, err.message);
+        return null;
       }
-    } catch (err: any) {
-      console.error(`\nFailed evaluating "${entry.word}":`, err.message);
+    }
+  };
+
+  const rawResults: (JevEvaluationResult | null)[] = new Array(entries.length);
+  let nextIdx = 0;
+  const workers = Array.from({ length: concurrency }, async () => {
+    while (nextIdx < entries.length) {
+      const i = nextIdx++;
+      rawResults[i] = await processEntry(entries[i]);
+    }
+  });
+
+  await Promise.all(workers);
+
+  for (const res of rawResults) {
+    if (!res) {
+      continue;
+    }
+    results.push(res);
+    stats.totalProcessed++;
+    stats.byLanguage[res.lang].total++;
+    stats.byDefinition[res.definitionVerdict]++;
+    stats.byFormat[res.formatVerdict]++;
+    stats.byJevTier[res.jevTier]++;
+    totalLatency += res.latencyMs;
+
+    if (!res.difficultyMatches) {
+      stats.difficultyMismatches++;
+    }
+
+    if (res.severity !== 'none') {
+      stats.flaggedCount++;
+      stats.byLanguage[res.lang].flagged++;
+      stats.byLanguage[res.lang].bySeverity[res.severity]++;
+
+      items.push({
+        word: res.word,
+        lang: res.lang,
+        display: res.display,
+        pos: res.currentPos,
+        currentDef: res.currentDef,
+        currentD: res.currentD,
+        ourTier: res.ourTier,
+        jevTier: res.jevTier,
+        difficultyMatches: res.difficultyMatches,
+        definitionVerdict: res.definitionVerdict,
+        formatVerdict: res.formatVerdict,
+        severity: res.severity,
+        reasons: res.reasons,
+      });
     }
   }
 
@@ -337,20 +392,32 @@ export async function runDictionaryEval() {
   const outDir = path.resolve(process.cwd(), 'evals/artifacts');
   fs.mkdirSync(outDir, { recursive: true });
 
+  const suffix = langArg ? `_${langArg}` : '';
+
   // 1. Export JSON review queue
-  const jsonPath = path.join(outDir, 'review_queue.json');
+  const jsonPath = path.join(outDir, `review_queue${suffix}.json`);
   fs.writeFileSync(jsonPath, JSON.stringify({ stats, queue: items }, null, 2));
   console.log(`📄 Saved review queue JSON: ${jsonPath}`);
 
   // 2. Export CSV
-  const csvPath = path.join(outDir, 'review_queue.csv');
+  const csvPath = path.join(outDir, `review_queue${suffix}.csv`);
   fs.writeFileSync(csvPath, generateCsv(items));
   console.log(`📊 Saved review queue CSV: ${csvPath}`);
 
   // 3. Export Markdown summary
-  const mdPath = path.join(outDir, 'audit_summary.md');
+  const mdPath = path.join(outDir, `audit_summary${suffix}.md`);
   fs.writeFileSync(mdPath, generateMarkdownSummary(stats, items));
   console.log(`📝 Saved audit summary Markdown: ${mdPath}`);
+
+  if (suffix) {
+    fs.writeFileSync(
+      path.join(outDir, 'review_queue.json'),
+      JSON.stringify({ stats, queue: items }, null, 2)
+    );
+    fs.writeFileSync(path.join(outDir, 'review_queue.csv'), generateCsv(items));
+    fs.writeFileSync(path.join(outDir, 'audit_summary.md'), generateMarkdownSummary(stats, items));
+  }
+
   console.log(
     `\nSummary: ${stats.flaggedCount} / ${stats.totalProcessed} entries flagged for review (${stats.difficultyMismatches} difficulty mismatches).\n`
   );
