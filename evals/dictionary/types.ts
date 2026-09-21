@@ -28,6 +28,8 @@ export type FormatVerdict =
   | 'robotic_filler'
   | 'malformed_syntax';
 
+export type DifficultyTier = 'elementary' | 'intermediate' | 'advanced' | 'obscure';
+
 export function mapScoreToTier(d: number): DifficultyTier {
   if (d <= 0.5) {
     return 'elementary';
@@ -86,6 +88,7 @@ export interface ReviewQueueItem {
 
 export interface EvalRunStats {
   totalProcessed: number;
+  failureCount: number;
   flaggedCount: number;
   difficultyMismatches: number;
   byLanguage: Record<
@@ -100,4 +103,17 @@ export interface EvalRunStats {
   byFormat: Record<FormatVerdict, number>;
   byJevTier: Record<DifficultyTier, number>;
   averageLatencyMs: number;
+  calibration: {
+    total: number;
+    correct: number;
+    falsePositives: string[];
+    falseNegatives: string[];
+    accuracy: number;
+  };
+}
+
+export interface EvaluationFailure {
+  word: string;
+  lang: Language;
+  error: string;
 }

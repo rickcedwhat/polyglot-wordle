@@ -82,6 +82,7 @@ export async function evaluateEntryWithJev(
   const state = {
     word: entry.word,
     display: entry.display,
+    languageCode: entry.lang,
     language: LANGUAGE_NAMES[entry.lang],
     partOfSpeech: entry.pos,
     definition: entry.def,
@@ -99,39 +100,69 @@ export async function evaluateEntryWithJev(
   const latencyMs = Date.now() - startTime;
   const { answers } = response;
 
+  if (!answers || typeof answers !== 'object') {
+    throw new Error('Invalid evaluation response: answers must be an object');
+  }
+
+  const validateAnswer = <T extends string>(
+    name: string,
+    answer: unknown,
+    allowedChoices: readonly T[]
+  ): { choice: T; confidence: number } => {
+    if (!answer || typeof answer !== 'object' || Array.isArray(answer)) {
+      throw new Error(`Invalid evaluation response: ${name} answer must be an object`);
+    }
+
+    const { choice: answerChoice, confidence } = answer as {
+      choice?: unknown;
+      confidence?: unknown;
+    };
+    if (typeof answerChoice !== 'string' || answerChoice.trim() === '') {
+      throw new Error(`Invalid evaluation response: ${name}.choice is required`);
+    }
+    if (!allowedChoices.includes(answerChoice as T)) {
+      throw new Error(`Invalid evaluation response: unknown ${name}.choice "${answerChoice}"`);
+    }
+    if (confidence === null || confidence === undefined) {
+      throw new Error(`Invalid evaluation response: ${name}.confidence is required`);
+    }
+    if (typeof confidence !== 'number' || !Number.isFinite(confidence)) {
+      throw new Error(`Invalid evaluation response: ${name}.confidence must be a finite number`);
+    }
+
+    return { choice: answerChoice as T, confidence };
+  };
+
   // 1. Definition Verdict
-  const rawDef = String((answers.definition as any)?.choice || 'accurate') as DefinitionVerdict;
-  const definitionVerdict: DefinitionVerdict = [
+  const definition = validateAnswer('definition', answers.definition, [
     'accurate',
     'inflected_form',
     'wrong_pos',
     'wrong_meaning',
     'fabricated',
-  ].includes(rawDef)
-    ? rawDef
-    : 'accurate';
-  const definitionConfidence = (answers.definition as any)?.confidence ?? 1.0;
+  ] as const);
+  const definitionVerdict: DefinitionVerdict = definition.choice;
+  const definitionConfidence = definition.confidence;
 
   // 2. Format Verdict
-  const rawFmt = String((answers.format as any)?.choice || 'clean_dictionary') as FormatVerdict;
-  const formatVerdict: FormatVerdict = [
+  const format = validateAnswer('format', answers.format, [
     'clean_dictionary',
     'vague_circular',
     'robotic_filler',
     'malformed_syntax',
-  ].includes(rawFmt)
-    ? rawFmt
-    : 'clean_dictionary';
-  const formatConfidence = (answers.format as any)?.confidence ?? 1.0;
+  ] as const);
+  const formatVerdict: FormatVerdict = format.choice;
+  const formatConfidence = format.confidence;
 
   // 3. Difficulty Tier
-  const rawDiff = String((answers.difficulty as any)?.choice || 'intermediate') as DifficultyTier;
-  const jevTier: DifficultyTier = ['elementary', 'intermediate', 'advanced', 'obscure'].includes(
-    rawDiff
-  )
-    ? rawDiff
-    : 'intermediate';
-  const difficultyConfidence = (answers.difficulty as any)?.confidence ?? 1.0;
+  const difficulty = validateAnswer('difficulty', answers.difficulty, [
+    'elementary',
+    'intermediate',
+    'advanced',
+    'obscure',
+  ] as const);
+  const jevTier: DifficultyTier = difficulty.choice;
+  const difficultyConfidence = difficulty.confidence;
 
   const difficultyMatches = jevTier === ourTier;
 
@@ -144,7 +175,7 @@ export async function evaluateEntryWithJev(
     severity = 'high';
   } else if (definitionVerdict === 'wrong_pos') {
     reasons.push(`Part-of-speech mismatch (${entry.pos} flagged)`);
-    severity = severity === 'high' ? 'high' : 'medium';
+    severity = 'medium';
   }
 
   if (formatVerdict === 'robotic_filler') {

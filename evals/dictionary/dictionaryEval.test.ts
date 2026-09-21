@@ -1,6 +1,9 @@
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
 import { describe, expect, it } from 'vitest';
 import { loadCalibrationBenchmark, loadPilotSample } from './dataset';
-import { generateCsv, generateMarkdownSummary } from './runEval';
+import { generateCsv, generateMarkdownSummary, loadReviewQueueEntries } from './runEval';
 import { evaluateEntryWithJev } from './scorers';
 import { DictionaryEntry, EvalRunStats, ReviewQueueItem } from './types';
 
@@ -9,13 +12,19 @@ describe('Dictionary Dataset Loader', () => {
     const calib = loadCalibrationBenchmark();
     expect(calib.length).toBeGreaterThan(0);
 
-    const aback = calib.find((c) => c.word === 'aback');
-    expect(aback).toBeDefined();
-    expect(aback?.expectedFlag).toBe(true);
+    const invalidChair = calib.find((c) => c.word === 'chair');
+    expect(invalidChair).toBeDefined();
+    expect(invalidChair?.expectedFlag).toBe(true);
+    expect(invalidChair?.mockAnswers.definition).toBe('wrong_pos');
 
     const apple = calib.find((c) => c.word === 'apple');
     expect(apple).toBeDefined();
     expect(apple?.expectedFlag).toBe(false);
+    expect(apple?.mockAnswers.definition).toBe('accurate');
+  });
+
+  it('uses a reproducible seeded selection within each difficulty band', () => {
+    expect(loadPilotSample(10)).toEqual(loadPilotSample(10));
   });
 
   it('loads a stratified pilot sample with items for en, es, and fr', () => {
@@ -29,6 +38,34 @@ describe('Dictionary Dataset Loader', () => {
     expect(en.length).toBeGreaterThanOrEqual(10);
     expect(es.length).toBeGreaterThanOrEqual(10);
     expect(fr.length).toBeGreaterThanOrEqual(10);
+  });
+});
+
+describe('Review Queue Loader', () => {
+  const withQueueFile = (data: unknown, assertion: (file: string) => void) => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'dictionary-queue-'));
+    const file = path.join(dir, 'queue.json');
+    fs.writeFileSync(file, JSON.stringify(data));
+    try {
+      assertion(file);
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  };
+
+  it('rejects a queue document without an array queue property', () => {
+    withQueueFile({ queue: null }, (file) => {
+      expect(() => loadReviewQueueEntries(file)).toThrow('"queue" must be an array');
+    });
+  });
+
+  it.each([
+    [{ lang: 'de', word: 'apple' }, 'Invalid review queue language'],
+    [{ lang: 'en', word: 'zzzzz' }, 'does not resolve to a dictionary word'],
+  ])('rejects unresolved queue reference %#', (item, message) => {
+    withQueueFile({ queue: [item] }, (file) => {
+      expect(() => loadReviewQueueEntries(file)).toThrow(message);
+    });
   });
 });
 
@@ -73,6 +110,28 @@ describe('Jev Evaluation Logic', () => {
     expect(res.reasons.some((r) => r.includes('Part-of-speech mismatch'))).toBe(true);
     expect(res.reasons.some((r) => r.includes('Difficulty mismatch'))).toBe(true);
   });
+
+  it.each([
+    ['missing answer object', null],
+    ['empty choice', { choice: '', confidence: 0.9 }],
+    ['unknown choice', { choice: 'maybe', confidence: 0.9 }],
+    ['missing confidence', { choice: 'accurate' }],
+    ['null confidence', { choice: 'accurate', confidence: null }],
+  ])('rejects %s instead of applying a passing default', async (_label, definition) => {
+    const mockClient = {
+      systemOne: async () => ({
+        answers: {
+          definition,
+          format: { choice: 'clean_dictionary', confidence: 0.9 },
+          difficulty: { choice: 'intermediate', confidence: 0.9 },
+        },
+      }),
+    } as any;
+
+    await expect(evaluateEntryWithJev(mockClient, mockEntry)).rejects.toThrow(
+      'Invalid evaluation response'
+    );
+  });
 });
 
 describe('Reporting & CSV Export', () => {
@@ -98,7 +157,9 @@ describe('Reporting & CSV Export', () => {
       },
     ];
 
-    const csv = generateCsv(items);
+    const csv = generateCsv(items, { totalProcessed: 10, failureCount: 0 });
+    expect(csv).toContain('Total Processed,10');
+    expect(csv).toContain('Failure Count,0');
     expect(csv).toContain('Language,Word,Display,POS,Our Tier,Jev Tier,Tier Match');
     expect(csv).toContain('"EN","aback","aback","noun","OBSCURE","INTERMEDIATE","MISMATCH"');
     expect(csv).toContain('Part-of-speech mismatch');
@@ -107,6 +168,7 @@ describe('Reporting & CSV Export', () => {
   it('correctly generates markdown summary with difficulty mismatches section', () => {
     const stats: EvalRunStats = {
       totalProcessed: 10,
+      failureCount: 0,
       flaggedCount: 1,
       difficultyMismatches: 1,
       byLanguage: {
@@ -114,7 +176,13 @@ describe('Reporting & CSV Export', () => {
         es: { total: 3, flagged: 0, bySeverity: { high: 0, medium: 0, low: 0 } },
         fr: { total: 3, flagged: 0, bySeverity: { high: 0, medium: 0, low: 0 } },
       },
-      byDefinition: { accurate: 9, wrong_pos: 1, wrong_meaning: 0, fabricated: 0 },
+      byDefinition: {
+        accurate: 9,
+        inflected_form: 0,
+        wrong_pos: 1,
+        wrong_meaning: 0,
+        fabricated: 0,
+      },
       byFormat: {
         clean_dictionary: 10,
         vague_circular: 0,
@@ -123,6 +191,13 @@ describe('Reporting & CSV Export', () => {
       },
       byJevTier: { elementary: 3, intermediate: 4, advanced: 2, obscure: 1 },
       averageLatencyMs: 45,
+      calibration: {
+        total: 2,
+        correct: 1,
+        falsePositives: ['en:apple'],
+        falseNegatives: [],
+        accuracy: 0.5,
+      },
     };
 
     const items: ReviewQueueItem[] = [
@@ -146,6 +221,9 @@ describe('Reporting & CSV Export', () => {
     const md = generateMarkdownSummary(stats, items);
     expect(md).toContain('# 🔍 Jev + Braintrust Dictionary QA Audit Report');
     expect(md).toContain('**Difficulty Mismatches:** 1');
+    expect(md).toContain('**Evaluation Failures:** 0');
+    expect(md).toContain('**Accuracy:** 50.0% (1/2)');
+    expect(md).toContain('**False Positives:** 1 (en:apple)');
     expect(md).toContain('## ⚖️ Difficulty Tier Mismatches (1)');
     expect(md).toContain('| **EN** | **aback** | `noun` | **obscure** | **intermediate** |');
   });

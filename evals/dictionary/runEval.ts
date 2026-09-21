@@ -3,11 +3,17 @@ import path from 'path';
 import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { initExperiment, wrapTypeSafe } from 'braintrust';
 import dotenv from 'dotenv';
-import { loadAllDictionaries, loadDictionary, loadPilotSample } from './dataset';
+import {
+  CALIBRATION_BENCHMARK,
+  loadAllDictionaries,
+  loadDictionary,
+  loadPilotSample,
+} from './dataset';
 import { evaluateEntryWithJev } from './scorers';
 import {
   DictionaryEntry,
   EvalRunStats,
+  EvaluationFailure,
   JevEvaluationResult,
   Language,
   ReviewQueueItem,
@@ -17,7 +23,10 @@ import {
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
-export function generateCsv(items: ReviewQueueItem[]): string {
+export function generateCsv(
+  items: ReviewQueueItem[],
+  stats: Pick<EvalRunStats, 'totalProcessed' | 'failureCount'>
+): string {
   const headers = [
     'Language',
     'Word',
@@ -53,12 +62,20 @@ export function generateCsv(items: ReviewQueueItem[]): string {
     escapeCsv(item.currentDef),
   ]);
 
-  return [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+  return [
+    'Metric,Value',
+    `Total Processed,${stats.totalProcessed}`,
+    `Failure Count,${stats.failureCount}`,
+    '',
+    headers.join(','),
+    ...rows.map((r) => r.join(',')),
+  ].join('\n');
 }
 
 export function generateMarkdownSummary(stats: EvalRunStats, items: ReviewQueueItem[]): string {
   let md = `# 🔍 Jev + Braintrust Dictionary QA Audit Report\n\n`;
   md += `**Total Entries Evaluated:** ${stats.totalProcessed.toLocaleString()}\n`;
+  md += `**Evaluation Failures:** ${stats.failureCount.toLocaleString()}\n`;
   md += `**Flagged for Reexamination:** ${stats.flaggedCount.toLocaleString()} (${(
     (stats.flaggedCount / Math.max(stats.totalProcessed, 1)) *
     100
@@ -79,6 +96,13 @@ export function generateMarkdownSummary(stats: EvalRunStats, items: ReviewQueueI
     md += `| **${l.toUpperCase()}** | ${s.total.toLocaleString()} | ${s.flagged.toLocaleString()} | ${s.bySeverity.high} | ${s.bySeverity.medium} | ${s.bySeverity.low} |\n`;
   }
   md += `\n---\n\n`;
+
+  if (stats.calibration.total > 0) {
+    md += `## 🎯 Calibration\n\n`;
+    md += `**Accuracy:** ${(stats.calibration.accuracy * 100).toFixed(1)}% (${stats.calibration.correct}/${stats.calibration.total})\n`;
+    md += `**False Positives:** ${stats.calibration.falsePositives.length}${stats.calibration.falsePositives.length > 0 ? ` (${stats.calibration.falsePositives.join(', ')})` : ''}\n`;
+    md += `**False Negatives:** ${stats.calibration.falseNegatives.length}${stats.calibration.falseNegatives.length > 0 ? ` (${stats.calibration.falseNegatives.join(', ')})` : ''}\n\n`;
+  }
 
   // High priority table (wrong meaning, fabricated, wrong POS)
   const highItems = items.filter((i) => i.severity === 'high');
@@ -118,26 +142,67 @@ export function generateMarkdownSummary(stats: EvalRunStats, items: ReviewQueueI
 // Mock client for dry-runs and automated pipeline testing
 class MockTypeSafeClient {
   async systemOne({ state }: { state: any }) {
-    const isAback = state.word === 'aback';
-    const isAbate = state.word === 'abate';
+    const fixture = CALIBRATION_BENCHMARK.find(
+      (item) => item.word === state.word && item.lang === state.languageCode
+    );
+    const answers = fixture?.mockAnswers;
 
     return {
       answers: {
         definition: {
-          choice: isAback || isAbate ? 'wrong_pos' : 'accurate',
+          choice: answers?.definition ?? 'accurate',
           confidence: 0.95,
         },
         format: {
-          choice: 'clean_dictionary',
+          choice: answers?.format ?? 'clean_dictionary',
           confidence: 0.95,
         },
         difficulty: {
-          choice: state.word === 'apple' ? 'elementary' : 'intermediate',
+          choice: answers?.difficulty ?? state.currentDifficultyTier,
           confidence: 0.95,
         },
       },
     };
   }
+}
+
+export function loadReviewQueueEntries(
+  queueFile = path.resolve('evals/artifacts/review_queue.json')
+): DictionaryEntry[] {
+  if (!fs.existsSync(queueFile)) {
+    throw new Error(`Review queue file not found: ${queueFile}`);
+  }
+
+  const qData = JSON.parse(fs.readFileSync(queueFile, 'utf8')) as { queue?: unknown };
+  if (!Array.isArray(qData.queue)) {
+    throw new Error(`Invalid review queue: "queue" must be an array in ${queueFile}`);
+  }
+
+  const dictionaries = new Map(
+    (['en', 'es', 'fr'] as Language[]).map((lang) => [
+      lang,
+      new Map(loadDictionary(lang).map((entry) => [entry.word, entry])),
+    ])
+  );
+
+  return qData.queue.map((item, index) => {
+    if (!item || typeof item !== 'object') {
+      throw new Error(`Invalid review queue item at index ${index}`);
+    }
+    const { lang, word } = item as { lang?: unknown; word?: unknown };
+    if (lang !== 'en' && lang !== 'es' && lang !== 'fr') {
+      throw new Error(`Invalid review queue language at index ${index}: ${String(lang)}`);
+    }
+    if (typeof word !== 'string' || word.trim() === '') {
+      throw new Error(`Invalid review queue word at index ${index}`);
+    }
+
+    const entry = dictionaries.get(lang)?.get(word);
+    if (!entry) {
+      throw new Error(`Review queue entry does not resolve to a dictionary word: ${lang}/${word}`);
+    }
+    return entry;
+  });
 }
 
 export async function runDictionaryEval() {
@@ -183,35 +248,15 @@ export async function runDictionaryEval() {
 
   // Load dataset
   let entries: DictionaryEntry[] = [];
+  const calibrationLabels = new Map<string, boolean>();
   if (isQueue) {
-    const queueFile = path.resolve('evals/artifacts/review_queue.json');
-    if (fs.existsSync(queueFile)) {
-      const qData = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
-      const allDicts: Record<Language, any> = {
-        en: JSON.parse(fs.readFileSync('public/en.json', 'utf8')),
-        es: JSON.parse(fs.readFileSync('public/es.json', 'utf8')),
-        fr: JSON.parse(fs.readFileSync('public/fr.json', 'utf8')),
-      };
-      entries = [];
-      for (const item of qData.queue || []) {
-        const dict = allDicts[item.lang as Language];
-        if (dict && dict[item.word]) {
-          const e = dict[item.word];
-          entries.push({
-            word: item.word,
-            lang: item.lang as Language,
-            display: e.display || item.word,
-            pos: e.pos,
-            d: e.d,
-            def: e.def,
-            reviewed: e.reviewed,
-          });
-        }
-      }
-    }
+    entries = loadReviewQueueEntries();
   } else if (langArg) {
     if (isPilot) {
       entries = loadPilotSample(25).filter((e) => e.lang === langArg);
+      for (const fixture of CALIBRATION_BENCHMARK.filter((item) => item.lang === langArg)) {
+        calibrationLabels.set(`${fixture.lang}:${fixture.word}`, fixture.expectedFlag);
+      }
     } else {
       entries = loadDictionary(langArg);
     }
@@ -219,6 +264,9 @@ export async function runDictionaryEval() {
     entries = loadAllDictionaries();
   } else {
     entries = loadPilotSample(25);
+    for (const fixture of CALIBRATION_BENCHMARK) {
+      calibrationLabels.set(`${fixture.lang}:${fixture.word}`, fixture.expectedFlag);
+    }
   }
 
   console.log(`\n🚀 Initializing Jev Dictionary QA...`);
@@ -264,9 +312,11 @@ export async function runDictionaryEval() {
 
   const results: JevEvaluationResult[] = [];
   const items: ReviewQueueItem[] = [];
+  const failures: EvaluationFailure[] = [];
 
   const stats: EvalRunStats = {
     totalProcessed: 0,
+    failureCount: 0,
     flaggedCount: 0,
     difficultyMismatches: 0,
     byLanguage: {
@@ -294,6 +344,13 @@ export async function runDictionaryEval() {
       obscure: 0,
     },
     averageLatencyMs: 0,
+    calibration: {
+      total: 0,
+      correct: 0,
+      falsePositives: [],
+      falseNegatives: [],
+      accuracy: 0,
+    },
   };
 
   const concurrency = isDryRun ? 10 : 8;
@@ -364,6 +421,12 @@ export async function runDictionaryEval() {
         return res;
       } catch (err: any) {
         console.error(`\nFailed evaluating "${entry.word}":`, err.message);
+        completed++;
+        failures.push({
+          word: entry.word,
+          lang: entry.lang,
+          error: err instanceof Error ? err.message : String(err),
+        });
         return null;
       }
     }
@@ -391,6 +454,20 @@ export async function runDictionaryEval() {
     stats.byFormat[res.formatVerdict]++;
     stats.byJevTier[res.jevTier]++;
     totalLatency += res.latencyMs;
+
+    const calibrationKey = `${res.lang}:${res.word}`;
+    const expectedFlag = calibrationLabels.get(calibrationKey);
+    if (expectedFlag !== undefined) {
+      const actualFlag = res.severity !== 'none';
+      stats.calibration.total++;
+      if (actualFlag === expectedFlag) {
+        stats.calibration.correct++;
+      } else if (actualFlag) {
+        stats.calibration.falsePositives.push(calibrationKey);
+      } else {
+        stats.calibration.falseNegatives.push(calibrationKey);
+      }
+    }
 
     if (!res.difficultyMatches) {
       stats.difficultyMismatches++;
@@ -420,6 +497,9 @@ export async function runDictionaryEval() {
   }
 
   stats.averageLatencyMs = stats.totalProcessed > 0 ? totalLatency / stats.totalProcessed : 0;
+  stats.failureCount = failures.length;
+  stats.calibration.accuracy =
+    stats.calibration.total > 0 ? stats.calibration.correct / stats.calibration.total : 0;
   console.log(`\n\n✅ Evaluation finished!`);
 
   if (experiment) {
@@ -443,12 +523,12 @@ export async function runDictionaryEval() {
 
   // 1. Export JSON review queue
   const jsonPath = path.join(outDir, `review_queue${suffix}.json`);
-  fs.writeFileSync(jsonPath, JSON.stringify({ stats, queue: items }, null, 2));
+  fs.writeFileSync(jsonPath, JSON.stringify({ stats, failures, queue: items }, null, 2));
   console.log(`📄 Saved review queue JSON: ${jsonPath}`);
 
   // 2. Export CSV
   const csvPath = path.join(outDir, `review_queue${suffix}.csv`);
-  fs.writeFileSync(csvPath, generateCsv(items));
+  fs.writeFileSync(csvPath, generateCsv(items, stats));
   console.log(`📊 Saved review queue CSV: ${csvPath}`);
 
   // 3. Export Markdown summary
@@ -459,15 +539,19 @@ export async function runDictionaryEval() {
   if (suffix) {
     fs.writeFileSync(
       path.join(outDir, 'review_queue.json'),
-      JSON.stringify({ stats, queue: items }, null, 2)
+      JSON.stringify({ stats, failures, queue: items }, null, 2)
     );
-    fs.writeFileSync(path.join(outDir, 'review_queue.csv'), generateCsv(items));
+    fs.writeFileSync(path.join(outDir, 'review_queue.csv'), generateCsv(items, stats));
     fs.writeFileSync(path.join(outDir, 'audit_summary.md'), generateMarkdownSummary(stats, items));
   }
 
   console.log(
-    `\nSummary: ${stats.flaggedCount} / ${stats.totalProcessed} entries flagged for review (${stats.difficultyMismatches} difficulty mismatches).\n`
+    `\nSummary: ${stats.flaggedCount} / ${stats.totalProcessed} entries flagged for review (${stats.difficultyMismatches} difficulty mismatches, ${stats.failureCount} failures).\n`
   );
+
+  if (stats.failureCount > 0) {
+    process.exitCode = 1;
+  }
 }
 
 // Auto-run if executed directly via node or vite-node

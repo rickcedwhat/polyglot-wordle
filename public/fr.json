@@ -24,7 +24,7 @@
     "display": "aboie",
     "d": 0.65,
     "pos": "verb",
-    "def": "First- or third-person singular present indicative of aboyer (barks).",
+    "def": "First- or third-person singular present indicative or present subjunctive, or second-person singular imperative of aboyer (barks).",
     "reviewed": true
   },
   "abois": {
@@ -157,7 +157,7 @@
     "display": "adore",
     "d": 0.1,
     "pos": "verb",
-    "def": "First- or third-person singular present indicative of adorer (loves or adores deeply).",
+    "def": "First- or third-person singular present indicative or present subjunctive, or second-person singular imperative of adorer (loves or adores deeply).",
     "reviewed": true
   },
   "aerer": {

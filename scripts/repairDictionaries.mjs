@@ -1,5 +1,5 @@
-import fs from 'fs';
 import { execSync } from 'child_process';
+import fs from 'fs';
 import path from 'path';
 
 const LANGS = ['en', 'es', 'fr'];
@@ -58,7 +58,9 @@ function mapTierToDifficulty(currentD, jevTier) {
   }
 }
 
-console.log('🛠️ Repairing dictionaries using Jev difficulty tiers & git pre-corruption history...\n');
+console.log(
+  '🛠️ Repairing dictionaries using Jev difficulty tiers & git pre-corruption history...\n'
+);
 
 // Load full review queue if available
 let fullQueue = [];
@@ -106,7 +108,8 @@ for (const lang of LANGS) {
   const flaggedDefMap = new Map();
 
   for (const item of queueItems) {
-    if (item.jevTier) {
+    // Difficulty changes require an explicit human approval marker in a curated queue.
+    if ((item.difficultyApproved === true || item.approved === true) && item.jevTier) {
       jevTierMap.set(item.word, item.jevTier);
     }
     if (item.definitionVerdict !== 'accurate' || item.formatVerdict !== 'clean_dictionary') {
@@ -125,6 +128,24 @@ for (const lang of LANGS) {
       if (newD !== entry.d) {
         entry.d = newD;
         difficultyUpdated++;
+      }
+    }
+
+    // 2. Restore definitions known to be corrupted or explicitly flagged by the audit.
+    const shouldRestore = isCorrupted(entry.def) || flaggedDefMap.has(word);
+    const previous = prevDict[word];
+    if (shouldRestore && previous?.def) {
+      const previousDefinition = previous.def.trim();
+      if (
+        previousDefinition.length >= 15 &&
+        !isCorrupted(previousDefinition) &&
+        previousDefinition !== entry.def
+      ) {
+        entry.def = previousDefinition;
+        if (previous.pos) {
+          entry.pos = previous.pos;
+        }
+        definitionsRestored++;
       }
     }
   }
