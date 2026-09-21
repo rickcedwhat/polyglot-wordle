@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { TypeSafeClient } from '@typesafe-ai/sdk';
-import { initLogger, wrapTypeSafe } from 'braintrust';
+import { initExperiment, wrapTypeSafe } from 'braintrust';
 import dotenv from 'dotenv';
 import { loadAllDictionaries, loadPilotSample } from './dataset';
 import { evaluateEntryWithJev } from './scorers';
@@ -150,13 +150,7 @@ export async function runDictionaryEval() {
   console.log(`Dry Run: ${isDryRun ? 'YES (mock client)' : 'NO (live Jev & Braintrust API)'}`);
 
   let client: any;
-  if (isDryRun) {
-    client = new MockTypeSafeClient();
-  } else {
-    initLogger({ projectName: 'polyglot-wordle-dict-qa' });
-    const rawClient = new TypeSafeClient({ apiKey: typesafeKey });
-    client = wrapTypeSafe(rawClient);
-  }
+  let experiment: any = null;
 
   // Load dataset
   let entries: DictionaryEntry[] = [];
@@ -164,6 +158,23 @@ export async function runDictionaryEval() {
     entries = loadAllDictionaries();
   } else {
     entries = loadPilotSample(25);
+  }
+
+  if (isDryRun) {
+    client = new MockTypeSafeClient();
+  } else {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const expName = isFull ? `full-dictionary-qa-${timestamp}` : `pilot-qa-${timestamp}`;
+    experiment = initExperiment('polyglot-wordle-dict-qa', {
+      experiment: expName,
+      metadata: {
+        mode: isFull ? 'full' : 'pilot',
+        model: 'jev-latest',
+        entriesCount: entries.length,
+      },
+    });
+    const rawClient = new TypeSafeClient({ apiKey: typesafeKey });
+    client = wrapTypeSafe(rawClient);
   }
 
   console.log(`Loaded ${entries.length} entries for evaluation.`);
@@ -203,7 +214,52 @@ export async function runDictionaryEval() {
     );
 
     try {
-      const res = await evaluateEntryWithJev(client, entry);
+      const evalFn = async (span?: any) => {
+        const res = await evaluateEntryWithJev(client, entry);
+        if (span) {
+          span.log({
+            input: {
+              word: entry.word,
+              display: entry.display,
+              language: entry.lang,
+              pos: entry.pos,
+              definition: entry.def,
+              difficulty: entry.d,
+            },
+            output: {
+              assessedDifficulty: res.difficultyTier,
+              assessedD: res.assessedD,
+              accuracy: res.accuracy,
+              quality: res.quality,
+              reasons: res.reasons,
+            },
+            scores: {
+              accuracy: res.accuracy === 'accurate' ? 1.0 : 0.0,
+              quality:
+                res.quality === 'high_quality'
+                  ? 1.0
+                  : res.quality === 'vague_or_circular'
+                    ? 0.5
+                    : 0.0,
+              difficulty_agreement: Math.max(0, 1.0 - Math.abs(res.assessedD - entry.d)),
+              flagged: res.needsReexamine ? 1.0 : 0.0,
+            },
+            metadata: {
+              severity: res.severity,
+              latencyMs: res.latencyMs,
+              accuracyConfidence: res.accuracyConfidence,
+              qualityConfidence: res.qualityConfidence,
+              difficultyConfidence: res.difficultyConfidence,
+            },
+          });
+        }
+        return res;
+      };
+
+      const res: JevEvaluationResult = experiment
+        ? await experiment.traced(evalFn, { name: entry.word })
+        : await evalFn();
+
       results.push(res);
 
       stats.totalProcessed++;
@@ -240,6 +296,15 @@ export async function runDictionaryEval() {
 
   stats.averageLatencyMs = stats.totalProcessed > 0 ? totalLatency / stats.totalProcessed : 0;
   console.log(`\n\n✅ Evaluation finished!`);
+
+  if (experiment) {
+    await experiment.flush();
+    const summary = await experiment.summarize();
+    console.log(`\n🎉 Braintrust Experiment created!`);
+    if (summary && (summary as any).experimentUrl) {
+      console.log(`🔗 Experiment URL: ${(summary as any).experimentUrl}`);
+    }
+  }
 
   // Ensure artifacts directory exists
   const outDir = path.resolve(process.cwd(), 'evals/artifacts');
