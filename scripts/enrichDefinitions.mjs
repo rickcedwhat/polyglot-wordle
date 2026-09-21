@@ -246,7 +246,9 @@ async function processLanguage(lang) {
           .filter(
             (item) =>
               item.lang === lang &&
-              (item.definitionVerdict !== 'accurate' || item.formatVerdict !== 'clean_dictionary')
+              ((item.definitionVerdict !== 'accurate' &&
+                item.definitionVerdict !== 'inflected_form') ||
+                item.formatVerdict !== 'clean_dictionary')
           )
           .map((item) => item.word)
       );

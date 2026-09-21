@@ -52,7 +52,7 @@
     "display": "about",
     "d": 0.8,
     "pos": "noun",
-    "def": "The very end, tip, or extremity of something, often referring to a physical object or a period of time.",
+    "def": "The extreme end, tip, or butt joint of a structural beam or board.",
     "reviewed": true
   },
   "aboye": {
@@ -105,10 +105,10 @@
     "reviewed": true
   },
   "acres": {
-    "display": "acres",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Units of land area, each equivalent to 4,046.86 square meters or 43,560 square feet.",
+    "display": "âcres",
+    "d": 0.82,
+    "pos": "adj",
+    "def": "Having a strong, unpleasant, and sharp taste or smell; also, describes a harsh or bitter tone (feminine plural of âcre).",
     "reviewed": true
   },
   "actes": {
@@ -1392,13 +1392,6 @@
     "def": "A market in a Middle Eastern country; also, a large shop selling a variety of goods, or a jumble sale.",
     "reviewed": true
   },
-  "beach": {
-    "display": "beach",
-    "d": 0.5,
-    "pos": "noun",
-    "def": "A sandy or pebbly shore by the sea or a lake, often used for recreation.",
-    "reviewed": true
-  },
   "beauf": {
     "display": "beauf",
     "d": 0.65,
@@ -1700,18 +1693,11 @@
     "def": "A newcomer or first-year student, especially in a French \"grande école,\" often subject to hazing or initiation rituals.",
     "reviewed": true
   },
-  "black": {
-    "display": "black",
-    "d": 0.32,
-    "pos": "adj",
-    "def": "Having the darkest color, like coal or night, due to the absence or complete absorption of light.",
-    "reviewed": true
-  },
   "blair": {
     "display": "blair",
     "d": 0.5,
     "pos": "noun",
-    "def": "(Slang) A person's nose, often used informally or humorously in French.",
+    "def": "An informal or slang French word for a person nose or schnoz.",
     "reviewed": true
   },
   "blame": {
@@ -1861,13 +1847,6 @@
     "def": "Leaped, jumped, or bounced with sudden force or energy (past participle of bondir).",
     "reviewed": true
   },
-  "bonds": {
-    "display": "bonds",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "Financial instruments representing a loan made by an investor to a borrower, typically issued by governments or corporations.",
-    "reviewed": true
-  },
   "bongo": {
     "display": "bongo",
     "d": 0.95,
@@ -1928,7 +1907,7 @@
     "display": "bosco",
     "d": 0.95,
     "pos": "noun",
-    "def": "(Informal, rare) A woodsman or forest ranger, someone who works in or is associated with forests.",
+    "def": "A boatswain or petty ship officer supervising the deck crew and rigging.",
     "reviewed": true
   },
   "bosse": {
@@ -2013,20 +1992,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "A person who participates in the sport of boxing, or a breed of medium-sized, short-haired dog.",
-    "reviewed": true
-  },
-  "boxes": {
-    "display": "boxes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Containers, typically square or rectangular, used for holding or storing things (plural of box, borrowed from English).",
-    "reviewed": true
-  },
-  "brand": {
-    "display": "brand",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A type of product manufactured by a particular company under a specific name, or a mark burned on livestock.",
     "reviewed": true
   },
   "brass": {
@@ -2204,13 +2169,6 @@
     "def": "A sculpture of a person's head, shoulders, and chest, or the upper part of the human body.",
     "reviewed": true
   },
-  "butch": {
-    "display": "butch",
-    "d": 0.88,
-    "pos": "adj",
-    "def": "Having a masculine appearance or manner, often used to describe a lesbian woman who adopts a traditionally masculine role.",
-    "reviewed": true
-  },
   "butee": {
     "display": "butée",
     "d": 0.95,
@@ -2328,13 +2286,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "A kidney-shaped edible nut, native to tropical regions, often roasted and salted for consumption.",
-    "reviewed": true
-  },
-  "cakes": {
-    "display": "cakes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Sweet baked desserts, often made from flour, sugar, eggs, and fat, and typically decorated (plural of cake).",
     "reviewed": true
   },
   "caler": {
@@ -2488,7 +2439,7 @@
     "display": "carne",
     "d": 0.95,
     "pos": "noun",
-    "def": "The flesh of animals consumed as nutritional food by humans.",
+    "def": "Tough, bad-quality meat, or informally an old worn-out horse or difficult person.",
     "reviewed": true
   },
   "carpe": {
@@ -2558,7 +2509,7 @@
     "display": "caves",
     "d": 0.65,
     "pos": "noun",
-    "def": "Natural underground chambers or large hollows in the earth, often formed by erosion (plural of cave).",
+    "def": "Underground rooms or cellars, typically used for storing wine, food, or other items (plural of cave).",
     "reviewed": true
   },
   "ceder": {
@@ -2621,7 +2572,7 @@
     "display": "cents",
     "d": 0.3,
     "pos": "noun",
-    "def": "Groups of one hundred units or items (plural of cent).",
+    "def": "The number one hundred, or coins representing a hundredth of a monetary unit (plural of cent).",
     "reviewed": true
   },
   "cerfs": {
@@ -2713,13 +2664,6 @@
     "d": 0.82,
     "pos": "noun",
     "def": "A white, caustic alkaline substance, primarily calcium oxide, used in building materials, agriculture, and chemical processes.",
-    "reviewed": true
-  },
-  "check": {
-    "display": "check",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A written order to a bank to pay a stated sum from the drawer's account, or a verification.",
     "reviewed": true
   },
   "chefs": {
@@ -2841,18 +2785,11 @@
     "def": "Various types of cabbage or similar leafy green vegetables; also used as a term of endearment (plural of chou).",
     "reviewed": true
   },
-  "chums": {
-    "display": "chums",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Close friends or companions, often sharing a strong bond and spending time together (plural, borrowed from English).",
-    "reviewed": true
-  },
   "chute": {
     "display": "chute",
     "d": 0.28,
     "pos": "noun",
-    "def": "A fall, drop, or descent, often referring to a sudden or significant downward movement. It can also mean a slide or a chute.",
+    "def": "A fall, drop, or descent, often referring to a sudden or significant downward movement; also, a slide or a chute.",
     "reviewed": true
   },
   "cible": {
@@ -2946,25 +2883,11 @@
     "def": "Proclaimed, shouted, or claimed loudly and publicly (past participle of clamer).",
     "reviewed": true
   },
-  "clamp": {
-    "display": "clamp",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A device, typically made of metal or wood, used to hold objects firmly together or in place.",
-    "reviewed": true
-  },
   "clans": {
     "display": "clans",
     "d": 0.82,
     "pos": "noun",
     "def": "Groups of people united by kinship or descent, often sharing a common ancestor and cultural identity (plural of clan).",
-    "reviewed": true
-  },
-  "clash": {
-    "display": "clash",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A loud, jarring sound made by two hard objects striking together; a conflict or disagreement.",
     "reviewed": true
   },
   "clebs": {
@@ -2986,13 +2909,6 @@
     "d": 0.82,
     "pos": "noun",
     "def": "a clergyman, usually in Christianity.",
-    "reviewed": true
-  },
-  "click": {
-    "display": "click",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A short, sharp sound, often produced by a mechanism or by pressing a button, especially on a computer mouse.",
     "reviewed": true
   },
   "clics": {
@@ -3056,13 +2972,6 @@
     "d": 0.69,
     "pos": "adj",
     "def": "Closed, shut, or concluded (feminine singular past participle of clore).",
-    "reviewed": true
-  },
-  "cloud": {
-    "display": "cloud",
-    "d": 0.35,
-    "pos": "noun",
-    "def": "A visible mass of condensed water vapor floating in the sky.",
     "reviewed": true
   },
   "cloue": {
@@ -3160,7 +3069,7 @@
     "display": "coins",
     "d": 0.63,
     "pos": "noun",
-    "def": "The internal or external angles where two surfaces or lines meet; also, small pieces of money (plural of coin).",
+    "def": "The internal or external angles where two surfaces or lines meet; also, a quiet or secluded place (plural of coin).",
     "reviewed": true
   },
   "coles": {
@@ -3223,7 +3132,7 @@
     "display": "condé",
     "d": 0.95,
     "pos": "noun",
-    "def": "An informal, slang term for a police officer or a cop, often used in a familiar or slightly derogatory way.",
+    "def": "A French slang term for a police officer or cop.",
     "reviewed": true
   },
   "cones": {
@@ -3252,13 +3161,6 @@
     "d": 0.54,
     "pos": "noun",
     "def": "An account of imaginary or real people and events told for entertainment.",
-    "reviewed": true
-  },
-  "cools": {
-    "display": "cools",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Becomes or makes something less warm; calms down or makes something less intense (third-person singular present of cool).",
     "reviewed": true
   },
   "copie": {
@@ -3593,13 +3495,6 @@
   "croix": {
     "display": "croix",
     "d": 0.35,
-    "pos": "noun",
-    "def": "A mark or structure consisting of an upright and a transverse bar.",
-    "reviewed": true
-  },
-  "cross": {
-    "display": "cross",
-    "d": 0.67,
     "pos": "noun",
     "def": "A mark or structure consisting of an upright and a transverse bar.",
     "reviewed": true
@@ -4321,8 +4216,8 @@
   "dotee": {
     "display": "dotée",
     "d": 0.82,
-    "pos": "verb",
-    "def": "feminine singular of doté.",
+    "pos": "adj",
+    "def": "Endowed or gifted with certain qualities, talents, or resources (feminine singular past participle of doter).",
     "reviewed": true
   },
   "dotes": {
@@ -4395,32 +4290,11 @@
     "def": "Pieces of cloth, typically rectangular, used for covering a bed or for other domestic purposes (plural of drap).",
     "reviewed": true
   },
-  "drill": {
-    "display": "drill",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A tool or machine with a rotating cutting tip used for making holes, or a systematic training exercise.",
-    "reviewed": true
-  },
   "dring": {
     "display": "dring",
     "d": 0.95,
     "pos": "noun",
     "def": "The sound of a bell ringing, often used to imitate the sound of a doorbell or telephone.",
-    "reviewed": true
-  },
-  "drink": {
-    "display": "drink",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A beverage, especially an alcoholic one, or a social gathering where such beverages are served.",
-    "reviewed": true
-  },
-  "drive": {
-    "display": "drive",
-    "d": 0.77,
-    "pos": "noun",
-    "def": "A strong urge or desire, especially for success or achievement, or a short journey in a vehicle.",
     "reviewed": true
   },
   "droit": {
@@ -4708,13 +4582,6 @@
     "d": 0.82,
     "pos": "noun",
     "def": "An expression of high praise or commendation, often in a formal speech or written tribute.",
-    "reviewed": true
-  },
-  "email": {
-    "display": "email",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "A vitreous, usually opaque, protective or decorative coating applied to metal, or electronic mail.",
     "reviewed": true
   },
   "emane": {
@@ -5477,7 +5344,7 @@
     "display": "files",
     "d": 0.81,
     "pos": "noun",
-    "def": "Rows, lines, or columns of people or objects; also, threads or yarns (plural of file).",
+    "def": "Lines, queues, or orderly rows of people or vehicles waiting (plural of file).",
     "reviewed": true
   },
   "filet": {
@@ -5697,25 +5564,11 @@
     "def": "Lacking sharpness or clarity; blurred, indistinct, or vague (masculine plural of flou).",
     "reviewed": true
   },
-  "flush": {
-    "display": "flush",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "In poker, a hand of cards all of the same suit; also, a state of being level or even.",
-    "reviewed": true
-  },
   "flute": {
     "display": "flûte",
     "d": 0.65,
     "pos": "noun",
     "def": "A musical wind instrument consisting of a tube with holes and a mouthpiece, played by blowing across an edge.",
-    "reviewed": true
-  },
-  "flyer": {
-    "display": "flyer",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A small handbill or leaflet advertising an event, product, or service, often distributed in public places.",
     "reviewed": true
   },
   "foies": {
@@ -5916,9 +5769,9 @@
   },
   "frein": {
     "display": "frein",
-    "d": 0.78,
+    "d": 0.65,
     "pos": "noun",
-    "def": "bit (equipment put in a horse's mouth).",
+    "def": "A device used to slow down or stop a vehicle or machine, typically by applying friction.",
     "reviewed": true
   },
   "frele": {
@@ -5940,13 +5793,6 @@
     "d": 0.35,
     "pos": "noun",
     "def": "A male sibling sharing one or both parents with another person; brother.",
-    "reviewed": true
-  },
-  "fries": {
-    "display": "fries",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb frire; To fry.",
     "reviewed": true
   },
   "frigo": {
@@ -6066,13 +5912,6 @@
     "d": 0.65,
     "pos": "verb",
     "def": "You smoke or are smoking (second-person plural present indicative of fumer).",
-    "reviewed": true
-  },
-  "funky": {
-    "display": "funky",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Having a strong, often unpleasant, smell; also, relating to a style of music with a strong rhythmic groove.",
     "reviewed": true
   },
   "furax": {
@@ -6236,13 +6075,6 @@
     "def": "A series of musical notes arranged in ascending or descending order of pitch, forming a scale.",
     "reviewed": true
   },
-  "gangs": {
-    "display": "gangs",
-    "d": 0.58,
-    "pos": "noun",
-    "def": "Organized groups of criminals or disruptive individuals, or groups of friends who spend time together (plural of gang).",
-    "reviewed": true
-  },
   "gants": {
     "display": "gants",
     "d": 0.37,
@@ -6366,7 +6198,7 @@
     "display": "gelée",
     "d": 0.61,
     "pos": "noun",
-    "def": "A deposit of small white ice crystals formed on the ground and objects.",
+    "def": "A deposit of small white ice crystals formed on the ground and objects; also, a type of jelly.",
     "reviewed": true
   },
   "geler": {
@@ -6698,13 +6530,6 @@
     "def": "Relating to Greece, its people, language, or culture (masculine plural form of \"grec\").",
     "reviewed": true
   },
-  "green": {
-    "display": "green",
-    "d": 0.41,
-    "pos": "noun",
-    "def": "Of the color between blue and yellow in the spectrum; colored like grass.",
-    "reviewed": true
-  },
   "greer": {
     "display": "gréer",
     "d": 0.95,
@@ -6738,13 +6563,6 @@
     "d": 0.63,
     "pos": "adj",
     "def": "feminine singular of gris.",
-    "reviewed": true
-  },
-  "groom": {
-    "display": "groom",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A person employed in a hotel to carry luggage, run errands, and attend to guests' needs; a bellboy.",
     "reviewed": true
   },
   "gruau": {
@@ -6950,13 +6768,6 @@
     "def": "alas; exclamatory or declarative conjunction expressing affliction, regret, disappointment.",
     "reviewed": true
   },
-  "hello": {
-    "display": "hello",
-    "d": 0.47,
-    "pos": "noun",
-    "def": "A common greeting used to initiate a conversation or acknowledge someone's presence.",
-    "reviewed": true
-  },
   "henne": {
     "display": "henné",
     "d": 0.82,
@@ -7013,25 +6824,11 @@
     "def": "The coldest astronomical season occurring between autumn and spring; winter.",
     "reviewed": true
   },
-  "hobby": {
-    "display": "hobby",
-    "d": 0.92,
-    "pos": "noun",
-    "def": "An activity pursued for pleasure and relaxation during one's leisure time, often with passion and dedication.",
-    "reviewed": true
-  },
   "hoche": {
     "display": "hoché",
     "d": 0.82,
     "pos": "verb",
     "def": "Nodded or shaken, typically referring to one's head in agreement or disagreement (past participle of hocher).",
-    "reviewed": true
-  },
-  "homes": {
-    "display": "homes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Places of residence or shelters, often referring to institutions or care facilities (plural of home, an English loanword).",
     "reviewed": true
   },
   "homme": {
@@ -7199,7 +6996,7 @@
     "display": "impie",
     "d": 0.82,
     "pos": "adj",
-    "def": "Someone who is impious, godless, or irreverent towards religious beliefs (can be used as a noun or adjective).",
+    "def": "Someone who is impious, godless, or irreverent towards religious beliefs or sacred things.",
     "reviewed": true
   },
   "impot": {
@@ -7297,7 +7094,7 @@
     "display": "issue",
     "d": 0.41,
     "pos": "noun",
-    "def": "An exit, a way out, or the outcome or result of a situation or event.",
+    "def": "An exit, way out, or the eventual outcome or conclusion of a situation.",
     "reviewed": true
   },
   "issus": {
@@ -8091,13 +7888,6 @@
     "def": "Specific places, locations, or sites; often used in phrases like 'in lieu of' or 'places of interest' (plural of lieu).",
     "reviewed": true
   },
-  "light": {
-    "display": "light",
-    "d": 0.62,
-    "pos": "adj",
-    "def": "A French loanword referring to a light beer or a low-calorie version of a food or drink.",
-    "reviewed": true
-  },
   "ligne": {
     "display": "ligne",
     "d": 0.13,
@@ -8221,7 +8011,7 @@
     "display": "lobes",
     "d": 0.95,
     "pos": "verb",
-    "def": "You lob or chip a ball over an opponent in sports; you are lobbing or you may lob (second-person singular present indicative/subjunctive of lober).",
+    "def": "You lob or chip a ball over an opponent in sports (second-person singular present indicative/subjunctive of lober).",
     "reviewed": true
   },
   "local": {
@@ -8229,13 +8019,6 @@
     "d": 0.44,
     "pos": "noun",
     "def": "A specific room, premises, or place used for a particular activity or purpose.",
-    "reviewed": true
-  },
-  "lodge": {
-    "display": "lodge",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A small house, cabin, or shelter, especially one used for temporary accommodation or a specific purpose.",
     "reviewed": true
   },
   "logee": {
@@ -8285,13 +8068,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A rag or tattered piece of cloth; also used figuratively to describe someone or something worn out.",
-    "reviewed": true
-  },
-  "loser": {
-    "display": "loser",
-    "d": 0.62,
-    "pos": "noun",
-    "def": "A person or thing that fails to win or succeed in a competition or effort.",
     "reviewed": true
   },
   "lotte": {
@@ -8364,20 +8140,6 @@
     "def": "A female wolf, often depicted in mythology and folklore as a fierce and nurturing creature.",
     "reviewed": true
   },
-  "lover": {
-    "display": "lover",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To coil or wind a rope, cable, or hose into a neat spiral (infinitive verb).",
-    "reviewed": true
-  },
-  "loves": {
-    "display": "loves",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Coils or winds a rope, cable, or hose into a neat spiral (second-person singular present indicative of lover).",
-    "reviewed": true
-  },
   "loyal": {
     "display": "loyal",
     "d": 0.54,
@@ -8411,13 +8173,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "The SI unit of luminous flux, measuring the total amount of visible light emitted by a source.",
-    "reviewed": true
-  },
-  "lunch": {
-    "display": "lunch",
-    "d": 0.35,
-    "pos": "noun",
-    "def": "A meal eaten in the middle of the day, typically between breakfast and dinner.",
     "reviewed": true
   },
   "lundi": {
@@ -8481,13 +8236,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "A skilled worker who builds with stone, brick, or concrete, often involved in construction projects.",
-    "reviewed": true
-  },
-  "madre": {
-    "display": "madre",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Mother-of-pearl, the iridescent inner layer of certain mollusk shells, often used for decorative items or jewelry.",
     "reviewed": true
   },
   "mafia": {
@@ -8679,13 +8427,6 @@
     "def": "Male spouses; the husbands of women (plural of 'mari').",
     "reviewed": true
   },
-  "marks": {
-    "display": "marks",
-    "d": 0.69,
-    "pos": "noun",
-    "def": "Distinctive symbols, names, or designs used to identify products or services (plural of marque, as a loanword).",
-    "reviewed": true
-  },
   "marre": {
     "display": "marré",
     "d": 0.21,
@@ -8712,13 +8453,6 @@
     "d": 0.64,
     "pos": "verb",
     "def": "To subdue, quell, or bring under control; to master or overcome something (infinitive verb).",
-    "reviewed": true
-  },
-  "mates": {
-    "display": "mates",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Subdues, quells, or brings under control; also, looks at or observes intently (second-person singular present indicative of mater).",
     "reviewed": true
   },
   "matez": {
@@ -9019,7 +8753,7 @@
     "display": "miens",
     "d": 0.37,
     "pos": "noun",
-    "def": "Mine, belonging to me (masculine plural possessive pronoun, used as a noun).",
+    "def": "Mine, belonging to me or my family (masculine plural possessive pronoun, used as a noun).",
     "reviewed": true
   },
   "mieux": {
@@ -9027,13 +8761,6 @@
     "d": 0.05,
     "pos": "adv/adj",
     "def": "In a more excellent, effective, or preferable manner; better or best.",
-    "reviewed": true
-  },
-  "miles": {
-    "display": "miles",
-    "d": 0.32,
-    "pos": "noun",
-    "def": "Units of distance, each equivalent to 1,609 meters, commonly used in English-speaking countries (plural of \"mile\").",
     "reviewed": true
   },
   "mille": {
@@ -9082,7 +8809,7 @@
     "display": "miser",
     "d": 0.82,
     "pos": "verb",
-    "def": "To put, place, or set something in a particular position or location.",
+    "def": "To bet or stake money or something of value in a game or competition.",
     "reviewed": true
   },
   "mises": {
@@ -9104,13 +8831,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "Small insects that infest food, fabrics, or animals, or tiny arachnids (plural of mite).",
-    "reviewed": true
-  },
-  "mixer": {
-    "display": "mixer",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To combine or blend different substances or elements together.",
     "reviewed": true
   },
   "mixte": {
@@ -9775,7 +9495,7 @@
     "display": "notes",
     "d": 0.26,
     "pos": "noun",
-    "def": "The plural form of note, referring to written records, musical tones, or academic grades.",
+    "def": "Written records, musical tones, or academic grades (plural of note).",
     "reviewed": true
   },
   "notez": {
@@ -9860,13 +9580,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "nape, back of the neck.",
-    "reviewed": true
-  },
-  "nurse": {
-    "display": "nurse",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A person trained to care for the sick or injured, especially in a hospital or clinic.",
     "reviewed": true
   },
   "nylon": {
@@ -10212,13 +9925,6 @@
     "def": "A high-ranking title, especially in the Ottoman Empire, given to a provincial governor or military commander.",
     "reviewed": true
   },
-  "packs": {
-    "display": "packs",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Collections of items wrapped or tied together, or groups of animals or people (plural of pack).",
-    "reviewed": true
-  },
   "pacte": {
     "display": "pacte",
     "d": 0.56,
@@ -10266,13 +9972,6 @@
     "d": 0.33,
     "pos": "noun",
     "def": "A set of two things used together or regarded as a unit; two people or animals.",
-    "reviewed": true
-  },
-  "pairs": {
-    "display": "pairs",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "People who are equal in status, age, or ability; also refers to even numbers (plural of pair).",
     "reviewed": true
   },
   "pales": {
@@ -10457,13 +10156,6 @@
     "def": "Individual pieces, sections, or shares of a whole; also, roles in a play or components of a machine (plural of part).",
     "reviewed": true
   },
-  "party": {
-    "display": "party",
-    "d": 0.69,
-    "pos": "noun",
-    "def": "A social gathering of invited guests, typically involving eating, drinking, and entertainment.",
-    "reviewed": true
-  },
   "parut": {
     "display": "parut",
     "d": 0.82,
@@ -10483,13 +10175,6 @@
     "d": 0.05,
     "pos": "noun",
     "def": "The time that has gone by; events or experiences that occurred previously (noun).",
-    "reviewed": true
-  },
-  "patch": {
-    "display": "patch",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A piece of material used to mend or strengthen; also, a small area different from its surroundings.",
     "reviewed": true
   },
   "patee": {
@@ -10529,7 +10214,7 @@
   },
   "patir": {
     "display": "pâtir",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To suffer, endure hardship, or experience pain or distress, often as a consequence of something.",
     "reviewed": true
@@ -10707,13 +10392,6 @@
     "d": 0.47,
     "pos": "noun",
     "def": "A person who has been hanged; also, a popular word game similar to Hangman (noun).",
-    "reviewed": true
-  },
-  "penny": {
-    "display": "penny",
-    "d": 0.4,
-    "pos": "noun",
-    "def": "A small unit of currency, typically a coin, used in various English-speaking countries.",
     "reviewed": true
   },
   "pensa": {
@@ -10907,9 +10585,9 @@
   },
   "phone": {
     "display": "phone",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
-    "def": "A unit of loudness for pure tones, equal in number to the sound pressure level in decibels of a 1000 Hz tone judged equally loud.",
+    "def": "A common informal term for a telephone, a device used for transmitting and receiving sound over distances.",
     "reviewed": true
   },
   "piano": {
@@ -11173,7 +10851,7 @@
   },
   "plies": {
     "display": "plies",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Fold something, bend it over on itself; to make something compact by folding (second-person singular present tense of plier).",
     "reviewed": true
@@ -11649,7 +11327,7 @@
   },
   "prone": {
     "display": "prône",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Conjugated form of the verb proner; advocate.",
     "reviewed": true
@@ -12655,13 +12333,6 @@
     "def": "Feminine of ridé; marked with wrinkles, lines, or creases.",
     "reviewed": true
   },
-  "rider": {
-    "display": "rider",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To form or cause to form wrinkles or furrows on a surface, especially skin.",
-    "reviewed": true
-  },
   "rides": {
     "display": "rides",
     "d": 0.65,
@@ -12744,13 +12415,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "A person or thing competing with another for the same objective or superiority.",
-    "reviewed": true
-  },
-  "river": {
-    "display": "river",
-    "d": 0.61,
-    "pos": "verb",
-    "def": "To fasten or secure something with rivets; to fix firmly in place.",
     "reviewed": true
   },
   "rives": {
@@ -13252,9 +12916,9 @@
   },
   "saper": {
     "display": "saper",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "to sap, do sapping work on.",
+    "def": "To undermine or weaken something gradually, often by digging beneath it; also, to exhaust someone's strength (infinitive).",
     "reviewed": true
   },
   "sapes": {
@@ -13628,25 +13292,11 @@
     "def": "The two main categories (male and female) into which humans and many other living things are divided (plural of sexe).",
     "reviewed": true
   },
-  "shoot": {
-    "display": "shoot",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An act of shooting a ball in sports; also, a photography session or a new growth on a plant.",
-    "reviewed": true
-  },
   "short": {
     "display": "short",
     "d": 0.74,
     "pos": "noun",
     "def": "A pair of casual trousers that end above the knee, typically worn for sports or in warm weather.",
-    "reviewed": true
-  },
-  "shows": {
-    "display": "shows",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Public entertainments or performances, such as plays, concerts, or exhibitions (plural of show).",
     "reviewed": true
   },
   "siege": {
@@ -13766,13 +13416,6 @@
     "d": 0.82,
     "pos": "noun",
     "def": "A person who is the legal property of another and forced to obey them; also, relating to such a person.",
-    "reviewed": true
-  },
-  "slips": {
-    "display": "slips",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A type of close-fitting undergarment for the lower body, typically worn by men (plural of slip).",
     "reviewed": true
   },
   "smash": {
@@ -13978,13 +13621,6 @@
     "def": "Be; used as an imperative to give a command or instruction to multiple people (second-person plural imperative of être).",
     "reviewed": true
   },
-  "speed": {
-    "display": "speed",
-    "d": 0.88,
-    "pos": "noun",
-    "def": "The rate at which someone or something is able to move or operate; swiftness or velocity.",
-    "reviewed": true
-  },
   "sport": {
     "display": "sport",
     "d": 0.25,
@@ -14027,13 +13663,6 @@
     "def": "A large outdoor arena with tiers of seats for spectators, used for athletic events, concerts, or other performances.",
     "reviewed": true
   },
-  "staff": {
-    "display": "staff",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The entire body of employees working for a particular organization or business.",
-    "reviewed": true
-  },
   "stage": {
     "display": "stage",
     "d": 0.61,
@@ -14046,13 +13675,6 @@
     "d": 0.56,
     "pos": "noun",
     "def": "A booth or structure, often temporary, used for selling goods or providing information at an event.",
-    "reviewed": true
-  },
-  "stars": {
-    "display": "stars",
-    "d": 0.46,
-    "pos": "noun",
-    "def": "Celestial bodies that emit light; also refers to famous performers or prominent figures (plural of star).",
     "reviewed": true
   },
   "stase": {
@@ -14081,13 +13703,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "A roller blind or window shade, typically made of fabric, used to cover a window.",
-    "reviewed": true
-  },
-  "strip": {
-    "display": "strip",
-    "d": 0.87,
-    "pos": "noun",
-    "def": "A comic strip, a sequence of drawings in boxes that tell a story, often published in newspapers or magazines.",
     "reviewed": true
   },
   "style": {
@@ -14251,13 +13866,6 @@
     "def": "A Japanese dish consisting of small balls of vinegared rice combined with various ingredients, often raw fish or vegetables.",
     "reviewed": true
   },
-  "sweat": {
-    "display": "sweat",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A sweatshirt, a loose, long-sleeved cotton garment worn for warmth or athletic activity.",
-    "reviewed": true
-  },
   "swing": {
     "display": "swing",
     "d": 0.95,
@@ -14342,18 +13950,11 @@
     "def": "A passionate ballroom dance of Argentinian origin, characterized by close embrace, dramatic pauses, and intricate footwork.",
     "reviewed": true
   },
-  "tanks": {
-    "display": "tanks",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "Large, armored military vehicles equipped with heavy weaponry; also refers to large containers for liquids or gases (plural of tank).",
-    "reviewed": true
-  },
   "tanne": {
     "display": "tanné",
     "d": 0.95,
     "pos": "noun",
-    "def": "tenné, a rarely-used tincture of orange or bright brown.",
+    "def": "Animal hide that has been treated with tannin to preserve it and make it durable, commonly known as leather.",
     "reviewed": true
   },
   "tante": {
@@ -15007,20 +14608,6 @@
     "def": "A mark, sign, or remnant left by something that has passed or existed, such as a footprint or a faint indication.",
     "reviewed": true
   },
-  "track": {
-    "display": "track",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A rough path or road, typically one beaten by use rather than constructed.",
-    "reviewed": true
-  },
-  "trade": {
-    "display": "trade",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "Trades, exchanges, or deals in goods or services (present tense of trader, a loanword from English).",
-    "reviewed": true
-  },
   "trahi": {
     "display": "trahi",
     "d": 0.65,
@@ -15147,13 +14734,6 @@
     "def": "A female pig, especially one that has farrowed (given birth to piglets). A sow.",
     "reviewed": true
   },
-  "trust": {
-    "display": "trust",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Firm belief in the reliability, truth, ability, or strength of someone.",
-    "reviewed": true
-  },
   "tuais": {
     "display": "tuais",
     "d": 0.65,
@@ -15224,13 +14804,6 @@
     "def": "A thin, flat piece of baked clay or other material used for covering roofs or floors; a tile.",
     "reviewed": true
   },
-  "tunes": {
-    "display": "tunes",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Melodies or musical compositions, often referring to popular songs or pieces (plural of tune).",
-    "reviewed": true
-  },
   "tuons": {
     "display": "tuons",
     "d": 0.65,
@@ -15264,13 +14837,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "A short message posted on the social media platform X (formerly Twitter). Also, the sound a small bird makes.",
-    "reviewed": true
-  },
-  "twist": {
-    "display": "twist",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An act of turning or rotating something, or a sudden unexpected development in a story or situation.",
     "reviewed": true
   },
   "types": {
@@ -16232,13 +15798,6 @@
     "def": "wow , yay, yippie; yahoo.",
     "reviewed": true
   },
-  "water": {
-    "display": "water",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A toilet or water closet, often used in the plural form \"les waters\" (loanword from English).",
-    "reviewed": true
-  },
   "watts": {
     "display": "watts",
     "d": 0.82,
@@ -16267,18 +15826,11 @@
     "def": "A medium-sized sailing or motor boat used for private pleasure cruising.",
     "reviewed": true
   },
-  "yards": {
-    "display": "yards",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Units of length equal to three feet; also, enclosed areas of ground, typically adjacent to a building (plural of yard).",
-    "reviewed": true
-  },
   "youpi": {
     "display": "youpi",
     "d": 0.65,
     "pos": "noun",
-    "def": "An exclamation of joy or triumph, similar to \"yippee\" or \"hooray\" in English.",
+    "def": "An exclamation of joy or triumph, often used to express excitement, similar to 'yippee' or 'hooray' in English.",
     "reviewed": true
   },
   "yuans": {

@@ -179,9 +179,37 @@ export async function runDictionaryEval() {
     process.exit(1);
   }
 
+  const isQueue = args.includes('--queue');
+
   // Load dataset
   let entries: DictionaryEntry[] = [];
-  if (langArg) {
+  if (isQueue) {
+    const queueFile = path.resolve('evals/artifacts/review_queue.json');
+    if (fs.existsSync(queueFile)) {
+      const qData = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
+      const allDicts: Record<Language, any> = {
+        en: JSON.parse(fs.readFileSync('public/en.json', 'utf8')),
+        es: JSON.parse(fs.readFileSync('public/es.json', 'utf8')),
+        fr: JSON.parse(fs.readFileSync('public/fr.json', 'utf8')),
+      };
+      entries = [];
+      for (const item of qData.queue || []) {
+        const dict = allDicts[item.lang as Language];
+        if (dict && dict[item.word]) {
+          const e = dict[item.word];
+          entries.push({
+            word: item.word,
+            lang: item.lang as Language,
+            display: e.display || item.word,
+            pos: e.pos,
+            d: e.d,
+            def: e.def,
+            reviewed: e.reviewed,
+          });
+        }
+      }
+    }
+  } else if (langArg) {
     if (isPilot) {
       entries = loadPilotSample(25).filter((e) => e.lang === langArg);
     } else {

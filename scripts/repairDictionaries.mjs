@@ -126,7 +126,7 @@ for (const lang of LANGS) {
         entry.d = newD;
         difficultyUpdated++;
       }
-    }    }
+    }
   }
 
   // Save back cleanly formatted

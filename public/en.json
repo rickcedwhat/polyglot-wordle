@@ -185,7 +185,7 @@
     "display": "adios",
     "d": 0.65,
     "pos": "noun",
-    "def": "A Spanish word used as an exclamation to say goodbye, often implying a final or long-term farewell.",
+    "def": "A Spanish word used as a farewell, often implying a final or long-term goodbye.",
     "reviewed": true
   },
   "admit": {
@@ -225,7 +225,7 @@
   },
   "aegis": {
     "display": "aegis",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A shield or protective armor; sponsorship or protection.",
     "reviewed": true
@@ -913,7 +913,7 @@
     "display": "atlas",
     "d": 0.65,
     "pos": "noun",
-    "def": "One who sustains a great burden.",
+    "def": "A book containing a collection of maps, typically of the world or a region, often including other geographical information.",
     "reviewed": true
   },
   "atoll": {
@@ -1962,8 +1962,8 @@
   "bloat": {
     "display": "bloat",
     "d": 0.65,
-    "pos": "noun",
-    "def": "To make turgid, as with water or air; to cause a swelling of the surface of, from effusion of serum in the cellular tissue, producing a morbid enlargement, often accompanied with softness.",
+    "pos": "verb",
+    "def": "To swell or cause to swell with fluid or gas, often uncomfortably, making something larger than normal.",
     "reviewed": true
   },
   "blobs": {
@@ -2033,7 +2033,7 @@
     "display": "bluff",
     "d": 0.67,
     "pos": "noun",
-    "def": "Having a broad, flattened front; as, the bluff bows of a ship.",
+    "def": "A steep, broad cliff or bank, especially one overlooking a river or sea.",
     "reviewed": true
   },
   "blunt": {
@@ -2053,8 +2053,8 @@
   "blush": {
     "display": "blush",
     "d": 0.35,
-    "pos": "noun",
-    "def": "To become suffused with red in the cheeks, as from a sense of shame, modesty, or confusion; to become red from such cause, as the cheeks or face.",
+    "pos": "verb",
+    "def": "To become red in the face, especially from embarrassment, shame, or modesty.",
     "reviewed": true
   },
   "board": {
@@ -2906,9 +2906,9 @@
   },
   "butte": {
     "display": "butte",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
-    "def": "A detached low mountain, or high rising abruptly from the general level of the surrounding plain.",
+    "def": "A detached hill or mountain with steep sides and a flat top, rising abruptly from the surrounding plain.",
     "reviewed": true
   },
   "butts": {
@@ -3067,9 +3067,9 @@
   },
   "canes": {
     "display": "canes",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "A name given to several peculiar palms, species of Calamus and Dæmanorops, having very long, smooth flexible stems, commonly called rattans.",
+    "d": 0.65,
+    "pos": "noun",
+    "def": "Long, slender, often hollow stems of plants, or sticks used for support or punishment (plural of cane).",
     "reviewed": true
   },
   "canny": {
@@ -3167,7 +3167,7 @@
     "display": "carol",
     "d": 0.31,
     "pos": "noun",
-    "def": "A round dance; [Obs.] Chaucer.",
+    "def": "A religious folk song or popular hymn, especially one associated with Christmas.",
     "reviewed": true
   },
   "carry": {
@@ -3971,8 +3971,8 @@
   "cluck": {
     "display": "cluck",
     "d": 0.35,
-    "pos": "noun",
-    "def": "To make the noise, or utter the call, of a brooding hen.",
+    "pos": "verb",
+    "def": "To make a short, guttural sound, characteristic of a hen, often to call chicks or express contentment.",
     "reviewed": true
   },
   "clues": {
@@ -4161,7 +4161,7 @@
     "display": "comfy",
     "d": 0.65,
     "pos": "adj",
-    "def": "Providing physical ease and relaxation; comfortable and pleasant.",
+    "def": "Providing physical ease and relaxation; comfortable and pleasant, often in a cozy or informal way.",
     "reviewed": true
   },
   "comic": {
@@ -4475,8 +4475,8 @@
   "creak": {
     "display": "creak",
     "d": 0.65,
-    "pos": "noun",
-    "def": "To make a prolonged sharp grating or ssqueaking sound, as by the friction of hard substances; as, shoes creak.",
+    "pos": "verb",
+    "def": "To make a harsh, grating, or squeaking sound, typically when something old or poorly oiled moves.",
     "reviewed": true
   },
   "cream": {
@@ -4523,9 +4523,9 @@
   },
   "creme": {
     "display": "creme",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Alternative spelling of crème.",
+    "d": 0.65,
+    "pos": "noun",
+    "def": "A rich, thick, yellowish-white dairy product, or a cosmetic preparation with a similar consistency.",
     "reviewed": true
   },
   "crept": {
@@ -4558,9 +4558,9 @@
   },
   "crick": {
     "display": "crick",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "The creaking of a door, or a noise resembling it.",
+    "def": "A painful muscle spasm or stiffness, especially in the neck or back, often caused by strain.",
     "reviewed": true
   },
   "cried": {
@@ -5545,7 +5545,7 @@
   },
   "dolce": {
     "display": "dolce",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "(Italian) Sweet or soft, often used in music as an instruction to play gently, or in food to describe desserts.",
     "reviewed": true
@@ -6498,8 +6498,8 @@
   "ethic": {
     "display": "ethic",
     "d": 0.82,
-    "pos": "adj",
-    "def": "Concerned with the principles of right and wrong behavior and goodness.",
+    "pos": "noun",
+    "def": "A set of moral principles, or a system of values, that governs a person's or group's behavior.",
     "reviewed": true
   },
   "ethos": {
@@ -6926,7 +6926,7 @@
     "display": "feels",
     "d": 0.15,
     "pos": "noun",
-    "def": "Sensations experienced through touch; also, a general atmosphere or impression conveyed by a place or situation.",
+    "def": "Sensations experienced through touch, or a general atmosphere or impression conveyed by a situation (plural of feel).",
     "reviewed": true
   },
   "feign": {
@@ -7633,7 +7633,7 @@
     "display": "folks",
     "d": 0.19,
     "pos": "noun",
-    "def": "The members of one's immediate family, especially one's parents.",
+    "def": "People in general, or the members of one's immediate family, especially one's parents (plural of folk).",
     "reviewed": true
   },
   "folly": {
@@ -9033,7 +9033,7 @@
     "display": "gummy",
     "d": 0.35,
     "pos": "adj",
-    "def": "Characterized by being showing the gums.",
+    "def": "Sticky and viscous like gum, or characterized by showing the gums when smiling.",
     "reviewed": true
   },
   "gunny": {
@@ -9124,7 +9124,7 @@
     "display": "hallo",
     "d": 0.35,
     "pos": "verb",
-    "def": "To shout \"hallo\" or \"hello\" to attract attention or greet someone (often used as an interjection).",
+    "def": "To shout \"hallo\" or \"hello\" to attract attention or greet someone.",
     "reviewed": true
   },
   "halls": {
@@ -9983,7 +9983,7 @@
   },
   "hutch": {
     "display": "hutch",
-    "d": 0.93,
+    "d": 0.65,
     "pos": "noun",
     "def": "A box or cage, typically made of wood and wire, used for keeping small animals like rabbits.",
     "reviewed": true
@@ -10020,7 +10020,7 @@
     "display": "hyoid",
     "d": 0.95,
     "pos": "adj",
-    "def": "Relating to or denoting the U-shaped bone located in the neck between the chin and the thyroid cartilage.",
+    "def": "Relating to or denoting the U-shaped bone located in the neck, supporting the tongue and larynx.",
     "reviewed": true
   },
   "hyped": {
@@ -10088,7 +10088,7 @@
   },
   "igloo": {
     "display": "igloo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A dome-shaped house or shelter built from blocks of ice or hard snow, traditionally used by Inuit people.",
     "reviewed": true
@@ -11098,7 +11098,7 @@
     "display": "leave",
     "d": 0.05,
     "pos": "verb",
-    "def": "To have a consequence or remnant.",
+    "def": "To go away from a place or person, or to allow something to remain in a particular state or place.",
     "reviewed": true
   },
   "leche": {
@@ -11280,7 +11280,7 @@
     "display": "liked",
     "d": 0.15,
     "pos": "adj",
-    "def": "viewed favorably, held in high regard.",
+    "def": "Found agreeable, pleasant, or satisfactory; regarded with favor or affection (past participle of like).",
     "reviewed": true
   },
   "likes": {
@@ -11343,7 +11343,7 @@
     "display": "liner",
     "d": 0.65,
     "pos": "noun",
-    "def": "Someone who fits a lining to something.",
+    "def": "A large passenger ship or aircraft, or a cosmetic product used to outline the eyes or lips.",
     "reviewed": true
   },
   "lines": {
@@ -11957,9 +11957,9 @@
   },
   "mamma": {
     "display": "mamma",
-    "d": 0.68,
+    "d": 0.35,
     "pos": "noun",
-    "def": "The milk-secreting organ of female humans and other mammals which includes the mammary gland and the nipple or teat; a breast.",
+    "def": "An informal or affectionate term for one's mother, often used by children.",
     "reviewed": true
   },
   "manga": {
@@ -12085,14 +12085,14 @@
     "display": "masse",
     "d": 0.95,
     "pos": "noun",
-    "def": "A stroke made with the cue held vertically.",
+    "def": "A stroke in billiards where the cue ball is struck with the cue held vertically, causing it to curve.",
     "reviewed": true
   },
   "masts": {
     "display": "masts",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "The fruit of the oak and beech, or other forest trees; nuts.",
+    "d": 0.65,
+    "pos": "noun",
+    "def": "Tall, upright poles or spars on a ship or boat, used to support sails and rigging (plural of mast).",
     "reviewed": true
   },
   "match": {
@@ -12224,8 +12224,8 @@
   "medic": {
     "display": "medic",
     "d": 0.66,
-    "pos": "adj",
-    "def": "Of or pertaining to medicines; medical.",
+    "pos": "noun",
+    "def": "A doctor, medical student, or other person trained in medicine, especially in a military context.",
     "reviewed": true
   },
   "meets": {
@@ -13814,7 +13814,7 @@
     "display": "pacer",
     "d": 0.95,
     "pos": "noun",
-    "def": "One who, or that which, paces; especially, a horse that paces.",
+    "def": "A person or animal that sets the pace in a race, or a horse trained to move with a specific gait.",
     "reviewed": true
   },
   "paces": {
@@ -13868,7 +13868,7 @@
   },
   "pager": {
     "display": "pager",
-    "d": 0.93,
+    "d": 0.65,
     "pos": "noun",
     "def": "A wireless telecommunications device that receives text or voice messages.",
     "reviewed": true
@@ -13954,7 +13954,7 @@
     "display": "panic",
     "d": 0.3,
     "pos": "noun",
-    "def": "A plant of the genus Panicum; panic grass; also, the edible grain of some species of panic grass.",
+    "def": "A sudden, overwhelming feeling of fear or anxiety that prevents reasonable thought and action.",
     "reviewed": true
   },
   "pansy": {
@@ -13974,8 +13974,8 @@
   "panty": {
     "display": "panty",
     "d": 0.35,
-    "pos": "noun",
-    "def": "A familiar or affectionate term for one's father; also, resembling pap in being soft or mushy.",
+    "pos": "adj",
+    "def": "Relating to or resembling panties, often used in combination with other words (e.g., pantyhose).",
     "reviewed": true
   },
   "papal": {
@@ -14674,8 +14674,8 @@
   "pleas": {
     "display": "pleas",
     "d": 0.65,
-    "pos": "noun/verb",
-    "def": "That which is alleged by a party in support of his cause; in a stricter sense, an allegation of fact in a cause, as distinguished from a demurrer.",
+    "pos": "noun",
+    "def": "Urgent requests or appeals, or formal statements made by a defendant in court (plural of plea).",
     "reviewed": true
   },
   "plots": {
@@ -14792,9 +14792,9 @@
   },
   "pokes": {
     "display": "pokes",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "A large North American herb of the genus Phytolacca , bearing dark purple juicy berries; pigeon berry, pocan, and pokeweed.",
+    "d": 0.35,
+    "pos": "noun",
+    "def": "Gentle pushes or jabs, or acts of thrusting something with a finger or pointed object (plural of poke).",
     "reviewed": true
   },
   "polar": {
@@ -14932,9 +14932,9 @@
   },
   "poser": {
     "display": "poser",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "One who, or that which, puzzles; a difficult or inexplicable question or fact.",
+    "def": "A person who adopts a particular attitude or style to impress others, often insincerely.",
     "reviewed": true
   },
   "poses": {
@@ -15102,7 +15102,7 @@
     "display": "prize",
     "d": 0.29,
     "pos": "noun",
-    "def": "That which is taken from another; something captured; a thing seized by force, stratagem, or superior power.",
+    "def": "An award given to the winner of a competition or lottery, or something valuable won.",
     "reviewed": true
   },
   "probe": {
@@ -15508,7 +15508,7 @@
     "display": "quite",
     "d": 0.08,
     "pos": "adv",
-    "def": "To the greatest extent or degree; completely, entirely.",
+    "def": "To a considerable or absolute extent; completely, entirely, or very much so.",
     "reviewed": true
   },
   "quits": {
@@ -15772,9 +15772,9 @@
   },
   "raves": {
     "display": "raves",
-    "d": 0.95,
-    "pos": "noun/verb",
-    "def": "One of the upper side pieces of the frame of a wagon body or a sleigh.",
+    "d": 0.65,
+    "pos": "verb",
+    "def": "Speaks or writes about someone or something with great enthusiasm or admiration (third-person singular present of rave).",
     "reviewed": true
   },
   "razed": {
@@ -15914,7 +15914,7 @@
     "display": "rehab",
     "d": 0.54,
     "pos": "noun",
-    "def": "Rehabilitation, especially to treat the use of recreational drugs.",
+    "def": "The process of restoring someone to health or normal life through training and therapy, often after addiction or illness.",
     "reviewed": true
   },
   "reich": {
@@ -15942,7 +15942,7 @@
     "display": "relax",
     "d": 0.14,
     "pos": "verb",
-    "def": "To make something loose.",
+    "def": "To make or become less tense, anxious, or rigid; to rest and become calm.",
     "reviewed": true
   },
   "relay": {
@@ -15969,8 +15969,8 @@
   "remix": {
     "display": "remix",
     "d": 0.65,
-    "pos": "noun",
-    "def": "To mix again or repeatedly.",
+    "pos": "verb",
+    "def": "To mix something again, especially to produce a new version of a musical recording or piece of art.",
     "reviewed": true
   },
   "renal": {
@@ -16754,7 +16754,7 @@
     "display": "salvo",
     "d": 0.95,
     "pos": "noun",
-    "def": "An exception; a reservation.",
+    "def": "A simultaneous discharge of artillery or other guns, or a sudden, vigorous burst of applause or cheers.",
     "reviewed": true
   },
   "samba": {
@@ -18448,7 +18448,7 @@
     "display": "sneer",
     "d": 0.65,
     "pos": "noun",
-    "def": "To show contempt by turning up the nose, or by a particular facial expression.",
+    "def": "A contemptuous or mocking smile, expression, or remark that shows disdain or scorn.",
     "reviewed": true
   },
   "snell": {
@@ -18950,9 +18950,9 @@
   },
   "splat": {
     "display": "splat",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "The narrow wooden centre piece of a chair back.",
+    "def": "A loud, wet, slapping sound, often made by something soft and wet hitting a hard surface.",
     "reviewed": true
   },
   "split": {
@@ -20037,7 +20037,7 @@
     "display": "taker",
     "d": 0.35,
     "pos": "noun",
-    "def": "One who takes or receives; one who catches or apprehended.",
+    "def": "A person who accepts, receives, or obtains something, often in contrast to a giver.",
     "reviewed": true
   },
   "takes": {
@@ -20800,7 +20800,7 @@
     "display": "toddy",
     "d": 0.95,
     "pos": "noun",
-    "def": "A juice drawn from various kinds of palms in the East Indies; or, a spirituous liquor procured from it by fermentation.",
+    "def": "A drink made with hot water, sugar, spices, and an alcoholic spirit, often consumed when ill.",
     "reviewed": true
   },
   "token": {
@@ -21765,8 +21765,8 @@
   "vamos": {
     "display": "vamos",
     "d": 0.95,
-    "pos": "verb",
-    "def": "Let's go; an exclamation used to urge someone to leave or to hurry up.",
+    "pos": "intj",
+    "def": "An informal exclamation borrowed from Spanish used to say let us go or hurry up.",
     "reviewed": true
   },
   "vamps": {
@@ -21856,8 +21856,8 @@
   "verde": {
     "display": "verde",
     "d": 0.95,
-    "pos": "adj",
-    "def": "Green; used in English, often in culinary contexts, to describe something green or unripe.",
+    "pos": "noun",
+    "def": "A spicy green sauce made with tomatillos and green chili peppers; salsa verde.",
     "reviewed": true
   },
   "verge": {
@@ -21946,9 +21946,9 @@
   },
   "villa": {
     "display": "villa",
-    "d": 0.46,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A building for human habitation, especially one that is lived in by a family.",
+    "def": "A large, luxurious country house or estate, often used for holidays or as a private residence.",
     "reviewed": true
   },
   "vines": {
@@ -22073,8 +22073,8 @@
   "voila": {
     "display": "voila",
     "d": 0.65,
-    "pos": "intj",
-    "def": "An exclamation used when unveiling or presenting something.",
+    "pos": "adv",
+    "def": "Used to call attention to something that has just been presented or achieved (French for 'there it is').",
     "reviewed": true
   },
   "volts": {
@@ -22095,7 +22095,7 @@
     "display": "voted",
     "d": 0.43,
     "pos": "adj",
-    "def": "That has been assigned or established by a vote.",
+    "def": "Decided, chosen, or approved by means of a formal expression of preference (past participle of vote).",
     "reviewed": true
   },
   "voter": {
@@ -22233,7 +22233,7 @@
   },
   "waken": {
     "display": "waken",
-    "d": 0.82,
+    "d": 0.65,
     "pos": "verb",
     "def": "To awaken from sleep; to rouse from a state of inactivity or unawareness.",
     "reviewed": true
@@ -23096,7 +23096,7 @@
     "display": "yikes",
     "d": 0.65,
     "pos": "noun",
-    "def": "An exclamation used to express sudden surprise, alarm, or mild shock, often in response to something unexpected.",
+    "def": "An exclamation expressing sudden surprise, alarm, or mild shock, often in response to something unexpected.",
     "reviewed": true
   },
   "yodel": {
