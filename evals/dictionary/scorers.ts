@@ -8,11 +8,16 @@ import {
   mapScoreToTier,
 } from './types';
 
-const LANGUAGE_NAMES = {
+const LANGUAGE_NAMES: Record<string, string> = {
   en: 'English',
   es: 'Spanish',
   fr: 'French',
+  pt: 'Portuguese',
+  it: 'Italian',
+  de: 'German',
 };
+
+export const getLanguageName = (lang: string): string => LANGUAGE_NAMES[lang] || lang.toUpperCase();
 
 /**
  * Builds the 3 multiple-choice questions for Jev System One:
@@ -21,7 +26,7 @@ const LANGUAGE_NAMES = {
  * 3. Word difficulty tier (Elementary, Intermediate, Advanced, Obscure)
  */
 export const buildJevQuestions = (entry: DictionaryEntry) => {
-  const langName = LANGUAGE_NAMES[entry.lang];
+  const langName = getLanguageName(entry.lang);
 
   return {
     definition: choice(

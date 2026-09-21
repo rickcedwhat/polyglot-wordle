@@ -1,4 +1,4 @@
-export type Language = 'en' | 'es' | 'fr';
+export type Language = 'en' | 'es' | 'fr' | 'pt' | 'it' | 'de' | (string & {});
 
 export interface RawDictionaryEntry {
   display: string;
