@@ -217,10 +217,12 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     [
       currentGuess,
       cursorIndex,
+      challengerGame,
       endGame,
       gameStatus,
       guessHistory,
       guesses,
+      isChallenge,
       recalculateScore,
       recordGuess,
       shuffledLanguages,
