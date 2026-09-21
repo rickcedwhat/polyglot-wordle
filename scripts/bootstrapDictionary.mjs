@@ -208,6 +208,7 @@ Instructions:
      Example for French "admet": "Accepts, acknowledges, or allows someone or something in (present tense of admettre)."
      Example for Portuguese "falou": "Spoke, talked, or communicated words to someone (third-person singular past preterite of falar)."
    - If the word is spelled identically to an English word (e.g. false friends like "moral", "about", "venue"), explicitly define its meaning in ${langName}!
+   - Do NOT prepend "In ${langName}..." or "In English..." to definitions unnecessarily. Only include language context if it is genuinely part of the definition (e.g. culturally specific idioms or slang); otherwise define the concept directly in English.
    - For words with archaic or obsolete meanings, prioritize the primary modern everyday meaning.
 4. POS: Must be strictly one of: "noun", "verb", "adj", "adv", "pron", "intj", "num".
 5. display: Provide the standard diacritics/accents for the word if applicable, or lowercase unaccented if none.

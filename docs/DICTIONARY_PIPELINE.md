@@ -84,6 +84,10 @@ Our dictionary engine uses a **two-tier AI architecture**:
 - Enforce the standard POS schema: `noun`, `verb`, `adj`, `adv`, `pron`, `intj`, `num`.
 - Avoid abbreviations that evaluators might confuse (e.g., ensure `pron` is used for pronouns instead of mislabeling as `noun`).
 
+### E. Guard Against Unnecessary Language Prefixes
+- **Rule**: Do **NOT** prepend *"In French..."*, *"In Spanish..."*, or *"In Portuguese..."* to definitions unnecessarily.
+- **Exceptions**: Only include language context if it is **genuinely part of the definition** (e.g., culturally specific idioms, local street argot, or parenthetical homograph disambiguation like `(un about de poutre)`). The vast majority of definitions should define the word directly in English.
+
 ---
 
 ## 3. Cost & Performance Model (per 2,500-word Dictionary)
