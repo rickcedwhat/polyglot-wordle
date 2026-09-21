@@ -9,10 +9,10 @@
  * evaluating, and calibrating a new language dictionary from scratch in a single run.
  *
  * Usage:
- *   node scripts/bootstrapDictionary.mjs --lang=pt --name=Portuguese --words=data/pt_5letters.txt
- *   node scripts/bootstrapDictionary.mjs --lang=pt --step=enrich
- *   node scripts/bootstrapDictionary.mjs --lang=pt --step=eval
- *   node scripts/bootstrapDictionary.mjs --lang=pt --step=remediate
+ *   npm run bootstrap:dict -- --lang=pt --name=Portuguese --words=data/pt_5letters.txt
+ *   npm run bootstrap:dict -- --lang=pt --step=enrich
+ *   npm run bootstrap:dict -- --lang=pt --step=eval
+ *   npm run bootstrap:dict -- --lang=pt --step=remediate
  *
  * Pipeline Steps:
  *   1. ingest:    Normalize raw words -> 5-letter ASCII keys + unicode displays
@@ -30,6 +30,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
+const SUPPORTED_STEPS = new Set(['all', 'ingest', 'enrich', 'eval', 'remediate', 'test']);
+const VALID_POS = new Set(['noun', 'verb', 'adj', 'adv', 'pron', 'intj', 'num']);
 
 // Load environment variables
 function loadEnv() {
@@ -52,27 +54,76 @@ function loadEnv() {
 }
 loadEnv();
 
-// Parse CLI Flags
-const args = process.argv.slice(2);
-const options = {
-  lang: '',
-  name: '',
-  wordsFile: '',
-  step: 'all', // all | ingest | enrich | eval | remediate | test
-  batchSize: 40,
-  geminiModel: 'gemini-2.5-flash',
-  maxRemediatePasses: 3,
-};
-
-for (const arg of args) {
-  if (arg.startsWith('--lang=')) options.lang = arg.split('=')[1].toLowerCase();
-  else if (arg.startsWith('--name=')) options.name = arg.split('=')[1];
-  else if (arg.startsWith('--words=')) options.wordsFile = arg.split('=')[1];
-  else if (arg.startsWith('--step=')) options.step = arg.split('=')[1].toLowerCase();
-  else if (arg.startsWith('--batch-size=')) options.batchSize = parseInt(arg.split('=')[1], 10);
-  else if (arg.startsWith('--model=')) options.geminiModel = arg.split('=')[1];
-  else if (arg.startsWith('--max-passes=')) options.maxRemediatePasses = parseInt(arg.split('=')[1], 10);
+function optionValue(arg) {
+  return arg.slice(arg.indexOf('=') + 1);
 }
+
+function parsePositiveInteger(value, optionName) {
+  if (!/^[1-9]\d*$/.test(value)) {
+    throw new Error(`${optionName} must be a positive integer.`);
+  }
+
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed)) {
+    throw new Error(`${optionName} must be a safe positive integer.`);
+  }
+  return parsed;
+}
+
+export function parseOptions(args) {
+  const parsed = {
+    lang: '',
+    name: '',
+    wordsFile: '',
+    step: 'all',
+    batchSize: 40,
+    geminiModel: 'gemini-2.5-flash',
+    maxRemediatePasses: 3,
+  };
+
+  for (const arg of args) {
+    if (arg.startsWith('--lang=')) parsed.lang = optionValue(arg);
+    else if (arg.startsWith('--name=')) parsed.name = optionValue(arg);
+    else if (arg.startsWith('--words=')) parsed.wordsFile = optionValue(arg);
+    else if (arg.startsWith('--step=')) parsed.step = optionValue(arg);
+    else if (arg.startsWith('--batch-size=')) {
+      parsed.batchSize = parsePositiveInteger(optionValue(arg), '--batch-size');
+    } else if (arg.startsWith('--model=')) parsed.geminiModel = optionValue(arg);
+    else if (arg.startsWith('--max-passes=')) {
+      parsed.maxRemediatePasses = parsePositiveInteger(optionValue(arg), '--max-passes');
+    }
+  }
+
+  if (!/^[a-z]{2}$/.test(parsed.lang)) {
+    throw new Error(
+      '--lang is required and must be exactly two lowercase letters (for example, --lang=pt).'
+    );
+  }
+  if (!SUPPORTED_STEPS.has(parsed.step)) {
+    throw new Error(`--step must be one of: ${[...SUPPORTED_STEPS].join(', ')}.`);
+  }
+
+  return parsed;
+}
+
+export function resolvePipelinePaths(rootDir, lang) {
+  const publicDir = path.resolve(rootDir, 'public');
+  const artifactsDir = path.resolve(rootDir, 'evals', 'artifacts');
+  const resolvedDictPath = path.resolve(publicDir, `${lang}.json`);
+  const resolvedQueuePath = path.resolve(artifactsDir, `review_queue_${lang}.json`);
+
+  if (!resolvedDictPath.startsWith(`${publicDir}${path.sep}`)) {
+    throw new Error(`Dictionary path escapes the public directory: ${resolvedDictPath}`);
+  }
+  if (!resolvedQueuePath.startsWith(`${artifactsDir}${path.sep}`)) {
+    throw new Error(`Review queue path escapes the artifacts directory: ${resolvedQueuePath}`);
+  }
+
+  return { dictPath: resolvedDictPath, queuePath: resolvedQueuePath };
+}
+
+const isMain = Boolean(process.argv[1] && path.resolve(process.argv[1]) === __filename);
+const options = isMain ? parseOptions(process.argv.slice(2)) : parseOptions(['--lang=en']);
 
 const LANGUAGE_NAMES = {
   en: 'English',
@@ -83,15 +134,8 @@ const LANGUAGE_NAMES = {
   de: 'German',
 };
 
-if (!options.lang) {
-  console.error('\n❌ Error: --lang is required (e.g. --lang=pt)');
-  console.error('Example: node scripts/bootstrapDictionary.mjs --lang=pt --name=Portuguese --words=pt_raw.txt\n');
-  process.exit(1);
-}
-
 const langName = options.name || LANGUAGE_NAMES[options.lang] || options.lang.toUpperCase();
-const dictPath = path.join(ROOT_DIR, 'public', `${options.lang}.json`);
-const queuePath = path.join(ROOT_DIR, 'evals', 'artifacts', `review_queue_${options.lang}.json`);
+const { dictPath, queuePath } = resolvePipelinePaths(ROOT_DIR, options.lang);
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -102,6 +146,41 @@ function normalizeKey(str) {
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim();
+}
+
+export function validateGeminiBatch(results, chunk) {
+  if (!Array.isArray(results)) {
+    throw new Error('Gemini batch response must be an array.');
+  }
+
+  const expectedKeys = new Set(chunk.map((item) => item.key));
+  const returnedKeys = new Set();
+  const duplicates = [];
+  const unexpected = [];
+
+  for (const item of results) {
+    const key = item?.key;
+    if (returnedKeys.has(key)) duplicates.push(key);
+    returnedKeys.add(key);
+    if (!expectedKeys.has(key)) unexpected.push(key);
+  }
+
+  const missing = [...expectedKeys].filter((key) => !returnedKeys.has(key));
+  if (duplicates.length > 0 || unexpected.length > 0 || missing.length > 0) {
+    const details = [];
+    if (missing.length > 0) details.push(`missing: ${missing.join(', ')}`);
+    if (duplicates.length > 0) details.push(`duplicate: ${duplicates.join(', ')}`);
+    if (unexpected.length > 0) details.push(`unexpected: ${unexpected.join(', ')}`);
+    throw new Error(`Gemini batch keys did not match the requested chunk (${details.join('; ')}).`);
+  }
+}
+
+export function isValidDisplay(display) {
+  return typeof display === 'string' && display.length === 5;
+}
+
+export function isValidPos(pos) {
+  return VALID_POS.has(pos);
 }
 
 /**
@@ -264,15 +343,14 @@ ${JSON.stringify(chunk.map((w) => ({ key: w.key, display: w.display, currentDef:
         const data = await res.json();
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         const results = JSON.parse(text);
+        validateGeminiBatch(results, chunk);
 
         for (const item of results) {
-          if (dict[item.key]) {
-            dict[item.key].display = item.display || dict[item.key].display;
-            dict[item.key].pos = item.pos;
-            dict[item.key].def = item.def;
-            dict[item.key].reviewed = true;
-            enrichedCount++;
-          }
+          dict[item.key].display = item.display || dict[item.key].display;
+          dict[item.key].pos = item.pos;
+          dict[item.key].def = item.def;
+          dict[item.key].reviewed = true;
+          enrichedCount++;
         }
         success = true;
       } catch (err) {
@@ -304,9 +382,7 @@ async function stepEval(targetEntries = null) {
   }
 
   const { TypeSafeClient } = await import('@typesafe-ai/sdk');
-  const { evaluateEntryWithJev } = await import('../evals/dictionary/scorers.js').catch(async () => {
-    return await import('../evals/dictionary/scorers.ts');
-  });
+  const { evaluateEntryWithJev } = await import('../evals/dictionary/scorers.ts');
 
   const client = new TypeSafeClient({ apiKey: typesafeKey });
   const dict = JSON.parse(fs.readFileSync(dictPath, 'utf8'));
@@ -323,6 +399,7 @@ async function stepEval(targetEntries = null) {
 
   console.log(`Running Jev evaluation over ${entriesToEval.length} entries...`);
   const reviewQueue = [];
+  const failures = [];
   const concurrency = 25;
   let completed = 0;
 
@@ -334,9 +411,9 @@ async function stepEval(targetEntries = null) {
 
       try {
         const result = await evaluateEntryWithJev(client, entry);
-        completed++;
 
-        const isDefInvalid = result.definitionVerdict !== 'accurate' && result.definitionVerdict !== 'inflected_form';
+        const isDefInvalid =
+          result.definitionVerdict !== 'accurate' && result.definitionVerdict !== 'inflected_form';
         const isFmtInvalid = result.formatVerdict !== 'clean_dictionary';
         const isDiffMismatch = !result.difficultyMatches;
 
@@ -361,12 +438,28 @@ async function stepEval(targetEntries = null) {
             reasons,
           });
         }
-
-        if (completed % 100 === 0 || completed === entriesToEval.length) {
-          process.stdout.write(`  Progress: [${completed}/${entriesToEval.length}] (${((completed / entriesToEval.length) * 100).toFixed(1)}%)\r`);
-        }
       } catch (err) {
         console.warn(`\n  ⚠️ Error evaluating ${entry.word}: ${err.message}`);
+        const failure = {
+          word: entry.word,
+          lang: entry.lang,
+          display: entry.display,
+          pos: entry.pos,
+          currentDef: entry.def,
+          currentD: entry.d,
+          evaluationFailed: true,
+          error: err.message,
+          reasons: [`Evaluation failed: ${err.message}`],
+        };
+        failures.push(failure);
+        reviewQueue.push(failure);
+      } finally {
+        completed++;
+        if (completed % 100 === 0 || completed === entriesToEval.length) {
+          process.stdout.write(
+            `  Progress: [${completed}/${entriesToEval.length}] (${((completed / entriesToEval.length) * 100).toFixed(1)}%)\r`
+          );
+        }
       }
     }
   });
@@ -375,11 +468,25 @@ async function stepEval(targetEntries = null) {
   console.log(`\n✅ Evaluation complete.`);
 
   fs.mkdirSync(path.dirname(queuePath), { recursive: true });
-  fs.writeFileSync(queuePath, JSON.stringify({ total: entriesToEval.length, queue: reviewQueue }, null, 2));
+  fs.writeFileSync(
+    queuePath,
+    JSON.stringify({ total: entriesToEval.length, failures, queue: reviewQueue }, null, 2)
+  );
 
-  const passRate = (((entriesToEval.length - reviewQueue.length) / entriesToEval.length) * 100).toFixed(2);
-  console.log(`📊 Scorecard: ${entriesToEval.length - reviewQueue.length} / ${entriesToEval.length} clean (${passRate}% pass rate).`);
-  console.log(`📄 Saved review queue to ${queuePath} (${reviewQueue.length} flagged entries).`);
+  const cleanCount = entriesToEval.length - reviewQueue.length;
+  const passRate =
+    entriesToEval.length === 0 ? '100.00' : ((cleanCount / entriesToEval.length) * 100).toFixed(2);
+  const flaggedCount = reviewQueue.length - failures.length;
+  console.log(
+    `📊 Scorecard: ${cleanCount} / ${entriesToEval.length} clean (${passRate}% pass rate; ${flaggedCount} flagged, ${failures.length} failed).`
+  );
+  console.log(
+    `📄 Saved review queue to ${queuePath} (${reviewQueue.length} entries requiring retry or remediation).`
+  );
+
+  if (failures.length > 0) {
+    throw new Error(`${failures.length} Jev evaluation(s) failed and remain in the review queue.`);
+  }
 
   return reviewQueue;
 }
@@ -407,7 +514,10 @@ async function stepRemediate() {
 
     const qData = JSON.parse(fs.readFileSync(queuePath, 'utf8'));
     const items = qData.queue || [];
-    console.log(`\n--- Remediation Pass [${pass}/${options.maxRemediatePasses}]: ${items.length} flagged items ---`);
+    const failureCount = items.filter((item) => item.evaluationFailed).length;
+    console.log(
+      `\n--- Remediation Pass [${pass}/${options.maxRemediatePasses}]: ${items.length - failureCount} flagged items, ${failureCount} evaluation failures ---`
+    );
 
     if (items.length === 0) {
       console.log('🎉 Review queue is completely clean (0 flagged items)!');
@@ -418,6 +528,8 @@ async function stepRemediate() {
     const wordsNeedingGemini = [];
 
     for (const item of items) {
+      if (item.evaluationFailed) continue;
+
       // 1. Auto-calibrate difficulty if Jev assessed a different tier
       if (!item.difficultyMatches && item.jevTier && TIER_TARGET_D[item.jevTier]) {
         if (dict[item.word]) {
@@ -490,7 +602,7 @@ async function stepTest() {
       console.error(`❌ Invalid key format: "${key}"`);
       errorCount++;
     }
-    if (!entry.display || entry.display.length < 5) {
+    if (!isValidDisplay(entry.display)) {
       console.error(`❌ Invalid display: "${key}" -> "${entry.display}"`);
       errorCount++;
     }
@@ -498,8 +610,8 @@ async function stepTest() {
       console.error(`❌ Invalid difficulty: "${key}" -> d=${entry.d}`);
       errorCount++;
     }
-    if (!entry.pos || entry.pos.length === 0) {
-      console.error(`❌ Missing POS: "${key}"`);
+    if (!isValidPos(entry.pos)) {
+      console.error(`❌ Invalid POS: "${key}" -> "${entry.pos}"`);
       errorCount++;
     }
     if (!entry.def || entry.def.trim().split(/\s+/).length < 4) {
@@ -545,4 +657,6 @@ async function main() {
   }
 }
 
-main();
+if (isMain) {
+  main();
+}

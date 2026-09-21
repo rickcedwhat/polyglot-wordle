@@ -16,7 +16,7 @@ Our dictionary engine uses a **two-tier AI architecture**:
 │ Stage 1: Ingestion & Normalization                      │
 │ - 5-letter ASCII key normalization (e.g. "ovulo")      │
 │ - Diacritic display preservation (e.g. "óvulo")        │
-│ - Loanword & profanity filtering                       │
+│ - Structural validation for keys, display, and schema   │
 └────────────────────────────────────────────────────────┘
           │
           ▼
@@ -107,10 +107,10 @@ Our dictionary engine uses a **two-tier AI architecture**:
 Create a raw text file `data/pt_words.txt` containing valid 5-letter Portuguese words (one per line).
 
 ### Step 2: Run the All-in-One Bootstrap Pipeline
-Run the master script to ingest, enrich with Gemini, evaluate with Jev, calibrate difficulty, and remediate in a single command:
+Run the master script through `vite-node` to ingest, enrich with Gemini, evaluate with Jev, calibrate difficulty, and remediate in a single command:
 
 ```bash
-node scripts/bootstrapDictionary.mjs \
+npm run bootstrap:dict -- \
   --lang=pt \
   --name=Portuguese \
   --words=data/pt_words.txt \
@@ -120,20 +120,22 @@ node scripts/bootstrapDictionary.mjs \
 Or run modularly step-by-step:
 ```bash
 # 1. Ingest raw word list
-node scripts/bootstrapDictionary.mjs --lang=pt --name=Portuguese --words=data/pt_words.txt --step=ingest
+npm run bootstrap:dict -- --lang=pt --name=Portuguese --words=data/pt_words.txt --step=ingest
 
 # 2. Enrich definitions and POS with Gemini 2.5 Flash
-node scripts/bootstrapDictionary.mjs --lang=pt --step=enrich
+npm run bootstrap:dict -- --lang=pt --step=enrich
 
 # 3. Evaluate with TypeSafe Jev System One
-node scripts/bootstrapDictionary.mjs --lang=pt --step=eval
+npm run bootstrap:dict -- --lang=pt --step=eval
 
 # 4. Auto-remediate flagged entries and calibrate difficulty
-node scripts/bootstrapDictionary.mjs --lang=pt --step=remediate
+npm run bootstrap:dict -- --lang=pt --step=remediate
 
 # 5. Run strict validation tests
-node scripts/bootstrapDictionary.mjs --lang=pt --step=test
+npm run bootstrap:dict -- --lang=pt --step=test
 ```
+
+Ingestion validates and normalizes candidate structure; it does not perform semantic suitability filtering. The separate `npm run audit:words -- --lang=all --dry-run` command audits the existing English, Spanish, and French dictionaries for proper nouns, multiword forms, abbreviations, non-words, and offensive terms. It explicitly permits recognized loanwords and writes a report by default; add `--prune` only when flagged entries should be removed.
 
 ### Step 3: Integrate with Test Suite
 Update `src/utils/dictionary.test.ts` to include the new dictionary:

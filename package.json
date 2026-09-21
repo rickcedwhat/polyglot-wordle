@@ -18,6 +18,7 @@
     "test:dict": "vitest run src/utils/dictionary.test.ts",
     "enrich:dict": "node scripts/enrichDefinitions.mjs",
     "audit:words": "node scripts/auditPuzzleWords.mjs",
+    "bootstrap:dict": "vite-node --script scripts/bootstrapDictionary.mjs --",
     "eval:dict:pilot": "vite-node --script evals/dictionary/runEval.ts -- --pilot",
     "eval:dict:full": "vite-node --script evals/dictionary/runEval.ts -- --full",
     "eval:dict:en": "vite-node --script evals/dictionary/runEval.ts -- --en",
