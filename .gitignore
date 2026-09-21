@@ -139,3 +139,4 @@ scripts/fra-eng/
 public/*.json.bak
 audit_report_*.json
 storybook-static/
+evals/artifacts/

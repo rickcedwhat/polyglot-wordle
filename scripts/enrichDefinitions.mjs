@@ -7,10 +7,11 @@ const options = {
   lang: 'all',
   batchSize: 40,
   limit: Infinity,
-  filter: 'low-quality', // default to low-quality when running passes
+  filter: 'review-queue', // default to review-queue to fix audit queue entries
   dryRun: false,
   words: null,
   model: 'gemini-2.5-flash',
+  queuePath: null,
 };
 
 for (const arg of args) {
@@ -20,6 +21,7 @@ for (const arg of args) {
   else if (arg.startsWith('--filter=')) options.filter = arg.split('=')[1].toLowerCase();
   else if (arg === '--dry-run') options.dryRun = true;
   else if (arg.startsWith('--model=')) options.model = arg.split('=')[1];
+  else if (arg.startsWith('--queue=')) options.queuePath = arg.split('=')[1];
   else if (arg.startsWith('--words=')) {
     options.words = arg
       .split('=')[1]
@@ -54,7 +56,9 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 if (!GEMINI_API_KEY) {
   console.error('\n❌ GEMINI_API_KEY is not set.');
-  console.error('Please add GEMINI_API_KEY="your_api_key_here" to your .env.local file or pass it in the environment.\n');
+  console.error(
+    'Please add GEMINI_API_KEY="your_api_key_here" to your .env.local file or pass it in the environment.\n'
+  );
   process.exit(1);
 }
 
@@ -235,6 +239,30 @@ async function processLanguage(lang) {
   if (options.words && options.words.length > 0) {
     const wordSet = new Set(options.words);
     candidates = candidates.filter((c) => wordSet.has(c.key));
+  } else if (options.filter === 'review-queue') {
+    const queueFile = options.queuePath
+      ? path.resolve(options.queuePath)
+      : path.join(process.cwd(), `evals/artifacts/review_queue_${lang}.json`);
+    if (fs.existsSync(queueFile)) {
+      const qData = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
+      if (!Array.isArray(qData.queue)) {
+        throw new Error(`Invalid queue file at ${queueFile}: "queue" must be an array`);
+      }
+      const flaggedSet = new Set(
+        qData.queue
+          .filter(
+            (item) =>
+              item.lang === lang &&
+              ((item.definitionVerdict !== 'accurate' &&
+                item.definitionVerdict !== 'inflected_form') ||
+                item.formatVerdict !== 'clean_dictionary')
+          )
+          .map((item) => item.word)
+      );
+      candidates = candidates.filter((c) => flaggedSet.has(c.key));
+    } else {
+      throw new Error(`Queue file not found: ${queueFile}`);
+    }
   } else if (options.filter === 'low-quality') {
     candidates = candidates.filter((c) => isLowQuality(c.def));
   }
@@ -254,7 +282,9 @@ async function processLanguage(lang) {
   for (let bIndex = 0; bIndex < batches.length; bIndex++) {
     const batch = batches[bIndex];
     const progress = `[${bIndex + 1}/${batches.length}]`;
-    console.log(`\n⏳ ${progress} Sending batch of ${batch.length} ${lang.toUpperCase()} words to Gemini...`);
+    console.log(
+      `\n⏳ ${progress} Sending batch of ${batch.length} ${lang.toUpperCase()} words to Gemini...`
+    );
 
     try {
       const enrichedList = await enrichBatchWithGemini(lang, batch, options.model);
@@ -286,16 +316,22 @@ async function processLanguage(lang) {
       // Sample first 2 words in batch for log readability
       if (enrichedList.length > 0) {
         const s1 = enrichedList[0];
-        console.log(`   Sample: "${s1.display || s1.key}" (${s1.pos}) -> "${s1.def.slice(0, 60)}..."`);
+        console.log(
+          `   Sample: "${s1.display || s1.key}" (${s1.pos}) -> "${s1.def.slice(0, 60)}..."`
+        );
         if (enrichedList.length > 1) {
           const s2 = enrichedList[1];
-          console.log(`   Sample: "${s2.display || s2.key}" (${s2.pos}) -> "${s2.def.slice(0, 60)}..."`);
+          console.log(
+            `   Sample: "${s2.display || s2.key}" (${s2.pos}) -> "${s2.def.slice(0, 60)}..."`
+          );
         }
       }
 
       if (!options.dryRun) {
         fs.writeFileSync(filePath, JSON.stringify(dict, null, 2) + '\n', 'utf8');
-        console.log(`✅ ${progress} Checkpoint saved (${updatedCount} words updated in ${lang}.json)`);
+        console.log(
+          `✅ ${progress} Checkpoint saved (${updatedCount} words updated in ${lang}.json)`
+        );
       }
 
       // Small throttle between batches
@@ -324,4 +360,7 @@ async function main() {
   console.log('\n🎉 Enrichment complete across all selected languages!');
 }
 
-main().catch(console.error);
+main().catch((err) => {
+  console.error(err);
+  process.exitCode = 1;
+});
