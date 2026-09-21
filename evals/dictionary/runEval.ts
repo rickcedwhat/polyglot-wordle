@@ -23,11 +23,11 @@ export function generateCsv(items: ReviewQueueItem[]): string {
     'Word',
     'Display',
     'POS',
-    'Current D',
-    'Jev Assessed D',
+    'Our Tier',
     'Jev Tier',
-    'Accuracy',
-    'Quality',
+    'Tier Match',
+    'Definition Verdict',
+    'Format Verdict',
     'Severity',
     'Reasons',
     'Current Definition',
@@ -43,11 +43,11 @@ export function generateCsv(items: ReviewQueueItem[]): string {
     escapeCsv(item.word),
     escapeCsv(item.display),
     escapeCsv(item.pos),
-    item.currentD.toFixed(2),
-    item.assessedD.toFixed(2),
-    escapeCsv(item.difficultyTier),
-    escapeCsv(item.accuracy),
-    escapeCsv(item.quality),
+    escapeCsv(item.ourTier.toUpperCase()),
+    escapeCsv(item.jevTier.toUpperCase()),
+    escapeCsv(item.difficultyMatches ? 'MATCH' : 'MISMATCH'),
+    escapeCsv(item.definitionVerdict),
+    escapeCsv(item.formatVerdict),
     escapeCsv(item.severity.toUpperCase()),
     escapeCsv(item.reasons.join('; ')),
     escapeCsv(item.currentDef),
@@ -63,6 +63,10 @@ export function generateMarkdownSummary(stats: EvalRunStats, items: ReviewQueueI
     (stats.flaggedCount / Math.max(stats.totalProcessed, 1)) *
     100
   ).toFixed(1)}%)\n`;
+  md += `**Difficulty Mismatches:** ${stats.difficultyMismatches.toLocaleString()} (${(
+    (stats.difficultyMismatches / Math.max(stats.totalProcessed, 1)) *
+    100
+  ).toFixed(1)}%)\n`;
   md += `**Average Latency:** ${stats.averageLatencyMs.toFixed(0)} ms/entry\n\n`;
 
   md += `## 📊 Language Summary\n\n`;
@@ -76,7 +80,7 @@ export function generateMarkdownSummary(stats: EvalRunStats, items: ReviewQueueI
   }
   md += `\n---\n\n`;
 
-  // Top issues table
+  // High priority table (wrong meaning, fabricated, wrong POS)
   const highItems = items.filter((i) => i.severity === 'high');
   if (highItems.length > 0) {
     md += `## 🚨 High Priority Flagged Words (${highItems.length})\n\n`;
@@ -92,6 +96,22 @@ export function generateMarkdownSummary(stats: EvalRunStats, items: ReviewQueueI
     md += `\n`;
   }
 
+  // Difficulty mismatches table
+  const diffMismatches = items.filter((i) => !i.difficultyMatches);
+  if (diffMismatches.length > 0) {
+    md += `## ⚖️ Difficulty Tier Mismatches (${diffMismatches.length})\n\n`;
+    md += `| Lang | Word | POS | Current Dict Tier | Jev Assessed Tier | Current Definition |\n`;
+    md += `| :--- | :--- | :--- | :--- | :--- | :--- |\n`;
+    for (const item of diffMismatches.slice(0, 50)) {
+      const cleanDef = item.currentDef.replace(/\|/g, '\\|');
+      md += `| **${item.lang.toUpperCase()}** | **${item.display}** | \`${item.pos}\` | **${item.ourTier}** | **${item.jevTier}** | ${cleanDef} |\n`;
+    }
+    if (diffMismatches.length > 50) {
+      md += `\n*(...${diffMismatches.length - 50} more difficulty mismatches in CSV/JSON)*\n`;
+    }
+    md += `\n`;
+  }
+
   return md;
 }
 
@@ -103,21 +123,16 @@ class MockTypeSafeClient {
 
     return {
       answers: {
-        difficulty: {
-          choice: state.currentDifficultyScore > 0.7 ? 'Advanced' : 'Elementary',
+        definition: {
+          choice: isAback || isAbate ? 'wrong_pos' : 'accurate',
           confidence: 0.95,
         },
-        accuracy: {
-          choice: isAback || isAbate ? 'wrong_pos' : 'accurate',
-          confidence: 0.92,
+        format: {
+          choice: 'clean_dictionary',
+          confidence: 0.95,
         },
-        quality: {
-          choice: 'high_quality',
-          confidence: 0.9,
-        },
-        needsReexamine: {
-          answer: isAback || isAbate,
-          probability: isAback || isAbate ? 0.95 : 0.05,
+        difficulty: {
+          choice: state.word === 'apple' ? 'elementary' : 'intermediate',
           confidence: 0.95,
         },
       },
@@ -185,22 +200,29 @@ export async function runDictionaryEval() {
   const stats: EvalRunStats = {
     totalProcessed: 0,
     flaggedCount: 0,
+    difficultyMismatches: 0,
     byLanguage: {
       en: { total: 0, flagged: 0, bySeverity: { high: 0, medium: 0, low: 0 } },
       es: { total: 0, flagged: 0, bySeverity: { high: 0, medium: 0, low: 0 } },
       fr: { total: 0, flagged: 0, bySeverity: { high: 0, medium: 0, low: 0 } },
     },
-    byAccuracy: {
+    byDefinition: {
       accurate: 0,
       wrong_pos: 0,
       wrong_meaning: 0,
       fabricated: 0,
     },
-    byQuality: {
-      high_quality: 0,
-      vague_or_circular: 0,
+    byFormat: {
+      clean_dictionary: 0,
+      vague_circular: 0,
       robotic_filler: 0,
-      grammatical_glitch: 0,
+      malformed_syntax: 0,
+    },
+    byJevTier: {
+      elementary: 0,
+      intermediate: 0,
+      advanced: 0,
+      obscure: 0,
     },
     averageLatencyMs: 0,
   };
@@ -224,31 +246,31 @@ export async function runDictionaryEval() {
               language: entry.lang,
               pos: entry.pos,
               definition: entry.def,
-              difficulty: entry.d,
+              our_tier: res.ourTier,
             },
             output: {
-              assessedDifficulty: res.difficultyTier,
-              assessedD: res.assessedD,
-              accuracy: res.accuracy,
-              quality: res.quality,
+              definition_verdict: res.definitionVerdict,
+              format_verdict: res.formatVerdict,
+              jev_tier: res.jevTier,
+              difficulty_match: res.difficultyMatches ? 'MATCH' : 'MISMATCH',
               reasons: res.reasons,
             },
             scores: {
-              accuracy: res.accuracy === 'accurate' ? 1.0 : 0.0,
-              quality:
-                res.quality === 'high_quality'
+              good_definition: res.definitionVerdict === 'accurate' ? 1.0 : 0.0,
+              clean_format: res.formatVerdict === 'clean_dictionary' ? 1.0 : 0.0,
+              difficulty_match: res.difficultyMatches ? 1.0 : 0.0,
+              all_pass:
+                res.definitionVerdict === 'accurate' &&
+                res.formatVerdict === 'clean_dictionary' &&
+                res.difficultyMatches
                   ? 1.0
-                  : res.quality === 'vague_or_circular'
-                    ? 0.5
-                    : 0.0,
-              difficulty_agreement: Math.max(0, 1.0 - Math.abs(res.assessedD - entry.d)),
-              flagged: res.needsReexamine ? 1.0 : 0.0,
+                  : 0.0,
             },
             metadata: {
               severity: res.severity,
               latencyMs: res.latencyMs,
-              accuracyConfidence: res.accuracyConfidence,
-              qualityConfidence: res.qualityConfidence,
+              definitionConfidence: res.definitionConfidence,
+              formatConfidence: res.formatConfidence,
               difficultyConfidence: res.difficultyConfidence,
             },
           });
@@ -264,11 +286,16 @@ export async function runDictionaryEval() {
 
       stats.totalProcessed++;
       stats.byLanguage[entry.lang].total++;
-      stats.byAccuracy[res.accuracy]++;
-      stats.byQuality[res.quality]++;
+      stats.byDefinition[res.definitionVerdict]++;
+      stats.byFormat[res.formatVerdict]++;
+      stats.byJevTier[res.jevTier]++;
       totalLatency += res.latencyMs;
 
-      if (res.needsReexamine && res.severity !== 'none') {
+      if (!res.difficultyMatches) {
+        stats.difficultyMismatches++;
+      }
+
+      if (res.severity !== 'none') {
         stats.flaggedCount++;
         stats.byLanguage[entry.lang].flagged++;
         stats.byLanguage[entry.lang].bySeverity[res.severity]++;
@@ -280,11 +307,11 @@ export async function runDictionaryEval() {
           pos: res.currentPos,
           currentDef: res.currentDef,
           currentD: res.currentD,
-          assessedD: res.assessedD,
-          difficultyTier: res.difficultyTier,
-          accuracy: res.accuracy,
-          quality: res.quality,
-          needsReexamineProb: res.needsReexamineProb,
+          ourTier: res.ourTier,
+          jevTier: res.jevTier,
+          difficultyMatches: res.difficultyMatches,
+          definitionVerdict: res.definitionVerdict,
+          formatVerdict: res.formatVerdict,
           severity: res.severity,
           reasons: res.reasons,
         });
@@ -325,7 +352,7 @@ export async function runDictionaryEval() {
   fs.writeFileSync(mdPath, generateMarkdownSummary(stats, items));
   console.log(`📝 Saved audit summary Markdown: ${mdPath}`);
   console.log(
-    `\nSummary: ${stats.flaggedCount} / ${stats.totalProcessed} entries flagged for review.\n`
+    `\nSummary: ${stats.flaggedCount} / ${stats.totalProcessed} entries flagged for review (${stats.difficultyMismatches} difficulty mismatches).\n`
   );
 }
 

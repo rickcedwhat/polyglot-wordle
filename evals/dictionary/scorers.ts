@@ -1,25 +1,12 @@
-import { choice, noul, score, TypeSafeClient } from '@typesafe-ai/sdk';
+import { choice, TypeSafeClient } from '@typesafe-ai/sdk';
 import {
-  AccuracyClassification,
+  DefinitionVerdict,
   DictionaryEntry,
   DifficultyTier,
+  FormatVerdict,
   JevEvaluationResult,
-  QualityClassification,
+  mapScoreToTier,
 } from './types';
-
-export const DIFFICULTY_TIERS: DifficultyTier[] = [
-  'Elementary / Everyday',
-  'Intermediate / Common',
-  'Advanced / Sophisticated',
-  'Obscure / Archaic / Specialist',
-];
-
-const DIFFICULTY_MAP: Record<DifficultyTier, number> = {
-  'Elementary / Everyday': 0.2,
-  'Intermediate / Common': 0.5,
-  'Advanced / Sophisticated': 0.75,
-  'Obscure / Archaic / Specialist': 0.95,
-};
 
 const LANGUAGE_NAMES = {
   en: 'English',
@@ -28,55 +15,58 @@ const LANGUAGE_NAMES = {
 };
 
 /**
- * Builds the structured questions for Jev System One to assess a dictionary entry.
+ * Builds the 3 multiple-choice questions for Jev System One:
+ * 1. Good definition for the word (Definition Accuracy / POS)
+ * 2. Definition format (Editorial style & formatting hygiene)
+ * 3. Word difficulty tier (Elementary, Intermediate, Advanced, Obscure)
  */
 export const buildJevQuestions = (entry: DictionaryEntry) => {
   const langName = LANGUAGE_NAMES[entry.lang];
 
   return {
-    difficulty: score(
-      `How difficult or obscure is this 5-letter ${langName} word for a literate speaker or language learner?`,
-      [
-        'Elementary / Everyday (basic foundational vocabulary: apple, water, casa, eau)',
-        'Intermediate / Common (familiar conversational words: blend, crisp, playa, monde)',
-        'Advanced / Sophisticated (formal, literary, nuanced vocabulary: abate, forge, sutil)',
-        'Obscure / Archaic / Specialist (archaic, rare, technical, jargon: aback, fovea, xylem)',
-      ]
-    ),
-
-    accuracy: choice(
+    definition: choice(
       `Is the definition factually accurate for "${entry.display}" as a ${langName} ${entry.pos}?`,
       {
-        accurate: 'Definition accurately describes the word and matches its part of speech',
+        accurate: 'Accurate: Factually correct definition matching the word and part of speech',
         wrong_pos:
-          'Meaning is real but labeled with the wrong part of speech (e.g. noun labeled as verb)',
+          'Wrong POS: Meaning is valid but part of speech is mislabeled (e.g. noun labeled as verb)',
         wrong_meaning:
-          'Definition gives an incorrect meaning, false friend, or wrong word entirely',
-        fabricated: 'Hallucinated, fictitious, or gibberish definition',
+          'Wrong Meaning: Incorrect meaning, defines a different word, or is a false friend',
+        fabricated: 'Fabricated: Hallucinated, fictitious, or invented word/meaning',
       }
     ),
 
-    quality: choice(
-      `Evaluate the clarity, editorial quality, and style of this ${langName} definition:`,
+    format: choice(
+      `Evaluate the formatting, conciseness, and editorial style of this ${langName} definition:`,
       {
-        high_quality: 'Clear, concise, natural definition fitting for a word puzzle game',
-        vague_or_circular:
-          'Vague, overly abstract, or circular (defines the word using its own root)',
+        clean_dictionary: 'Clean: Concise, natural, professional dictionary entry',
+        vague_circular:
+          'Vague/Circular: Defines word with its own root, or is overly abstract/repetitive',
         robotic_filler:
-          'Mechanical template filler (e.g. "The entity, object, or concept representing...", "to perform this action")',
-        grammatical_glitch:
-          'Incomplete sentence, dangling clause, broken punctuation, or malformed syntax',
+          'Robotic Filler: Template boilerplate (e.g. "The entity representing...", "to perform this action")',
+        malformed_syntax:
+          'Malformed Syntax: Incomplete sentence, dangling fragments, or broken punctuation',
       }
     ),
 
-    needsReexamine: noul(
-      `Should this dictionary entry be queued for human reexamination due to an error, wrong POS, robotic phrasing, or large difficulty mismatch?`
+    difficulty: choice(
+      `What difficulty tier best describes the 5-letter ${langName} word "${entry.display}"?`,
+      {
+        elementary:
+          'Elementary / Everyday: Basic daily word known by all speakers (e.g. apple, water, casa, eau)',
+        intermediate:
+          'Intermediate / Common: Familiar conversational word (e.g. blend, crisp, playa, monde)',
+        advanced:
+          'Advanced / Sophisticated: Formal, literary, or nuanced word (e.g. abate, forge, sutil)',
+        obscure:
+          'Obscure / Rare: Archaic, technical, jargon, or specialist word (e.g. aback, xylem, fovea)',
+      }
     ),
   };
 };
 
 /**
- * Evaluates a single dictionary entry using Jev System One.
+ * Evaluates a single dictionary entry using Jev System One multiple-choice questions.
  */
 export async function evaluateEntryWithJev(
   client: TypeSafeClient,
@@ -84,6 +74,7 @@ export async function evaluateEntryWithJev(
   model = 'jev-latest'
 ): Promise<JevEvaluationResult> {
   const startTime = Date.now();
+  const ourTier = mapScoreToTier(entry.d);
 
   const state = {
     word: entry.word,
@@ -91,7 +82,7 @@ export async function evaluateEntryWithJev(
     language: LANGUAGE_NAMES[entry.lang],
     partOfSpeech: entry.pos,
     definition: entry.def,
-    currentDifficultyScore: entry.d,
+    currentDifficultyTier: ourTier,
   };
 
   const questions = buildJevQuestions(entry);
@@ -105,99 +96,70 @@ export async function evaluateEntryWithJev(
   const latencyMs = Date.now() - startTime;
   const { answers } = response;
 
-  // 1. Difficulty
-  const rawDifficultyAnswer = String(
-    (answers.difficulty as any)?.choice || (answers.difficulty as any)?.score || ''
-  );
-  let difficultyTier: DifficultyTier = 'Intermediate / Common';
-  for (const tier of DIFFICULTY_TIERS) {
-    if (rawDifficultyAnswer.includes(tier.split('/')[0].trim())) {
-      difficultyTier = tier;
-      break;
-    }
-  }
-  const assessedD = DIFFICULTY_MAP[difficultyTier];
-  const difficultyConfidence = (answers.difficulty as any)?.confidence ?? 1.0;
-
-  // 2. Accuracy
-  const rawAccuracy = String(
-    (answers.accuracy as any)?.choice || 'accurate'
-  ) as AccuracyClassification;
-  const accuracy: AccuracyClassification = [
+  // 1. Definition Verdict
+  const rawDef = String((answers.definition as any)?.choice || 'accurate') as DefinitionVerdict;
+  const definitionVerdict: DefinitionVerdict = [
     'accurate',
     'wrong_pos',
     'wrong_meaning',
     'fabricated',
-  ].includes(rawAccuracy)
-    ? rawAccuracy
+  ].includes(rawDef)
+    ? rawDef
     : 'accurate';
-  const accuracyConfidence = (answers.accuracy as any)?.confidence ?? 1.0;
+  const definitionConfidence = (answers.definition as any)?.confidence ?? 1.0;
 
-  // 3. Quality
-  const rawQuality = String(
-    (answers.quality as any)?.choice || 'high_quality'
-  ) as QualityClassification;
-  const quality: QualityClassification = [
-    'high_quality',
-    'vague_or_circular',
+  // 2. Format Verdict
+  const rawFmt = String((answers.format as any)?.choice || 'clean_dictionary') as FormatVerdict;
+  const formatVerdict: FormatVerdict = [
+    'clean_dictionary',
+    'vague_circular',
     'robotic_filler',
-    'grammatical_glitch',
-  ].includes(rawQuality)
-    ? rawQuality
-    : 'high_quality';
-  const qualityConfidence = (answers.quality as any)?.confidence ?? 1.0;
+    'malformed_syntax',
+  ].includes(rawFmt)
+    ? rawFmt
+    : 'clean_dictionary';
+  const formatConfidence = (answers.format as any)?.confidence ?? 1.0;
 
-  // 4. Needs Reexamine
-  const needsReexamineAnswer = answers.needsReexamine as any;
-  const needsReexamineProb =
-    typeof needsReexamineAnswer?.probability === 'number'
-      ? needsReexamineAnswer.probability
-      : needsReexamineAnswer?.answer
-        ? 1.0
-        : 0.0;
-  const needsReexamine = needsReexamineProb >= 0.5 || Boolean(needsReexamineAnswer?.answer);
+  // 3. Difficulty Tier
+  const rawDiff = String((answers.difficulty as any)?.choice || 'intermediate') as DifficultyTier;
+  const jevTier: DifficultyTier = ['elementary', 'intermediate', 'advanced', 'obscure'].includes(
+    rawDiff
+  )
+    ? rawDiff
+    : 'intermediate';
+  const difficultyConfidence = (answers.difficulty as any)?.confidence ?? 1.0;
+
+  const difficultyMatches = jevTier === ourTier;
 
   // Derive reasons and severity
   const reasons: string[] = [];
   let severity: 'high' | 'medium' | 'low' | 'none' = 'none';
 
-  if (accuracy === 'wrong_meaning' || accuracy === 'fabricated') {
-    reasons.push(`Inaccurate definition (${accuracy})`);
+  if (definitionVerdict === 'wrong_meaning' || definitionVerdict === 'fabricated') {
+    reasons.push(`Inaccurate definition (${definitionVerdict})`);
     severity = 'high';
-  } else if (accuracy === 'wrong_pos') {
+  } else if (definitionVerdict === 'wrong_pos') {
     reasons.push(`Part-of-speech mismatch (${entry.pos} flagged)`);
     severity = severity === 'high' ? 'high' : 'medium';
   }
 
-  if (quality === 'robotic_filler') {
+  if (formatVerdict === 'robotic_filler') {
     reasons.push('Mechanical/robotic template filler detected');
     severity = severity === 'high' ? 'high' : 'medium';
-  } else if (quality === 'grammatical_glitch') {
+  } else if (formatVerdict === 'malformed_syntax') {
     reasons.push('Malformed syntax or broken punctuation');
     severity = severity === 'high' ? 'high' : 'medium';
-  } else if (quality === 'vague_or_circular') {
+  } else if (formatVerdict === 'vague_circular') {
     reasons.push('Vague or circular definition');
     if (severity === 'none') {
       severity = 'low';
     }
   }
 
-  const diffDelta = Math.abs(assessedD - entry.d);
-  if (diffDelta >= 0.35 && difficultyConfidence >= 0.8) {
-    reasons.push(
-      `Difficulty mismatch (current d=${entry.d.toFixed(2)}, Jev assessed ${difficultyTier} d=${assessedD.toFixed(2)})`
-    );
+  if (!difficultyMatches) {
+    reasons.push(`Difficulty mismatch: dictionary has [${ourTier}], Jev assessed [${jevTier}]`);
     if (severity === 'none') {
       severity = 'low';
-    }
-  }
-
-  if (needsReexamineProb >= 0.75 && reasons.length === 0) {
-    reasons.push(
-      `Jev flagged for reexamination (${(needsReexamineProb * 100).toFixed(0)}% confidence)`
-    );
-    if (severity === 'none') {
-      severity = 'medium';
     }
   }
 
@@ -208,15 +170,14 @@ export async function evaluateEntryWithJev(
     currentPos: entry.pos,
     currentDef: entry.def,
     currentD: entry.d,
-    difficultyTier,
-    assessedD,
+    ourTier,
+    definitionVerdict,
+    definitionConfidence,
+    formatVerdict,
+    formatConfidence,
+    jevTier,
     difficultyConfidence,
-    accuracy,
-    accuracyConfidence,
-    quality,
-    qualityConfidence,
-    needsReexamine: reasons.length > 0 || needsReexamine,
-    needsReexamineProb,
+    difficultyMatches,
     reasons,
     severity,
     latencyMs,

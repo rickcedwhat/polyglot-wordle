@@ -15,19 +15,28 @@ export interface DictionaryEntry extends RawDictionaryEntry {
   lang: Language;
 }
 
-export type DifficultyTier =
-  | 'Elementary / Everyday'
-  | 'Intermediate / Common'
-  | 'Advanced / Sophisticated'
-  | 'Obscure / Archaic / Specialist';
+export type DifficultyTier = 'elementary' | 'intermediate' | 'advanced' | 'obscure';
 
-export type AccuracyClassification = 'accurate' | 'wrong_pos' | 'wrong_meaning' | 'fabricated';
+export type DefinitionVerdict = 'accurate' | 'wrong_pos' | 'wrong_meaning' | 'fabricated';
 
-export type QualityClassification =
-  | 'high_quality'
-  | 'vague_or_circular'
+export type FormatVerdict =
+  | 'clean_dictionary'
+  | 'vague_circular'
   | 'robotic_filler'
-  | 'grammatical_glitch';
+  | 'malformed_syntax';
+
+export function mapScoreToTier(d: number): DifficultyTier {
+  if (d <= 0.5) {
+    return 'elementary';
+  }
+  if (d <= 0.75) {
+    return 'intermediate';
+  }
+  if (d <= 0.89) {
+    return 'advanced';
+  }
+  return 'obscure';
+}
 
 export interface JevEvaluationResult {
   word: string;
@@ -36,20 +45,19 @@ export interface JevEvaluationResult {
   currentPos: string;
   currentDef: string;
   currentD: number;
+  ourTier: DifficultyTier;
 
-  // Jev assessment
-  difficultyTier: DifficultyTier;
-  assessedD: number; // mapped difficulty score (0.15, 0.50, 0.75, 0.95)
+  // Jev assessment (pure multiple-choice decisions)
+  definitionVerdict: DefinitionVerdict;
+  definitionConfidence: number;
+
+  formatVerdict: FormatVerdict;
+  formatConfidence: number;
+
+  jevTier: DifficultyTier;
   difficultyConfidence: number;
 
-  accuracy: AccuracyClassification;
-  accuracyConfidence: number;
-
-  quality: QualityClassification;
-  qualityConfidence: number;
-
-  needsReexamine: boolean;
-  needsReexamineProb: number;
+  difficultyMatches: boolean;
 
   // Derived triage
   reasons: string[];
@@ -64,11 +72,11 @@ export interface ReviewQueueItem {
   pos: string;
   currentDef: string;
   currentD: number;
-  assessedD: number;
-  difficultyTier: DifficultyTier;
-  accuracy: AccuracyClassification;
-  quality: QualityClassification;
-  needsReexamineProb: number;
+  ourTier: DifficultyTier;
+  jevTier: DifficultyTier;
+  difficultyMatches: boolean;
+  definitionVerdict: DefinitionVerdict;
+  formatVerdict: FormatVerdict;
   severity: 'high' | 'medium' | 'low';
   reasons: string[];
 }
@@ -76,6 +84,7 @@ export interface ReviewQueueItem {
 export interface EvalRunStats {
   totalProcessed: number;
   flaggedCount: number;
+  difficultyMismatches: number;
   byLanguage: Record<
     Language,
     {
@@ -84,7 +93,8 @@ export interface EvalRunStats {
       bySeverity: { high: number; medium: number; low: number };
     }
   >;
-  byAccuracy: Record<AccuracyClassification, number>;
-  byQuality: Record<QualityClassification, number>;
+  byDefinition: Record<DefinitionVerdict, number>;
+  byFormat: Record<FormatVerdict, number>;
+  byJevTier: Record<DifficultyTier, number>;
   averageLatencyMs: number;
 }

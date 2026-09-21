@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { loadCalibrationBenchmark, loadPilotSample } from './dataset';
 import { generateCsv, generateMarkdownSummary } from './runEval';
 import { evaluateEntryWithJev } from './scorers';
-import { DictionaryEntry, ReviewQueueItem } from './types';
+import { DictionaryEntry, EvalRunStats, ReviewQueueItem } from './types';
 
 describe('Dictionary Dataset Loader', () => {
   it('loads the calibration benchmark with expected flags', () => {
@@ -42,26 +42,21 @@ describe('Jev Evaluation Logic', () => {
     d: 0.95,
   };
 
-  it('correctly maps Jev responses to evaluation result and flags wrong POS', async () => {
+  it('correctly maps Jev responses to evaluation result and flags wrong POS and difficulty mismatch', async () => {
     const mockClient = {
       systemOne: async () => ({
         answers: {
           difficulty: {
-            choice: 'Obscure / Archaic / Specialist',
+            choice: 'intermediate',
             confidence: 0.9,
           },
-          accuracy: {
+          definition: {
             choice: 'wrong_pos',
             confidence: 0.95,
           },
-          quality: {
-            choice: 'high_quality',
+          format: {
+            choice: 'clean_dictionary',
             confidence: 0.9,
-          },
-          needsReexamine: {
-            answer: true,
-            probability: 0.95,
-            confidence: 0.95,
           },
         },
       }),
@@ -70,15 +65,18 @@ describe('Jev Evaluation Logic', () => {
     const res = await evaluateEntryWithJev(mockClient, mockEntry);
 
     expect(res.word).toBe('aback');
-    expect(res.accuracy).toBe('wrong_pos');
+    expect(res.definitionVerdict).toBe('wrong_pos');
+    expect(res.jevTier).toBe('intermediate');
+    expect(res.ourTier).toBe('obscure');
+    expect(res.difficultyMatches).toBe(false);
     expect(res.severity).toBe('medium');
-    expect(res.needsReexamine).toBe(true);
     expect(res.reasons.some((r) => r.includes('Part-of-speech mismatch'))).toBe(true);
+    expect(res.reasons.some((r) => r.includes('Difficulty mismatch'))).toBe(true);
   });
 });
 
 describe('Reporting & CSV Export', () => {
-  it('correctly generates CSV from review queue items', () => {
+  it('correctly generates CSV from review queue items with tier comparison', () => {
     const items: ReviewQueueItem[] = [
       {
         word: 'aback',
@@ -87,38 +85,43 @@ describe('Reporting & CSV Export', () => {
         pos: 'noun',
         currentDef: 'Toward the back or rear; backward.',
         currentD: 0.95,
-        assessedD: 0.95,
-        difficultyTier: 'Obscure / Archaic / Specialist',
-        accuracy: 'wrong_pos',
-        quality: 'high_quality',
-        needsReexamineProb: 0.95,
+        ourTier: 'obscure',
+        jevTier: 'intermediate',
+        difficultyMatches: false,
+        definitionVerdict: 'wrong_pos',
+        formatVerdict: 'clean_dictionary',
         severity: 'medium',
-        reasons: ['Part-of-speech mismatch'],
+        reasons: [
+          'Part-of-speech mismatch (noun flagged)',
+          'Difficulty mismatch: dictionary has [obscure], Jev assessed [intermediate]',
+        ],
       },
     ];
 
     const csv = generateCsv(items);
-    expect(csv).toContain('Language,Word,Display,POS');
-    expect(csv).toContain('"EN","aback","aback","noun"');
-    expect(csv).toContain('"Part-of-speech mismatch"');
+    expect(csv).toContain('Language,Word,Display,POS,Our Tier,Jev Tier,Tier Match');
+    expect(csv).toContain('"EN","aback","aback","noun","OBSCURE","INTERMEDIATE","MISMATCH"');
+    expect(csv).toContain('Part-of-speech mismatch');
   });
 
-  it('correctly generates markdown summary', () => {
-    const stats = {
+  it('correctly generates markdown summary with difficulty mismatches section', () => {
+    const stats: EvalRunStats = {
       totalProcessed: 10,
       flaggedCount: 1,
+      difficultyMismatches: 1,
       byLanguage: {
         en: { total: 4, flagged: 1, bySeverity: { high: 0, medium: 1, low: 0 } },
         es: { total: 3, flagged: 0, bySeverity: { high: 0, medium: 0, low: 0 } },
         fr: { total: 3, flagged: 0, bySeverity: { high: 0, medium: 0, low: 0 } },
       },
-      byAccuracy: { accurate: 9, wrong_pos: 1, wrong_meaning: 0, fabricated: 0 },
-      byQuality: {
-        high_quality: 10,
-        vague_or_circular: 0,
+      byDefinition: { accurate: 9, wrong_pos: 1, wrong_meaning: 0, fabricated: 0 },
+      byFormat: {
+        clean_dictionary: 10,
+        vague_circular: 0,
         robotic_filler: 0,
-        grammatical_glitch: 0,
+        malformed_syntax: 0,
       },
+      byJevTier: { elementary: 3, intermediate: 4, advanced: 2, obscure: 1 },
       averageLatencyMs: 45,
     };
 
@@ -130,11 +133,11 @@ describe('Reporting & CSV Export', () => {
         pos: 'noun',
         currentDef: 'Toward the back or rear; backward.',
         currentD: 0.95,
-        assessedD: 0.95,
-        difficultyTier: 'Obscure / Archaic / Specialist',
-        accuracy: 'wrong_pos',
-        quality: 'high_quality',
-        needsReexamineProb: 0.95,
+        ourTier: 'obscure',
+        jevTier: 'intermediate',
+        difficultyMatches: false,
+        definitionVerdict: 'wrong_pos',
+        formatVerdict: 'clean_dictionary',
         severity: 'high',
         reasons: ['Part-of-speech mismatch'],
       },
@@ -142,7 +145,8 @@ describe('Reporting & CSV Export', () => {
 
     const md = generateMarkdownSummary(stats, items);
     expect(md).toContain('# 🔍 Jev + Braintrust Dictionary QA Audit Report');
-    expect(md).toContain('| **EN** | 4 | 1 | 0 | 1 | 0 |');
-    expect(md).toContain('| **EN** | **aback** | `noun` |');
+    expect(md).toContain('**Difficulty Mismatches:** 1');
+    expect(md).toContain('## ⚖️ Difficulty Tier Mismatches (1)');
+    expect(md).toContain('| **EN** | **aback** | `noun` | **obscure** | **intermediate** |');
   });
 });
