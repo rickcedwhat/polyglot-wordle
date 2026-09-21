@@ -71,3 +71,102 @@ describe('splitDefinition', () => {
     expect(res.note).toBeUndefined();
   });
 });
+
+describe('validateGuess', () => {
+  const masterPools = {
+    en: ['apple', 'table', 'chair'],
+    es: ['queso', 'playa', 'arbol'],
+    fr: ['fruit', 'chien', 'monde'],
+  };
+
+  const solution = {
+    en: 'apple',
+    es: 'ghost', // 'ghost' is an inherited Spanish solution NOT in masterPools.es, en, or fr
+    fr: 'fruit',
+  };
+
+  it('accepts valid words found in the master dictionary in solo mode', () => {
+    const res = wordUtils.validateGuess({
+      guess: 'table',
+      masterPools,
+      solution,
+      isChallenge: false,
+    });
+    expect(res.isValid).toBe(true);
+    expect(res.matchedLangs).toEqual(['en']);
+    expect(res.solutionLangs).toEqual([]);
+  });
+
+  it('rejects words missing from the master dictionary in solo mode', () => {
+    const res = wordUtils.validateGuess({
+      guess: 'ghost',
+      masterPools,
+      solution,
+      isChallenge: false,
+    });
+    expect(res.isValid).toBe(false);
+    expect(res.matchedLangs).toEqual([]);
+    expect(res.solutionLangs).toEqual([]);
+  });
+
+  it('accepts inherited challenge solution words even when missing from master dictionary', () => {
+    const res = wordUtils.validateGuess({
+      guess: 'ghost',
+      masterPools,
+      solution,
+      isChallenge: true,
+    });
+    expect(res.isValid).toBe(true);
+    expect(res.matchedLangs).toEqual(['es']);
+    expect(res.solutionLangs).toEqual(['es']);
+  });
+
+  it('rejects duplicate guesses even if the word is an inherited solution', () => {
+    const res = wordUtils.validateGuess({
+      guess: 'ghost',
+      masterPools,
+      solution,
+      isChallenge: true,
+      previousGuesses: ['ghost'],
+    });
+    expect(res.isValid).toBe(false);
+  });
+
+  it('rejects guesses that are not 5 characters long', () => {
+    expect(
+      wordUtils.validateGuess({
+        guess: 'cat',
+        masterPools,
+        solution,
+        isChallenge: true,
+      }).isValid
+    ).toBe(false);
+
+    expect(
+      wordUtils.validateGuess({
+        guess: 'bananas',
+        masterPools,
+        solution,
+        isChallenge: true,
+      }).isValid
+    ).toBe(false);
+  });
+
+  it('handles accent normalization for inherited solution validation', () => {
+    const accentedSolution = {
+      en: 'apple',
+      es: 'arbol', // in Spanish masterPools as 'arbol'
+      fr: 'revee', // missing from fr masterPools
+    };
+
+    const res = wordUtils.validateGuess({
+      guess: 'rêvée',
+      masterPools,
+      solution: accentedSolution,
+      isChallenge: true,
+    });
+    expect(res.isValid).toBe(true);
+    expect(res.matchedLangs).toEqual(['fr']);
+    expect(res.solutionLangs).toEqual(['fr']);
+  });
+});
