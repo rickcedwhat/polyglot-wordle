@@ -2,22 +2,22 @@
   "aback": {
     "display": "aback",
     "d": 0.95,
-    "pos": "noun",
+    "pos": "adv",
     "def": "Toward the back or rear; backward.",
     "reviewed": true
   },
   "abate": {
     "display": "abate",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "To beat down; to overthrow.",
+    "d": 0.85,
+    "pos": "verb",
+    "def": "To become less intense, active, or severe; to diminish or decrease.",
     "reviewed": true
   },
   "abbey": {
     "display": "abbey",
     "d": 0.72,
     "pos": "noun",
-    "def": "The office or dominion of an abbot or abbess.",
+    "def": "A monastery, convent, or building complex occupied by a religious community under an abbot or abbess.",
     "reviewed": true
   },
   "abbot": {
@@ -29,9 +29,9 @@
   },
   "abhor": {
     "display": "abhor",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "To shrink back with shuddering from; to regard with horror or detestation.",
+    "d": 0.85,
+    "pos": "verb",
+    "def": "To regard with extreme repugnance, horror, or detestation; to loathe.",
     "reviewed": true
   },
   "abide": {
@@ -43,7 +43,7 @@
   },
   "abode": {
     "display": "abode",
-    "d": 0.95,
+    "d": 0.85,
     "pos": "noun",
     "def": "A place where someone lives or resides; a home or dwelling.",
     "reviewed": true
@@ -51,8 +51,8 @@
   "abort": {
     "display": "abort",
     "d": 0.71,
-    "pos": "noun",
-    "def": "Happening or done before the usual or expected time.",
+    "pos": "verb",
+    "def": "To bring to a premature end, or to terminate a process, mission, or operation before completion.",
     "reviewed": true
   },
   "about": {
@@ -85,21 +85,21 @@
   },
   "ached": {
     "display": "ached",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "verb",
     "def": "Felt a continuous, dull pain or discomfort in a part of the body (past tense of ache).",
     "reviewed": true
   },
   "aches": {
     "display": "aches",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
     "def": "Continuous dull pains in a part of the body, often caused by illness, injury, or prolonged exertion.",
     "reviewed": true
   },
   "acids": {
     "display": "acids",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Chemical substances with a pH below 7, typically corrosive or sour-tasting, that react with bases to form salts.",
     "reviewed": true
@@ -19960,7 +19960,7 @@
     "display": "table",
     "d": 0.13,
     "pos": "noun",
-    "def": "A portion of an object or of material, produced by cutting, tearing, or breaking.",
+    "def": "A piece of furniture with a flat top and one or more legs, used for eating, writing, or placing objects.",
     "reviewed": true
   },
   "taboo": {

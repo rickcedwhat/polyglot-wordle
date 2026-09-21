@@ -22,9 +22,9 @@
   },
   "aboie": {
     "display": "aboie",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "first/third-person singular present indicative/subjunctive.",
+    "def": "First- or third-person singular present indicative of aboyer (barks).",
     "reviewed": true
   },
   "abois": {
@@ -36,9 +36,9 @@
   },
   "aboli": {
     "display": "aboli",
-    "d": 0.95,
+    "d": 0.85,
     "pos": "verb",
-    "def": "Ended, cancelled, or done away with, often referring to laws, customs, or institutions (past participle of abolir).",
+    "def": "Form of the verb abolir (past participle); ended, cancelled, or abolished.",
     "reviewed": true
   },
   "abord": {
@@ -52,7 +52,7 @@
     "display": "about",
     "d": 0.8,
     "pos": "noun",
-    "def": "the extremity of a metallic or wooden element or piece.",
+    "def": "The end or extremity of a piece of wood, stone, or metal shaped to join another piece in an assemblage.",
     "reviewed": true
   },
   "aboye": {
@@ -122,7 +122,7 @@
     "display": "actif",
     "d": 0.61,
     "pos": "adj",
-    "def": "Characterized by being active.",
+    "def": "Engaged in action or physical or mental movement; energetic, dynamic, or functioning.",
     "reviewed": true
   },
   "adage": {
@@ -157,7 +157,7 @@
     "display": "adore",
     "d": 0.1,
     "pos": "verb",
-    "def": "first/third-person singular present indicative/subjunctive.",
+    "def": "First- or third-person singular present indicative of adorer (loves or adores deeply).",
     "reviewed": true
   },
   "aerer": {
@@ -430,7 +430,7 @@
     "display": "alias",
     "d": 0.62,
     "pos": "adv",
-    "def": "In the manner, degree, or condition of alias.",
+    "def": "Used before an assumed name or pseudonym to indicate an alternate identity; otherwise known as.",
     "reviewed": true
   },
   "alibi": {
@@ -444,7 +444,7 @@
     "display": "alien",
     "d": 0.55,
     "pos": "noun",
-    "def": "Belonging to a foreign country or another planet entirely.",
+    "def": "An extraterrestrial being; a creature originating from outer space or another planet.",
     "reviewed": true
   },
   "alite": {
@@ -6016,7 +6016,7 @@
     "display": "fruit",
     "d": 0.42,
     "pos": "noun",
-    "def": "The seed-bearing mature ovary of a flowering plant; fruit.",
+    "def": "The sweet or fleshy edible reproductive body of a seed plant.",
     "reviewed": true
   },
   "fugue": {

@@ -15,14 +15,14 @@
   },
   "abeto": {
     "display": "abeto",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A type of evergreen coniferous tree, typically with flat, needle-like leaves and upright cones, often used as a Christmas tree.",
     "reviewed": true
   },
   "abono": {
     "display": "abono",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A payment made in advance for services, like a subscription or season ticket. It also refers to fertilizer used for enriching soil.",
     "reviewed": true
@@ -57,16 +57,16 @@
   },
   "abria": {
     "display": "abría",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "first/third-person singular imperfect indicative of abrir.",
+    "def": "First- or third-person singular imperfect indicative of abrir (was opening).",
     "reviewed": true
   },
   "abrid": {
     "display": "abrid",
-    "d": 0.81,
+    "d": 0.65,
     "pos": "verb",
-    "def": "Open! This is a command directed at multiple people to open something (second-person plural imperative of abrir).",
+    "def": "Second-person plural imperative of abrir; open (command to vosotros).",
     "reviewed": true
   },
   "abril": {
@@ -78,9 +78,9 @@
   },
   "abrio": {
     "display": "abrió",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "verb",
-    "def": "He, she, or it opened something, like a door, a business, or a present (third-person singular preterite of abrir).",
+    "def": "Third-person singular preterite indicative of abrir (opened).",
     "reviewed": true
   },
   "abrir": {
@@ -92,7 +92,7 @@
   },
   "abusa": {
     "display": "abusa",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Treats someone or something with cruelty or violence, or exploits a situation for personal gain (present tense of abusar).",
     "reviewed": true
@@ -148,23 +148,23 @@
   },
   "acida": {
     "display": "ácida",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
-    "def": "feminine singular of ácido.",
+    "def": "Feminine singular of ácido; acidic, tart, or sour.",
     "reviewed": true
   },
   "acido": {
     "display": "ácido",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
-    "def": "Characterized by being sharp, tart.",
+    "def": "Having a bitter, sharp, or sour taste; acidic.",
     "reviewed": true
   },
   "acoge": {
     "display": "acoge",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "To give a polite word or sign of welcome to someone upon meeting.",
+    "def": "Third-person singular present indicative of acoger; receives, welcomes, or takes in.",
     "reviewed": true
   },
   "acosa": {
