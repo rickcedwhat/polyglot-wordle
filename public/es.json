@@ -65,8 +65,8 @@
   "abrid": {
     "display": "abrid",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "Open something, such as a door or a book (informal plural imperative of abrir).",
     "reviewed": true
   },
   "abril": {
@@ -128,8 +128,8 @@
   "acaso": {
     "display": "acaso",
     "d": 0.18,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'accidence, chance, hazard'.",
+    "pos": "adv",
+    "def": "Perhaps, maybe, or by chance; used to express doubt or possibility.",
     "reviewed": true
   },
   "acera": {
@@ -190,7 +190,7 @@
   },
   "actas": {
     "display": "actas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Official written records or minutes of a meeting, proceedings, or transactions, documenting discussions and decisions.",
     "reviewed": true
@@ -232,7 +232,7 @@
   },
   "acuda": {
     "display": "acuda",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "That I, he, she, or it goes, attends, or resorts to a place or person (first/third-person singular present subjunctive of acudir).",
     "reviewed": true
@@ -295,9 +295,9 @@
   },
   "adore": {
     "display": "adore",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
-    "def": "That I, he, she, or it adores, worships, or loves deeply (first/third-person singular present subjunctive of adorar).",
+    "def": "That I, he, or she adores, worships, or loves deeply (first/third-person singular present subjunctive of adorar).",
     "reviewed": true
   },
   "adoro": {
@@ -317,8 +317,8 @@
   "aereo": {
     "display": "aéreo",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to or occurring in the air; airborne or aerial.",
     "reviewed": true
   },
   "after": {
@@ -372,7 +372,7 @@
   },
   "aguda": {
     "display": "aguda",
-    "d": 0.94,
+    "d": 0.82,
     "pos": "adj",
     "def": "feminine singular of agudo.",
     "reviewed": true
@@ -416,14 +416,14 @@
     "display": "aires",
     "d": 0.57,
     "pos": "noun",
-    "def": "Plural form; multiple instances of 'air'.",
+    "def": "The invisible gaseous substance surrounding the Earth, or a person's manner or appearance (plural of aire).",
     "reviewed": true
   },
   "ajena": {
     "display": "ajena",
     "d": 0.65,
     "pos": "adj",
-    "def": "feminine singular of ajeno.",
+    "def": "Belonging to another person or foreign; not one's own (feminine singular of ajeno).",
     "reviewed": true
   },
   "ajeno": {
@@ -442,7 +442,7 @@
   },
   "alaba": {
     "display": "alaba",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Conjugated form of the verb alabar; commend, laud, praise.",
     "reviewed": true
@@ -451,21 +451,21 @@
     "display": "álamo",
     "d": 0.65,
     "pos": "noun",
-    "def": "Of the color of milk or fresh snow, reflecting all light rays.",
+    "def": "A type of tree belonging to the genus Populus, commonly known as a poplar or cottonwood tree.",
     "reviewed": true
   },
   "alana": {
     "display": "alana",
     "d": 0.95,
-    "pos": "noun",
-    "def": "female equivalent of alano.",
+    "pos": "adj",
+    "def": "Pertaining to the Alans, an ancient nomadic Iranian people (feminine singular of alano).",
     "reviewed": true
   },
   "album": {
     "display": "álbum",
     "d": 0.65,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'album'.",
+    "def": "A book with blank pages for collecting photographs, stamps, or autographs; also a collection of recorded music.",
     "reviewed": true
   },
   "alces": {
@@ -492,8 +492,8 @@
   "aleja": {
     "display": "aleja",
     "d": 0.73,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "Moves away or distances oneself or something from a place or person (present tense of alejar).",
     "reviewed": true
   },
   "aleje": {
@@ -506,8 +506,8 @@
   "alejo": {
     "display": "alejo",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "I move away or distance myself from a place or person (first-person singular present tense of alejar).",
     "reviewed": true
   },
   "aleta": {
@@ -542,14 +542,14 @@
     "display": "alias",
     "d": 0.62,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A false or assumed name, especially one used by a criminal or for disguise.",
     "reviewed": true
   },
   "alien": {
     "display": "alien",
     "d": 0.91,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Foreign, strange, or belonging to another country or culture; not native.",
     "reviewed": true
   },
   "alijo": {
@@ -568,7 +568,7 @@
   },
   "aline": {
     "display": "aliñe",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "That I, he, she, or it dresses, seasons, or garnishes food (first/third-person singular present subjunctive of aliñar).",
     "reviewed": true
@@ -619,7 +619,7 @@
     "display": "alzar",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to lift, raise.",
+    "def": "To lift, raise, or elevate something to a higher position.",
     "reviewed": true
   },
   "amaba": {
@@ -674,8 +674,8 @@
   "ambar": {
     "display": "ámbar",
     "d": 0.95,
-    "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "pos": "noun",
+    "def": "A hard, translucent fossilized resin, typically yellowish-brown, used for jewelry and ornamental objects.",
     "reviewed": true
   },
   "ambas": {
@@ -686,17 +686,17 @@
     "reviewed": true
   },
   "amber": {
-    "display": "amber",
+    "display": "ámbar",
     "d": 0.53,
-    "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "pos": "noun",
+    "def": "A hard, translucent fossilized resin, typically yellowish-brown, used for jewelry and ornamental objects.",
     "reviewed": true
   },
   "ambos": {
     "display": "ambos",
     "d": 0.12,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'both'.",
+    "pos": "adj",
+    "def": "Referring to two things or people together; both of them.",
     "reviewed": true
   },
   "amiga": {
@@ -710,21 +710,21 @@
     "display": "amigo",
     "d": 0.05,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'friend'.",
+    "def": "A person with whom one has a bond of mutual affection; a companion or pal.",
     "reviewed": true
   },
   "amish": {
     "display": "amish",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being amish.",
+    "def": "Relating to or characteristic of the Amish, a group of traditionalist Christian church fellowships.",
     "reviewed": true
   },
   "anada": {
     "display": "añada",
     "d": 0.95,
     "pos": "noun",
-    "def": "The time taken by a planet to make one revolution around the sun.",
+    "def": "The vintage year of wine or the harvest of a particular year.",
     "reviewed": true
   },
   "anade": {
@@ -792,7 +792,7 @@
   },
   "anden": {
     "display": "anden",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "That they walk, may walk, or should walk, moving on foot (third-person plural present subjunctive of andar).",
     "reviewed": true
@@ -820,9 +820,9 @@
   },
   "anime": {
     "display": "animé",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "alternative form of anime ().",
+    "def": "A style of Japanese animation, characterized by colorful graphics, futuristic themes, and often adult content.",
     "reviewed": true
   },
   "animo": {
@@ -883,7 +883,7 @@
   },
   "antro": {
     "display": "antro",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A natural underground chamber or a large, deep hollow in a cliff; a cave. Colloquially, it can refer to a dive bar.",
     "reviewed": true
@@ -891,8 +891,8 @@
   "anual": {
     "display": "anual",
     "d": 0.63,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Occurring once every year; yearly or pertaining to a period of one year.",
     "reviewed": true
   },
   "anula": {
@@ -918,7 +918,7 @@
   },
   "aorta": {
     "display": "aorta",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The main artery of the body, originating from the left ventricle of the heart and extending down to the abdomen.",
     "reviewed": true
@@ -926,13 +926,13 @@
   "apaga": {
     "display": "apaga",
     "d": 0.4,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "Turns off, extinguishes, or puts out a light, fire, or device (present tense of apagar).",
     "reviewed": true
   },
   "apago": {
     "display": "apago",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "masculine singular past participle.",
     "reviewed": true
@@ -995,14 +995,14 @@
   },
   "apura": {
     "display": "apura",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "He, she, or it hurries, rushes, or urges someone to do something (third-person singular present of apurar).",
     "reviewed": true
   },
   "apure": {
     "display": "apuré",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "I hurried, rushed, or urged someone to do something (first-person singular preterite of apurar).",
     "reviewed": true
@@ -1024,13 +1024,13 @@
   "arabe": {
     "display": "árabe",
     "d": 0.61,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Arabian, Arabic, Arab'.",
+    "pos": "adj",
+    "def": "Relating to Arabs, their language, or culture; from Arabia.",
     "reviewed": true
   },
   "arado": {
     "display": "arado",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A farm implement with one or more blades, used for turning over soil in preparation for planting crops; a plow.",
     "reviewed": true
@@ -1058,7 +1058,7 @@
   },
   "arcas": {
     "display": "arcas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Strong boxes or chests used for storing valuables, money, or important documents. Also refers to public funds.",
     "reviewed": true
@@ -1080,20 +1080,20 @@
   "arder": {
     "display": "arder",
     "d": 0.65,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'burn'.",
+    "pos": "verb",
+    "def": "To burn, blaze, or be intensely hot; to feel a strong passion or desire.",
     "reviewed": true
   },
   "ardia": {
     "display": "ardía",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "first/third-person singular imperfect indicative of arder.",
     "reviewed": true
   },
   "ardid": {
     "display": "ardid",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A cunning or skillful act or scheme intended to deceive or outwit someone.",
     "reviewed": true
@@ -1184,14 +1184,14 @@
   },
   "armen": {
     "display": "armen",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Conjugated form of the verb armar; To arm.",
     "reviewed": true
   },
   "arnes": {
     "display": "arnés",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A set of straps and fittings, typically made of leather or webbing, used to attach an animal to a cart or to secure a person.",
     "reviewed": true
@@ -1261,7 +1261,7 @@
   },
   "asomo": {
     "display": "asomo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A slight appearance or hint of something; also, the act of showing oneself or peeking out (first-person singular present tense of \"asomar\").",
     "reviewed": true
@@ -1269,8 +1269,8 @@
   "astas": {
     "display": "astas",
     "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb aster; aster.",
+    "pos": "noun",
+    "def": "The horns of an animal, especially a deer, or the poles used for flags (plural of asta).",
     "reviewed": true
   },
   "aster": {
@@ -1332,8 +1332,8 @@
   "atada": {
     "display": "atada",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Tied, bound, or fastened with a rope or cord (feminine singular of atado).",
     "reviewed": true
   },
   "atado": {
@@ -1394,7 +1394,7 @@
   },
   "atoro": {
     "display": "atoro",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I clog, obstruct, or choke something, or I get choked (present tense of atorar).",
     "reviewed": true
@@ -1416,15 +1416,15 @@
   "atroz": {
     "display": "atroz",
     "d": 0.82,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Extremely cruel, terrible, or atrocious; causing horror or shock.",
     "reviewed": true
   },
   "audaz": {
     "display": "audaz",
     "d": 0.82,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Bold, daring, or audacious; showing a willingness to take risks.",
     "reviewed": true
   },
   "audio": {
@@ -1459,7 +1459,7 @@
     "display": "avaro",
     "d": 0.65,
     "pos": "adj",
-    "def": "Characterized by being avaricious, greedy.",
+    "def": "Excessively greedy for wealth or gain; miserly or stingy.",
     "reviewed": true
   },
   "avena": {
@@ -1487,7 +1487,7 @@
     "display": "avión",
     "d": 0.35,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'aeroplane, airplane, plane, aircraft'.",
+    "def": "A powered flying vehicle with fixed wings and a jet engine or propellers; an airplane.",
     "reviewed": true
   },
   "avisa": {
@@ -1499,7 +1499,7 @@
   },
   "avise": {
     "display": "avise",
-    "d": 0.93,
+    "d": 0.65,
     "pos": "verb",
     "def": "May warn, notify, or advise someone about something (present subjunctive of avisar).",
     "reviewed": true
@@ -1513,7 +1513,7 @@
   },
   "axila": {
     "display": "axila",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The hollow area under the arm at the shoulder, where the arm joins the body.",
     "reviewed": true
@@ -1548,7 +1548,7 @@
   },
   "azote": {
     "display": "azote",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A whip or lash used for striking, often as a punishment; also, a sudden, strong gust of wind.",
     "reviewed": true
@@ -1639,7 +1639,7 @@
   },
   "bajes": {
     "display": "bajes",
-    "d": 0.86,
+    "d": 0.65,
     "pos": "verb",
     "def": "May go down, descend, or lower something (present subjunctive, singular 'you' form of bajar).",
     "reviewed": true
@@ -1688,7 +1688,7 @@
   },
   "bambu": {
     "display": "bambú",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A tall, woody grass with hollow stems, native to tropical and subtropical regions, used for construction and crafts.",
     "reviewed": true
@@ -1697,7 +1697,7 @@
     "display": "banal",
     "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being banal.",
+    "def": "Lacking originality, freshness, or significance; commonplace and uninteresting.",
     "reviewed": true
   },
   "banan": {
@@ -1711,7 +1711,7 @@
     "display": "bañar",
     "d": 0.35,
     "pos": "verb",
-    "def": "To engage in the action of to bathe.",
+    "def": "To wash or immerse oneself or someone else in water; to bathe.",
     "reviewed": true
   },
   "banas": {
@@ -1725,7 +1725,7 @@
     "display": "banca",
     "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A bench or a long seat, typically made of wood; also refers to banking or the financial sector.",
     "reviewed": true
   },
   "banco": {
@@ -1745,8 +1745,8 @@
   "bando": {
     "display": "bando",
     "d": 0.66,
-    "pos": "verb",
-    "def": "Present active gerund participle expressing an ongoing, continuous process.",
+    "pos": "noun",
+    "def": "A faction, side, or group of people united by a common purpose; also a public proclamation.",
     "reviewed": true
   },
   "banjo": {
@@ -1774,7 +1774,7 @@
     "display": "barca",
     "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A small boat, typically without a deck, used for fishing or short trips on water.",
     "reviewed": true
   },
   "barco": {
@@ -1800,7 +1800,7 @@
   },
   "baron": {
     "display": "barón",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A title of nobility, ranking below a viscount and above a knight, often hereditary.",
     "reviewed": true
@@ -1814,7 +1814,7 @@
   },
   "barre": {
     "display": "barre",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "May sweep or clean a surface with a broom (present subjunctive of barrer).",
     "reviewed": true
@@ -1863,7 +1863,7 @@
   },
   "baste": {
     "display": "baste",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Conjugated form of the verb bastar; suffice.",
     "reviewed": true
@@ -1871,13 +1871,13 @@
   "basto": {
     "display": "basto",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A type of packsaddle or saddle pad, typically used on donkeys or mules for carrying loads.",
+    "pos": "adj",
+    "def": "Coarse, rough, or crude in texture or manner; unrefined.",
     "reviewed": true
   },
   "batas": {
     "display": "batas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Loose-fitting garments worn for comfort or protection, such as bathrobes, dressing gowns, or lab coats.",
     "reviewed": true
@@ -1891,7 +1891,7 @@
   },
   "bateo": {
     "display": "bateo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The action or technique of hitting a ball with a bat, especially in sports like baseball or softball.",
     "reviewed": true
@@ -1900,7 +1900,7 @@
     "display": "bates",
     "d": 0.68,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The wooden or metal clubs used in baseball to hit the ball (plural of bate).",
     "reviewed": true
   },
   "batir": {
@@ -1914,14 +1914,14 @@
     "display": "batón",
     "d": 0.95,
     "pos": "noun",
-    "def": "A one-piece garment for a woman or girl covering body and legs.",
+    "def": "A loose, comfortable garment worn at home, typically after bathing or before dressing, often made of soft fabric.",
     "reviewed": true
   },
   "bayas": {
     "display": "bayas",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
-    "def": "Plural form; multiple instances of 'berry'.",
+    "def": "Small, fleshy fruits, often brightly colored, typically edible and containing seeds (plural of baya).",
     "reviewed": true
   },
   "bazar": {
@@ -1935,14 +1935,14 @@
     "display": "beban",
     "d": 0.65,
     "pos": "verb",
-    "def": "May drink a liquid (present subjunctive of beber).",
+    "def": "They or you (formal plural) drink or should drink a liquid (present subjunctive or imperative of beber).",
     "reviewed": true
   },
   "bebas": {
     "display": "bebas",
     "d": 0.35,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "You (informal singular) drink or should drink a liquid (present subjunctive or imperative of beber).",
     "reviewed": true
   },
   "bebed": {
@@ -2011,8 +2011,8 @@
   "belga": {
     "display": "belga",
     "d": 0.95,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Belgian, Belgianwoman'.",
+    "pos": "adj",
+    "def": "A person from Belgium, a country in Western Europe, or something related to Belgium.",
     "reviewed": true
   },
   "bella": {
@@ -2039,8 +2039,8 @@
   "besan": {
     "display": "besan",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "They or you (formal plural) kiss someone or something (present tense of besar).",
     "reviewed": true
   },
   "besar": {
@@ -2059,7 +2059,7 @@
   },
   "besen": {
     "display": "besen",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "May touch with the lips as a sign of love, greeting, or respect (present subjunctive of besar).",
     "reviewed": true
@@ -2094,14 +2094,14 @@
   },
   "bidon": {
     "display": "bidón",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A sturdy container, often made of plastic or metal, used for holding liquids like water or fuel; a jerrycan.",
     "reviewed": true
   },
   "bilis": {
     "display": "bilis",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A bitter, greenish-brown fluid produced by the liver, aiding in the digestion of fats in the small intestine.",
     "reviewed": true
@@ -2131,7 +2131,7 @@
     "display": "block",
     "d": 0.95,
     "pos": "noun",
-    "def": "alternative form of bloc ().",
+    "def": "A solid piece of material, often rectangular, used for building or other purposes; also a city block.",
     "reviewed": true
   },
   "blogs": {
@@ -2249,8 +2249,8 @@
   "bombo": {
     "display": "bombo",
     "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being reckless.",
+    "pos": "noun",
+    "def": "A large drum that produces a deep, resonant sound, typically used in orchestras or bands.",
     "reviewed": true
   },
   "bongo": {
@@ -2269,9 +2269,9 @@
   },
   "bonus": {
     "display": "bonus",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "An amount of money, extra reward, or incentive added to normal expectations; a bonus.",
+    "def": "An additional payment, reward, or benefit given beyond what is expected or required.",
     "reviewed": true
   },
   "borda": {
@@ -2292,14 +2292,14 @@
     "display": "bordo",
     "d": 0.27,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The side or edge of a ship, aircraft, or vehicle; often used in phrases like \"on board.\"",
     "reviewed": true
   },
   "borra": {
     "display": "borra",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The dregs or sediment left at the bottom of a liquid, such as coffee grounds or wine lees.",
     "reviewed": true
   },
   "borre": {
@@ -2320,7 +2320,7 @@
     "display": "botar",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to bounce.",
+    "def": "To bounce, throw away, or cast out something; also to launch a boat into the water.",
     "reviewed": true
   },
   "botas": {
@@ -2368,8 +2368,8 @@
   "boxes": {
     "display": "boxes",
     "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb boxer; alternative spelling of bóxer.",
+    "pos": "noun",
+    "def": "Enclosed areas, often for storage or seating; also refers to the sport of boxing (plural of box).",
     "reviewed": true
   },
   "braga": {
@@ -2389,8 +2389,8 @@
   "bravo": {
     "display": "bravo",
     "d": 0.27,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'brave, courageous, valiant'.",
+    "pos": "adj",
+    "def": "Courageous, valiant, or fierce; also refers to something wild, untamed, or excellent.",
     "reviewed": true
   },
   "brazo": {
@@ -2404,7 +2404,7 @@
     "display": "break",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A pause from work or activity, a short rest period, or a sudden change in direction.",
     "reviewed": true
   },
   "breve": {
@@ -2458,16 +2458,16 @@
   },
   "bruma": {
     "display": "bruma",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "fog, mist, especially costal fog or haar.",
     "reviewed": true
   },
   "bruta": {
     "display": "bruta",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.65,
+    "pos": "adj",
+    "def": "Unrefined, crude, or rough; also refers to a person who is unintelligent or uncivilized (feminine form of bruto).",
     "reviewed": true
   },
   "bruto": {
@@ -2481,7 +2481,7 @@
     "display": "bucal",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being buccal.",
+    "def": "Relating to or located in the mouth, such as oral hygiene or dental procedures.",
     "reviewed": true
   },
   "buceo": {
@@ -2556,14 +2556,14 @@
   },
   "burle": {
     "display": "burlé",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I mocked, made fun of, or evaded someone or something (past tense of burlar).",
     "reviewed": true
   },
   "burlo": {
     "display": "burlo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I mock, make fun of, or evade someone or something (present tense of burlar).",
     "reviewed": true
@@ -2619,14 +2619,14 @@
   },
   "buzos": {
     "display": "buzos",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "People who swim underwater, especially with scuba gear; also refers to diving suits or tracksuits.",
     "reviewed": true
   },
   "cabal": {
     "display": "cabal",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Complete, exact, or perfect in every respect; also refers to something that is just or fair.",
     "reviewed": true
@@ -2642,14 +2642,14 @@
     "display": "caber",
     "d": 0.35,
     "pos": "verb",
-    "def": "To come or go into a place or start participating in an event.",
+    "def": "To fit or be contained within a space; to have enough room for something.",
     "reviewed": true
   },
   "cabia": {
     "display": "cabía",
     "d": 0.65,
     "pos": "verb",
-    "def": "To come or go into a place or start participating in an event.",
+    "def": "Used to fit or was fitting into a space; there was room for something (imperfect tense of caber).",
     "reviewed": true
   },
   "cable": {
@@ -2675,7 +2675,7 @@
   },
   "cacao": {
     "display": "cacao",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The seeds of the cacao tree, used to make chocolate and cocoa powder; also refers to the tree itself.",
     "reviewed": true
@@ -2732,8 +2732,8 @@
   "caido": {
     "display": "caído",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Having fallen or dropped from a higher position; also refers to something that has collapsed or declined (past participle of caer).",
     "reviewed": true
   },
   "caiga": {
@@ -2768,12 +2768,12 @@
     "display": "caldo",
     "d": 0.35,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'bouillon'.",
+    "def": "A savory liquid made by simmering meat, fish, or vegetables in water, often used as a base for soups.",
     "reviewed": true
   },
   "caliz": {
     "display": "cáliz",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large cup or goblet, often ornate, used for drinking, especially during religious ceremonies.",
     "reviewed": true
@@ -2817,7 +2817,7 @@
     "display": "calmo",
     "d": 0.35,
     "pos": "adj",
-    "def": "Characterized by being calm.",
+    "def": "Feeling or appearing tranquil, peaceful, and free from agitation or disturbance.",
     "reviewed": true
   },
   "calor": {
@@ -2829,7 +2829,7 @@
   },
   "calva": {
     "display": "calva",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An area on the head where hair has fallen out, resulting in a bald spot or patch.",
     "reviewed": true
@@ -2872,8 +2872,8 @@
   "canas": {
     "display": "canas",
     "d": 0.65,
-    "pos": "adj",
-    "def": "Plural form or feminine plural describing can; multiple instances.",
+    "pos": "noun",
+    "def": "Grey or white hairs, typically appearing with age (plural of cana).",
     "reviewed": true
   },
   "canoa": {
@@ -2885,16 +2885,16 @@
   },
   "canon": {
     "display": "canon",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A general law, rule, principle, or criterion by which something is judged, or a collection of sacred books.",
     "reviewed": true
   },
   "cansa": {
     "display": "cansa",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.35,
+    "pos": "verb",
+    "def": "Tires, fatigues, or makes someone weary (present tense of cansar).",
     "reviewed": true
   },
   "canse": {
@@ -2907,15 +2907,15 @@
   "canso": {
     "display": "canso",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "I tire or fatigue myself; also, a type of medieval Provençal lyric poem (first-person singular present of cansar).",
     "reviewed": true
   },
   "canta": {
     "display": "canta",
     "d": 0.34,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "Sings or performs a song with their voice (present tense of cantar).",
     "reviewed": true
   },
   "cante": {
@@ -2934,7 +2934,7 @@
   },
   "caoba": {
     "display": "caoba",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Characterized by being mahogany (color/colour).",
     "reviewed": true
@@ -2949,8 +2949,8 @@
   "capaz": {
     "display": "capaz",
     "d": 0.14,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'able, capable'.",
+    "pos": "adj",
+    "def": "Having the ability, skill, or power to do something; competent or able.",
     "reviewed": true
   },
   "capta": {
@@ -2962,7 +2962,7 @@
   },
   "capto": {
     "display": "capto",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "I capture, grasp, or perceive something, often an idea or signal (present tense of captar).",
     "reviewed": true
@@ -2984,8 +2984,8 @@
   "caray": {
     "display": "caray",
     "d": 0.39,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adv",
+    "def": "An exclamation expressing surprise, annoyance, or emphasis, similar to \"wow,\" \"darn,\" or \"goodness.\"",
     "reviewed": true
   },
   "carey": {
@@ -3076,14 +3076,14 @@
     "display": "casen",
     "d": 0.95,
     "pos": "verb",
-    "def": "May marry or wed, joining two people in matrimony (present subjunctive of casar).",
+    "def": "They or you (formal plural) marry or get married, joining two people in matrimony (present subjunctive of casar).",
     "reviewed": true
   },
   "cases": {
     "display": "cases",
     "d": 0.8,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Houses or homes where people live (plural of casa); also, you (informal singular) marry (present subjunctive of casar).",
     "reviewed": true
   },
   "casos": {
@@ -3102,7 +3102,7 @@
   },
   "casta": {
     "display": "casta",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A system of social stratification in which a person's status is determined by birth and is usually unchangeable.",
     "reviewed": true
@@ -3118,19 +3118,19 @@
     "display": "cates",
     "d": 0.95,
     "pos": "verb",
-    "def": "That you taste or sample something, or try to perceive it (second-person singular present subjunctive or imperative of catar).",
+    "def": "You (informal singular) taste or sample something, or try to perceive it (present subjunctive or imperative of catar).",
     "reviewed": true
   },
   "catre": {
     "display": "catre",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A light, portable bed, often made of canvas stretched over a folding frame, used for temporary sleeping.",
     "reviewed": true
   },
   "cauce": {
     "display": "cauce",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The natural channel or bed through which a stream or river flows, guiding its course.",
     "reviewed": true
@@ -3145,8 +3145,8 @@
   "cause": {
     "display": "cause",
     "d": 0.95,
-    "pos": "verb",
-    "def": "May cause or bring about an event or situation (present subjunctive of causar).",
+    "pos": "noun",
+    "def": "A reason or motive for an action or event; also, a principle or movement one supports.",
     "reviewed": true
   },
   "causo": {
@@ -3174,7 +3174,7 @@
     "display": "caven",
     "d": 0.95,
     "pos": "verb",
-    "def": "Conjugated form of the verb cavar; To excavate, dig.",
+    "def": "They or you (formal plural) dig or excavate the ground (present subjunctive or imperative of cavar).",
     "reviewed": true
   },
   "cazan": {
@@ -3195,7 +3195,7 @@
     "display": "cazas",
     "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Hunts or pursuits of wild animals (plural of caza); also, you (informal singular) hunt or chase (present tense of cazar).",
     "reviewed": true
   },
   "cebra": {
@@ -3271,8 +3271,8 @@
   "cerca": {
     "display": "cerca",
     "d": 0.08,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'close, near, nearby'.",
+    "pos": "adv",
+    "def": "At a short distance in space or time; nearby; also, a fence or enclosure.",
     "reviewed": true
   },
   "cerco": {
@@ -3284,7 +3284,7 @@
   },
   "cerda": {
     "display": "cerda",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A female pig, especially one that has farrowed, or a stiff hair or bristle.",
     "reviewed": true
@@ -3319,7 +3319,7 @@
   },
   "cesen": {
     "display": "cesen",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "They may cease, stop, or discontinue an action (third-person plural present subjunctive of cesar).",
     "reviewed": true
@@ -3340,14 +3340,14 @@
   },
   "cetro": {
     "display": "cetro",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "An ornamented staff carried by rulers on ceremonial occasions as a symbol of sovereignty.",
     "reviewed": true
   },
   "chapa": {
     "display": "chapa",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A thin sheet of metal or wood, often used for covering surfaces or as a bottle cap.",
     "reviewed": true
@@ -3361,7 +3361,7 @@
   },
   "chato": {
     "display": "chato",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Characterized by being flat.",
     "reviewed": true
@@ -3369,29 +3369,29 @@
   "checa": {
     "display": "checa",
     "d": 0.95,
-    "pos": "noun",
-    "def": "female equivalent of checo.",
+    "pos": "adj",
+    "def": "A woman from the Czech Republic, or something related to the Czech Republic (feminine form of checo).",
     "reviewed": true
   },
   "checo": {
     "display": "checo",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being czech.",
+    "def": "Relating to the Czech Republic, its people, or its language; a person from the Czech Republic.",
     "reviewed": true
   },
   "chefs": {
     "display": "chefs",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Professional cooks, especially the head cook in a restaurant or other kitchen (plural of chef).",
     "reviewed": true
   },
   "chelo": {
     "display": "chelo",
     "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being blonde, fair-skinned, blue-eyed.",
+    "pos": "noun",
+    "def": "A cello, a large stringed musical instrument of the violin family, played with a bow while seated.",
     "reviewed": true
   },
   "chica": {
@@ -3412,19 +3412,19 @@
     "display": "chili",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A small, hot-tasting pod of a variety of capsicum, used in cooking to add a spicy flavor.",
     "reviewed": true
   },
   "chino": {
     "display": "chino",
     "d": 0.33,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Chinese, Chinaman'.",
+    "pos": "adj",
+    "def": "Relating to China, its people, language, or culture.",
     "reviewed": true
   },
   "chips": {
     "display": "chips",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Thin slices of potato or other food, fried or baked until crisp, or small electronic components (plural of chip).",
     "reviewed": true
@@ -3445,16 +3445,16 @@
   },
   "choca": {
     "display": "choca",
-    "d": 0.86,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.65,
+    "pos": "verb",
+    "def": "Collides, crashes into, or bumps against something (present tense of chocar).",
     "reviewed": true
   },
   "choco": {
     "display": "choco",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A marine mollusk with a broad, flattened body, eight arms, and two long tentacles, similar to a squid.",
     "reviewed": true
   },
   "choza": {
@@ -3467,8 +3467,8 @@
   "chula": {
     "display": "chula",
     "d": 0.95,
-    "pos": "noun",
-    "def": "The sweet and fleshy product of a tree or other plant that contains seed.",
+    "pos": "adj",
+    "def": "Pretty, cute, or lovely, often used to describe a charming or attractive person or thing (feminine form).",
     "reviewed": true
   },
   "chulo": {
@@ -3495,8 +3495,8 @@
   "chupo": {
     "display": "chupo",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A number of things grouped together in a cluster.",
+    "pos": "verb",
+    "def": "I suck, I lick, or I absorb something (first-person singular present of chupar).",
     "reviewed": true
   },
   "ciclo": {
@@ -3573,7 +3573,7 @@
     "display": "cisco",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Fine coal dust or small fragments of coal, often found as residue from burning or handling coal.",
     "reviewed": true
   },
   "cisne": {
@@ -3586,8 +3586,8 @@
   "citar": {
     "display": "citar",
     "d": 0.65,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'cite, quote'.",
+    "pos": "verb",
+    "def": "To quote or refer to a source, or to summon someone to appear, typically in court.",
     "reviewed": true
   },
   "citas": {
@@ -3600,8 +3600,8 @@
   "civil": {
     "display": "civil",
     "d": 0.34,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'civil, civilian, non‐military'.",
+    "pos": "adj",
+    "def": "Relating to ordinary citizens and their concerns, as opposed to military or religious matters; polite and courteous.",
     "reviewed": true
   },
   "clama": {
@@ -3690,7 +3690,7 @@
   },
   "clubs": {
     "display": "clubs",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Organizations or associations of people with shared interests, or places where such groups meet.",
     "reviewed": true
@@ -3727,7 +3727,7 @@
     "display": "cocer",
     "d": 0.35,
     "pos": "verb",
-    "def": "To engage in the action of to boil.",
+    "def": "To cook food by boiling, baking, or stewing it, often involving heat and liquid.",
     "reviewed": true
   },
   "coche": {
@@ -3753,16 +3753,16 @@
   },
   "cofre": {
     "display": "cofre",
-    "d": 0.9,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A strong box or chest, typically made of wood or metal, used for storing valuables or clothing.",
     "reviewed": true
   },
   "coged": {
     "display": "coged",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "Take, grab, or seize something (second-person plural imperative of coger).",
     "reviewed": true
   },
   "cogen": {
@@ -3775,8 +3775,8 @@
   "coger": {
     "display": "coger",
     "d": 0.21,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'clutch, grab, grasp, grip, seize, grapple, fetch, get, pickup, capture, catch, lay hold of, pick up, take'.",
+    "pos": "verb",
+    "def": "To take, grab, or seize something with one's hands, or to catch a bus or train.",
     "reviewed": true
   },
   "coges": {
@@ -3802,14 +3802,14 @@
   },
   "coito": {
     "display": "coito",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The act of sexual intercourse, typically involving penetration, for reproduction or pleasure.",
     "reviewed": true
   },
   "cojan": {
     "display": "cojan",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "They may take, catch, or grab something (third-person plural present subjunctive of coger).",
     "reviewed": true
@@ -3817,8 +3817,8 @@
   "cojas": {
     "display": "cojas",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Lame, limping, or crippled, describing individuals or animals with an impaired ability to walk (feminine plural).",
     "reviewed": true
   },
   "cojea": {
@@ -3837,7 +3837,7 @@
   },
   "colar": {
     "display": "colar",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "to sift, to strain, to filter.",
     "reviewed": true
@@ -3867,7 +3867,7 @@
     "display": "colín",
     "d": 0.45,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A small, thin, crispy breadstick, often served with meals or as a snack.",
     "reviewed": true
   },
   "colmo": {
@@ -3936,8 +3936,8 @@
   "comes": {
     "display": "comes",
     "d": 0.43,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "You eat or consume food, taking it into your body (second-person singular present of comer).",
     "reviewed": true
   },
   "comia": {
@@ -3964,8 +3964,8 @@
   "comun": {
     "display": "común",
     "d": 0.35,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'commonplace, dismal, trite, common, joint, ordinary, usual'.",
+    "pos": "adj",
+    "def": "Shared by all members of a group, or occurring frequently and not unusual; ordinary.",
     "reviewed": true
   },
   "conac": {
@@ -3977,14 +3977,14 @@
   },
   "conde": {
     "display": "conde",
-    "d": 0.32,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A European nobleman ranking above a viscount and below a marquis, equivalent to an English earl.",
     "reviewed": true
   },
   "conga": {
     "display": "conga",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A lively Cuban dance performed in a line, or a tall, narrow drum played with the hands.",
     "reviewed": true
@@ -4056,19 +4056,19 @@
     "display": "coral",
     "d": 0.65,
     "pos": "noun",
-    "def": "A hard stony substance formed by marine coelenterate skeletons.",
+    "def": "A hard, stony substance formed by the skeletons of tiny marine animals, often creating reefs in warm seas.",
     "reviewed": true
   },
   "coran": {
     "display": "corán",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The central religious text of Islam, believed by Muslims to be a revelation from God.",
     "reviewed": true
   },
   "coros": {
     "display": "coros",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Organized groups of singers, typically performing in churches or concerts, or the refrains of songs.",
     "reviewed": true
@@ -4103,7 +4103,7 @@
   },
   "corse": {
     "display": "corsé",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A close-fitting undergarment, often reinforced with stays, worn to shape and support the torso.",
     "reviewed": true
@@ -4112,7 +4112,7 @@
     "display": "corso",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being corsican.",
+    "def": "Relating to Corsica, its people, or its language; a native or inhabitant of Corsica.",
     "reviewed": true
   },
   "corta": {
@@ -4188,15 +4188,15 @@
   "crazy": {
     "display": "crazy",
     "d": 0.35,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Mentally deranged, extremely foolish, or wildly enthusiastic about something.",
     "reviewed": true
   },
   "crean": {
     "display": "crean",
     "d": 0.52,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "They create, make, or bring something into existence (third-person plural present of crear).",
     "reviewed": true
   },
   "crear": {
@@ -4278,7 +4278,7 @@
   },
   "creta": {
     "display": "creta",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A soft white limestone used for writing on blackboards.",
     "reviewed": true
@@ -4327,7 +4327,7 @@
   },
   "cromo": {
     "display": "cromo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A hard, silvery-white metallic element used in alloys and for plating, or a collectible sticker or card.",
     "reviewed": true
@@ -4362,9 +4362,9 @@
   },
   "cruel": {
     "display": "cruel",
-    "d": 0.31,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.65,
+    "pos": "adj",
+    "def": "Causing pain or suffering to others, or showing indifference to their pain; merciless.",
     "reviewed": true
   },
   "cruza": {
@@ -4503,8 +4503,8 @@
   "cunda": {
     "display": "cunda",
     "d": 0.95,
-    "pos": "noun",
-    "def": "vehicle that charges money to ride drug addicts to places where they can buy and consume illegal drugs.",
+    "pos": "verb",
+    "def": "May spread, extend, or yield abundantly (third-person singular present subjunctive of cundir).",
     "reviewed": true
   },
   "cuota": {
@@ -4531,8 +4531,8 @@
   "curar": {
     "display": "curar",
     "d": 0.51,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'care for, cure, treat, heal, remedy'.",
+    "pos": "verb",
+    "def": "To heal or restore to health, or to treat an illness or injury.",
     "reviewed": true
   },
   "curas": {
@@ -4544,7 +4544,7 @@
   },
   "curen": {
     "display": "curen",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "That they heal, cure, or treat an illness or injury (third-person plural present subjunctive of curar).",
     "reviewed": true
@@ -4558,7 +4558,7 @@
   },
   "curry": {
     "display": "curry",
-    "d": 0.82,
+    "d": 0.65,
     "pos": "noun",
     "def": "A dish of meat, fish, or vegetables cooked in a sauce with a mixture of spices, originating from South Asia.",
     "reviewed": true
@@ -4586,23 +4586,23 @@
   },
   "cutis": {
     "display": "cutis",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The outer layer of a person's or animal's body, specifically referring to the complexion or skin of the face.",
     "reviewed": true
   },
   "cutre": {
     "display": "cutre",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
-    "def": "Lacking sufficient money to live at a standard considered comfortable.",
+    "def": "Shabby, cheap, or stingy; lacking in quality or generosity.",
     "reviewed": true
   },
   "cuyas": {
     "display": "cuyas",
     "d": 0.93,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Whose or of which (feminine plural possessive pronoun or adjective).",
     "reviewed": true
   },
   "cuyos": {
@@ -4629,8 +4629,8 @@
   "dadas": {
     "display": "dadas",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Given, provided, or presented (feminine plural past participle of dar).",
     "reviewed": true
   },
   "dados": {
@@ -4684,9 +4684,9 @@
   },
   "dance": {
     "display": "dance",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A series of steps and movements performed to music, often for enjoyment or as a form of art.",
     "reviewed": true
   },
   "dandi": {
@@ -4712,9 +4712,9 @@
   },
   "danes": {
     "display": "danés",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Danish, Dane'.",
+    "d": 0.65,
+    "pos": "adj",
+    "def": "Relating to Denmark, its people, or its language; a native or inhabitant of Denmark.",
     "reviewed": true
   },
   "danos": {
@@ -4747,7 +4747,7 @@
   },
   "dardo": {
     "display": "dardo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A small, pointed missile, often feathered, thrown by hand as a weapon or in a game.",
     "reviewed": true
@@ -4777,7 +4777,7 @@
     "display": "debas",
     "d": 0.57,
     "pos": "verb",
-    "def": "That you should, must, or owe something (second-person singular present subjunctive of deber).",
+    "def": "You should, must, or owe (second-person singular present subjunctive of deber).",
     "reviewed": true
   },
   "deben": {
@@ -4937,8 +4937,8 @@
   "denso": {
     "display": "denso",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Closely compacted in substance; having parts crowded together, or difficult to penetrate.",
     "reviewed": true
   },
   "desde": {
@@ -5020,7 +5020,7 @@
   },
   "dicta": {
     "display": "dicta",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "He/she/it dictates, commands, or pronounces something for others to write down (third-person singular present of dictar).",
     "reviewed": true
@@ -5043,7 +5043,7 @@
     "display": "diese",
     "d": 0.82,
     "pos": "verb",
-    "def": "first/third-person singular imperfect subjunctive of dar.",
+    "def": "Would give or might give (first or third-person singular imperfect subjunctive of dar).",
     "reviewed": true
   },
   "dieta": {
@@ -5078,7 +5078,7 @@
     "display": "digno",
     "d": 0.47,
     "pos": "adj",
-    "def": "Characterized by being worthy.",
+    "def": "Deserving of respect or esteem; having or showing a composed or serious manner.",
     "reviewed": true
   },
   "dimos": {
@@ -5097,7 +5097,7 @@
   },
   "dique": {
     "display": "dique",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A wall or embankment built to prevent flooding from a river, lake, or sea; a levee.",
     "reviewed": true
@@ -5139,7 +5139,7 @@
   },
   "divan": {
     "display": "diván",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A long, backless sofa or couch, often without arms, used for reclining or seating multiple people.",
     "reviewed": true
@@ -5169,14 +5169,14 @@
     "display": "dócil",
     "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being docile.",
+    "def": "Easily managed or taught; submissive and obedient, especially of an animal or person.",
     "reviewed": true
   },
   "dolan": {
     "display": "dolan",
     "d": 0.95,
     "pos": "verb",
-    "def": "Conjugated form of the verb dolar; Denoting dollar.",
+    "def": "They fold or bend something, typically paper or cloth (third-person plural present of dolar).",
     "reviewed": true
   },
   "dolar": {
@@ -5218,7 +5218,7 @@
     "display": "domar",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to tame.",
+    "def": "To tame an animal, bringing it under control and making it obedient.",
     "reviewed": true
   },
   "donar": {
@@ -5253,7 +5253,7 @@
     "display": "donut",
     "d": 0.95,
     "pos": "noun",
-    "def": "alternative form of dónut ().",
+    "def": "A small, fried cake of sweetened dough, typically in the shape of a ring or a filled pastry.",
     "reviewed": true
   },
   "dormi": {
@@ -5279,7 +5279,7 @@
   },
   "dotes": {
     "display": "dotes",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Natural abilities, talents, or qualities that a person possesses. It can also refer to a dowry (plural of dote).",
     "reviewed": true
@@ -5288,7 +5288,7 @@
     "display": "draft",
     "d": 0.95,
     "pos": "noun",
-    "def": "A preliminary version of a piece of writing or a cool breeze.",
+    "def": "A preliminary version of a document or a current of air in an enclosed space.",
     "reviewed": true
   },
   "drago": {
@@ -5323,7 +5323,7 @@
     "display": "drone",
     "d": 0.95,
     "pos": "noun",
-    "def": "alternative form of dron.",
+    "def": "An unmanned aerial vehicle, often controlled remotely, used for various purposes like surveillance or delivery.",
     "reviewed": true
   },
   "ducha": {
@@ -5364,15 +5364,15 @@
   "dudes": {
     "display": "dudes",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "That you (informal singular) doubt, question, or are uncertain about something (second-person singular present subjunctive of dudar).",
     "reviewed": true
   },
   "duela": {
     "display": "duela",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "It hurts or pains someone; that it hurts or causes pain (third-person singular present indicative or present subjunctive of doler).",
     "reviewed": true
   },
   "duele": {
@@ -5386,7 +5386,7 @@
     "display": "duelo",
     "d": 0.49,
     "pos": "noun",
-    "def": "A state of intense sorrow, especially caused by the death of a loved one; grief. Also, a formal combat.",
+    "def": "A formal fight or combat between two people, often with weapons; also, a state of grief or mourning.",
     "reviewed": true
   },
   "duena": {
@@ -5468,14 +5468,14 @@
   },
   "ebola": {
     "display": "ébola",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A severe and often fatal disease in humans and other primates, caused by infection with Ebola virus.",
     "reviewed": true
   },
   "ebria": {
     "display": "ebria",
-    "d": 0.93,
+    "d": 0.82,
     "pos": "adj",
     "def": "feminine singular of ebrio.",
     "reviewed": true
@@ -5489,7 +5489,7 @@
   },
   "echad": {
     "display": "echad",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Throw, cast, or pour something (second-person plural imperative of echar).",
     "reviewed": true
@@ -5498,7 +5498,7 @@
     "display": "echan",
     "d": 0.65,
     "pos": "verb",
-    "def": "They throw, cast, or pour something, or they expel (third-person plural present of echar).",
+    "def": "They throw, cast, or pour something; they expel or dismiss someone (third-person plural present indicative of echar).",
     "reviewed": true
   },
   "echar": {
@@ -5531,7 +5531,7 @@
   },
   "edema": {
     "display": "edema",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A condition characterized by an excess of watery fluid accumulating in the cavities or tissues of the body.",
     "reviewed": true
@@ -5540,7 +5540,7 @@
     "display": "élder",
     "d": 0.95,
     "pos": "noun",
-    "def": "Of greater age or senior status in a community or family.",
+    "def": "A person of greater age or senior status, often holding a position of authority or respect in a community or church.",
     "reviewed": true
   },
   "elegi": {
@@ -5566,7 +5566,7 @@
   },
   "elfos": {
     "display": "elfos",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Mythical, supernatural beings often depicted as small, human-like creatures with pointed ears, possessing magical powers (plural of \"elfo\").",
     "reviewed": true
@@ -5601,23 +5601,23 @@
   },
   "elite": {
     "display": "elite",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A select group of people who are superior in terms of ability, wealth, or power within a society.",
     "reviewed": true
   },
   "ellas": {
     "display": "ellas",
     "d": 0.13,
     "pos": "noun",
-    "def": "Plural form; multiple instances of 'her, she'.",
+    "def": "The feminine plural pronoun, referring to a group of two or more females (feminine plural pronoun).",
     "reviewed": true
   },
   "ellos": {
     "display": "ellos",
     "d": 0.05,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The masculine plural pronoun, referring to a group of two or more males or mixed gender (masculine plural pronoun).",
     "reviewed": true
   },
   "email": {
@@ -5636,7 +5636,7 @@
   },
   "emita": {
     "display": "emita",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "That I/he/she/it emit, issue, or send out something (first/third-person singular present subjunctive of emitir).",
     "reviewed": true
@@ -5650,7 +5650,7 @@
   },
   "enana": {
     "display": "enana",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "female equivalent of enano: female dwarf.",
     "reviewed": true
@@ -5659,12 +5659,12 @@
     "display": "enano",
     "d": 0.56,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A person of unusually small stature; also, something that is very small or dwarfed in size.",
     "reviewed": true
   },
   "enema": {
     "display": "enema",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A procedure in which liquid or gas is injected into the rectum, typically to stimulate bowel movement or administer medication.",
     "reviewed": true
@@ -5749,15 +5749,15 @@
   "epico": {
     "display": "épico",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to or characteristic of an epic poem; grand, heroic, or impressive in scale or nature.",
     "reviewed": true
   },
   "epoca": {
     "display": "época",
     "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A particular period of time in history or a person's life, often marked by specific events or characteristics.",
     "reviewed": true
   },
   "equis": {
@@ -5785,7 +5785,7 @@
     "display": "errar",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to miss.",
+    "def": "To make a mistake or be incorrect; also, to miss a target or fail to hit something (infinitive verb).",
     "reviewed": true
   },
   "error": {
@@ -5797,7 +5797,7 @@
   },
   "esnob": {
     "display": "esnob",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A person who believes that their tastes in art, fashion, or culture are superior to those of others.",
     "reviewed": true
@@ -5853,7 +5853,7 @@
   },
   "ester": {
     "display": "éster",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "An organic compound derived from an acid (organic or inorganic) in which at least one hydroxyl group is replaced by an alkoxy group.",
     "reviewed": true
@@ -5889,8 +5889,8 @@
   "etico": {
     "display": "ético",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to moral principles or the branch of knowledge dealing with these; morally good or correct.",
     "reviewed": true
   },
   "euros": {
@@ -5952,20 +5952,20 @@
   "extra": {
     "display": "extra",
     "d": 0.24,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'additional, extra'.",
+    "pos": "adj",
+    "def": "Something additional or beyond what is usual, necessary, or expected; an additional item or cost.",
     "reviewed": true
   },
   "facil": {
     "display": "fácil",
-    "d": 0.63,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'easy, facile'.",
+    "d": 0.35,
+    "pos": "adj",
+    "def": "Achieved without great effort; presenting no difficulty; also, a person who is easily persuaded or influenced.",
     "reviewed": true
   },
   "faena": {
     "display": "faena",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A specific piece of work, a chore, or a duty that needs to be done, often implying effort.",
     "reviewed": true
@@ -5986,7 +5986,7 @@
   },
   "falle": {
     "display": "falle",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "May fail, might fail, or that I/he/she/it fail to succeed or make a mistake (first/third-person singular present subjunctive of fallar).",
     "reviewed": true
@@ -6035,14 +6035,14 @@
   },
   "fango": {
     "display": "fango",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Soft, wet earth or dirt, often found at the bottom of a body of water or after rain.",
     "reviewed": true
   },
   "fardo": {
     "display": "fardo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large, tightly wrapped bundle of raw or finished material, such as hay, cotton, or paper.",
     "reviewed": true
@@ -6085,13 +6085,13 @@
   "fatal": {
     "display": "fatal",
     "d": 0.39,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'fateful, ill‐fated'.",
+    "pos": "adj",
+    "def": "Causing death; leading to disaster or failure; also, relating to or determined by fate.",
     "reviewed": true
   },
   "fauna": {
     "display": "fauna",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The animals of a particular region, habitat, or geological period, collectively considered as a group.",
     "reviewed": true
@@ -6100,7 +6100,7 @@
     "display": "favor",
     "d": 0.05,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'favor, favour'.",
+    "def": "An act of kindness or a service performed for someone; also, approval or support for something.",
     "reviewed": true
   },
   "fecha": {
@@ -6119,7 +6119,7 @@
   },
   "femur": {
     "display": "fémur",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The long bone in the human leg extending from the hip to the knee, also known as the thigh bone.",
     "reviewed": true
@@ -6149,19 +6149,19 @@
     "display": "ferry",
     "d": 0.82,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A boat or ship used to transport passengers and often vehicles across a body of water, usually on a regular route.",
     "reviewed": true
   },
   "fetal": {
     "display": "fetal",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being fetal.",
+    "def": "Relating to a fetus or to the stage of development in the womb after the embryonic period.",
     "reviewed": true
   },
   "fibra": {
     "display": "fibra",
-    "d": 0.76,
+    "d": 0.65,
     "pos": "noun",
     "def": "A thread or filament from which a vegetable tissue or mineral is formed.",
     "reviewed": true
@@ -6175,7 +6175,7 @@
   },
   "fideo": {
     "display": "fideo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A strip, strand, or tube of pasta, typically made from unleavened dough and cooked in boiling water.",
     "reviewed": true
@@ -6189,7 +6189,7 @@
   },
   "fiero": {
     "display": "fiero",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Characterized by being wild.",
     "reviewed": true
@@ -6211,8 +6211,8 @@
   "fijas": {
     "display": "fijas",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Fixed, firm, or stable; not moving or changing; also, referring to things that are set in place (feminine plural adjective).",
     "reviewed": true
   },
   "fijen": {
@@ -6267,8 +6267,8 @@
   "final": {
     "display": "final",
     "d": 0.09,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'end, ending'.",
+    "pos": "adj",
+    "def": "Coming at the end of a series, process, or competition; also, the last part or conclusion of something.",
     "reviewed": true
   },
   "finas": {
@@ -6308,7 +6308,7 @@
   },
   "finja": {
     "display": "finja",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "May feign, might pretend, or that I/he/she/it simulate an emotion or state (first/third-person singular present subjunctive of fingir).",
     "reviewed": true
@@ -6337,8 +6337,8 @@
   "firme": {
     "display": "firme",
     "d": 0.29,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Solid, steady, or unyielding; not easily moved or shaken; also, resolute in purpose or conviction.",
     "reviewed": true
   },
   "firmo": {
@@ -6372,8 +6372,8 @@
   "floja": {
     "display": "floja",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Loose, slack, or not tight; also, lazy, weak, or lacking in energy or effort (feminine singular adjective).",
     "reviewed": true
   },
   "flojo": {
@@ -6415,7 +6415,7 @@
     "display": "fluir",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to flow.",
+    "def": "To move steadily and continuously in a stream or current, like a liquid or gas (infinitive verb).",
     "reviewed": true
   },
   "flujo": {
@@ -6427,7 +6427,7 @@
   },
   "fluya": {
     "display": "fluya",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "May flow, might flow, or that I/he/she/it move steadily and continuously (first/third-person singular present subjunctive of fluir).",
     "reviewed": true
@@ -6464,7 +6464,7 @@
     "display": "fonda",
     "d": 0.95,
     "pos": "noun",
-    "def": "Of a size that is less than normal or usual; little.",
+    "def": "A traditional, modest inn or small restaurant, especially one serving local cuisine, often found in rural areas.",
     "reviewed": true
   },
   "fondo": {
@@ -6483,7 +6483,7 @@
   },
   "forja": {
     "display": "forja",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "To make or shape a metal object by heating in a fire and hammering.",
     "reviewed": true
@@ -6492,12 +6492,12 @@
     "display": "forma",
     "d": 0.06,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The visible shape or configuration of something; also, a particular way in which something exists or appears.",
     "reviewed": true
   },
   "forme": {
     "display": "forme",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "That I, he, or she form, shape, or create something (first/third-person singular present subjunctive of formar).",
     "reviewed": true
@@ -6511,7 +6511,7 @@
   },
   "forro": {
     "display": "forro",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A layer of material that covers the inside surface of something, providing protection or decoration.",
     "reviewed": true
@@ -6525,7 +6525,7 @@
   },
   "fosas": {
     "display": "fosas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Deep pits, trenches, or hollows in the ground, often used for burial or as anatomical depressions (plural of fosa).",
     "reviewed": true
@@ -6554,8 +6554,8 @@
   "freir": {
     "display": "freír",
     "d": 0.35,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'fry'.",
+    "pos": "verb",
+    "def": "To cook food in hot fat or oil, typically until it is crispy or browned (infinitive verb).",
     "reviewed": true
   },
   "frena": {
@@ -6588,9 +6588,9 @@
   },
   "friki": {
     "display": "friki",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Someone who is obsessed with a particular hobby or interest, often considered unusual; a geek or a fan.",
     "reviewed": true
   },
   "frios": {
@@ -6632,7 +6632,7 @@
     "display": "fruta",
     "d": 0.44,
     "pos": "noun",
-    "def": "The sweet and fleshy product of a tree or other plant that contains seed.",
+    "def": "The sweet, fleshy product of a tree or other plant that contains seed and can be eaten.",
     "reviewed": true
   },
   "fruto": {
@@ -6679,7 +6679,7 @@
   },
   "fugaz": {
     "display": "fugaz",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Characterized by being fleeting.",
     "reviewed": true
@@ -6694,8 +6694,8 @@
   "fumar": {
     "display": "fumar",
     "d": 0.29,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'smoke'.",
+    "pos": "verb",
+    "def": "To inhale and exhale the smoke of tobacco or other substances, typically from a cigarette or cigar (infinitive verb).",
     "reviewed": true
   },
   "fumas": {
@@ -6716,7 +6716,7 @@
     "display": "fumes",
     "d": 0.95,
     "pos": "verb",
-    "def": "That you (informal singular) smoke tobacco or other substances (second-person singular present subjunctive of fumar).",
+    "def": "That you (informal singular) smoke tobacco or other substances, or that you emit smoke (second-person singular present subjunctive of fumar).",
     "reviewed": true
   },
   "funda": {
@@ -6735,7 +6735,7 @@
   },
   "fundo": {
     "display": "fundo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large rural property or estate, typically used for agriculture or as a country residence.",
     "reviewed": true
@@ -6744,7 +6744,7 @@
     "display": "funky",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being funky.",
+    "def": "Having a strong, often unpleasant, smell; also, stylish, modern, or unconventional in a lively way.",
     "reviewed": true
   },
   "furia": {
@@ -6763,7 +6763,7 @@
   },
   "fusil": {
     "display": "fusil",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A gun, especially one fired from shoulder level, having a rifled barrel.",
     "reviewed": true
@@ -6784,9 +6784,9 @@
   },
   "galan": {
     "display": "galán",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A charming and elegant man, often a leading actor in a play or film; a suitor or gallant.",
     "reviewed": true
   },
   "gales": {
@@ -6828,7 +6828,7 @@
     "display": "gamma",
     "d": 0.92,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The third letter of the Greek alphabet; also, a type of electromagnetic radiation (gamma ray).",
     "reviewed": true
   },
   "ganan": {
@@ -6889,14 +6889,14 @@
   },
   "garbo": {
     "display": "garbo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Simple elegance or refinement of movement, or courteous goodwill.",
     "reviewed": true
   },
   "garra": {
     "display": "garra",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A sharp, curved nail on the foot of an animal, especially a bird of prey or a carnivorous mammal.",
     "reviewed": true
@@ -6910,7 +6910,7 @@
   },
   "gasas": {
     "display": "gasas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Thin, translucent fabrics, often made of cotton, used for bandages, dressings, or delicate clothing (plural of gasa).",
     "reviewed": true
@@ -6968,7 +6968,7 @@
     "display": "gemir",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to wail.",
+    "def": "To make a low, mournful sound, typically expressing pain, grief, or distress; to moan or groan (infinitive verb).",
     "reviewed": true
   },
   "genes": {
@@ -6996,7 +6996,7 @@
     "display": "gente",
     "d": 0.05,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'people'.",
+    "def": "Human beings in general or a particular group of individuals; the collective body of persons.",
     "reviewed": true
   },
   "gesto": {
@@ -7071,14 +7071,14 @@
   },
   "goles": {
     "display": "goles",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Points scored in sports like soccer or hockey by getting the ball or puck into a net (plural of gol).",
     "reviewed": true
   },
   "golfa": {
     "display": "golfa",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "a slut, tramp, or whore.",
     "reviewed": true
@@ -7107,8 +7107,8 @@
   "gorda": {
     "display": "gorda",
     "d": 0.38,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Referring to a female person or animal that has a large amount of excess body fat; plump or overweight.",
     "reviewed": true
   },
   "gordo": {
@@ -7148,7 +7148,7 @@
   },
   "goteo": {
     "display": "goteo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The slow, steady fall of liquid in drops, often referring to a leak or a medical intravenous infusion.",
     "reviewed": true
@@ -7220,7 +7220,7 @@
     "display": "grato",
     "d": 0.65,
     "pos": "adj",
-    "def": "Characterized by being grateful.",
+    "def": "Pleasant, agreeable, or delightful, often causing a feeling of satisfaction or gratitude.",
     "reviewed": true
   },
   "grava": {
@@ -7233,8 +7233,8 @@
   "grave": {
     "display": "grave",
     "d": 0.22,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'important, serious, court, yard, courtyard, alarming, grave'.",
+    "pos": "adj",
+    "def": "Very serious or important, often implying danger, difficulty, or a significant impact.",
     "reviewed": true
   },
   "green": {
@@ -7246,7 +7246,7 @@
   },
   "grial": {
     "display": "grial",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A legendary cup or chalice, especially the Holy Grail, sought by knights in medieval legends, representing a noble quest.",
     "reviewed": true
@@ -7309,7 +7309,7 @@
   },
   "gruta": {
     "display": "gruta",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A natural or artificial cave, often small and picturesque, found in gardens, parks, or as a natural geological formation.",
     "reviewed": true
@@ -7317,8 +7317,8 @@
   "guapa": {
     "display": "guapa",
     "d": 0.25,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Referring to a female who is attractive, beautiful, or handsome in appearance.",
     "reviewed": true
   },
   "guapo": {
@@ -7330,7 +7330,7 @@
   },
   "gueto": {
     "display": "gueto",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A part of a city, especially a slum area, occupied by a minority group or groups, often due to social or economic pressure.",
     "reviewed": true
@@ -7414,7 +7414,7 @@
   },
   "habas": {
     "display": "habas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Edible seeds from the broad bean plant, typically large and flat, often cooked and eaten as a vegetable.",
     "reviewed": true
@@ -7435,7 +7435,7 @@
   },
   "habil": {
     "display": "hábil",
-    "d": 0.76,
+    "d": 0.65,
     "pos": "adj",
     "def": "Characterized by being able, capable.",
     "reviewed": true
@@ -7514,7 +7514,7 @@
     "display": "hache",
     "d": 0.35,
     "pos": "noun",
-    "def": "A word or phrase by which a person, place, or thing is designated.",
+    "def": "The eighth letter of the Spanish alphabet, which is typically silent.",
     "reviewed": true
   },
   "hacia": {
@@ -7528,7 +7528,7 @@
     "display": "hadar",
     "d": 0.95,
     "pos": "verb",
-    "def": "to determine by fate.",
+    "def": "To determine or influence the destiny or future of someone or something, often by supernatural forces.",
     "reviewed": true
   },
   "hadas": {
@@ -7569,13 +7569,13 @@
   "hallo": {
     "display": "hallo",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "I find, discover, or locate something (first-person singular present indicative of hallar).",
     "reviewed": true
   },
   "hampa": {
     "display": "hampa",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The criminal underworld or organized crime, referring to a community of criminals and their activities.",
     "reviewed": true
@@ -7596,7 +7596,7 @@
   },
   "haren": {
     "display": "harén",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A separate part of a Muslim household reserved for women, or the women themselves living in such a household.",
     "reviewed": true
@@ -7617,7 +7617,7 @@
   },
   "harte": {
     "display": "harté",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "I satiated, fed up, or bored someone; I got fed up or tired (first-person singular preterite of hartar).",
     "reviewed": true
@@ -7645,7 +7645,7 @@
   },
   "hayas": {
     "display": "hayas",
-    "d": 0.17,
+    "d": 0.65,
     "pos": "noun",
     "def": "Deciduous trees known for their smooth, gray bark and hard wood, often found in temperate forests.",
     "reviewed": true
@@ -7653,8 +7653,8 @@
   "heavy": {
     "display": "heavy",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Referring to something that is of great weight, difficult to lift, or intense in nature, often used colloquially.",
     "reviewed": true
   },
   "heces": {
@@ -7666,9 +7666,9 @@
   },
   "hecha": {
     "display": "hecha",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.35,
+    "pos": "adj",
+    "def": "Completed, finished, or made; referring to something that has been done or created (feminine past participle of hacer).",
     "reviewed": true
   },
   "hecho": {
@@ -7687,7 +7687,7 @@
   },
   "helio": {
     "display": "helio",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A light, colorless, odorless, inert gaseous element, often used to inflate balloons and in scientific research.",
     "reviewed": true
@@ -7709,8 +7709,8 @@
   "herir": {
     "display": "herir",
     "d": 0.58,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'hurt, wound'.",
+    "pos": "verb",
+    "def": "To cause physical injury or emotional pain to someone or something; to wound or hurt.",
     "reviewed": true
   },
   "heroe": {
@@ -7729,7 +7729,7 @@
   },
   "hiena": {
     "display": "hiena",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A carnivorous mammal native to Africa and Asia, known for its distinctive laugh-like call and scavenging habits.",
     "reviewed": true
@@ -7869,7 +7869,7 @@
   },
   "horda": {
     "display": "horda",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large, unorganized group of people, often moving together in a chaotic or unruly manner; a nomadic tribe.",
     "reviewed": true
@@ -7905,8 +7905,8 @@
   "hueca": {
     "display": "hueca",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Referring to a female or feminine object that is hollow, empty inside, or lacking substance.",
     "reviewed": true
   },
   "hueco": {
@@ -7988,7 +7988,7 @@
   },
   "hunda": {
     "display": "hunda",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "That I/he/she/it sinks or submerges; causes something to go below the surface (first/third-person singular present subjunctive of hundir).",
     "reviewed": true
@@ -8030,7 +8030,7 @@
   },
   "hurto": {
     "display": "hurto",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The act of stealing property without the use of violence or intimidation, a form of larceny.",
     "reviewed": true
@@ -8052,8 +8052,8 @@
   "huyen": {
     "display": "huyen",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "They flee, escape, or run away from a dangerous or unpleasant situation (third-person plural present indicative of huir).",
     "reviewed": true
   },
   "huyes": {
@@ -8080,8 +8080,8 @@
   "ideal": {
     "display": "ideal",
     "d": 0.41,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'ideal'.",
+    "pos": "adj",
+    "def": "Perfect or excellent; representing the best possible standard or a desirable model.",
     "reviewed": true
   },
   "idear": {
@@ -8108,13 +8108,13 @@
   "igual": {
     "display": "igual",
     "d": 0.08,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'equal, even, level'.",
+    "pos": "adj",
+    "def": "Being the same in quantity, size, degree, value, or status as another; identical or equivalent.",
     "reviewed": true
   },
   "ilesa": {
     "display": "ilesa",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Feminine of ileso; unhurt and free from injury or damage (unharmed).",
     "reviewed": true
@@ -8142,7 +8142,7 @@
   },
   "incas": {
     "display": "incas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Members of the ancient South American indigenous people whose empire flourished in Peru before the Spanish conquest.",
     "reviewed": true
@@ -8150,15 +8150,15 @@
   "india": {
     "display": "india",
     "d": 0.26,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'India'.",
+    "pos": "adj",
+    "def": "Referring to a female person or thing from India, or related to the indigenous peoples of the Americas.",
     "reviewed": true
   },
   "indio": {
     "display": "indio",
     "d": 0.42,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Indian, RedIndian'.",
+    "pos": "adj",
+    "def": "Referring to a male person or thing from India, or related to the indigenous peoples of the Americas.",
     "reviewed": true
   },
   "infla": {
@@ -8177,23 +8177,23 @@
   },
   "insto": {
     "display": "insto",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Conjugated form of the verb instar; insist.",
     "reviewed": true
   },
   "iones": {
     "display": "iones",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Atoms or molecules that have gained or lost electrons, resulting in a net electrical charge.",
     "reviewed": true
   },
   "irani": {
     "display": "iraní",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being iranian.",
+    "def": "Pertaining to or originating from Iran, its culture, or its people.",
     "reviewed": true
   },
   "ireis": {
@@ -8263,7 +8263,7 @@
     "display": "jalar",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to pull.",
+    "def": "To pull, tug, or draw something towards oneself or in a particular direction.",
     "reviewed": true
   },
   "jalea": {
@@ -8275,14 +8275,14 @@
   },
   "jalen": {
     "display": "jalen",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "That they pull or tug; that they exert force to move something towards themselves (third-person plural present subjunctive of jalar).",
+    "def": "They pull or tug; they exert force to move something towards themselves (third-person plural present subjunctive of jalar).",
     "reviewed": true
   },
   "jaleo": {
     "display": "jaleo",
-    "d": 0.91,
+    "d": 0.65,
     "pos": "noun",
     "def": "A noisy and disorderly disturbance, often involving shouting or commotion; a ruckus or uproar.",
     "reviewed": true
@@ -8303,16 +8303,16 @@
   },
   "japon": {
     "display": "japón",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Japan'.",
+    "def": "An East Asian island nation known for its unique culture, technology, and history.",
     "reviewed": true
   },
   "jaque": {
     "display": "jaque",
     "d": 0.87,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A direct attack on the king in chess, threatening its capture; also, a difficult situation or challenge.",
     "reviewed": true
   },
   "jarra": {
@@ -8359,14 +8359,14 @@
   },
   "jerez": {
     "display": "jerez",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A fortified wine originally from Jerez de la Frontera in Andalusia, Spain, typically served as an aperitif.",
     "reviewed": true
   },
   "jerga": {
     "display": "jerga",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Specialized vocabulary or expressions used by a particular profession or group, often difficult for outsiders to understand; slang.",
     "reviewed": true
@@ -8374,8 +8374,8 @@
   "jodan": {
     "display": "jodan",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "They annoy, bother, or mess with someone; a vulgar term for sexual intercourse (third-person plural present subjunctive of joder).",
     "reviewed": true
   },
   "jodas": {
@@ -8394,9 +8394,9 @@
   },
   "joder": {
     "display": "joder",
-    "d": 0.16,
+    "d": 0.65,
     "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "def": "To annoy, bother, or mess with someone; a vulgar verb for sexual intercourse or to express frustration.",
     "reviewed": true
   },
   "jodes": {
@@ -8431,7 +8431,7 @@
     "display": "judía",
     "d": 0.61,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'haricot'.",
+    "def": "A green bean or string bean, a common vegetable; also, a Jewish woman (feminine noun).",
     "reviewed": true
   },
   "judio": {
@@ -8487,7 +8487,7 @@
     "display": "jumbo",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being jumbo.",
+    "def": "Exceptionally large in size, often referring to aircraft, products, or portions.",
     "reviewed": true
   },
   "junco": {
@@ -8585,7 +8585,7 @@
     "display": "kappa",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The tenth letter of the Greek alphabet, often used in scientific or mathematical contexts.",
     "reviewed": true
   },
   "karma": {
@@ -8604,7 +8604,7 @@
   },
   "kebab": {
     "display": "kebab",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A dish of pieces of meat, fish, or vegetables roasted or grilled on a skewer, often served with pita bread.",
     "reviewed": true
@@ -8731,13 +8731,13 @@
   "largo": {
     "display": "largo",
     "d": 0.12,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'long'.",
+    "pos": "adj",
+    "def": "Having considerable extent from end to end; not short; also, a slow musical tempo.",
     "reviewed": true
   },
   "larva": {
     "display": "larva",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The immature, wingless, and often wormlike form of an insect after hatching from an egg.",
     "reviewed": true
@@ -8765,14 +8765,14 @@
   },
   "latia": {
     "display": "latía",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "first/third-person singular imperfect indicative of latir.",
     "reviewed": true
   },
   "latin": {
     "display": "latín",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The ancient Italic language spoken in the Roman Empire, which is the ancestor of the Romance languages.",
     "reviewed": true
@@ -8786,7 +8786,7 @@
   },
   "laton": {
     "display": "latón",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A yellow alloy of copper and zinc used in instruments.",
     "reviewed": true
@@ -8871,8 +8871,8 @@
   "legal": {
     "display": "legal",
     "d": 0.27,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Permitted by law; relating to the law or the legal system; lawful.",
     "reviewed": true
   },
   "legua": {
@@ -8891,7 +8891,7 @@
   },
   "leido": {
     "display": "leído",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Characterized by being well-read.",
     "reviewed": true
@@ -8906,8 +8906,8 @@
   "lejos": {
     "display": "lejos",
     "d": 0.1,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'away, afar, far, far away, remotely'.",
+    "pos": "adv",
+    "def": "At or to a great distance; far away in space or time.",
     "reviewed": true
   },
   "lenta": {
@@ -8940,7 +8940,7 @@
   },
   "lepra": {
     "display": "lepra",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A chronic infectious disease caused by bacteria, primarily affecting the skin, nerves, and respiratory tract.",
     "reviewed": true
@@ -8948,8 +8948,8 @@
   "letal": {
     "display": "letal",
     "d": 0.67,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Causing or capable of causing death; deadly or fatal.",
     "reviewed": true
   },
   "letra": {
@@ -8976,8 +8976,8 @@
   "liada": {
     "display": "liada",
     "d": 0.95,
-    "pos": "verb",
-    "def": "feminine singular of liado.",
+    "pos": "adj",
+    "def": "Entangled, complicated, or involved in a difficult situation; also, a mess or predicament (feminine past participle of liar).",
     "reviewed": true
   },
   "liado": {
@@ -8990,8 +8990,8 @@
   "libia": {
     "display": "libia",
     "d": 0.95,
-    "pos": "noun",
-    "def": "female equivalent of libio.",
+    "pos": "adj",
+    "def": "Pertaining to or originating from Libya, its culture, or its people (feminine form).",
     "reviewed": true
   },
   "libra": {
@@ -9004,8 +9004,8 @@
   "libre": {
     "display": "libre",
     "d": 0.11,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Not under the control of another; able to act or choose as one wishes; free.",
     "reviewed": true
   },
   "libro": {
@@ -9017,16 +9017,16 @@
   },
   "liceo": {
     "display": "liceo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "Extending far upward from the ground; of great vertical extent.",
+    "def": "A type of secondary school, often a high school or grammar school, especially in some European and Latin American countries.",
     "reviewed": true
   },
   "licor": {
     "display": "licor",
     "d": 0.5,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'liqueur'.",
+    "def": "An alcoholic beverage, typically distilled and often sweetened or flavored; liquor.",
     "reviewed": true
   },
   "lider": {
@@ -9038,7 +9038,7 @@
   },
   "lidia": {
     "display": "lidia",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The act or art of bullfighting, specifically referring to the handling and fighting of bulls in a bullring.",
     "reviewed": true
@@ -9059,16 +9059,16 @@
   },
   "light": {
     "display": "light",
-    "d": 0.84,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.35,
+    "pos": "adj",
+    "def": "Having little weight; not heavy; also, low in calories or intensity, often used in product names.",
     "reviewed": true
   },
   "ligue": {
     "display": "ligue",
     "d": 0.95,
     "pos": "noun",
-    "def": "cruising or gay sex.",
+    "def": "A flirtation, a casual romantic encounter, or a brief relationship; a hookup.",
     "reviewed": true
   },
   "lilas": {
@@ -9087,21 +9087,21 @@
   },
   "limbo": {
     "display": "limbo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "An uncertain or intermediate state or place, especially one of neglect or oblivion; a state of suspension.",
     "reviewed": true
   },
   "limon": {
     "display": "limón",
-    "d": 0.57,
+    "d": 0.35,
     "pos": "noun",
     "def": "A yellow, oval citrus fruit with thick skin and fragrant, acid juice.",
     "reviewed": true
   },
   "lince": {
     "display": "lince",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A wild cat with a short tail, tufted ears, and often spotted fur, known for its keen eyesight.",
     "reviewed": true
@@ -9157,7 +9157,7 @@
   },
   "litio": {
     "display": "litio",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A soft, silvery-white alkali metal, the lightest of all metals, used in batteries and certain medications.",
     "reviewed": true
@@ -9180,7 +9180,7 @@
     "display": "llama",
     "d": 0.08,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'flame'.",
+    "def": "A visible, gaseous part of a fire; a flame. Also, a South American camelid animal.",
     "reviewed": true
   },
   "llame": {
@@ -9290,7 +9290,7 @@
   },
   "lobby": {
     "display": "lobby",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A room or area inside the entrance of a public building, serving as a waiting area or reception.",
     "reviewed": true
@@ -9305,8 +9305,8 @@
   "local": {
     "display": "local",
     "d": 0.23,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Pertaining to a particular area, neighborhood, or place; not widespread or general.",
     "reviewed": true
   },
   "locas": {
@@ -9325,7 +9325,7 @@
   },
   "logia": {
     "display": "logia",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A local branch of a fraternal organization, such as Freemasons, or a meeting place for such a group.",
     "reviewed": true
@@ -9362,7 +9362,7 @@
     "display": "longo",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being long.",
+    "def": "Having considerable extent from one end to the other; not short, often referring to physical length or duration.",
     "reviewed": true
   },
   "looks": {
@@ -9376,7 +9376,7 @@
     "display": "lores",
     "d": 0.95,
     "pos": "noun",
-    "def": "Individuals holding positions of power, authority, or nobility, often used as a title of respect; lords.",
+    "def": "Individuals holding positions of power, authority, or nobility, often used as a title of respect (plural of lor, meaning lord).",
     "reviewed": true
   },
   "loros": {
@@ -9395,7 +9395,7 @@
   },
   "lucen": {
     "display": "lucen",
-    "d": 0.87,
+    "d": 0.65,
     "pos": "verb",
     "def": "They shine, display, or look good (third-person plural present of lucir).",
     "reviewed": true
@@ -9460,7 +9460,7 @@
     "display": "lugar",
     "d": 0.05,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'inducement, occasion, motive, account, reason'.",
+    "def": "A specific position, point, or area in space, or a particular position in a sequence or order.",
     "reviewed": true
   },
   "lujos": {
@@ -9473,8 +9473,8 @@
   "lunar": {
     "display": "lunar",
     "d": 0.6,
-    "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "pos": "adj",
+    "def": "Relating to, resembling, or associated with the moon, or caused by the moon's influence.",
     "reviewed": true
   },
   "lunas": {
@@ -9493,7 +9493,7 @@
   },
   "lupus": {
     "display": "lupus",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A chronic autoimmune disease that can affect various parts of the body, including skin, joints, and organs.",
     "reviewed": true
@@ -9507,7 +9507,7 @@
   },
   "luzco": {
     "display": "luzco",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I shine, display, or look good (first-person singular present of lucir).",
     "reviewed": true
@@ -9515,8 +9515,8 @@
   "macho": {
     "display": "macho",
     "d": 0.45,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Referring to the male sex or exhibiting characteristics traditionally associated with men, such as strength or aggression.",
     "reviewed": true
   },
   "madre": {
@@ -9535,7 +9535,7 @@
   },
   "mafia": {
     "display": "mafia",
-    "d": 0.47,
+    "d": 0.65,
     "pos": "noun",
     "def": "An organized crime syndicate, particularly one originating in Sicily, known for its secret operations and illicit activities.",
     "reviewed": true
@@ -9549,14 +9549,14 @@
   },
   "magma": {
     "display": "magma",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Molten rock material found beneath the Earth's surface, which can erupt as lava from volcanoes.",
     "reviewed": true
   },
   "magna": {
     "display": "magna",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "feminine singular of magno.",
     "reviewed": true
@@ -9593,7 +9593,7 @@
     "display": "males",
     "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Harmful or undesirable conditions, misfortunes, or illnesses (plural of mal).",
     "reviewed": true
   },
   "malla": {
@@ -9614,7 +9614,7 @@
     "display": "mamar",
     "d": 0.95,
     "pos": "verb",
-    "def": "To engage in the action of to suckle.",
+    "def": "To feed a baby or young animal from the breast or udder; to suck.",
     "reviewed": true
   },
   "mamas": {
@@ -9635,12 +9635,12 @@
     "display": "mamón",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being sucking.",
+    "def": "Relating to the act of sucking, or describing someone who is naive or easily fooled.",
     "reviewed": true
   },
   "mamut": {
     "display": "mamut",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An extinct, large, hairy elephant-like mammal with long curved tusks, that lived during the Ice Age.",
     "reviewed": true
@@ -9677,21 +9677,21 @@
     "display": "manga",
     "d": 0.63,
     "pos": "noun",
-    "def": "The part of a garment that covers the arm, or a type of Japanese comic book or graphic novel.",
+    "def": "The part of a garment that covers the arm, or a type of Japanese comic book.",
     "reviewed": true
   },
   "mango": {
     "display": "mango",
     "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A tropical fruit with a large pit and sweet, yellowish-orange flesh, or the handle of a tool.",
     "reviewed": true
   },
   "mania": {
     "display": "manía",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "An excessive enthusiasm or desire for something, often to an unhealthy degree; an obsession or habit.",
     "reviewed": true
   },
   "manos": {
@@ -9717,7 +9717,7 @@
   },
   "manto": {
     "display": "manto",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An outdoor overgarment, typically sleeveless, that hangs loosely.",
     "reviewed": true
@@ -9761,7 +9761,7 @@
     "display": "mares",
     "d": 0.65,
     "pos": "noun",
-    "def": "Plural form; multiple instances of 'sea'.",
+    "def": "Large bodies of saltwater that cover most of the Earth's surface (plural of mar).",
     "reviewed": true
   },
   "marga": {
@@ -9789,7 +9789,7 @@
     "display": "marzo",
     "d": 0.46,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'March'.",
+    "def": "The third month of the year in the Gregorian calendar, following February and preceding April.",
     "reviewed": true
   },
   "masas": {
@@ -9857,7 +9857,7 @@
   },
   "mayas": {
     "display": "mayas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Relating to an ancient Mesoamerican civilization known for its advanced writing, art, architecture, and mathematical systems (plural adjective).",
     "reviewed": true
@@ -9878,14 +9878,14 @@
   },
   "meado": {
     "display": "meado",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Urinated or having urinated; also, something that has been urinated on (past participle of mear).",
     "reviewed": true
   },
   "mecha": {
     "display": "mecha",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A string or cord in a candle or lamp that draws up fuel to burn, or a fuse used to ignite explosives.",
     "reviewed": true
@@ -9894,7 +9894,7 @@
     "display": "media",
     "d": 0.14,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'stocking'.",
+    "def": "A stocking or sock, or a means of communication such as television or the internet (plural: medios).",
     "reviewed": true
   },
   "medio": {
@@ -9941,7 +9941,7 @@
   },
   "meneo": {
     "display": "meneo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "To move or cause to move up and down or from side to side with rapid jerky movements.",
     "reviewed": true
@@ -9997,7 +9997,7 @@
   },
   "mesas": {
     "display": "mesas",
-    "d": 0.59,
+    "d": 0.35,
     "pos": "noun",
     "def": "Pieces of furniture with a flat top and one or more legs, used for eating, working, or holding objects (plural of \"mesa\").",
     "reviewed": true
@@ -10013,7 +10013,7 @@
     "display": "metal",
     "d": 0.35,
     "pos": "noun",
-    "def": "A solid material that is typically hard, shiny, malleable, and conducts electricity.",
+    "def": "A solid material that is typically hard, shiny, malleable, and a good conductor of heat and electricity.",
     "reviewed": true
   },
   "metan": {
@@ -10040,20 +10040,20 @@
   "meter": {
     "display": "meter",
     "d": 0.29,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'lay down, place, put, putdown'.",
+    "pos": "verb",
+    "def": "To put, place, or insert something into a particular position or container.",
     "reviewed": true
   },
   "metes": {
     "display": "metes",
     "d": 0.5,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "You put, place, or insert something into a particular position or container (second-person singular present of meter).",
     "reviewed": true
   },
   "metia": {
     "display": "metía",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "first/third-person singular imperfect indicative of meter.",
     "reviewed": true
@@ -10144,9 +10144,9 @@
   },
   "miope": {
     "display": "miope",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being myopic.",
+    "def": "Unable to see distant objects clearly; nearsighted, or lacking foresight and imagination.",
     "reviewed": true
   },
   "mirad": {
@@ -10187,20 +10187,20 @@
   "mires": {
     "display": "mires",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "You look at, observe, or watch something or someone (second-person singular present subjunctive of mirar).",
     "reviewed": true
   },
   "mirlo": {
     "display": "mirlo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A common European songbird, typically with black plumage in males and a distinctive orange-yellow beak.",
     "reviewed": true
   },
   "miron": {
     "display": "mirón",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Characterized by being nosy.",
     "reviewed": true
@@ -10265,7 +10265,7 @@
     "display": "mixto",
     "d": 0.65,
     "pos": "adj",
-    "def": "Characterized by being mixed.",
+    "def": "Composed of different elements or ingredients; combined or blended.",
     "reviewed": true
   },
   "mocos": {
@@ -10312,7 +10312,7 @@
   },
   "molar": {
     "display": "molar",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Conjugated form of the verb moler; To grind, mill.",
     "reviewed": true
@@ -10328,19 +10328,19 @@
     "display": "moler",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to grind, mill.",
+    "def": "To reduce something to small particles or powder by crushing it, often with a mill.",
     "reviewed": true
   },
   "momia": {
     "display": "momia",
-    "d": 0.94,
+    "d": 0.65,
     "pos": "noun",
     "def": "A body of a human or animal that has been preserved, either naturally or by embalming, after death.",
     "reviewed": true
   },
   "monas": {
     "display": "monas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Describing females or feminine things as cute, pretty, or charming (feminine plural adjective form of mono).",
     "reviewed": true
@@ -10349,7 +10349,7 @@
     "display": "mondo",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being net, pure.",
+    "def": "Clean, pure, or peeled; free from impurities or extraneous matter.",
     "reviewed": true
   },
   "monja": {
@@ -10384,7 +10384,7 @@
     "display": "monte",
     "d": 0.42,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'mountain'.",
+    "def": "A large natural elevation of the earth's surface, rising abruptly from the surrounding level; a hill or mountain.",
     "reviewed": true
   },
   "monto": {
@@ -10397,13 +10397,13 @@
   "moral": {
     "display": "moral",
     "d": 0.36,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Concerned with the principles of right and wrong behavior and the goodness or badness of human character.",
     "reviewed": true
   },
   "moran": {
     "display": "moran",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "They dwell or reside in a particular place (third-person plural present indicative of morar).",
     "reviewed": true
@@ -10452,21 +10452,21 @@
   },
   "morro": {
     "display": "morro",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A rounded hill or rocky outcrop, often found near the coast; also, a snout or muzzle of an animal.",
     "reviewed": true
   },
   "morsa": {
     "display": "morsa",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large marine mammal of the Arctic, known for its prominent tusks, whiskers, and blubbery body.",
     "reviewed": true
   },
   "mosca": {
     "display": "mosca",
-    "d": 0.57,
+    "d": 0.35,
     "pos": "noun",
     "def": "A common winged insect, often considered a pest, known for its ability to fly and land on surfaces.",
     "reviewed": true
@@ -10480,7 +10480,7 @@
   },
   "motin": {
     "display": "motín",
-    "d": 0.9,
+    "d": 0.82,
     "pos": "noun",
     "def": "An open rebellion against proper authority, especially by soldiers or sailors against their officers.",
     "reviewed": true
@@ -10501,7 +10501,7 @@
   },
   "mouse": {
     "display": "mouse",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "noun",
     "def": "A small rodent with pointed snout, relatively large ears, and long tail.",
     "reviewed": true
@@ -10523,8 +10523,8 @@
   "movil": {
     "display": "móvil",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Able to move or be moved freely or easily, or referring to a cellular phone.",
     "reviewed": true
   },
   "movio": {
@@ -10551,8 +10551,8 @@
   "mucho": {
     "display": "mucho",
     "d": 0.05,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'a lot of, much, plentyof'.",
+    "pos": "adv",
+    "def": "To a great extent or degree; a large amount or quantity.",
     "reviewed": true
   },
   "mudan": {
@@ -10572,13 +10572,13 @@
   "mudas": {
     "display": "mudas",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "You change, move, or shed something, often referring to clothes or location (second-person singular present of mudar).",
     "reviewed": true
   },
   "mudes": {
     "display": "mudes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "You move your residence, change clothes, or alter something (second-person singular present subjunctive of mudar).",
     "reviewed": true
@@ -10592,7 +10592,7 @@
   },
   "mueca": {
     "display": "mueca",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "an exaggerated facial expression.",
     "reviewed": true
@@ -10657,7 +10657,7 @@
     "display": "mujer",
     "d": 0.05,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'wife, woman'.",
+    "def": "An adult female human being, typically distinguished from a man, or a married woman; a wife.",
     "reviewed": true
   },
   "mulas": {
@@ -10678,14 +10678,14 @@
     "display": "mundo",
     "d": 0.05,
     "pos": "noun",
-    "def": "The planet on which we live; the world or soil.",
+    "def": "The earth, together with all of its countries, peoples, and natural features; the universe.",
     "reviewed": true
   },
   "mural": {
     "display": "mural",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A large painting or other artwork executed directly on a wall or ceiling.",
     "reviewed": true
   },
   "murio": {
@@ -10711,7 +10711,7 @@
   },
   "musgo": {
     "display": "musgo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A small, flowerless green plant that grows in dense, velvety mats, typically in damp or shady locations.",
     "reviewed": true
@@ -10725,7 +10725,7 @@
   },
   "mutua": {
     "display": "mutua",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "feminine singular of mutuo.",
     "reviewed": true
@@ -10733,8 +10733,8 @@
   "mutuo": {
     "display": "mutuo",
     "d": 0.83,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Experienced or done by each of two or more parties toward the other; reciprocal.",
     "reviewed": true
   },
   "nabos": {
@@ -10810,13 +10810,13 @@
   "nadir": {
     "display": "nadir",
     "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb nadar; To swim.",
+    "pos": "noun",
+    "def": "The lowest point in the fortunes of a person or organization; the point directly opposite the zenith.",
     "reviewed": true
   },
   "nafta": {
     "display": "nafta",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A volatile, flammable liquid hydrocarbon mixture, commonly used as fuel for internal combustion engines, similar to gasoline.",
     "reviewed": true
@@ -10851,23 +10851,23 @@
   },
   "nasal": {
     "display": "nasal",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.65,
+    "pos": "adj",
+    "def": "Relating to the nose, or produced through the nose.",
     "reviewed": true
   },
   "natal": {
     "display": "natal",
     "d": 0.71,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to the place or time of one's birth.",
     "reviewed": true
   },
   "naval": {
     "display": "naval",
     "d": 0.72,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to a navy or to ships in general.",
     "reviewed": true
   },
   "naves": {
@@ -10900,7 +10900,7 @@
   },
   "necia": {
     "display": "necia",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Feminine of necio; foolish, obstinate, ignorant, or stubborn.",
     "reviewed": true
@@ -10922,8 +10922,8 @@
   "negra": {
     "display": "negra",
     "d": 0.23,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Having the darkest color, like that of coal or soot; without light (feminine form of negro).",
     "reviewed": true
   },
   "negue": {
@@ -11026,7 +11026,7 @@
   },
   "ninfa": {
     "display": "ninfa",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A mythological spirit of nature, typically depicted as a beautiful maiden inhabiting rivers, woods, or mountains.",
     "reviewed": true
@@ -11062,8 +11062,8 @@
   "noble": {
     "display": "noble",
     "d": 0.36,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'ofnoblebirth'.",
+    "pos": "adj",
+    "def": "Belonging to a high social class, or having fine personal qualities or high moral principles.",
     "reviewed": true
   },
   "noche": {
@@ -11117,7 +11117,7 @@
   },
   "noten": {
     "display": "noten",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "That they notice, observe, or perceive something; that they make a note of it (third-person plural present subjunctive of notar).",
     "reviewed": true
@@ -11181,8 +11181,8 @@
   "nuevo": {
     "display": "nuevo",
     "d": 0.05,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'new, novel'.",
+    "pos": "adj",
+    "def": "Being recently made, discovered, or created; not existing before or previously known.",
     "reviewed": true
   },
   "nunca": {
@@ -11217,7 +11217,7 @@
     "display": "obeso",
     "d": 0.65,
     "pos": "adj",
-    "def": "Characterized by being obese.",
+    "def": "Excessively fat, to an extent that it may impair health; having a very high body mass index.",
     "reviewed": true
   },
   "obras": {
@@ -11244,8 +11244,8 @@
   "obvio": {
     "display": "obvio",
     "d": 0.28,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Easily perceived or understood; clear, evident, or apparent to the mind or senses.",
     "reviewed": true
   },
   "ocaso": {
@@ -11376,7 +11376,7 @@
   },
   "oiria": {
     "display": "oiría",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "first/third-person singular conditional of oír.",
     "reviewed": true
@@ -11391,8 +11391,8 @@
   "ojala": {
     "display": "ojalá",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adv",
+    "def": "Expresses a strong desire or hope that something will happen or be true; \"I hope so\" or \"If only.\"",
     "reviewed": true
   },
   "ojiva": {
@@ -11427,7 +11427,7 @@
     "display": "olivo",
     "d": 0.65,
     "pos": "noun",
-    "def": "A small oval fruit with a hard pit and bitter flesh yielding oil.",
+    "def": "A small evergreen tree cultivated for its fruit, the olive, and for its valuable oil.",
     "reviewed": true
   },
   "ollas": {
@@ -11448,7 +11448,7 @@
     "display": "omega",
     "d": 0.85,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The twenty-fourth and last letter of the Greek alphabet, often symbolizing the end or the final part.",
     "reviewed": true
   },
   "omiso": {
@@ -11467,7 +11467,7 @@
   },
   "onzas": {
     "display": "onzas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Units of weight, each equal to one sixteenth of a pound avoirdupois (plural of \"onza\").",
     "reviewed": true
@@ -11481,7 +11481,7 @@
   },
   "opero": {
     "display": "opero",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "I perform an operation, function, or carry out a task (first-person singular present of operar).",
     "reviewed": true
@@ -11511,7 +11511,7 @@
     "display": "optar",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to opt.",
+    "def": "To make a choice from a range of possibilities; to decide on a particular course of action or option.",
     "reviewed": true
   },
   "opuso": {
@@ -11523,7 +11523,7 @@
   },
   "orcos": {
     "display": "orcos",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Fictional monstrous humanoids, often depicted as brutish and evil, especially in fantasy literature (plural of \"orco\").",
     "reviewed": true
@@ -11532,7 +11532,7 @@
     "display": "orden",
     "d": 0.11,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'order, warrant, writ'.",
+    "def": "A state in which everything is in its correct or appropriate place; a command or instruction.",
     "reviewed": true
   },
   "oreja": {
@@ -11579,7 +11579,7 @@
   },
   "osada": {
     "display": "osada",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Feminine of osado; displaying bold courage and daring audacity.",
     "reviewed": true
@@ -11644,7 +11644,7 @@
     "display": "ovulo",
     "d": 0.95,
     "pos": "verb",
-    "def": "I release an egg from the ovary (first-person singular present of ovular).",
+    "def": "I release a mature egg from the ovary during the menstrual cycle (first-person singular present of ovular).",
     "reviewed": true
   },
   "oxido": {
@@ -11656,14 +11656,14 @@
   },
   "oyera": {
     "display": "oyera",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "first/third-person singular imperfect subjunctive of oír.",
     "reviewed": true
   },
   "ozono": {
     "display": "ozono",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A highly reactive gas composed of three oxygen atoms, found in the Earth's atmosphere and used in various industrial processes.",
     "reviewed": true
@@ -11672,7 +11672,7 @@
     "display": "paces",
     "d": 0.67,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "States of tranquility, freedom from disturbance, or periods of calm and quiet (plural of paz).",
     "reviewed": true
   },
   "pacto": {
@@ -11692,8 +11692,8 @@
   "pagan": {
     "display": "pagan",
     "d": 0.34,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "They give money in exchange for goods, services, or to settle a debt (third-person plural present of pagar).",
     "reviewed": true
   },
   "pagar": {
@@ -11733,7 +11733,7 @@
   },
   "pajas": {
     "display": "pajas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Stems of dried cereal plants, often used for animal bedding, thatch, or as drinking straws (plural of \"paja\").",
     "reviewed": true
@@ -11791,7 +11791,7 @@
     "display": "panda",
     "d": 0.74,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A large bear-like mammal native to China, known for its distinctive black and white fur.",
     "reviewed": true
   },
   "panel": {
@@ -11824,9 +11824,9 @@
   },
   "papal": {
     "display": "papal",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being papal.",
+    "def": "Relating to the Pope or the papacy; concerning the office or authority of the Roman Catholic Pope.",
     "reviewed": true
   },
   "papas": {
@@ -11859,7 +11859,7 @@
   },
   "paran": {
     "display": "paran",
-    "d": 0.91,
+    "d": 0.65,
     "pos": "verb",
     "def": "They stop, halt, or cease an action or movement (third-person plural present of parar).",
     "reviewed": true
@@ -11880,14 +11880,14 @@
   },
   "parca": {
     "display": "parca",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The personification of death, often depicted as a cloaked figure; also, a type of warm, hooded winter jacket.",
     "reviewed": true
   },
   "pardo": {
     "display": "pardo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Characterized by being dun, brown.",
     "reviewed": true
@@ -11922,7 +11922,7 @@
   },
   "pario": {
     "display": "parió",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Gave birth to offspring or produced something (third-person singular preterite of parir).",
     "reviewed": true
@@ -11930,8 +11930,8 @@
   "parir": {
     "display": "parir",
     "d": 0.65,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'bear, givebirthto'.",
+    "pos": "verb",
+    "def": "To give birth to offspring; to bring a baby or young animal out of the body.",
     "reviewed": true
   },
   "parra": {
@@ -11944,15 +11944,15 @@
   "parta": {
     "display": "parta",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "That I/he/she/it leaves or divides something (first/third-person singular present subjunctive of partir).",
     "reviewed": true
   },
   "parte": {
     "display": "parte",
     "d": 0.05,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'part, Parthian, share, piece'.",
+    "def": "A portion or division of a whole; a component, section, or share of something larger.",
     "reviewed": true
   },
   "parti": {
@@ -11966,7 +11966,7 @@
     "display": "parto",
     "d": 0.47,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The act or process of giving birth to a baby; the delivery of offspring from the mother's body.",
     "reviewed": true
   },
   "party": {
@@ -12001,7 +12001,7 @@
     "display": "pasas",
     "d": 0.37,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Dried grapes, typically sweet, used in baking, cereals, or as a snack (plural of pasa).",
     "reviewed": true
   },
   "pasea": {
@@ -12083,7 +12083,7 @@
   },
   "patee": {
     "display": "pateé",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I kicked or struck something with my foot (first-person singular preterite of patear).",
     "reviewed": true
@@ -12091,8 +12091,8 @@
   "pateo": {
     "display": "pateo",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "I strike something or someone with my foot (first-person singular present of patear).",
     "reviewed": true
   },
   "patio": {
@@ -12113,14 +12113,14 @@
     "display": "pausa",
     "d": 0.59,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A temporary stop or rest in action, speech, or music; a brief interruption or break.",
     "reviewed": true
   },
   "pauta": {
     "display": "pauta",
     "d": 0.95,
     "pos": "noun",
-    "def": "A person exercising government or dominion, or a straight measuring strip.",
+    "def": "A guideline, standard, or pattern that serves as a model or framework for action or behavior.",
     "reviewed": true
   },
   "pavor": {
@@ -12148,7 +12148,7 @@
     "display": "pecar",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to sin.",
+    "def": "To commit an offense against a divine or moral law; to do something considered wrong or immoral.",
     "reviewed": true
   },
   "pecas": {
@@ -12210,8 +12210,8 @@
   "pegar": {
     "display": "pegar",
     "d": 0.35,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'sew, sewon, thrash, glue, stick'.",
+    "pos": "verb",
+    "def": "To join or attach something to another surface using an adhesive; also, to strike or hit someone or something.",
     "reviewed": true
   },
   "pegas": {
@@ -12246,7 +12246,7 @@
     "display": "pelar",
     "d": 0.35,
     "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "def": "To remove the skin, rind, or outer covering from a fruit, vegetable, or other object.",
     "reviewed": true
   },
   "pelas": {
@@ -12286,7 +12286,7 @@
   },
   "pelos": {
     "display": "pelos",
-    "d": 0.55,
+    "d": 0.35,
     "pos": "noun",
     "def": "Fine, thread-like strands growing from the skin of humans and animals, especially on the head.",
     "reviewed": true
@@ -12294,8 +12294,8 @@
   "penal": {
     "display": "penal",
     "d": 0.72,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to punishment or penalties for breaking the law; concerning a prison or the legal system.",
     "reviewed": true
   },
   "penas": {
@@ -12386,7 +12386,7 @@
     "display": "persa",
     "d": 0.65,
     "pos": "adj",
-    "def": "Characterized by being persian.",
+    "def": "Relating to Persia (modern-day Iran), its people, language, or culture; originating from ancient Persia.",
     "reviewed": true
   },
   "pesan": {
@@ -12447,7 +12447,7 @@
   },
   "pezon": {
     "display": "pezón",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "The small projection on the breast or udder through which milk is secreted.",
     "reviewed": true
@@ -12475,7 +12475,7 @@
   },
   "picas": {
     "display": "picas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "spades (a suit of cards, ♠).",
     "reviewed": true
@@ -12526,7 +12526,7 @@
     "display": "pieza",
     "d": 0.27,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'fragment, lump, piece, part, share'.",
+    "def": "A single item, component, or part of a larger whole; also, a room in a house or building.",
     "reviewed": true
   },
   "pilar": {
@@ -12538,16 +12538,16 @@
   },
   "pilas": {
     "display": "pilas",
-    "d": 0.83,
+    "d": 0.35,
     "pos": "noun",
     "def": "Plural form; multiple instances of 'battery'.",
     "reviewed": true
   },
   "pilla": {
     "display": "pilla",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "female equivalent of pillo ().",
+    "d": 0.65,
+    "pos": "verb",
+    "def": "He/she/it catches, grabs, or understands something (third-person singular present of pillar).",
     "reviewed": true
   },
   "pille": {
@@ -12575,7 +12575,7 @@
     "display": "pines",
     "d": 0.95,
     "pos": "noun",
-    "def": "Small, thin pieces of metal or wood used for fastening, attaching, or holding things in place.",
+    "def": "Evergreen coniferous trees with needle-like leaves, often grown for timber or as ornamental plants (plural of pino).",
     "reviewed": true
   },
   "pinos": {
@@ -12601,9 +12601,9 @@
   },
   "pinto": {
     "display": "pinto",
-    "d": 0.91,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.65,
+    "pos": "verb",
+    "def": "I apply paint or color to a surface or create an image (first-person singular present of pintar).",
     "reviewed": true
   },
   "pinza": {
@@ -12629,7 +12629,7 @@
   },
   "pique": {
     "display": "pique",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A strong feeling of irritation or resentment, often caused by a perceived insult or slight.",
     "reviewed": true
@@ -12685,14 +12685,14 @@
   },
   "piton": {
     "display": "pitón",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large, non-venomous constrictor snake native to Africa and Asia, known for its powerful squeeze.",
     "reviewed": true
   },
   "pitos": {
     "display": "pitos",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Small wind instruments that produce a high-pitched sound, or car horns.",
     "reviewed": true
@@ -12714,8 +12714,8 @@
   "place": {
     "display": "place",
     "d": 0.78,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "Pleases, gratifies, or satisfies someone (third-person singular present of placer).",
     "reviewed": true
   },
   "plaga": {
@@ -12735,8 +12735,8 @@
   "plano": {
     "display": "plano",
     "d": 0.44,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'even, flat, level, smooth, map, design, diagram, plan, plane'.",
+    "pos": "adj",
+    "def": "Having a smooth, even surface without bumps or hollows; level or horizontal.",
     "reviewed": true
   },
   "plata": {
@@ -12777,8 +12777,8 @@
   "plena": {
     "display": "plena",
     "d": 0.48,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Being full, complete, or entire; at its highest or most complete state (feminine singular of pleno).",
     "reviewed": true
   },
   "pleno": {
@@ -12805,8 +12805,8 @@
   "pobre": {
     "display": "pobre",
     "d": 0.12,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'miserable, poor, abject, dismal, meager, wretched, needy'.",
+    "pos": "adj",
+    "def": "Lacking sufficient money to live comfortably; having very little or no wealth or possessions.",
     "reviewed": true
   },
   "pocas": {
@@ -12819,15 +12819,15 @@
   "pocos": {
     "display": "pocos",
     "d": 0.22,
-    "pos": "noun",
-    "def": "Plural form; multiple instances of 'a little, rather, some, somewhat, tosomeextent, little'.",
+    "pos": "adj",
+    "def": "A small number of things or people; not many (masculine plural of poco).",
     "reviewed": true
   },
   "podar": {
     "display": "podar",
     "d": 0.65,
     "pos": "verb",
-    "def": "Conjugated form of the verb poder; to be able to, can.",
+    "def": "To trim or cut back branches from a tree or bush to improve its growth or shape.",
     "reviewed": true
   },
   "poder": {
@@ -12890,14 +12890,14 @@
     "display": "póker",
     "d": 0.93,
     "pos": "noun",
-    "def": "alternative spelling of póquer.",
+    "def": "A popular card game where players bet on the strength of their hand, with the goal of winning the pot.",
     "reviewed": true
   },
   "polar": {
     "display": "polar",
     "d": 0.93,
-    "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "pos": "adj",
+    "def": "Relating to the Earth's geographical poles or the regions around them; characterized by extreme cold.",
     "reviewed": true
   },
   "polen": {
@@ -12909,7 +12909,7 @@
   },
   "polio": {
     "display": "polio",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A highly infectious viral disease that can cause paralysis, primarily affecting young children, now largely eradicated by vaccination.",
     "reviewed": true
@@ -12952,8 +12952,8 @@
   "poned": {
     "display": "poned",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "Place, put, or set something down (imperative plural of poner).",
     "reviewed": true
   },
   "ponen": {
@@ -13007,7 +13007,7 @@
   },
   "poros": {
     "display": "poros",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The plural form of \"poro,\" referring to tiny openings in the skin or other surfaces, allowing substances like sweat to pass.",
     "reviewed": true
@@ -13028,9 +13028,9 @@
   },
   "porta": {
     "display": "porta",
-    "d": 0.93,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.35,
+    "pos": "verb",
+    "def": "Carries, bears, or transports something from one place to another (present tense of portar).",
     "reviewed": true
   },
   "porte": {
@@ -13051,7 +13051,7 @@
     "display": "posar",
     "d": 0.65,
     "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "def": "To pose for a picture or to land gently, as a bird or an aircraft.",
     "reviewed": true
   },
   "posea": {
@@ -13078,8 +13078,8 @@
   "poses": {
     "display": "poses",
     "d": 0.95,
-    "pos": "noun",
-    "def": "The plural form of \"pose,\" referring to specific positions of the body, often adopted for artistic purposes or photographs.",
+    "pos": "verb",
+    "def": "You possess or own something; you have something (second-person singular present of poseer).",
     "reviewed": true
   },
   "posta": {
@@ -13098,7 +13098,7 @@
   },
   "potro": {
     "display": "potro",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A young male horse, typically under four years old, often still being trained or not yet fully mature.",
     "reviewed": true
@@ -13135,12 +13135,12 @@
     "display": "press",
     "d": 0.95,
     "pos": "noun",
-    "def": "A strength training exercise where a weight is pushed away from the body, like a bench press or shoulder press.",
+    "def": "A strength training exercise where a weight is pushed away from the body, such as a bench press.",
     "reviewed": true
   },
   "preve": {
     "display": "prevé",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Conjugated form of the verb prever; foresee.",
     "reviewed": true
@@ -13155,8 +13155,8 @@
   "prime": {
     "display": "prime",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Of the highest quality or importance; excellent or principal, often referring to a premium status.",
     "reviewed": true
   },
   "primo": {
@@ -13182,7 +13182,7 @@
   },
   "priva": {
     "display": "priva",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Conjugated form of the verb privar; rob.",
     "reviewed": true
@@ -13191,12 +13191,12 @@
     "display": "probe",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "An instrument used to explore or examine something, especially in medicine, science, or space exploration.",
     "reviewed": true
   },
   "probo": {
     "display": "probo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Characterized by being honest, upright.",
     "reviewed": true
@@ -13231,7 +13231,7 @@
   },
   "pudre": {
     "display": "pudre",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "It rots, decays, or becomes putrid (third-person singular present of pudrir).",
     "reviewed": true
@@ -13259,9 +13259,9 @@
   },
   "pujar": {
     "display": "pujar",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
-    "def": "To engage in the action of to struggle.",
+    "def": "To make a bid in an auction, or to push and strain with effort.",
     "reviewed": true
   },
   "pulga": {
@@ -13275,14 +13275,14 @@
     "display": "pulir",
     "d": 0.65,
     "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "def": "To polish, shine, or refine a surface to make it smooth and lustrous.",
     "reviewed": true
   },
   "pulpa": {
     "display": "pulpa",
     "d": 0.65,
     "pos": "noun",
-    "def": "Easy to mold, cut, compress, or fold; not hard or firm.",
+    "def": "The soft, fleshy part inside fruits or vegetables, or the soft tissue inside a tooth.",
     "reviewed": true
   },
   "pulpo": {
@@ -13315,9 +13315,9 @@
   },
   "punal": {
     "display": "puñal",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A short, pointed knife with a sharp blade, used as a weapon for stabbing.",
     "reviewed": true
   },
   "punks": {
@@ -13345,7 +13345,7 @@
     "display": "punto",
     "d": 0.08,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'dot, period, point, spot'.",
+    "def": "A small mark or dot; also refers to a specific place, moment, or stitch in knitting.",
     "reviewed": true
   },
   "puras": {
@@ -13357,7 +13357,7 @@
   },
   "purga": {
     "display": "purga",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The act of removing or eliminating undesirable people or things from a group or system; a cleansing or purification.",
     "reviewed": true
@@ -13413,7 +13413,7 @@
   },
   "queje": {
     "display": "queje",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "To complain or express discontent about something (first-person or third-person singular present subjunctive of quejarse).",
     "reviewed": true
@@ -13448,7 +13448,7 @@
   },
   "quepa": {
     "display": "quepa",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "May fit or may be contained within something (first or third-person singular present subjunctive of caber).",
     "reviewed": true
@@ -13457,7 +13457,7 @@
     "display": "quero",
     "d": 0.95,
     "pos": "verb",
-    "def": "An intense feeling of deep affection, fondness, or devotion.",
+    "def": "I want, desire, or love something or someone (first-person singular present of querer).",
     "reviewed": true
   },
   "queso": {
@@ -13499,14 +13499,14 @@
     "display": "quite",
     "d": 0.56,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The act of removing or taking something away, or an exemption from a duty.",
     "reviewed": true
   },
   "quito": {
     "display": "quito",
     "d": 0.66,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "I remove, take away, or subtract something (first-person singular present of quitar).",
     "reviewed": true
   },
   "quiza": {
@@ -13560,7 +13560,7 @@
   },
   "rallo": {
     "display": "rallo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A kitchen utensil with a surface covered with sharp-edged holes, used for grating food.",
     "reviewed": true
@@ -13638,8 +13638,8 @@
   "rasca": {
     "display": "rasca",
     "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being common, vulgar.",
+    "pos": "verb",
+    "def": "Scratches, scrapes, or rubs an itchy area with nails or a rough object (present tense of rascar).",
     "reviewed": true
   },
   "rasgo": {
@@ -13695,19 +13695,19 @@
     "display": "razón",
     "d": 0.52,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The faculty of thinking, understanding, and forming judgments logically; a cause or motive.",
     "reviewed": true
   },
   "recae": {
     "display": "recae",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Falls back into a previous state, relapses, or is incumbent upon someone (third-person singular present of recaer).",
     "reviewed": true
   },
   "recen": {
     "display": "recen",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "May pray or say prayers (third-person plural present subjunctive of rezar).",
     "reviewed": true
@@ -13736,8 +13736,8 @@
   "regar": {
     "display": "regar",
     "d": 0.65,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'irrigate, water'.",
+    "pos": "verb",
+    "def": "To water plants or land, or to sprinkle a liquid over a surface.",
     "reviewed": true
   },
   "regis": {
@@ -13821,7 +13821,7 @@
     "display": "relax",
     "d": 0.95,
     "pos": "noun",
-    "def": "The state of being free from tension and anxiety; rest or recreation.",
+    "def": "A state of being free from tension and anxiety; a period of rest or recreation.",
     "reviewed": true
   },
   "reloj": {
@@ -13834,8 +13834,8 @@
   "remar": {
     "display": "remar",
     "d": 0.65,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'row'.",
+    "pos": "verb",
+    "def": "To propel a boat using oars, or to paddle a canoe or kayak.",
     "reviewed": true
   },
   "remen": {
@@ -13854,9 +13854,9 @@
   },
   "renal": {
     "display": "renal",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.82,
+    "pos": "adj",
+    "def": "Relating to or located in the region of the kidneys, an organ that filters blood.",
     "reviewed": true
   },
   "rendi": {
@@ -13905,14 +13905,14 @@
     "display": "retar",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to defy, challenge.",
+    "def": "To challenge someone to do something, or to scold them for their actions.",
     "reviewed": true
   },
   "reten": {
     "display": "retén",
     "d": 0.95,
-    "pos": "verb",
-    "def": "Conjugated form of the verb retar; To defy, challenge.",
+    "pos": "noun",
+    "def": "A police checkpoint or roadblock, or a small military detachment held in reserve.",
     "reviewed": true
   },
   "retos": {
@@ -13926,7 +13926,7 @@
     "display": "retro",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being retro.",
+    "def": "Relating to or characteristic of a past time, often implying nostalgia or a deliberate imitation of styles from the past.",
     "reviewed": true
   },
   "reuna": {
@@ -14050,7 +14050,7 @@
   },
   "rinda": {
     "display": "rinda",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "Yields, surrenders, performs, or produces something (first/third-person singular present subjunctive of rendir).",
     "reviewed": true
@@ -14085,7 +14085,7 @@
   },
   "risco": {
     "display": "risco",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A steep, high rock face, especially at the edge of the sea.",
     "reviewed": true
@@ -14108,7 +14108,7 @@
     "display": "rival",
     "d": 0.6,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A person or entity competing with another for the same objective or superiority.",
     "reviewed": true
   },
   "rizos": {
@@ -14206,7 +14206,7 @@
     "display": "rodeo",
     "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A public exhibition of cowboy skills, or a roundabout way of speaking or acting.",
     "reviewed": true
   },
   "rogar": {
@@ -14288,7 +14288,7 @@
   },
   "ronco": {
     "display": "ronco",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "oink, growl, bark, snarl.",
     "reviewed": true
@@ -14297,7 +14297,7 @@
     "display": "ronda",
     "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A round, such as a round of drinks or a game, or a patrol performed by guards.",
     "reviewed": true
   },
   "ropas": {
@@ -14337,7 +14337,7 @@
   },
   "rotas": {
     "display": "rotas",
-    "d": 0.76,
+    "d": 0.65,
     "pos": "adj",
     "def": "Describing things that are fractured into pieces, damaged, or no longer in working order (feminine plural of broken).",
     "reviewed": true
@@ -14353,14 +14353,14 @@
     "display": "round",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A stage of a competition, such as in boxing, or a complete circuit or turn.",
     "reviewed": true
   },
   "royal": {
     "display": "royal",
     "d": 0.82,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to or characteristic of a king, queen, or other monarch; regal.",
     "reviewed": true
   },
   "rubia": {
@@ -14437,7 +14437,7 @@
     "display": "rugir",
     "d": 0.65,
     "pos": "verb",
-    "def": "To engage in the action of to roar.",
+    "def": "To make a deep, prolonged, loud sound, characteristic of a lion or thunder.",
     "reviewed": true
   },
   "ruido": {
@@ -14456,9 +14456,9 @@
   },
   "rumba": {
     "display": "rumba",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A social gathering of invited guests, typically involving eating, drinking, and entertainment.",
+    "def": "A rhythmic Afro-Cuban dance with a fast, complex beat, or a lively party.",
     "reviewed": true
   },
   "rumbo": {
@@ -14478,13 +14478,13 @@
   "rural": {
     "display": "rural",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to or characteristic of the countryside rather than a town or city.",
     "reviewed": true
   },
   "rusas": {
     "display": "rusas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Plural form; multiple instances of 'Russianwoman'.",
     "reviewed": true
@@ -14541,8 +14541,8 @@
   "sable": {
     "display": "sable",
     "d": 0.95,
-    "pos": "adj",
-    "def": "Capable of being, suitable for, or subject to this condition.",
+    "pos": "noun",
+    "def": "A heavy cavalry sword with a curved blade, or the dark fur of a marten.",
     "reviewed": true
   },
   "sabor": {
@@ -14568,7 +14568,7 @@
   },
   "sacad": {
     "display": "sacad",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Take out or remove something (second-person plural imperative of sacar).",
     "reviewed": true
@@ -14639,15 +14639,15 @@
   "sales": {
     "display": "sales",
     "d": 0.33,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "You leave, go out, or depart from a place (second-person singular present of salir).",
     "reviewed": true
   },
   "salga": {
     "display": "salga",
     "d": 0.19,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "That I/he/she/it leave, go out, or depart (first/third-person singular present subjunctive of salir).",
     "reviewed": true
   },
   "salgo": {
@@ -14694,7 +14694,7 @@
   },
   "salmo": {
     "display": "salmo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A sacred song or poem, especially one from the Book of Psalms in the Bible, used in worship.",
     "reviewed": true
@@ -14757,9 +14757,9 @@
   },
   "salvo": {
     "display": "salvo",
-    "d": 0.13,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'bar, barring, except for, subject to, withoutprejudice'.",
+    "d": 0.82,
+    "pos": "adj",
+    "def": "Safe and unharmed, or used as a preposition meaning 'except for' or 'save for'.",
     "reviewed": true
   },
   "samba": {
@@ -14820,7 +14820,7 @@
   },
   "sarta": {
     "display": "sarta",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "string, sequence, series, array.",
     "reviewed": true
@@ -14834,7 +14834,7 @@
   },
   "saten": {
     "display": "satén",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A strong, lustrous cotton fabric woven in a satin weave, often used for linings or upholstery.",
     "reviewed": true
@@ -14843,14 +14843,14 @@
     "display": "sauce",
     "d": 0.35,
     "pos": "noun",
-    "def": "A tree or shrub of the genus Salix, typically growing in moist soils and known for its flexible branches.",
+    "def": "A type of tree or shrub, typically growing in moist soils, known for its flexible branches.",
     "reviewed": true
   },
   "saudi": {
     "display": "saudí",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being saudi.",
+    "def": "Relating to or characteristic of Saudi Arabia, its people, or its culture.",
     "reviewed": true
   },
   "sauna": {
@@ -14862,7 +14862,7 @@
   },
   "savia": {
     "display": "savia",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The fluid, typically watery, that circulates through a plant's vascular system, carrying nutrients and water.",
     "reviewed": true
@@ -14891,8 +14891,8 @@
   "secar": {
     "display": "secar",
     "d": 0.35,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'dry'.",
+    "pos": "verb",
+    "def": "To remove moisture from something, making it dry, or to wipe something dry.",
     "reviewed": true
   },
   "secas": {
@@ -14917,10 +14917,10 @@
     "reviewed": true
   },
   "sedan": {
-    "display": "sedan",
+    "display": "sedán",
     "d": 0.95,
-    "pos": "verb",
-    "def": "They sedate, calm, or tranquilize someone or something (present tense of sedar).",
+    "pos": "noun",
+    "def": "An enclosed automobile with two or four doors and a separate trunk, designed to carry four or more people.",
     "reviewed": true
   },
   "segui": {
@@ -14981,16 +14981,16 @@
   },
   "senil": {
     "display": "senil",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.82,
+    "pos": "adj",
+    "def": "Relating to or characteristic of old age, especially with regard to mental or physical deterioration; elderly or aged.",
     "reviewed": true
   },
   "senor": {
     "display": "señor",
     "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A title of respect used for a man, equivalent to 'Mr.' or 'sir' in English.",
     "reviewed": true
   },
   "senos": {
@@ -15039,7 +15039,7 @@
     "display": "seque",
     "d": 0.95,
     "pos": "verb",
-    "def": "That I or he/she/it dries or makes something dry (present subjunctive of secar).",
+    "def": "That I, he, or she dries or makes something dry; also, that it dries up (present subjunctive of secar).",
     "reviewed": true
   },
   "seran": {
@@ -15129,15 +15129,15 @@
   "sexys": {
     "display": "sexys",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Appealing or exciting in a sexual way; attractive or alluring (plural form of sexy).",
     "reviewed": true
   },
   "shake": {
     "display": "shake",
     "d": 0.95,
     "pos": "noun",
-    "def": "To move or cause to move up and down or from side to side with rapid jerky movements.",
+    "def": "A sweet, cold drink made from milk, ice cream, and flavorings, blended until smooth.",
     "reviewed": true
   },
   "shock": {
@@ -15163,7 +15163,7 @@
   },
   "sidra": {
     "display": "sidra",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "An alcoholic beverage made from fermented apple juice, or sometimes a non-alcoholic apple juice.",
     "reviewed": true
@@ -15200,14 +15200,14 @@
     "display": "sigma",
     "d": 0.95,
     "pos": "noun",
-    "def": "sigma; the Greek letter Σ, σ.",
+    "def": "The eighteenth letter of the Greek alphabet (Σ, σ), used in mathematics and science.",
     "reviewed": true
   },
   "signe": {
     "display": "signe",
     "d": 0.95,
     "pos": "verb",
-    "def": "That I or he/she/it signs, marks, or indicates something (present subjunctive of signar).",
+    "def": "That I, he, or she signs, marks, or indicates something; also, that it signals (present subjunctive of signar).",
     "reviewed": true
   },
   "signo": {
@@ -15240,7 +15240,7 @@
   },
   "simio": {
     "display": "simio",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large primate, such as a chimpanzee or gorilla, that lacks a tail and is closely related to humans.",
     "reviewed": true
@@ -15249,21 +15249,21 @@
     "display": "sioux",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A member of a group of Native American peoples inhabiting the Great Plains of the United States and Canada.",
     "reviewed": true
   },
   "siria": {
     "display": "siria",
     "d": 0.95,
-    "pos": "noun",
-    "def": "female equivalent of sirio.",
+    "pos": "adj",
+    "def": "Relating to or characteristic of Syria, its people, or its culture (feminine form of sirio).",
     "reviewed": true
   },
   "sirio": {
     "display": "sirio",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being syrian.",
+    "def": "Relating to or characteristic of Syria, its people, or its culture; of Syrian origin or nationality.",
     "reviewed": true
   },
   "sirva": {
@@ -15291,7 +15291,7 @@
     "display": "sitio",
     "d": 0.1,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'place, location, spot, seat, siege'.",
+    "def": "A specific place, location, or spot; also, a website or a siege of a fortified place.",
     "reviewed": true
   },
   "situa": {
@@ -15311,8 +15311,8 @@
   "smart": {
     "display": "smart",
     "d": 0.91,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Intelligent, clever, or quick-witted; also, fashionable or stylish in appearance.",
     "reviewed": true
   },
   "sobra": {
@@ -15345,7 +15345,7 @@
   },
   "sodio": {
     "display": "sodio",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A soft, silvery-white metallic element, highly reactive, essential for animal nutrition, and a component of common salt.",
     "reviewed": true
@@ -15421,10 +15421,10 @@
     "reviewed": true
   },
   "sonar": {
-    "display": "sonar",
+    "display": "soñar",
     "d": 0.37,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'dream'.",
+    "pos": "verb",
+    "def": "To experience a series of images, ideas, and emotions in one's mind during sleep.",
     "reviewed": true
   },
   "sonda": {
@@ -15457,7 +15457,7 @@
   },
   "soplo": {
     "display": "soplo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "a sigh, a puff, a blow.",
     "reviewed": true
@@ -15472,8 +15472,8 @@
   "sorda": {
     "display": "sorda",
     "d": 0.65,
-    "pos": "noun",
-    "def": "female equivalent of sordo.",
+    "pos": "adj",
+    "def": "Unable to hear, either completely or partially; lacking the sense of hearing (feminine form of sordo).",
     "reviewed": true
   },
   "sordo": {
@@ -15485,7 +15485,7 @@
   },
   "sorry": {
     "display": "sorry",
-    "d": 0.95,
+    "d": 0.35,
     "pos": "adj",
     "def": "Feeling regret or penitence; expressing an apology for an offense or misfortune (a common English loanword used in Spanish).",
     "reviewed": true
@@ -15493,27 +15493,27 @@
   "sport": {
     "display": "sport",
     "d": 0.95,
-    "pos": "adj",
-    "def": "Characterized by being casual.",
+    "pos": "noun",
+    "def": "An activity involving physical exertion and skill, often competitive, played for enjoyment or as a profession.",
     "reviewed": true
   },
   "spray": {
     "display": "spray",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A liquid that is forced out of a container in a fine mist or jet; also, the container itself.",
     "reviewed": true
   },
   "stand": {
     "display": "stand",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A booth or designated area at an exhibition, market, or event for displaying goods or information.",
     "reviewed": true
   },
   "stock": {
     "display": "stock",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The supply of goods or materials available for sale or distribution; inventory held by a business (an English loanword).",
     "reviewed": true
@@ -15521,8 +15521,8 @@
   "suave": {
     "display": "suave",
     "d": 0.29,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Smooth, soft, or gentle to the touch; also, pleasant or mild in flavor or manner.",
     "reviewed": true
   },
   "suban": {
@@ -15562,7 +15562,7 @@
   },
   "subid": {
     "display": "subid",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Go up, ascend, or rise (second-person plural imperative of subir).",
     "reviewed": true
@@ -15633,15 +15633,15 @@
   "sueca": {
     "display": "sueca",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Relating to or characteristic of Sweden, its people, or its language (feminine form of sueco).",
     "reviewed": true
   },
   "sueco": {
     "display": "sueco",
     "d": 0.65,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Swedish, Swede'.",
+    "pos": "adj",
+    "def": "Relating to or characteristic of Sweden, its people, or its language; of Swedish origin or nationality.",
     "reviewed": true
   },
   "suela": {
@@ -15654,15 +15654,15 @@
   "suele": {
     "display": "suele",
     "d": 0.4,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "He, she, or it usually does something; tends to do something habitually (present tense of soler).",
     "reviewed": true
   },
   "suelo": {
     "display": "suelo",
     "d": 0.14,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'bottom, foundation, ground, floor'.",
+    "def": "The ground, earth, or soil beneath one's feet; also, the floor of a room or building.",
     "reviewed": true
   },
   "suena": {
@@ -15695,7 +15695,7 @@
   },
   "sufra": {
     "display": "sufra",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "He/she/it suffers, endures, or tolerates pain, hardship, or discomfort (third-person singular present subjunctive of sufrir).",
     "reviewed": true
@@ -15730,9 +15730,9 @@
   },
   "suizo": {
     "display": "suizo",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Swiss'.",
+    "d": 0.65,
+    "pos": "adj",
+    "def": "Relating to or characteristic of Switzerland, its people, or its culture; of Swiss origin or nationality.",
     "reviewed": true
   },
   "suman": {
@@ -15745,15 +15745,15 @@
   "sumar": {
     "display": "sumar",
     "d": 0.35,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'add up, sumup'.",
+    "pos": "verb",
+    "def": "To combine numbers or quantities to find their total; to add up or sum.",
     "reviewed": true
   },
   "sumas": {
     "display": "sumas",
     "d": 0.35,
-    "pos": "adj",
-    "def": "Plural form or feminine plural describing sum; multiple instances.",
+    "pos": "noun",
+    "def": "The total amount resulting from adding two or more numbers or quantities together (plural of suma).",
     "reviewed": true
   },
   "supon": {
@@ -15766,13 +15766,13 @@
   "surge": {
     "display": "surge",
     "d": 0.77,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "He, she, or it arises, emerges, or appears from a source; also, to well up (present tense of surgir).",
     "reviewed": true
   },
   "surja": {
     "display": "surja",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "It arises, emerges, or appears, often unexpectedly or from a source (third-person singular present subjunctive of surgir).",
     "reviewed": true
@@ -15793,16 +15793,16 @@
   },
   "sutil": {
     "display": "sutil",
-    "d": 0.7,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.82,
+    "pos": "adj",
+    "def": "Delicate, fine, or understated; also, clever or ingenious in a discreet way.",
     "reviewed": true
   },
   "suyas": {
     "display": "suyas",
     "d": 0.58,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Belonging to them or to you (formal plural); indicating possession by a third person or formal second person (feminine plural of suyo).",
     "reviewed": true
   },
   "suyos": {
@@ -15828,7 +15828,7 @@
   },
   "tacha": {
     "display": "tacha",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun/verb",
     "def": "A physical flaw or blemish, or crosses out writing.",
     "reviewed": true
@@ -15856,14 +15856,14 @@
   },
   "tacto": {
     "display": "tacto",
-    "d": 0.8,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The sense of touch; also, sensitivity and discretion in dealing with others.",
     "reviewed": true
   },
   "talco": {
     "display": "talco",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A soft mineral, magnesium silicate, often ground into a fine white powder used in cosmetics and as a lubricant.",
     "reviewed": true
@@ -15914,19 +15914,19 @@
     "display": "tanda",
     "d": 0.65,
     "pos": "noun",
-    "def": "The indefinite continued progression of existence and events in the past, present, and future.",
+    "def": "A batch, a round, or a turn of something; also, a session or a set of activities.",
     "reviewed": true
   },
   "tanga": {
     "display": "tanga",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A type of brief underwear or swimwear with a very narrow strip of fabric at the back, exposing the buttocks.",
     "reviewed": true
   },
   "tango": {
     "display": "tango",
-    "d": 0.77,
+    "d": 0.65,
     "pos": "noun",
     "def": "A passionate ballroom dance of Argentine origin, characterized by close contact, dramatic pauses, and intricate footwork.",
     "reviewed": true
@@ -15975,7 +15975,7 @@
   },
   "tapiz": {
     "display": "tapiz",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A piece of thick textile fabric with pictures or designs woven into it, used as a wall hanging or for upholstery.",
     "reviewed": true
@@ -16004,8 +16004,8 @@
   "tardo": {
     "display": "tardo",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Arriving, happening, or done after the expected or usual time; slow or delayed.",
     "reviewed": true
   },
   "tarea": {
@@ -16080,7 +16080,7 @@
   },
   "tejas": {
     "display": "tejas",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Pieces of fired clay or other material used for covering roofs, typically overlapping to shed water (plural of teja).",
     "reviewed": true
@@ -16089,7 +16089,7 @@
     "display": "tejer",
     "d": 0.65,
     "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "def": "To make fabric or garments by interlacing yarn or thread with needles or a loom; to knit or weave.",
     "reviewed": true
   },
   "tejon": {
@@ -16124,7 +16124,7 @@
     "display": "teman",
     "d": 0.95,
     "pos": "verb",
-    "def": "They insist stubbornly on something or persist tenaciously in an idea (third-person plural present indicative of temar).",
+    "def": "That they fear, are afraid of, or dread something or someone (present subjunctive of temer).",
     "reviewed": true
   },
   "temas": {
@@ -16144,8 +16144,8 @@
   "temer": {
     "display": "temer",
     "d": 0.49,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'be afraid of, fear'.",
+    "pos": "verb",
+    "def": "To feel fear or apprehension; to be afraid of someone or something.",
     "reviewed": true
   },
   "temes": {
@@ -16171,16 +16171,16 @@
   },
   "tempo": {
     "display": "tempo",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The speed at which a passage of music is or should be played.",
     "reviewed": true
   },
   "tenaz": {
     "display": "tenaz",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
-    "def": "Characterized by being tenacious.",
+    "def": "Holding fast to something; persistent, determined, or unyielding in pursuing a goal.",
     "reviewed": true
   },
   "tened": {
@@ -16234,7 +16234,7 @@
   },
   "tenor": {
     "display": "tenor",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The highest natural adult male singing voice, or a singer who possesses this vocal range.",
     "reviewed": true
@@ -16257,7 +16257,7 @@
     "display": "tenue",
     "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being tenuous, thin, weak.",
+    "def": "Very slight, delicate, or thin; lacking in substance or strength.",
     "reviewed": true
   },
   "terca": {
@@ -16269,7 +16269,7 @@
   },
   "terco": {
     "display": "terco",
-    "d": 0.86,
+    "d": 0.65,
     "pos": "adj",
     "def": "stubborn, stiff-necked, obstinate, willful, dogged, pigheaded, hardheaded, bullheaded.",
     "reviewed": true
@@ -16313,12 +16313,12 @@
     "display": "theta",
     "d": 0.95,
     "pos": "noun",
-    "def": "theta; the Greek letter Θ, θ.",
+    "def": "The eighth letter of the Greek alphabet (Θ, θ), often used as a symbol in mathematics and physics.",
     "reviewed": true
   },
   "tiara": {
     "display": "tiara",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A jeweled ornamental band worn on the front of a woman's hair, often for formal occasions or by royalty.",
     "reviewed": true
@@ -16332,7 +16332,7 @@
   },
   "tibio": {
     "display": "tibio",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Characterized by being warm, lukewarm.",
     "reviewed": true
@@ -16360,7 +16360,7 @@
   },
   "tifon": {
     "display": "tifón",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A mature tropical cyclone that develops in the western North Pacific Ocean, characterized by strong winds and heavy rain.",
     "reviewed": true
@@ -16382,8 +16382,8 @@
   "times": {
     "display": "times",
     "d": 0.5,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "You fear or are afraid of something or someone (second-person singular present of temer).",
     "reviewed": true
   },
   "timon": {
@@ -16431,8 +16431,8 @@
   "tiran": {
     "display": "tiran",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "They throw, pull, or shoot something (third-person plural present of tirar).",
     "reviewed": true
   },
   "tirar": {
@@ -16452,15 +16452,15 @@
   "tiren": {
     "display": "tiren",
     "d": 0.75,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "They throw, pull, or shoot (third-person plural present subjunctive of tirar).",
     "reviewed": true
   },
   "tires": {
     "display": "tires",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.65,
+    "pos": "verb",
+    "def": "You throw, pull, or shoot (second-person singular present subjunctive of tirar).",
     "reviewed": true
   },
   "tiron": {
@@ -16487,8 +16487,8 @@
   "tocan": {
     "display": "tocan",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "They touch, play a musical instrument, or knock on a door (third-person plural present of tocar).",
     "reviewed": true
   },
   "tocar": {
@@ -16556,9 +16556,9 @@
   },
   "tomes": {
     "display": "tomes",
-    "d": 0.4,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.82,
+    "pos": "verb",
+    "def": "You take, drink, or seize something (second-person singular present subjunctive of tomar).",
     "reviewed": true
   },
   "tonos": {
@@ -16571,8 +16571,8 @@
   "tonta": {
     "display": "tonta",
     "d": 0.23,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Describing a woman or girl who is foolish, silly, or lacking intelligence.",
     "reviewed": true
   },
   "tonto": {
@@ -16584,7 +16584,7 @@
   },
   "topos": {
     "display": "topos",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Small, burrowing mammals with velvety fur and tiny eyes; also, small spots or dots on a surface (plural of topo).",
     "reviewed": true
@@ -16593,12 +16593,12 @@
     "display": "toque",
     "d": 0.25,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'touch'.",
+    "def": "A touch, a knock, a musical note, or a distinctive personal style or flair.",
     "reviewed": true
   },
   "torax": {
     "display": "tórax",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "The part of the body between the neck and the abdomen, containing the heart and lungs; the chest.",
     "reviewed": true
@@ -16612,7 +16612,7 @@
   },
   "torna": {
     "display": "torna",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "Returns or turns; he, she, or it returns or turns (third-person singular present of tornar).",
     "reviewed": true
@@ -16661,7 +16661,7 @@
   },
   "tosca": {
     "display": "tosca",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Rough, coarse, or unrefined in texture or manner; lacking smoothness or polish (feminine singular adjective).",
     "reviewed": true
@@ -16677,14 +16677,14 @@
     "display": "toser",
     "d": 0.35,
     "pos": "verb",
-    "def": "To engage in the action of to cough.",
+    "def": "To expel air from the lungs with a sudden, sharp sound, typically as a result of an irritation.",
     "reviewed": true
   },
   "total": {
     "display": "total",
     "d": 0.21,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Comprising the whole amount, quantity, or extent; complete or absolute.",
     "reviewed": true
   },
   "totem": {
@@ -16698,12 +16698,12 @@
     "display": "touch",
     "d": 0.95,
     "pos": "adj",
-    "def": "Characterized by being touch; touch-screen.",
+    "def": "Relating to or operated by physical contact, often referring to a screen or interface.",
     "reviewed": true
   },
   "tours": {
     "display": "tours",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "Journeys or excursions made for pleasure or business, often visiting several places (plural of tour).",
     "reviewed": true
@@ -16712,21 +16712,21 @@
     "display": "traba",
     "d": 0.95,
     "pos": "noun",
-    "def": "To intercept and hold something moving through the air.",
+    "def": "An obstacle, hindrance, or impediment that prevents progress or movement.",
     "reviewed": true
   },
   "trace": {
     "display": "trace",
     "d": 0.95,
     "pos": "verb",
-    "def": "To draw or sketch an outline of something, or to plan and design a path (first or third-person singular present subjunctive of 'trazar').",
+    "def": "I/he/she/it draws, traces, or outlines a path or figure (first/third-person singular present subjunctive of trazar).",
     "reviewed": true
   },
   "traed": {
     "display": "traed",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "Bring or carry something to a place or person (second-person plural imperative of traer).",
     "reviewed": true
   },
   "traen": {
@@ -16753,8 +16753,8 @@
   "traga": {
     "display": "traga",
     "d": 0.93,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "He/she/it swallows or gulps down food or drink (third-person singular present of tragar).",
     "reviewed": true
   },
   "trago": {
@@ -16801,23 +16801,23 @@
   },
   "trans": {
     "display": "trans",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being transgender, trans.",
+    "def": "Referring to a person whose gender identity differs from the sex they were assigned at birth.",
     "reviewed": true
   },
   "trapo": {
     "display": "trapo",
     "d": 0.35,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A piece of old cloth, often used for cleaning or wiping; a rag.",
     "reviewed": true
   },
   "trata": {
     "display": "trata",
     "d": 0.09,
-    "pos": "noun",
-    "def": "The action of buying and selling goods and services between parties.",
+    "pos": "verb",
+    "def": "He/she/it treats, deals with, or tries to do something (third-person singular present of tratar).",
     "reviewed": true
   },
   "trate": {
@@ -16850,14 +16850,14 @@
   },
   "trece": {
     "display": "trece",
-    "d": 0.64,
+    "d": 0.35,
     "pos": "noun",
     "def": "The cardinal number equivalent to the sum of ten and three; the number 13.",
     "reviewed": true
   },
   "trepa": {
     "display": "trepa",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A person who tries to gain a higher social or professional position, often by unscrupulous means; a social climber.",
     "reviewed": true
@@ -16871,7 +16871,7 @@
   },
   "treta": {
     "display": "treta",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A cunning or skillful act or scheme intended to deceive or outwit someone.",
     "reviewed": true
@@ -16908,7 +16908,7 @@
     "display": "troll",
     "d": 0.95,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "An internet user who posts inflammatory or off-topic messages to provoke others.",
     "reviewed": true
   },
   "trono": {
@@ -16936,7 +16936,7 @@
     "display": "trozo",
     "d": 0.37,
     "pos": "noun",
-    "def": "The entity, object, or concept represented by 'slice'.",
+    "def": "A piece, segment, or portion of something, often broken or cut off.",
     "reviewed": true
   },
   "truco": {
@@ -16948,7 +16948,7 @@
   },
   "trufa": {
     "display": "trufa",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A highly prized edible fungus that grows underground, often used as a culinary delicacy; also, a chocolate confection.",
     "reviewed": true
@@ -16971,7 +16971,7 @@
     "display": "tumba",
     "d": 0.26,
     "pos": "noun",
-    "def": "A hole dug in the ground to receive a coffin, or giving cause for alarm.",
+    "def": "A grave or burial place, often marked by a monument; a tomb.",
     "reviewed": true
   },
   "tumor": {
@@ -16990,30 +16990,30 @@
   },
   "turba": {
     "display": "turba",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A large, disorderly crowd of people, often acting with violence or lawlessness; a rabble or mob.",
     "reviewed": true
   },
   "turbo": {
     "display": "turbo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A device that increases an engine's power by forcing more air into the combustion chambers.",
     "reviewed": true
   },
   "turca": {
     "display": "turca",
     "d": 0.95,
-    "pos": "noun",
-    "def": "female equivalent of turco.",
+    "pos": "adj",
+    "def": "Relating to Turkey or its people, language, or culture (feminine singular).",
     "reviewed": true
   },
   "turco": {
     "display": "turco",
     "d": 0.74,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'Turkish, Turk'.",
+    "pos": "adj",
+    "def": "Relating to Turkey or its people, language, or culture (masculine singular).",
     "reviewed": true
   },
   "turno": {
@@ -17033,8 +17033,8 @@
   "tuyas": {
     "display": "tuyas",
     "d": 0.51,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Belonging to you (feminine plural form of the possessive adjective/pronoun 'tuyo').",
     "reviewed": true
   },
   "tuyos": {
@@ -17074,7 +17074,7 @@
   },
   "ultra": {
     "display": "ultra",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "Characterized by being extreme.",
     "reviewed": true
@@ -17103,8 +17103,8 @@
   "unido": {
     "display": "unido",
     "d": 0.44,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Joined or brought together as a single entity; united or connected.",
     "reviewed": true
   },
   "union": {
@@ -17130,7 +17130,7 @@
   },
   "urnas": {
     "display": "urnas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Containers, often ornamental, used for holding the ashes of a cremated person or for collecting votes in an election (plural of urna).",
     "reviewed": true
@@ -17152,8 +17152,8 @@
   "usado": {
     "display": "usado",
     "d": 0.29,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'worn, used'.",
+    "pos": "adj",
+    "def": "Having been utilized or employed previously; not new or fresh; worn.",
     "reviewed": true
   },
   "usara": {
@@ -17180,8 +17180,8 @@
   "usual": {
     "display": "usual",
     "d": 0.81,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Happening or existing most of the time; customary or common.",
     "reviewed": true
   },
   "utero": {
@@ -17201,15 +17201,15 @@
   "vacia": {
     "display": "vacía",
     "d": 0.65,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Containing nothing; not filled or occupied by anything (feminine singular).",
     "reviewed": true
   },
   "vacie": {
     "display": "vacíe",
     "d": 0.95,
     "pos": "verb",
-    "def": "Containing nothing; not filled or occupied by anything.",
+    "def": "I/he/she/it empties or makes something empty (first/third-person singular present subjunctive of vaciar).",
     "reviewed": true
   },
   "vacio": {
@@ -17230,7 +17230,7 @@
     "display": "vagar",
     "d": 0.65,
     "pos": "verb",
-    "def": "An infinitive action verb expressing the intentional execution of this activity.",
+    "def": "To wander or roam without a definite destination or purpose; to stroll idly.",
     "reviewed": true
   },
   "vagas": {
@@ -17256,7 +17256,7 @@
   },
   "vaina": {
     "display": "vaina",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A case or covering for the blade of a sword, knife, or other sharp weapon; a scabbard or sheath.",
     "reviewed": true
@@ -17292,22 +17292,22 @@
   "valga": {
     "display": "valga",
     "d": 0.62,
-    "pos": "adj",
-    "def": "feminine singular of valgo.",
+    "pos": "verb",
+    "def": "I/he/she/it is worth, is valid, or serves a purpose (first/third-person singular present subjunctive of valer).",
     "reviewed": true
   },
   "valgo": {
     "display": "valgo",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "verb",
+    "def": "I am worth, I am valid, or I serve a purpose (first-person singular present of valer).",
     "reviewed": true
   },
   "valia": {
     "display": "valía",
     "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "The quality of being worthy or having merit; worth or value.",
     "reviewed": true
   },
   "valio": {
@@ -17355,13 +17355,13 @@
   "varas": {
     "display": "varas",
     "d": 0.95,
-    "pos": "adj",
-    "def": "Plural form or feminine plural describing var; multiple instances.",
+    "pos": "noun",
+    "def": "Long, slender pieces of wood or metal, used as sticks, rods, or measuring units (plural of vara).",
     "reviewed": true
   },
   "varia": {
     "display": "varia",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "adj",
     "def": "feminine singular of vario.",
     "reviewed": true
@@ -17391,14 +17391,14 @@
     "display": "vasta",
     "d": 0.82,
     "pos": "adj",
-    "def": "feminine singular of vasto.",
+    "def": "Of very great extent or quantity; immense or enormous (feminine singular).",
     "reviewed": true
   },
   "vasto": {
     "display": "vasto",
     "d": 0.82,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Of very great extent or quantity; immense or enormous (masculine singular).",
     "reviewed": true
   },
   "vater": {
@@ -17454,14 +17454,14 @@
     "display": "vejez",
     "d": 0.65,
     "pos": "noun",
-    "def": "Having lived or existed for a long time; not young or new.",
+    "def": "The later part of life; the state of being old; old age.",
     "reviewed": true
   },
   "velar": {
     "display": "velar",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
-    "def": "To look at or observe attentively over a period of time.",
+    "def": "To watch over, keep vigil, or ensure the protection of someone or something.",
     "reviewed": true
   },
   "velas": {
@@ -17473,9 +17473,9 @@
   },
   "vello": {
     "display": "vello",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "Fine, soft, downy hair that covers parts of the human body, like peach fuzz.",
     "reviewed": true
   },
   "veloz": {
@@ -17573,7 +17573,7 @@
     "display": "venir",
     "d": 0.07,
     "pos": "verb",
-    "def": "Senses relating to literal movement.",
+    "def": "To move towards a speaker or a specified place; to arrive or approach a destination.",
     "reviewed": true
   },
   "venis": {
@@ -17614,8 +17614,8 @@
   "verde": {
     "display": "verde",
     "d": 0.21,
-    "pos": "noun",
-    "def": "The entity, object, or concept represented by 'green'.",
+    "pos": "adj",
+    "def": "Having the color of fresh grass or leaves; unripe or inexperienced.",
     "reviewed": true
   },
   "veria": {
@@ -17634,9 +17634,9 @@
   },
   "verso": {
     "display": "verso",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A single line of poetry or a stanza; also, the reverse side of a coin or page.",
     "reviewed": true
   },
   "vesti": {
@@ -17698,8 +17698,8 @@
   "vieja": {
     "display": "vieja",
     "d": 0.15,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Referring to a female person or thing that is old in age or has existed for a long time (feminine form of viejo).",
     "reviewed": true
   },
   "viejo": {
@@ -17732,21 +17732,21 @@
   },
   "vigas": {
     "display": "vigas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Long, sturdy pieces of timber or metal used to support the roof or floor of a building (plural form of \"viga\").",
     "reviewed": true
   },
   "vigia": {
     "display": "vigía",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A person or structure positioned to keep watch over an area, especially at sea or from a height.",
     "reviewed": true
   },
   "vigor": {
     "display": "vigor",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Physical strength and good health; effortless effort and energy.",
     "reviewed": true
@@ -17762,7 +17762,7 @@
     "display": "villa",
     "d": 0.44,
     "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "def": "A large and often luxurious country house, typically in a rural or suburban setting; a small town.",
     "reviewed": true
   },
   "vimos": {
@@ -17802,21 +17802,21 @@
   },
   "violo": {
     "display": "violo",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "I violate, break a law or rule, or infringe upon rights (first-person singular present of violar).",
     "reviewed": true
   },
   "viral": {
     "display": "viral",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "d": 0.65,
+    "pos": "adj",
+    "def": "Relating to or caused by a virus; also, something that spreads rapidly and widely online.",
     "reviewed": true
   },
   "virar": {
     "display": "virar",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "to veer in a vehicle.",
     "reviewed": true
@@ -17830,7 +17830,7 @@
   },
   "viril": {
     "display": "viril",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
     "def": "Characterized by being male.",
     "reviewed": true
@@ -17844,7 +17844,7 @@
   },
   "visas": {
     "display": "visas",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "Official endorsements placed in a passport, permitting entry into a particular country (plural form of \"visa\").",
     "reviewed": true
@@ -17858,14 +17858,14 @@
   },
   "vison": {
     "display": "visón",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A carnivorous mammal of the weasel family, valued for its luxurious dark brown fur.",
     "reviewed": true
   },
   "visor": {
     "display": "visor",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "noun",
     "def": "A movable part of a helmet that covers the face, or a screen that protects the eyes from glare.",
     "reviewed": true
@@ -17894,8 +17894,8 @@
   "vital": {
     "display": "vital",
     "d": 0.5,
-    "pos": "noun",
-    "def": "A noun denoting an object, entity, or recognized phenomenon.",
+    "pos": "adj",
+    "def": "Absolutely necessary or important for life or success; full of energy and life.",
     "reviewed": true
   },
   "viuda": {
@@ -17928,9 +17928,9 @@
   },
   "vivaz": {
     "display": "vivaz",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being vivacious.",
+    "def": "Full of life and energy; lively, spirited, or vivacious in character or appearance.",
     "reviewed": true
   },
   "viven": {
@@ -18035,7 +18035,7 @@
     "display": "voraz",
     "d": 0.82,
     "pos": "adj",
-    "def": "Characterized by being voracious, greedy.",
+    "def": "Having a very eager approach to an activity, especially eating; ravenous or insatiably hungry.",
     "reviewed": true
   },
   "votan": {
@@ -18082,7 +18082,7 @@
   },
   "vuele": {
     "display": "vuele",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "May I/he/she/it fly, move through the air, or rush quickly (first/third-person singular present subjunctive of volar).",
     "reviewed": true
@@ -18117,14 +18117,14 @@
   },
   "yacen": {
     "display": "yacen",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "They lie, rest, or are situated in a particular place (third-person plural present of yacer).",
     "reviewed": true
   },
   "yacia": {
     "display": "yacía",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
     "def": "first/third-person singular imperfect indicative of yacer.",
     "reviewed": true
@@ -18138,14 +18138,14 @@
   },
   "yates": {
     "display": "yates",
-    "d": 0.9,
+    "d": 0.82,
     "pos": "noun",
     "def": "Large, luxurious recreational boats or ships, used for pleasure cruising or racing (plural form of \"yate\").",
     "reviewed": true
   },
   "yegua": {
     "display": "yegua",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A female horse or other equine animal, typically over three years old.",
     "reviewed": true
@@ -18175,7 +18175,7 @@
     "display": "yerba",
     "d": 0.95,
     "pos": "noun",
-    "def": "alternative form of hierba ().",
+    "def": "A general term for a plant with soft stems, especially one used for medicinal purposes or as an herb.",
     "reviewed": true
   },
   "yerno": {
@@ -18194,14 +18194,14 @@
   },
   "zafar": {
     "display": "zafar",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
     "def": "to loosen; to untie.",
     "reviewed": true
   },
   "zanja": {
     "display": "zanja",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "noun",
     "def": "A narrow channel dug at the side of a road or field.",
     "reviewed": true

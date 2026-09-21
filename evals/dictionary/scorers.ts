@@ -57,9 +57,9 @@ export const buildJevQuestions = (entry: DictionaryEntry) => {
         intermediate:
           'Intermediate / Common: Familiar conversational word (e.g. blend, crisp, playa, monde)',
         advanced:
-          'Advanced / Sophisticated: Formal, literary, or nuanced word (e.g. abate, forge, sutil)',
+          'Advanced / Sophisticated: Formal, literary, specialized/domain, or nuanced word recognizable to an educated adult (e.g. aorta, valve, usury, puree, horda, abate, sutil)',
         obscure:
-          'Obscure / Rare: Archaic, technical, jargon, or specialist word (e.g. aback, xylem, fovea)',
+          'Obscure / Rare: Truly archaic, dead, esoteric jargon, or rare specialist terms unfamiliar to most educated adults (e.g. aback, xylem, fovea, skink, chyme)',
       }
     ),
   };

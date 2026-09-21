@@ -7,10 +7,11 @@ const options = {
   lang: 'all',
   batchSize: 40,
   limit: Infinity,
-  filter: 'low-quality', // default to low-quality when running passes
+  filter: 'review-queue', // default to review-queue to fix audit queue entries
   dryRun: false,
   words: null,
   model: 'gemini-2.5-flash',
+  queuePath: null,
 };
 
 for (const arg of args) {
@@ -20,6 +21,7 @@ for (const arg of args) {
   else if (arg.startsWith('--filter=')) options.filter = arg.split('=')[1].toLowerCase();
   else if (arg === '--dry-run') options.dryRun = true;
   else if (arg.startsWith('--model=')) options.model = arg.split('=')[1];
+  else if (arg.startsWith('--queue=')) options.queuePath = arg.split('=')[1];
   else if (arg.startsWith('--words=')) {
     options.words = arg
       .split('=')[1]
@@ -235,6 +237,24 @@ async function processLanguage(lang) {
   if (options.words && options.words.length > 0) {
     const wordSet = new Set(options.words);
     candidates = candidates.filter((c) => wordSet.has(c.key));
+  } else if (options.filter === 'review-queue') {
+    const queueFile = options.queuePath || path.join(process.cwd(), 'evals/artifacts/review_queue.json');
+    if (fs.existsSync(queueFile)) {
+      const qData = JSON.parse(fs.readFileSync(queueFile, 'utf8'));
+      const flaggedSet = new Set(
+        (qData.queue || [])
+          .filter(
+            (item) =>
+              item.lang === lang &&
+              (item.definitionVerdict !== 'accurate' || item.formatVerdict !== 'clean_dictionary')
+          )
+          .map((item) => item.word)
+      );
+      candidates = candidates.filter((c) => flaggedSet.has(c.key));
+    } else {
+      console.warn(`⚠️ Queue file not found at ${queueFile}, falling back to low-quality filter.`);
+      candidates = candidates.filter((c) => isLowQuality(c.def));
+    }
   } else if (options.filter === 'low-quality') {
     candidates = candidates.filter((c) => isLowQuality(c.def));
   }

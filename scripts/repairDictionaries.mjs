@@ -22,6 +22,19 @@ const CORRUPTED_PATTERNS = [
   'The arrangement or disposition of people or things according to a particular sequence.',
   'A portion of an object or of material, produced by cutting, tearing, or breaking.',
   'first/third-person singular present indicative/subjunctive.',
+  'The sweet and fleshy product of a tree or other plant that contains seed.',
+  'Having lived or existed for a long time; not young or new.',
+  'Extending far upward from the ground; of great vertical extent.',
+  'A strong, magnetic silver-gray metallic element widely used in structural alloys.',
+  'A hard stony substance formed by marine coelenterate skeletons.',
+  'A large permanent settlement with a complex infrastructure of buildings.',
+  'A solid material that is typically hard, shiny, malleable, and conducts electricity.',
+  'A white crystalline mineral substance used for seasoning and preserving food.',
+  'A colorless, transparent, odorless liquid that forms the seas, lakes, and rivers.',
+  'The natural agent that stimulates sight and makes things visible to eyes.',
+  'The planet on which we live; the world or soil.',
+  'Having an edge or point that is able to cut or pierce something easily.',
+  'An area of open land, especially one planted with crops or pasture.',
 ];
 
 function isCorrupted(def) {
@@ -47,6 +60,18 @@ function mapTierToDifficulty(currentD, jevTier) {
 
 console.log('🛠️ Repairing dictionaries using Jev difficulty tiers & git pre-corruption history...\n');
 
+// Load full review queue if available
+let fullQueue = [];
+const fullQueuePath = path.resolve('evals/artifacts/review_queue.json');
+if (fs.existsSync(fullQueuePath)) {
+  try {
+    const qData = JSON.parse(fs.readFileSync(fullQueuePath, 'utf8'));
+    fullQueue = qData.queue || [];
+  } catch (err) {
+    console.warn('Could not load full review queue:', err.message);
+  }
+}
+
 for (const lang of LANGS) {
   const dictPath = path.resolve(`public/${lang}.json`);
   const queuePath = path.resolve(`evals/artifacts/review_queue_${lang}.json`);
@@ -70,9 +95,9 @@ for (const lang of LANGS) {
     console.warn(`Could not load git history for ${lang}:`, err.message);
   }
 
-  // Load review queue
-  let queueItems = [];
-  if (fs.existsSync(queuePath)) {
+  // Load queue items for this language from fullQueue or individual queue
+  let queueItems = fullQueue.filter((item) => item.lang === lang);
+  if (queueItems.length === 0 && fs.existsSync(queuePath)) {
     const qData = JSON.parse(fs.readFileSync(queuePath, 'utf8'));
     queueItems = qData.queue || [];
   }
