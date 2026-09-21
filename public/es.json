@@ -290,7 +290,7 @@
     "display": "adore",
     "d": 0.82,
     "pos": "verb",
-    "def": "That I, he, or she adores, worships, or loves deeply (first/third-person singular present subjunctive of adorar).",
+    "def": "Adores, worships, or loves deeply (first or third-person singular present subjunctive of adorar).",
     "reviewed": true
   },
   "adoro": {
@@ -1521,8 +1521,8 @@
   "ayuno": {
     "display": "ayuno",
     "d": 0.65,
-    "pos": "adj",
-    "def": "In the state of abstaining from food and drink, often for religious or health reasons (masculine singular of ayuno).",
+    "pos": "noun",
+    "def": "The act or period of abstaining from food and drink; a fast.",
     "reviewed": true
   },
   "azote": {
@@ -3090,7 +3090,7 @@
     "display": "cause",
     "d": 0.65,
     "pos": "verb",
-    "def": "That I, he, or she cause, bring about, or produce something (present subjunctive of causar).",
+    "def": "Causes, brings about, or produces an effect (first or third-person singular present subjunctive of causar).",
     "reviewed": true
   },
   "causo": {
@@ -3236,8 +3236,8 @@
   "cerdo": {
     "display": "cerdo",
     "d": 0.22,
-    "pos": "adj",
-    "def": "Describing someone or something as dirty, filthy, or pig-like in behavior or appearance (masculine singular of cerdo).",
+    "pos": "noun",
+    "def": "A domesticated pig or swine; also colloquially a dirty, greedy, or uncouth person.",
     "reviewed": true
   },
   "ceros": {
@@ -3390,8 +3390,8 @@
   "choco": {
     "display": "choco",
     "d": 0.35,
-    "pos": "noun",
-    "def": "A cuttlefish, an edible cephalopod mollusk popular in Spanish gastronomy.",
+    "pos": "verb",
+    "def": "I crash, collide, or bump into something (first-person singular present of chocar).",
     "reviewed": true
   },
   "choza": {
@@ -3802,9 +3802,9 @@
   },
   "colin": {
     "display": "colín",
-    "d": 0.45,
+    "d": 0.65,
     "pos": "noun",
-    "def": "A small, crunchy breadstick typically served as an appetizer or with tapas.",
+    "def": "A New World quail or bobwhite; also a slender crunchy breadstick served with tapas.",
     "reviewed": true
   },
   "colmo": {
@@ -4152,9 +4152,9 @@
   },
   "creed": {
     "display": "creed",
-    "d": 0.95,
+    "d": 0.82,
     "pos": "verb",
-    "def": "Believe or trust in something or someone (second-person plural imperative of creer).",
+    "def": "Conjugated form of the Spanish verb creer (to believe): vosotros creed (second-person plural imperative).",
     "reviewed": true
   },
   "creen": {
@@ -4356,8 +4356,8 @@
   "cuido": {
     "display": "cuido",
     "d": 0.75,
-    "pos": "noun",
-    "def": "The act of looking after someone or something, providing protection, attention, and maintenance.",
+    "pos": "verb",
+    "def": "I take care of, look after, or tend to someone or something (first-person singular present of cuidar).",
     "reviewed": true
   },
   "culpa": {
@@ -5060,13 +5060,6 @@
     "def": "Easily managed or taught; submissive and obedient, especially of an animal or person.",
     "reviewed": true
   },
-  "dolan": {
-    "display": "dolan",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "They convert currency to dollars or adopt the dollar as legal tender (third-person plural present of dolar).",
-    "reviewed": true
-  },
   "dolar": {
     "display": "dólar",
     "d": 0.35,
@@ -5186,13 +5179,6 @@
     "def": "A medicine or other substance that has a physiological effect when ingested or otherwise introduced into the body.",
     "reviewed": true
   },
-  "drogo": {
-    "display": "drogo",
-    "d": 0.95,
-    "pos": "adj",
-    "def": "Describing a person who is addicted to drugs; often used colloquially or pejoratively (masculine singular of drogo).",
-    "reviewed": true
-  },
   "ducha": {
     "display": "ducha",
     "d": 0.31,
@@ -5230,16 +5216,16 @@
   },
   "dudes": {
     "display": "dudes",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "That you (informal singular) doubt, question, or are uncertain about something (second-person singular present subjunctive of dudar).",
+    "def": "Conjugated form of the Spanish verb dudar (to doubt): no dudes (second-person singular present subjunctive).",
     "reviewed": true
   },
   "duela": {
     "display": "duela",
     "d": 0.65,
     "pos": "verb",
-    "def": "It hurts or pains someone; that it hurts or causes pain (third-person singular present indicative or present subjunctive of doler).",
+    "def": "Hurts, causes physical pain, or grieves (third-person singular present subjunctive of the Spanish verb doler).",
     "reviewed": true
   },
   "duele": {
@@ -5469,15 +5455,15 @@
   "ellas": {
     "display": "ellas",
     "d": 0.13,
-    "pos": "noun",
-    "def": "Refers to a group of two or more females, serving as the subject or object of a verb (feminine plural pronoun).",
+    "pos": "pron",
+    "def": "They; third-person feminine plural subject pronoun referring to women, girls, or feminine nouns.",
     "reviewed": true
   },
   "ellos": {
     "display": "ellos",
     "d": 0.05,
-    "pos": "noun",
-    "def": "Refers to a group of two or more males or mixed gender, serving as the subject or object of a verb (masculine plural pronoun).",
+    "pos": "pron",
+    "def": "They; third-person masculine plural subject pronoun referring to men, mixed groups, or masculine nouns.",
     "reviewed": true
   },
   "email": {
@@ -6562,7 +6548,7 @@
     "display": "fumes",
     "d": 0.65,
     "pos": "verb",
-    "def": "That you (informal singular) smoke tobacco or other substances, or that you emit smoke (second-person singular present subjunctive of fumar).",
+    "def": "Smoke tobacco, inhale fumes, or emit vapors (informal second-person singular present subjunctive of fumar).",
     "reviewed": true
   },
   "funda": {
@@ -7347,13 +7333,6 @@
     "d": 0.07,
     "pos": "prep/verb",
     "def": "Directional preposition toward, or imperfect form of hacer; toward or was doing.",
-    "reviewed": true
-  },
-  "hadar": {
-    "display": "hadar",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "To determine or influence the destiny or future of someone or something, often by supernatural forces.",
     "reviewed": true
   },
   "hadas": {
@@ -11396,10 +11375,10 @@
     "reviewed": true
   },
   "ovulo": {
-    "display": "ovulo",
-    "d": 0.95,
-    "pos": "verb",
-    "def": "I release a mature egg from the ovary during the menstrual cycle (first-person singular present of ovular).",
+    "display": "óvulo",
+    "d": 0.82,
+    "pos": "noun",
+    "def": "A female reproductive egg cell or ovum in animals, or the unfertilized seed structure in plants.",
     "reviewed": true
   },
   "oxido": {
@@ -11775,9 +11754,9 @@
   },
   "pasma": {
     "display": "pasma",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "An informal colloquial slang term used in Spain to refer to the police.",
+    "d": 0.85,
+    "pos": "verb",
+    "def": "Astonishes, stuns, or freezes with amazement (third-person singular present of pasmar).",
     "reviewed": true
   },
   "pasos": {
@@ -12819,8 +12798,8 @@
   "poses": {
     "display": "poses",
     "d": 0.95,
-    "pos": "noun",
-    "def": "Deliberate postures, stances, or attitudes assumed by a person or model (plural of pose).",
+    "pos": "verb",
+    "def": "Perch, alight, or pose for a portrait (second-person singular present subjunctive of the Spanish verb posar).",
     "reviewed": true
   },
   "posta": {
@@ -13023,7 +13002,7 @@
     "display": "pulse",
     "d": 0.95,
     "pos": "verb",
-    "def": "That I, he, or she press, push, or pulse something (first/third-person singular present subjunctive of pulsar).",
+    "def": "Presses, pushes a button, or plucks a string (first or third-person singular present subjunctive of pulsar).",
     "reviewed": true
   },
   "pulso": {
@@ -14731,7 +14710,7 @@
     "display": "seque",
     "d": 0.95,
     "pos": "verb",
-    "def": "That I, he, or she dries or makes something dry; also, that it dries up or withers (present subjunctive of secar).",
+    "def": "Dries, wipes dry, or dehydrates something (first or third-person singular present subjunctive of secar).",
     "reviewed": true
   },
   "seran": {

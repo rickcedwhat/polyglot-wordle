@@ -10019,8 +10019,8 @@
   "hyoid": {
     "display": "hyoid",
     "d": 0.95,
-    "pos": "adj",
-    "def": "Relating to or denoting the U-shaped bone located in the neck, supporting the tongue and larynx.",
+    "pos": "noun",
+    "def": "A U-shaped bone situated at the base of the tongue in the neck, supporting the tongue muscles.",
     "reviewed": true
   },
   "hyped": {
@@ -13974,8 +13974,8 @@
   "panty": {
     "display": "panty",
     "d": 0.35,
-    "pos": "adj",
-    "def": "Relating to or resembling panties, often used in combination with other words (e.g., pantyhose).",
+    "pos": "noun",
+    "def": "A short, lightweight undergarment covering the lower torso, worn especially by women or girls.",
     "reviewed": true
   },
   "papal": {
@@ -21762,13 +21762,6 @@
     "def": "A device that controls the flow of a gas or fluid through a space, such as a pipe, manifold, or plenum.",
     "reviewed": true
   },
-  "vamos": {
-    "display": "vamos",
-    "d": 0.95,
-    "pos": "intj",
-    "def": "An informal exclamation borrowed from Spanish used to say let us go or hurry up.",
-    "reviewed": true
-  },
   "vamps": {
     "display": "vamps",
     "d": 0.95,
@@ -23095,8 +23088,8 @@
   "yikes": {
     "display": "yikes",
     "d": 0.65,
-    "pos": "noun",
-    "def": "An exclamation expressing sudden surprise, alarm, or mild shock, often in response to something unexpected.",
+    "pos": "interjection",
+    "def": "Used to express sudden shock, alarm, surprise, or mild fear.",
     "reviewed": true
   },
   "yodel": {

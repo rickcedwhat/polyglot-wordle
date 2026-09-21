@@ -52,7 +52,7 @@
     "display": "about",
     "d": 0.8,
     "pos": "noun",
-    "def": "The extreme end, tip, or butt joint of a structural beam or board.",
+    "def": "In French carpentry and joinery, the end cut or butt end of a piece of timber (un about de poutre).",
     "reviewed": true
   },
   "aboye": {
@@ -1171,8 +1171,8 @@
   "banco": {
     "display": "banco",
     "d": 0.95,
-    "pos": "noun",
-    "def": "A term used in card games like baccarat, indicating that the player bets against the bank.",
+    "pos": "intj",
+    "def": "An exclamation or call used in card games and colloquially to accept a challenge or wager; agreed!",
     "reviewed": true
   },
   "bancs": {
@@ -1695,9 +1695,9 @@
   },
   "blair": {
     "display": "blair",
-    "d": 0.5,
+    "d": 0.65,
     "pos": "noun",
-    "def": "An informal or slang French word for a person nose or schnoz.",
+    "def": "In French argot and slang, a person's nose or schnoz; also used in the idiom ne pas pouvoir blairer (to dislike).",
     "reviewed": true
   },
   "blame": {
@@ -1907,7 +1907,7 @@
     "display": "bosco",
     "d": 0.95,
     "pos": "noun",
-    "def": "A boatswain or petty ship officer supervising the deck crew and rigging.",
+    "def": "In French maritime slang, a boatswain or petty officer (un bosco ou maître d’équipage).",
     "reviewed": true
   },
   "bosse": {
@@ -2435,13 +2435,6 @@
     "def": "The process of decomposition or decay, especially referring to tooth decay or a dental cavity.",
     "reviewed": true
   },
-  "carne": {
-    "display": "carne",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Tough, bad-quality meat, or informally an old worn-out horse or difficult person.",
-    "reviewed": true
-  },
   "carpe": {
     "display": "carpe",
     "d": 0.65,
@@ -2572,7 +2565,7 @@
     "display": "cents",
     "d": 0.3,
     "pos": "noun",
-    "def": "The number one hundred, or coins representing a hundredth of a monetary unit (plural of cent).",
+    "def": "In French, multiple hundreds (plural of cent, taking an s when multiplied, as in deux cents).",
     "reviewed": true
   },
   "cerfs": {
@@ -3020,7 +3013,7 @@
     "display": "coche",
     "d": 0.65,
     "pos": "noun",
-    "def": "A mark, typically a checkmark or tick, used to indicate that something has been verified, completed, or selected.",
+    "def": "A notch, nick, or tick mark made on an object or checklist; also an old-fashioned passenger river boat or coach.",
     "reviewed": true
   },
   "cocon": {
@@ -3132,7 +3125,7 @@
     "display": "condé",
     "d": 0.95,
     "pos": "noun",
-    "def": "A French slang term for a police officer or cop.",
+    "def": "In French street slang and police argot, a police officer, detective, or cop (condé).",
     "reviewed": true
   },
   "cones": {
@@ -4573,8 +4566,8 @@
   "elles": {
     "display": "elles",
     "d": 0.06,
-    "pos": "noun",
-    "def": "Used to refer to two or more female people or things previously mentioned or easily identified (feminine plural pronoun).",
+    "pos": "pron",
+    "def": "They; third-person feminine plural subject pronoun referring to women, female animals, or feminine nouns.",
     "reviewed": true
   },
   "eloge": {
@@ -5057,7 +5050,7 @@
     "display": "fallu",
     "d": 0.32,
     "pos": "verb",
-    "def": "Been necessary or required; indicating something that was obligatory or needed (past participle of falloir).",
+    "def": "Required or necessary as an obligation or need (past participle of the French impersonal verb falloir).",
     "reviewed": true
   },
   "farce": {
@@ -5211,7 +5204,7 @@
     "display": "ferre",
     "d": 0.95,
     "pos": "verb",
-    "def": "Shoes (a horse), irons (clothes), or arms with iron; also, hooks a fish (present tense of ferrer).",
+    "def": "Shoes a horse, fits with iron fittings, or hooks a biting fish (first or third-person present of ferrer).",
     "reviewed": true
   },
   "ferry": {
@@ -5260,7 +5253,7 @@
     "display": "fiait",
     "d": 0.95,
     "pos": "verb",
-    "def": "Trusted, confided in, or relied upon someone or something (imperfect tense of fier).",
+    "def": "Trusted, relied on, or placed faith in someone (third-person singular imperfect of the French reflexive verb se fier).",
     "reviewed": true
   },
   "fibre": {
@@ -5533,7 +5526,7 @@
     "display": "flirt",
     "d": 0.65,
     "pos": "noun",
-    "def": "A person who flirts; also, an act of playful romantic or sexual attraction without serious intent.",
+    "def": "A lighthearted romantic dalliance, courtship, or playful relationship without serious commitment.",
     "reviewed": true
   },
   "flore": {
@@ -7066,14 +7059,14 @@
     "display": "irons",
     "d": 0.47,
     "pos": "verb",
-    "def": "We will go, indicating a future action of moving from one place to another (first-person plural future indicative of aller).",
+    "def": "Shall go or will go to a place (first-person plural future indicative of the French verb aller).",
     "reviewed": true
   },
   "iront": {
     "display": "iront",
     "d": 0.56,
     "pos": "verb",
-    "def": "They will go, indicating a future action of moving from one place to another (third-person plural future indicative of aller).",
+    "def": "Will go or shall go to a destination (third-person plural future indicative of the French verb aller).",
     "reviewed": true
   },
   "islam": {
@@ -7932,9 +7925,9 @@
   },
   "liras": {
     "display": "liras",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "You will read or you shall read a book, text, or any written material (second-person singular future of lire).",
+    "def": "Conjugated form of the French verb lire (to read): tu liras (second-person singular future indicative).",
     "reviewed": true
   },
   "lires": {
@@ -8752,8 +8745,8 @@
   "miens": {
     "display": "miens",
     "d": 0.37,
-    "pos": "noun",
-    "def": "Mine, belonging to me or my family (masculine plural possessive pronoun, used as a noun).",
+    "pos": "pron",
+    "def": "Mine; the ones belonging to me or my family (masculine plural possessive pronoun, les miens).",
     "reviewed": true
   },
   "mieux": {
@@ -8774,7 +8767,7 @@
     "display": "mince",
     "d": 0.22,
     "pos": "adj",
-    "def": "Thin, slender, or lean in build; also, finely chopped or minced.",
+    "def": "Slender, slim, or slight in build; having a thin diameter or small thickness.",
     "reviewed": true
   },
   "miner": {
@@ -8949,7 +8942,7 @@
     "display": "moral",
     "d": 0.35,
     "pos": "noun",
-    "def": "The confidence, enthusiasm, and discipline of a person or group at a particular time; spirit or morale.",
+    "def": "In French, a person's mental state, spirits, psychological fortitude, or morale (le moral).",
     "reviewed": true
   },
   "morde": {
@@ -9138,7 +9131,7 @@
     "display": "muter",
     "d": 0.82,
     "pos": "verb",
-    "def": "To transfer an employee to a different position or location; also, to undergo a biological change or mutation.",
+    "def": "In French, to transfer an employee or civil servant to a new post or location; also to undergo genetic mutation.",
     "reviewed": true
   },
   "myope": {
@@ -9978,7 +9971,7 @@
     "display": "pales",
     "d": 0.95,
     "pos": "noun",
-    "def": "The blades of a propeller, fan, or turbine, designed to rotate and move air or water (plural of pale).",
+    "def": "In French, the rotating blades, vanes, or paddles of a propeller, fan, or turbine (plural of pale).",
     "reviewed": true
   },
   "palet": {
@@ -10153,7 +10146,7 @@
     "display": "parts",
     "d": 0.6,
     "pos": "noun",
-    "def": "Individual pieces, sections, or shares of a whole; also, roles in a play or components of a machine (plural of part).",
+    "def": "Portions, shares, or slices of a divided whole distributed among people (plural of the French noun part).",
     "reviewed": true
   },
   "parut": {
@@ -10187,8 +10180,8 @@
   "pater": {
     "display": "pater",
     "d": 0.95,
-    "pos": "verb",
-    "def": "To gently pat or stroke something, often in a comforting or affectionate manner (infinitive).",
+    "pos": "noun",
+    "def": "The Lord's Prayer (Pater noster in Latin); also colloquially a father or head of the family.",
     "reviewed": true
   },
   "pates": {
@@ -10585,9 +10578,9 @@
   },
   "phone": {
     "display": "phone",
-    "d": 0.35,
+    "d": 0.95,
     "pos": "noun",
-    "def": "A common informal term for a telephone, a device used for transmitting and receiving sound over distances.",
+    "def": "In French phonetics and linguistics, an individual speech sound or phone (un phone).",
     "reviewed": true
   },
   "piano": {
@@ -10697,9 +10690,9 @@
   },
   "piper": {
     "display": "piper",
-    "d": 0.5,
+    "d": 0.82,
     "pos": "verb",
-    "def": "To chirp or peep like a bird; also, to lure or entice someone, or to cheat at cards (infinitive).",
+    "def": "To rig or tamper with dice or cards to cheat; also to utter a sound, as in the French idiom ne pas piper mot.",
     "reviewed": true
   },
   "pique": {
@@ -11693,7 +11686,7 @@
     "display": "raina",
     "d": 0.95,
     "pos": "verb",
-    "def": "Made a groove or a channel in a surface or material (third-person singular past historic of rainer).",
+    "def": "Cut a groove, channel, or flute into wood or metal (third-person singular past historic of the French verb rainer).",
     "reviewed": true
   },
   "raler": {
@@ -11819,7 +11812,7 @@
     "display": "rates",
     "d": 0.95,
     "pos": "noun",
-    "def": "Internal organs located in the abdomen, involved in filtering blood (plural of rate).",
+    "def": "In French anatomy, the spleens; internal abdominal organs filtering blood (plural of the French noun rate).",
     "reviewed": true
   },
   "ratez": {
@@ -12065,13 +12058,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "A relay, a stopover point, or a baton passed in a relay race (post-1990 spelling of relais).",
-    "reviewed": true
-  },
-  "relax": {
-    "display": "relax",
-    "d": 0.37,
-    "pos": "adj",
-    "def": "Feeling or appearing calm and free from tension or anxiety; informal for relaxation.",
     "reviewed": true
   },
   "relie": {
@@ -12470,7 +12456,7 @@
     "display": "rogue",
     "d": 0.95,
     "pos": "noun",
-    "def": "The mass of eggs contained in the ovaries of a female fish or other aquatic animal; fish eggs.",
+    "def": "In French fishing, salted fish eggs or roe used as bait for sardines (la rogue).",
     "reviewed": true
   },
   "roles": {
@@ -12496,9 +12482,9 @@
   },
   "romps": {
     "display": "romps",
-    "d": 0.95,
+    "d": 0.65,
     "pos": "verb",
-    "def": "Breaks, separates into pieces, or ends a relationship or agreement (second-person singular present of rompre).",
+    "def": "Breaks, snaps, or ends (first or second person singular present indicative of the French verb rompre: je romps, tu romps).",
     "reviewed": true
   },
   "rompt": {
@@ -12611,13 +12597,6 @@
     "d": 0.31,
     "pos": "verb",
     "def": "Rolled, driven, or moved along by rotating (past participle of rouler).",
-    "reviewed": true
-  },
-  "round": {
-    "display": "round",
-    "d": 0.6,
-    "pos": "noun",
-    "def": "A tour or patrol, often a routine inspection; also, a round of drinks in a social setting.",
     "reviewed": true
   },
   "route": {
@@ -13548,7 +13527,7 @@
     "display": "sorts",
     "d": 0.65,
     "pos": "noun",
-    "def": "Fates or destinies; also, magical spells or charms (plural of sort).",
+    "def": "In French, destinies, fates, fortunes, or magical spells cast upon someone (plural of the French noun sort).",
     "reviewed": true
   },
   "sosie": {
@@ -13628,13 +13607,6 @@
     "def": "An activity involving physical exertion and skill, often competitive, pursued for recreation or health.",
     "reviewed": true
   },
-  "spots": {
-    "display": "spots",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "Specific locations or places; also refers to spotlights or small, distinct marks (plural of spot).",
-    "reviewed": true
-  },
   "spray": {
     "display": "spray",
     "d": 0.65,
@@ -13647,13 +13619,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "An exercise where one lowers the hips from a standing position and then stands back up; also an illegally occupied building.",
-    "reviewed": true
-  },
-  "squaw": {
-    "display": "squaw",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A term, now often considered offensive, referring to a Native American woman.",
     "reviewed": true
   },
   "stade": {
@@ -13919,7 +13884,7 @@
     "display": "taffe",
     "d": 0.95,
     "pos": "noun",
-    "def": "A puff or drag from a cigarette or joint; also, a short, quick breath or inhalation.",
+    "def": "In French colloquial slang, a puff or drag taken from a cigarette; also fear or anxiety in older argot.",
     "reviewed": true
   },
   "taire": {
@@ -14563,7 +14528,7 @@
     "display": "torts",
     "d": 0.82,
     "pos": "noun",
-    "def": "Wrongs, faults, or injuries; also, legal wrongs or civil offenses (plural of tort).",
+    "def": "In French, wrongs, faults, injustices, or harms committed against someone (plural of the French noun tort).",
     "reviewed": true
   },
   "total": {
@@ -14843,7 +14808,7 @@
     "display": "types",
     "d": 0.2,
     "pos": "noun",
-    "def": "Kinds, sorts, or categories of people or things; also, informal term for guys or fellows (plural of type).",
+    "def": "In French, guys, blokes, or fellows; also categories, models, or kinds of things (plural of the French noun type).",
     "reviewed": true
   },
   "tyran": {
@@ -15165,7 +15130,7 @@
     "display": "venue",
     "d": 0.12,
     "pos": "noun",
-    "def": "The act of arriving at a place; an arrival or coming to a specific location.",
+    "def": "In French, an arrival or the action of coming to a place (noun from the verb venir: la venue d'un ami).",
     "reviewed": true
   },
   "venus": {
@@ -15829,8 +15794,8 @@
   "youpi": {
     "display": "youpi",
     "d": 0.65,
-    "pos": "noun",
-    "def": "An exclamation of joy or triumph, often used to express excitement, similar to 'yippee' or 'hooray' in English.",
+    "pos": "intj",
+    "def": "An exclamation expressing joy, enthusiasm, or triumph, equivalent to yippee or hooray.",
     "reviewed": true
   },
   "yuans": {
