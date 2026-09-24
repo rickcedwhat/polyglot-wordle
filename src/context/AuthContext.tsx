@@ -80,6 +80,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             photoURL: user.photoURL || '',
             joinedAt: serverTimestamp() as Timestamp,
             difficultyPrefs: null,
+            languagePrefs: null,
             pinnedGames: [],
             isPrivate: false,
             stats: {
@@ -97,6 +98,8 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 en: { ...defaultLanguageStats },
                 es: { ...defaultLanguageStats },
                 fr: { ...defaultLanguageStats },
+                it: { ...defaultLanguageStats },
+                pt: { ...defaultLanguageStats },
               },
             },
           } as UserDoc);

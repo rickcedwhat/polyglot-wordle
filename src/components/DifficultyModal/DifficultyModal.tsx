@@ -3,9 +3,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { Button, Center, Loader, Modal, SegmentedControl, Stack, Text } from '@mantine/core';
 import { useAuth } from '@/context/AuthContext';
-import type { UserDoc } from '@/types/firestore.d.ts';
+import type { Difficulty, Language, UserDoc } from '@/types/firestore.d.ts';
+import { ALL_LANGUAGES, labelFor } from '@/utils/languages';
 
-type Difficulty = 'basic' | 'intermediate' | 'advanced';
 type Preferences = UserDoc['difficultyPrefs'];
 
 interface DifficultyModalProps {
@@ -13,7 +13,19 @@ interface DifficultyModalProps {
   onClose: () => void;
 }
 
-// Helper hook to manage fetching and updating preferences
+const DEFAULT_PREFS: NonNullable<Preferences> = {
+  en: 'basic',
+  es: 'basic',
+  fr: 'basic',
+  it: 'basic',
+  pt: 'basic',
+};
+
+const mergePrefs = (prefs: Preferences | null | undefined): NonNullable<Preferences> => ({
+  ...DEFAULT_PREFS,
+  ...(prefs ?? {}),
+});
+
 const useDifficultyPrefs = () => {
   const { currentUser } = useAuth();
   const queryClient = useQueryClient();
@@ -52,19 +64,11 @@ const useDifficultyPrefs = () => {
 
 export const DifficultyModal: FC<DifficultyModalProps> = ({ opened, onClose }) => {
   const { userProfileQuery, updatePrefsMutation } = useDifficultyPrefs();
-  const [prefs, setPrefs] = useState<Preferences | null>(null);
+  const [prefs, setPrefs] = useState<NonNullable<Preferences> | null>(null);
 
   useEffect(() => {
     if (userProfileQuery.data) {
-      // If fetched prefs are null, initialize with a default object.
-      // Otherwise, use the fetched data.
-      setPrefs(
-        userProfileQuery.data.difficultyPrefs || {
-          en: 'basic',
-          es: 'basic',
-          fr: 'basic',
-        }
-      );
+      setPrefs(mergePrefs(userProfileQuery.data.difficultyPrefs));
     }
   }, [userProfileQuery.data]);
 
@@ -72,13 +76,13 @@ export const DifficultyModal: FC<DifficultyModalProps> = ({ opened, onClose }) =
     if (prefs) {
       updatePrefsMutation.mutate(prefs, {
         onSuccess: () => {
-          onClose(); // Close the modal
+          onClose();
         },
       });
     }
   };
 
-  const createHandler = (lang: 'en' | 'es' | 'fr') => (value: string) => {
+  const createHandler = (lang: Language) => (value: string) => {
     setPrefs((prev) => ({ ...prev!, [lang]: value as Difficulty }));
   };
 
@@ -90,27 +94,17 @@ export const DifficultyModal: FC<DifficultyModalProps> = ({ opened, onClose }) =
         </Center>
       ) : (
         <Stack>
-          <Text fw={500}>English</Text>
-          <SegmentedControl
-            data={['basic', 'intermediate', 'advanced']}
-            value={prefs.en}
-            onChange={createHandler('en')}
-            fullWidth
-          />
-          <Text fw={500}>Spanish</Text>
-          <SegmentedControl
-            data={['basic', 'intermediate', 'advanced']}
-            value={prefs.es}
-            onChange={createHandler('es')}
-            fullWidth
-          />
-          <Text fw={500}>French</Text>
-          <SegmentedControl
-            data={['basic', 'intermediate', 'advanced']}
-            value={prefs.fr}
-            onChange={createHandler('fr')}
-            fullWidth
-          />
+          {ALL_LANGUAGES.map((lang) => (
+            <Stack key={lang} gap={6}>
+              <Text fw={500}>{labelFor(lang)}</Text>
+              <SegmentedControl
+                data={['basic', 'intermediate', 'advanced']}
+                value={prefs[lang]}
+                onChange={createHandler(lang)}
+                fullWidth
+              />
+            </Stack>
+          ))}
           <Button onClick={handleSave} loading={updatePrefsMutation.isPending} mt="md">
             Save Preferences
           </Button>

@@ -4,7 +4,7 @@ import { deduceColumnLanguages } from './deductionUtils';
 import { Dictionary } from './wordUtils';
 
 describe('deduceColumnLanguages', () => {
-  const mockDictionaries: Record<Language, Dictionary> = {
+  const mockDictionaries: Partial<Record<Language, Dictionary>> = {
     en: {
       apple: { display: 'apple', d: 0.1, pos: 'noun', def: 'A fruit.' },
       fruit: { display: 'fruit', d: 0.1, pos: 'noun', def: 'Produce.' },
@@ -23,9 +23,9 @@ describe('deduceColumnLanguages', () => {
 
   it('starts with all 3 candidate languages for every column when no guesses are made', () => {
     const result = deduceColumnLanguages([], shuffledLangs, mockDictionaries);
-    expect(result.candidates[0]).toEqual(['en', 'es', 'fr']);
-    expect(result.candidates[1]).toEqual(['en', 'es', 'fr']);
-    expect(result.candidates[2]).toEqual(['en', 'es', 'fr']);
+    expect(result.candidates[0].sort()).toEqual(['en', 'es', 'fr']);
+    expect(result.candidates[1].sort()).toEqual(['en', 'es', 'fr']);
+    expect(result.candidates[2].sort()).toEqual(['en', 'es', 'fr']);
     expect(result.isConfirmed[0]).toBe(false);
   });
 

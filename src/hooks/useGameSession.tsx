@@ -226,8 +226,37 @@ export const useGameSession = () => {
         stats.winPercentage = Math.round((stats.wins / stats.gamesPlayed) * 100);
 
         // Per-language, per-difficulty stats
+        const defaultDifficultyStats = {
+          boardsSolved: 0,
+          boardsFailed: 0,
+          averageGuesses: 0,
+          guessDistribution: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        };
+        const ensureLangStats = (lang: Language) => {
+          if (!stats.languages) {
+            stats.languages = {} as UserDoc['stats']['languages'];
+          }
+          if (!stats.languages[lang]) {
+            stats.languages[lang] = {
+              basic: {
+                ...defaultDifficultyStats,
+                guessDistribution: [...defaultDifficultyStats.guessDistribution],
+              },
+              intermediate: {
+                ...defaultDifficultyStats,
+                guessDistribution: [...defaultDifficultyStats.guessDistribution],
+              },
+              advanced: {
+                ...defaultDifficultyStats,
+                guessDistribution: [...defaultDifficultyStats.guessDistribution],
+              },
+            };
+          }
+        };
+
         (gameData.shuffledLanguages || (['en', 'es', 'fr'] as Language[])).forEach(
           (lang: Language) => {
+            ensureLangStats(lang);
             const difficulty = gameData.difficulties?.[lang] || 'basic';
             const solution = gameData.words?.[lang];
             if (!solution || !stats?.languages?.[lang]?.[difficulty]) {

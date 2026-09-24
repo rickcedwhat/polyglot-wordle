@@ -13,6 +13,7 @@ import {
 import { useAuth } from '@/context/AuthContext';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import type { Difficulty, Language } from '@/types/firestore';
+import { labelFor } from '@/utils/languages';
 import { GuessDistributionChart } from '../GuessDistributionChart/GuessDistributionChart';
 
 interface StatsTabProps {
@@ -45,14 +46,22 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
     en: null,
     es: null,
     fr: null,
+    it: null,
+    pt: null,
   });
 
   const [defaultsAreSet, setDefaultsAreSet] = useState(false);
 
   useEffect(() => {
     if (userProfile?.stats && !defaultsAreSet) {
-      const defaults: Record<Language, Difficulty | null> = { en: null, es: null, fr: null };
-      const languages: Language[] = ['en', 'es', 'fr'];
+      const defaults: Record<Language, Difficulty | null> = {
+        en: null,
+        es: null,
+        fr: null,
+        it: null,
+        pt: null,
+      };
+      const languages: Language[] = ['en', 'es', 'fr', 'it', 'pt'];
       languages.forEach((lang) => {
         const defaultDifficulty = difficultyOrder.find(
           (diff) =>
@@ -88,7 +97,7 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
   }
 
   const { stats: profileStats } = userProfile;
-  const languages: Language[] = ['en', 'es', 'fr'];
+  const languages: Language[] = ['en', 'es', 'fr', 'it', 'pt'];
   const isOwnProfile = currentUser?.uid === profileUserId;
   const profileDisplayName = userProfile.displayName || 'Profile';
 
@@ -151,7 +160,7 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
           return (
             <div key={lang}>
               <Title order={3} tt="capitalize">
-                {lang === 'en' ? 'English' : lang === 'es' ? 'Spanish' : 'French'}
+                {labelFor(lang)}
               </Title>
 
               {availableDifficulties.length > 1 && (

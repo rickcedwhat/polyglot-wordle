@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import type { Language } from '@/types/firestore';
+import { flagFor } from '@/utils/languages';
 
 export interface FlaggedWordItem {
   id: string; // `${lang}:${wordKey}`
-  lang: 'en' | 'es' | 'fr';
+  lang: Language;
   wordKey: string;
   display?: string;
   pos?: string;
@@ -38,13 +40,13 @@ export const useFlaggedWords = () => {
     saveFlaggedWords(flaggedWords);
   }, [flaggedWords]);
 
-  const isFlagged = (lang: 'en' | 'es' | 'fr', wordKey: string) => {
+  const isFlagged = (lang: Language, wordKey: string) => {
     const id = `${lang}:${wordKey.toLowerCase()}`;
     return flaggedWords.some((item) => item.id === id);
   };
 
   const toggleFlag = (entry: {
-    lang: 'en' | 'es' | 'fr';
+    lang: Language;
     wordKey: string;
     display?: string;
     pos?: string;
@@ -75,7 +77,7 @@ export const useFlaggedWords = () => {
     });
   };
 
-  const updateNote = (lang: 'en' | 'es' | 'fr', wordKey: string, note: string) => {
+  const updateNote = (lang: Language, wordKey: string, note: string) => {
     const id = `${lang}:${wordKey.toLowerCase()}`;
     setFlaggedWords((prev) => prev.map((item) => (item.id === id ? { ...item, note } : item)));
   };
@@ -91,7 +93,7 @@ export const useFlaggedWords = () => {
 
     let md = `### 🚩 Flagged Dictionary Words for Discussion (${flaggedWords.length})\n\n`;
     flaggedWords.forEach((item, index) => {
-      const flagEmoji = item.lang === 'en' ? '🇬🇧' : item.lang === 'es' ? '🇪🇸' : '🇫🇷';
+      const flagEmoji = flagFor(item.lang);
       md += `${index + 1}. **${item.display || item.wordKey}** (${flagEmoji} ${item.lang.toUpperCase()})\n`;
       if (item.pos) {
         md += `   - **POS**: ${item.pos}\n`;

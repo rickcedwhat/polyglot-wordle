@@ -3,17 +3,15 @@ import { collection, getDocs, getFirestore, limit, query, where } from 'firebase
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from '@/context/AuthContext';
+import type { Difficulty, Language } from '@/types/firestore';
+import { buildGameId, DEFAULT_LANGUAGES, isLanguageTriple, sortLanguages } from '@/utils/languages';
 import { useUserProfile } from './useUserProfile';
 
-// A helper function to map difficulty names back to a hex character
-const difficultyToHex = (difficulty: 'basic' | 'intermediate' | 'advanced'): string => {
-  if (difficulty === 'basic') {
-    return '0';
-  }
-  if (difficulty === 'intermediate') {
-    return '5';
-  }
-  return 'a';
+const DEFAULT_DIFFICULTY: Difficulty = 'basic';
+
+export type CreateNewGameOptions = {
+  /** Override language triple for this game (skipPicker still respected separately). */
+  languages?: [Language, Language, Language];
 };
 
 export const useGameActions = () => {
@@ -23,17 +21,29 @@ export const useGameActions = () => {
   const queryClient = useQueryClient();
 
   const preferencesNotSet = !userProfile?.difficultyPrefs;
+  const languagePrefs = userProfile?.languagePrefs ?? null;
+  const shouldAskLanguages = !languagePrefs?.skipPicker;
 
-  const createNewGame = async () => {
+  const resolveLanguages = (
+    override?: [Language, Language, Language]
+  ): [Language, Language, Language] => {
+    if (override && isLanguageTriple(override)) {
+      return override;
+    }
+    if (languagePrefs && isLanguageTriple(languagePrefs.languages)) {
+      return languagePrefs.languages;
+    }
+    return [...DEFAULT_LANGUAGES];
+  };
+
+  const createNewGame = async (options?: CreateNewGameOptions) => {
     if (!currentUser) {
       console.error('Cannot create a new game without a logged-in user.');
-      // Optional: show a notification to the user
       return false;
     }
 
     try {
       const db = getFirestore();
-
       const prefs = userProfile?.difficultyPrefs;
 
       if (!prefs) {
@@ -41,41 +51,60 @@ export const useGameActions = () => {
         return false;
       }
 
-      // Query for an existing empty game that matches the user's current preferences
+      const languages = resolveLanguages(options?.languages);
+      const difficulties = languages.map((lang) => prefs[lang] ?? DEFAULT_DIFFICULTY) as [
+        Difficulty,
+        Difficulty,
+        Difficulty,
+      ];
+
+      // Reuse an empty live game that matches difficulties + language set
       const gamesCollectionRef = collection(db, 'games');
-      const q = query(
-        gamesCollectionRef,
-        where('userId', '==', currentUser.uid),
-        where('isLiveGame', '==', true),
-        where('guessHistory', '==', []),
-        where('difficulties.en', '==', prefs?.en),
-        where('difficulties.es', '==', prefs?.es),
-        where('difficulties.fr', '==', prefs?.fr),
-        limit(1)
-      );
-      const existingGameSnapshot = await getDocs(q);
+      let reusableGameId: string | undefined;
+      try {
+        const q = query(
+          gamesCollectionRef,
+          where('userId', '==', currentUser.uid),
+          where('isLiveGame', '==', true),
+          where('guessHistory', '==', []),
+          where(`difficulties.${languages[0]}`, '==', difficulties[0]),
+          where(`difficulties.${languages[1]}`, '==', difficulties[1]),
+          where(`difficulties.${languages[2]}`, '==', difficulties[2]),
+          limit(5)
+        );
+        const existingGameSnapshot = await getDocs(q);
+        const sortedWanted = sortLanguages(languages).join(',');
+        const reusable = existingGameSnapshot.docs.find((docSnap) => {
+          const data = docSnap.data();
+          const boardLangs = (data.shuffledLanguages as Language[] | undefined) ?? [];
+          if (boardLangs.length !== 3) {
+            return false;
+          }
+          return sortLanguages(boardLangs).join(',') === sortedWanted;
+        });
+        reusableGameId = reusable?.data()?.gameId as string | undefined;
+      } catch (reuseError) {
+        // Missing composite indexes for new language combos — just create a fresh id.
+        console.warn('Empty-game reuse query failed, creating a new game id:', reuseError);
+      }
+
       let gameId = '';
 
-      if (!existingGameSnapshot.empty) {
-        // If a matching game is found, navigate to it
-        const gameToReuse = existingGameSnapshot.docs[0].data();
+      if (reusableGameId) {
         console.log('Found existing empty game with matching difficulties, reusing it.');
-        gameId = gameToReuse.gameId;
+        gameId = reusableGameId;
       } else {
-        // If no game is found, create a new one
         const fullUUID = uuidv4().replace(/-/g, '');
-        const randomPart = fullUUID.substring(0, 24);
-
-        // Construct the difficulty part from preferences
-        const difficultyPart =
-          difficultyToHex(prefs.en) + difficultyToHex(prefs.es) + difficultyToHex(prefs.fr);
-
-        // Create the full game ID (UUID)
-        const extraChars = fullUUID.substring(0, 5);
-        const newGameId = randomPart + difficultyPart + extraChars;
+        const entropy24 = fullUUID.substring(0, 24);
+        const seedNibble = fullUUID[24] ?? '0';
+        gameId = buildGameId({
+          entropy24,
+          languages,
+          difficulties,
+          seedNibble,
+        });
 
         await queryClient.invalidateQueries({ queryKey: ['gameHistory'] });
-        gameId = newGameId;
       }
       navigate(`/game/${gameId}`);
       return true;
@@ -85,6 +114,11 @@ export const useGameActions = () => {
     }
   };
 
-  // Return an object with all the actions you want to expose
-  return { createNewGame, preferencesNotSet };
+  return {
+    createNewGame,
+    preferencesNotSet,
+    shouldAskLanguages,
+    languagePrefs,
+    resolveLanguages,
+  };
 };

@@ -5,22 +5,32 @@ import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { DifficultyModal } from '@/components/DifficultyModal/DifficultyModal';
 import { HowToPlaySlides } from '@/components/HowToPlayModal/HowToPlayModal';
+import { LanguagePickerModal } from '@/components/LanguagePickerModal/LanguagePickerModal';
 import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
+import type { Language } from '@/types/firestore';
 import classes from './Home.page.module.css';
 
 export function HomePage() {
-  const { createNewGame, preferencesNotSet } = useGameActions();
+  const { createNewGame, preferencesNotSet, shouldAskLanguages } = useGameActions();
   const { currentUser, signInWithGoogle } = useAuth();
   const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
+    useDisclosure(false);
+  const [languageModalOpened, { open: openLanguageModal, close: closeLanguageModal }] =
     useDisclosure(false);
 
   const handleNewGameClick = () => {
     if (preferencesNotSet) {
       openDifficultyModal();
+    } else if (shouldAskLanguages) {
+      openLanguageModal();
     } else {
       createNewGame();
     }
+  };
+
+  const handleLanguageConfirm = (languages: [Language, Language, Language]) => {
+    createNewGame({ languages });
   };
 
   // Animation variants for Framer Motion
@@ -42,6 +52,12 @@ export function HomePage() {
       animate="show"
     >
       <DifficultyModal opened={difficultyModalOpened} onClose={closeDifficultyModal} />
+      <LanguagePickerModal
+        opened={languageModalOpened}
+        onClose={closeLanguageModal}
+        startGameOnConfirm
+        onConfirm={handleLanguageConfirm}
+      />
       <div className={classes.inner}>
         <motion.div variants={itemVariants} className={classes.carouselWrapper}>
           <Carousel

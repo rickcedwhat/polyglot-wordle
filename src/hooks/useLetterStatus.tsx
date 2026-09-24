@@ -17,12 +17,15 @@ const calculateLetterStatusMap = (
   for (const letter of alphabet) {
     statuses[letter] = ['unknown', 'unknown', 'unknown'];
   }
-  if (!solution || !solution.en) {
+  if (!solution || Object.keys(solution).length === 0) {
     return statuses;
   }
 
   shuffledLanguages.forEach((langKey, langIndex) => {
     const solutionWord = solution[langKey];
+    if (!solutionWord) {
+      return;
+    }
     guesses.forEach((guess) => {
       const guessResult = getGuessStatuses(guess, solutionWord);
       guess.split('').forEach((letter, letterIndex) => {
@@ -44,7 +47,7 @@ const calculateLetterStatusMap = (
 };
 
 // This is the initial state for the cache
-const initialMap = calculateLetterStatusMap([], { en: '', es: '', fr: '' }, ['en', 'es', 'fr']);
+const initialMap = calculateLetterStatusMap([], {}, ['en', 'es', 'fr']);
 
 export const useLetterStatus = () => {
   const queryClient = useQueryClient();

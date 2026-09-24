@@ -35,7 +35,7 @@ export const GameOver: FC<GameOverProps> = ({ opened, onClose, status }) => {
           )}
           <Text>{`SCORE: ${score}`}</Text>
           <Button
-            onClick={createNewGame}
+            onClick={() => createNewGame()}
             variant="light"
             rightSection={<IconArrowRight size={14} />}
             mt="md"

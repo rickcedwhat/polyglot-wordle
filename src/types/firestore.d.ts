@@ -2,7 +2,7 @@ import { Timestamp } from 'firebase/firestore';
 
 // A helper for readability
 export type Difficulty = 'basic' | 'intermediate' | 'advanced';
-export type Language = 'en' | 'es' | 'fr';
+export type Language = 'en' | 'es' | 'fr' | 'it' | 'pt';
 
 /**
  * Represents the stats for a single language at a single difficulty.
@@ -28,6 +28,15 @@ export interface LanguageStats {
   advanced: LanguageDifficultyStats;
 }
 
+export type DifficultyPrefs = Record<Language, Difficulty>;
+
+export type LanguagePrefs = {
+  /** Exactly three languages for New Game boards. */
+  languages: [Language, Language, Language];
+  /** When true, skip the New Game language picker and use `languages`. */
+  skipPicker: boolean;
+};
+
 /**
  * The document stored in the top-level 'users' collection.
  * Document ID is the user's Firebase Auth UID.
@@ -37,11 +46,10 @@ export interface UserDoc {
   email: string;
   photoURL: string;
   joinedAt: Timestamp;
-  difficultyPrefs: {
-    en: Difficulty;
-    es: Difficulty;
-    fr: Difficulty;
-  } | null;
+  /** Per-language difficulty for every supported dictionary. */
+  difficultyPrefs: DifficultyPrefs | null;
+  /** New Game language triple + whether to skip the picker. */
+  languagePrefs: LanguagePrefs | null;
   // An array of game IDs (the UUIDs) that the user has pinned to their profile.
   pinnedGames: string[];
   isPrivate: boolean;
@@ -55,11 +63,7 @@ export interface UserDoc {
     totalScore: number;
     highScore: number;
     // --- Language Stats (broken down by difficulty) ---
-    languages: {
-      en: LanguageStats;
-      es: LanguageStats;
-      fr: LanguageStats;
-    };
+    languages: Record<Language, LanguageStats>;
   };
 }
 
@@ -81,17 +85,11 @@ export interface FriendshipDoc {
 export interface GameDoc {
   userId: string;
   gameId: string; // The UUID from the URL
-  words: {
-    en: string;
-    es: string;
-    fr: string;
-  };
-  difficulties: {
-    en: Difficulty;
-    es: Difficulty;
-    fr: Difficulty;
-  };
-  shuffledLanguages: ('en' | 'es' | 'fr')[];
+  /** Solution words keyed by language (exactly three entries for a live game). */
+  words: Partial<Record<Language, string>>;
+  difficulties: Partial<Record<Language, Difficulty>>;
+  /** Board column order (length 3). */
+  shuffledLanguages: Language[];
   isLiveGame: boolean;
   guessHistory: string[];
   isWin: boolean | null;

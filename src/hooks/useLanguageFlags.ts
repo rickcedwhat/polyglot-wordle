@@ -1,36 +1,36 @@
 import { useEffect, useState } from 'react';
 import { Language } from '@/types/firestore';
+import { ALL_LANGUAGES, LANGUAGE_META } from '@/utils/languages';
 import { extractSingleEmoji } from '@/utils/emojiUtils';
 
-export interface LanguageFlags {
-  en: string;
-  es: string;
-  fr: string;
-}
+export type LanguageFlags = Record<Language, string>;
 
 export const DEFAULT_FLAGS: LanguageFlags = {
-  en: '🇬🇧',
-  es: '🇪🇸',
-  fr: '🇫🇷',
+  en: LANGUAGE_META.en.flag,
+  es: LANGUAGE_META.es.flag,
+  fr: LANGUAGE_META.fr.flag,
+  it: LANGUAGE_META.it.flag,
+  pt: LANGUAGE_META.pt.flag,
 };
 
-const STORAGE_KEY = 'polyglot_custom_flags_v1';
+const STORAGE_KEY = 'polyglot_custom_flags_v2';
 
 export const getStoredFlags = (): LanguageFlags => {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem('polyglot_custom_flags_v1');
     if (raw) {
       const parsed = JSON.parse(raw);
-      return {
-        en: extractSingleEmoji(parsed.en) || DEFAULT_FLAGS.en,
-        es: extractSingleEmoji(parsed.es) || DEFAULT_FLAGS.es,
-        fr: extractSingleEmoji(parsed.fr) || DEFAULT_FLAGS.fr,
-      };
+      return Object.fromEntries(
+        ALL_LANGUAGES.map((lang) => [
+          lang,
+          extractSingleEmoji(parsed[lang]) || DEFAULT_FLAGS[lang],
+        ])
+      ) as LanguageFlags;
     }
   } catch (e) {
     // Ignore parse error
   }
-  return DEFAULT_FLAGS;
+  return { ...DEFAULT_FLAGS };
 };
 
 export const useLanguageFlags = () => {
@@ -55,7 +55,7 @@ export const useLanguageFlags = () => {
   };
 
   const resetFlags = () => {
-    setFlags(DEFAULT_FLAGS);
+    setFlags({ ...DEFAULT_FLAGS });
   };
 
   return {

@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import { DEFAULT_FLAGS, useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { Language } from '@/types/firestore';
+import { ALL_LANGUAGES, labelFor } from '@/utils/languages';
 import { extractSingleEmoji } from '@/utils/emojiUtils';
 
 interface FlagsModalProps {
@@ -25,6 +26,8 @@ const PRESETS: Record<Language, string[]> = {
   en: ['🇬🇧', '🇺🇸', '🇨🇦', '🇦🇺', '🇳🇿', '🇮🇪', '🇮🇳', '🇿🇦', '🇯🇲', '🇸🇬', '🇳🇬', '🇵🇭'],
   es: ['🇪🇸', '🇲🇽', '🇦🇷', '🇨🇴', '🇨🇱', '🇵🇪', '🇻🇪', '🇨🇷', '🇩🇴', '🇪🇨', '🇬🇹', '🇺🇾'],
   fr: ['🇫🇷', '🇨🇦', '🇧🇪', '🇨🇭', '🇸🇳', '🇨🇮', '🇲🇨', '🇭🇹', '🇲🇬', '🇨🇲', '🇩🇿', '🇲🇦'],
+  it: ['🇮🇹', '🇨🇭', '🇸🇲', '🇻🇦'],
+  pt: ['🇵🇹', '🇧🇷', '🇦🇴', '🇲🇿', '🇨🇻', '🇬🇼', '🇸🇹', '🇹🇱'],
 };
 
 export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
@@ -58,7 +61,7 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
             LIVE PREVIEW
           </Text>
           <Group justify="center" gap="sm">
-            {(['en', 'es', 'fr'] as const).map((lang) => (
+            {ALL_LANGUAGES.map((lang) => (
               <Badge key={lang} size="lg" variant="filled" color="indigo">
                 <Text span me={5}>
                   {flags[lang]}
@@ -69,53 +72,49 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
           </Group>
         </Paper>
 
-        {(['en', 'es', 'fr'] as const).map((lang) => {
-          const langName = lang === 'en' ? 'English' : lang === 'es' ? 'Spanish' : 'French';
+        {ALL_LANGUAGES.map((lang) => (
+          <Paper key={lang} p="xs" withBorder radius="md" bg="var(--mantine-color-dark-8)">
+            <Stack gap={6}>
+              <Group justify="space-between">
+                <Text size="sm" fw={700}>
+                  {labelFor(lang)} ({lang.toUpperCase()})
+                </Text>
+                <Text size="lg">{flags[lang]}</Text>
+              </Group>
 
-          return (
-            <Paper key={lang} p="xs" withBorder radius="md" bg="var(--mantine-color-dark-8)">
-              <Stack gap={6}>
-                <Group justify="space-between">
-                  <Text size="sm" fw={700}>
-                    {langName} ({lang.toUpperCase()})
-                  </Text>
-                  <Text size="lg">{flags[lang]}</Text>
-                </Group>
+              <TextInput
+                size="xs"
+                placeholder="Paste or type any single flag or emoji..."
+                value={flags[lang]}
+                description="Only 1 emoji character allowed (flag or any emoji)"
+                onChange={(e) => {
+                  const extracted = extractSingleEmoji(e.currentTarget.value);
+                  if (extracted) {
+                    setFlag(lang, extracted);
+                  }
+                }}
+              />
 
-                <TextInput
-                  size="xs"
-                  placeholder="Paste or type any single flag or emoji..."
-                  value={flags[lang]}
-                  description="Only 1 emoji symbol allowed (flag or any emoji)"
-                  onChange={(e) => {
-                    const extracted = extractSingleEmoji(e.currentTarget.value);
-                    if (extracted) {
-                      setFlag(lang, extracted);
-                    }
-                  }}
-                />
-
-                <Group gap={4} wrap="wrap" mt={4}>
-                  <Text size="xs" c="dimmed" me={4}>
-                    Flag Presets:
-                  </Text>
-                  {PRESETS[lang].map((preset) => (
-                    <Tooltip key={preset} label={`Use ${preset}`}>
-                      <Button
-                        size="compact-xs"
-                        variant={flags[lang] === preset ? 'filled' : 'subtle'}
-                        color={flags[lang] === preset ? 'indigo' : 'gray'}
-                        onClick={() => setFlag(lang, preset)}
-                      >
-                        {preset}
-                      </Button>
-                    </Tooltip>
-                  ))}
-                </Group>
-              </Stack>
-            </Paper>
-          );
-        })}
+              <Group gap={4} wrap="wrap" mt={4}>
+                <Text size="xs" c="dimmed" me={4}>
+                  Flag Presets:
+                </Text>
+                {PRESETS[lang].map((preset) => (
+                  <Tooltip key={preset} label={`Use ${preset}`}>
+                    <Button
+                      size="compact-xs"
+                      variant={flags[lang] === preset ? 'filled' : 'subtle'}
+                      color={flags[lang] === preset ? 'indigo' : 'gray'}
+                      onClick={() => setFlag(lang, preset)}
+                    >
+                      {preset}
+                    </Button>
+                  </Tooltip>
+                ))}
+              </Group>
+            </Stack>
+          </Paper>
+        ))}
 
         <Group justify="space-between" mt="xs">
           <Button
@@ -125,7 +124,7 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
             leftSection={<IconRefresh size={14} />}
             onClick={resetFlags}
           >
-            Reset Defaults ({DEFAULT_FLAGS.en} {DEFAULT_FLAGS.es} {DEFAULT_FLAGS.fr})
+            Reset Defaults
           </Button>
 
           <Button size="xs" color="blue" leftSection={<IconCheck size={14} />} onClick={onClose}>

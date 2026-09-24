@@ -1,4 +1,5 @@
 import { GameDoc, Language } from '@/types/firestore';
+import { languagesFromGame, LANGUAGE_META } from '@/utils/languages';
 import { getGuessStatuses, LetterStatus, normalizeWord } from '@/utils/wordUtils';
 
 export interface SocialShareCardOptions {
@@ -11,12 +12,6 @@ export interface EmojiScoreCardOptions {
   challengeUrl: string;
 }
 
-const LANGUAGE_META: Record<Language, { label: string; flag: string }> = {
-  en: { label: 'English', flag: '🇬🇧' },
-  es: { label: 'Spanish', flag: '🇪🇸' },
-  fr: { label: 'French', flag: '🇫🇷' },
-};
-
 /**
  * Generates a standard Wordle-style emoji scorecard text block.
  */
@@ -25,12 +20,12 @@ export const generateEmojiScoreCard = ({
   challengeUrl,
 }: EmojiScoreCardOptions): string => {
   const { words, guessHistory, score, isWin } = gameSession;
-  const languages: Language[] = ['en', 'es', 'fr'];
+  const languages = languagesFromGame(gameSession);
   const maxGuesses = 8;
   const turnsTaken = guessHistory.length;
 
   const solvedLangs = languages.filter((lang) =>
-    guessHistory.map(normalizeWord).includes(normalizeWord(words[lang]))
+    guessHistory.map(normalizeWord).includes(normalizeWord(words[lang]!))
   );
   const solvedCount = solvedLangs.length;
 
@@ -40,7 +35,7 @@ export const generateEmojiScoreCard = ({
 
   const boardLines = languages.map((lang) => {
     const meta = LANGUAGE_META[lang];
-    const normSolution = normalizeWord(words[lang]);
+    const normSolution = normalizeWord(words[lang]!);
     const solvedTurn = guessHistory.map(normalizeWord).indexOf(normSolution);
 
     if (solvedTurn !== -1) {
@@ -50,7 +45,7 @@ export const generateEmojiScoreCard = ({
     // For unsolved, show status of the final guess if available
     const lastGuess = guessHistory[guessHistory.length - 1];
     if (lastGuess) {
-      const statuses = getGuessStatuses(lastGuess, words[lang]);
+      const statuses = getGuessStatuses(lastGuess, words[lang]!);
       const emojis = statuses
         .map((s) => {
           if (s === 'correct') {
@@ -159,17 +154,17 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
   // Subtitle / Challenger info
   ctx.font = '600 16px system-ui, -apple-system, sans-serif';
   ctx.fillStyle = '#868e96';
+  const languages = languagesFromGame(gameSession);
   const subtitle = challengerName
     ? `Challenge against ${challengerName}`
-    : 'English • Spanish • French Daily Puzzle';
+    : languages.map((l) => LANGUAGE_META[l].name).join(' • ');
   ctx.fillText(subtitle, 50, 102);
 
   // Right Header: Score & Turns Badge
   const maxGuesses = 8;
   const turnsTaken = guessHistory.length;
-  const languages: Language[] = ['en', 'es', 'fr'];
   const solvedLangs = languages.filter((lang) =>
-    guessHistory.map(normalizeWord).includes(normalizeWord(words[lang]))
+    guessHistory.map(normalizeWord).includes(normalizeWord(words[lang]!))
   );
 
   ctx.textAlign = 'right';
@@ -206,7 +201,7 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
     const bx = startX + boardIndex * (boardWidth + gapX);
     const by = boardStartY;
     const meta = LANGUAGE_META[lang];
-    const normSolution = normalizeWord(words[lang]);
+    const normSolution = normalizeWord(words[lang]!);
     const solvedTurn = guessHistory.map(normalizeWord).indexOf(normSolution);
     const isLangSolved = solvedTurn !== -1;
 
@@ -222,7 +217,7 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
     // Board Header: Flag + Language Name
     ctx.font = '700 18px system-ui, -apple-system, sans-serif';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(`${meta.flag}  ${meta.label.toUpperCase()}`, bx + 18, by + 34);
+    ctx.fillText(`${meta.flag}  ${meta.name.toUpperCase()}`, bx + 18, by + 34);
 
     // Tiles Grid: 8 rows of 5 tiles
     // Tile size: 44w x 30h. Gap: 5px.
@@ -243,7 +238,7 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
 
       let statuses: (LetterStatus | 'empty')[] = Array(5).fill('empty');
       if (guess && !isPastSolve) {
-        statuses = getGuessStatuses(guess, words[lang]);
+        statuses = getGuessStatuses(guess, words[lang]!);
       }
 
       for (let col = 0; col < 5; col++) {

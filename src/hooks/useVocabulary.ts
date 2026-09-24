@@ -3,9 +3,13 @@ import { doc, getDoc, getFirestore, runTransaction } from 'firebase/firestore';
 import { useAuth } from '@/context/AuthContext';
 import { Language } from '@/types/firestore';
 import { DiscoveredWordRecord, UserVocabularyMap } from '@/types/vocabulary';
+import { ALL_LANGUAGES } from '@/utils/languages';
 import { normalizeWord } from '@/utils/wordUtils';
 
 export const VOCABULARY_STORAGE_KEY = 'polyglot_vocabulary_v1';
+
+const emptyVocab = (): UserVocabularyMap =>
+  Object.fromEntries(ALL_LANGUAGES.map((lang) => [lang, {}])) as UserVocabularyMap;
 
 const isValidRecord = (rec: any): rec is DiscoveredWordRecord => {
   return (
@@ -40,19 +44,17 @@ export const getLocalVocabulary = (userId?: string): UserVocabularyMap => {
   try {
     const raw = localStorage.getItem(storageKey);
     if (!raw) {
-      return { en: {}, es: {}, fr: {} };
+      return emptyVocab();
     }
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== 'object') {
-      return { en: {}, es: {}, fr: {} };
+      return emptyVocab();
     }
-    return {
-      en: sanitizeLanguageMap(parsed.en),
-      es: sanitizeLanguageMap(parsed.es),
-      fr: sanitizeLanguageMap(parsed.fr),
-    };
+    return Object.fromEntries(
+      ALL_LANGUAGES.map((lang) => [lang, sanitizeLanguageMap(parsed[lang])])
+    ) as UserVocabularyMap;
   } catch {
-    return { en: {}, es: {}, fr: {} };
+    return emptyVocab();
   }
 };
 
@@ -75,8 +77,8 @@ export const clearAnonymousVocabulary = (): void => {
 
 export const fetchUserVocabulary = async (userId: string): Promise<UserVocabularyMap> => {
   const db = getFirestore();
-  const langs: Language[] = ['en', 'es', 'fr'];
-  const result: UserVocabularyMap = { en: {}, es: {}, fr: {} };
+  const langs = [...ALL_LANGUAGES];
+  const result = emptyVocab();
 
   // Propagate Firestore errors so caller query catches them
   const docs = await Promise.all(
@@ -111,7 +113,7 @@ export const useVocabulary = (targetUserId?: string) => {
   const queryKey = ['vocabulary', effectiveUserId || 'local'];
 
   const {
-    data: vocabulary = { en: {}, es: {}, fr: {} },
+    data: vocabulary = emptyVocab(),
     isLoading,
     isError,
     error,
@@ -128,7 +130,7 @@ export const useVocabulary = (targetUserId?: string) => {
             const anonymousLocal = getLocalVocabulary();
             const langsToSync: Language[] = [];
 
-            (['en', 'es', 'fr'] as Language[]).forEach((lang) => {
+            [...ALL_LANGUAGES].forEach((lang) => {
               if (Object.keys(anonymousLocal[lang]).length > 0) {
                 langsToSync.push(lang);
               }
@@ -206,21 +208,17 @@ export const useVocabulary = (targetUserId?: string) => {
       const nowIso = new Date().toISOString();
 
       // Read latest state synchronously from queryClient cache
-      let updatedVocab: UserVocabularyMap = { en: {}, es: {}, fr: {} };
+      let updatedVocab: UserVocabularyMap = emptyVocab();
       queryClient.setQueryData(
         queryKey,
         (prev: UserVocabularyMap | undefined): UserVocabularyMap => {
           const base: UserVocabularyMap = prev
-            ? {
-                en: { ...prev.en },
-                es: { ...prev.es },
-                fr: { ...prev.fr },
-              }
-            : {
-                en: { ...vocabulary.en },
-                es: { ...vocabulary.es },
-                fr: { ...vocabulary.fr },
-              };
+            ? (Object.fromEntries(
+                ALL_LANGUAGES.map((lang) => [lang, { ...prev[lang] }])
+              ) as UserVocabularyMap)
+            : (Object.fromEntries(
+                ALL_LANGUAGES.map((lang) => [lang, { ...vocabulary[lang] }])
+              ) as UserVocabularyMap);
 
           for (const lang of matchedLangs) {
             const existing = base[lang][normWord];
@@ -286,13 +284,11 @@ export const useVocabulary = (targetUserId?: string) => {
     },
   });
 
-  const counts = {
-    en: Object.keys(vocabulary.en || {}).length,
-    es: Object.keys(vocabulary.es || {}).length,
-    fr: Object.keys(vocabulary.fr || {}).length,
-  };
+  const counts = Object.fromEntries(
+    ALL_LANGUAGES.map((lang) => [lang, Object.keys(vocabulary[lang] || {}).length])
+  ) as Record<Language, number>;
 
-  const totalWordsCount = counts.en + counts.es + counts.fr;
+  const totalWordsCount = ALL_LANGUAGES.reduce((sum, lang) => sum + counts[lang], 0);
 
   return {
     vocabulary,

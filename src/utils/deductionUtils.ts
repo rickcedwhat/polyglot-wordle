@@ -13,12 +13,14 @@ export interface ColumnDeductionState {
 export const deduceColumnLanguages = (
   guesses: string[],
   shuffledLanguages: Language[],
-  dictionaries: Record<Language, Dictionary>
+  dictionaries: Partial<Record<Language, Dictionary>>
 ): ColumnDeductionState => {
+  const boardLangs =
+    shuffledLanguages.length === 3 ? shuffledLanguages : (['en', 'es', 'fr'] as Language[]);
   const candidateSets: Record<number, Set<Language>> = {
-    0: new Set(['en', 'es', 'fr']),
-    1: new Set(['en', 'es', 'fr']),
-    2: new Set(['en', 'es', 'fr']),
+    0: new Set(boardLangs),
+    1: new Set(boardLangs),
+    2: new Set(boardLangs),
   };
 
   if (!guesses || guesses.length === 0 || !dictionaries) {
@@ -32,29 +34,24 @@ export const deduceColumnLanguages = (
     };
   }
 
-  // Iterate over every submitted guess
   guesses.forEach((rawGuess) => {
     const norm = normalizeWord(rawGuess);
 
-    // Which master dictionaries contain this word?
-    const validInLangs: Language[] = (['en', 'es', 'fr'] as Language[]).filter((l) =>
-      Boolean(dictionaries[l] && dictionaries[l][norm])
+    const validInLangs: Language[] = boardLangs.filter((l) =>
+      Boolean(dictionaries[l] && dictionaries[l]![norm])
     );
 
-    // Evaluate each column
     [0, 1, 2].forEach((colIdx) => {
       const colTrueLang = shuffledLanguages[colIdx];
-      const isMatchInCol = Boolean(dictionaries[colTrueLang] && dictionaries[colTrueLang][norm]);
+      const isMatchInCol = Boolean(dictionaries[colTrueLang] && dictionaries[colTrueLang]![norm]);
 
       if (isMatchInCol) {
-        // If guess matched in this column, that column's true language MUST be in validInLangs
         candidateSets[colIdx].forEach((cand) => {
           if (!validInLangs.includes(cand)) {
             candidateSets[colIdx].delete(cand);
           }
         });
 
-        // Rule of Unique Match:
         if (validInLangs.length === 1) {
           const uniqueLang = validInLangs[0];
           candidateSets[colIdx] = new Set([uniqueLang]);
@@ -65,7 +62,6 @@ export const deduceColumnLanguages = (
           });
         }
       } else {
-        // If guess did NOT match in this column, any language in which this guess IS valid cannot be this column's language
         validInLangs.forEach((l) => {
           candidateSets[colIdx].delete(l);
         });
@@ -73,12 +69,10 @@ export const deduceColumnLanguages = (
     });
   });
 
-  // Logical Propagation Loop (Naked Singles / Unique Remaining Candidate)
   let changed = true;
   while (changed) {
     changed = false;
 
-    // Pass A: If any column has 1 candidate, eliminate that candidate from all other columns
     [0, 1, 2].forEach((colIdx) => {
       if (candidateSets[colIdx].size === 1) {
         const confirmedLang = Array.from(candidateSets[colIdx])[0];
@@ -91,8 +85,7 @@ export const deduceColumnLanguages = (
       }
     });
 
-    // Pass B: If any language appears as candidate in ONLY ONE column, constrain that column to that language
-    (['en', 'es', 'fr'] as Language[]).forEach((lang) => {
+    boardLangs.forEach((lang) => {
       const colsWithLang = [0, 1, 2].filter((colIdx) => candidateSets[colIdx].has(lang));
       if (colsWithLang.length === 1) {
         const singleCol = colsWithLang[0];

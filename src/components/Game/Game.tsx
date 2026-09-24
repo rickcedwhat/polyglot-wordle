@@ -175,10 +175,9 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           const finalScore = recalculateScore(newGuesses, solution);
 
           const normGuesses = newGuesses.map(normalizeWord);
-          const enSolved = normGuesses.includes(normalizeWord(solution.en));
-          const esSolved = normGuesses.includes(normalizeWord(solution.es));
-          const frSolved = normGuesses.includes(normalizeWord(solution.fr));
-          const allSolutionsFound = enSolved && esSolved && frSolved;
+          const allSolutionsFound = shuffledLanguages.every((lang) =>
+            normGuesses.includes(normalizeWord(solution[lang]!))
+          );
 
           if (allSolutionsFound) {
             setGameStatus('won');
