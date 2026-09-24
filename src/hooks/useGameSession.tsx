@@ -13,6 +13,7 @@ import {
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import type { GameDoc, Language, UserDoc } from '@/types/firestore.d.ts';
+import { isV2GameId } from '@/utils/languages';
 import { getWordsFromUuid, normalizeWord } from '@/utils/wordUtils';
 
 export const fetchOrCreateGame = async (
@@ -86,7 +87,7 @@ export const fetchOrCreateGame = async (
 // A simple helper to validate the UUID format
 const isValidUuid = (uuid: string): boolean => {
   const uuidRegex = /^[0-9a-f]{32}$/i;
-  return uuidRegex.test(uuid);
+  return uuidRegex.test(uuid) || isV2GameId(uuid);
 };
 
 export const useGameSession = () => {

@@ -88,7 +88,7 @@ const ENTROPY_SLICES = [
 
 /**
  * Decodes a game UUID to get the word and difficulty for the three active languages.
- * Legacy ids always use en/es/fr; v2 ids (ending in `a`) encode languages at [28–30].
+ * Legacy ids always use en/es/fr; v2 ids (ending in `v`) encode languages at [28–30].
  */
 export const getWordsFromUuid = async (uuid: string) => {
   const languages = decodeLanguagesFromUuid(uuid);

@@ -10,6 +10,7 @@ describe('languages UUID helpers', () => {
       seedNibble: '7',
     });
     expect(id).toHaveLength(32);
+    expect(id.endsWith('v')).toBe(true);
     expect(isV2GameId(id)).toBe(true);
     expect(decodeLanguagesFromUuid(id)).toEqual(['en', 'it', 'pt']);
     expect(difficultyFromHex(id[24])).toBe('basic');
@@ -18,7 +19,7 @@ describe('languages UUID helpers', () => {
   });
 
   it('falls back to en/es/fr for legacy ids', () => {
-    const legacy = `${'b'.repeat(24)}05a01234`;
+    const legacy = `${'b'.repeat(24)}05a7012a`;
     expect(isV2GameId(legacy)).toBe(false);
     expect(decodeLanguagesFromUuid(legacy)).toEqual(['en', 'es', 'fr']);
   });

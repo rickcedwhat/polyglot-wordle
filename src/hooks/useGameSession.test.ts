@@ -6,6 +6,7 @@ import * as reactRouterDom from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as authContext from '@/context/AuthContext';
 import * as challengeUtils from '@/utils/challengeUtils';
+import { buildGameId } from '@/utils/languages';
 import * as wordUtils from '@/utils/wordUtils';
 import { fetchOrCreateGame, useGameSession } from './useGameSession';
 
@@ -161,6 +162,32 @@ describe('useGameSession & fetchOrCreateGame', () => {
   });
 
   describe('useGameSession hook', () => {
+    it('accepts a v2 game id from the game route', async () => {
+      const gameId = buildGameId({
+        entropy24: 'a'.repeat(24),
+        languages: ['en', 'it', 'pt'],
+        difficulties: ['basic', 'intermediate', 'advanced'],
+        seedNibble: '7',
+      });
+      vi.mocked(reactRouterDom.useParams).mockReturnValue({ uuid: gameId });
+      vi.mocked(reactRouterDom.useSearchParams).mockReturnValue([new URLSearchParams(), vi.fn()]);
+      vi.mocked(authContext.useAuth).mockReturnValue({
+        currentUser: { uid: 'user_current' } as any,
+        loading: false,
+        signInWithGoogle: vi.fn(),
+        logout: vi.fn(),
+      });
+      vi.mocked(firestore.getDoc).mockResolvedValueOnce({
+        exists: () => true,
+        data: () => ({ gameId }),
+      } as any);
+
+      const { result } = renderHook(() => useGameSession(), { wrapper: createWrapper() });
+
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+      expect(result.current.data?.gameId).toBe(gameId);
+    });
+
     it('fetches game with activeChallengerId when searchParam is set', async () => {
       vi.mocked(reactRouterDom.useParams).mockReturnValue({
         uuid: 'b3e47403d2ec4ec9beb8a41faa0b3e47',

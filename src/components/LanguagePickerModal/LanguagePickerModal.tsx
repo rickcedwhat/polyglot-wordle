@@ -116,6 +116,12 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
         onConfirm?.(languages, dontAskAgain);
         onClose();
       },
+      onError: () => {
+        if (startGameOnConfirm) {
+          onConfirm?.(languages, dontAskAgain);
+          onClose();
+        }
+      },
     });
   };
 
@@ -165,6 +171,12 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
             checked={dontAskAgain}
             onChange={(e) => setDontAskAgain(e.currentTarget.checked)}
           />
+
+          {updatePrefsMutation.isError && (
+            <Text size="sm" c="red" role="alert">
+              Could not save language preferences. Please try again.
+            </Text>
+          )}
 
           <Button
             onClick={handleConfirm}

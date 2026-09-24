@@ -52,9 +52,15 @@ export function difficultyToHex(difficulty: Difficulty): string {
   return 'a';
 }
 
-/** v2 game IDs end with `a` and encode three language codes at indices 28–30. */
+const V2_GAME_ID_MARKER = 'v';
+
+/** v2 game IDs end with a nonhex marker and encode language codes at indices 28–30. */
 export function isV2GameId(uuid: string): boolean {
-  return uuid.length === 32 && uuid[31]?.toLowerCase() === 'a';
+  return (
+    uuid.length === 32 &&
+    /^[0-9a-f]{31}$/i.test(uuid.slice(0, 31)) &&
+    uuid[31]?.toLowerCase() === V2_GAME_ID_MARKER
+  );
 }
 
 export function decodeLanguagesFromUuid(uuid: string): [Language, Language, Language] {
@@ -73,7 +79,7 @@ export function decodeLanguagesFromUuid(uuid: string): [Language, Language, Lang
 /**
  * Build a 32-char game id:
  * [0–23] word-index entropy · [24–26] difficulties · [27] shuffle seed ·
- * [28–30] language codes · [31] version `a`
+ * [28–30] language codes · [31] version marker `v`
  */
 export function buildGameId(params: {
   entropy24: string;
@@ -91,7 +97,7 @@ export function buildGameId(params: {
   const diffPart = difficulties.map(difficultyToHex).join('');
   const langPart = languages.map((lang) => LANG_TO_CODE[lang]).join('');
   const seed = seedNibble[0] || '0';
-  return `${entropy24}${diffPart}${seed}${langPart}a`.toLowerCase();
+  return `${entropy24}${diffPart}${seed}${langPart}${V2_GAME_ID_MARKER}`.toLowerCase();
 }
 
 export function sortLanguages(langs: Language[]): Language[] {
