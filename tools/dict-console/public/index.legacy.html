@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dict Console</title>
+    <style>
+      :root {
+        --bg: #1a1c1e;
+        --panel: #24272b;
+        --ink: #e8eaed;
+        --muted: #9aa0a6;
+        --accent: #7cb342;
+        --warn: #f4b400;
+        --danger: #e57373;
+        --line: #3c4043;
+        --mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+        --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(ellipse at top left, #2a3324 0%, transparent 45%),
+          radial-gradient(ellipse at bottom right, #1e2a33 0%, transparent 40%),
+          var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: end;
+        justify-content: space-between;
+        padding: 1.25rem 1.5rem 0.75rem;
+        border-bottom: 1px solid var(--line);
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.35rem;
+        letter-spacing: 0.02em;
+        font-weight: 600;
+      }
+      header p {
+        margin: 0.2rem 0 0;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+      }
+      select,
+      input,
+      button {
+        font: inherit;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: var(--ink);
+        padding: 0.45rem 0.7rem;
+      }
+      button {
+        cursor: pointer;
+        background: #2f353b;
+      }
+      button.primary {
+        background: var(--accent);
+        color: #111;
+        border-color: transparent;
+        font-weight: 600;
+      }
+      button.warn {
+        background: #5c4a1a;
+        border-color: var(--warn);
+        color: #ffe082;
+      }
+      button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      main {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 1rem;
+        padding: 1rem 1.5rem 2rem;
+      }
+      @media (max-width: 960px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        background: color-mix(in srgb, var(--panel) 92%, black);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 1rem;
+        min-height: 8rem;
+      }
+      .card h2 {
+        margin: 0 0 0.75rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .status-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+      .stat {
+        background: #1b1e22;
+        border-radius: 8px;
+        padding: 0.65rem 0.75rem;
+      }
+      .stat .label {
+        font-size: 0.7rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .stat .value {
+        margin-top: 0.2rem;
+        font-family: var(--mono);
+        font-size: 1.05rem;
+      }
+      .pill {
+        display: inline-block;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        font-family: var(--mono);
+        background: #333;
+      }
+      .pill.running {
+        background: #2e4a22;
+        color: #c5e1a5;
+      }
+      .pill.paused {
+        background: #5c4a1a;
+        color: #ffe082;
+      }
+      .pill.error {
+        background: #5c2121;
+        color: #ffcdd2;
+      }
+      .pill.idle {
+        background: #333;
+        color: var(--muted);
+      }
+      .batch-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+        max-height: 28rem;
+        overflow: auto;
+      }
+      .word {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0.55rem 0.7rem;
+        background: #1b1e22;
+      }
+      .word header {
+        padding: 0;
+        border: 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .word .key {
+        font-family: var(--mono);
+        font-weight: 600;
+      }
+      .word .meta {
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-family: var(--mono);
+      }
+      .word .defs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-top: 0.45rem;
+        font-size: 0.8rem;
+        line-height: 1.35;
+      }
+      .word .defs div {
+        background: #141618;
+        border-radius: 6px;
+        padding: 0.4rem 0.5rem;
+      }
+      .word .defs .tag {
+        display: block;
+        color: var(--muted);
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        margin-bottom: 0.2rem;
+      }
+      .events {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        line-height: 1.45;
+        max-height: 22rem;
+        overflow: auto;
+        white-space: pre-wrap;
+        color: #cfd3d8;
+      }
+      .events .e {
+        border-bottom: 1px solid #2a2e32;
+        padding: 0.25rem 0;
+      }
+      .events .t {
+        color: var(--muted);
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-top: 0.75rem;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.78em;
+        background: #141618;
+        padding: 0.1rem 0.3rem;
+        border-radius: 4px;
+      }
+      .span-2 {
+        grid-column: 1 / -1;
+      }
+
+      .pipeline-wrap {
+        padding: 1rem 1.5rem 0;
+      }
+      .pipeline {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        overflow-x: auto;
+        padding: 0.85rem 1rem;
+        background: color-mix(in srgb, var(--panel) 92%, black);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+      }
+      .pipe-node {
+        flex: 1 1 0;
+        min-width: 5.5rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0.35rem 0.4rem 0.55rem;
+        cursor: pointer;
+        background: transparent;
+        border: 0;
+        color: inherit;
+        font: inherit;
+      }
+      .pipe-node:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 8px;
+      }
+      .pipe-node .dot {
+        width: 1.05rem;
+        height: 1.05rem;
+        border-radius: 50%;
+        border: 2px solid var(--line);
+        background: #1b1e22;
+        position: relative;
+        z-index: 1;
+        transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      }
+      .pipe-node .label {
+        margin-top: 0.45rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .pipe-node .sub {
+        margin-top: 0.15rem;
+        font-size: 0.65rem;
+        color: #6d7378;
+        font-family: var(--mono);
+        line-height: 1.2;
+        max-width: 7rem;
+      }
+      .pipe-node .rail {
+        position: absolute;
+        top: calc(0.35rem + 0.52rem);
+        left: 50%;
+        right: -50%;
+        height: 2px;
+        background: var(--line);
+        z-index: 0;
+      }
+      .pipe-node:last-child .rail {
+        display: none;
+      }
+      .pipe-node.done .dot {
+        background: #3d5a2a;
+        border-color: var(--accent);
+      }
+      .pipe-node.done .rail {
+        background: color-mix(in srgb, var(--accent) 55%, var(--line));
+      }
+      .pipe-node.done .label {
+        color: #b6c9a4;
+      }
+      .pipe-node.active .dot {
+        background: var(--accent);
+        border-color: #a5d66a;
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 28%, transparent);
+        transform: scale(1.15);
+        animation: pulse-dot 1.6s ease-in-out infinite;
+      }
+      .pipe-node.active .label {
+        color: #d7ecc0;
+      }
+      .pipe-node.active .sub {
+        color: #9bbb7a;
+      }
+      .pipe-node.paused.active .dot {
+        background: var(--warn);
+        border-color: #ffe082;
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--warn) 25%, transparent);
+        animation: none;
+      }
+      .pipe-node.error.active .dot {
+        background: var(--danger);
+        border-color: #ffcdd2;
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--danger) 25%, transparent);
+        animation: none;
+      }
+      .pipe-node.selected:not(.active) .dot {
+        border-color: #8ab4f8;
+      }
+      .pipe-node.selected:not(.active) .label {
+        color: #c2d4f5;
+      }
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+        }
+        50% {
+          box-shadow: 0 0 0 7px color-mix(in srgb, var(--accent) 8%, transparent);
+        }
+      }
+      .pipeline-caption {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: baseline;
+        margin: 0.45rem 0.15rem 0;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .pipeline-caption strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .funnel-wrap {
+        padding: 0.85rem 1.5rem 0;
+      }
+      .funnel {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 0.45rem;
+      }
+      @media (max-width: 1100px) {
+        .funnel {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 700px) {
+        .funnel {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      .funnel-stage {
+        position: relative;
+        background: color-mix(in srgb, var(--panel) 92%, black);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 0.7rem 0.75rem 0.8rem;
+        min-height: 7.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .funnel-stage::after {
+        content: "→";
+        position: absolute;
+        right: -0.55rem;
+        top: 42%;
+        color: #5a6168;
+        font-size: 0.85rem;
+        z-index: 1;
+        pointer-events: none;
+      }
+      .funnel-stage:last-child::after,
+      .funnel-stage:nth-child(7)::after {
+        display: none;
+      }
+      @media (max-width: 1100px) {
+        .funnel-stage:nth-child(4)::after {
+          display: none;
+        }
+        .funnel-stage:nth-child(7)::after {
+          display: none;
+        }
+      }
+      @media (max-width: 700px) {
+        .funnel-stage:nth-child(2n)::after {
+          display: none;
+        }
+      }
+      .funnel-stage .ftitle {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .funnel-stage .fcount {
+        font-family: var(--mono);
+        font-size: 1.55rem;
+        font-weight: 600;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+      .funnel-stage .fcount.na {
+        color: #6d7378;
+        font-size: 1.1rem;
+      }
+      .funnel-stage .fdetail {
+        font-size: 0.68rem;
+        color: #9aa0a6;
+        line-height: 1.35;
+        flex: 1;
+      }
+      .funnel-stage .fbar {
+        height: 4px;
+        border-radius: 999px;
+        background: #1b1e22;
+        overflow: hidden;
+        margin-top: 0.35rem;
+      }
+      .funnel-stage .fbar > span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, #5a8f3a, var(--accent));
+        border-radius: 999px;
+      }
+      .funnel-stage .fdelta {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--muted);
+      }
+      .funnel-stage .fdelta.neg {
+        color: var(--danger);
+      }
+      .funnel-stage .fdelta.pos {
+        color: #c5e1a5;
+      }
+      .funnel-stage.warn-border {
+        border-color: color-mix(in srgb, var(--warn) 45%, var(--line));
+      }
+      .funnel-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem 1.25rem;
+        margin: 0.55rem 0.1rem 0;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .funnel-meta strong {
+        color: var(--ink);
+        font-family: var(--mono);
+        font-weight: 600;
+      }
+      .score-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+        gap: 0.55rem;
+      }
+      .score-grid .stat .value {
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Dictionary Console</h1>
+        <p>Local operator view · shared artifacts with agent chat · port 4091</p>
+      </div>
+      <div class="controls">
+        <label>
+          Lang
+          <select id="lang">
+            <option value="pt" selected>pt</option>
+            <option value="en">en</option>
+            <option value="es">es</option>
+            <option value="fr">fr</option>
+            <option value="it">it</option>
+            <option value="de">de</option>
+          </select>
+        </label>
+        <label>
+          Step
+          <select id="step">
+            <option value="remediate" selected>remediate</option>
+            <option value="enrich">enrich</option>
+            <option value="eval">eval</option>
+            <option value="filter">filter</option>
+            <option value="ingest">ingest</option>
+            <option value="seed">seed</option>
+            <option value="test">test</option>
+          </select>
+        </label>
+        <label>
+          Wave
+          <input id="rewriteLimit" type="number" min="1" value="80" style="width: 4.5rem" />
+        </label>
+        <button class="primary" id="runBtn">Run</button>
+        <button class="warn" id="pauseBtn">Pause</button>
+        <button id="resumeBtn">Resume</button>
+      </div>
+    </header>
+
+    <div class="pipeline-wrap">
+      <nav class="pipeline" id="pipeline" aria-label="Dictionary pipeline steps"></nav>
+      <div class="pipeline-caption">
+        <span id="pipelineCaption">Idle — pick a step and Run, or watch a CLI pipeline.</span>
+        <span>Click a node to select that step</span>
+      </div>
+    </div>
+
+    <div class="funnel-wrap">
+      <div class="funnel" id="funnel" aria-label="Word counts by stage"></div>
+      <div class="funnel-meta" id="funnelMeta"></div>
+    </div>
+
+    <main>
+      <section class="card">
+        <h2>Status</h2>
+        <div class="status-grid" id="statusGrid"></div>
+        <p class="hint" id="scoreHint"></p>
+      </section>
+
+      <section class="card">
+        <h2>Scorecard</h2>
+        <div id="scorecard" class="score-grid">No scorecard yet.</div>
+      </section>
+
+      <section class="card span-2">
+        <h2>Latest batch</h2>
+        <div id="batchMeta" class="hint"></div>
+        <div class="batch-list" id="batchList"></div>
+      </section>
+
+      <section class="card span-2">
+        <h2>Events</h2>
+        <div class="events" id="events"></div>
+        <p class="hint">
+          Agent / CLI same data:
+          <code>curl -s 'http://127.0.0.1:4091/api/snapshot?lang=pt'</code>
+          or
+          <code>evals/artifacts/dict-console/</code>
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      const PIPELINE_STEPS = [
+        { id: 'seed', title: 'Seed', sub: 'FrequencyWords' },
+        { id: 'ingest', title: 'Ingest', sub: '5-letter keys' },
+        { id: 'filter', title: 'Filter', sub: 'Jev lexical' },
+        { id: 'enrich', title: 'Enrich', sub: 'Gemini defs' },
+        { id: 'eval', title: 'Eval', sub: 'Jev QA' },
+        { id: 'remediate', title: 'Remediate', sub: 'Wave rewrite' },
+        { id: 'test', title: 'Test', sub: 'Validate' },
+      ];
+
+      function pillClass(status) {
+        if (!status) return 'idle';
+        if (status.paused) return 'paused';
+        if (status.phase === 'error') return 'error';
+        if (status.running) return 'running';
+        return 'idle';
+      }
+
+      function esc(s) {
+        return String(s ?? '')
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;');
+      }
+
+      function renderPipeline(snap) {
+        const s = snap.status || {};
+        const activeId = s.step || null;
+        const activeIdx = PIPELINE_STEPS.findIndex((step) => step.id === activeId);
+        const selected = $('step').value;
+        const running = Boolean(s.running);
+        const paused = Boolean(s.paused);
+        const errored = s.phase === 'error';
+
+        $('pipeline').innerHTML = PIPELINE_STEPS.map((step, idx) => {
+          const classes = ['pipe-node'];
+          if (selected === step.id) classes.push('selected');
+          if (activeIdx >= 0 && idx < activeIdx && (running || paused || errored || s.finishedAt)) {
+            classes.push('done');
+          }
+          if (activeId === step.id) {
+            classes.push('active');
+            if (paused) classes.push('paused');
+            if (errored) classes.push('error');
+          }
+          if (!running && !paused && s.phase === 'idle' && s.finishedAt && activeIdx >= 0 && idx < activeIdx) {
+            if (!classes.includes('done')) classes.push('done');
+          }
+          return `<button type="button" class="${classes.join(' ')}" data-step="${step.id}" title="Select ${step.id}">
+            <span class="rail" aria-hidden="true"></span>
+            <span class="dot" aria-hidden="true"></span>
+            <span class="label">${esc(step.title)}</span>
+            <span class="sub">${esc(step.sub)}</span>
+          </button>`;
+        }).join('');
+
+        for (const btn of $('pipeline').querySelectorAll('.pipe-node')) {
+          btn.onclick = () => {
+            $('step').value = btn.dataset.step;
+            renderPipeline(snap);
+          };
+        }
+
+        let caption = 'Idle — pick a step and Run, or watch a CLI pipeline.';
+        if (errored && activeId) {
+          caption = `Error during <strong>${esc(activeId)}</strong>${s.error ? ` — ${esc(s.error)}` : ''}`;
+        } else if (paused && activeId) {
+          caption = `Paused on <strong>${esc(activeId)}</strong> — Resume to continue between batches.`;
+        } else if (running && activeId) {
+          const c = s.counters || {};
+          const batch =
+            c.batchIndex && c.batchTotal ? ` · batch ${c.batchIndex}/${c.batchTotal}` : '';
+          caption = `Running <strong>${esc(activeId)}</strong>${batch}`;
+        } else if (s.phase === 'idle' && s.finishedAt && activeId) {
+          caption = `Last finished at <strong>${esc(activeId)}</strong> (${esc(s.finishedAt)})`;
+        }
+        $('pipelineCaption').innerHTML = caption;
+      }
+
+      function fmtNum(n) {
+        if (n == null || Number.isNaN(n)) return '—';
+        return Number(n).toLocaleString();
+      }
+
+      function renderFunnel(snap) {
+        const funnel = snap.funnel;
+        if (!funnel?.stages?.length) {
+          $('funnel').innerHTML = '';
+          $('funnelMeta').textContent = 'No funnel data yet.';
+          return;
+        }
+        const max = Math.max(
+          1,
+          ...funnel.stages.map((s) => (typeof s.count === 'number' ? s.count : 0))
+        );
+        $('funnel').innerHTML = funnel.stages
+          .map((s) => {
+            const count =
+              typeof s.count === 'number' ? `<span class="fcount">${fmtNum(s.count)}</span>` : `<span class="fcount na">—</span>`;
+            const pct =
+              typeof s.count === 'number' ? Math.max(4, Math.round((s.count / max) * 100)) : 0;
+            let delta = '';
+            if (typeof s.drop === 'number' && s.drop > 0) {
+              delta = `<span class="fdelta neg">−${fmtNum(s.drop)} pruned</span>`;
+            } else if (typeof s.stubs === 'number' && s.stubs > 0) {
+              delta = `<span class="fdelta">${fmtNum(s.stubs)} stubs left</span>`;
+            } else if (typeof s.delta === 'number' && s.delta !== 0 && s.id !== 'verbform') {
+              const cls = s.delta < 0 ? 'neg' : 'pos';
+              const sign = s.delta > 0 ? '+' : '';
+              delta = `<span class="fdelta ${cls}">${sign}${fmtNum(s.delta)}</span>`;
+            }
+            const warn =
+              s.id === 'verbform' && (s.verbForm?.needsPosRewrite || 0) > 0
+                ? ' warn-border'
+                : s.id === 'eval' && (s.queue || 0) > 0
+                  ? ' warn-border'
+                  : '';
+            return `<article class="funnel-stage${warn}">
+              <div class="ftitle">${esc(s.title)}</div>
+              ${count}
+              <div class="fdetail">${esc(s.detail || '')}</div>
+              ${delta}
+              <div class="fbar" aria-hidden="true"><span style="width:${pct}%"></span></div>
+            </article>`;
+          })
+          .join('');
+
+        const vf = funnel.stages.find((s) => s.id === 'verbform')?.verbForm;
+        $('funnelMeta').innerHTML = [
+          `Dict <strong>${fmtNum(funnel.dictSize)}</strong>`,
+          `Reviewed <strong>${fmtNum(funnel.reviewed)}</strong>`,
+          `Stubs <strong>${fmtNum(funnel.stubs)}</strong>`,
+          `Review queue <strong>${fmtNum(funnel.reviewQueue)}</strong>`,
+          vf
+            ? `Verb answers: inf <strong>${fmtNum(vf.infinitive)}</strong> · keep <strong>${fmtNum(vf.finiteKeptNonVerb)}</strong> · rewrite <strong>${fmtNum(vf.needsPosRewrite)}</strong> · block <strong>${fmtNum(vf.blockAsAnswer)}</strong>`
+            : 'Verb form <strong>not run</strong>',
+        ].join(' · ');
+      }
+
+      function renderScorecard(sc) {
+        if (!sc) {
+          $('scorecard').innerHTML = '<div class="hint">No scorecard yet.</div>';
+          $('scoreHint').textContent = '';
+          return;
+        }
+        const skip = new Set(['lang', 'updatedAt', 'summary', 'nextCommand']);
+        const cells = Object.entries(sc)
+          .filter(([k, v]) => !skip.has(k) && (typeof v === 'number' || typeof v === 'string'))
+          .map(
+            ([k, v]) =>
+              `<div class="stat"><div class="label">${esc(k)}</div><div class="value">${esc(
+                typeof v === 'number' ? fmtNum(v) : v
+              )}</div></div>`
+          );
+        $('scorecard').innerHTML = cells.length
+          ? cells.join('')
+          : `<pre class="events" style="margin:0;max-height:12rem">${esc(
+              JSON.stringify(sc, null, 2)
+            )}</pre>`;
+        $('scoreHint').textContent = sc.summary || '';
+      }
+
+      function renderStatus(snap) {
+        const s = snap.status || {};
+        const c = s.counters || {};
+        const phase = s.paused ? 'paused' : s.phase || 'idle';
+        const cells = [
+          ['Phase', `<span class="pill ${pillClass(s)}">${esc(phase)}</span>`],
+          ['Step', s.step || '—'],
+          ['Queue', c.queueSize ?? '—'],
+          ['Batch', c.batchIndex && c.batchTotal ? `${c.batchIndex}/${c.batchTotal}` : '—'],
+          ['Enriched', c.enriched ?? '—'],
+          ['429s', c.rateLimits ?? '—'],
+        ];
+        $('statusGrid').innerHTML = cells
+          .map(
+            ([label, value]) =>
+              `<div class="stat"><div class="label">${label}</div><div class="value">${value}</div></div>`
+          )
+          .join('');
+
+        renderPipeline(snap);
+        renderFunnel(snap);
+        renderScorecard(snap.scorecard);
+
+        const batch = snap.latestBatch;
+        if (!batch) {
+          $('batchMeta').textContent = 'No batch written yet.';
+          $('batchList').innerHTML = '';
+        } else {
+          $('batchMeta').textContent = `${batch.step || ''} batch ${batch.batchIndex}/${batch.batchTotal} · ${
+            batch.items?.length || 0
+          } words · ${batch.updatedAt || ''}`;
+          $('batchList').innerHTML = (batch.items || [])
+            .map((item) => {
+              const changed = item.changed ? ' · changed' : '';
+              return `<article class="word">
+                <header>
+                  <span class="key">${esc(item.key)}</span>
+                  <span class="meta">${esc(item.after?.pos || item.before?.pos || '')}${changed}</span>
+                </header>
+                <div class="defs">
+                  <div><span class="tag">Before</span>${esc(item.before?.def || '—')}</div>
+                  <div><span class="tag">After</span>${esc(item.after?.def || '—')}</div>
+                </div>
+              </article>`;
+            })
+            .join('');
+        }
+
+        $('events').innerHTML = (snap.events || [])
+          .slice()
+          .reverse()
+          .map(
+            (e) =>
+              `<div class="e"><span class="t">${esc(e.ts || '')}</span> · <strong>${esc(
+                e.type
+              )}</strong> — ${esc(e.message)}</div>`
+          )
+          .join('');
+      }
+
+      async function refresh() {
+        const lang = $('lang').value;
+        const res = await fetch(`/api/snapshot?lang=${lang}&tail=60`);
+        const snap = await res.json();
+        renderStatus(snap);
+      }
+
+      async function post(path, body) {
+        const res = await fetch(path, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || res.statusText);
+        return data;
+      }
+
+      $('runBtn').onclick = async () => {
+        try {
+          await post('/api/run', {
+            lang: $('lang').value,
+            step: $('step').value,
+            rewriteLimit: Number($('rewriteLimit').value) || 80,
+          });
+          await refresh();
+        } catch (err) {
+          alert(err.message);
+        }
+      };
+      $('pauseBtn').onclick = async () => {
+        await post('/api/pause', { lang: $('lang').value });
+        await refresh();
+      };
+      $('resumeBtn').onclick = async () => {
+        await post('/api/resume', { lang: $('lang').value });
+        await refresh();
+      };
+      $('lang').onchange = refresh;
+      $('step').onchange = () => refresh();
+
+      refresh();
+      setInterval(refresh, 1500);
+    </script>
+  </body>
+</html>

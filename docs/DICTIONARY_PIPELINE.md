@@ -9,19 +9,20 @@ This document defines the complete end-to-end architecture, lessons learned, cos
 Our dictionary engine uses a **two-tier AI architecture**:
 
 ```
-[Raw 5-Letter Wordlist]
+[OpenSubtitles FrequencyWords 50k]
+          │  seed (HermitDave / captions)
+          ▼
+[Raw 5-Letter Wordlist]  data/{lang}_words.txt
+          │  ingest
+          ▼
+[Stub Dictionary JSON]  public/{lang}.json
+          │  filter (Jev lexical validity, prune conf ≥ 0.7)
+          ▼
+[Clean Seed Dictionary]  (names / English leaks / junk removed)
           │
           ▼
 ┌────────────────────────────────────────────────────────┐
-│ Stage 1: Ingestion & Normalization                      │
-│ - 5-letter ASCII key normalization (e.g. "ovulo")      │
-│ - Diacritic display preservation (e.g. "óvulo")        │
-│ - Structural validation for keys, display, and schema   │
-└────────────────────────────────────────────────────────┘
-          │
-          ▼
-┌────────────────────────────────────────────────────────┐
-│ Stage 2: Gemini 2.5 Flash Structured Lexicography       │
+│ Stage 1: Gemini 2.5 Flash Structured Lexicography       │
 │ - Generates concise English educational definitions    │
 │ - Standardizes Parts of Speech (noun, verb, adj, etc.) │
 │ - Cites inflected verb/plural lemmas in parentheses    │
@@ -29,7 +30,7 @@ Our dictionary engine uses a **two-tier AI architecture**:
           │
           ▼
 ┌────────────────────────────────────────────────────────┐
-│ Stage 3: TypeSafe Jev System One Evaluation            │
+│ Stage 2: TypeSafe Jev System One Evaluation            │
 │ - 3 Multiple-choice decisions per word:               │
 │     1. Definition Accuracy (Base form vs Inflection)   │
 │     2. Editorial Formatting Hygiene                   │
@@ -39,7 +40,7 @@ Our dictionary engine uses a **two-tier AI architecture**:
           │
           ▼
 ┌────────────────────────────────────────────────────────┐
-│ Stage 4: Automated Remediation & Calibration Loop      │
+│ Stage 3: Automated Remediation & Calibration Loop      │
 │ - Auto-calibrates difficulty 'd' to Jev consensus      │
 │ - Targeted Gemini re-enrichment for flagged definitions│
 │ - Fast re-evaluation via review queue (`--queue`)       │
@@ -48,6 +49,24 @@ Our dictionary engine uses a **two-tier AI architecture**:
           ▼
 [Clean 100% Passing Dictionary JSON] -> `public/{lang}.json`
 ```
+
+### Stage 0 detail: Seed wordlist
+EN/ES/FR historically came from **HermitDave [FrequencyWords](https://github.com/hermitdave/FrequencyWords)** (OpenSubtitles caption corpus, `word count` per line). The `seed` step downloads `{lang}_50k.txt`, keeps subtitle frequency order, and filters to Wordle-eligible tokens:
+- display length 5 (Unicode characters, accents OK)
+- ASCII key length 5 after diacritic stripping (`então` → `entao`)
+- deduped by key; light banlist applied
+
+Output: `data/{lang}_words.txt` (corpus cache: `data/{lang}_50k.txt`).
+
+### Stage 0.5 detail: Jev lexical filter (before enrich)
+Caption frequency lists leak English, character names, abbreviations, and gibberish. After ingest, `--step=filter` runs a **definition-free** Jev System One screen:
+
+| Verdict | Action |
+| :--- | :--- |
+| `valid` | Keep |
+| `proper_noun` / `foreign_leak` / `non_word` / `multiword_or_clitic` / `abbreviation` / `offensive` | Prune if confidence ≥ **0.7** (default) |
+
+Artifacts land in `evals/artifacts/validity_{lang}.*`. Full pipeline (`--step=all`) runs filter automatically; bypass with `--skip-filter`.
 
 ---
 
@@ -68,7 +87,13 @@ Our dictionary engine uses a **two-tier AI architecture**:
   - *Bad*: `"That you (informal singular) doubt or question something."`
   - *Good*: `"Conjugated form of the Spanish verb dudar (to doubt): no dudes (second-person singular present subjunctive)."` &rarr; **`inflected_form`, `clean_dictionary`**.
 
-### C. Difficulty Rubric & Score Distribution
+### C. Anti-thrash (no endless Gemini↔Jev loops)
+- Each flagged word gets at most **`--max-rewrite-attempts` (default 2)** Gemini rewrites.
+- After the second failed rewrite→Jev cycle, the word is **removed from the active review queue** and appended to `evals/artifacts/manual_review_{lang}.json` for human inspection.
+- Vertical `--step=wave` always stops after one enrich→eval→remediate cycle; re-run for the next batch.
+- Prefer `--step=wave --wave-size=40` (or 80) over shell `while` loops that re-call remediate until the queue is empty.
+
+### D. Difficulty Rubric & Score Distribution
 - **Rubric**:
   - `elementary` ($d \le 0.50$): Daily conversational vocabulary known by all speakers (*agua*, *pomme*, *casa*).
   - `intermediate` ($0.50 < d \le 0.80$): Familiar everyday words, common verbs, adjectives (*frenar*, *blair*).
@@ -80,11 +105,11 @@ Our dictionary engine uses a **two-tier AI architecture**:
   - Advanced: **~10%–15%**
   - Obscure: **~7%–12%** (previously inflated at >27% before calibration).
 
-### D. Strict POS Normalization
+### E. Strict POS Normalization
 - Enforce the standard POS schema: `noun`, `verb`, `adj`, `adv`, `pron`, `intj`, `num`.
 - Avoid abbreviations that evaluators might confuse (e.g., ensure `pron` is used for pronouns instead of mislabeling as `noun`).
 
-### E. Guard Against Unnecessary Language Prefixes
+### F. Guard Against Unnecessary Language Prefixes
 - **Rule**: Do **NOT** prepend *"In French..."*, *"In Spanish..."*, or *"In Portuguese..."* to definitions unnecessarily.
 - **Exceptions**: Only include language context if it is **genuinely part of the definition** (e.g., culturally specific idioms, local street argot, or parenthetical homograph disambiguation like `(un about de poutre)`). The vast majority of definitions should define the word directly in English.
 
@@ -103,39 +128,62 @@ Our dictionary engine uses a **two-tier AI architecture**:
 
 ## 4. Step-by-Step Blueprint: Adding Portuguese (`pt`)
 
-### Step 1: Prepare Raw Word List
-Create a raw text file `data/pt_words.txt` containing valid 5-letter Portuguese words (one per line).
+### Step 1: Seed the starting wordlist (captions / frequency)
+Generate `data/pt_words.txt` from the OpenSubtitles FrequencyWords list (same source EN/ES/FR used):
 
-### Step 2: Run the All-in-One Bootstrap Pipeline
-Run the master script through `vite-node` to ingest, enrich with Gemini, evaluate with Jev, calibrate difficulty, and remediate in a single command:
+```bash
+# Full eligible list (~5k words for Portuguese)
+npm run bootstrap:dict -- --lang=pt --name=Portuguese --step=seed
 
+# Or a cheap pilot slice first
+npm run bootstrap:dict -- --lang=pt --name=Portuguese --limit=200 --step=seed
+```
+
+Brazilian Portuguese corpus (if preferred): `--freq-lang=pt_br` when that list exists upstream. Re-download with `--refresh-source`.
+
+### Step 2: Run the bootstrap pipeline
 ```bash
 npm run bootstrap:dict -- \
   --lang=pt \
   --name=Portuguese \
-  --words=data/pt_words.txt \
   --step=all
 ```
 
-Or run modularly step-by-step:
+`--step=all` auto-runs `seed` when `--words` is omitted. Or run modularly:
+
 ```bash
+# 0. Seed from FrequencyWords (skip if you already have data/pt_words.txt)
+npm run bootstrap:dict -- --lang=pt --name=Portuguese --step=seed
+
 # 1. Ingest raw word list
 npm run bootstrap:dict -- --lang=pt --name=Portuguese --words=data/pt_words.txt --step=ingest
 
-# 2. Enrich definitions and POS with Gemini 2.5 Flash
+# 2. Jev lexical filter — prune names / English leaks / junk (conf ≥ 0.7)
+npm run bootstrap:dict -- --lang=pt --step=filter
+
+# 3. Enrich definitions and POS with Gemini 2.5 Flash
 npm run bootstrap:dict -- --lang=pt --step=enrich
 
-# 3. Evaluate with TypeSafe Jev System One
+# 4. Evaluate definitions with TypeSafe Jev System One
 npm run bootstrap:dict -- --lang=pt --step=eval
 
-# 4. Auto-remediate flagged entries and calibrate difficulty
-npm run bootstrap:dict -- --lang=pt --step=remediate
+# 5. Auto-remediate flagged entries and calibrate difficulty (batched waves)
+npm run bootstrap:dict -- --lang=pt --step=remediate --rewrite-limit=80
+# Re-run the same command until the queue is clean. Each wave:
+#   - calibrates difficulty for the whole queue (free)
+#   - rewrites up to 80 bad defs with Gemini
+#   - re-evals with Jev and prints a scorecard
+#   - writes evals/artifacts/remediate_progress_pt.json
 
-# 5. Run strict validation tests
+# 6. Run strict validation tests
 npm run bootstrap:dict -- --lang=pt --step=test
 ```
 
-Ingestion validates and normalizes candidate structure; it does not perform semantic suitability filtering. The separate `npm run audit:words -- --lang=all --dry-run` command audits the existing English, Spanish, and French dictionaries for proper nouns, multiword forms, abbreviations, non-words, and offensive terms. It explicitly permits recognized loanwords and writes a report by default; add `--prune` only when flagged entries should be removed.
+`--step=all` runs seed (if needed) → ingest → **filter** → enrich → eval → remediate → test. Bypass the Jev seed screen with `--skip-filter`. Standalone: `npm run eval:dict:validity -- --lang pt --prune`.
+
+Remediate defaults to `--rewrite-limit=80` so Gemini quota isn’t burned in one shot; use `--rewrite-limit=0` only when you intentionally want unlimited rewrites.
+
+Ingestion validates and normalizes candidate structure only. The separate `npm run audit:words` Gemini auditor remains available for existing dictionaries; the bootstrap `filter` step is the preferred pre-enrich gate for new languages.
 
 ### Step 3: Integrate with Test Suite
 Update `src/utils/dictionary.test.ts` to include the new dictionary:
@@ -162,8 +210,11 @@ Add `'pt'` to `src/types.ts` / language dropdown selectors in the UI.
 
 ## 5. Script Directory Reference
 
-- `scripts/bootstrapDictionary.mjs`: Unified master pipeline for adding or auditing any language.
+- `scripts/bootstrapDictionary.mjs`: Unified master pipeline (`seed` → ingest → **filter** → enrich → eval → remediate → test).
+- `evals/dictionary/runValidity.ts` / `lexicalValidity.ts`: Jev lexical seed screen + prune (`npm run eval:dict:validity`).
+- `data/{lang}_50k.txt`: Cached HermitDave FrequencyWords corpus (gitignored).
+- `data/{lang}_words.txt`: Filtered 5-letter seed list produced by `--step=seed` (and re-written by `--step=filter`).
 - `scripts/enrichDefinitions.mjs`: Standalone Gemini batch definition generator.
-- `evals/dictionary/runEval.ts`: TypeSafe Jev evaluation harness with `--queue` support.
+- `evals/dictionary/runEval.ts`: TypeSafe Jev definition-QA harness with `--queue` support.
 - `evals/dictionary/scorers.ts`: Jev prompt definitions and difficulty rubrics.
 - `src/utils/dictionary.test.ts`: Vitest test suite enforcing 100% dictionary integrity.
