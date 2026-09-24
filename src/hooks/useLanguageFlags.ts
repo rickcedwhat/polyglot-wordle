@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Language } from '@/types/firestore';
-import { ALL_LANGUAGES, LANGUAGE_META } from '@/utils/languages';
 import { extractSingleEmoji } from '@/utils/emojiUtils';
+import { ALL_LANGUAGES, LANGUAGE_META } from '@/utils/languages';
 
 export type LanguageFlags = Record<Language, string>;
 
@@ -17,14 +17,12 @@ const STORAGE_KEY = 'polyglot_custom_flags_v2';
 
 export const getStoredFlags = (): LanguageFlags => {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem('polyglot_custom_flags_v1');
+    const raw =
+      localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem('polyglot_custom_flags_v1');
     if (raw) {
       const parsed = JSON.parse(raw);
       return Object.fromEntries(
-        ALL_LANGUAGES.map((lang) => [
-          lang,
-          extractSingleEmoji(parsed[lang]) || DEFAULT_FLAGS[lang],
-        ])
+        ALL_LANGUAGES.map((lang) => [lang, extractSingleEmoji(parsed[lang]) || DEFAULT_FLAGS[lang]])
       ) as LanguageFlags;
     }
   } catch (e) {

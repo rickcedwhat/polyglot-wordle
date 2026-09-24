@@ -1,5 +1,5 @@
-import { GameDoc, Language } from '@/types/firestore';
-import { languagesFromGame, LANGUAGE_META } from '@/utils/languages';
+import { GameDoc } from '@/types/firestore';
+import { LANGUAGE_META, languagesFromGame } from '@/utils/languages';
 import { getGuessStatuses, LetterStatus, normalizeWord } from '@/utils/wordUtils';
 
 export interface SocialShareCardOptions {

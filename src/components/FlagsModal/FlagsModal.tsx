@@ -12,10 +12,10 @@ import {
   ThemeIcon,
   Tooltip,
 } from '@mantine/core';
-import { DEFAULT_FLAGS, useLanguageFlags } from '@/hooks/useLanguageFlags';
+import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { Language } from '@/types/firestore';
-import { ALL_LANGUAGES, labelFor } from '@/utils/languages';
 import { extractSingleEmoji } from '@/utils/emojiUtils';
+import { ALL_LANGUAGES, labelFor } from '@/utils/languages';
 
 interface FlagsModalProps {
   opened: boolean;

@@ -79,9 +79,7 @@ export const SandboxPage: FC = () => {
   const [enWord, setEnWord] = useState(initial.enWord);
   const [esWord, setEsWord] = useState(initial.esWord);
   const [frWord, setFrWord] = useState(initial.frWord);
-  const [shuffledLanguages, setShuffledLanguages] = useState<Language[]>(
-    initial.shuffledLanguages
-  );
+  const [shuffledLanguages, setShuffledLanguages] = useState<Language[]>(initial.shuffledLanguages);
   const [gameKey, setGameKey] = useState(0);
 
   const [searchWord, setSearchWord] = useState('bonus');

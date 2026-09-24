@@ -370,8 +370,12 @@ export const validateGuess = ({
     }
   });
 
+  if (matchedLangs.length === 0) {
+    return { isValid: false, matchedLangs: [], solutionLangs: [] };
+  }
+
   return {
-    isValid: matchedLangs.length > 0,
+    isValid: true,
     matchedLangs,
     solutionLangs,
   };
