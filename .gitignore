@@ -136,6 +136,7 @@ scripts/*.json
 scripts/*.tar.xz
 scripts/spa-eng/
 scripts/fra-eng/
+data/*_50k.txt
 public/*.json.bak
 audit_report_*.json
 storybook-static/
