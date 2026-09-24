@@ -142,7 +142,9 @@ export function shouldBlockAsAnswer(
   defSenseConfidence: number,
   minConfidence = 0.5
 ): boolean {
-  if (verdict !== 'finite' || formConfidence < minConfidence) return false;
+  if (verdict !== 'finite' || formConfidence < minConfidence) {
+    return false;
+  }
   const definedAsNonVerb = defSense === 'non_verb_primary' && defSenseConfidence >= minConfidence;
   return !definedAsNonVerb;
 }
@@ -218,10 +220,12 @@ export async function evaluateVerbFormWithJev(
 
 /** Entries tagged as verbs (including slash tags like noun/verb). */
 export function isVerbTagged(pos: string | undefined): boolean {
-  if (!pos) return false;
+  if (!pos) {
+    return false;
+  }
   const parts = pos
     .toLowerCase()
-    .split(/[\/|,]/)
+    .split(/[/|,]/)
     .map((p) => p.trim());
   return parts.includes('verb');
 }

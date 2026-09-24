@@ -34,15 +34,23 @@ import {
 function loadEnv() {
   for (const rel of ['.env.local', '.env']) {
     const file = path.resolve(process.cwd(), rel);
-    if (!fs.existsSync(file)) continue;
+    if (!fs.existsSync(file)) {
+      continue;
+    }
     for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
       const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
+      if (!trimmed || trimmed.startsWith('#')) {
+        continue;
+      }
       const eq = trimmed.indexOf('=');
-      if (eq < 0) continue;
+      if (eq < 0) {
+        continue;
+      }
       const key = trimmed.slice(0, eq);
       const val = trimmed.slice(eq + 1).replace(/^["']|["']$/g, '');
-      if (key && val && !process.env[key]) process.env[key] = val;
+      if (key && val && !process.env[key]) {
+        process.env[key] = val;
+      }
     }
   }
 }
@@ -65,13 +73,17 @@ function parseArgs(argv: string[]) {
         .slice('--lang='.length)
         .split(',')
         .map((l) => l.trim()) as Language[];
-    } else if (arg === '--limit' && argv[i + 1]) limit = Number(argv[++i]);
-    else if (arg.startsWith('--limit=')) limit = Number(arg.slice('--limit='.length));
-    else if (arg === '--concurrency' && argv[i + 1]) concurrency = Number(argv[++i]);
-    else if (arg.startsWith('--concurrency=')) {
+    } else if (arg === '--limit' && argv[i + 1]) {
+      limit = Number(argv[++i]);
+    } else if (arg.startsWith('--limit=')) {
+      limit = Number(arg.slice('--limit='.length));
+    } else if (arg === '--concurrency' && argv[i + 1]) {
+      concurrency = Number(argv[++i]);
+    } else if (arg.startsWith('--concurrency=')) {
       concurrency = Number(arg.slice('--concurrency='.length));
-    } else if (arg === '--min-confidence' && argv[i + 1]) minConfidence = Number(argv[++i]);
-    else if (arg.startsWith('--min-confidence=')) {
+    } else if (arg === '--min-confidence' && argv[i + 1]) {
+      minConfidence = Number(argv[++i]);
+    } else if (arg.startsWith('--min-confidence=')) {
       minConfidence = Number(arg.slice('--min-confidence='.length));
     }
   }
@@ -81,7 +93,9 @@ function parseArgs(argv: string[]) {
       throw new Error(`Invalid language code: ${lang}`);
     }
   }
-  if (!Number.isFinite(limit) || limit < 0) throw new Error('--limit must be >= 0');
+  if (!Number.isFinite(limit) || limit < 0) {
+    throw new Error('--limit must be >= 0');
+  }
   if (!Number.isFinite(concurrency) || concurrency < 1) {
     throw new Error('--concurrency must be >= 1');
   }
@@ -138,7 +152,9 @@ function annotate(results: VerbFormResult[], minConfidence: number): VerbFormRes
 function summarize(results: VerbFormResult[], minConfidence: number) {
   const annotated = annotate(results, minConfidence);
   const byVerdict = { infinitive: 0, finite: 0, not_a_verb: 0 } as Record<VerbFormVerdict, number>;
-  for (const r of annotated) byVerdict[r.verdict]++;
+  for (const r of annotated) {
+    byVerdict[r.verdict]++;
+  }
 
   const finiteKeptNonVerb = annotated.filter(
     (r) =>
@@ -175,7 +191,9 @@ async function runLang(
 ) {
   const all = loadDictionary(lang);
   let entries: DictionaryEntry[] = all.filter((e) => isVerbTagged(e.pos));
-  if (options.limit > 0) entries = entries.slice(0, options.limit);
+  if (options.limit > 0) {
+    entries = entries.slice(0, options.limit);
+  }
 
   console.log(`\n🔎 Verb-form screen — ${lang.toUpperCase()}`);
   console.log(
@@ -232,7 +250,7 @@ async function runLang(
 
   fs.writeFileSync(
     jsonPath,
-    JSON.stringify(
+    `${JSON.stringify(
       {
         lang,
         generatedAt: new Date().toISOString(),
@@ -250,7 +268,7 @@ async function runLang(
       },
       null,
       2
-    ) + '\n'
+    )}\n`
   );
 
   fs.writeFileSync(
@@ -304,7 +322,7 @@ async function runLang(
         };
       }),
   };
-  fs.writeFileSync(rewritePath, JSON.stringify(rewriteQueue, null, 2) + '\n');
+  fs.writeFileSync(rewritePath, `${JSON.stringify(rewriteQueue, null, 2)}\n`);
   fs.writeFileSync(
     rewriteTxtPath,
     needsPosRewrite

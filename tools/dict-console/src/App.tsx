@@ -81,9 +81,15 @@ export function App() {
       : status?.phase || 'idle';
 
   const phaseIntent = useMemo(() => {
-    if (status?.paused) return 'secondary' as const;
-    if (status?.phase === 'error') return 'danger' as const;
-    if (status?.running) return 'primary' as const;
+    if (status?.paused) {
+      return 'secondary' as const;
+    }
+    if (status?.phase === 'error') {
+      return 'danger' as const;
+    }
+    if (status?.running) {
+      return 'primary' as const;
+    }
     return 'neutral' as const;
   }, [status]);
 
@@ -137,7 +143,9 @@ export function App() {
                 onChange={(e) => {
                   const v = String(e.target.value);
                   setStep(v);
-                  if (STEP_TO_PIPELINE[v]) setActiveStageId(STEP_TO_PIPELINE[v]);
+                  if (STEP_TO_PIPELINE[v]) {
+                    setActiveStageId(STEP_TO_PIPELINE[v]);
+                  }
                 }}
                 options={STEPS.map((s) => ({ value: s, label: s }))}
               />
@@ -178,7 +186,9 @@ export function App() {
               activeStageId={activeStageId}
               onSelectStage={(id) => {
                 setActiveStageId(id);
-                if ((STEPS as readonly string[]).includes(id)) setStep(id);
+                if ((STEPS as readonly string[]).includes(id)) {
+                  setStep(id);
+                }
               }}
               stepGraphConfig={stepGraphConfig}
               slices={snap?.pipeline?.slices ?? {}}

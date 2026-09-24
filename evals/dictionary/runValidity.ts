@@ -29,15 +29,23 @@ import { DictionaryEntry, Language, RawDictionary } from './types';
 function loadEnv() {
   for (const rel of ['.env.local', '.env']) {
     const file = path.resolve(process.cwd(), rel);
-    if (!fs.existsSync(file)) continue;
+    if (!fs.existsSync(file)) {
+      continue;
+    }
     for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
       const trimmed = line.trim();
-      if (!trimmed || trimmed.startsWith('#')) continue;
+      if (!trimmed || trimmed.startsWith('#')) {
+        continue;
+      }
       const eq = trimmed.indexOf('=');
-      if (eq < 0) continue;
+      if (eq < 0) {
+        continue;
+      }
       const key = trimmed.slice(0, eq);
       const val = trimmed.slice(eq + 1).replace(/^["']|["']$/g, '');
-      if (key && val && !process.env[key]) process.env[key] = val;
+      if (key && val && !process.env[key]) {
+        process.env[key] = val;
+      }
     }
   }
 }
@@ -57,17 +65,25 @@ function parseArgs(argv: string[]) {
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
-    if (arg === '--dry-run') dryRun = true;
-    else if (arg === '--prune') prune = true;
-    else if (arg === '--require-not-a-word-form') thresholds.requireNotAWordForm = true;
-    else if (arg === '--lang' && argv[i + 1]) lang = argv[++i] as Language;
-    else if (arg.startsWith('--lang=')) lang = arg.slice('--lang='.length) as Language;
-    else if (arg === '--limit' && argv[i + 1]) limit = Number(argv[++i]);
-    else if (arg.startsWith('--limit=')) limit = Number(arg.slice('--limit='.length));
-    else if (arg === '--concurrency' && argv[i + 1]) concurrency = Number(argv[++i]);
-    else if (arg.startsWith('--concurrency='))
+    if (arg === '--dry-run') {
+      dryRun = true;
+    } else if (arg === '--prune') {
+      prune = true;
+    } else if (arg === '--require-not-a-word-form') {
+      thresholds.requireNotAWordForm = true;
+    } else if (arg === '--lang' && argv[i + 1]) {
+      lang = argv[++i] as Language;
+    } else if (arg.startsWith('--lang=')) {
+      lang = arg.slice('--lang='.length) as Language;
+    } else if (arg === '--limit' && argv[i + 1]) {
+      limit = Number(argv[++i]);
+    } else if (arg.startsWith('--limit=')) {
+      limit = Number(arg.slice('--limit='.length));
+    } else if (arg === '--concurrency' && argv[i + 1]) {
+      concurrency = Number(argv[++i]);
+    } else if (arg.startsWith('--concurrency=')) {
       concurrency = Number(arg.slice('--concurrency='.length));
-    else if (arg === '--min-confidence' && argv[i + 1]) {
+    } else if (arg === '--min-confidence' && argv[i + 1]) {
       // Back-compat: applies to hard rejects.
       thresholds.hardRejectMin = Number(argv[++i]);
     } else if (arg.startsWith('--min-confidence=')) {
@@ -212,7 +228,9 @@ function summarize(results: LexicalValidityResult[]) {
 function crossTab(results: LexicalValidityResult[]) {
   const table: Record<string, Record<string, number>> = {};
   for (const r of results) {
-    if (!table[r.verdict]) table[r.verdict] = {};
+    if (!table[r.verdict]) {
+      table[r.verdict] = {};
+    }
     table[r.verdict][r.formVerdict] = (table[r.verdict][r.formVerdict] || 0) + 1;
   }
   return table;
@@ -256,7 +274,7 @@ function writeThresholdSweep(lang: Language, raw: LexicalValidityResult[]) {
   const pathOut = path.join(ARTIFACTS_DIR, `validity_threshold_sweep_${lang}.json`);
   fs.writeFileSync(
     pathOut,
-    JSON.stringify({ lang, generatedAt: new Date().toISOString(), sweep }, null, 2) + '\n'
+    `${JSON.stringify({ lang, generatedAt: new Date().toISOString(), sweep }, null, 2)}\n`
   );
   return pathOut;
 }
@@ -311,7 +329,7 @@ function writeArtifacts(
 
   fs.writeFileSync(
     jsonPath,
-    JSON.stringify(
+    `${JSON.stringify(
       {
         lang,
         generatedAt: new Date().toISOString(),
@@ -328,7 +346,7 @@ function writeArtifacts(
       },
       null,
       2
-    ) + '\n'
+    )}\n`
   );
 
   fs.writeFileSync(
@@ -344,11 +362,11 @@ function writeArtifacts(
 
   fs.writeFileSync(
     edgesPath,
-    JSON.stringify({ lang, generatedAt: new Date().toISOString(), edgeCases }, null, 2) + '\n'
+    `${JSON.stringify({ lang, generatedAt: new Date().toISOString(), edgeCases }, null, 2)}\n`
   );
   fs.writeFileSync(
     crossPath,
-    JSON.stringify({ lang, generatedAt: new Date().toISOString(), crosstab }, null, 2) + '\n'
+    `${JSON.stringify({ lang, generatedAt: new Date().toISOString(), crosstab }, null, 2)}\n`
   );
 
   let md = `# Jev Lexical Validity — ${lang.toUpperCase()}\n\n`;
@@ -356,7 +374,7 @@ function writeArtifacts(
   md += `**Proposed prune (thresholds below):** ${removals.length.toLocaleString()}\n`;
   md += `**Protected non_word→inflection:** ${protectedInflections.length.toLocaleString()}\n\n`;
   md += `### Thresholds\n\n`;
-  md += '```json\n' + JSON.stringify(thresholds, null, 2) + '\n```\n\n';
+  md += `\`\`\`json\n${JSON.stringify(thresholds, null, 2)}\n\`\`\`\n\n`;
   md += `## Lexical verdicts\n\n| Verdict | Count |\n| :--- | ---: |\n`;
   for (const [verdict, count] of Object.entries(byVerdict)) {
     const mark = REJECT_VERDICTS.has(verdict as LexicalVerdict) ? '❌' : '✅';
@@ -402,7 +420,7 @@ function pruneDictionary(lang: Language, removals: LexicalValidityResult[]) {
   for (const key of removeKeys) {
     delete raw[key];
   }
-  fs.writeFileSync(dictPath, JSON.stringify(raw, null, 2) + '\n');
+  fs.writeFileSync(dictPath, `${JSON.stringify(raw, null, 2)}\n`);
   const after = Object.keys(raw).length;
 
   if (fs.existsSync(wordsPath)) {
@@ -429,7 +447,7 @@ function pruneDictionary(lang: Language, removals: LexicalValidityResult[]) {
     q.queue = (q.queue || []).filter((item) => !removeKeys.has(item.word));
     queueRemoved = beforeQ - q.queue.length;
     q.total = q.queue.length;
-    fs.writeFileSync(queuePath, JSON.stringify(q, null, 2) + '\n');
+    fs.writeFileSync(queuePath, `${JSON.stringify(q, null, 2)}\n`);
   }
 
   return { before, after, removed: before - after, queueRemoved };
@@ -530,7 +548,7 @@ async function main() {
 
   if (failures.length > 0) {
     const failPath = path.join(ARTIFACTS_DIR, `validity_failures_${options.lang}.json`);
-    fs.writeFileSync(failPath, JSON.stringify(failures, null, 2) + '\n');
+    fs.writeFileSync(failPath, `${JSON.stringify(failures, null, 2)}\n`);
     console.log(`⚠️  ${failures.length} failures → ${failPath}`);
   }
 }

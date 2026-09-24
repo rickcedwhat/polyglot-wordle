@@ -46,7 +46,9 @@ const applied: LexicalValidityResult[] = (raw.results as LexicalValidityResult[]
 const fromJev = applied.filter((r) => r.shouldRemove && dict[r.word]);
 const fromDef: { word: string; reason: string; def: string }[] = [];
 for (const [word, entry] of Object.entries(dict)) {
-  if (fromJev.some((r) => r.word === word)) continue;
+  if (fromJev.some((r) => r.word === word)) {
+    continue;
+  }
   const def = entry.def || '';
   if (DEF_ADMITS_NOT_PT.test(def)) {
     fromDef.push({
@@ -79,8 +81,10 @@ console.log(
 );
 
 const before = Object.keys(dict).length;
-for (const k of removeKeys) delete dict[k];
-fs.writeFileSync(dictPath, JSON.stringify(dict, null, 2) + '\n');
+for (const k of removeKeys) {
+  delete dict[k];
+}
+fs.writeFileSync(dictPath, `${JSON.stringify(dict, null, 2)}\n`);
 const after = Object.keys(dict).length;
 
 if (fs.existsSync(wordsPath)) {
@@ -103,7 +107,7 @@ if (fs.existsSync(queuePath)) {
   q.queue = (q.queue || []).filter((item: { word: string }) => !removeKeys.has(item.word));
   queueRemoved = beforeQ - q.queue.length;
   q.total = q.queue.length;
-  fs.writeFileSync(queuePath, JSON.stringify(q, null, 2) + '\n');
+  fs.writeFileSync(queuePath, `${JSON.stringify(q, null, 2)}\n`);
 }
 
 const removalRows = [
@@ -115,7 +119,7 @@ const removalRows = [
 ];
 fs.writeFileSync(
   path.join(ARTIFACTS, `validity_remove_${lang}.txt`),
-  removalRows.sort().join('\n') + '\n'
+  `${removalRows.sort().join('\n')}\n`
 );
 
 raw.thresholds = thresholds;
@@ -126,7 +130,7 @@ raw.defConfessRemovals = fromDef;
 raw.prunedAt = new Date().toISOString();
 fs.writeFileSync(
   path.join(ARTIFACTS, `validity_${lang}.json`),
-  JSON.stringify(raw, null, 2) + '\n'
+  `${JSON.stringify(raw, null, 2)}\n`
 );
 
 console.log({ dict: `${before} → ${after}`, removed: before - after, queueRemoved });

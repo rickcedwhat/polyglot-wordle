@@ -34,7 +34,9 @@ export type Snapshot = {
 
 export async function fetchSnapshot(lang: string, tail = 40): Promise<Snapshot> {
   const res = await fetch(`/api/snapshot?lang=${encodeURIComponent(lang)}&tail=${tail}`);
-  if (!res.ok) throw new Error(`snapshot failed: ${res.status}`);
+  if (!res.ok) {
+    throw new Error(`snapshot failed: ${res.status}`);
+  }
   return res.json();
 }
 
@@ -45,6 +47,8 @@ export async function postJson(path: string, body: Record<string, unknown>) {
     body: JSON.stringify(body),
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error((data as { error?: string }).error || res.statusText);
+  if (!res.ok) {
+    throw new Error((data as { error?: string }).error || res.statusText);
+  }
   return data;
 }
