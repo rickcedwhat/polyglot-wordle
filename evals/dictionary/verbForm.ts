@@ -22,10 +22,7 @@ export type DefSenseVerdict = 'non_verb_primary' | 'verb_primary' | 'unclear';
 /**
  * Whether a conjugated spelling should be rewritten to a non-verb POS in the pipeline.
  */
-export type AltPosVerdict =
-  | 'rewrite_as_non_verb'
-  | 'conjugation_only'
-  | 'already_non_verb_def';
+export type AltPosVerdict = 'rewrite_as_non_verb' | 'conjugation_only' | 'already_non_verb_def';
 
 export interface VerbFormResult {
   word: string;
@@ -52,7 +49,9 @@ export function getLanguageName(lang: string): string {
   return LANGUAGE_NAMES[lang] || lang.toUpperCase();
 }
 
-export function buildVerbFormQuestion(entry: Pick<DictionaryEntry, 'lang' | 'display' | 'word' | 'pos'>) {
+export function buildVerbFormQuestion(
+  entry: Pick<DictionaryEntry, 'lang' | 'display' | 'word' | 'pos'>
+) {
   const langName = getLanguageName(entry.lang);
   const shown = entry.display || entry.word;
 
@@ -120,7 +119,9 @@ function validateChoiceAnswer<T extends string>(
     confidence?: unknown;
   };
   if (typeof answerChoice !== 'string' || !allowed.includes(answerChoice as T)) {
-    throw new Error(`Invalid evaluation response: unknown ${label}.choice "${String(answerChoice)}"`);
+    throw new Error(
+      `Invalid evaluation response: unknown ${label}.choice "${String(answerChoice)}"`
+    );
   }
   if (
     typeof confidence !== 'number' ||
@@ -142,8 +143,7 @@ export function shouldBlockAsAnswer(
   minConfidence = 0.5
 ): boolean {
   if (verdict !== 'finite' || formConfidence < minConfidence) return false;
-  const definedAsNonVerb =
-    defSense === 'non_verb_primary' && defSenseConfidence >= minConfidence;
+  const definedAsNonVerb = defSense === 'non_verb_primary' && defSenseConfidence >= minConfidence;
   return !definedAsNonVerb;
 }
 
@@ -185,16 +185,8 @@ export async function evaluateVerbFormWithJev(
     questions: buildVerbFormQuestion(entry),
   });
 
-  const verbForm = validateChoiceAnswer(
-    response.answers?.verbForm,
-    ALLOWED_FORM,
-    'verbForm'
-  );
-  const defSense = validateChoiceAnswer(
-    response.answers?.defSense,
-    ALLOWED_DEF,
-    'defSense'
-  );
+  const verbForm = validateChoiceAnswer(response.answers?.verbForm, ALLOWED_FORM, 'verbForm');
+  const defSense = validateChoiceAnswer(response.answers?.defSense, ALLOWED_DEF, 'defSense');
   const altPos = validateChoiceAnswer(response.answers?.altPos, ALLOWED_ALT, 'altPos');
 
   return {
@@ -227,6 +219,9 @@ export async function evaluateVerbFormWithJev(
 /** Entries tagged as verbs (including slash tags like noun/verb). */
 export function isVerbTagged(pos: string | undefined): boolean {
   if (!pos) return false;
-  const parts = pos.toLowerCase().split(/[\/|,]/).map((p) => p.trim());
+  const parts = pos
+    .toLowerCase()
+    .split(/[\/|,]/)
+    .map((p) => p.trim());
   return parts.includes('verb');
 }

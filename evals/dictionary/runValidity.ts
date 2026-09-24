@@ -14,8 +14,8 @@ import path from 'path';
 import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { loadDictionary } from './dataset';
 import {
-  DEFAULT_PRUNE_THRESHOLDS,
   decideShouldRemove,
+  DEFAULT_PRUNE_THRESHOLDS,
   evaluateLexicalValidityWithJev,
   FormVerdict,
   HARD_REJECT_VERDICTS,
@@ -65,7 +65,8 @@ function parseArgs(argv: string[]) {
     else if (arg === '--limit' && argv[i + 1]) limit = Number(argv[++i]);
     else if (arg.startsWith('--limit=')) limit = Number(arg.slice('--limit='.length));
     else if (arg === '--concurrency' && argv[i + 1]) concurrency = Number(argv[++i]);
-    else if (arg.startsWith('--concurrency=')) concurrency = Number(arg.slice('--concurrency='.length));
+    else if (arg.startsWith('--concurrency='))
+      concurrency = Number(arg.slice('--concurrency='.length));
     else if (arg === '--min-confidence' && argv[i + 1]) {
       // Back-compat: applies to hard rejects.
       thresholds.hardRejectMin = Number(argv[++i]);
@@ -236,9 +237,7 @@ function writeThresholdSweep(lang: Language, raw: LexicalValidityResult[]) {
           };
           const applied = applyThresholds(raw, thresholds);
           const removals = applied.filter((r) => r.shouldRemove);
-          const protectedN = applied.filter((r) =>
-            r.removeReason?.startsWith('protected_')
-          ).length;
+          const protectedN = applied.filter((r) => r.removeReason?.startsWith('protected_')).length;
           const nonWordRemoved = removals.filter((r) => r.verdict === 'non_word').length;
           const hardRemoved = removals.filter((r) => HARD_REJECT_VERDICTS.has(r.verdict)).length;
           sweep.push({
@@ -255,7 +254,10 @@ function writeThresholdSweep(lang: Language, raw: LexicalValidityResult[]) {
   }
 
   const pathOut = path.join(ARTIFACTS_DIR, `validity_threshold_sweep_${lang}.json`);
-  fs.writeFileSync(pathOut, JSON.stringify({ lang, generatedAt: new Date().toISOString(), sweep }, null, 2) + '\n');
+  fs.writeFileSync(
+    pathOut,
+    JSON.stringify({ lang, generatedAt: new Date().toISOString(), sweep }, null, 2) + '\n'
+  );
   return pathOut;
 }
 
@@ -275,7 +277,9 @@ function pickEdgeCases(results: LexicalValidityResult[]) {
       .sort((a, b) => b.formConfidence - a.formConfidence)
       .slice(0, 30),
     hardRejectBorderline: results
-      .filter((r) => HARD_REJECT_VERDICTS.has(r.verdict) && r.confidence >= 0.45 && r.confidence < 0.6)
+      .filter(
+        (r) => HARD_REJECT_VERDICTS.has(r.verdict) && r.confidence >= 0.45 && r.confidence < 0.6
+      )
       .sort((a, b) => a.confidence - b.confidence)
       .slice(0, 40),
     disagreementValidButNotAWordForm: results
@@ -338,8 +342,14 @@ function writeArtifacts(
       .join('\n') + (removals.length ? '\n' : '')
   );
 
-  fs.writeFileSync(edgesPath, JSON.stringify({ lang, generatedAt: new Date().toISOString(), edgeCases }, null, 2) + '\n');
-  fs.writeFileSync(crossPath, JSON.stringify({ lang, generatedAt: new Date().toISOString(), crosstab }, null, 2) + '\n');
+  fs.writeFileSync(
+    edgesPath,
+    JSON.stringify({ lang, generatedAt: new Date().toISOString(), edgeCases }, null, 2) + '\n'
+  );
+  fs.writeFileSync(
+    crossPath,
+    JSON.stringify({ lang, generatedAt: new Date().toISOString(), crosstab }, null, 2) + '\n'
+  );
 
   let md = `# Jev Lexical Validity — ${lang.toUpperCase()}\n\n`;
   md += `**Evaluated:** ${total.toLocaleString()}\n`;
@@ -466,7 +476,10 @@ async function main() {
           options.thresholds
         );
       } catch (err) {
-        failures.push({ word: entry.word, error: err instanceof Error ? err.message : String(err) });
+        failures.push({
+          word: entry.word,
+          error: err instanceof Error ? err.message : String(err),
+        });
         return null;
       }
     },
@@ -504,11 +517,15 @@ async function main() {
         `\n✂️  Pruned ${pruned.removed} entries from public/${options.lang}.json (${pruned.before} → ${pruned.after})`
       );
       if (pruned.queueRemoved > 0) {
-        console.log(`   Also dropped ${pruned.queueRemoved} items from review_queue_${options.lang}.json`);
+        console.log(
+          `   Also dropped ${pruned.queueRemoved} items from review_queue_${options.lang}.json`
+        );
       }
     }
   } else {
-    console.log('\n⏸️  Analysis only — dictionary not modified. Pass --prune when thresholds look right.');
+    console.log(
+      '\n⏸️  Analysis only — dictionary not modified. Pass --prune when thresholds look right.'
+    );
   }
 
   if (failures.length > 0) {

@@ -104,7 +104,9 @@ export function getLanguageName(lang: string): string {
   return LANGUAGE_NAMES[lang] || lang.toUpperCase();
 }
 
-export function buildLexicalValidityQuestion(entry: Pick<DictionaryEntry, 'lang' | 'display' | 'word'>) {
+export function buildLexicalValidityQuestion(
+  entry: Pick<DictionaryEntry, 'lang' | 'display' | 'word'>
+) {
   const langName = getLanguageName(entry.lang);
   const shown = entry.display || entry.word;
 
@@ -126,14 +128,11 @@ export function buildLexicalValidityQuestion(entry: Pick<DictionaryEntry, 'lang'
           'Reject: Explicit racial, ethnic, or sexual slur inappropriate for a general audience',
       }
     ),
-    form: choice(
-      `What kind of ${langName} word-form is the 5-letter token "${shown}"?`,
-      {
-        lemma: `Base dictionary lemma / headword in ${langName} (infinitive, singular noun, adjective base, etc.)`,
-        inflection: `Standard ${langName} inflection — conjugated verb, plural, gender/number agreement, or other grammatical form of a real lemma`,
-        not_a_word_form: `Not a real ${langName} word-form (gibberish, foreign token, name-only, or fragment)`,
-      }
-    ),
+    form: choice(`What kind of ${langName} word-form is the 5-letter token "${shown}"?`, {
+      lemma: `Base dictionary lemma / headword in ${langName} (infinitive, singular noun, adjective base, etc.)`,
+      inflection: `Standard ${langName} inflection — conjugated verb, plural, gender/number agreement, or other grammatical form of a real lemma`,
+      not_a_word_form: `Not a real ${langName} word-form (gibberish, foreign token, name-only, or fragment)`,
+    }),
   };
 }
 
@@ -162,7 +161,9 @@ function validateChoiceAnswer<T extends string>(
     confidence?: unknown;
   };
   if (typeof answerChoice !== 'string' || !allowed.includes(answerChoice as T)) {
-    throw new Error(`Invalid evaluation response: unknown ${label}.choice "${String(answerChoice)}"`);
+    throw new Error(
+      `Invalid evaluation response: unknown ${label}.choice "${String(answerChoice)}"`
+    );
   }
   if (
     typeof confidence !== 'number' ||
@@ -186,10 +187,7 @@ export function decideShouldRemove(
   thresholds: PruneThresholds = DEFAULT_PRUNE_THRESHOLDS
 ): { shouldRemove: boolean; reason: string | null } {
   if (verdict === 'valid') {
-    if (
-      formVerdict === 'not_a_word_form' &&
-      formConfidence >= thresholds.validDisagreeFormMin
-    ) {
+    if (formVerdict === 'not_a_word_form' && formConfidence >= thresholds.validDisagreeFormMin) {
       return {
         shouldRemove: true,
         reason: `valid_disagree:form=not_a_word_form@${formConfidence.toFixed(2)}`,
@@ -235,10 +233,7 @@ export function decideShouldRemove(
     }
 
     if (thresholds.requireNotAWordForm) {
-      if (
-        formVerdict === 'not_a_word_form' &&
-        formConfidence >= thresholds.notAWordFormMin
-      ) {
+      if (formVerdict === 'not_a_word_form' && formConfidence >= thresholds.notAWordFormMin) {
         return {
           shouldRemove: true,
           reason: `non_word@${confidence.toFixed(2)}+not_a_word_form@${formConfidence.toFixed(2)}`,
@@ -283,11 +278,7 @@ export async function evaluateLexicalValidityWithJev(
     questions: buildLexicalValidityQuestion(entry),
   });
 
-  const lexical = validateChoiceAnswer(
-    response.answers?.lexical,
-    ALLOWED_LEXICAL,
-    'lexical'
-  );
+  const lexical = validateChoiceAnswer(response.answers?.lexical, ALLOWED_LEXICAL, 'lexical');
   const form = validateChoiceAnswer(response.answers?.form, ALLOWED_FORM, 'form');
   const decision = decideShouldRemove(
     lexical.choice,

@@ -9,8 +9,8 @@
 import fs from 'fs';
 import path from 'path';
 import {
-  DEFAULT_PRUNE_THRESHOLDS,
   decideShouldRemove,
+  DEFAULT_PRUNE_THRESHOLDS,
   LexicalValidityResult,
 } from '../evals/dictionary/lexicalValidity';
 
@@ -57,10 +57,7 @@ for (const [word, entry] of Object.entries(dict)) {
   }
 }
 
-const removeKeys = new Set<string>([
-  ...fromJev.map((r) => r.word),
-  ...fromDef.map((r) => r.word),
-]);
+const removeKeys = new Set<string>([...fromJev.map((r) => r.word), ...fromDef.map((r) => r.word)]);
 
 const check = ['rolly', 'graff', 'gross', 'smoke', 'raton', 'indio', 'tenor', 'music', 'drill'];
 console.log('thresholds', thresholds);
@@ -74,7 +71,10 @@ console.log(
   check.map((w) => ({
     word: w,
     remove: removeKeys.has(w),
-    via: fromJev.find((r) => r.word === w)?.removeReason || fromDef.find((r) => r.word === w)?.reason || null,
+    via:
+      fromJev.find((r) => r.word === w)?.removeReason ||
+      fromDef.find((r) => r.word === w)?.reason ||
+      null,
   }))
 );
 
@@ -124,7 +124,10 @@ raw.keepCount = after;
 raw.results = applied;
 raw.defConfessRemovals = fromDef;
 raw.prunedAt = new Date().toISOString();
-fs.writeFileSync(path.join(ARTIFACTS, `validity_${lang}.json`), JSON.stringify(raw, null, 2) + '\n');
+fs.writeFileSync(
+  path.join(ARTIFACTS, `validity_${lang}.json`),
+  JSON.stringify(raw, null, 2) + '\n'
+);
 
 console.log({ dict: `${before} → ${after}`, removed: before - after, queueRemoved });
 console.log('kept?', {

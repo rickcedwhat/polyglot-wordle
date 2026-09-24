@@ -21,6 +21,7 @@ import fs from 'fs';
 import path from 'path';
 import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { loadDictionary } from './dataset';
+import { DictionaryEntry, Language } from './types';
 import {
   evaluateVerbFormWithJev,
   isVerbTagged,
@@ -29,7 +30,6 @@ import {
   VerbFormResult,
   VerbFormVerdict,
 } from './verbForm';
-import { DictionaryEntry, Language } from './types';
 
 function loadEnv() {
   for (const rel of ['.env.local', '.env']) {

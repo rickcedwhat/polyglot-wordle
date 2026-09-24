@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  PageShell,
-  Container,
-  Header,
-  Stack,
-  Heading,
-  Text,
-  Button,
-  Select,
-  Card,
-  Grid,
   Badge,
+  Button,
+  Card,
+  Container,
+  Grid,
+  Header,
+  Heading,
+  PageShell,
   PipelineGraph,
+  Select,
+  Stack,
+  Text,
   useTheme,
   type StepGraphConfig,
 } from '@scaffold/ui';
@@ -71,9 +71,7 @@ export function App() {
   const stages = snap?.pipeline?.stages ?? [];
   const stepGraphs = snap?.pipeline?.stepGraphs ?? {};
   const stepGraphConfig =
-    stepGraphs[activeStageId] ||
-    (stages[0] ? stepGraphs[stages[0].id] : undefined) ||
-    EMPTY_STEP;
+    stepGraphs[activeStageId] || (stages[0] ? stepGraphs[stages[0].id] : undefined) || EMPTY_STEP;
 
   const status = snap?.status;
   const phaseLabel = status?.paused
@@ -204,7 +202,10 @@ export function App() {
                   Status
                 </Heading>
                 <Text size="sm">
-                  Step: <Text as="span" weight="semibold">{status?.step || '—'}</Text>
+                  Step:{' '}
+                  <Text as="span" weight="semibold">
+                    {status?.step || '—'}
+                  </Text>
                 </Text>
                 <Text size="sm">
                   Queue:{' '}

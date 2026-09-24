@@ -51,7 +51,9 @@ describe('bootstrap dictionary option validation', () => {
     expect(parseOptions(['--lang=it', '--step=remediate']).rewriteLimit).toBe(80);
     expect(parseOptions(['--lang=it', '--step=remediate']).maxRemediatePasses).toBe(1);
     expect(parseOptions(['--lang=it', '--step=remediate']).maxRewriteAttempts).toBe(2);
-    expect(parseOptions(['--lang=it', '--step=remediate', '--rewrite-limit=0']).rewriteLimit).toBe(0);
+    expect(parseOptions(['--lang=it', '--step=remediate', '--rewrite-limit=0']).rewriteLimit).toBe(
+      0
+    );
     expect(parseOptions(['--lang=it', '--step=wave']).waveSize).toBe(80);
     expect(parseOptions(['--lang=it', '--step=wave', '--wave-size=40']).waveSize).toBe(40);
   });
