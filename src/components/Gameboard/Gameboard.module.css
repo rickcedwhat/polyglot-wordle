@@ -7,40 +7,31 @@
 }
 
 .boardWrapper {
-  /*
-    flex-basis: 0 tells the item to start with a width of 0.
-    This makes the distribution of space purely proportional to the flex-grow factor.
-  */
-  flex: 1 1 0;
-  min-width: 56px;
-  /* Keep inactive (mini) boards clearly smaller than the active board */
-  max-width: 100px;
+  /* All three boards are full-size (same as the former active board). */
+  flex: 0 1 280px;
+  width: 100%;
+  max-width: 280px;
+  min-width: 100px;
   cursor: pointer;
-  /* Fill flex width so tile columns size from the wrapper, not intrinsic content */
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
-/*
-  Standalone .active class — more reliable with CSS modules than
-  `.boardWrapper.active` compound selectors missing an exported token.
-*/
 .active {
-  flex-grow: 10;
-  flex-shrink: 1;
-  flex-basis: 0;
-  min-width: 140px;
-  max-width: 280px;
   cursor: default;
+}
+
+@media (max-width: 640px) {
+  .boardWrapper {
+    max-width: 160px;
+    min-width: 72px;
+  }
 }
 
 @media (max-width: 360px) {
   .boardWrapper {
-    min-width: 48px;
-  }
-
-  .active {
-    min-width: 120px;
+    max-width: 110px;
+    min-width: 56px;
   }
 }

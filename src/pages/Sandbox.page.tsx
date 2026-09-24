@@ -32,7 +32,7 @@ import { Game } from '@/components/Game/Game';
 import { PostGameView } from '@/components/PostGameView/PostGameView';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useSandboxDrawer } from '@/hooks/useSandboxDrawer';
-import type { GameDoc } from '@/types/firestore';
+import type { GameDoc, Language } from '@/types/firestore';
 import { normalizeWord, WordEntry } from '@/utils/wordUtils';
 
 const SANDBOX_STORAGE_KEY = 'polyglot_sandbox_state_v1';
@@ -41,7 +41,7 @@ interface SavedSandboxState {
   enWord: string;
   esWord: string;
   frWord: string;
-  shuffledLanguages: ('en' | 'es' | 'fr')[];
+  shuffledLanguages: Language[];
   guessHistory: string[];
   isLiveGame: boolean;
   isWin: boolean | null;
@@ -79,9 +79,7 @@ export const SandboxPage: FC = () => {
   const [enWord, setEnWord] = useState(initial.enWord);
   const [esWord, setEsWord] = useState(initial.esWord);
   const [frWord, setFrWord] = useState(initial.frWord);
-  const [shuffledLanguages, setShuffledLanguages] = useState<('en' | 'es' | 'fr')[]>(
-    initial.shuffledLanguages
-  );
+  const [shuffledLanguages, setShuffledLanguages] = useState<Language[]>(initial.shuffledLanguages);
   const [gameKey, setGameKey] = useState(0);
 
   const [searchWord, setSearchWord] = useState('bonus');
@@ -155,9 +153,9 @@ export const SandboxPage: FC = () => {
   const saveToStorage = (updatedSession: GameDoc) => {
     try {
       const stateToSave: SavedSandboxState = {
-        enWord: updatedSession.words.en,
-        esWord: updatedSession.words.es,
-        frWord: updatedSession.words.fr,
+        enWord: updatedSession.words.en ?? 'apple',
+        esWord: updatedSession.words.es ?? 'queso',
+        frWord: updatedSession.words.fr ?? 'fruit',
         shuffledLanguages: updatedSession.shuffledLanguages,
         guessHistory: updatedSession.guessHistory,
         isLiveGame: updatedSession.isLiveGame,

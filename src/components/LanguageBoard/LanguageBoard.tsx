@@ -31,13 +31,15 @@ interface LanguageBoardProps {
   isConfirmed?: boolean;
   hideFlags?: boolean;
   isActive?: boolean;
+  /** When true, candidate flags render above the grid (compact/mini layout only). */
+  isMini?: boolean;
   onActivate?: () => void;
 }
 
 // 1. We create a dedicated component for a single, submitted guess row.
 const SubmittedRow: FC<{
   guess: string;
-  language: 'en' | 'es' | 'fr';
+  language: Language;
   solutionWord: string;
   languageMatch: boolean;
   isActive?: boolean;
@@ -206,6 +208,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     isConfirmed: _isConfirmed = false,
     hideFlags = false,
     isActive = true,
+    isMini = false,
     onActivate,
   }) => {
     const { flags } = useLanguageFlags();
@@ -219,11 +222,11 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     const emptyRowsCount = MAX_GUESSES - lastRelevantGuessIndex - 1;
     const relevantGuesses = submittedGuesses.slice(0, lastRelevantGuessIndex + 1);
 
-    // Target row index for side-aligned flags on the active board:
+    // Target row index for side-aligned flags:
     // Align with the latest guess row, or row 0 (top-aligned) if no guesses yet.
     const targetRowIndex = relevantGuesses.length === 0 ? 0 : relevantGuesses.length - 1;
-    // Inactive (mini) boards put flags above the grid so the side gutter doesn't crowd tiles.
-    const flagsAbove = !isActive && !hideFlags;
+    // Only mini boards get flags on top; full boards keep flags beside the active row.
+    const flagsAbove = isMini && !hideFlags;
     const showSideFlags = !hideFlags && !flagsAbove;
 
     const resolveDisplayGuess = (guess: string) => {

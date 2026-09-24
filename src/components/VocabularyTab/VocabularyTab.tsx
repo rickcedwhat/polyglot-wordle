@@ -60,6 +60,18 @@ const LANGUAGE_META: Record<
     color: 'teal',
     hoverBorder: '#14b8a6',
   },
+  it: {
+    name: 'Italian',
+    flag: '🇮🇹',
+    color: 'green',
+    hoverBorder: '#40c057',
+  },
+  pt: {
+    name: 'Portuguese',
+    flag: '🇵🇹',
+    color: 'yellow',
+    hoverBorder: '#fab005',
+  },
 };
 
 const formatTimeAgo = (isoString: string): string => {
@@ -109,6 +121,8 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
     en: null,
     es: null,
     fr: null,
+    it: null,
+    pt: null,
   });
   const [isDictLoading, setIsDictLoading] = useState(true);
   const [dictError, setDictError] = useState<string | null>(null);
@@ -116,28 +130,18 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
   const loadDictionaries = () => {
     setIsDictLoading(true);
     setDictError(null);
-    Promise.all([
-      fetch('/en.json').then((res) => {
+    Promise.all(
+      (['en', 'es', 'fr', 'it', 'pt'] as Language[]).map(async (lang) => {
+        const res = await fetch(`/${lang}.json`);
         if (!res.ok) {
-          throw new Error('Failed to load English dictionary');
+          throw new Error(`Failed to load ${lang} dictionary`);
         }
-        return res.json() as Promise<Dictionary>;
-      }),
-      fetch('/es.json').then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to load Spanish dictionary');
-        }
-        return res.json() as Promise<Dictionary>;
-      }),
-      fetch('/fr.json').then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to load French dictionary');
-        }
-        return res.json() as Promise<Dictionary>;
-      }),
-    ])
-      .then(([en, es, fr]) => {
-        setDictionaries({ en, es, fr });
+        const data = (await res.json()) as Dictionary;
+        return [lang, data] as const;
+      })
+    )
+      .then((entries) => {
+        setDictionaries(Object.fromEntries(entries) as Record<Language, Dictionary>);
         setIsDictLoading(false);
       })
       .catch((err) => {

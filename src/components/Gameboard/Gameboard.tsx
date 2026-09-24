@@ -10,8 +10,8 @@ import LanguageBoard from '../LanguageBoard/LanguageBoard';
 import classes from './Gameboard.module.css';
 
 export type GameBoardWordPools = {
-  master: Record<Language, string[]>;
-  dictionaries: Record<Language, Dictionary>;
+  master: Partial<Record<Language, string[]>>;
+  dictionaries: Partial<Record<Language, Dictionary>>;
 };
 
 interface GameBoardProps {
@@ -34,15 +34,10 @@ export const GameBoard: FC<GameBoardProps> = ({
   wordPoolsOverride,
 }) => {
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
-  const { data: fetchedPools } = useWordPools(
-    wordPoolsOverride
-      ? undefined
-      : {
-          en: 'advanced',
-          es: 'advanced',
-          fr: 'advanced',
-        }
+  const boardDifficulties = Object.fromEntries(
+    shuffledLanguages.map((lang) => [lang, 'advanced' as const])
   );
+  const { data: fetchedPools } = useWordPools(wordPoolsOverride ? undefined : boardDifficulties);
   const wordPools = wordPoolsOverride ?? fetchedPools;
 
   if (!wordPools) {
@@ -56,30 +51,25 @@ export const GameBoard: FC<GameBoardProps> = ({
       className={classes.boardContainer}
       wrap="nowrap"
       gap="md"
-      justify="center"
+      justify="space-evenly"
       align="center"
     >
       {shuffledLanguages.map((lang, index) => {
         const isActive = index === activeIndex;
-        const candidateLanguages = deduction.candidates[index] || ['en', 'es', 'fr'];
+        const candidateLanguages = deduction.candidates[index] || [...shuffledLanguages];
         const isConfirmed = deduction.isConfirmed[index];
 
         return (
           <motion.div
             key={lang}
-            layout
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             className={cx(classes.boardWrapper, { [classes.active]: isActive })}
             onClick={() => setActiveIndex(index)}
-            onLayoutAnimationComplete={() => {
-              window.dispatchEvent(new Event('resize'));
-            }}
           >
             <LanguageBoard
               language={lang}
               solutionWord={solution[lang]}
               submittedGuesses={guesses}
-              words={wordPools.master[lang as Language]}
+              words={wordPools.master[lang as Language] ?? []}
               dictionary={wordPools.dictionaries[lang as Language]}
               candidateLanguages={candidateLanguages}
               isConfirmed={isConfirmed}

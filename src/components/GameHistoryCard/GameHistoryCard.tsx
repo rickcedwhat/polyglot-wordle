@@ -69,7 +69,7 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
           {game.shuffledLanguages.map((lang) => (
             <MiniBoard
               key={lang}
-              solutionWord={game.words[lang]}
+              solutionWord={game.words[lang]!}
               submittedGuesses={game.guessHistory}
             />
           ))}

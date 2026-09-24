@@ -6,7 +6,8 @@ import {
   WORD_SOLVED_BONUS,
   YELLOW_LETTER_BONUS,
 } from '@/config';
-import { Language } from '@/types/firestore';
+import { Difficulty, Language } from '@/types/firestore';
+import { decodeLanguagesFromUuid, difficultyFromHex } from '@/utils/languages';
 
 export type LetterStatus = 'unknown' | 'correct' | 'present' | 'absent';
 
@@ -63,22 +64,6 @@ export const getGuessStatuses = (guess: string, solution: string): LetterStatus[
   return statuses;
 };
 
-type Difficulty = 'basic' | 'intermediate' | 'advanced';
-
-/**
- * Determines a difficulty level from a single hexadecimal character.
- */
-const getDifficultyFromHex = (hexChar: string): Difficulty => {
-  const value = parseInt(hexChar, 16);
-  if (value <= 4) {
-    return 'basic';
-  }
-  if (value <= 9) {
-    return 'intermediate';
-  }
-  return 'advanced';
-};
-
 const fetchDictionary = async (lang: Language): Promise<Dictionary> => {
   const response = await fetch(`/${lang}.json`);
 
@@ -94,76 +79,61 @@ const getIndexFromHex = (hex: string, max: number): number => {
   return decimal % max;
 };
 
+/** Entropy slices map to board languages in canonical (encoded) order. */
+const ENTROPY_SLICES = [
+  { start: 0, end: 8 },
+  { start: 8, end: 16 },
+  { start: 16, end: 24 },
+] as const;
+
 /**
- * Decodes a game UUID to get the word and difficulty for all three languages,
- * including words from lower difficulty tiers.
+ * Decodes a game UUID to get the word and difficulty for the three active languages.
+ * Legacy ids always use en/es/fr; v2 ids (ending in `v`) encode languages at [28–30].
  */
 export const getWordsFromUuid = async (uuid: string) => {
-  const difficulties: Record<Language, Difficulty> = {
-    en: getDifficultyFromHex(uuid[24]),
-    es: getDifficultyFromHex(uuid[25]),
-    fr: getDifficultyFromHex(uuid[26]),
-  };
+  const languages = decodeLanguagesFromUuid(uuid);
+  const difficulties: Partial<Record<Language, Difficulty>> = {};
+  languages.forEach((lang, i) => {
+    difficulties[lang] = difficultyFromHex(uuid[24 + i] ?? '0');
+  });
 
   const thresholds: Record<Difficulty, number> = {
     basic: 0.5,
     intermediate: 0.75,
-    advanced: 1.0, // No upper limit
+    advanced: 1.0,
   };
 
-  const [enDict, esDict, frDict] = await Promise.all([
-    fetchDictionary('en'),
-    fetchDictionary('es'),
-    fetchDictionary('fr'),
-  ]);
+  const dictEntries = await Promise.all(
+    languages.map(async (lang) => [lang, await fetchDictionary(lang)] as const)
+  );
+  const dictionaries = Object.fromEntries(dictEntries) as Record<Language, Dictionary>;
+  const solutionWords: Partial<Record<Language, string>> = {};
 
-  const dictionaries = { en: enDict, es: esDict, fr: frDict };
-  const solutionWords: Record<string, string> = {};
-
-  // Define the slicing points for the UUID
-  const sliceMap = {
-    en: { start: 0, end: 8 },
-    es: { start: 8, end: 16 },
-    fr: { start: 16, end: 24 },
-  };
-
-  const languages: Language[] = ['en', 'es', 'fr'];
-
-  languages.forEach((lang) => {
-    const threshold = thresholds[difficulties[lang]];
+  languages.forEach((lang, i) => {
+    const difficulty = difficulties[lang]!;
+    const threshold = thresholds[difficulty];
     const dictionary = dictionaries[lang];
-
     const wordList = Object.keys(dictionary).filter((word) => dictionary[word].d <= threshold);
 
     if (wordList.length === 0) {
-      throw new Error(`No words found for language ${lang} at difficulty ${difficulties[lang]}`);
+      throw new Error(`No words found for language ${lang} at difficulty ${difficulty}`);
     }
 
-    // Use the slice map to get the correct part of the UUID
-    const { start, end } = sliceMap[lang];
+    const { start, end } = ENTROPY_SLICES[i];
     const hexPart = uuid.substring(start, end);
-
     const index = getIndexFromHex(hexPart, wordList.length);
     solutionWords[lang] = wordList[index];
   });
 
-  // We'll use the 28th character (index 27) as the seed for our shuffle.
   const seed = parseInt(uuid[27], 16) || 0;
-
   const shuffledLanguages = [...languages].sort((a, b) => {
-    // This is a simple deterministic shuffle algorithm.
-    // It produces a consistent, shuffled order based on the seed.
     const valA = (a.charCodeAt(0) + seed) % languages.length;
     const valB = (b.charCodeAt(0) + seed) % languages.length;
     return valA - valB;
   });
 
   return {
-    words: {
-      en: solutionWords.en,
-      es: solutionWords.es,
-      fr: solutionWords.fr,
-    },
+    words: solutionWords,
     difficulties,
     shuffledLanguages,
   };
@@ -177,24 +147,35 @@ export const getWordsFromUuid = async (uuid: string) => {
  * @param scoredGreenSlots The current state of which green tiles have been scored.
  * @returns An object with the score for the turn and the updated green slots tracker.
  */
+type SolutionWords = Partial<Record<Language, string>>;
+type ScoredGreenSlots = Partial<Record<Language, boolean[]>>;
+
+const activeLanguages = (solution: SolutionWords): Language[] =>
+  (Object.keys(solution) as Language[]).filter((lang) => Boolean(solution[lang]));
+
+const emptyScoredSlots = (langs: Language[]): ScoredGreenSlots =>
+  Object.fromEntries(langs.map((lang) => [lang, [false, false, false, false, false]]));
+
 export const getScoreForTurn = (
   currentGuess: string,
-  solution: { en: string; es: string; fr: string },
+  solution: SolutionWords,
   guessNumber: number,
-  scoredGreenSlots: { en: boolean[]; es: boolean[]; fr: boolean[] }
+  scoredGreenSlots: ScoredGreenSlots
 ) => {
   let turnScore = 0;
-  const updatedScoredSlots = JSON.parse(JSON.stringify(scoredGreenSlots)); // Deep copy
+  const updatedScoredSlots = JSON.parse(JSON.stringify(scoredGreenSlots)) as ScoredGreenSlots;
 
   console.log(`--- Turn #${guessNumber}, Guess: "${currentGuess}" ---`);
 
-  (['en', 'es', 'fr'] as const).forEach((lang) => {
-    const solutionWord = solution[lang];
+  activeLanguages(solution).forEach((lang) => {
+    const solutionWord = solution[lang]!;
+    const slots = scoredGreenSlots[lang] ?? [false, false, false, false, false];
+    if (!updatedScoredSlots[lang]) {
+      updatedScoredSlots[lang] = [false, false, false, false, false];
+    }
 
-    const wasPreviouslySolved =
-      scoredGreenSlots[lang].every((slot) => slot) && solutionWord !== currentGuess;
+    const wasPreviouslySolved = slots.every((slot) => slot) && solutionWord !== currentGuess;
 
-    // If it's solved, skip scoring for this language and continue to the next
     if (wasPreviouslySolved) {
       return;
     }
@@ -203,16 +184,14 @@ export const getScoreForTurn = (
     let yellowComboCounter = 1;
 
     statuses.forEach((status, letterIndex) => {
-      // Green "Discovery" Bonus
-      if (status === 'correct' && !updatedScoredSlots[lang][letterIndex]) {
+      if (status === 'correct' && !updatedScoredSlots[lang]![letterIndex]) {
         const points = GREEN_LETTER_BONUS * (MAX_GUESSES + 3 - guessNumber);
         console.log(
           `[${lang.toUpperCase()}] Green bonus for '${currentGuess[letterIndex]}' in position ${letterIndex + 1}: +${points}`
         );
         turnScore += points;
-        updatedScoredSlots[lang][letterIndex] = true;
+        updatedScoredSlots[lang]![letterIndex] = true;
       }
-      // Yellow "Combo" Bonus
       if (status === 'present') {
         const points = YELLOW_LETTER_BONUS * yellowComboCounter;
         console.log(
@@ -223,7 +202,6 @@ export const getScoreForTurn = (
       }
     });
 
-    // "Word Solved" Bonus
     if (normalizeWord(solutionWord) === normalizeWord(currentGuess)) {
       const points = WORD_SOLVED_BONUS * (MAX_GUESSES + 3 - guessNumber);
       console.log(`[${lang.toUpperCase()}] Word Solved Bonus: +${points}`);
@@ -236,23 +214,15 @@ export const getScoreForTurn = (
 
 /**
  * Recalculates the entire score for a game based on its full guess history.
- * @param guessHistory The array of all guesses made so far.
- * @param solution The solution words object.
- * @returns The total calculated score.
  */
 export const calculateScoreFromHistory = (
   guessHistory: string[],
-  solution: { en: string; es: string; fr: string }
+  solution: SolutionWords
 ): number => {
   let totalScore = 0;
-  // This object tracks which green slots have already awarded points.
-  const scoredGreenSlots = {
-    en: [false, false, false, false, false],
-    es: [false, false, false, false, false],
-    fr: [false, false, false, false, false],
-  };
+  const langs = activeLanguages(solution);
+  const scoredGreenSlots = emptyScoredSlots(langs);
 
-  // Iterate through each guess in the history to recalculate points
   guessHistory.forEach((guess, index) => {
     const guessNumber = index + 1;
     const { turnScore, updatedScoredSlots } = getScoreForTurn(
@@ -262,41 +232,34 @@ export const calculateScoreFromHistory = (
       scoredGreenSlots
     );
     totalScore += turnScore;
-    // Update the tracker for the next iteration
     Object.assign(scoredGreenSlots, updatedScoredSlots);
   });
 
-  // After calculating turn-by-turn scores, check for final bonuses or penalties
-  const enSolved = guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution.en));
-  const esSolved = guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution.es));
-  const frSolved = guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution.fr));
-  const allSolved = enSolved && esSolved && frSolved;
+  const solvedByLang = Object.fromEntries(
+    langs.map((lang) => [
+      lang,
+      guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution[lang]!)),
+    ])
+  ) as Record<Language, boolean>;
+  const allSolved = langs.every((lang) => solvedByLang[lang]);
 
   if (allSolved) {
     const findLastGuess = (word: string) =>
       guessHistory.findIndex((g) => normalizeWord(g) === normalizeWord(word));
-    const finalGuessIndex = Math.max(
-      findLastGuess(solution.en),
-      findLastGuess(solution.es),
-      findLastGuess(solution.fr)
-    );
+    const finalGuessIndex = Math.max(...langs.map((lang) => findLastGuess(solution[lang]!)));
     const totalGuessesTaken = finalGuessIndex + 1;
     const points = GAME_SOLVED_BONUS * (MAX_GUESSES + 3 - totalGuessesTaken);
     console.log(`[GAME] Bonus for winning the game: +${points}`);
     totalScore += points;
   } else if (guessHistory.length >= MAX_GUESSES) {
-    if (!enSolved) {
-      console.log(`[EN] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`);
-      totalScore += UNSOLVED_GAME_PENALTY;
-    }
-    if (!esSolved) {
-      console.log(`[ES] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`);
-      totalScore += UNSOLVED_GAME_PENALTY;
-    }
-    if (!frSolved) {
-      console.log(`[FR] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`);
-      totalScore += UNSOLVED_GAME_PENALTY;
-    }
+    langs.forEach((lang) => {
+      if (!solvedByLang[lang]) {
+        console.log(
+          `[${lang.toUpperCase()}] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`
+        );
+        totalScore += UNSOLVED_GAME_PENALTY;
+      }
+    });
   }
 
   return totalScore;
@@ -354,16 +317,8 @@ export const splitDefinition = (text: string): SplitDefinition => {
 
 export interface ValidateGuessParams {
   guess: string;
-  masterPools: {
-    en: string[];
-    es: string[];
-    fr: string[];
-  };
-  solution: {
-    en: string;
-    es: string;
-    fr: string;
-  };
+  masterPools: Partial<Record<Language, string[]>>;
+  solution: SolutionWords;
   isChallenge?: boolean;
   previousGuesses?: string[];
 }
@@ -399,48 +354,24 @@ export const validateGuess = ({
     return { isValid: false, matchedLangs: [], solutionLangs: [] };
   }
 
-  const inMasterEn = masterPools.en.some((w) => normalizeWord(w) === normGuess);
-  const inMasterEs = masterPools.es.some((w) => normalizeWord(w) === normGuess);
-  const inMasterFr = masterPools.fr.some((w) => normalizeWord(w) === normGuess);
-
-  const isSolEn = Boolean(solution?.en && normGuess === normalizeWord(solution.en));
-  const isSolEs = Boolean(solution?.es && normGuess === normalizeWord(solution.es));
-  const isSolFr = Boolean(solution?.fr && normGuess === normalizeWord(solution.fr));
-
-  const inEn = inMasterEn || (isChallenge && isSolEn);
-  const inEs = inMasterEs || (isChallenge && isSolEs);
-  const inFr = inMasterFr || (isChallenge && isSolFr);
-
-  const isValid = inEn || inEs || inFr;
-
-  if (!isValid) {
-    return {
-      isValid: false,
-      matchedLangs: [],
-      solutionLangs: [],
-    };
-  }
-
+  const langs = activeLanguages(solution);
   const matchedLangs: Language[] = [];
-  if (inEn) {
-    matchedLangs.push('en');
-  }
-  if (inEs) {
-    matchedLangs.push('es');
-  }
-  if (inFr) {
-    matchedLangs.push('fr');
-  }
-
   const solutionLangs: Language[] = [];
-  if (isSolEn) {
-    solutionLangs.push('en');
-  }
-  if (isSolEs) {
-    solutionLangs.push('es');
-  }
-  if (isSolFr) {
-    solutionLangs.push('fr');
+
+  langs.forEach((lang) => {
+    const pool = masterPools[lang] ?? [];
+    const inMaster = pool.some((w) => normalizeWord(w) === normGuess);
+    const isSolution = Boolean(solution[lang] && normGuess === normalizeWord(solution[lang]!));
+    if (isSolution) {
+      solutionLangs.push(lang);
+    }
+    if (inMaster || (isChallenge && isSolution)) {
+      matchedLangs.push(lang);
+    }
+  });
+
+  if (matchedLangs.length === 0) {
+    return { isValid: false, matchedLangs: [], solutionLangs: [] };
   }
 
   return {

@@ -9,7 +9,7 @@ describe('useVocabulary storage helpers', () => {
 
   it('returns default empty vocabulary maps when storage is empty', () => {
     const vocab = getLocalVocabulary();
-    expect(vocab).toEqual({ en: {}, es: {}, fr: {} });
+    expect(vocab).toEqual({ en: {}, es: {}, fr: {}, it: {}, pt: {} });
   });
 
   it('saves and retrieves vocabulary correctly from localStorage', () => {
@@ -24,6 +24,8 @@ describe('useVocabulary storage helpers', () => {
       },
       en: {},
       fr: {},
+      it: {},
+      pt: {},
     };
 
     saveLocalVocabulary(mockVocab);
@@ -37,7 +39,7 @@ describe('useVocabulary storage helpers', () => {
   it('handles invalid JSON gracefully without throwing', () => {
     localStorage.setItem(VOCABULARY_STORAGE_KEY, 'invalid-json');
     const vocab = getLocalVocabulary();
-    expect(vocab).toEqual({ en: {}, es: {}, fr: {} });
+    expect(vocab).toEqual({ en: {}, es: {}, fr: {}, it: {}, pt: {} });
   });
 
   it('filters out null records, non-objects, and invalid records safely', () => {
@@ -82,11 +84,13 @@ describe('useVocabulary storage helpers', () => {
       },
       es: {},
       fr: {},
+      it: {},
+      pt: {},
     };
     saveLocalVocabulary(userVocab, 'user_123');
 
     // Anonymous storage remains empty
-    expect(getLocalVocabulary()).toEqual({ en: {}, es: {}, fr: {} });
+    expect(getLocalVocabulary()).toEqual({ en: {}, es: {}, fr: {}, it: {}, pt: {} });
 
     // User-scoped storage retrieves user records
     expect(getLocalVocabulary('user_123').en.apple.timesGuessed).toBe(1);

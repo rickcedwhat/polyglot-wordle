@@ -33,6 +33,7 @@ import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { GameDoc, Language } from '@/types/firestore';
+import { labelFor } from '@/utils/languages';
 import { shareGameResult } from '@/utils/shareImageUtils';
 import { calculateScoreFromHistory, normalizeWord } from '@/utils/wordUtils';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
@@ -73,7 +74,7 @@ const WordSummaryCard: FC<{
     setExpanded((prev) => !prev);
   };
 
-  const langLabel = lang === 'en' ? 'English' : lang === 'es' ? 'Spanish' : 'French';
+  const langLabel = labelFor(lang);
 
   return (
     <Paper p="xs" withBorder radius="md" bg="var(--mantine-color-dark-8)">
@@ -181,8 +182,8 @@ export const PostGameModal: FC<PostGameModalProps> = ({
   const [shareError, setShareError] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
 
-  const solvedCount = (['en', 'es', 'fr'] as Language[]).filter((l) =>
-    guessHistory.map(normalizeWord).includes(normalizeWord(words[l]))
+  const solvedCount = (gameSession.shuffledLanguages ?? (Object.keys(words) as Language[])).filter(
+    (l) => guessHistory.map(normalizeWord).includes(normalizeWord(words[l]!))
   ).length;
 
   const effectiveIsWin = isWin ?? solvedCount === 3;
@@ -331,11 +332,11 @@ export const PostGameModal: FC<PostGameModalProps> = ({
           <Text size="xs" fw={700} c="dimmed">
             TARGET WORDS & DEFINITIONS
           </Text>
-          {(['en', 'es', 'fr'] as Language[]).map((lang) => (
+          {(gameSession.shuffledLanguages ?? (Object.keys(words) as Language[])).map((lang) => (
             <WordSummaryCard
               key={lang}
               lang={lang}
-              solutionWord={words[lang]}
+              solutionWord={words[lang]!}
               guessHistory={guessHistory}
             />
           ))}

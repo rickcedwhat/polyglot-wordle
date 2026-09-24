@@ -13,6 +13,7 @@ import {
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import type { GameDoc, Language, UserDoc } from '@/types/firestore.d.ts';
+import { isV2GameId } from '@/utils/languages';
 import { getWordsFromUuid, normalizeWord } from '@/utils/wordUtils';
 
 export const fetchOrCreateGame = async (
@@ -86,7 +87,7 @@ export const fetchOrCreateGame = async (
 // A simple helper to validate the UUID format
 const isValidUuid = (uuid: string): boolean => {
   const uuidRegex = /^[0-9a-f]{32}$/i;
-  return uuidRegex.test(uuid);
+  return uuidRegex.test(uuid) || isV2GameId(uuid);
 };
 
 export const useGameSession = () => {
@@ -226,8 +227,37 @@ export const useGameSession = () => {
         stats.winPercentage = Math.round((stats.wins / stats.gamesPlayed) * 100);
 
         // Per-language, per-difficulty stats
+        const defaultDifficultyStats = {
+          boardsSolved: 0,
+          boardsFailed: 0,
+          averageGuesses: 0,
+          guessDistribution: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        };
+        const ensureLangStats = (lang: Language) => {
+          if (!stats.languages) {
+            stats.languages = {} as UserDoc['stats']['languages'];
+          }
+          if (!stats.languages[lang]) {
+            stats.languages[lang] = {
+              basic: {
+                ...defaultDifficultyStats,
+                guessDistribution: [...defaultDifficultyStats.guessDistribution],
+              },
+              intermediate: {
+                ...defaultDifficultyStats,
+                guessDistribution: [...defaultDifficultyStats.guessDistribution],
+              },
+              advanced: {
+                ...defaultDifficultyStats,
+                guessDistribution: [...defaultDifficultyStats.guessDistribution],
+              },
+            };
+          }
+        };
+
         (gameData.shuffledLanguages || (['en', 'es', 'fr'] as Language[])).forEach(
           (lang: Language) => {
+            ensureLangStats(lang);
             const difficulty = gameData.difficulties?.[lang] || 'basic';
             const solution = gameData.words?.[lang];
             if (!solution || !stats?.languages?.[lang]?.[difficulty]) {
