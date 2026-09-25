@@ -136,3 +136,54 @@ export function languagesFromGame(game: {
   }
   return [...DEFAULT_LANGUAGES];
 }
+
+/** Path segment like `en-it-pt` (order preserved; must be 3 unique supported codes). */
+export function formatLangCombo(languages: Language[]): string {
+  return languages.join('-').toLowerCase();
+}
+
+export function parseLangCombo(segment: string | undefined): [Language, Language, Language] | null {
+  if (!segment) {
+    return null;
+  }
+  const parts = segment.toLowerCase().split('-');
+  if (!isLanguageTriple(parts)) {
+    return null;
+  }
+  return parts;
+}
+
+export function isLangComboSegment(segment: string | undefined): boolean {
+  return parseLangCombo(segment) !== null;
+}
+
+/** 32-char legacy hex id, or v2 id ending in the version marker. */
+export function isGameId(value: string | undefined): boolean {
+  if (!value || value.length !== 32) {
+    return false;
+  }
+  return isV2GameId(value) || /^[0-9a-f]{32}$/i.test(value);
+}
+
+/**
+ * Canonical in-app / share path for a game.
+ * Prefers `/game/en-it-pt/:gameId`; falls back to legacy `/game/:gameId`.
+ */
+export function gamePath(
+  gameId: string,
+  languages?: Language[] | null,
+  search?: { challenger?: string | null }
+): string {
+  const combo =
+    languages && languages.length === 3 && isLanguageTriple(languages)
+      ? formatLangCombo(languages)
+      : isV2GameId(gameId)
+        ? formatLangCombo(decodeLanguagesFromUuid(gameId))
+        : null;
+
+  const base = combo ? `/game/${combo}/${gameId}` : `/game/${gameId}`;
+  if (search?.challenger) {
+    return `${base}?challenger=${encodeURIComponent(search.challenger)}`;
+  }
+  return base;
+}

@@ -1,5 +1,5 @@
 import { GameDoc } from '@/types/firestore';
-import { LANGUAGE_META, languagesFromGame } from '@/utils/languages';
+import { gamePath, LANGUAGE_META, languagesFromGame } from '@/utils/languages';
 import { getGuessStatuses, LetterStatus, normalizeWord } from '@/utils/wordUtils';
 
 export interface SocialShareCardOptions {
@@ -341,9 +341,11 @@ export const shareGameResult = async ({
   onFallbackCopied,
 }: ShareGameResultParams): Promise<void> => {
   const origin = window.location.origin;
-  const challengeUrl = `${origin}/game/${gameSession.gameId}${
-    currentUserId ? `?challenger=${encodeURIComponent(currentUserId)}` : ''
-  }`;
+  const challengeUrl = `${origin}${gamePath(
+    gameSession.gameId,
+    languagesFromGame(gameSession),
+    currentUserId ? { challenger: currentUserId } : undefined
+  )}`;
 
   const emojiText = generateEmojiScoreCard({ gameSession, challengeUrl });
 

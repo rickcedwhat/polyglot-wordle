@@ -41,6 +41,14 @@ const router = createBrowserRouter([
         element: import.meta.env.DEV ? <SandboxPage /> : <Navigate to="/" replace />,
       },
       {
+        path: '/game/:languages/:uuid',
+        element: (
+          <ProtectedRoute>
+            <GamePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: '/game/:uuid',
         element: (
           <ProtectedRoute>

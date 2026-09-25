@@ -11,6 +11,7 @@ import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
+import { gamePath, languagesFromGame } from '@/utils/languages';
 import { normalizeWord, validateGuess } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
@@ -51,7 +52,11 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     }
     try {
       const pending = JSON.parse(raw) as { opponentName?: string };
-      const url = `${window.location.origin}/game/${gameSession.gameId}?challenger=${currentUser.uid}`;
+      const url = `${window.location.origin}${gamePath(
+        gameSession.gameId,
+        languagesFromGame(gameSession),
+        { challenger: currentUser.uid }
+      )}`;
       navigator.clipboard.writeText(url).then(
         () => {
           setRematchNotice(

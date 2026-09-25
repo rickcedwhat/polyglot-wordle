@@ -4,7 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from '@/context/AuthContext';
 import type { Difficulty, Language } from '@/types/firestore';
-import { buildGameId, DEFAULT_LANGUAGES, isLanguageTriple, sortLanguages } from '@/utils/languages';
+import {
+  buildGameId,
+  DEFAULT_LANGUAGES,
+  gamePath,
+  isLanguageTriple,
+  sortLanguages,
+} from '@/utils/languages';
 import { useUserProfile } from './useUserProfile';
 
 const DEFAULT_DIFFICULTY: Difficulty = 'basic';
@@ -106,7 +112,7 @@ export const useGameActions = () => {
 
         await queryClient.invalidateQueries({ queryKey: ['gameHistory'] });
       }
-      navigate(`/game/${gameId}`);
+      navigate(gamePath(gameId, languages));
       return true;
     } catch (error) {
       console.error('Failed to create new game:', error);
