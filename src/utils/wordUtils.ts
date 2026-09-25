@@ -7,7 +7,7 @@ import {
   YELLOW_LETTER_BONUS,
 } from '@/config';
 import { Difficulty, Language } from '@/types/firestore';
-import { decodeLanguagesFromUuid, difficultyFromHex } from '@/utils/languages';
+import { decodeLanguagesFromUuid, difficultyFromHex, isV3GameId } from '@/utils/languages';
 
 export type LetterStatus = 'unknown' | 'correct' | 'present' | 'absent';
 
@@ -79,22 +79,17 @@ const getIndexFromHex = (hex: string, max: number): number => {
   return decimal % max;
 };
 
-/** Entropy slices map to board languages in canonical (encoded) order. */
-const ENTROPY_SLICES = [
-  { start: 0, end: 8 },
-  { start: 8, end: 16 },
-  { start: 16, end: 24 },
-] as const;
-
 /**
- * Decodes a game UUID to get the word and difficulty for the three active languages.
- * Legacy ids always use en/es/fr; v2 ids (ending in `v`) encode languages at [28–30].
+ * Decodes a game id to get a word and difficulty for every active language.
+ * Legacy and v2 ids use 24 entropy digits; v3 uses eight per language.
  */
 export const getWordsFromUuid = async (uuid: string) => {
   const languages = decodeLanguagesFromUuid(uuid);
+  const variableLength = isV3GameId(uuid);
+  const entropyLength = variableLength ? languages.length * 8 : 24;
   const difficulties: Partial<Record<Language, Difficulty>> = {};
   languages.forEach((lang, i) => {
-    difficulties[lang] = difficultyFromHex(uuid[24 + i] ?? '0');
+    difficulties[lang] = difficultyFromHex(uuid[entropyLength + i] ?? '0');
   });
 
   const thresholds: Record<Difficulty, number> = {
@@ -119,13 +114,12 @@ export const getWordsFromUuid = async (uuid: string) => {
       throw new Error(`No words found for language ${lang} at difficulty ${difficulty}`);
     }
 
-    const { start, end } = ENTROPY_SLICES[i];
-    const hexPart = uuid.substring(start, end);
+    const hexPart = uuid.substring(i * 8, (i + 1) * 8);
     const index = getIndexFromHex(hexPart, wordList.length);
     solutionWords[lang] = wordList[index];
   });
 
-  const seed = parseInt(uuid[27], 16) || 0;
+  const seed = parseInt(uuid[entropyLength + languages.length], 16) || 0;
   const shuffledLanguages = [...languages].sort((a, b) => {
     const valA = (a.charCodeAt(0) + seed) % languages.length;
     const valB = (b.charCodeAt(0) + seed) % languages.length;

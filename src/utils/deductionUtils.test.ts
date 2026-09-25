@@ -53,4 +53,12 @@ describe('deduceColumnLanguages', () => {
     expect(result.isConfirmed[1]).toBe(true);
     expect(result.isConfirmed[2]).toBe(true);
   });
+
+  it('keeps every candidate column in a five-language game', () => {
+    const languages: Language[] = ['fr', 'en', 'es', 'it', 'pt'];
+    const result = deduceColumnLanguages([], languages, mockDictionaries);
+    expect(Object.keys(result.candidates)).toHaveLength(5);
+    expect(result.candidates[4]).toEqual(languages);
+    expect(result.isConfirmed[4]).toBe(false);
+  });
 });

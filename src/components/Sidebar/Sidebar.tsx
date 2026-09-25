@@ -23,7 +23,7 @@ import { useSidebar } from '@/context/SidebarContext';
 import { useChallengeResultToasts, useChallenges } from '@/hooks/useChallenges';
 import { useGameActions } from '@/hooks/useGameActions';
 import { openSandboxDrawer } from '@/hooks/useSandboxDrawer';
-import type { Language } from '@/types/firestore';
+import type { LanguageCombo } from '@/types/firestore';
 import { BlurButton as Button } from '../BlurButton/BlurButton';
 import classes from './Sidebar.module.css';
 
@@ -88,7 +88,7 @@ export const Sidebar: FC = () => {
     openLanguageModal();
   };
 
-  const handleLanguageConfirm = (languages: [Language, Language, Language]) => {
+  const handleLanguageConfirm = (languages: LanguageCombo) => {
     if (languageModalStartsGame) {
       createNewGame({ languages });
     }

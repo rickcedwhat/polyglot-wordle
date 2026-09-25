@@ -7,7 +7,6 @@
 }
 
 .boardWrapper {
-  /* All three boards are full-size (same as the former active board). */
   flex: 0 1 280px;
   width: 100%;
   max-width: 280px;

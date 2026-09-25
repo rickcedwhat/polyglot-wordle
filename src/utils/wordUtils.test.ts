@@ -1,7 +1,50 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { buildGameId } from './languages';
 import * as wordUtils from './wordUtils';
 
 const { calculateScoreFromHistory } = wordUtils;
+
+describe('getWordsFromUuid', () => {
+  it('derives a word and difficulty for all five encoded languages', async () => {
+    const languages = ['pt', 'it', 'fr', 'es', 'en'] as const;
+    const id = buildGameId({
+      entropyHex: '0000000100000000000000010000000000000001',
+      languages: [...languages],
+      difficulties: ['basic', 'intermediate', 'advanced', 'basic', 'intermediate'],
+      seedNibble: '7',
+    });
+    const fetchMock = vi.fn(async () => ({
+      ok: true,
+      json: async () => ({
+        first: { d: 0.1 },
+        second: { d: 0.1 },
+      }),
+    }));
+    vi.stubGlobal('fetch', fetchMock);
+    try {
+      const result = await wordUtils.getWordsFromUuid(id);
+      expect(result.words).toEqual({
+        pt: 'second',
+        it: 'first',
+        fr: 'second',
+        es: 'first',
+        en: 'second',
+      });
+      expect(result.difficulties).toEqual({
+        pt: 'basic',
+        it: 'intermediate',
+        fr: 'advanced',
+        es: 'basic',
+        en: 'intermediate',
+      });
+      expect(result.shuffledLanguages).toHaveLength(5);
+      expect(new Set(result.shuffledLanguages)).toEqual(new Set(languages));
+      expect(fetchMock).toHaveBeenCalledTimes(5);
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+});
 
 describe('calculateScoreFromHistory', () => {
   const mockSolution = {

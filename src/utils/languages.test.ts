@@ -8,13 +8,15 @@ import {
   isGameId,
   isLangComboSegment,
   isV2GameId,
+  isV3GameId,
+  languagesFromGame,
   parseLangCombo,
 } from './languages';
 
 describe('languages UUID helpers', () => {
   it('builds and decodes a v2 game id with it/pt', () => {
     const id = buildGameId({
-      entropy24: 'a'.repeat(24),
+      entropyHex: 'a'.repeat(24),
       languages: ['en', 'it', 'pt'],
       difficulties: ['basic', 'intermediate', 'advanced'],
       seedNibble: '7',
@@ -35,13 +37,61 @@ describe('languages UUID helpers', () => {
     expect(isGameId(legacy)).toBe(true);
     expect(decodeLanguagesFromUuid(legacy)).toEqual(['en', 'es', 'fr']);
   });
+
+  it.each([
+    [['en', 'es', 'it', 'pt'], 42],
+    [['pt', 'it', 'fr', 'es', 'en'], 52],
+  ] as const)('round trips every language in a v3 id', (languages, length) => {
+    const id = buildGameId({
+      entropyHex: 'a'.repeat(languages.length * 8),
+      languages: [...languages],
+      difficulties: languages.map(() => 'intermediate'),
+      seedNibble: '7',
+    });
+    expect(id).toHaveLength(length);
+    expect(isV3GameId(id)).toBe(true);
+    expect(isGameId(id)).toBe(true);
+    expect(decodeLanguagesFromUuid(id)).toEqual(languages);
+    expect(gamePath(id)).toBe(`/game/${languages.join('-')}/${id}`);
+  });
+
+  it('rejects malformed extended ids and duplicate languages', () => {
+    const id = buildGameId({
+      entropyHex: 'a'.repeat(32),
+      languages: ['en', 'es', 'fr', 'it'],
+      difficulties: ['basic', 'basic', 'basic', 'basic'],
+      seedNibble: '7',
+    });
+    expect(isGameId(`${id.slice(0, -2)}0w`)).toBe(false);
+    expect(isGameId(`${id.slice(0, -1)}v`)).toBe(false);
+    expect(() =>
+      buildGameId({
+        entropyHex: 'a'.repeat(32),
+        languages: ['en', 'es', 'fr', 'fr'],
+        difficulties: ['basic', 'basic', 'basic', 'basic'],
+        seedNibble: '7',
+      })
+    ).toThrow();
+  });
 });
 
 describe('language path helpers', () => {
+  it('keeps every persisted language when building a game path', () => {
+    const game = {
+      shuffledLanguages: ['pt', 'it', 'fr', 'es', 'en'] as ['pt', 'it', 'fr', 'es', 'en'],
+      words: { en: 'apple', es: 'queso', fr: 'fruit', it: 'pasta', pt: 'praia' },
+    };
+    expect(languagesFromGame(game)).toEqual(game.shuffledLanguages);
+    expect(languagesFromGame({ words: game.words })).toEqual(['en', 'es', 'fr', 'it', 'pt']);
+  });
+
   it('formats and parses language combo segments', () => {
     expect(formatLangCombo(['en', 'it', 'pt'])).toBe('en-it-pt');
     expect(parseLangCombo('en-it-pt')).toEqual(['en', 'it', 'pt']);
     expect(parseLangCombo('EN-IT-PT')).toEqual(['en', 'it', 'pt']);
+    expect(parseLangCombo('EN-IT-PT-ES')).toEqual(['en', 'it', 'pt', 'es']);
+    expect(parseLangCombo('en-es-fr-it-pt')).toEqual(['en', 'es', 'fr', 'it', 'pt']);
+    expect(parseLangCombo('en-es-fr-it-it')).toBeNull();
     expect(parseLangCombo('en-it')).toBeNull();
     expect(parseLangCombo('en-en-it')).toBeNull();
     expect(parseLangCombo('en-it-de')).toBeNull();
@@ -51,7 +101,7 @@ describe('language path helpers', () => {
 
   it('builds path URLs with optional challenger query', () => {
     const id = buildGameId({
-      entropy24: 'c'.repeat(24),
+      entropyHex: 'c'.repeat(24),
       languages: ['es', 'fr', 'it'],
       difficulties: ['basic', 'basic', 'basic'],
       seedNibble: '1',

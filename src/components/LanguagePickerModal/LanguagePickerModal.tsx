@@ -13,12 +13,12 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { useAuth } from '@/context/AuthContext';
-import type { Language, LanguagePrefs, UserDoc } from '@/types/firestore.d.ts';
+import type { Language, LanguageCombo, LanguagePrefs, UserDoc } from '@/types/firestore.d.ts';
 import {
   ALL_LANGUAGES,
   DEFAULT_LANGUAGES,
   flagFor,
-  isLanguageTriple,
+  isLanguageCombo,
   labelFor,
 } from '@/utils/languages';
 
@@ -27,7 +27,7 @@ interface LanguagePickerModalProps {
   onClose: () => void;
   /** When true, confirming starts a new game with the selected languages. */
   startGameOnConfirm?: boolean;
-  onConfirm?: (languages: [Language, Language, Language], skipPicker: boolean) => void;
+  onConfirm?: (languages: LanguageCombo, skipPicker: boolean) => void;
 }
 
 const useLanguagePrefs = () => {
@@ -81,7 +81,7 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
       return;
     }
     const prefs = userProfileQuery.data.languagePrefs;
-    if (prefs && isLanguageTriple(prefs.languages)) {
+    if (prefs && isLanguageCombo(prefs.languages)) {
       setSelected([...prefs.languages]);
       setDontAskAgain(Boolean(prefs.skipPicker));
     } else {
@@ -95,30 +95,29 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
       if (prev.includes(lang)) {
         return prev.filter((l) => l !== lang);
       }
-      if (prev.length >= 3) {
+      if (prev.length >= ALL_LANGUAGES.length) {
         return prev;
       }
       return [...prev, lang];
     });
   };
 
-  const canConfirm = selected.length === 3;
+  const canConfirm = isLanguageCombo(selected);
 
   const handleConfirm = () => {
-    if (!canConfirm || !isLanguageTriple(selected)) {
+    if (!isLanguageCombo(selected)) {
       return;
     }
-    const languages = selected as [Language, Language, Language];
-    const prefs: LanguagePrefs = { languages, skipPicker: dontAskAgain };
+    const prefs: LanguagePrefs = { languages: selected, skipPicker: dontAskAgain };
 
     updatePrefsMutation.mutate(prefs, {
       onSuccess: () => {
-        onConfirm?.(languages, dontAskAgain);
+        onConfirm?.(selected, dontAskAgain);
         onClose();
       },
       onError: () => {
         if (startGameOnConfirm) {
-          onConfirm?.(languages, dontAskAgain);
+          onConfirm?.(selected, dontAskAgain);
           onClose();
         }
       },
@@ -134,13 +133,13 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
       ) : (
         <Stack>
           <Text size="sm" c="dimmed">
-            Pick exactly three languages for your boards.
+            Pick at least three languages for your boards.
           </Text>
 
           <Group gap="xs">
             {ALL_LANGUAGES.map((lang) => {
               const isOn = selected.includes(lang);
-              const disabled = !isOn && selected.length >= 3;
+              const disabled = !isOn && selected.length >= ALL_LANGUAGES.length;
               return (
                 <UnstyledButton
                   key={lang}
@@ -163,7 +162,7 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
           </Group>
 
           <Text size="xs" c={canConfirm ? 'dimmed' : 'orange'}>
-            {selected.length}/3 selected
+            {selected.length} selected (minimum 3)
           </Text>
 
           <Checkbox

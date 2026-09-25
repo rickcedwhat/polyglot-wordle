@@ -1,4 +1,4 @@
-import type { Difficulty, Language } from '@/types/firestore';
+import type { Difficulty, Language, LanguageCombo } from '@/types/firestore';
 
 /** All dictionaries available to the game. */
 export const ALL_LANGUAGES = ['en', 'es', 'fr', 'it', 'pt'] as const satisfies readonly Language[];
@@ -53,6 +53,7 @@ export function difficultyToHex(difficulty: Difficulty): string {
 }
 
 const V2_GAME_ID_MARKER = 'v';
+const V3_GAME_ID_MARKER = 'w';
 
 /** v2 game IDs end with a nonhex marker and encode language codes at indices 28–30. */
 export function isV2GameId(uuid: string): boolean {
@@ -63,7 +64,29 @@ export function isV2GameId(uuid: string): boolean {
   );
 }
 
-export function decodeLanguagesFromUuid(uuid: string): [Language, Language, Language] {
+/** v3 ids use eight entropy digits and one difficulty/language digit per board. */
+export function isV3GameId(uuid: string): boolean {
+  const count = (uuid.length - 2) / 10;
+  if (
+    !Number.isInteger(count) ||
+    count < 4 ||
+    count > ALL_LANGUAGES.length ||
+    uuid.at(-1)?.toLowerCase() !== V3_GAME_ID_MARKER ||
+    !/^[0-9a-f]+$/i.test(uuid.slice(0, -1))
+  ) {
+    return false;
+  }
+  const languages = [...uuid.slice(count * 9 + 1, -1)].map((code) => CODE_TO_LANG[code]);
+  return (
+    languages.length === count && languages.every(Boolean) && new Set(languages).size === count
+  );
+}
+
+export function decodeLanguagesFromUuid(uuid: string): LanguageCombo {
+  if (isV3GameId(uuid)) {
+    const count = (uuid.length - 2) / 10;
+    return [...uuid.slice(count * 9 + 1, -1)].map((code) => CODE_TO_LANG[code]) as LanguageCombo;
+  }
   if (!isV2GameId(uuid)) {
     return [...DEFAULT_LANGUAGES];
   }
@@ -77,27 +100,33 @@ export function decodeLanguagesFromUuid(uuid: string): [Language, Language, Lang
 }
 
 /**
- * Build a 32-char game id:
- * [0–23] word-index entropy · [24–26] difficulties · [27] shuffle seed ·
- * [28–30] language codes · [31] version marker `v`
+ * v2 (three boards): 24 entropy digits, three difficulties, seed, three languages, `v`.
+ * v3 (four or five): eight entropy digits per board, one difficulty per board,
+ * seed, one language code per board, `w`.
  */
 export function buildGameId(params: {
-  entropy24: string;
-  languages: [Language, Language, Language];
-  difficulties: [Difficulty, Difficulty, Difficulty];
+  entropyHex: string;
+  languages: LanguageCombo;
+  difficulties: Difficulty[];
   seedNibble: string;
 }): string {
-  const { entropy24, languages, difficulties, seedNibble } = params;
-  if (!/^[0-9a-f]{24}$/i.test(entropy24)) {
-    throw new Error('entropy24 must be 24 hex characters');
+  const { entropyHex, languages, difficulties, seedNibble } = params;
+  if (!isLanguageCombo(languages)) {
+    throw new Error('languages must contain three or more unique supported codes');
   }
-  if (new Set(languages).size !== 3) {
-    throw new Error('languages must be three unique codes');
+  if (!new RegExp(`^[0-9a-f]{${languages.length * 8}}$`, 'i').test(entropyHex)) {
+    throw new Error('entropyHex must contain eight hex characters per language');
+  }
+  if (difficulties.length !== languages.length) {
+    throw new Error('difficulties must match languages');
+  }
+  if (!/^[0-9a-f]$/i.test(seedNibble)) {
+    throw new Error('seedNibble must be one hex character');
   }
   const diffPart = difficulties.map(difficultyToHex).join('');
   const langPart = languages.map((lang) => LANG_TO_CODE[lang]).join('');
-  const seed = seedNibble[0] || '0';
-  return `${entropy24}${diffPart}${seed}${langPart}${V2_GAME_ID_MARKER}`.toLowerCase();
+  const marker = languages.length === 3 ? V2_GAME_ID_MARKER : V3_GAME_ID_MARKER;
+  return `${entropyHex}${diffPart}${seedNibble}${langPart}${marker}`.toLowerCase();
 }
 
 export function sortLanguages(langs: Language[]): Language[] {
@@ -105,12 +134,13 @@ export function sortLanguages(langs: Language[]): Language[] {
   return [...langs].sort((a, b) => (order.get(a) ?? 99) - (order.get(b) ?? 99));
 }
 
-export function isLanguageTriple(value: unknown): value is [Language, Language, Language] {
+export function isLanguageCombo(value: unknown): value is LanguageCombo {
   return (
     Array.isArray(value) &&
-    value.length === 3 &&
+    value.length >= 3 &&
+    value.length <= ALL_LANGUAGES.length &&
     value.every((lang) => ALL_LANGUAGES.includes(lang as Language)) &&
-    new Set(value).size === 3
+    new Set(value).size === value.length
   );
 }
 
@@ -126,28 +156,28 @@ export function flagFor(lang: Language): string {
 export function languagesFromGame(game: {
   shuffledLanguages?: Language[];
   words?: Partial<Record<Language, string>>;
-}): Language[] {
-  if (game.shuffledLanguages?.length === 3) {
+}): LanguageCombo {
+  if (isLanguageCombo(game.shuffledLanguages)) {
     return game.shuffledLanguages;
   }
   const fromWords = ALL_LANGUAGES.filter((lang) => Boolean(game.words?.[lang]));
-  if (fromWords.length === 3) {
+  if (isLanguageCombo(fromWords)) {
     return fromWords;
   }
   return [...DEFAULT_LANGUAGES];
 }
 
-/** Path segment like `en-it-pt` (order preserved; must be 3 unique supported codes). */
+/** Path segment like `en-it-pt` (order preserved; at least three unique codes). */
 export function formatLangCombo(languages: Language[]): string {
   return languages.join('-').toLowerCase();
 }
 
-export function parseLangCombo(segment: string | undefined): [Language, Language, Language] | null {
+export function parseLangCombo(segment: string | undefined): LanguageCombo | null {
   if (!segment) {
     return null;
   }
   const parts = segment.toLowerCase().split('-');
-  if (!isLanguageTriple(parts)) {
+  if (!isLanguageCombo(parts)) {
     return null;
   }
   return parts;
@@ -157,12 +187,12 @@ export function isLangComboSegment(segment: string | undefined): boolean {
   return parseLangCombo(segment) !== null;
 }
 
-/** 32-char legacy hex id, or v2 id ending in the version marker. */
+/** Legacy hex, v2, or v3 game id. */
 export function isGameId(value: string | undefined): boolean {
-  if (!value || value.length !== 32) {
+  if (!value) {
     return false;
   }
-  return isV2GameId(value) || /^[0-9a-f]{32}$/i.test(value);
+  return isV2GameId(value) || isV3GameId(value) || /^[0-9a-f]{32}$/i.test(value);
 }
 
 /**
@@ -174,12 +204,11 @@ export function gamePath(
   languages?: Language[] | null,
   search?: { challenger?: string | null }
 ): string {
-  const combo =
-    languages && languages.length === 3 && isLanguageTriple(languages)
-      ? formatLangCombo(languages)
-      : isV2GameId(gameId)
-        ? formatLangCombo(decodeLanguagesFromUuid(gameId))
-        : null;
+  const combo = isLanguageCombo(languages)
+    ? formatLangCombo(languages)
+    : isV2GameId(gameId) || isV3GameId(gameId)
+      ? formatLangCombo(decodeLanguagesFromUuid(gameId))
+      : null;
 
   const base = combo ? `/game/${combo}/${gameId}` : `/game/${gameId}`;
   if (search?.challenger) {

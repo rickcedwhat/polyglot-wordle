@@ -20,7 +20,7 @@ export const GamePage: FC = () => {
     const langs = languagesFromGame(gameSession);
     const expectedCombo = formatLangCombo(langs);
     const parsed = parseLangCombo(langSegment);
-    if (parsed && formatLangCombo(parsed) === expectedCombo) {
+    if (parsed && langSegment === expectedCombo) {
       return;
     }
     navigate(gamePath(uuid, langs, { challenger: searchParams.get('challenger') }), {

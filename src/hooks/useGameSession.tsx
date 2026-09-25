@@ -84,7 +84,7 @@ export const fetchOrCreateGame = async (
   return newGame as GameDoc;
 };
 
-// Accept legacy 32-hex ids and v2 ids (version marker suffix).
+// Accept legacy, v2, and v3 game ids.
 const isValidUuid = (uuid: string): boolean => isGameId(uuid);
 
 export const useGameSession = () => {

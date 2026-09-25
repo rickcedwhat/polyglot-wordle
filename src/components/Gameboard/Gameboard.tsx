@@ -19,7 +19,7 @@ interface GameBoardProps {
   guesses: string[];
   shuffledLanguages: Language[];
   hideFlags?: boolean;
-  /** Initial focused board index (0–2). Used by Storybook and tests. */
+  /** Initial focused board index. Used by Storybook and tests. */
   initialActiveIndex?: number;
   /** Skip waiting on network — provide pools directly (Storybook / tests). */
   wordPoolsOverride?: GameBoardWordPools;
