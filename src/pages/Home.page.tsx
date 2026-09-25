@@ -8,7 +8,7 @@ import { HowToPlaySlides } from '@/components/HowToPlayModal/HowToPlayModal';
 import { LanguagePickerModal } from '@/components/LanguagePickerModal/LanguagePickerModal';
 import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
-import type { Language } from '@/types/firestore';
+import type { LanguageCombo } from '@/types/firestore';
 import classes from './Home.page.module.css';
 
 export function HomePage() {
@@ -29,7 +29,7 @@ export function HomePage() {
     }
   };
 
-  const handleLanguageConfirm = (languages: [Language, Language, Language]) => {
+  const handleLanguageConfirm = (languages: LanguageCombo) => {
     createNewGame({ languages });
   };
 

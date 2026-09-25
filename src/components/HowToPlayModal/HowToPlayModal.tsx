@@ -53,11 +53,10 @@ export const HowToPlaySlides: FC = () => {
       <Carousel.Slide>
         <Paper p="xl" className={classes.slide}>
           <Title order={3} mt="md" className={classes.title}>
-            Three Games at Once
+            Multiple Games at Once
           </Title>
           <Text className={classes.text}>
-            You have to solve for three 5-letter words simultaneously: one in English, one in
-            Spanish, and one in French.
+            Solve three to five 5-letter words simultaneously, one in each selected language.
           </Text>
           <Center mt="lg">
             <Image
@@ -128,9 +127,7 @@ export const HowToPlaySlides: FC = () => {
           <Title order={3} mt="md" className={classes.title}>
             Winning
           </Title>
-          <Text className={classes.text}>
-            You have {MAX_GUESSES} guesses to solve all three words.
-          </Text>
+          <Text className={classes.text}>You have {MAX_GUESSES} guesses to solve every word.</Text>
           <Center mt="lg">
             <Image
               src="/screenshots/how-to-play-4.png"

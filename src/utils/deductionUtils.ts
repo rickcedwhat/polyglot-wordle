@@ -1,4 +1,5 @@
 import { Language } from '@/types/firestore';
+import { DEFAULT_LANGUAGES, isLanguageCombo } from '@/utils/languages';
 import { Dictionary, normalizeWord } from '@/utils/wordUtils';
 
 export interface ColumnDeductionState {
@@ -7,7 +8,7 @@ export interface ColumnDeductionState {
 }
 
 /**
- * Calculates candidate languages for each column (0, 1, 2) based on submitted guesses.
+ * Calculates candidate languages for each board column based on submitted guesses.
  * Applies elimination rules and logical deduction.
  */
 export const deduceColumnLanguages = (
@@ -15,22 +16,16 @@ export const deduceColumnLanguages = (
   shuffledLanguages: Language[],
   dictionaries: Partial<Record<Language, Dictionary>>
 ): ColumnDeductionState => {
-  const boardLangs =
-    shuffledLanguages.length === 3 ? shuffledLanguages : (['en', 'es', 'fr'] as Language[]);
-  const candidateSets: Record<number, Set<Language>> = {
-    0: new Set(boardLangs),
-    1: new Set(boardLangs),
-    2: new Set(boardLangs),
-  };
+  const boardLangs = isLanguageCombo(shuffledLanguages) ? shuffledLanguages : DEFAULT_LANGUAGES;
+  const columns = boardLangs.map((_, index) => index);
+  const candidateSets: Record<number, Set<Language>> = Object.fromEntries(
+    columns.map((index) => [index, new Set(boardLangs)])
+  );
 
   if (!guesses || guesses.length === 0 || !dictionaries) {
     return {
-      candidates: {
-        0: Array.from(candidateSets[0]),
-        1: Array.from(candidateSets[1]),
-        2: Array.from(candidateSets[2]),
-      },
-      isConfirmed: { 0: false, 1: false, 2: false },
+      candidates: Object.fromEntries(columns.map((index) => [index, [...candidateSets[index]]])),
+      isConfirmed: Object.fromEntries(columns.map((index) => [index, false])),
     };
   }
 
@@ -41,8 +36,8 @@ export const deduceColumnLanguages = (
       Boolean(dictionaries[l] && dictionaries[l]![norm])
     );
 
-    [0, 1, 2].forEach((colIdx) => {
-      const colTrueLang = shuffledLanguages[colIdx];
+    columns.forEach((colIdx) => {
+      const colTrueLang = boardLangs[colIdx];
       const isMatchInCol = Boolean(dictionaries[colTrueLang] && dictionaries[colTrueLang]![norm]);
 
       if (isMatchInCol) {
@@ -55,7 +50,7 @@ export const deduceColumnLanguages = (
         if (validInLangs.length === 1) {
           const uniqueLang = validInLangs[0];
           candidateSets[colIdx] = new Set([uniqueLang]);
-          [0, 1, 2].forEach((otherCol) => {
+          columns.forEach((otherCol) => {
             if (otherCol !== colIdx) {
               candidateSets[otherCol].delete(uniqueLang);
             }
@@ -73,10 +68,10 @@ export const deduceColumnLanguages = (
   while (changed) {
     changed = false;
 
-    [0, 1, 2].forEach((colIdx) => {
+    columns.forEach((colIdx) => {
       if (candidateSets[colIdx].size === 1) {
         const confirmedLang = Array.from(candidateSets[colIdx])[0];
-        [0, 1, 2].forEach((otherCol) => {
+        columns.forEach((otherCol) => {
           if (otherCol !== colIdx && candidateSets[otherCol].has(confirmedLang)) {
             candidateSets[otherCol].delete(confirmedLang);
             changed = true;
@@ -86,7 +81,7 @@ export const deduceColumnLanguages = (
     });
 
     boardLangs.forEach((lang) => {
-      const colsWithLang = [0, 1, 2].filter((colIdx) => candidateSets[colIdx].has(lang));
+      const colsWithLang = columns.filter((colIdx) => candidateSets[colIdx].has(lang));
       if (colsWithLang.length === 1) {
         const singleCol = colsWithLang[0];
         if (candidateSets[singleCol].size > 1) {
@@ -98,15 +93,9 @@ export const deduceColumnLanguages = (
   }
 
   return {
-    candidates: {
-      0: Array.from(candidateSets[0]),
-      1: Array.from(candidateSets[1]),
-      2: Array.from(candidateSets[2]),
-    },
-    isConfirmed: {
-      0: candidateSets[0].size === 1,
-      1: candidateSets[1].size === 1,
-      2: candidateSets[2].size === 1,
-    },
+    candidates: Object.fromEntries(columns.map((index) => [index, [...candidateSets[index]]])),
+    isConfirmed: Object.fromEntries(
+      columns.map((index) => [index, candidateSets[index].size === 1])
+    ),
   };
 };

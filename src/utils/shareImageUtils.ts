@@ -1,5 +1,5 @@
 import { GameDoc } from '@/types/firestore';
-import { LANGUAGE_META, languagesFromGame } from '@/utils/languages';
+import { gamePath, LANGUAGE_META, languagesFromGame } from '@/utils/languages';
 import { getGuessStatuses, LetterStatus, normalizeWord } from '@/utils/wordUtils';
 
 export interface SocialShareCardOptions {
@@ -31,7 +31,7 @@ export const generateEmojiScoreCard = ({
 
   const header = isWin
     ? `Polyglot Wordle ${turnsTaken}/${maxGuesses} • ${score ?? 0} pts`
-    : `Polyglot Wordle ${solvedCount}/3 Solved (${turnsTaken}/${maxGuesses}) • ${score ?? 0} pts`;
+    : `Polyglot Wordle ${solvedCount}/${languages.length} Solved (${turnsTaken}/${maxGuesses}) • ${score ?? 0} pts`;
 
   const boardLines = languages.map((lang) => {
     const meta = LANGUAGE_META[lang];
@@ -91,7 +91,7 @@ function drawRoundedRect(
 }
 
 /**
- * Renders the 3-board spoiler-free graphic card onto an off-screen HTML5 Canvas (1200x630).
+ * Renders the spoiler-free graphic card onto an off-screen HTML5 Canvas (1200x630).
  * Tile statuses:
  *  - correct: #2f9e44 (green)
  *  - present: #f59f00 (yellow)
@@ -143,18 +143,19 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
   ctx.fillStyle = '#ffffff';
   ctx.fillText('POLYGLOT WORDLE', 50, 72);
 
-  // 3-in-1 badge
+  const languages = languagesFromGame(gameSession);
+
+  // Board count badge
   ctx.fillStyle = '#2f9e44';
   drawRoundedRect(ctx, 420, 48, 80, 28, 14);
   ctx.fill();
   ctx.font = '800 13px system-ui, -apple-system, sans-serif';
   ctx.fillStyle = '#000000';
-  ctx.fillText('3 BOARDS', 431, 67);
+  ctx.fillText(`${languages.length} BOARDS`, 431, 67);
 
   // Subtitle / Challenger info
   ctx.font = '600 16px system-ui, -apple-system, sans-serif';
   ctx.fillStyle = '#868e96';
-  const languages = languagesFromGame(gameSession);
   const subtitle = challengerName
     ? `Challenge against ${challengerName}`
     : languages.map((l) => LANGUAGE_META[l].name).join(' • ');
@@ -175,8 +176,8 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
   ctx.font = '700 16px system-ui, -apple-system, sans-serif';
   ctx.fillStyle = isWin ? '#69db7c' : '#adb5bd';
   const summaryStatus = isWin
-    ? `🎉 Solved 3/3 in ${turnsTaken}/${maxGuesses} turns`
-    : `❌ ${solvedLangs.length}/3 Solved in ${turnsTaken}/${maxGuesses} turns`;
+    ? `🎉 Solved ${languages.length}/${languages.length} in ${turnsTaken}/${maxGuesses} turns`
+    : `❌ ${solvedLangs.length}/${languages.length} Solved in ${turnsTaken}/${maxGuesses} turns`;
   ctx.fillText(summaryStatus, 1150, 102);
   ctx.textAlign = 'left'; // Reset
 
@@ -188,14 +189,12 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
   ctx.lineTo(1150, 124);
   ctx.stroke();
 
-  // 3. Three Boards Side-by-Side
-  // Total usable width = 1100. Each board panel width = 340, gap = 40.
-  // Board panel X: 50, 430, 810.
-  const boardWidth = 340;
+  // 3. Boards Side-by-Side
+  const gapX = languages.length === 3 ? 40 : 20;
+  const boardWidth = (1100 - gapX * (languages.length - 1)) / languages.length;
   const boardHeight = 400;
   const boardStartY = 144;
   const startX = 50;
-  const gapX = 40;
 
   languages.forEach((lang, boardIndex) => {
     const bx = startX + boardIndex * (boardWidth + gapX);
@@ -215,15 +214,12 @@ export const generateSocialShareCanvas = (options: SocialShareCardOptions): HTML
     ctx.stroke();
 
     // Board Header: Flag + Language Name
-    ctx.font = '700 18px system-ui, -apple-system, sans-serif';
+    ctx.font = `${languages.length > 3 ? 13 : 18}px system-ui, -apple-system, sans-serif`;
     ctx.fillStyle = '#ffffff';
     ctx.fillText(`${meta.flag}  ${meta.name.toUpperCase()}`, bx + 18, by + 34);
 
     // Tiles Grid: 8 rows of 5 tiles
-    // Tile size: 44w x 30h. Gap: 5px.
-    // 5 * 44 + 4 * 5 = 220 + 20 = 240px wide.
-    // Margin left inside board = (340 - 240) / 2 = 50px.
-    const tileW = 44;
+    const tileW = Math.min(44, (boardWidth - 36 - 4 * 5) / 5);
     const tileH = 30;
     const tileGap = 5;
     const gridStartX = bx + (boardWidth - (5 * tileW + 4 * tileGap)) / 2;
@@ -341,9 +337,11 @@ export const shareGameResult = async ({
   onFallbackCopied,
 }: ShareGameResultParams): Promise<void> => {
   const origin = window.location.origin;
-  const challengeUrl = `${origin}/game/${gameSession.gameId}${
-    currentUserId ? `?challenger=${encodeURIComponent(currentUserId)}` : ''
-  }`;
+  const challengeUrl = `${origin}${gamePath(
+    gameSession.gameId,
+    languagesFromGame(gameSession),
+    currentUserId ? { challenger: currentUserId } : undefined
+  )}`;
 
   const emojiText = generateEmojiScoreCard({ gameSession, challengeUrl });
 

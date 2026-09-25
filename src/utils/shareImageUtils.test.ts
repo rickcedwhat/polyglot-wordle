@@ -84,4 +84,18 @@ describe('shareImageUtils', () => {
     expect(card).toContain('🇪🇸 X/8');
     expect(card).toContain('🇫🇷 X/8');
   });
+
+  it('counts and lists all boards in an extended game', () => {
+    const card = generateEmojiScoreCard({
+      gameSession: {
+        ...mockGameSessionLoss,
+        words: { ...mockGameSessionLoss.words, it: 'pasta', pt: 'praia' },
+        shuffledLanguages: ['en', 'es', 'fr', 'it', 'pt'],
+      },
+      challengeUrl: 'https://polyglotwordle.web.app/game/example',
+    });
+    expect(card).toContain('0/5 Solved');
+    expect(card).toContain('🇮🇹 X/8');
+    expect(card).toContain('🇵🇹 X/8');
+  });
 });

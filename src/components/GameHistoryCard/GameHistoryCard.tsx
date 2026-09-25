@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ActionIcon, Badge, Card, Group, Text } from '@mantine/core';
 import { usePinning } from '@/hooks/usePinning';
 import type { GameDoc, UserDoc } from '@/types/firestore.d.ts';
+import { gamePath, languagesFromGame } from '@/utils/languages';
 import MiniBoard from '../MiniBoard/MiniBoard';
 import miniTileClasses from '../MiniTile/MiniTile.module.css';
 import classes from './GameHistoryCard.module.css';
@@ -50,7 +51,7 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
   return (
     <Card
       component={Link}
-      to={`/game/${game.gameId}`}
+      to={gamePath(game.gameId, languagesFromGame(game))}
       shadow="sm"
       padding="lg"
       radius="md"

@@ -5,6 +5,7 @@ import { Avatar, Badge, Button, Group, Modal, Paper, SimpleGrid, Stack, Text } f
 import { useAuth } from '@/context/AuthContext';
 import type { ChallengeInboxItem } from '@/hooks/useChallenges';
 import { useGameActions } from '@/hooks/useGameActions';
+import { gamePath } from '@/utils/languages';
 
 interface ChallengeInboxCardProps {
   challenge: ChallengeInboxItem;
@@ -50,9 +51,11 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   const unread = challenge.status === 'completed' && me && !me.resultSeenAt && bothDone;
 
   const handlePlay = () => {
-    const challengerParam =
-      challenge.createdBy !== userId ? `?challenger=${challenge.createdBy}` : '';
-    navigate(`/game/${challenge.gameId}${challengerParam}`);
+    navigate(
+      gamePath(challenge.gameId, null, {
+        challenger: challenge.createdBy !== userId ? challenge.createdBy : null,
+      })
+    );
   };
 
   const handleOpenResult = async () => {
@@ -90,7 +93,9 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
       return;
     }
     // Rematch = new game; from result modal we still offer sharing THIS completed puzzle too.
-    const url = `${window.location.origin}/game/${challenge.gameId}?challenger=${currentUser.uid}`;
+    const url = `${window.location.origin}${gamePath(challenge.gameId, null, {
+      challenger: currentUser.uid,
+    })}`;
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);

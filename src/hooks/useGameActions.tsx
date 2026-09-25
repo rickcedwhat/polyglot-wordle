@@ -3,15 +3,21 @@ import { collection, getDocs, getFirestore, limit, query, where } from 'firebase
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from '@/context/AuthContext';
-import type { Difficulty, Language } from '@/types/firestore';
-import { buildGameId, DEFAULT_LANGUAGES, isLanguageTriple, sortLanguages } from '@/utils/languages';
+import type { Difficulty, Language, LanguageCombo } from '@/types/firestore';
+import {
+  buildGameId,
+  DEFAULT_LANGUAGES,
+  gamePath,
+  isLanguageCombo,
+  sortLanguages,
+} from '@/utils/languages';
 import { useUserProfile } from './useUserProfile';
 
 const DEFAULT_DIFFICULTY: Difficulty = 'basic';
 
 export type CreateNewGameOptions = {
-  /** Override language triple for this game (skipPicker still respected separately). */
-  languages?: [Language, Language, Language];
+  /** Override languages for this game (skipPicker still respected separately). */
+  languages?: LanguageCombo;
 };
 
 export const useGameActions = () => {
@@ -24,13 +30,11 @@ export const useGameActions = () => {
   const languagePrefs = userProfile?.languagePrefs ?? null;
   const shouldAskLanguages = !languagePrefs?.skipPicker;
 
-  const resolveLanguages = (
-    override?: [Language, Language, Language]
-  ): [Language, Language, Language] => {
-    if (override && isLanguageTriple(override)) {
+  const resolveLanguages = (override?: LanguageCombo): LanguageCombo => {
+    if (isLanguageCombo(override)) {
       return override;
     }
-    if (languagePrefs && isLanguageTriple(languagePrefs.languages)) {
+    if (languagePrefs && isLanguageCombo(languagePrefs.languages)) {
       return languagePrefs.languages;
     }
     return [...DEFAULT_LANGUAGES];
@@ -52,11 +56,7 @@ export const useGameActions = () => {
       }
 
       const languages = resolveLanguages(options?.languages);
-      const difficulties = languages.map((lang) => prefs[lang] ?? DEFAULT_DIFFICULTY) as [
-        Difficulty,
-        Difficulty,
-        Difficulty,
-      ];
+      const difficulties = languages.map((lang) => prefs[lang] ?? DEFAULT_DIFFICULTY);
 
       // Reuse an empty live game that matches difficulties + language set
       const gamesCollectionRef = collection(db, 'games');
@@ -67,9 +67,9 @@ export const useGameActions = () => {
           where('userId', '==', currentUser.uid),
           where('isLiveGame', '==', true),
           where('guessHistory', '==', []),
-          where(`difficulties.${languages[0]}`, '==', difficulties[0]),
-          where(`difficulties.${languages[1]}`, '==', difficulties[1]),
-          where(`difficulties.${languages[2]}`, '==', difficulties[2]),
+          ...languages.map((lang, index) =>
+            where(`difficulties.${lang}`, '==', difficulties[index])
+          ),
           limit(5)
         );
         const existingGameSnapshot = await getDocs(q);
@@ -77,7 +77,7 @@ export const useGameActions = () => {
         const reusable = existingGameSnapshot.docs.find((docSnap) => {
           const data = docSnap.data();
           const boardLangs = (data.shuffledLanguages as Language[] | undefined) ?? [];
-          if (boardLangs.length !== 3) {
+          if (!isLanguageCombo(boardLangs) || boardLangs.length !== languages.length) {
             return false;
           }
           return sortLanguages(boardLangs).join(',') === sortedWanted;
@@ -94,11 +94,14 @@ export const useGameActions = () => {
         console.log('Found existing empty game with matching difficulties, reusing it.');
         gameId = reusableGameId;
       } else {
-        const fullUUID = uuidv4().replace(/-/g, '');
-        const entropy24 = fullUUID.substring(0, 24);
-        const seedNibble = fullUUID[24] ?? '0';
+        const entropyHex = Array.from({ length: Math.ceil(languages.length / 4) }, () =>
+          uuidv4().replace(/-/g, '')
+        )
+          .join('')
+          .slice(0, languages.length * 8);
+        const seedNibble = uuidv4()[0];
         gameId = buildGameId({
-          entropy24,
+          entropyHex,
           languages,
           difficulties,
           seedNibble,
@@ -106,7 +109,7 @@ export const useGameActions = () => {
 
         await queryClient.invalidateQueries({ queryKey: ['gameHistory'] });
       }
-      navigate(`/game/${gameId}`);
+      navigate(gamePath(gameId, languages));
       return true;
     } catch (error) {
       console.error('Failed to create new game:', error);

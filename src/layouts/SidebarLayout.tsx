@@ -9,7 +9,9 @@ import { useSidebar } from '@/context/SidebarContext';
 export const SidebarLayout: FC = () => {
   const { opened, toggle } = useSidebar();
   const isMobile = useMediaQuery('(max-width: 48em)'); // 48em is the default 'sm' breakpoint
-  const isGamePage = useMatch('/game/:uuid');
+  const matchLegacyGame = useMatch('/game/:uuid');
+  const matchLangGame = useMatch('/game/:languages/:uuid');
+  const isGamePage = Boolean(matchLegacyGame || matchLangGame);
 
   return (
     <Box h="100vh">

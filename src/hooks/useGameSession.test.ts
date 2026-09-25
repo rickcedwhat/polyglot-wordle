@@ -159,12 +159,35 @@ describe('useGameSession & fetchOrCreateGame', () => {
       expect(result.words).toEqual({ en: 'derived_en', es: 'derived_es', fr: 'derived_fr' });
       expect(wordUtils.getWordsFromUuid).toHaveBeenCalledWith('b3e47403d2ec4ec9beb8a41faa0b3e47');
     });
+
+    it('persists all five derived boards for an extended game', async () => {
+      const gameId = buildGameId({
+        entropyHex: 'a'.repeat(40),
+        languages: ['en', 'es', 'fr', 'it', 'pt'],
+        difficulties: ['basic', 'basic', 'basic', 'basic', 'basic'],
+        seedNibble: '7',
+      });
+      const derived = {
+        words: { en: 'apple', es: 'queso', fr: 'fruit', it: 'pasta', pt: 'praia' },
+        difficulties: { en: 'basic', es: 'basic', fr: 'basic', it: 'basic', pt: 'basic' } as const,
+        shuffledLanguages: ['pt', 'it', 'fr', 'es', 'en'] as const,
+      };
+      vi.mocked(firestore.getDoc).mockResolvedValueOnce({ exists: () => false } as any);
+      vi.mocked(wordUtils.getWordsFromUuid).mockResolvedValueOnce({
+        ...derived,
+        shuffledLanguages: [...derived.shuffledLanguages],
+      });
+
+      const result = await fetchOrCreateGame(gameId, 'user_1');
+      expect(result).toEqual(expect.objectContaining(derived));
+      expect(firestore.setDoc).toHaveBeenCalledWith(undefined, expect.objectContaining(derived));
+    });
   });
 
   describe('useGameSession hook', () => {
     it('accepts a v2 game id from the game route', async () => {
       const gameId = buildGameId({
-        entropy24: 'a'.repeat(24),
+        entropyHex: 'a'.repeat(24),
         languages: ['en', 'it', 'pt'],
         difficulties: ['basic', 'intermediate', 'advanced'],
         seedNibble: '7',

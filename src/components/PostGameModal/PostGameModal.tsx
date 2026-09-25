@@ -33,7 +33,7 @@ import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { GameDoc, Language } from '@/types/firestore';
-import { labelFor } from '@/utils/languages';
+import { labelFor, languagesFromGame } from '@/utils/languages';
 import { shareGameResult } from '@/utils/shareImageUtils';
 import { calculateScoreFromHistory, normalizeWord } from '@/utils/wordUtils';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
@@ -182,11 +182,12 @@ export const PostGameModal: FC<PostGameModalProps> = ({
   const [shareError, setShareError] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
 
-  const solvedCount = (gameSession.shuffledLanguages ?? (Object.keys(words) as Language[])).filter(
-    (l) => guessHistory.map(normalizeWord).includes(normalizeWord(words[l]!))
+  const languages = languagesFromGame(gameSession);
+  const solvedCount = languages.filter((l) =>
+    guessHistory.map(normalizeWord).includes(normalizeWord(words[l]!))
   ).length;
 
-  const effectiveIsWin = isWin ?? solvedCount === 3;
+  const effectiveIsWin = isWin ?? solvedCount === languages.length;
   const calculatedScore = useMemo(
     () => calculateScoreFromHistory(guessHistory, words),
     [guessHistory, words]
@@ -255,8 +256,8 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             <Box>
               <Text size="sm" fw={700} c={effectiveIsWin ? 'teal.1' : 'gray.2'}>
                 {effectiveIsWin
-                  ? `🎉 Victory! All 3 Solved in ${guessHistory.length}/${MAX_GUESSES} turns`
-                  : `❌ ${solvedCount}/3 Languages Solved in ${guessHistory.length}/${MAX_GUESSES} turns`}
+                  ? `🎉 Victory! All ${languages.length} Solved in ${guessHistory.length}/${MAX_GUESSES} turns`
+                  : `❌ ${solvedCount}/${languages.length} Languages Solved in ${guessHistory.length}/${MAX_GUESSES} turns`}
               </Text>
               <Text size="xs" c={effectiveIsWin ? 'teal.1' : 'gray.4'} fw={600} opacity={0.9}>
                 Final Score: {effectiveScore} pts
@@ -332,7 +333,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
           <Text size="xs" fw={700} c="dimmed">
             TARGET WORDS & DEFINITIONS
           </Text>
-          {(gameSession.shuffledLanguages ?? (Object.keys(words) as Language[])).map((lang) => (
+          {languages.map((lang) => (
             <WordSummaryCard
               key={lang}
               lang={lang}
