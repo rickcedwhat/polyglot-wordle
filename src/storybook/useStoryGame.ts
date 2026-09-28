@@ -21,8 +21,15 @@ export interface ScoreBurst {
 /**
  * Local, Firebase-free game state for stories: a saved guess timeline you can step through,
  * plus live typing that branches the timeline from the current step.
+ *
+ * `requestedStep` is controlled (e.g. by a Storybook `step` arg); typing a guess reports the
+ * new step through `onStepChange`.
  */
-export function useStoryGame(fixture: StoryGameFixture) {
+export function useStoryGame(
+  fixture: StoryGameFixture,
+  requestedStep: number,
+  onStepChange: (step: number) => void
+) {
   const { languages, words: solution } = fixture;
   const difficulties = useMemo(
     () => Object.fromEntries(languages.map((lang) => [lang, 'advanced' as const])),
@@ -32,7 +39,7 @@ export function useStoryGame(fixture: StoryGameFixture) {
   const { updateLetterStatuses } = useLetterStatus();
 
   const [timeline, setTimeline] = useState<string[]>(fixture.guesses);
-  const [step, setStep] = useState(0);
+  const step = Math.max(0, Math.min(timeline.length, Math.round(requestedStep || 0)));
   const [currentGuess, setCurrentGuess] = useState<string[]>(EMPTY_GUESS);
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isInvalid, setIsInvalid] = useState(false);
@@ -50,34 +57,32 @@ export function useStoryGame(fixture: StoryGameFixture) {
     updateLetterStatuses({ guesses, solution, shuffledLanguages: languages });
   }, [guesses, solution, languages, updateLetterStatuses]);
 
-  const fireBurst = (history: string[]) => {
-    burstCounter.current += 1;
-    setBurst({ id: burstCounter.current, events: getLatestTurnScoreEvents(history, solution) });
-  };
-
-  const clearTyping = () => {
-    setCurrentGuess(EMPTY_GUESS);
-    setCursorIndex(0);
-  };
-
-  /** Jump to a step; stepping exactly one forward replays that guess's animations. */
-  const goTo = (target: number) => {
-    const next = Math.max(0, Math.min(timeline.length, target));
-    if (next === step + 1) {
-      fireBurst(timeline.slice(0, next));
+  // Stepping exactly one guess forward replays that guess's animations; other jumps don't.
+  const prevStep = useRef(step);
+  useEffect(() => {
+    if (step === prevStep.current) {
+      return;
+    }
+    if (step === prevStep.current + 1) {
+      burstCounter.current += 1;
+      setBurst({
+        id: burstCounter.current,
+        events: getLatestTurnScoreEvents(timeline.slice(0, step), solution),
+      });
     } else {
       setBurst(null);
     }
-    setStep(next);
-    clearTyping();
-  };
+    prevStep.current = step;
+    setCurrentGuess(EMPTY_GUESS);
+    setCursorIndex(0);
+  }, [step, timeline, solution]);
 
-  const reset = () => {
-    setTimeline(fixture.guesses);
-    setStep(0);
-    setBurst(null);
-    clearTyping();
-  };
+  // Keep the external control in range (e.g. slider dragged past the last saved guess).
+  useEffect(() => {
+    if (requestedStep !== step) {
+      onStepChange(step);
+    }
+  }, [requestedStep, step, onStepChange]);
 
   const submit = (guess: string) => {
     if (!wordPools || isOver) {
@@ -96,9 +101,7 @@ export function useStoryGame(fixture: StoryGameFixture) {
     }
     const nextTimeline = [...guesses, guess];
     setTimeline(nextTimeline);
-    setStep(nextTimeline.length);
-    fireBurst(nextTimeline);
-    clearTyping();
+    onStepChange(nextTimeline.length);
     return true;
   };
 
@@ -188,8 +191,6 @@ export function useStoryGame(fixture: StoryGameFixture) {
     score,
     solvedAll,
     isOver,
-    goTo,
-    reset,
     handleKeyPress,
   };
 }

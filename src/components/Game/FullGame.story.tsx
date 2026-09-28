@@ -11,16 +11,19 @@ import { AppShell, Badge, Box, Burger, Button, Divider, Group, Stack, Text } fro
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Score } from '@/components/Score/Score';
 import { ScoreProvider, useScore } from '@/context/ScoreContext';
-import { STORY_GAME_KEYS, STORY_GAMES, type StoryGameKey } from '@/storybook/fixtures';
-import { GameReplayControls } from '@/storybook/GameReplayControls';
+import {
+  replayArgTypes,
+  replayDefaultArgs,
+  useReplayArgsUpdater,
+  useReplayStoryGame,
+  type ReplayArgs,
+  type UpdateReplayArgs,
+} from '@/storybook/replayArgs';
 import { StoryGameArea } from '@/storybook/StoryGameArea';
-import { useStoryGame } from '@/storybook/useStoryGame';
 import { flagFor } from '@/utils/languages';
 
-interface StoryArgs {
-  game: StoryGameKey;
+interface StoryArgs extends ReplayArgs {
   showSolution: boolean;
-  showReplayControls: boolean;
   slowMotion: number;
 }
 
@@ -30,25 +33,16 @@ const meta: Meta<StoryArgs> = {
     layout: 'fullscreen',
   },
   argTypes: {
-    game: {
-      control: {
-        type: 'select',
-        labels: Object.fromEntries(STORY_GAME_KEYS.map((key) => [key, STORY_GAMES[key].label])),
-      },
-      options: STORY_GAME_KEYS,
-      description: 'Saved game to step through. Type your own guess at any step to branch.',
-    },
+    ...replayArgTypes,
     showSolution: { control: { type: 'boolean' } },
-    showReplayControls: { control: { type: 'boolean' } },
     slowMotion: {
       control: { type: 'range', min: 1, max: 6, step: 0.5 },
       description: 'Stretch the tile + popup animations (1 = real speed).',
     },
   },
   args: {
-    game: 'realGame',
+    ...replayDefaultArgs,
     showSolution: false,
-    showReplayControls: true,
     slowMotion: 1,
   },
 };
@@ -88,8 +82,9 @@ const MockSidebar = () => (
   </Stack>
 );
 
-const FullGame = ({ game: gameKey, showSolution, showReplayControls, slowMotion }: StoryArgs) => {
-  const game = useStoryGame(STORY_GAMES[gameKey]);
+const FullGame = ({ updateArgs, ...args }: StoryArgs & { updateArgs: UpdateReplayArgs }) => {
+  const { showSolution, slowMotion } = args;
+  const game = useReplayStoryGame(args, updateArgs);
   const { recalculateScore } = useScore();
   const [opened, { toggle }] = useDisclosure(false);
   const isMobile = useMediaQuery('(max-width: 48em)');
@@ -124,19 +119,14 @@ const FullGame = ({ game: gameKey, showSolution, showReplayControls, slowMotion 
           <MockSidebar />
         </AppShell.Navbar>
         <AppShell.Main h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
-          {(showReplayControls || showSolution) && (
-            <Stack gap={6} mb="xs">
-              {showSolution && (
-                <Group gap="xs" justify="center">
-                  {game.languages.map((lang) => (
-                    <Badge key={lang} variant="light">
-                      {flagFor(lang)} {game.solution[lang]}
-                    </Badge>
-                  ))}
-                </Group>
-              )}
-              {showReplayControls && <GameReplayControls game={game} />}
-            </Stack>
+          {showSolution && (
+            <Group gap="xs" justify="center">
+              {game.languages.map((lang) => (
+                <Badge key={lang} variant="light">
+                  {flagFor(lang)} {game.solution[lang]}
+                </Badge>
+              ))}
+            </Group>
           )}
           <Box style={{ flex: 1, minHeight: 0 }}>
             <StoryGameArea game={game} />
@@ -149,9 +139,12 @@ const FullGame = ({ game: gameKey, showSolution, showReplayControls, slowMotion 
 
 export const Playable: Story = {
   name: 'Full Game (replayable)',
-  render: (args) => (
-    <ScoreProvider>
-      <FullGame key={args.game} {...args} />
-    </ScoreProvider>
-  ),
+  render: function Render(args) {
+    const updateArgs = useReplayArgsUpdater();
+    return (
+      <ScoreProvider>
+        <FullGame key={args.game} {...args} updateArgs={updateArgs} />
+      </ScoreProvider>
+    );
+  },
 };

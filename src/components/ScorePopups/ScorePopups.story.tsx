@@ -3,14 +3,18 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Badge, Group, Stack } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import { useCountUp } from '@/hooks/useCountUp';
-import { STORY_GAME_KEYS, STORY_GAMES, type StoryGameKey } from '@/storybook/fixtures';
-import { GameReplayControls } from '@/storybook/GameReplayControls';
+import {
+  replayArgTypes,
+  replayDefaultArgs,
+  useReplayArgsUpdater,
+  useReplayStoryGame,
+  type ReplayArgs,
+  type UpdateReplayArgs,
+} from '@/storybook/replayArgs';
 import { StoryGameArea } from '@/storybook/StoryGameArea';
-import { useStoryGame } from '@/storybook/useStoryGame';
 import { flagFor } from '@/utils/languages';
 
-interface StoryArgs {
-  game: StoryGameKey;
+interface StoryArgs extends ReplayArgs {
   showSolution: boolean;
   slowMotion: number;
 }
@@ -21,14 +25,7 @@ const meta: Meta<StoryArgs> = {
     layout: 'fullscreen',
   },
   argTypes: {
-    game: {
-      control: {
-        type: 'select',
-        labels: Object.fromEntries(STORY_GAME_KEYS.map((key) => [key, STORY_GAMES[key].label])),
-      },
-      options: STORY_GAME_KEYS,
-      description: 'Saved game to step through. Type your own guess at any step to branch.',
-    },
+    ...replayArgTypes,
     showSolution: {
       control: { type: 'boolean' },
       description: 'Show the solution words.',
@@ -39,7 +36,7 @@ const meta: Meta<StoryArgs> = {
     },
   },
   args: {
-    game: 'realGame',
+    ...replayDefaultArgs,
     showSolution: true,
     slowMotion: 1,
   },
@@ -48,8 +45,9 @@ const meta: Meta<StoryArgs> = {
 export default meta;
 type Story = StoryObj<StoryArgs>;
 
-const PlayableGame = ({ game: gameKey, showSolution, slowMotion }: StoryArgs) => {
-  const game = useStoryGame(STORY_GAMES[gameKey]);
+const PlayableGame = ({ updateArgs, ...args }: StoryArgs & { updateArgs: UpdateReplayArgs }) => {
+  const { showSolution, slowMotion } = args;
+  const game = useReplayStoryGame(args, updateArgs);
   const displayScore = useCountUp(game.score);
 
   const animationVars = {
@@ -77,7 +75,6 @@ const PlayableGame = ({ game: gameKey, showSolution, slowMotion }: StoryArgs) =>
           </Badge>
         </Group>
       </Group>
-      <GameReplayControls game={game} />
       <StoryGameArea game={game} />
     </Stack>
   );
@@ -85,5 +82,8 @@ const PlayableGame = ({ game: gameKey, showSolution, slowMotion }: StoryArgs) =>
 
 export const Playable: Story = {
   name: 'Playable Game',
-  render: (args) => <PlayableGame key={args.game} {...args} />,
+  render: function Render(args) {
+    const updateArgs = useReplayArgsUpdater();
+    return <PlayableGame key={args.game} {...args} updateArgs={updateArgs} />;
+  },
 };
