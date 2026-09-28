@@ -23,6 +23,8 @@ const meta: Meta<StoryArgs> = {
   title: 'Game/ScorePopups',
   parameters: {
     layout: 'fullscreen',
+    // No preview padding, so viewport presets match real device widths.
+    fullBleed: true,
   },
   argTypes: {
     ...replayArgTypes,

@@ -36,8 +36,8 @@ interface LanguageBoardProps {
   isConfirmed?: boolean;
   hideFlags?: boolean;
   isActive?: boolean;
-  /** When true, candidate flags render above the grid (compact/mini layout only). */
-  isMini?: boolean;
+  /** Render candidate flags above the grid instead of beside the current row. */
+  flagsOnTop?: boolean;
   onActivate?: () => void;
   /** This board's score events from the latest guess. */
   scoreBurst?: { id: number; events: ScoreEvent[] } | null;
@@ -229,7 +229,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     isConfirmed: _isConfirmed = false,
     hideFlags = false,
     isActive = true,
-    isMini = false,
+    flagsOnTop = false,
     onActivate,
     scoreBurst,
   }) => {
@@ -256,8 +256,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     // Target row index for side-aligned flags:
     // Align with the latest guess row, or row 0 (top-aligned) if no guesses yet.
     const targetRowIndex = relevantGuesses.length === 0 ? 0 : relevantGuesses.length - 1;
-    // Only mini boards get flags on top; full boards keep flags beside the active row.
-    const flagsAbove = isMini && !hideFlags;
+    const flagsAbove = flagsOnTop && !hideFlags;
     const showSideFlags = !hideFlags && !flagsAbove;
 
     const resolveDisplayGuess = (guess: string) => {

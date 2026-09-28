@@ -50,7 +50,13 @@ export const parameters = {
   },
 };
 
-function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
+function ColorSchemeWrapper({
+  children,
+  fullBleed = false,
+}: {
+  children: React.ReactNode;
+  fullBleed?: boolean;
+}) {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const handleColorScheme = (value: boolean) => setColorScheme(value ? 'dark' : 'light');
 
@@ -63,7 +69,7 @@ function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
     <Box
       style={{
         minHeight: '100%',
-        padding: '16px',
+        padding: fullBleed ? 0 : '16px',
         background:
           colorScheme === 'light'
             ? 'radial-gradient(circle, #f8f9fa 0%, #e9ecef 100%)'
@@ -77,10 +83,12 @@ function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export const decorators = [
-  (renderStory: any, context: { id: string }) => (
+  (renderStory: any, context: { id: string; parameters: { fullBleed?: boolean } }) => (
     <StoryQueryClientProvider key={context.id}>
       <MantineProvider theme={theme} defaultColorScheme="dark">
-        <ColorSchemeWrapper>{renderStory()}</ColorSchemeWrapper>
+        <ColorSchemeWrapper fullBleed={context.parameters.fullBleed}>
+          {renderStory()}
+        </ColorSchemeWrapper>
       </MantineProvider>
     </StoryQueryClientProvider>
   ),

@@ -84,7 +84,7 @@ export const GameBoard: FC<GameBoardProps> = ({
               isConfirmed={isConfirmed}
               hideFlags={hideFlags}
               isActive={isActive}
-              isMini={isNarrow && !isActive}
+              flagsOnTop={isNarrow}
               onActivate={() => setActiveIndex(index)}
               scoreBurst={
                 scoreBurst && {

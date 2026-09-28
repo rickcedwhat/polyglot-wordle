@@ -24,26 +24,17 @@
 /* Narrow screens: the active board stays full size, the other boards shrink to mini boards. */
 .narrow {
   justify-content: center;
+  gap: var(--mantine-spacing-xs);
 }
 
 .narrow .boardWrapper {
   flex: 1 1 0;
-  min-width: 56px;
+  min-width: 48px;
   max-width: 100px;
 }
 
 .narrow .active {
   flex-grow: 10;
-  min-width: 140px;
+  min-width: 0;
   max-width: 280px;
-}
-
-@media (max-width: 360px) {
-  .narrow .boardWrapper {
-    min-width: 48px;
-  }
-
-  .narrow .active {
-    min-width: 120px;
-  }
 }
