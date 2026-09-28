@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import cx from 'clsx';
 import { motion } from 'framer-motion';
 import { Group } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useWordPools } from '@/hooks/useWordPools';
 import { Language } from '@/types/firestore';
 import { deduceColumnLanguages } from '@/utils/deductionUtils';
@@ -37,6 +38,8 @@ export const GameBoard: FC<GameBoardProps> = ({
   scoreBurst,
 }) => {
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
+  /** On narrow screens only the active board is full size; the others shrink to mini boards. */
+  const isNarrow = useMediaQuery('(max-width: 48em)') ?? false;
   const boardDifficulties = Object.fromEntries(
     shuffledLanguages.map((lang) => [lang, 'advanced' as const])
   );
@@ -51,7 +54,7 @@ export const GameBoard: FC<GameBoardProps> = ({
 
   return (
     <Group
-      className={classes.boardContainer}
+      className={cx(classes.boardContainer, { [classes.narrow]: isNarrow })}
       wrap="nowrap"
       gap="md"
       justify="space-evenly"
@@ -65,8 +68,11 @@ export const GameBoard: FC<GameBoardProps> = ({
         return (
           <motion.div
             key={lang}
+            layout={isNarrow}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             className={cx(classes.boardWrapper, { [classes.active]: isActive })}
             onClick={() => setActiveIndex(index)}
+            onLayoutAnimationComplete={() => window.dispatchEvent(new Event('resize'))}
           >
             <LanguageBoard
               language={lang}
@@ -78,6 +84,7 @@ export const GameBoard: FC<GameBoardProps> = ({
               isConfirmed={isConfirmed}
               hideFlags={hideFlags}
               isActive={isActive}
+              isMini={isNarrow && !isActive}
               onActivate={() => setActiveIndex(index)}
               scoreBurst={
                 scoreBurst && {
