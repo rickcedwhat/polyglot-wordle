@@ -51,18 +51,19 @@ export function buildPopupLines(events: ScoreEvent[]): PopupLine[] {
 
 interface ScorePopupsProps {
   events: ScoreEvent[];
+  durationMs?: number;
 }
 
 /** Remount (via `key`) for each new guess to replay the animation. */
-export const ScorePopups: FC<ScorePopupsProps> = ({ events }) => {
+export const ScorePopups: FC<ScorePopupsProps> = ({ events, durationMs = POPUP_DURATION_MS }) => {
   const lines = useMemo(() => buildPopupLines(events), [events]);
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const total = POPUP_DURATION_MS + POPUP_STAGGER_MS * Math.max(0, lines.length - 1);
+    const total = durationMs + POPUP_STAGGER_MS * Math.max(0, lines.length - 1);
     const timer = window.setTimeout(() => setVisible(false), total);
     return () => window.clearTimeout(timer);
-  }, [lines.length]);
+  }, [durationMs, lines.length]);
 
   if (!visible || lines.length === 0) {
     return null;
@@ -76,7 +77,7 @@ export const ScorePopups: FC<ScorePopupsProps> = ({ events }) => {
           className={`${classes.popup} ${classes[line.tone]}`}
           style={{
             animationDelay: `${index * POPUP_STAGGER_MS}ms`,
-            animationDuration: `${POPUP_DURATION_MS}ms`,
+            animationDuration: `${durationMs}ms`,
             bottom: `${(lines.length - 1 - index) * 1.75}rem`,
           }}
         >
