@@ -37,7 +37,7 @@ export function StoryGameArea({ game }: { game: StoryGame }) {
         )}
         <Box pos="relative" {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
           {game.burst && <ScorePopups key={game.burst.id} events={game.burst.events} />}
-          {game.burst && <ScoreFlights key={game.burst.id} burst={game.burst} />}
+          {game.burst && <ScoreFlights burst={game.burst} />}
           <CurrentGuessRow
             guess={game.currentGuess}
             cursorIndex={game.cursorIndex}

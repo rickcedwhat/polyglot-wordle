@@ -358,7 +358,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       </Box>
       <Box pos="relative" {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
         {scoreBurst && <ScorePopups key={scoreBurst.id} events={scoreBurst.events} />}
-        {scoreBurst && <ScoreFlights key={scoreBurst.id} burst={scoreBurst} />}
+        {scoreBurst && <ScoreFlights burst={scoreBurst} />}
         <CurrentGuessRow
           guess={currentGuess}
           cursorIndex={cursorIndex}

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { useScoreFlightControls } from '@/context/ScoreContext';
@@ -27,6 +27,7 @@ interface Point {
 }
 
 interface ActiveFlight {
+  burstId: number;
   flight: ScoreFlight;
   from: Point;
   to: Point;
@@ -47,25 +48,35 @@ const motionScale = (el: Element | null) => {
   return Number.isFinite(duration) && duration > 0 ? duration / BASE_TILE_DURATION_MS : 1;
 };
 
-/** Remount (via `key`) for each new guess. */
+/** Keep mounted across guesses so overlapping bursts can finish their flights. */
 export const ScoreFlights: FC<{ burst: ScoreBurst }> = ({ burst }) => {
   const { releasePoints } = useScoreFlightControls();
   const [active, setActive] = useState<ActiveFlight[]>([]);
+  const timers = useRef(new Set<number>());
+
+  useEffect(() => {
+    const pending = timers.current;
+    return () => {
+      pending.forEach((timer) => window.clearTimeout(timer));
+      pending.clear();
+    };
+  }, []);
 
   useEffect(() => {
     if (!burst.fly) {
-      return undefined;
+      return;
     }
     const flights = buildFlights(burst.events);
     const scale = motionScale(findScoreOrigin(flights[0]?.origin ?? GAME_ORIGIN));
     let boardIndex = 0;
 
-    const timers = flights.map((flight) => {
+    flights.forEach((flight) => {
       const delay =
         flight.origin === GAME_ORIGIN
           ? GAME_LAUNCH_MS * scale
           : (BOARD_LAUNCH_MS + boardIndex++ * BOARD_STAGGER_MS) * scale;
-      return window.setTimeout(() => {
+      const timer = window.setTimeout(() => {
+        timers.current.delete(timer);
         const origin = findScoreOrigin(flight.origin);
         const target = findVisibleScoreTarget();
         if (!origin || !target) {
@@ -74,12 +85,17 @@ export const ScoreFlights: FC<{ burst: ScoreBurst }> = ({ burst }) => {
         }
         setActive((current) => [
           ...current,
-          { flight, from: centerOf(origin), to: centerOf(target), durationMs: FLIGHT_MS * scale },
+          {
+            burstId: burst.id,
+            flight,
+            from: centerOf(origin),
+            to: centerOf(target),
+            durationMs: FLIGHT_MS * scale,
+          },
         ]);
       }, delay);
+      timers.current.add(timer);
     });
-
-    return () => timers.forEach((timer) => window.clearTimeout(timer));
   }, [burst, releasePoints]);
 
   if (active.length === 0) {
@@ -88,9 +104,9 @@ export const ScoreFlights: FC<{ burst: ScoreBurst }> = ({ burst }) => {
 
   return createPortal(
     <div className={classes.layer} aria-hidden>
-      {active.map(({ flight, from, to, durationMs }) => (
+      {active.map(({ burstId, flight, from, to, durationMs }) => (
         <motion.div
-          key={flight.origin}
+          key={`${burstId}-${flight.origin}`}
           className={classes.flight}
           initial={{ x: from.x, y: from.y, scale: 0.6, opacity: 0 }}
           animate={{
@@ -101,8 +117,10 @@ export const ScoreFlights: FC<{ burst: ScoreBurst }> = ({ burst }) => {
           }}
           transition={{ duration: durationMs / 1000, times: [0, 0.25, 1], ease: 'easeInOut' }}
           onAnimationComplete={() => {
-            releasePoints(burst.id, flight.origin);
-            setActive((current) => current.filter((f) => f.flight.origin !== flight.origin));
+            releasePoints(burstId, flight.origin);
+            setActive((current) =>
+              current.filter((f) => f.burstId !== burstId || f.flight.origin !== flight.origin)
+            );
           }}
         >
           <span className={`${classes.pill} ${classes[flight.tone]}`}>

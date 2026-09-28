@@ -95,7 +95,7 @@ const ReplayControls = () => {
           onClick={() =>
             playing
               ? updateArgs({ autoplay: false })
-              : updateArgs({ autoplay: true, step: step >= total ? 0 : step })
+              : updateArgs({ autoplay: true, step: step >= total ? 0 : args.step })
           }
           disabled={total === 0}
         >
