@@ -93,6 +93,55 @@ describe('calculateScoreFromHistory', () => {
   });
 });
 
+describe('getLatestTurnScoreEvents', () => {
+  const mockSolution = {
+    en: 'apple',
+    es: 'queso',
+    fr: 'fruit',
+  };
+  const sumPoints = (history: string[]) =>
+    wordUtils
+      .getLatestTurnScoreEvents(history, mockSolution)
+      .reduce((sum, event) => sum + event.points, 0);
+
+  it('returns no events for an empty history', () => {
+    expect(wordUtils.getLatestTurnScoreEvents([], mockSolution)).toEqual([]);
+  });
+
+  it('sums to the score delta of each guess, including game-end events', () => {
+    const histories = [
+      ['apple', 'queso', 'fruit'],
+      ['xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'apple'],
+      ['plead', 'apply', 'quest', 'fruit'],
+    ];
+    histories.forEach((history) => {
+      history.forEach((_, index) => {
+        const prefix = history.slice(0, index + 1);
+        const delta =
+          calculateScoreFromHistory(prefix, mockSolution) -
+          calculateScoreFromHistory(prefix.slice(0, -1), mockSolution);
+        expect(sumPoints(prefix)).toBe(delta);
+      });
+    });
+  });
+
+  it('tags word-solved and game-solved events', () => {
+    const events = wordUtils.getLatestTurnScoreEvents(['apple', 'queso', 'fruit'], mockSolution);
+    expect(events).toContainEqual(expect.objectContaining({ kind: 'wordSolved', lang: 'fr' }));
+    expect(events.at(-1)?.kind).toBe('gameSolved');
+  });
+
+  it('emits a penalty per unsolved language on the final guess', () => {
+    const history = Array(8).fill('xxxxx');
+    const events = wordUtils.getLatestTurnScoreEvents(history, mockSolution);
+    expect(events.filter((e) => e.kind === 'penalty').map((e) => e.lang)).toEqual([
+      'en',
+      'es',
+      'fr',
+    ]);
+  });
+});
+
 describe('splitDefinition', () => {
   it('correctly splits definitions with trailing parenthetical inflection notes', () => {
     const res = wordUtils.splitDefinition(

@@ -150,6 +150,14 @@ const activeLanguages = (solution: SolutionWords): Language[] =>
 const emptyScoredSlots = (langs: Language[]): ScoredGreenSlots =>
   Object.fromEntries(langs.map((lang) => [lang, [false, false, false, false, false]]));
 
+export type ScoreEventKind = 'green' | 'yellow' | 'wordSolved' | 'gameSolved' | 'penalty';
+
+export interface ScoreEvent {
+  kind: ScoreEventKind;
+  points: number;
+  lang?: Language;
+}
+
 export const getScoreForTurn = (
   currentGuess: string,
   solution: SolutionWords,
@@ -157,9 +165,8 @@ export const getScoreForTurn = (
   scoredGreenSlots: ScoredGreenSlots
 ) => {
   let turnScore = 0;
+  const events: ScoreEvent[] = [];
   const updatedScoredSlots = JSON.parse(JSON.stringify(scoredGreenSlots)) as ScoredGreenSlots;
-
-  console.log(`--- Turn #${guessNumber}, Guess: "${currentGuess}" ---`);
 
   activeLanguages(solution).forEach((lang) => {
     const solutionWord = solution[lang]!;
@@ -180,30 +187,82 @@ export const getScoreForTurn = (
     statuses.forEach((status, letterIndex) => {
       if (status === 'correct' && !updatedScoredSlots[lang]![letterIndex]) {
         const points = GREEN_LETTER_BONUS * (MAX_GUESSES + 3 - guessNumber);
-        console.log(
-          `[${lang.toUpperCase()}] Green bonus for '${currentGuess[letterIndex]}' in position ${letterIndex + 1}: +${points}`
-        );
         turnScore += points;
+        events.push({ kind: 'green', points, lang });
         updatedScoredSlots[lang]![letterIndex] = true;
       }
       if (status === 'present') {
         const points = YELLOW_LETTER_BONUS * yellowComboCounter;
-        console.log(
-          `[${lang.toUpperCase()}] Yellow combo for '${currentGuess[letterIndex]}': +${points}`
-        );
         turnScore += points;
+        events.push({ kind: 'yellow', points, lang });
         yellowComboCounter += 1;
       }
     });
 
     if (normalizeWord(solutionWord) === normalizeWord(currentGuess)) {
       const points = WORD_SOLVED_BONUS * (MAX_GUESSES + 3 - guessNumber);
-      console.log(`[${lang.toUpperCase()}] Word Solved Bonus: +${points}`);
       turnScore += points;
+      events.push({ kind: 'wordSolved', points, lang });
     }
   });
 
-  return { turnScore, updatedScoredSlots };
+  return { turnScore, updatedScoredSlots, events };
+};
+
+const getGameEndEvents = (guessHistory: string[], solution: SolutionWords): ScoreEvent[] => {
+  const langs = activeLanguages(solution);
+  const solvedByLang = Object.fromEntries(
+    langs.map((lang) => [
+      lang,
+      guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution[lang]!)),
+    ])
+  ) as Record<Language, boolean>;
+
+  if (langs.every((lang) => solvedByLang[lang])) {
+    const findLastGuess = (word: string) =>
+      guessHistory.findIndex((g) => normalizeWord(g) === normalizeWord(word));
+    const finalGuessIndex = Math.max(...langs.map((lang) => findLastGuess(solution[lang]!)));
+    const totalGuessesTaken = finalGuessIndex + 1;
+    return [
+      { kind: 'gameSolved', points: GAME_SOLVED_BONUS * (MAX_GUESSES + 3 - totalGuessesTaken) },
+    ];
+  }
+
+  if (guessHistory.length >= MAX_GUESSES) {
+    return langs
+      .filter((lang) => !solvedByLang[lang])
+      .map((lang) => ({ kind: 'penalty' as const, points: UNSOLVED_GAME_PENALTY, lang }));
+  }
+
+  return [];
+};
+
+/**
+ * Score events earned by the most recent guess, including any game-end bonus or penalty
+ * that guess triggered.
+ */
+export const getLatestTurnScoreEvents = (
+  guessHistory: string[],
+  solution: SolutionWords
+): ScoreEvent[] => {
+  if (guessHistory.length === 0) {
+    return [];
+  }
+  const scoredGreenSlots = emptyScoredSlots(activeLanguages(solution));
+  let lastEvents: ScoreEvent[] = [];
+
+  guessHistory.forEach((guess, index) => {
+    const { updatedScoredSlots, events } = getScoreForTurn(
+      guess,
+      solution,
+      index + 1,
+      scoredGreenSlots
+    );
+    Object.assign(scoredGreenSlots, updatedScoredSlots);
+    lastEvents = events;
+  });
+
+  return [...lastEvents, ...getGameEndEvents(guessHistory, solution)];
 };
 
 /**
@@ -229,32 +288,9 @@ export const calculateScoreFromHistory = (
     Object.assign(scoredGreenSlots, updatedScoredSlots);
   });
 
-  const solvedByLang = Object.fromEntries(
-    langs.map((lang) => [
-      lang,
-      guessHistory.some((g) => normalizeWord(g) === normalizeWord(solution[lang]!)),
-    ])
-  ) as Record<Language, boolean>;
-  const allSolved = langs.every((lang) => solvedByLang[lang]);
-
-  if (allSolved) {
-    const findLastGuess = (word: string) =>
-      guessHistory.findIndex((g) => normalizeWord(g) === normalizeWord(word));
-    const finalGuessIndex = Math.max(...langs.map((lang) => findLastGuess(solution[lang]!)));
-    const totalGuessesTaken = finalGuessIndex + 1;
-    const points = GAME_SOLVED_BONUS * (MAX_GUESSES + 3 - totalGuessesTaken);
-    console.log(`[GAME] Bonus for winning the game: +${points}`);
-    totalScore += points;
-  } else if (guessHistory.length >= MAX_GUESSES) {
-    langs.forEach((lang) => {
-      if (!solvedByLang[lang]) {
-        console.log(
-          `[${lang.toUpperCase()}] Penalty for not solving word: -${UNSOLVED_GAME_PENALTY}`
-        );
-        totalScore += UNSOLVED_GAME_PENALTY;
-      }
-    });
-  }
+  getGameEndEvents(guessHistory, solution).forEach((event) => {
+    totalScore += event.points;
+  });
 
   return totalScore;
 };

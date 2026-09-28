@@ -12,12 +12,18 @@ import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
 import { gamePath, languagesFromGame } from '@/utils/languages';
-import { normalizeWord, validateGuess } from '@/utils/wordUtils';
+import {
+  getLatestTurnScoreEvents,
+  normalizeWord,
+  validateGuess,
+  type ScoreEvent,
+} from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
 import { PostGameModal } from '../PostGameModal/PostGameModal';
 import { Score } from '../Score/Score';
+import { ScorePopups } from '../ScorePopups/ScorePopups';
 
 // Define the props the component will receive
 interface GameProps {
@@ -43,6 +49,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const { setSidebarContent } = useSidebar();
   const { currentUser } = useAuth();
   const [rematchNotice, setRematchNotice] = useState<string | null>(null);
+  const [scoreBurst, setScoreBurst] = useState<{ id: number; events: ScoreEvent[] } | null>(null);
 
   // Rematch from Challenges inbox: copy share link once the new game exists
   useEffect(() => {
@@ -172,6 +179,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
           const newGuesses = [...guesses, guessString];
           setGuesses(newGuesses);
+          setScoreBurst({
+            id: newGuesses.length,
+            events: getLatestTurnScoreEvents(newGuesses, solution),
+          });
           setCurrentGuess(Array(5).fill(''));
           setCursorIndex(0);
           await updateGuessHistory(guessString);
@@ -338,12 +349,15 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />
         </Center>
       </Box>
-      <CurrentGuessRow
-        guess={currentGuess}
-        cursorIndex={cursorIndex}
-        onTileClick={handleTileClick}
-        isInvalid={isInvalidGuess}
-      />
+      <Box pos="relative">
+        {scoreBurst && <ScorePopups key={scoreBurst.id} events={scoreBurst.events} />}
+        <CurrentGuessRow
+          guess={currentGuess}
+          cursorIndex={cursorIndex}
+          onTileClick={handleTileClick}
+          isInvalid={isInvalidGuess}
+        />
+      </Box>
       <AlphabetStatus activeKey={activeKey} onKeyPress={handleKeyPress} />
     </Box>
   );
