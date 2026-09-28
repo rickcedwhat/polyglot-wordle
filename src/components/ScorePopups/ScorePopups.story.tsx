@@ -1,176 +1,247 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Badge, Box, Button, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Badge, Box, Button, Center, Group, Loader, Stack, Text } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
+import { useLetterStatus } from '@/hooks/useLetterStatus';
+import { useWordPools } from '@/hooks/useWordPools';
+import type { Language } from '@/types/firestore';
+import { flagFor } from '@/utils/languages';
 import {
   calculateScoreFromHistory,
   getLatestTurnScoreEvents,
+  normalizeWord,
+  validateGuess,
   type ScoreEvent,
 } from '@/utils/wordUtils';
+import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
+import { GameBoard } from '../Gameboard/Gameboard';
 import { ScorePopups } from './ScorePopups';
 
-const meta: Meta<typeof ScorePopups> = {
+const COMBOS = {
+  'en-es-fr': {
+    shuffled: ['fr', 'en', 'es'] as Language[],
+    words: { en: 'apple', es: 'queso', fr: 'fruit' },
+  },
+  'en-it-pt': {
+    shuffled: ['pt', 'en', 'it'] as Language[],
+    words: { en: 'apple', it: 'fiore', pt: 'livro' },
+  },
+  'es-fr-it': {
+    shuffled: ['it', 'es', 'fr'] as Language[],
+    words: { es: 'queso', fr: 'fruit', it: 'fiore' },
+  },
+} as const;
+
+type ComboKey = keyof typeof COMBOS;
+
+interface StoryArgs {
+  combo: ComboKey;
+  showSolution: boolean;
+  durationMs: number;
+}
+
+const meta: Meta<StoryArgs> = {
   title: 'Game/ScorePopups',
-  component: ScorePopups,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
   argTypes: {
-    events: { control: false },
+    combo: {
+      control: { type: 'select' },
+      options: Object.keys(COMBOS),
+      description: 'Language combo and its fixed solution words.',
+    },
+    showSolution: {
+      control: { type: 'boolean' },
+      description: 'Show the solution words above the boards.',
+    },
     durationMs: {
       control: { type: 'range', min: 600, max: 10000, step: 200 },
-      description: 'Animation length per popup (app default 1800ms).',
+      description: 'Popup animation length (app default 1800ms). Raise it to inspect styling.',
     },
   },
   args: {
+    combo: 'en-it-pt',
+    showSolution: true,
     durationMs: 1800,
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof ScorePopups>;
+type Story = StoryObj<StoryArgs>;
 
-const EMPTY_ROW = ['', '', '', '', ''];
+const EMPTY_GUESS = Array(5).fill('');
 
-const PopupStage = ({ events, durationMs }: { events: ScoreEvent[]; durationMs?: number }) => {
-  const [burst, setBurst] = useState(0);
-  return (
-    <Stack align="center" gap="md" pt={200} w={360}>
-      <Box pos="relative">
-        <ScorePopups key={`${burst}-${durationMs}`} events={events} durationMs={durationMs} />
-        <CurrentGuessRow guess={EMPTY_ROW} cursorIndex={0} onTileClick={() => {}} />
-      </Box>
-      <Button size="xs" variant="light" onClick={() => setBurst((b) => b + 1)}>
-        Replay
-      </Button>
-    </Stack>
+const PlayableGame = ({ combo, showSolution, durationMs }: StoryArgs) => {
+  const { shuffled, words } = COMBOS[combo];
+  const solution = words as Partial<Record<Language, string>>;
+  const difficulties = useMemo(
+    () => Object.fromEntries(shuffled.map((lang) => [lang, 'advanced' as const])),
+    [shuffled]
   );
-};
+  const { data: wordPools } = useWordPools(difficulties);
+  const { updateLetterStatuses } = useLetterStatus();
 
-const scenario = (events: ScoreEvent[]): Story => ({
-  render: ({ durationMs }) => <PopupStage events={events} durationMs={durationMs} />,
-});
+  const [guesses, setGuesses] = useState<string[]>([]);
+  const [currentGuess, setCurrentGuess] = useState<string[]>(EMPTY_GUESS);
+  const [cursorIndex, setCursorIndex] = useState(0);
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [activeKey, setActiveKey] = useState<string | null>(null);
+  const [burst, setBurst] = useState<{ id: number; events: ScoreEvent[] } | null>(null);
 
-export const SlowMotion = {
-  ...scenario([
-    { kind: 'green', points: 50, lang: 'en' },
-    { kind: 'yellow', points: 15, lang: 'it' },
-    { kind: 'wordSolved', points: 160, lang: 'it' },
-    { kind: 'gameSolved', points: 175 },
-  ]),
-  name: 'Slow Motion (inspect styling)',
-  args: { durationMs: 10000 },
-};
+  const solvedAll = shuffled.every((lang) =>
+    guesses.map(normalizeWord).includes(normalizeWord(solution[lang]!))
+  );
+  const isOver = solvedAll || guesses.length >= MAX_GUESSES;
 
-export const GreensAndYellows = {
-  ...scenario([
-    { kind: 'green', points: 50, lang: 'en' },
-    { kind: 'green', points: 50, lang: 'it' },
-    { kind: 'yellow', points: 5, lang: 'en' },
-    { kind: 'yellow', points: 10, lang: 'pt' },
-  ]),
-  name: 'Greens + Yellow Combo',
-};
+  useEffect(() => {
+    updateLetterStatuses({ guesses, solution, shuffledLanguages: shuffled });
+  }, [guesses, solution, shuffled, updateLetterStatuses]);
 
-export const YellowsOnly = {
-  ...scenario([
-    { kind: 'yellow', points: 5, lang: 'es' },
-    { kind: 'yellow', points: 10, lang: 'es' },
-    { kind: 'yellow', points: 15, lang: 'es' },
-  ]),
-  name: 'Yellow Combo Only',
-};
-
-export const WordSolved = {
-  ...scenario([
-    { kind: 'green', points: 40, lang: 'it' },
-    { kind: 'yellow', points: 5, lang: 'pt' },
-    { kind: 'wordSolved', points: 160, lang: 'it' },
-  ]),
-  name: 'Word Solved',
-};
-
-export const GameWon = {
-  ...scenario([
-    { kind: 'green', points: 35, lang: 'fr' },
-    { kind: 'wordSolved', points: 140, lang: 'fr' },
-    { kind: 'gameSolved', points: 175 },
-  ]),
-  name: 'Game Won',
-};
-
-export const GameLost = {
-  ...scenario([
-    { kind: 'green', points: 15, lang: 'en' },
-    { kind: 'penalty', points: -250, lang: 'es' },
-    { kind: 'penalty', points: -250, lang: 'pt' },
-  ]),
-  name: 'Game Lost (Penalties)',
-};
-
-const PLAYGROUND_SOLUTION = { en: 'apple', it: 'fiore', pt: 'livro' };
-
-const ScoringPlayground = () => {
-  const [history, setHistory] = useState<string[]>([]);
-  const [input, setInput] = useState('');
-  const events = getLatestTurnScoreEvents(history, PLAYGROUND_SOLUTION);
-  const isOver = history.length >= MAX_GUESSES;
-
-  const submit = () => {
-    const guess = input.toLowerCase().replace(/[^a-z]/g, '');
-    if (guess.length !== 5 || isOver) {
-      return;
-    }
-    setHistory((h) => [...h, guess]);
-    setInput('');
+  const reset = () => {
+    setGuesses([]);
+    setCurrentGuess(EMPTY_GUESS);
+    setCursorIndex(0);
+    setBurst(null);
   };
 
+  const handleKeyPress = useCallback(
+    (key: string) => {
+      if (isOver || !wordPools) {
+        return;
+      }
+      const lowerKey = key.toLowerCase();
+      setActiveKey(null);
+      setTimeout(() => setActiveKey(lowerKey), 10);
+
+      if (lowerKey === 'enter') {
+        const guess = currentGuess.join('');
+        if (guess.length !== 5) {
+          return;
+        }
+        const { isValid } = validateGuess({
+          guess,
+          masterPools: wordPools.master,
+          solution,
+          previousGuesses: guesses,
+        });
+        if (!isValid) {
+          setIsInvalid(true);
+          setTimeout(() => setIsInvalid(false), 500);
+          return;
+        }
+        const next = [...guesses, guess];
+        setGuesses(next);
+        setBurst({ id: next.length, events: getLatestTurnScoreEvents(next, solution) });
+        setCurrentGuess(EMPTY_GUESS);
+        setCursorIndex(0);
+      } else if (lowerKey === 'del' || lowerKey === 'backspace') {
+        const next = [...currentGuess];
+        if (next[cursorIndex]) {
+          next[cursorIndex] = '';
+          setCurrentGuess(next);
+        } else if (cursorIndex > 0) {
+          next[cursorIndex - 1] = '';
+          setCurrentGuess(next);
+          setCursorIndex(cursorIndex - 1);
+        }
+      } else if (/^[a-z]$/.test(lowerKey)) {
+        const next = [...currentGuess];
+        next[cursorIndex] = lowerKey;
+        setCurrentGuess(next);
+        setCursorIndex(Math.min(4, cursorIndex + 1));
+      }
+    },
+    [currentGuess, cursorIndex, guesses, isOver, solution, wordPools]
+  );
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        handleKeyPress('enter');
+      } else if (event.key === 'Backspace') {
+        handleKeyPress('del');
+      } else if (event.key === 'ArrowLeft') {
+        setCursorIndex((i) => Math.max(0, i - 1));
+      } else if (event.key === 'ArrowRight') {
+        setCursorIndex((i) => Math.min(4, i + 1));
+      } else if (event.key.length === 1 && /[a-z]/i.test(event.key)) {
+        handleKeyPress(event.key);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [handleKeyPress]);
+
+  if (!wordPools) {
+    return (
+      <Center h="80vh">
+        <Loader />
+      </Center>
+    );
+  }
+
   return (
-    <Stack align="center" gap="md" pt={200} w={380}>
-      <Box pos="relative">
-        {history.length > 0 && <ScorePopups key={history.length} events={events} />}
-        <CurrentGuessRow
-          guess={Array.from({ length: 5 }, (_, i) => input[i]?.toLowerCase() ?? '')}
-          cursorIndex={Math.min(4, input.length)}
-          onTileClick={() => {}}
-        />
+    <Stack gap="xs" p="md" mih="100vh" justify="space-between">
+      <Group justify="space-between" wrap="wrap">
+        <Group gap="xs">
+          {showSolution &&
+            shuffled.map((lang) => (
+              <Badge key={lang} variant="light" size="lg">
+                {flagFor(lang)} {solution[lang]}
+              </Badge>
+            ))}
+        </Group>
+        <Group gap="xs">
+          <Badge variant="outline" size="lg">
+            Score {calculateScoreFromHistory(guesses, solution)}
+          </Badge>
+          <Badge variant="outline" size="lg">
+            {guesses.length}/{MAX_GUESSES}
+          </Badge>
+          <Button size="xs" variant="light" onClick={reset}>
+            Reset
+          </Button>
+        </Group>
+      </Group>
+
+      <GameBoard
+        key={combo}
+        solution={solution}
+        guesses={guesses}
+        shuffledLanguages={shuffled}
+        wordPoolsOverride={wordPools}
+      />
+
+      <Box>
+        {isOver && (
+          <Text ta="center" fw={700} c={solvedAll ? 'green' : 'red'}>
+            {solvedAll ? 'All words solved!' : 'Out of guesses'} — hit Reset to play again
+          </Text>
+        )}
+        <Box pos="relative">
+          {burst && (
+            <ScorePopups
+              key={`${burst.id}-${durationMs}`}
+              events={burst.events}
+              durationMs={durationMs}
+            />
+          )}
+          <CurrentGuessRow
+            guess={currentGuess}
+            cursorIndex={cursorIndex}
+            onTileClick={setCursorIndex}
+            isInvalid={isInvalid}
+          />
+        </Box>
+        <AlphabetStatus activeKey={activeKey} onKeyPress={handleKeyPress} />
       </Box>
-      <Group gap="xs" align="flex-end">
-        <TextInput
-          label="Guess (any 5 letters)"
-          value={input}
-          maxLength={5}
-          onChange={(e) => setInput(e.currentTarget.value)}
-          onKeyDown={(e) => e.key === 'Enter' && submit()}
-          disabled={isOver}
-        />
-        <Button onClick={submit} disabled={isOver}>
-          Guess
-        </Button>
-        <Button variant="subtle" onClick={() => setHistory([])}>
-          Reset
-        </Button>
-      </Group>
-      <Text size="xs" c="dimmed" ta="center">
-        Solution:{' '}
-        {Object.entries(PLAYGROUND_SOLUTION)
-          .map(([lang, word]) => `${lang.toUpperCase()} ${word}`)
-          .join(' · ')}
-      </Text>
-      <Group gap="xs">
-        <Badge variant="light">
-          Guesses {history.length}/{MAX_GUESSES}
-        </Badge>
-        <Badge variant="light">
-          Score {calculateScoreFromHistory(history, PLAYGROUND_SOLUTION)}
-        </Badge>
-      </Group>
     </Stack>
   );
 };
 
-export const Playground: Story = {
-  name: 'Scoring Playground',
-  render: () => <ScoringPlayground />,
+export const Playable: Story = {
+  name: 'Playable Game',
+  render: (args) => <PlayableGame key={args.combo} {...args} />,
 };
