@@ -207,8 +207,15 @@ const CandidateFlags: FC<{
   candidateLanguages: Language[];
   flags: Record<Language, string>;
   placement: 'above' | 'beside';
-}> = ({ candidateLanguages, flags, placement }) => (
-  <Box className={placement === 'above' ? classes.flagsAbove : classes.flagsBeside}>
+  large?: boolean;
+}> = ({ candidateLanguages, flags, placement, large = false }) => (
+  <Box
+    className={
+      placement === 'above'
+        ? `${classes.flagsAbove} ${large ? classes.large : ''}`
+        : classes.flagsBeside
+    }
+  >
     {candidateLanguages.map((cand) => (
       <Text key={cand} size="md" className={classes.flagEmoji}>
         {flags[cand]}
@@ -296,7 +303,12 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
           <BoardScorePopup key={scoreBurst.id} events={scoreBurst.events} compact={isCompact} />
         )}
         {flagsAbove && (
-          <CandidateFlags candidateLanguages={candidateLanguages} flags={flags} placement="above" />
+          <CandidateFlags
+            candidateLanguages={candidateLanguages}
+            flags={flags}
+            placement="above"
+            large={isActive}
+          />
         )}
         <Stack gap="xs" style={{ width: '100%' }} mx="auto">
           {relevantGuesses.map((guess, rowIndex) => {
