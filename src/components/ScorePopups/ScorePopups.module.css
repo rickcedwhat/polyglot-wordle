@@ -1,0 +1,108 @@
+.container {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  width: max-content;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.boardContainer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.popup {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--mantine-radius-xl);
+  white-space: nowrap;
+  font-weight: 700;
+  box-shadow: var(--mantine-shadow-sm);
+  opacity: 0;
+  transform: translate(-50%, 0.5rem);
+  animation-name: float-up;
+  animation-duration: var(--score-popup-duration, 1800ms);
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+.points {
+  font-size: var(--mantine-font-size-md);
+}
+
+.label {
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 600;
+}
+
+.green {
+  background: var(--mantine-color-green-6);
+  color: var(--mantine-color-white);
+}
+
+.yellow {
+  background: var(--mantine-color-yellow-5);
+  color: var(--mantine-color-dark-8);
+}
+
+.solved {
+  background: var(--mantine-color-blue-6);
+  color: var(--mantine-color-white);
+}
+
+.penalty {
+  background: var(--mantine-color-red-7);
+  color: var(--mantine-color-white);
+}
+
+@keyframes float-up {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0.5rem) scale(0.9);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -2.5rem) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup {
+    animation-name: fade-in-out;
+  }
+
+  @keyframes fade-in-out {
+    0%,
+    100% {
+      opacity: 0;
+      transform: translate(-50%, 0);
+    }
+
+    15%,
+    75% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+}

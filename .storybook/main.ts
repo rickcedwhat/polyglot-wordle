@@ -7,6 +7,7 @@ const config: StorybookConfig = {
     enableCrashReports: false,
   },
   stories: ['../src/**/*.mdx', '../src/**/*.story.@(js|jsx|ts|tsx)'],
+  staticDirs: ['../public'],
   addons: [
     '@storybook/addon-essentials', // Bundles core features like Controls, Actions, and Docs
     '@storybook/addon-interactions', // For testing user interactions

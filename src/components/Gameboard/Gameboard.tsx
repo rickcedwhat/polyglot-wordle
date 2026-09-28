@@ -1,11 +1,12 @@
 import { FC, useState } from 'react';
 import cx from 'clsx';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Group } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useWordPools } from '@/hooks/useWordPools';
 import { Language } from '@/types/firestore';
 import { deduceColumnLanguages } from '@/utils/deductionUtils';
-import { Dictionary } from '@/utils/wordUtils';
+import type { Dictionary, ScoreEvent } from '@/utils/wordUtils';
 import LanguageBoard from '../LanguageBoard/LanguageBoard';
 import classes from './Gameboard.module.css';
 
@@ -23,6 +24,8 @@ interface GameBoardProps {
   initialActiveIndex?: number;
   /** Skip waiting on network — provide pools directly (Storybook / tests). */
   wordPoolsOverride?: GameBoardWordPools;
+  /** Score events from the latest guess, animated on the boards. */
+  scoreBurst?: { id: number; events: ScoreEvent[] } | null;
 }
 
 export const GameBoard: FC<GameBoardProps> = ({
@@ -32,8 +35,12 @@ export const GameBoard: FC<GameBoardProps> = ({
   hideFlags = false,
   initialActiveIndex = 1,
   wordPoolsOverride,
+  scoreBurst,
 }) => {
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
+  /** On narrow screens only the active board is full size; the others shrink to mini boards. */
+  const isNarrow = useMediaQuery('(max-width: 48em)') ?? false;
+  const prefersReducedMotion = useReducedMotion();
   const boardDifficulties = Object.fromEntries(
     shuffledLanguages.map((lang) => [lang, 'advanced' as const])
   );
@@ -48,7 +55,7 @@ export const GameBoard: FC<GameBoardProps> = ({
 
   return (
     <Group
-      className={classes.boardContainer}
+      className={cx(classes.boardContainer, { [classes.narrow]: isNarrow })}
       wrap="nowrap"
       gap="md"
       justify="space-evenly"
@@ -62,8 +69,11 @@ export const GameBoard: FC<GameBoardProps> = ({
         return (
           <motion.div
             key={lang}
+            layout={isNarrow && !prefersReducedMotion}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             className={cx(classes.boardWrapper, { [classes.active]: isActive })}
             onClick={() => setActiveIndex(index)}
+            onLayoutAnimationComplete={() => window.dispatchEvent(new Event('resize'))}
           >
             <LanguageBoard
               language={lang}
@@ -75,7 +85,14 @@ export const GameBoard: FC<GameBoardProps> = ({
               isConfirmed={isConfirmed}
               hideFlags={hideFlags}
               isActive={isActive}
+              flagsOnTop={isNarrow}
               onActivate={() => setActiveIndex(index)}
+              scoreBurst={
+                scoreBurst && {
+                  id: scoreBurst.id,
+                  events: scoreBurst.events.filter((e) => e.lang === lang),
+                }
+              }
             />
           </motion.div>
         );

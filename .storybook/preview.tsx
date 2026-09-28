@@ -24,8 +24,24 @@ function StoryQueryClientProvider({ children }: { children: React.ReactNode }) {
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
 
+const viewport = (name: string, width: number, height: number, type: string) => ({
+  name,
+  styles: { width: `${width}px`, height: `${height}px` },
+  type,
+});
+
 export const parameters = {
   layout: 'fullscreen',
+  viewport: {
+    viewports: {
+      phone: viewport('Phone 375×667', 375, 667, 'mobile'),
+      phoneLarge: viewport('Large phone 430×932', 430, 932, 'mobile'),
+      tablet: viewport('Tablet 768×1024', 768, 1024, 'tablet'),
+      laptop: viewport('Laptop 1280×800', 1280, 800, 'desktop'),
+      desktop: viewport('Desktop 1440×900', 1440, 900, 'desktop'),
+      tv1080: viewport('TV 1080p 1920×1080', 1920, 1080, 'desktop'),
+    },
+  },
   options: {
     showPanel: false,
     storySort: (a, b) => {
@@ -34,7 +50,13 @@ export const parameters = {
   },
 };
 
-function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
+function ColorSchemeWrapper({
+  children,
+  fullBleed = false,
+}: {
+  children: React.ReactNode;
+  fullBleed?: boolean;
+}) {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const handleColorScheme = (value: boolean) => setColorScheme(value ? 'dark' : 'light');
 
@@ -47,7 +69,7 @@ function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
     <Box
       style={{
         minHeight: '100%',
-        padding: '16px',
+        padding: fullBleed ? 0 : '16px',
         background:
           colorScheme === 'light'
             ? 'radial-gradient(circle, #f8f9fa 0%, #e9ecef 100%)'
@@ -61,10 +83,12 @@ function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export const decorators = [
-  (renderStory: any, context: { id: string }) => (
+  (renderStory: any, context: { id: string; parameters: { fullBleed?: boolean } }) => (
     <StoryQueryClientProvider key={context.id}>
       <MantineProvider theme={theme} defaultColorScheme="dark">
-        <ColorSchemeWrapper>{renderStory()}</ColorSchemeWrapper>
+        <ColorSchemeWrapper fullBleed={context.parameters.fullBleed}>
+          {renderStory()}
+        </ColorSchemeWrapper>
       </MantineProvider>
     </StoryQueryClientProvider>
   ),
