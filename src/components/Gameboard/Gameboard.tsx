@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import cx from 'clsx';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useWordPools } from '@/hooks/useWordPools';
@@ -40,6 +40,7 @@ export const GameBoard: FC<GameBoardProps> = ({
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
   /** On narrow screens only the active board is full size; the others shrink to mini boards. */
   const isNarrow = useMediaQuery('(max-width: 48em)') ?? false;
+  const prefersReducedMotion = useReducedMotion();
   const boardDifficulties = Object.fromEntries(
     shuffledLanguages.map((lang) => [lang, 'advanced' as const])
   );
@@ -68,7 +69,7 @@ export const GameBoard: FC<GameBoardProps> = ({
         return (
           <motion.div
             key={lang}
-            layout={isNarrow}
+            layout={isNarrow && !prefersReducedMotion}
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             className={cx(classes.boardWrapper, { [classes.active]: isActive })}
             onClick={() => setActiveIndex(index)}
