@@ -31,7 +31,7 @@
   box-shadow: var(--mantine-shadow-sm);
   opacity: 0;
   transform: translate(-50%, 0.5rem);
-  animation-name: floatUp;
+  animation-name: float-up;
   animation-duration: var(--score-popup-duration, 1800ms);
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
@@ -66,18 +66,21 @@
   color: var(--mantine-color-white);
 }
 
-@keyframes floatUp {
+@keyframes float-up {
   0% {
     opacity: 0;
     transform: translate(-50%, 0.5rem) scale(0.9);
   }
+
   15% {
     opacity: 1;
     transform: translate(-50%, 0) scale(1);
   }
+
   75% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: translate(-50%, -2.5rem) scale(1);
@@ -86,15 +89,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .popup {
-    animation-name: fadeInOut;
+    animation-name: fade-in-out;
   }
 
-  @keyframes fadeInOut {
+  @keyframes fade-in-out {
     0%,
     100% {
       opacity: 0;
       transform: translate(-50%, 0);
     }
+
     15%,
     75% {
       opacity: 1;

@@ -54,7 +54,7 @@
 
 .scored {
   position: relative;
-  animation: scoredPulse var(--score-tile-duration, 1100ms) ease-out both;
+  animation: scored-pulse var(--score-tile-duration, 1100ms) ease-out both;
 }
 
 .pointsLayer,
@@ -73,32 +73,35 @@
   font-size: clamp(0.5rem, 34cqi, 1.25rem);
   font-weight: 800;
   letter-spacing: -0.02em;
-  animation-name: pointsOut;
+  animation-name: points-out;
 }
 
 .letterLayer {
-  animation-name: letterIn;
+  animation-name: letter-in;
 }
 
-@keyframes scoredPulse {
+@keyframes scored-pulse {
   0% {
     transform: scale(1);
   }
+
   12% {
     transform: scale(1.12);
   }
+
   24%,
   100% {
     transform: scale(1);
   }
 }
 
-@keyframes pointsOut {
+@keyframes points-out {
   0%,
   62% {
     opacity: 1;
     transform: rotateX(0deg);
   }
+
   75%,
   100% {
     opacity: 0;
@@ -106,12 +109,13 @@
   }
 }
 
-@keyframes letterIn {
+@keyframes letter-in {
   0%,
   72% {
     opacity: 0;
     transform: rotateX(-90deg);
   }
+
   88%,
   100% {
     opacity: 1;
@@ -125,29 +129,31 @@
   }
 
   .pointsLayer {
-    animation-name: pointsFade;
+    animation-name: points-fade;
   }
 
   .letterLayer {
-    animation-name: letterFade;
+    animation-name: letter-fade;
   }
 
-  @keyframes pointsFade {
+  @keyframes points-fade {
     0%,
     62% {
       opacity: 1;
     }
+
     75%,
     100% {
       opacity: 0;
     }
   }
 
-  @keyframes letterFade {
+  @keyframes letter-fade {
     0%,
     72% {
       opacity: 0;
     }
+
     88%,
     100% {
       opacity: 1;
