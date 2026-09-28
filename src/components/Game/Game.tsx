@@ -12,17 +12,14 @@ import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
 import { gamePath, languagesFromGame } from '@/utils/languages';
-import {
-  getLatestTurnScoreEvents,
-  normalizeWord,
-  validateGuess,
-  type ScoreEvent,
-} from '@/utils/wordUtils';
+import { getLatestTurnScoreEvents, normalizeWord, validateGuess } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
 import { PostGameModal } from '../PostGameModal/PostGameModal';
 import { Score } from '../Score/Score';
+import { GAME_ORIGIN, SCORE_ORIGIN_ATTR, useScoreBurst } from '../ScoreFlights/flightUtils';
+import { ScoreFlights } from '../ScoreFlights/ScoreFlights';
 import { ScorePopups } from '../ScorePopups/ScorePopups';
 
 // Define the props the component will receive
@@ -36,7 +33,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   // 1. Get the core game state and solution from the session prop
   const { words: solution, difficulties, guessHistory, shuffledLanguages } = gameSession;
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
-  const { recalculateScore } = useScore();
+  const { recalculateScore, flightsInProgress, holdPoints } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
   const { recordGuess } = useVocabulary();
   const [activeKey, setActiveKey] = useState<string | null>(null);
@@ -49,7 +46,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const { setSidebarContent } = useSidebar();
   const { currentUser } = useAuth();
   const [rematchNotice, setRematchNotice] = useState<string | null>(null);
-  const [scoreBurst, setScoreBurst] = useState<{ id: number; events: ScoreEvent[] } | null>(null);
+  const { burst: scoreBurst, fireBurst } = useScoreBurst();
+
+  // Drop any held flight points if we leave mid-flight.
+  useEffect(() => () => holdPoints(0, {}), [holdPoints]);
 
   // Rematch from Challenges inbox: copy share link once the new game exists
   useEffect(() => {
@@ -129,11 +129,15 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     setCursorIndex(Math.max(0, Math.min(4, index)));
   };
 
+  // Let the final guess's score flights land before showing the results.
+  const waitForFlights = Boolean(scoreBurst?.fly);
   useEffect(() => {
-    if (gameStatus !== 'playing') {
-      openGameOver();
+    if (gameStatus === 'playing' || flightsInProgress) {
+      return undefined;
     }
-  }, [gameStatus, openGameOver]);
+    const timer = window.setTimeout(openGameOver, waitForFlights ? 600 : 0);
+    return () => window.clearTimeout(timer);
+  }, [gameStatus, flightsInProgress, waitForFlights, openGameOver]);
 
   const handleKeyPress = useCallback(
     async (key: string) => {
@@ -179,16 +183,13 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
           const newGuesses = [...guesses, guessString];
           setGuesses(newGuesses);
-          setScoreBurst({
-            id: newGuesses.length,
-            events: getLatestTurnScoreEvents(newGuesses, solution),
-          });
+          // Score and held flight points must update together so the counter doesn't dip.
+          const finalScore = recalculateScore(newGuesses, solution);
+          fireBurst(newGuesses.length, getLatestTurnScoreEvents(newGuesses, solution));
           setCurrentGuess(Array(5).fill(''));
           setCursorIndex(0);
           await updateGuessHistory(guessString);
           updateLetterStatuses({ guesses: newGuesses, solution, shuffledLanguages });
-
-          const finalScore = recalculateScore(newGuesses, solution);
 
           const normGuesses = newGuesses.map(normalizeWord);
           const allSolutionsFound = shuffledLanguages.every((lang) =>
@@ -234,6 +235,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       cursorIndex,
       challengerGame,
       endGame,
+      fireBurst,
       gameStatus,
       guessHistory,
       guesses,
@@ -354,8 +356,9 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           />
         </Center>
       </Box>
-      <Box pos="relative">
+      <Box pos="relative" {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
         {scoreBurst && <ScorePopups key={scoreBurst.id} events={scoreBurst.events} />}
+        {scoreBurst && <ScoreFlights key={scoreBurst.id} burst={scoreBurst} />}
         <CurrentGuessRow
           guess={currentGuess}
           cursorIndex={cursorIndex}

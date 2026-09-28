@@ -1,0 +1,43 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 400;
+}
+
+.flight {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.pill {
+  display: inline-block;
+  transform: translate(-50%, -50%);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--mantine-radius-xl);
+  white-space: nowrap;
+  font-size: var(--mantine-font-size-md);
+  font-weight: 800;
+  box-shadow: var(--mantine-shadow-md);
+}
+
+.green {
+  background: var(--mantine-color-green-6);
+  color: var(--mantine-color-white);
+}
+
+.yellow {
+  background: var(--mantine-color-yellow-5);
+  color: var(--mantine-color-dark-8);
+}
+
+.solved {
+  background: var(--mantine-color-blue-6);
+  color: var(--mantine-color-white);
+}
+
+.penalty {
+  background: var(--mantine-color-red-7);
+  color: var(--mantine-color-white);
+}

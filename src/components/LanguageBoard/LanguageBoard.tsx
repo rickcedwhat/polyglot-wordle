@@ -17,9 +17,10 @@ import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { Language } from '@/types/firestore';
-import { Dictionary, getGuessStatuses, normalizeWord, type ScoreEvent } from '@/utils/wordUtils';
+import { Dictionary, getGuessStatuses, normalizeWord } from '@/utils/wordUtils';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 import { LetterTile } from '../LetterTile/LetterTile';
+import { SCORE_ORIGIN_ATTR, type ScoreBurst } from '../ScoreFlights/flightUtils';
 import { BoardScorePopup, TILE_STAGGER_MS } from '../ScorePopups/ScorePopups';
 import classes from './LanguageBoard.module.css';
 
@@ -40,7 +41,7 @@ interface LanguageBoardProps {
   flagsOnTop?: boolean;
   onActivate?: () => void;
   /** This board's score events from the latest guess. */
-  scoreBurst?: { id: number; events: ScoreEvent[] } | null;
+  scoreBurst?: ScoreBurst | null;
 }
 
 // 1. We create a dedicated component for a single, submitted guess row.
@@ -299,7 +300,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
         pos="relative"
         style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
       >
-        {scoreBurst && (
+        {scoreBurst && !(isCompact && scoreBurst.fly) && (
           <BoardScorePopup key={scoreBurst.id} events={scoreBurst.events} compact={isCompact} />
         )}
         {flagsAbove && (
@@ -314,6 +315,8 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
           {relevantGuesses.map((guess, rowIndex) => {
             const { displayGuess, languageMatch } = resolveDisplayGuess(guess);
             const showFlagHere = showSideFlags && rowIndex === targetRowIndex;
+            const originProps =
+              rowIndex === latestRowIndex ? { [SCORE_ORIGIN_ATTR]: language } : undefined;
             const row = (
               <SubmittedRow
                 guess={displayGuess}
@@ -327,12 +330,18 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
             );
 
             if (!showSideFlags) {
-              return <Box key={rowIndex}>{row}</Box>;
+              return (
+                <Box key={rowIndex} {...originProps}>
+                  {row}
+                </Box>
+              );
             }
 
             return (
               <Group key={rowIndex} gap={4} wrap="nowrap" align="center" style={{ width: '100%' }}>
-                <Box style={{ flex: 1, minWidth: 0 }}>{row}</Box>
+                <Box style={{ flex: 1, minWidth: 0 }} {...originProps}>
+                  {row}
+                </Box>
                 <Box className={classes.flagGutter}>
                   {showFlagHere && (
                     <CandidateFlags

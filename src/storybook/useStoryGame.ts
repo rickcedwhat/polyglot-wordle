@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useScoreBurst } from '@/components/ScoreFlights/flightUtils';
 import { MAX_GUESSES } from '@/config';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useWordPools } from '@/hooks/useWordPools';
@@ -7,16 +8,10 @@ import {
   getLatestTurnScoreEvents,
   normalizeWord,
   validateGuess,
-  type ScoreEvent,
 } from '@/utils/wordUtils';
 import type { StoryGameFixture } from './fixtures';
 
 const EMPTY_GUESS = ['', '', '', '', ''];
-
-export interface ScoreBurst {
-  id: number;
-  events: ScoreEvent[];
-}
 
 /**
  * Local, Firebase-free game state for stories: a saved guess timeline you can step through,
@@ -44,7 +39,7 @@ export function useStoryGame(
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isInvalid, setIsInvalid] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
-  const [burst, setBurst] = useState<ScoreBurst | null>(null);
+  const { burst, fireBurst, clearBurst } = useScoreBurst();
   const burstCounter = useRef(0);
 
   const guesses = useMemo(() => timeline.slice(0, step), [timeline, step]);
@@ -65,17 +60,14 @@ export function useStoryGame(
     }
     if (step === prevStep.current + 1) {
       burstCounter.current += 1;
-      setBurst({
-        id: burstCounter.current,
-        events: getLatestTurnScoreEvents(timeline.slice(0, step), solution),
-      });
+      fireBurst(burstCounter.current, getLatestTurnScoreEvents(timeline.slice(0, step), solution));
     } else {
-      setBurst(null);
+      clearBurst();
     }
     prevStep.current = step;
     setCurrentGuess(EMPTY_GUESS);
     setCursorIndex(0);
-  }, [step, timeline, solution]);
+  }, [step, timeline, solution, fireBurst, clearBurst]);
 
   // Keep the external control in range (e.g. slider dragged past the last saved guess).
   useEffect(() => {
