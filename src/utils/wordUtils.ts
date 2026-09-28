@@ -156,6 +156,8 @@ export interface ScoreEvent {
   kind: ScoreEventKind;
   points: number;
   lang?: Language;
+  /** Letter position (0–4) for green/yellow events. */
+  index?: number;
 }
 
 export const getScoreForTurn = (
@@ -188,13 +190,13 @@ export const getScoreForTurn = (
       if (status === 'correct' && !updatedScoredSlots[lang]![letterIndex]) {
         const points = GREEN_LETTER_BONUS * (MAX_GUESSES + 3 - guessNumber);
         turnScore += points;
-        events.push({ kind: 'green', points, lang });
+        events.push({ kind: 'green', points, lang, index: letterIndex });
         updatedScoredSlots[lang]![letterIndex] = true;
       }
       if (status === 'present') {
         const points = YELLOW_LETTER_BONUS * yellowComboCounter;
         turnScore += points;
-        events.push({ kind: 'yellow', points, lang });
+        events.push({ kind: 'yellow', points, lang, index: letterIndex });
         yellowComboCounter += 1;
       }
     });

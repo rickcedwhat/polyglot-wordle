@@ -8,6 +8,16 @@
   z-index: 5;
 }
 
+.boardContainer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
 .popup {
   position: absolute;
   left: 50%;
@@ -22,6 +32,7 @@
   opacity: 0;
   transform: translate(-50%, 0.5rem);
   animation-name: floatUp;
+  animation-duration: var(--score-popup-duration, 1800ms);
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
 }

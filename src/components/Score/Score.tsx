@@ -3,13 +3,15 @@ import { IconTrophy } from '@tabler/icons-react';
 import { Divider, Group, Paper, Stack, Text } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';
+import { useCountUp } from '@/hooks/useCountUp';
 
 interface ScoreProps {
   orientation?: 'vertical' | 'horizontal';
 }
 
 export const Score: FC<ScoreProps> = ({ orientation = 'vertical' }) => {
-  const { score, numberOfGuesses } = useScore();
+  const { score: targetScore, numberOfGuesses } = useScore();
+  const score = useCountUp(targetScore);
 
   // HORIZONTAL LAYOUT (for the header)
   if (orientation === 'horizontal') {

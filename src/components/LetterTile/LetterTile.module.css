@@ -52,6 +52,109 @@
   border-color: #f90d0d;
 }
 
+.scored {
+  position: relative;
+  animation: scoredPulse var(--score-tile-duration, 1100ms) ease-out both;
+}
+
+.pointsLayer,
+.letterLayer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation-duration: var(--score-tile-duration, 1100ms);
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.pointsLayer {
+  font-size: clamp(0.5rem, 34cqi, 1.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  animation-name: pointsOut;
+}
+
+.letterLayer {
+  animation-name: letterIn;
+}
+
+@keyframes scoredPulse {
+  0% {
+    transform: scale(1);
+  }
+  12% {
+    transform: scale(1.12);
+  }
+  24%,
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pointsOut {
+  0%,
+  62% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+  75%,
+  100% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+}
+
+@keyframes letterIn {
+  0%,
+  72% {
+    opacity: 0;
+    transform: rotateX(-90deg);
+  }
+  88%,
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scored {
+    animation: none;
+  }
+
+  .pointsLayer {
+    animation-name: pointsFade;
+  }
+
+  .letterLayer {
+    animation-name: letterFade;
+  }
+
+  @keyframes pointsFade {
+    0%,
+    62% {
+      opacity: 1;
+    }
+    75%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes letterFade {
+    0%,
+    72% {
+      opacity: 0;
+    }
+    88%,
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
 .clickable {
   cursor: pointer;
 }

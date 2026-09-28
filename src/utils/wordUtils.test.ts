@@ -125,6 +125,21 @@ describe('getLatestTurnScoreEvents', () => {
     });
   });
 
+  it('records the letter position of green and yellow events', () => {
+    const enEvents = (guess: string) =>
+      wordUtils.getLatestTurnScoreEvents([guess], mockSolution).filter((e) => e.lang === 'en');
+    expect(
+      enEvents('apply')
+        .filter((e) => e.kind === 'green')
+        .map((e) => e.index)
+    ).toEqual([0, 1, 2, 3]);
+    expect(
+      enEvents('plead')
+        .filter((e) => e.kind === 'yellow')
+        .map((e) => e.index)
+    ).toEqual([0, 1, 2, 3]);
+  });
+
   it('tags word-solved and game-solved events', () => {
     const events = wordUtils.getLatestTurnScoreEvents(['apple', 'queso', 'fruit'], mockSolution);
     expect(events).toContainEqual(expect.objectContaining({ kind: 'wordSolved', lang: 'fr' }));

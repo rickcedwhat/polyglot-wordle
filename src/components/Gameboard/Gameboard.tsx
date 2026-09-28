@@ -5,7 +5,7 @@ import { Group } from '@mantine/core';
 import { useWordPools } from '@/hooks/useWordPools';
 import { Language } from '@/types/firestore';
 import { deduceColumnLanguages } from '@/utils/deductionUtils';
-import { Dictionary } from '@/utils/wordUtils';
+import type { Dictionary, ScoreEvent } from '@/utils/wordUtils';
 import LanguageBoard from '../LanguageBoard/LanguageBoard';
 import classes from './Gameboard.module.css';
 
@@ -23,6 +23,8 @@ interface GameBoardProps {
   initialActiveIndex?: number;
   /** Skip waiting on network — provide pools directly (Storybook / tests). */
   wordPoolsOverride?: GameBoardWordPools;
+  /** Score events from the latest guess, animated on the boards. */
+  scoreBurst?: { id: number; events: ScoreEvent[] } | null;
 }
 
 export const GameBoard: FC<GameBoardProps> = ({
@@ -32,6 +34,7 @@ export const GameBoard: FC<GameBoardProps> = ({
   hideFlags = false,
   initialActiveIndex = 1,
   wordPoolsOverride,
+  scoreBurst,
 }) => {
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
   const boardDifficulties = Object.fromEntries(
@@ -76,6 +79,12 @@ export const GameBoard: FC<GameBoardProps> = ({
               hideFlags={hideFlags}
               isActive={isActive}
               onActivate={() => setActiveIndex(index)}
+              scoreBurst={
+                scoreBurst && {
+                  id: scoreBurst.id,
+                  events: scoreBurst.events.filter((e) => e.lang === lang),
+                }
+              }
             />
           </motion.div>
         );

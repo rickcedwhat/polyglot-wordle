@@ -24,8 +24,24 @@ function StoryQueryClientProvider({ children }: { children: React.ReactNode }) {
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
 
+const viewport = (name: string, width: number, height: number, type: string) => ({
+  name,
+  styles: { width: `${width}px`, height: `${height}px` },
+  type,
+});
+
 export const parameters = {
   layout: 'fullscreen',
+  viewport: {
+    viewports: {
+      phone: viewport('Phone 375×667', 375, 667, 'mobile'),
+      phoneLarge: viewport('Large phone 430×932', 430, 932, 'mobile'),
+      tablet: viewport('Tablet 768×1024', 768, 1024, 'tablet'),
+      laptop: viewport('Laptop 1280×800', 1280, 800, 'desktop'),
+      desktop: viewport('Desktop 1440×900', 1440, 900, 'desktop'),
+      tv1080: viewport('TV 1080p 1920×1080', 1920, 1080, 'desktop'),
+    },
+  },
   options: {
     showPanel: false,
     storySort: (a, b) => {

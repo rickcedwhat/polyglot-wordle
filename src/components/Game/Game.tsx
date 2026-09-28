@@ -346,7 +346,12 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           </Notification>
         )}
         <Center style={{ overflow: 'visible', width: '100%' }}>
-          <GameBoard solution={solution} guesses={guesses} shuffledLanguages={shuffledLanguages} />
+          <GameBoard
+            solution={solution}
+            guesses={guesses}
+            shuffledLanguages={shuffledLanguages}
+            scoreBurst={scoreBurst}
+          />
         </Center>
       </Box>
       <Box pos="relative">

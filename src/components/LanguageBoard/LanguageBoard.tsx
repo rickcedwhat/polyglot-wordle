@@ -11,15 +11,20 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
 import { MAX_GUESSES } from '@/config';
 import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { Language } from '@/types/firestore';
-import { Dictionary, getGuessStatuses, normalizeWord } from '@/utils/wordUtils';
+import { Dictionary, getGuessStatuses, normalizeWord, type ScoreEvent } from '@/utils/wordUtils';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 import { LetterTile } from '../LetterTile/LetterTile';
+import { BoardScorePopup, TILE_STAGGER_MS } from '../ScorePopups/ScorePopups';
 import classes from './LanguageBoard.module.css';
+
+/** Below this width tiles are too small to show points inside them. */
+const COMPACT_BOARD_WIDTH = 180;
 
 interface LanguageBoardProps {
   language: Language;
@@ -34,6 +39,8 @@ interface LanguageBoardProps {
   /** When true, candidate flags render above the grid (compact/mini layout only). */
   isMini?: boolean;
   onActivate?: () => void;
+  /** This board's score events from the latest guess. */
+  scoreBurst?: { id: number; events: ScoreEvent[] } | null;
 }
 
 // 1. We create a dedicated component for a single, submitted guess row.
@@ -44,7 +51,16 @@ const SubmittedRow: FC<{
   languageMatch: boolean;
   isActive?: boolean;
   onActivate?: () => void;
-}> = ({ guess, language, solutionWord, languageMatch, isActive = true, onActivate }) => {
+  tilePoints?: (number | undefined)[];
+}> = ({
+  guess,
+  language,
+  solutionWord,
+  languageMatch,
+  isActive = true,
+  onActivate,
+  tilePoints,
+}) => {
   const [opened, setOpened] = useState(false);
   const statuses = getGuessStatuses(guess, solutionWord);
 
@@ -128,7 +144,12 @@ const SubmittedRow: FC<{
           <Group gap="xs" wrap="nowrap" grow w="100%">
             {guess.split('').map((letter, colIndex) => (
               <Box key={colIndex} style={{ flex: 1 }} className={classes.tileWrapper}>
-                <LetterTile letter={letter.toUpperCase()} status={statuses[colIndex]} />
+                <LetterTile
+                  letter={letter.toUpperCase()}
+                  status={statuses[colIndex]}
+                  points={tilePoints?.[colIndex]}
+                  revealDelayMs={colIndex * TILE_STAGGER_MS}
+                />
               </Box>
             ))}
           </Group>
@@ -210,8 +231,18 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     isActive = true,
     isMini = false,
     onActivate,
+    scoreBurst,
   }) => {
     const { flags } = useLanguageFlags();
+    const { ref: boardRef, width: boardWidth } = useElementSize();
+    const isCompact = boardWidth > 0 && boardWidth < COMPACT_BOARD_WIDTH;
+    const latestRowIndex = submittedGuesses.length - 1;
+    const latestTilePoints =
+      scoreBurst && !isCompact
+        ? Array.from({ length: 5 }, (_, i) =>
+            scoreBurst.events.filter((e) => e.index === i).reduce((total, e) => total + e.points, 0)
+          ).map((points) => points || undefined)
+        : undefined;
 
     const normalizedSolution = normalizeWord(solutionWord);
     let lastRelevantGuessIndex = submittedGuesses.indexOf(normalizedSolution);
@@ -256,10 +287,15 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
 
     return (
       <Box
+        ref={boardRef}
         h="100%"
         w="100%"
+        pos="relative"
         style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
       >
+        {scoreBurst && (
+          <BoardScorePopup key={scoreBurst.id} events={scoreBurst.events} compact={isCompact} />
+        )}
         {flagsAbove && (
           <CandidateFlags candidateLanguages={candidateLanguages} flags={flags} placement="above" />
         )}
@@ -275,6 +311,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
                 languageMatch={languageMatch}
                 isActive={isActive}
                 onActivate={onActivate}
+                tilePoints={rowIndex === latestRowIndex ? latestTilePoints : undefined}
               />
             );
 
