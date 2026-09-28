@@ -5,13 +5,14 @@ import {
   ChevronRightIcon,
   PlayBackIcon,
   PlayIcon,
-  PlayNextIcon,
   StopAltIcon,
+  UndoIcon,
 } from '@storybook/icons';
 import { useArgs, useChannel, useStorybookState } from '@storybook/manager-api';
 import { useTheme } from '@storybook/theming';
 import {
   REPLAY_REQUEST_EVENT,
+  REPLAY_RESET_EVENT,
   REPLAY_SPEEDS,
   REPLAY_STATE_EVENT,
   type ReplayState,
@@ -41,32 +42,55 @@ const ReplayControls = () => {
     updateArgs({ step: Math.max(0, Math.min(total, next)), autoplay: false });
 
   const accent = theme.color.secondary;
-  const chip = (active: boolean, played: boolean, solved: boolean): React.CSSProperties => ({
-    padding: '4px 10px',
+
+  const pill = (active: boolean): React.CSSProperties => ({
+    padding: '2px 10px',
     borderRadius: 999,
     border: `1px solid ${active ? accent : theme.appBorderColor}`,
     background: active ? accent : 'transparent',
     color: active ? theme.color.inverseText : theme.color.defaultText,
-    opacity: played || active ? 1 : 0.45,
-    fontFamily: theme.typography.fonts.mono,
     fontSize: 12,
-    fontWeight: solved ? 700 : 500,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
     cursor: 'pointer',
   });
 
+  const row = (active: boolean, played: boolean): React.CSSProperties => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    width: '100%',
+    padding: '6px 10px',
+    borderRadius: 6,
+    border: `1px solid ${active ? accent : 'transparent'}`,
+    background: active ? accent : 'transparent',
+    color: active ? theme.color.inverseText : theme.color.defaultText,
+    opacity: played || active ? 1 : 0.45,
+    fontFamily: theme.typography.fonts.mono,
+    fontSize: 13,
+    letterSpacing: 1,
+    textAlign: 'left',
+    cursor: 'pointer',
+  });
+
+  const rows = [
+    { at: 0, label: 'Start', solved: false },
+    ...timeline.map((word, index) => ({
+      at: index + 1,
+      label: word.toUpperCase(),
+      solved: solvedSteps.includes(index + 1),
+    })),
+  ];
+
   return (
-    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-        <IconButton title="Back to start" onClick={() => goTo(0)} disabled={step === 0}>
+    <div style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <IconButton title="Start" onClick={() => goTo(0)} disabled={step === 0}>
           <PlayBackIcon />
         </IconButton>
         <IconButton title="Previous guess" onClick={() => goTo(step - 1)} disabled={step === 0}>
           <ChevronLeftIcon />
         </IconButton>
         <IconButton
-          title={playing ? 'Stop' : 'Play from here'}
+          title={playing ? 'Stop' : 'Play'}
           active={playing}
           onClick={() =>
             playing
@@ -84,23 +108,27 @@ const ReplayControls = () => {
         >
           <ChevronRightIcon />
         </IconButton>
-        <IconButton title="Jump to end" onClick={() => goTo(total)} disabled={step >= total}>
-          <PlayNextIcon />
+        <IconButton
+          title="Reset: restore the saved guesses and go back to the start"
+          onClick={() => emit(REPLAY_RESET_EVENT)}
+        >
+          <UndoIcon />
         </IconButton>
+      </div>
 
-        <span style={{ marginLeft: 8, fontWeight: 700 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+        <span style={{ fontWeight: 700 }}>
           Guess {step} of {total}
         </span>
         <span style={{ opacity: 0.6 }}>· score {state.score}</span>
-
-        <span style={{ marginLeft: 'auto', display: 'flex', gap: 4, alignItems: 'center' }}>
-          <span style={{ opacity: 0.6, marginRight: 4 }}>Speed</span>
+        <span style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
           {REPLAY_SPEEDS.map((value) => (
             <button
               key={value}
               type="button"
+              title={`Play speed ${value}×`}
               onClick={() => updateArgs({ speed: value })}
-              style={chip(speed === value, true, false)}
+              style={pill(speed === value)}
             >
               {value}×
             </button>
@@ -108,41 +136,22 @@ const ReplayControls = () => {
         </span>
       </div>
 
-      <input
-        type="range"
-        min={0}
-        max={total}
-        step={1}
-        value={step}
-        onChange={(event) => goTo(Number(event.target.value))}
-        style={{ width: '100%', accentColor: accent }}
-        aria-label="Replay step"
-      />
-
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-        <button type="button" style={chip(step === 0, true, false)} onClick={() => goTo(0)}>
-          Start
-        </button>
-        {timeline.map((word, index) => {
-          const at = index + 1;
-          return (
-            <button
-              key={`${word}-${at}`}
-              type="button"
-              title={at === step + 1 ? 'Play this guess' : `Jump to guess ${at}`}
-              style={chip(step === at, at <= step, solvedSteps.includes(at))}
-              onClick={() => goTo(at)}
-            >
-              {at}. {word}
-              {solvedSteps.includes(at) ? ' ✓' : ''}
-            </button>
-          );
-        })}
-      </div>
-
-      <div style={{ opacity: 0.6, fontSize: 12 }}>
-        Stepping forward one guess plays its animations; bigger jumps don&apos;t. Type in the
-        preview to branch from the current step.
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        {rows.map(({ at, label, solved }) => (
+          <button
+            key={`${label}-${at}`}
+            type="button"
+            title={
+              at === step + 1 ? 'Play this guess' : `Jump to ${at === 0 ? 'start' : `guess ${at}`}`
+            }
+            style={row(step === at, at <= step)}
+            onClick={() => goTo(at)}
+          >
+            <span style={{ width: 18, opacity: 0.6, textAlign: 'right' }}>{at || ''}</span>
+            <span style={{ fontWeight: solved ? 700 : 500 }}>{label}</span>
+            {solved && <span style={{ marginLeft: 'auto' }}>✓</span>}
+          </button>
+        ))}
       </div>
     </div>
   );

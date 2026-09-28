@@ -5,6 +5,7 @@ import { normalizeWord } from '@/utils/wordUtils';
 import { STORY_GAME_KEYS, STORY_GAMES, type StoryGameKey } from './fixtures';
 import {
   REPLAY_REQUEST_EVENT,
+  REPLAY_RESET_EVENT,
   REPLAY_STATE_EVENT,
   type ReplaySpeed,
   type ReplayState,
@@ -80,6 +81,17 @@ export function useReplayStoryGame(
   }, [autoplay, speed, game.step, game.timeline.length, setStep, updateArgs]);
 
   useReplayBroadcast(game);
+
+  const { resetTimeline } = game;
+  useEffect(() => {
+    const channel = addons.getChannel();
+    const reset = () => {
+      resetTimeline();
+      updateArgs({ step: 0, autoplay: false });
+    };
+    channel.on(REPLAY_RESET_EVENT, reset);
+    return () => channel.off(REPLAY_RESET_EVENT, reset);
+  }, [resetTimeline, updateArgs]);
 
   return game;
 }

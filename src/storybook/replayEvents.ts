@@ -6,6 +6,8 @@ export const REPLAY_ADDON_ID = 'polyglot/replay';
 export const REPLAY_PANEL_ID = `${REPLAY_ADDON_ID}/panel`;
 export const REPLAY_STATE_EVENT = `${REPLAY_ADDON_ID}/state`;
 export const REPLAY_REQUEST_EVENT = `${REPLAY_ADDON_ID}/request`;
+/** Restore the saved guesses (dropping any typed branch) and go back to the start. */
+export const REPLAY_RESET_EVENT = `${REPLAY_ADDON_ID}/reset`;
 
 /** Story parameter that turns the Replay panel on. */
 export const REPLAY_PARAM = 'replay';

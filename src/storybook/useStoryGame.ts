@@ -97,6 +97,9 @@ export function useStoryGame(
     return true;
   };
 
+  /** Drop any typed branch and restore the fixture's saved guesses. */
+  const resetTimeline = useCallback(() => setTimeline(fixture.guesses), [fixture.guesses]);
+
   // Key events can arrive faster than re-renders; read the latest state through a ref.
   const latest = useRef({ currentGuess, cursorIndex, isOver, submit });
   latest.current = { currentGuess, cursorIndex, isOver, submit };
@@ -184,6 +187,7 @@ export function useStoryGame(
     solvedAll,
     isOver,
     handleKeyPress,
+    resetTimeline,
   };
 }
 
