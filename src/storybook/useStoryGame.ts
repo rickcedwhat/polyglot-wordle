@@ -23,7 +23,9 @@ const EMPTY_GUESS = ['', '', '', '', ''];
 export function useStoryGame(
   fixture: StoryGameFixture,
   requestedStep: number,
-  onStepChange: (step: number) => void
+  onStepChange: (step: number) => void,
+  /** When set, stepping forward one saved guess types it out (and presses Enter) first. */
+  typingDelayMs = 0
 ) {
   const { languages, words: solution } = fixture;
   const difficulties = useMemo(
@@ -34,11 +36,56 @@ export function useStoryGame(
   const { updateLetterStatuses } = useLetterStatus();
 
   const [timeline, setTimeline] = useState<string[]>(fixture.guesses);
-  const step = Math.max(0, Math.min(timeline.length, Math.round(requestedStep || 0)));
+  const targetStep = Math.max(0, Math.min(timeline.length, Math.round(requestedStep || 0)));
+  /** Lags `targetStep` while the next saved guess is being typed out. */
+  const [step, setStep] = useState(targetStep);
+  const [isTyping, setIsTyping] = useState(false);
+  /** Guesses the user typed themselves are already on screen; don't type them again. */
+  const skipTypingRef = useRef(false);
   const [currentGuess, setCurrentGuess] = useState<string[]>(EMPTY_GUESS);
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isInvalid, setIsInvalid] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
+
+  const flashKey = useCallback((key: string) => {
+    setActiveKey(null);
+    setTimeout(() => setActiveKey(key), 10);
+  }, []);
+
+  useEffect(() => {
+    if (targetStep === step) {
+      return undefined;
+    }
+    if (targetStep !== step + 1 || skipTypingRef.current || typingDelayMs <= 0) {
+      skipTypingRef.current = false;
+      setStep(targetStep);
+      return undefined;
+    }
+
+    const letters = timeline[step].toLowerCase().split('');
+    const timers: number[] = [];
+    const at = (ms: number, run: () => void) => timers.push(window.setTimeout(run, ms));
+    setIsTyping(true);
+    setCurrentGuess(EMPTY_GUESS);
+    setCursorIndex(0);
+    letters.forEach((letter, index) =>
+      at((index + 1) * typingDelayMs, () => {
+        flashKey(letter);
+        setCurrentGuess(EMPTY_GUESS.map((_, i) => (i <= index ? letters[i] : '')));
+        setCursorIndex(Math.min(4, index + 1));
+      })
+    );
+    const enterAt = (letters.length + 2) * typingDelayMs;
+    at(enterAt, () => flashKey('enter'));
+    at(enterAt + typingDelayMs, () => setStep(targetStep));
+
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      setIsTyping(false);
+      setCurrentGuess(EMPTY_GUESS);
+      setCursorIndex(0);
+    };
+  }, [targetStep, step, timeline, typingDelayMs, flashKey]);
   const { burst, fireBurst, clearBurst } = useScoreBurst();
   const burstCounter = useRef(0);
 
@@ -71,10 +118,10 @@ export function useStoryGame(
 
   // Keep the external control in range (e.g. slider dragged past the last saved guess).
   useEffect(() => {
-    if (requestedStep !== step) {
-      onStepChange(step);
+    if (requestedStep !== targetStep) {
+      onStepChange(targetStep);
     }
-  }, [requestedStep, step, onStepChange]);
+  }, [requestedStep, targetStep, onStepChange]);
 
   const submit = (guess: string) => {
     if (!wordPools || isOver) {
@@ -92,6 +139,7 @@ export function useStoryGame(
       return false;
     }
     const nextTimeline = [...guesses, guess];
+    skipTypingRef.current = true;
     setTimeline(nextTimeline);
     onStepChange(nextTimeline.length);
     return true;
@@ -101,51 +149,54 @@ export function useStoryGame(
   const resetTimeline = useCallback(() => setTimeline(fixture.guesses), [fixture.guesses]);
 
   // Key events can arrive faster than re-renders; read the latest state through a ref.
-  const latest = useRef({ currentGuess, cursorIndex, isOver, submit });
-  latest.current = { currentGuess, cursorIndex, isOver, submit };
+  const latest = useRef({ currentGuess, cursorIndex, isOver, isTyping, submit });
+  latest.current = { currentGuess, cursorIndex, isOver, isTyping, submit };
 
-  const handleKeyPress = useCallback((key: string) => {
-    const {
-      currentGuess: row,
-      cursorIndex: cursor,
-      isOver: over,
-      submit: doSubmit,
-    } = latest.current;
-    if (over) {
-      return;
-    }
-    const lowerKey = key.toLowerCase();
-    setActiveKey(null);
-    setTimeout(() => setActiveKey(lowerKey), 10);
+  const handleKeyPress = useCallback(
+    (key: string) => {
+      const {
+        currentGuess: row,
+        cursorIndex: cursor,
+        isOver: over,
+        isTyping: replayTyping,
+        submit: doSubmit,
+      } = latest.current;
+      if (over || replayTyping) {
+        return;
+      }
+      const lowerKey = key.toLowerCase();
+      flashKey(lowerKey);
 
-    if (lowerKey === 'enter') {
-      const guess = row.join('');
-      if (guess.length === 5) {
-        doSubmit(guess);
-      }
-    } else if (lowerKey === 'del' || lowerKey === 'backspace') {
-      const next = [...row];
-      if (next[cursor]) {
-        next[cursor] = '';
+      if (lowerKey === 'enter') {
+        const guess = row.join('');
+        if (guess.length === 5) {
+          doSubmit(guess);
+        }
+      } else if (lowerKey === 'del' || lowerKey === 'backspace') {
+        const next = [...row];
+        if (next[cursor]) {
+          next[cursor] = '';
+          latest.current.currentGuess = next;
+          setCurrentGuess(next);
+        } else if (cursor > 0) {
+          next[cursor - 1] = '';
+          latest.current.currentGuess = next;
+          latest.current.cursorIndex = cursor - 1;
+          setCurrentGuess(next);
+          setCursorIndex(cursor - 1);
+        }
+      } else if (/^[a-z]$/.test(lowerKey)) {
+        const next = [...row];
+        next[cursor] = lowerKey;
+        const nextCursor = Math.min(4, cursor + 1);
         latest.current.currentGuess = next;
+        latest.current.cursorIndex = nextCursor;
         setCurrentGuess(next);
-      } else if (cursor > 0) {
-        next[cursor - 1] = '';
-        latest.current.currentGuess = next;
-        latest.current.cursorIndex = cursor - 1;
-        setCurrentGuess(next);
-        setCursorIndex(cursor - 1);
+        setCursorIndex(nextCursor);
       }
-    } else if (/^[a-z]$/.test(lowerKey)) {
-      const next = [...row];
-      next[cursor] = lowerKey;
-      const nextCursor = Math.min(4, cursor + 1);
-      latest.current.currentGuess = next;
-      latest.current.cursorIndex = nextCursor;
-      setCurrentGuess(next);
-      setCursorIndex(nextCursor);
-    }
-  }, []);
+    },
+    [flashKey]
+  );
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

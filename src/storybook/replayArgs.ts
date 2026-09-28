@@ -13,6 +13,8 @@ import {
 import { useStoryGame } from './useStoryGame';
 
 const AUTOPLAY_INTERVAL_MS = 2500;
+/** Per-letter delay when the replay types out the next saved guess. */
+const TYPING_DELAY_MS = 150;
 
 export interface ReplayArgs {
   game: StoryGameKey;
@@ -63,7 +65,7 @@ export function useReplayStoryGame(
   updateArgs: UpdateReplayArgs
 ) {
   const setStep = useCallback((next: number) => updateArgs({ step: next }), [updateArgs]);
-  const game = useStoryGame(STORY_GAMES[gameKey], step, setStep);
+  const game = useStoryGame(STORY_GAMES[gameKey], step, setStep, TYPING_DELAY_MS / (speed || 1));
 
   useEffect(() => {
     if (!autoplay) {
