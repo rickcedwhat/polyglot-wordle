@@ -165,11 +165,18 @@ const rulesFor = (version: number): ScoringRules =>
 
 interface ScoringState {
   greens: Partial<Record<Language, boolean[]>>;
-  yellows: Partial<Record<Language, Set<string>>>;
+  /** Per board, how many copies of each letter have been revealed so far. */
+  knownCopies: Partial<Record<Language, Record<string, number>>>;
   cracked: boolean;
 }
 
-const newScoringState = (): ScoringState => ({ greens: {}, yellows: {}, cracked: false });
+const newScoringState = (): ScoringState => ({ greens: {}, knownCopies: {}, cracked: false });
+
+const countLetters = (letters: string[]): Record<string, number> =>
+  letters.reduce<Record<string, number>>((counts, letter) => {
+    counts[letter] = (counts[letter] ?? 0) + 1;
+    return counts;
+  }, {});
 
 /** Events earned by one guess (excluding game-end events). Mutates `state`. */
 const scoreTurn = (
@@ -194,13 +201,25 @@ const scoreTurn = (
   openBoards.forEach((lang) => {
     const solutionWord = solution[lang]!;
     const greens = state.greens[lang] ?? [false, false, false, false, false];
-    const yellowsSeen = state.yellows[lang] ?? new Set<string>();
+    const knownCopies = state.knownCopies[lang] ?? {};
     state.greens[lang] = greens;
-    state.yellows[lang] = yellowsSeen;
+    state.knownCopies[lang] = knownCopies;
+    const statuses = getGuessStatuses(guess, solutionWord);
+    // Copies of each letter this guess reveals (green or yellow). With repeated letters, a
+    // yellow only scores when it shows more copies than the board already knew about.
+    const shownCopies = countLetters(
+      [...letters].filter((_, index) => statuses[index] !== 'absent')
+    );
+    const unscoredCopies = Object.fromEntries(
+      Object.entries(shownCopies).map(([letter, count]) => [
+        letter,
+        count - (knownCopies[letter] ?? 0),
+      ])
+    );
     let yellowCombo = 1;
     let newGreens = 0;
 
-    getGuessStatuses(guess, solutionWord).forEach((status, index) => {
+    statuses.forEach((status, index) => {
       if (status === 'correct' && !greens[index]) {
         greens[index] = true;
         newGreens += 1;
@@ -210,13 +229,23 @@ const scoreTurn = (
         if (rules.yellow.mode === 'combo') {
           events.push({ kind: 'yellow', points: rules.yellow.base * yellowCombo, lang, index });
           yellowCombo += 1;
-        } else if (!yellowsSeen.has(letters[index])) {
-          yellowsSeen.add(letters[index]);
+        } else if (unscoredCopies[letters[index]] > 0) {
+          unscoredCopies[letters[index]] -= 1;
           events.push({ kind: 'yellow', points: rules.yellow.perM * m, lang, index });
         }
       }
     });
     newGreensPerBoard.push(newGreens);
+
+    const solutionLetters = [...normalizeWord(solutionWord)];
+    const greenCopies = countLetters(solutionLetters.filter((_, index) => greens[index]));
+    new Set([...Object.keys(shownCopies), ...Object.keys(greenCopies)]).forEach((letter) => {
+      knownCopies[letter] = Math.max(
+        knownCopies[letter] ?? 0,
+        shownCopies[letter] ?? 0,
+        greenCopies[letter] ?? 0
+      );
+    });
 
     if (normalizeWord(solutionWord) === letters) {
       solvedThisTurn = true;

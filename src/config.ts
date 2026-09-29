@@ -8,7 +8,8 @@ export interface ScoringRules {
   greenPerM: number;
   /**
    * `combo`: every yellow tile scores, 1×, 2×, 3×… `base` within a guess.
-   * `firstSeen`: a letter scores `perM`×m only the first time it's yellow on a board.
+   * `firstSeen`: a yellow scores `perM`×m only when it reveals a copy of the letter the
+   * board didn't already know about (from earlier yellows or greens).
    */
   yellow: { mode: 'combo'; base: number } | { mode: 'firstSeen'; perM: number };
   wordSolvedPerM: number;

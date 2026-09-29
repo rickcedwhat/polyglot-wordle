@@ -128,6 +128,35 @@ describe('calculateScoreFromHistory (v2)', () => {
     expect(enYellows(['plead', 'leapt'])).toHaveLength(0);
   });
 
+  describe('repeated letters', () => {
+    const yellowsOn = (answer: string, history: string[]) =>
+      wordUtils
+        .getLatestTurnScoreEvents(history, { en: answer, es: 'zzzzz', fr: 'wwwww' }, 2)
+        .filter((e) => e.lang === 'en' && e.kind === 'yellow')
+        .map((e) => e.index);
+
+    it('scores a yellow that reveals a second copy of a letter', () => {
+      // "paper" shows one green and one yellow P; only one P was known from "plead".
+      expect(yellowsOn('apple', ['plead', 'paper'])).toEqual([0]);
+    });
+
+    it('scores each copy revealed in the same guess', () => {
+      expect(yellowsOn('abbey', ['bxxbx'])).toEqual([0, 3]);
+    });
+
+    it('does not score a yellow for a copy already known from a green', () => {
+      expect(yellowsOn('apple', ['apxxx', 'pxxxx'])).toEqual([]);
+    });
+
+    it('does not score the same single copy twice', () => {
+      expect(yellowsOn('apple', ['plead', 'lxxxx'])).toEqual([]);
+    });
+
+    it('ignores extra copies in the guess beyond those in the answer', () => {
+      expect(yellowsOn('apple', ['eerie'])).toEqual([]);
+    });
+  });
+
   it('awards the crack bonus once, on the first solve', () => {
     expect(turnEvents(['apple'])).toContainEqual({ kind: 'crack', points: 300 });
     expect(turnEvents(['apple', 'queso']).some((e) => e.kind === 'crack')).toBe(false);
