@@ -4,21 +4,23 @@ import { Divider, Group, Paper, Stack, Text } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';
 import { useCountUp } from '@/hooks/useCountUp';
+import { SCORE_TARGET_ATTR } from '../ScoreFlights/flightUtils';
 
 interface ScoreProps {
   orientation?: 'vertical' | 'horizontal';
 }
 
 export const Score: FC<ScoreProps> = ({ orientation = 'vertical' }) => {
-  const { score: targetScore, numberOfGuesses } = useScore();
-  const score = useCountUp(targetScore);
+  const { score: targetScore, heldPoints, numberOfGuesses } = useScore();
+  const score = useCountUp(targetScore - heldPoints);
+  const targetProps = { [SCORE_TARGET_ATTR]: true };
 
   // HORIZONTAL LAYOUT (for the header)
   if (orientation === 'horizontal') {
     return (
       <Group gap="xs">
         <IconTrophy size="1.2rem" />
-        <Text fz="sm" fw={700}>
+        <Text fz="sm" fw={700} {...targetProps}>
           {score}
         </Text>
         <Divider orientation="vertical" />
@@ -40,7 +42,9 @@ export const Score: FC<ScoreProps> = ({ orientation = 'vertical' }) => {
               Score
             </Text>
           </Group>
-          <Text fw={700}>{score}</Text>
+          <Text fw={700} {...targetProps}>
+            {score}
+          </Text>
         </Group>
         <Group justify="space-between">
           <Group gap="xs">

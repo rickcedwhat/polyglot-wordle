@@ -6,6 +6,7 @@ import { useCountUp } from '@/hooks/useCountUp';
 import {
   replayArgTypes,
   replayDefaultArgs,
+  replayParameters,
   useReplayArgsUpdater,
   useReplayStoryGame,
   type ReplayArgs,
@@ -25,6 +26,7 @@ const meta: Meta<StoryArgs> = {
     layout: 'fullscreen',
     // No preview padding, so viewport presets match real device widths.
     fullBleed: true,
+    ...replayParameters,
   },
   argTypes: {
     ...replayArgTypes,
