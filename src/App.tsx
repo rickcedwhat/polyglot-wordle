@@ -1,11 +1,14 @@
 import '@mantine/core/styles.css';
 import '@mantine/carousel/styles.css';
+import '@mantine/notifications/styles.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import cx from 'clsx';
 import { Box, MantineProvider, useComputedColorScheme } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
+import { Notifications } from '@mantine/notifications';
+import { AchievementsProvider } from '@/context/AchievementsContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ScoreProvider } from './context/ScoreContext';
@@ -39,12 +42,15 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme} defaultColorScheme="dark">
         <ModalsProvider>
+          <Notifications position="top-center" />
           <AuthProvider>
-            <SidebarProvider>
-              <ScoreProvider>
-                <AppContainer />
-              </ScoreProvider>
-            </SidebarProvider>
+            <AchievementsProvider>
+              <SidebarProvider>
+                <ScoreProvider>
+                  <AppContainer />
+                </ScoreProvider>
+              </SidebarProvider>
+            </AchievementsProvider>
           </AuthProvider>
         </ModalsProvider>
       </MantineProvider>

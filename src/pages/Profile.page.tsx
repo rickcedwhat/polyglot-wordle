@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { IconBooks, IconChartBar, IconUsers, IconVocabulary } from '@tabler/icons-react';
+import { IconAward, IconBooks, IconChartBar, IconUsers, IconVocabulary } from '@tabler/icons-react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Center, Container, Group, Loader, Tabs, Text, Title } from '@mantine/core';
+import { AchievementsTab } from '@/components/AchievementsTab/AchievementsTab';
 import { FriendButton } from '@/components/FriendButton/FriendButton';
 import { FriendListTab } from '@/components/FriendsListTab/FriendsListTab';
 import { GameHistoryTab } from '@/components/GameHistoryTab/GameHistoryTab';
@@ -22,7 +23,7 @@ export const ProfilePage: FC = () => {
   const isOwnProfile = currentUser?.uid === userId;
 
   // Determine active tab from URL hash, default to 'history'
-  const validTabs = ['history', 'stats', 'vocabulary', 'friends'];
+  const validTabs = ['history', 'stats', 'vocabulary', 'achievements', 'friends'];
   const activeTabFromUrl = location.hash.slice(1);
   const activeTab = validTabs.includes(activeTabFromUrl) ? activeTabFromUrl : 'history';
 
@@ -82,6 +83,11 @@ export const ProfilePage: FC = () => {
               Vocabulary
             </Text>
           </Tabs.Tab>
+          <Tabs.Tab value="achievements" leftSection={<IconAward size={16} />}>
+            <Text component="span" visibleFrom="xs">
+              Achievements
+            </Text>
+          </Tabs.Tab>
           <Tabs.Tab value="friends" leftSection={<IconUsers size={16} />}>
             <Text component="span" visibleFrom="xs">
               Friends
@@ -103,6 +109,10 @@ export const ProfilePage: FC = () => {
 
         <Tabs.Panel value="vocabulary" pt="xs">
           <VocabularyTab profileUserId={userId!} />
+        </Tabs.Panel>
+
+        <Tabs.Panel value="achievements" pt="xs">
+          <AchievementsTab profileUserId={userId!} />
         </Tabs.Panel>
 
         <Tabs.Panel value="friends" pt="xs">

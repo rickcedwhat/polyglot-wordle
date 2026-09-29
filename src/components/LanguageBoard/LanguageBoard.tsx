@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { MAX_GUESSES } from '@/config';
+import { useRecordDefinitionRead } from '@/context/AchievementsContext';
 import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
@@ -67,6 +68,13 @@ const SubmittedRow: FC<{
 
   const { data, isLoading, isError, refetch } = useDefinition(language, guess);
   const { isFlagged, toggleFlag } = useFlaggedWords();
+  const recordDefinitionRead = useRecordDefinitionRead();
+
+  useEffect(() => {
+    if (opened && data) {
+      recordDefinitionRead(language, guess);
+    }
+  }, [opened, data, language, guess, recordDefinitionRead]);
 
   // Close the popover automatically whenever any key is pressed (typing a guess, backspace, etc.)
   useEffect(() => {
