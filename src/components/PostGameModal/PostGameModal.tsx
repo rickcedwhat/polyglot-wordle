@@ -35,7 +35,7 @@ import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { GameDoc, Language } from '@/types/firestore';
 import { labelFor, languagesFromGame } from '@/utils/languages';
 import { shareGameResult } from '@/utils/shareImageUtils';
-import { calculateScoreFromHistory, normalizeWord } from '@/utils/wordUtils';
+import { calculateScoreFromHistory, normalizeWord, scoringVersionOf } from '@/utils/wordUtils';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 
 interface PostGameModalProps {
@@ -189,8 +189,8 @@ export const PostGameModal: FC<PostGameModalProps> = ({
 
   const effectiveIsWin = isWin ?? solvedCount === languages.length;
   const calculatedScore = useMemo(
-    () => calculateScoreFromHistory(guessHistory, words),
-    [guessHistory, words]
+    () => calculateScoreFromHistory(guessHistory, words, scoringVersionOf(gameSession)),
+    [guessHistory, words, gameSession]
   );
   const effectiveScore = score ?? calculatedScore;
 

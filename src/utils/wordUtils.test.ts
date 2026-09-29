@@ -46,7 +46,7 @@ describe('getWordsFromUuid', () => {
   });
 });
 
-describe('calculateScoreFromHistory', () => {
+describe('calculateScoreFromHistory (v1)', () => {
   const mockSolution = {
     en: 'apple',
     es: 'queso',
@@ -56,7 +56,7 @@ describe('calculateScoreFromHistory', () => {
   it('calculates a perfect score for a quick win', () => {
     const guesses = ['apple', 'queso', 'fruit'];
 
-    const score = calculateScoreFromHistory(guesses, mockSolution);
+    const score = calculateScoreFromHistory(guesses, mockSolution, 1);
 
     // Base Score: 250 + 5 + 0 + 225 + 5 + 200 = 685
     // Word Solved: 200 + 180 + 160 = 540
@@ -80,7 +80,7 @@ describe('calculateScoreFromHistory', () => {
       'apple', // 10 guesses
     ];
 
-    const score = calculateScoreFromHistory(guesses, mockSolution);
+    const score = calculateScoreFromHistory(guesses, mockSolution, 1);
 
     // Turns 1-9: 0 points
     // Turn 10 (apple):
@@ -91,6 +91,95 @@ describe('calculateScoreFromHistory', () => {
     // Total: 25 + 5 + 20 - 500 = -450
     expect(score).toBe(-450);
   });
+
+  it('never awards crack or hat-trick bonuses', () => {
+    const events = [1, 2, 3].flatMap((n) =>
+      wordUtils.getLatestTurnScoreEvents(['audit', 'apple', 'queso'].slice(0, n), mockSolution, 1)
+    );
+    expect(events.some((e) => e.kind === 'crack' || e.kind === 'hatTrick')).toBe(false);
+  });
+});
+
+describe('calculateScoreFromHistory (v2)', () => {
+  const mockSolution = { en: 'apple', es: 'queso', fr: 'fruit' };
+  const turnEvents = (history: string[]) =>
+    wordUtils.getLatestTurnScoreEvents(history, mockSolution, 2);
+
+  it('is the default for new scoring', () => {
+    const guesses = ['apple', 'queso', 'fruit'];
+    expect(calculateScoreFromHistory(guesses, mockSolution)).toBe(
+      calculateScoreFromHistory(guesses, mockSolution, 2)
+    );
+  });
+
+  it('calculates a quick win', () => {
+    // Guess 1 (m=10) apple: EN greens 250 + ES yellow "e" 2×10 + EN solved 200 + crack 300 = 770
+    // Guess 2 (m=9) queso: ES greens 225 + ES solved 180 + FR yellow "u" 2×9 = 423
+    // Guess 3 (m=8) fruit: FR greens 200 + FR solved 160 = 360
+    // All solved on guess 3: 25×8 = 200
+    expect(calculateScoreFromHistory(['apple', 'queso', 'fruit'], mockSolution, 2)).toBe(1753);
+  });
+
+  it('scores a yellow letter only the first time it appears on a board', () => {
+    const enYellows = (history: string[]) =>
+      turnEvents(history).filter((e) => e.lang === 'en' && e.kind === 'yellow');
+    expect(enYellows(['plead'])).toHaveLength(4);
+    expect(enYellows(['plead']).every((e) => e.points === 20)).toBe(true);
+    expect(enYellows(['plead', 'leapt'])).toHaveLength(0);
+  });
+
+  describe('repeated letters', () => {
+    const yellowsOn = (answer: string, history: string[]) =>
+      wordUtils
+        .getLatestTurnScoreEvents(history, { en: answer, es: 'zzzzz', fr: 'wwwww' }, 2)
+        .filter((e) => e.lang === 'en' && e.kind === 'yellow')
+        .map((e) => e.index);
+
+    it('scores a yellow that reveals a second copy of a letter', () => {
+      // "paper" shows one green and one yellow P; only one P was known from "plead".
+      expect(yellowsOn('apple', ['plead', 'paper'])).toEqual([0]);
+    });
+
+    it('scores each copy revealed in the same guess', () => {
+      expect(yellowsOn('abbey', ['bxxbx'])).toEqual([0, 3]);
+    });
+
+    it('does not score a yellow for a copy already known from a green', () => {
+      expect(yellowsOn('apple', ['apxxx', 'pxxxx'])).toEqual([]);
+    });
+
+    it('does not score the same single copy twice', () => {
+      expect(yellowsOn('apple', ['plead', 'lxxxx'])).toEqual([]);
+    });
+
+    it('ignores extra copies in the guess beyond those in the answer', () => {
+      expect(yellowsOn('apple', ['eerie'])).toEqual([]);
+    });
+  });
+
+  it('awards the crack bonus once, on the first solve', () => {
+    expect(turnEvents(['apple'])).toContainEqual({ kind: 'crack', points: 300 });
+    expect(turnEvents(['apple', 'queso']).some((e) => e.kind === 'crack')).toBe(false);
+  });
+
+  it('awards a hat trick when one guess adds new greens on every open board', () => {
+    expect(turnEvents(['audit'])).toContainEqual({ kind: 'hatTrick', points: 75 });
+  });
+
+  it('does not award a hat trick once any board is solved', () => {
+    expect(turnEvents(['apple', 'audit']).some((e) => e.kind === 'hatTrick')).toBe(false);
+  });
+
+  it('does not award a hat trick when a board gets no new greens', () => {
+    expect(turnEvents(['audit', 'auxit']).some((e) => e.kind === 'hatTrick')).toBe(false);
+  });
+});
+
+describe('scoringVersionOf', () => {
+  it('treats games without a version as v1', () => {
+    expect(wordUtils.scoringVersionOf({})).toBe(1);
+    expect(wordUtils.scoringVersionOf({ scoringVersion: 2 })).toBe(2);
+  });
 });
 
 describe('getLatestTurnScoreEvents', () => {
@@ -99,35 +188,46 @@ describe('getLatestTurnScoreEvents', () => {
     es: 'queso',
     fr: 'fruit',
   };
-  const sumPoints = (history: string[]) =>
-    wordUtils
-      .getLatestTurnScoreEvents(history, mockSolution)
-      .reduce((sum, event) => sum + event.points, 0);
 
   it('returns no events for an empty history', () => {
     expect(wordUtils.getLatestTurnScoreEvents([], mockSolution)).toEqual([]);
   });
 
-  it('sums to the score delta of each guess, including game-end events', () => {
+  it.each([1, 2])('sums to the score delta of each guess under v%i', (version) => {
     const histories = [
       ['apple', 'queso', 'fruit'],
       ['xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'xxxxx', 'apple'],
       ['plead', 'apply', 'quest', 'fruit'],
+      ['audit', 'plead', 'apple', 'queso', 'fruit'],
     ];
     histories.forEach((history) => {
       history.forEach((_, index) => {
         const prefix = history.slice(0, index + 1);
         const delta =
-          calculateScoreFromHistory(prefix, mockSolution) -
-          calculateScoreFromHistory(prefix.slice(0, -1), mockSolution);
-        expect(sumPoints(prefix)).toBe(delta);
+          calculateScoreFromHistory(prefix, mockSolution, version) -
+          calculateScoreFromHistory(prefix.slice(0, -1), mockSolution, version);
+        const eventSum = wordUtils
+          .getLatestTurnScoreEvents(prefix, mockSolution, version)
+          .reduce((sum, event) => sum + event.points, 0);
+        expect(eventSum).toBe(delta);
       });
     });
   });
 
+  it('keeps a board open for its solving guess after every slot is already green', () => {
+    // "sudan" then "dings" fill every slot of "sudas" before the word itself is typed.
+    const solution = { en: 'dings', fr: 'douee', es: 'sudas' };
+    const events = wordUtils.getLatestTurnScoreEvents(
+      ['stray', 'music', 'sudan', 'fudge', 'dings', 'sudas'],
+      solution,
+      1
+    );
+    expect(events).toContainEqual({ kind: 'wordSolved', points: 100, lang: 'es' });
+  });
+
   it('records the letter position of green and yellow events', () => {
     const enEvents = (guess: string) =>
-      wordUtils.getLatestTurnScoreEvents([guess], mockSolution).filter((e) => e.lang === 'en');
+      wordUtils.getLatestTurnScoreEvents([guess], mockSolution, 1).filter((e) => e.lang === 'en');
     expect(
       enEvents('apply')
         .filter((e) => e.kind === 'green')

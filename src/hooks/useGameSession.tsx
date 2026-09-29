@@ -11,6 +11,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { SCORING_VERSION } from '@/config';
 import { useAuth } from '@/context/AuthContext';
 import type { GameDoc, Language, UserDoc } from '@/types/firestore.d.ts';
 import { isGameId } from '@/utils/languages';
@@ -76,6 +77,7 @@ export const fetchOrCreateGame = async (
     startedAt: serverTimestamp() as Timestamp,
     completedAt: null,
     score: null,
+    scoringVersion: SCORING_VERSION,
     shuffledLanguages,
   };
 

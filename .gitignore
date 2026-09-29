@@ -141,3 +141,6 @@ public/*.json.bak
 audit_report_*.json
 storybook-static/
 evals/artifacts/
+
+# Firebase service-account keys
+*firebase-adminsdk*.json

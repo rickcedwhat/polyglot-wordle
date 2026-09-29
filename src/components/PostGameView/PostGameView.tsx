@@ -9,6 +9,7 @@ import { useScore } from '@/context/ScoreContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useChallenge } from '@/hooks/useChallenge';
 import type { GameDoc } from '@/types/firestore';
+import { scoringVersionOf } from '@/utils/wordUtils';
 import { Score } from '../Score/Score';
 
 interface PostGameViewProps {
@@ -35,9 +36,9 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
 
   useEffect(() => {
     if (guessHistory && solution) {
-      recalculateScore(guessHistory, solution);
+      recalculateScore(guessHistory, solution, scoringVersionOf(gameSession));
     }
-  }, [guessHistory, solution, recalculateScore]);
+  }, [guessHistory, solution, gameSession, recalculateScore]);
 
   return (
     <Box style={{ width: '100%', height: '100%', position: 'relative' }}>

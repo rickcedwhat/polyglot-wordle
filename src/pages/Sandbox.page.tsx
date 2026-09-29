@@ -30,6 +30,7 @@ import { FlagsModal } from '@/components/FlagsModal/FlagsModal';
 import { FormattedDefinition } from '@/components/FormattedDefinition/FormattedDefinition';
 import { Game } from '@/components/Game/Game';
 import { PostGameView } from '@/components/PostGameView/PostGameView';
+import { SCORING_VERSION } from '@/config';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
 import { useSandboxDrawer } from '@/hooks/useSandboxDrawer';
 import type { GameDoc, Language } from '@/types/firestore';
@@ -146,6 +147,7 @@ export const SandboxPage: FC = () => {
     guessHistory: initial.guessHistory,
     isWin: initial.isWin,
     score: initial.score,
+    scoringVersion: SCORING_VERSION,
     startedAt: Timestamp.now(),
     completedAt: null,
   });
@@ -200,6 +202,7 @@ export const SandboxPage: FC = () => {
       guessHistory: [],
       isWin: null,
       score: 0,
+      scoringVersion: SCORING_VERSION,
       startedAt: Timestamp.now(),
       completedAt: null,
     };

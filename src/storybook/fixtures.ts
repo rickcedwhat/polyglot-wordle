@@ -33,6 +33,12 @@ export const STORY_GAMES = {
     words: { es: 'carta', it: 'carta', pt: 'porta' },
     guesses: ['audio', 'pasta', 'carta', 'porta'],
   },
+  hatTrick: {
+    label: 'Hat trick on guess 1 (FR/EN/ES, 8 guesses)',
+    languages: ['fr', 'en', 'es'],
+    words: { es: 'vamos', en: 'madam', fr: 'virée' },
+    guesses: ['dance', 'mouth', 'maids', 'vamos', 'ville', 'vivre', 'viree', 'madam'],
+  },
 } satisfies Record<string, StoryGameFixture>;
 
 export type StoryGameKey = keyof typeof STORY_GAMES;
