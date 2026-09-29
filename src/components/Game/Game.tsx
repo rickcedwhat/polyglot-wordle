@@ -12,7 +12,12 @@ import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
 import { gamePath, languagesFromGame } from '@/utils/languages';
-import { getLatestTurnScoreEvents, normalizeWord, validateGuess } from '@/utils/wordUtils';
+import {
+  getLatestTurnScoreEvents,
+  normalizeWord,
+  scoringVersionOf,
+  validateGuess,
+} from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
@@ -32,6 +37,7 @@ interface GameProps {
 export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   // 1. Get the core game state and solution from the session prop
   const { words: solution, difficulties, guessHistory, shuffledLanguages } = gameSession;
+  const scoringVersion = scoringVersionOf(gameSession);
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
   const { recalculateScore, flightsInProgress, holdPoints } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
@@ -84,8 +90,8 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   }, [currentUser, gameSession.gameId]);
 
   const currentScore = useMemo(
-    () => recalculateScore(guesses, solution),
-    [guesses, solution, recalculateScore]
+    () => recalculateScore(guesses, solution, scoringVersion),
+    [guesses, solution, scoringVersion, recalculateScore]
   );
 
   useEffect(() => {
@@ -98,12 +104,19 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     if (guessHistory && solution) {
       setGuesses(guessHistory);
       // 1. Recalculate the score based on the loaded history
-      recalculateScore(guessHistory, solution);
+      recalculateScore(guessHistory, solution, scoringVersion);
 
       // 2. ALSO, update the letter statuses based on the loaded history
       updateLetterStatuses({ guesses: guessHistory, solution, shuffledLanguages });
     }
-  }, [guessHistory, solution, recalculateScore, updateLetterStatuses, shuffledLanguages]);
+  }, [
+    guessHistory,
+    solution,
+    scoringVersion,
+    recalculateScore,
+    updateLetterStatuses,
+    shuffledLanguages,
+  ]);
 
   const getInitialGameStatus = () => {
     if (!gameSession.isLiveGame) {
@@ -184,8 +197,11 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           const newGuesses = [...guesses, guessString];
           setGuesses(newGuesses);
           // Score and held flight points must update together so the counter doesn't dip.
-          const finalScore = recalculateScore(newGuesses, solution);
-          fireBurst(newGuesses.length, getLatestTurnScoreEvents(newGuesses, solution));
+          const finalScore = recalculateScore(newGuesses, solution, scoringVersion);
+          fireBurst(
+            newGuesses.length,
+            getLatestTurnScoreEvents(newGuesses, solution, scoringVersion)
+          );
           setCurrentGuess(Array(5).fill(''));
           setCursorIndex(0);
           await updateGuessHistory(guessString);
@@ -240,6 +256,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       guessHistory,
       guesses,
       isChallenge,
+      scoringVersion,
       recalculateScore,
       recordGuess,
       shuffledLanguages,

@@ -19,9 +19,15 @@ interface PopupLine {
 
 const sum = (events: ScoreEvent[]) => events.reduce((total, e) => total + e.points, 0);
 
-/** Game-level lines shown above the guess row: the all-solved bonus and unsolved penalties. */
+/** Game-level lines shown above the guess row: bonuses not tied to one board, and penalties. */
 export function buildGameLines(events: ScoreEvent[]): PopupLine[] {
   return events.flatMap((event): PopupLine[] => {
+    if (event.kind === 'crack') {
+      return [{ id: 'crack', points: event.points, label: 'First word cracked!', tone: 'solved' }];
+    }
+    if (event.kind === 'hatTrick') {
+      return [{ id: 'hatTrick', points: event.points, label: 'Hat trick!', tone: 'green' }];
+    }
     if (event.kind === 'gameSolved') {
       return [{ id: 'game', points: event.points, label: 'All words solved!', tone: 'solved' }];
     }

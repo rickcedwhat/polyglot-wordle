@@ -95,6 +95,8 @@ export interface GameDoc {
   guessHistory: string[];
   isWin: boolean | null;
   score: number | null;
+  /** Scoring rules the game was played under (see `SCORING_RULES`); absent on v1 games. */
+  scoringVersion?: number;
   startedAt: Timestamp;
   completedAt: Timestamp | null;
 }

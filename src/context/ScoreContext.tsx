@@ -5,7 +5,11 @@ import { calculateScoreFromHistory } from '@/utils/wordUtils';
 interface ScoreContextType {
   score: number;
   numberOfGuesses: number;
-  recalculateScore: (guesses: string[], solution: GameDoc['words']) => number;
+  recalculateScore: (
+    guesses: string[],
+    solution: GameDoc['words'],
+    scoringVersion?: number
+  ) => number;
   /** Points already in `score` that the counter shouldn't show until their flights land. */
   heldPoints: number;
   flightsInProgress: boolean;
@@ -25,12 +29,15 @@ export const ScoreProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [held, setHeld] = useState<HeldFlights>({});
 
   // 3. Define the recalculation logic here
-  const recalculateScore = useCallback((guesses: string[], solution: GameDoc['words']) => {
-    const newTotalScore = calculateScoreFromHistory(guesses, solution);
-    setScore(newTotalScore);
-    setNumberOfGuesses(guesses.length);
-    return newTotalScore; // Return the new score
-  }, []);
+  const recalculateScore = useCallback(
+    (guesses: string[], solution: GameDoc['words'], scoringVersion?: number) => {
+      const newTotalScore = calculateScoreFromHistory(guesses, solution, scoringVersion);
+      setScore(newTotalScore);
+      setNumberOfGuesses(guesses.length);
+      return newTotalScore; // Return the new score
+    },
+    []
+  );
 
   const holdPoints = useCallback((burstId: number, flights: Record<string, number>) => {
     setHeld((current) => {
