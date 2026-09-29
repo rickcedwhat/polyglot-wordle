@@ -27,6 +27,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
+import { useRecordDefinitionRead } from '@/context/AchievementsContext';
 import { useAuth } from '@/context/AuthContext';
 import { ChallengerProfile } from '@/hooks/useChallenge';
 import { useDefinition } from '@/hooks/useDefinition';
@@ -62,6 +63,13 @@ const WordSummaryCard: FC<{
 
   const { data, isLoading, isError, refetch } = useDefinition(lang, normSolution);
   const flagged = data ? isFlagged(lang, normSolution) : false;
+  const recordDefinitionRead = useRecordDefinitionRead();
+
+  useEffect(() => {
+    if (expanded && data) {
+      recordDefinitionRead(lang, normSolution);
+    }
+  }, [expanded, data, lang, normSolution, recordDefinitionRead]);
 
   useEffect(() => {
     refetch();
