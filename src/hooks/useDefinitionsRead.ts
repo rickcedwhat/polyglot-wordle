@@ -105,7 +105,20 @@ export const useDefinitionsRead = (targetUserId?: string) => {
         const merged = await migrateGuestReads(userId, remote);
         const local = getLocalDefinitionsRead(userId);
         for (const lang of ALL_LANGUAGES) {
-          merged[lang] = { ...local[lang], ...merged[lang] };
+          const additions = Object.fromEntries(
+            Object.entries(local[lang]).filter(
+              ([word, readAt]) => !merged[lang][word] || readAt < merged[lang][word]
+            )
+          );
+          if (Object.keys(additions).length === 0) {
+            continue;
+          }
+          await setDoc(
+            vocabularyDoc(userId, lang),
+            { definitionsRead: additions },
+            { merge: true }
+          );
+          merged[lang] = { ...merged[lang], ...additions };
         }
         return merged;
       } catch (err) {

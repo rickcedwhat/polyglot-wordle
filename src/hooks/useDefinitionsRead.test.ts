@@ -60,12 +60,25 @@ describe('useDefinitionsRead loading', () => {
       first.result.current.definitionsRead
     );
     const savedReads = first.result.current.definitionsRead;
+    vi.mocked(setDoc).mockClear();
+    await act(async () => {
+      await first.result.current.recordDefinitionRead('es', 'pluma');
+    });
+    expect(setDoc).not.toHaveBeenCalled();
     first.unmount();
 
     const reloaded = renderDefinitionsRead();
     await waitFor(() => expect(reloaded.result.current.isLoading).toBe(false));
     expect(reloaded.result.current.definitionsRead).toEqual(savedReads);
     expect(reloaded.result.current.definitionsReadCount).toBe(3);
+    expect(setDoc).toHaveBeenCalledTimes(2);
+    for (const lang of ['es', 'fr'] as const) {
+      expect(setDoc).toHaveBeenCalledWith(
+        { id: lang },
+        { definitionsRead: savedReads[lang] },
+        { merge: true }
+      );
+    }
   });
 
   it('preserves guest migration and its earliest timestamp when merging account reads', async () => {
@@ -90,7 +103,12 @@ describe('useDefinitionsRead loading', () => {
       pt: { livro: earlier },
     });
     expect(result.current.definitionsReadCount).toBe(4);
-    expect(setDoc).toHaveBeenCalledTimes(2);
+    expect(setDoc).toHaveBeenCalledTimes(3);
+    expect(setDoc).toHaveBeenCalledWith(
+      { id: 'es' },
+      { definitionsRead: { pluma: earlier } },
+      { merge: true }
+    );
     expect(setDoc).toHaveBeenCalledWith(
       { id: 'en' },
       { definitionsRead: { apple: earlier } },
@@ -102,6 +120,41 @@ describe('useDefinitionsRead loading', () => {
       { merge: true }
     );
     expect(localStorage.getItem(DEFINITIONS_READ_STORAGE_KEY)).toBeNull();
+  });
+
+  it.each([
+    { name: 'absent', remoteAt: undefined, expectedAt: earlier, writes: 1 },
+    { name: 'later', remoteAt: later, expectedAt: earlier, writes: 1 },
+    { name: 'earlier', remoteAt: earlier, expectedAt: earlier, writes: 0 },
+    { name: 'equal', remoteAt: later, expectedAt: later, writes: 0 },
+  ])('reconciles account reads when the remote timestamp is $name', async (testCase) => {
+    const localAt = testCase.name === 'absent' || testCase.name === 'later' ? earlier : later;
+    mockRemote({ en: testCase.remoteAt ? { apple: testCase.remoteAt } : {} });
+    const local = JSON.stringify({ en: { apple: localAt } });
+    localStorage.setItem(`${DEFINITIONS_READ_STORAGE_KEY}_user_123`, local);
+
+    const first = renderDefinitionsRead();
+    await waitFor(() => expect(first.result.current.isLoading).toBe(false));
+
+    expect(first.result.current.definitionsRead.en).toEqual({ apple: testCase.expectedAt });
+    expect(setDoc).toHaveBeenCalledTimes(testCase.writes);
+    if (testCase.writes) {
+      expect(setDoc).toHaveBeenCalledWith(
+        { id: 'en' },
+        { definitionsRead: { apple: earlier } },
+        { merge: true }
+      );
+    }
+    expect(localStorage.getItem(`${DEFINITIONS_READ_STORAGE_KEY}_user_123`)).toBe(local);
+    first.unmount();
+
+    vi.mocked(setDoc).mockClear();
+    mockRemote({ en: { apple: testCase.expectedAt } });
+    const reloaded = renderDefinitionsRead();
+    await waitFor(() => expect(reloaded.result.current.isLoading).toBe(false));
+
+    expect(reloaded.result.current.definitionsRead.en).toEqual({ apple: testCase.expectedAt });
+    expect(setDoc).not.toHaveBeenCalled();
   });
 
   it('keeps another account separate from locally saved and guest reads', async () => {
