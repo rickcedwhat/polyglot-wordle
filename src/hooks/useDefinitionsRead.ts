@@ -99,7 +99,15 @@ export const useDefinitionsRead = (targetUserId?: string) => {
       }
       try {
         const remote = await fetchDefinitionsRead(userId);
-        return isOwn ? await migrateGuestReads(userId, remote) : remote;
+        if (!isOwn) {
+          return remote;
+        }
+        const merged = await migrateGuestReads(userId, remote);
+        const local = getLocalDefinitionsRead(userId);
+        for (const lang of ALL_LANGUAGES) {
+          merged[lang] = { ...local[lang], ...merged[lang] };
+        }
+        return merged;
       } catch (err) {
         console.error('Failed to load definitions read, using local copy:', err);
         return getLocalDefinitionsRead(userId);
