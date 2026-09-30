@@ -1,10 +1,12 @@
 import { FC } from 'react';
 import { IconPin, IconPinnedFilled } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import { ActionIcon, Badge, Card, Group, Text } from '@mantine/core';
+import { ActionIcon, Badge, Box, Card, Group, Text } from '@mantine/core';
+import { useGameAchievements } from '@/hooks/useGameAchievements';
 import { usePinning } from '@/hooks/usePinning';
 import type { GameDoc, UserDoc } from '@/types/firestore.d.ts';
 import { gamePath, languagesFromGame } from '@/utils/languages';
+import { GameBadgeRow } from '../Badges/GameAchievements';
 import MiniBoard from '../MiniBoard/MiniBoard';
 import miniTileClasses from '../MiniTile/MiniTile.module.css';
 import classes from './GameHistoryCard.module.css';
@@ -16,6 +18,7 @@ interface GameHistoryCardProps {
 }
 export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, isOwnProfile }) => {
   const { pinGame, unpinGame, isPending } = usePinning();
+  const { feats, levelUps } = useGameAchievements(game);
   const isPinned = userProfile?.pinnedGames?.includes(game.gameId);
   const canPin = userProfile && (userProfile.pinnedGames?.length < 5 || isPinned);
 
@@ -96,6 +99,11 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
           )}
         </Group>
       </Group>
+      {(feats.length > 0 || levelUps.length > 0) && (
+        <Box mt="sm">
+          <GameBadgeRow feats={feats} levelUps={levelUps} />
+        </Box>
+      )}
     </Card>
   );
 };

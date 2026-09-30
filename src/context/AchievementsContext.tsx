@@ -1,5 +1,6 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
 import { notifications } from '@mantine/notifications';
+import { TrackBadge } from '@/components/Badges/Badges';
 import { useAuth } from '@/context/AuthContext';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useDefinitionsRead } from '@/hooks/useDefinitionsRead';
@@ -25,16 +26,17 @@ const useAchievementNotifications = () => {
     }
     if (previous.current?.userKey === userKey) {
       newlyEarned(previous.current.achievements, achievements).forEach((achievement) => {
+        const { track, tier, next, current, level } = achievement;
         notifications.show({
-          id: `${achievement.id}-${achievement.tier?.label}`,
-          title: `${achievement.icon} ${achievement.title}: ${achievement.tier?.label}`,
-          message: `${achievement.current} ${achievement.unit}. ${
-            achievement.next
-              ? `Next: ${achievement.next.label} at ${achievement.next.target}.`
-              : 'Top tier reached!'
+          id: `${achievement.id}-${level}`,
+          icon: <TrackBadge track={track} level={level} size={36} />,
+          title: `${track.name}: ${tier?.label}`,
+          message: `${current} ${track.unit}. ${
+            next ? `Next: ${next.label} at ${next.target}.` : 'Top level reached!'
           }`,
-          color: 'teal',
+          color: 'gray',
           autoClose: 6000,
+          styles: { icon: { background: 'transparent', width: 36, height: 40 } },
         });
       });
     }

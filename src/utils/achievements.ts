@@ -1,104 +1,80 @@
+import {
+  certificationTrack,
+  GLOBETROTTER_MIN_READS,
+  TRACKS,
+  type TrackDef,
+  type TrackId,
+  type TrackLevel,
+} from '@/achievements/config';
+import { levelIndexFor } from '@/achievements/levels';
 import type { Language } from '@/types/firestore';
-import { ALL_LANGUAGES, flagFor, labelFor } from '@/utils/languages';
-
-export interface AchievementTier {
-  label: string;
-  target: number;
-}
+import { ALL_LANGUAGES } from '@/utils/languages';
 
 export interface AchievementProgress {
+  /** `certified-{lang}` or a TrackId. */
   id: string;
-  title: string;
-  icon: string;
-  /** What `current` counts, e.g. "words". */
-  unit: string;
-  description: string;
+  track: TrackDef;
   current: number;
-  /** Highest tier reached, or null if none yet. */
-  tier: AchievementTier | null;
-  /** Next tier to reach, or null once maxed. */
-  next: AchievementTier | null;
+  /** Index into `track.levels` reached, or -1. */
+  level: number;
+  /** Highest level reached, or null if none yet. */
+  tier: TrackLevel | null;
+  /** Next level to reach, or null once maxed. */
+  next: TrackLevel | null;
 }
-
-/** Distinct valid words guessed in a language, named after CEFR levels. */
-export const CERTIFICATION_TIERS: AchievementTier[] = [
-  { label: 'A1', target: 25 },
-  { label: 'A2', target: 75 },
-  { label: 'B1', target: 150 },
-  { label: 'B2', target: 300 },
-  { label: 'C1', target: 600 },
-  { label: 'C2', target: 1200 },
-];
-
-/** Distinct definitions opened, across all languages. */
-export const READER_TIERS: AchievementTier[] = [
-  { label: 'Curious', target: 10 },
-  { label: 'Bookworm', target: 50 },
-  { label: 'Scholar', target: 200 },
-  { label: 'Lexicographer', target: 500 },
-];
-
-/** Number of languages certified at A1 or above. */
-export const POLYGLOT_TIERS: AchievementTier[] = [
-  { label: 'Bilingual', target: 2 },
-  { label: 'Trilingual', target: 3 },
-  { label: 'Polyglot', target: 5 },
-];
-
-const progressFor = (tiers: AchievementTier[], current: number) => {
-  const reached = tiers.filter((t) => current >= t.target);
-  return {
-    tier: reached.at(-1) ?? null,
-    next: tiers[reached.length] ?? null,
-  };
-};
 
 export interface AchievementInputs {
   /** Distinct words guessed per language. */
   wordCounts: Partial<Record<Language, number>>;
   /** Distinct definitions opened, across all languages. */
   definitionsRead: number;
+  /** Tracks below are left out when their input is unknown (e.g. private to the player). */
+  definitionsReadByLang?: Partial<Record<Language, number>>;
+  maxStreak?: number;
+  gamesPlayed?: number;
+  friends?: number;
+  challengeWins?: number;
 }
 
-export const getAchievements = ({
-  wordCounts,
-  definitionsRead,
-}: AchievementInputs): AchievementProgress[] => {
-  const certifications = ALL_LANGUAGES.map((lang): AchievementProgress => {
-    const current = wordCounts[lang] ?? 0;
-    return {
-      id: `certified-${lang}`,
-      title: `${labelFor(lang)} certification`,
-      icon: flagFor(lang),
-      unit: 'words',
-      description: `Distinct ${labelFor(lang)} words you've guessed.`,
-      current,
-      ...progressFor(CERTIFICATION_TIERS, current),
-    };
-  });
+const progress = (id: string, track: TrackDef, current: number): AchievementProgress => {
+  const level = levelIndexFor(track.levels, current);
+  return {
+    id,
+    track,
+    current,
+    level,
+    tier: track.levels[level] ?? null,
+    next: track.levels[level + 1] ?? null,
+  };
+};
 
+export const getAchievements = (inputs: AchievementInputs): AchievementProgress[] => {
+  const certifications = ALL_LANGUAGES.map((lang) =>
+    progress(`certified-${lang}`, certificationTrack(lang), inputs.wordCounts[lang] ?? 0)
+  );
   const certifiedLanguages = certifications.filter((c) => c.tier).length;
+
+  const optional: [TrackId, number | undefined][] = [
+    [
+      'globetrotter',
+      inputs.definitionsReadByLang &&
+        ALL_LANGUAGES.filter(
+          (lang) => (inputs.definitionsReadByLang?.[lang] ?? 0) >= GLOBETROTTER_MIN_READS
+        ).length,
+    ],
+    ['streak', inputs.maxStreak],
+    ['regular', inputs.gamesPlayed],
+    ['duelist', inputs.challengeWins],
+    ['squad', inputs.friends],
+  ];
 
   return [
     ...certifications,
-    {
-      id: 'polyglot',
-      title: 'Polyglot',
-      icon: '🌍',
-      unit: 'languages',
-      description: `Languages certified at ${CERTIFICATION_TIERS[0].label} or above.`,
-      current: certifiedLanguages,
-      ...progressFor(POLYGLOT_TIERS, certifiedLanguages),
-    },
-    {
-      id: 'reader',
-      title: 'Reader',
-      icon: '📖',
-      unit: 'definitions',
-      description: 'Distinct word definitions you’ve opened.',
-      current: definitionsRead,
-      ...progressFor(READER_TIERS, definitionsRead),
-    },
+    progress('polyglot', TRACKS.polyglot, certifiedLanguages),
+    progress('reader', TRACKS.reader, inputs.definitionsRead),
+    ...optional
+      .filter((entry): entry is [TrackId, number] => entry[1] !== undefined)
+      .map(([id, current]) => progress(id, TRACKS[id], current)),
   ];
 };
 
@@ -107,6 +83,6 @@ export const newlyEarned = (
   before: AchievementProgress[],
   after: AchievementProgress[]
 ): AchievementProgress[] => {
-  const previousTargets = new Map(before.map((a) => [a.id, a.tier?.target ?? 0]));
-  return after.filter((a) => (a.tier?.target ?? 0) > (previousTargets.get(a.id) ?? 0));
+  const previousLevels = new Map(before.map((a) => [a.id, a.level]));
+  return after.filter((a) => previousLevels.has(a.id) && a.level > previousLevels.get(a.id)!);
 };
