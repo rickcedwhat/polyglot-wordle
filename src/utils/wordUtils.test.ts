@@ -331,31 +331,28 @@ describe('validateGuess', () => {
       guess: 'table',
       masterPools,
       solution,
-      isChallenge: false,
     });
     expect(res.isValid).toBe(true);
     expect(res.matchedLangs).toEqual(['en']);
     expect(res.solutionLangs).toEqual([]);
   });
 
-  it('rejects words missing from the master dictionary in solo mode', () => {
+  it('rejects words missing from the master dictionary that are not answers', () => {
     const res = wordUtils.validateGuess({
-      guess: 'ghost',
+      guess: 'zzzzz',
       masterPools,
       solution,
-      isChallenge: false,
     });
     expect(res.isValid).toBe(false);
     expect(res.matchedLangs).toEqual([]);
     expect(res.solutionLangs).toEqual([]);
   });
 
-  it('accepts inherited challenge solution words even when missing from master dictionary', () => {
+  it('accepts solution words even when missing from master dictionary', () => {
     const res = wordUtils.validateGuess({
       guess: 'ghost',
       masterPools,
       solution,
-      isChallenge: true,
     });
     expect(res.isValid).toBe(true);
     expect(res.matchedLangs).toEqual(['es']);
@@ -367,7 +364,6 @@ describe('validateGuess', () => {
       guess: 'ghost',
       masterPools,
       solution,
-      isChallenge: true,
       previousGuesses: ['ghost'],
     });
     expect(res.isValid).toBe(false);
@@ -379,7 +375,6 @@ describe('validateGuess', () => {
         guess: 'cat',
         masterPools,
         solution,
-        isChallenge: true,
       }).isValid
     ).toBe(false);
 
@@ -388,7 +383,6 @@ describe('validateGuess', () => {
         guess: 'bananas',
         masterPools,
         solution,
-        isChallenge: true,
       }).isValid
     ).toBe(false);
   });
@@ -404,7 +398,6 @@ describe('validateGuess', () => {
       guess: 'rêvée',
       masterPools,
       solution: accentedSolution,
-      isChallenge: true,
     });
     expect(res.isValid).toBe(true);
     expect(res.matchedLangs).toEqual(['fr']);

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { Difficulty, Language } from '@/types/firestore';
 import { ALL_LANGUAGES } from '@/utils/languages';
-import { Dictionary } from '@/utils/wordUtils';
+import { Dictionary, isProperNoun } from '@/utils/wordUtils';
 
 type Difficulties = Partial<Record<Language, Difficulty>>;
 
@@ -44,11 +44,13 @@ const fetchWordPools = async (
     const cutoff = thresholds[selectedDifficulty] || 0.4;
     const masterDict = masterDictionaries[lang]!;
 
-    filteredPools[lang] = Object.entries(masterDict)
+    const guessable = Object.entries(masterDict).filter(([_word, entry]) => !isProperNoun(entry));
+
+    filteredPools[lang] = guessable
       .filter(([_word, entry]) => entry.d <= cutoff)
       .map(([word]) => word);
 
-    masterPools[lang] = Object.keys(masterDict);
+    masterPools[lang] = guessable.map(([word]) => word);
   });
 
   return { filtered: filteredPools, master: masterPools, dictionaries: masterDictionaries };
