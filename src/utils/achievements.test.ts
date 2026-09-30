@@ -60,6 +60,34 @@ describe('getAchievements', () => {
   });
 });
 
+describe('optional tracks', () => {
+  it('adds tracks only when their inputs are known', () => {
+    const achievements = getAchievements({
+      wordCounts: {},
+      definitionsRead: 30,
+      definitionsReadByLang: { en: 10, es: 5, fr: 5, it: 5, pt: 5 },
+      maxStreak: 8,
+      gamesPlayed: 12,
+      friends: 0,
+    });
+    expect(byId(achievements, 'globetrotter').tier?.label).toBe('Globetrotter');
+    expect(byId(achievements, 'streak').tier?.label).toBe('7');
+    expect(byId(achievements, 'regular').tier?.label).toBe('10');
+    expect(byId(achievements, 'squad').tier).toBeNull();
+    expect(achievements.find((a) => a.id === 'duelist')).toBeUndefined();
+  });
+
+  it('needs the minimum reads in every language for Globetrotter', () => {
+    const achievements = getAchievements({
+      wordCounts: {},
+      definitionsRead: 40,
+      definitionsReadByLang: { en: 30, es: 4, fr: 5, it: 5, pt: 5 },
+    });
+    expect(byId(achievements, 'globetrotter').current).toBe(4);
+    expect(byId(achievements, 'globetrotter').tier).toBeNull();
+  });
+});
+
 describe('newlyEarned', () => {
   it('returns only achievements whose tier went up', () => {
     const before = getAchievements({ wordCounts: { es: 24, en: 30 }, definitionsRead: 9 });

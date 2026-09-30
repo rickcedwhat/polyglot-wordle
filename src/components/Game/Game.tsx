@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Box, Center, Loader, Notification } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { featKey } from '@/achievements/detectFeats';
+import { getGameAchievements } from '@/achievements/gameAchievements';
+import { notifyFeat } from '@/components/Badges/notifyFeat';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { MAX_GUESSES } from '@/config';
 import { useAuth } from '@/context/AuthContext';
@@ -41,7 +44,8 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const [gameOverOpened, { open: openGameOver, close: closeGameOver }] = useDisclosure(false);
   const { recalculateScore, flightsInProgress, holdPoints } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
-  const { recordGuess } = useVocabulary();
+  const { recordGuess, vocabulary } = useVocabulary();
+  const [mountedAt] = useState(() => new Date());
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const { data: wordPools } = useWordPools(difficulties);
   const { challengerUser, challengerGame, isChallenge } = useChallenge(gameSession.gameId);
@@ -204,6 +208,17 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           );
           setCurrentGuess(Array(5).fill(''));
           setCursorIndex(0);
+          const fallbacks = { startedAt: mountedAt };
+          const featsBefore = new Set(
+            getGameAchievements(
+              { ...gameSession, guessHistory: guesses },
+              vocabulary,
+              fallbacks
+            ).feats.map(featKey)
+          );
+          getGameAchievements({ ...gameSession, guessHistory: newGuesses }, vocabulary, fallbacks)
+            .feats.filter((feat) => !featsBefore.has(featKey(feat)))
+            .forEach(notifyFeat);
           await updateGuessHistory(guessString);
           updateLetterStatuses({ guesses: newGuesses, solution, shuffledLanguages });
 
@@ -252,7 +267,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       challengerGame,
       endGame,
       fireBurst,
+      gameSession,
       gameStatus,
+      mountedAt,
+      vocabulary,
       guessHistory,
       guesses,
       isChallenge,

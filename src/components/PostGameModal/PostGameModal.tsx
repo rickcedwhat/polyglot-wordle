@@ -32,11 +32,13 @@ import { useAuth } from '@/context/AuthContext';
 import { ChallengerProfile } from '@/hooks/useChallenge';
 import { useDefinition } from '@/hooks/useDefinition';
 import { useFlaggedWords } from '@/hooks/useFlaggedWords';
+import { useGameAchievements } from '@/hooks/useGameAchievements';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { GameDoc, Language } from '@/types/firestore';
 import { labelFor, languagesFromGame } from '@/utils/languages';
 import { shareGameResult } from '@/utils/shareImageUtils';
 import { calculateScoreFromHistory, normalizeWord, scoringVersionOf } from '@/utils/wordUtils';
+import { EarnedThisGame } from '../Badges/GameAchievements';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 
 interface PostGameModalProps {
@@ -201,6 +203,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
     [guessHistory, words, gameSession]
   );
   const effectiveScore = score ?? calculatedScore;
+  const { feats, levelUps } = useGameAchievements(gameSession);
 
   const handleShare = async () => {
     setIsSharing(true);
@@ -335,6 +338,8 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             </SimpleGrid>
           </Paper>
         )}
+
+        <EarnedThisGame feats={feats} levelUps={levelUps} />
 
         {/* Target Words & Definitions */}
         <Stack gap="xs">

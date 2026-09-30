@@ -299,7 +299,7 @@ const getGameEndEvents = (
 };
 
 /** Per-guess events for the whole history; game-end events are appended to the last guess. */
-const scoreHistory = (
+export const scoreHistory = (
   guessHistory: string[],
   solution: SolutionWords,
   version: number
