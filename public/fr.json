@@ -2540,13 +2540,6 @@
     "def": "feminine singular of celui.",
     "reviewed": true
   },
-  "celte": {
-    "display": "Celte",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "A member of an ancient people who spoke Celtic languages and inhabited parts of Europe from the Bronze Age onwards.",
-    "reviewed": true
-  },
   "celui": {
     "display": "celui",
     "d": 0.08,
@@ -3170,13 +3163,6 @@
     "def": "The hard protective outer case of a mollusk, turtle, or crustacean.",
     "reviewed": true
   },
-  "coran": {
-    "display": "Coran",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "The central religious text of Islam, believed by Muslims to be a revelation from God.",
-    "reviewed": true
-  },
   "corde": {
     "display": "corde",
     "d": 0.29,
@@ -3196,13 +3182,6 @@
     "d": 0.07,
     "pos": "noun",
     "def": "The physical structure and material substance of a human or animal; body.",
-    "reviewed": true
-  },
-  "corse": {
-    "display": "Corse",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "The island of Corsica, or a person from Corsica; also, referring to something related to Corsica.",
     "reviewed": true
   },
   "cotes": {
@@ -7501,13 +7480,6 @@
     "d": 0.95,
     "pos": "noun",
     "def": "An arboreal herbivorous marsupial native to Australia, known for its distinctive appearance and eucalyptus diet.",
-    "reviewed": true
-  },
-  "kurde": {
-    "display": "Kurde",
-    "d": 0.82,
-    "pos": "noun",
-    "def": "A member of a large ethnic group native to a mountainous region of Western Asia, known as Kurdistan.",
     "reviewed": true
   },
   "kyste": {
@@ -14776,13 +14748,6 @@
     "def": "We kill or cause the death of someone or something (first-person plural present of tuer).",
     "reviewed": true
   },
-  "turcs": {
-    "display": "Turcs",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "People from Turkey, or of Turkish descent (masculine plural of 'Turc').",
-    "reviewed": true
-  },
   "tuyau": {
     "display": "tuyau",
     "d": 0.38,
@@ -15278,13 +15243,6 @@
     "d": 0.82,
     "pos": "noun",
     "def": "Immoral or wicked behavior, or a bad habit or personal failing; plural form of \"vice\".",
-    "reviewed": true
-  },
-  "vichy": {
-    "display": "Vichy",
-    "d": 0.95,
-    "pos": "noun",
-    "def": "A type of cotton fabric, typically woven in a checked or striped pattern, often associated with the city of Vichy.",
     "reviewed": true
   },
   "videe": {

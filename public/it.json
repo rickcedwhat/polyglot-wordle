@@ -7762,13 +7762,6 @@
     "def": "A container typically made of woven material, used for carrying or storing items.",
     "reviewed": true
   },
-  "giove": {
-    "display": "Giove",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "The largest planet in our solar system, or the chief Roman god of the sky and thunder.",
-    "reviewed": true
-  },
   "ladra": {
     "display": "ladra",
     "d": 0.65,
@@ -7788,13 +7781,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "The plants of a particular region, habitat, or geological period.",
-    "reviewed": true
-  },
-  "giuda": {
-    "display": "Giuda",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "A biblical figure known for betraying Jesus, or a person who acts as a traitor.",
     "reviewed": true
   },
   "segna": {
@@ -8810,13 +8796,6 @@
     "d": 0.65,
     "pos": "verb",
     "def": "Lies down or is situated; refers to something or someone resting horizontally (present tense of giacere).",
-    "reviewed": true
-  },
-  "praga": {
-    "display": "Praga",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "The capital city of the Czech Republic, known for its historic architecture and cultural significance.",
     "reviewed": true
   },
   "muffa": {
@@ -10217,13 +10196,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "Small, egg-shaped structures containing the female reproductive cells in plants or animals; ovules.",
-    "reviewed": true
-  },
-  "atene": {
-    "display": "Atene",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "The capital and largest city of Greece, known for its ancient history and cultural significance.",
     "reviewed": true
   },
   "offra": {

@@ -1,5 +1,7 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import { buildGameId } from './languages';
+import { ALL_LANGUAGES, buildGameId } from './languages';
 import * as wordUtils from './wordUtils';
 
 const { calculateScoreFromHistory, getGuessStatuses, normalizeWord } = wordUtils;
@@ -52,31 +54,17 @@ describe('getWordsFromUuid', () => {
       vi.unstubAllGlobals();
     }
   });
+});
 
-  it('skips proper nouns as answers without moving other answers', async () => {
-    const id = buildGameId({
-      entropyHex: '000000010000000200000000',
-      languages: ['pt', 'it', 'fr'],
-      difficulties: ['basic', 'basic', 'basic'],
-      seedNibble: '0',
-    });
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () => ({
-        ok: true,
-        json: async () => ({
-          first: { d: 0.1 },
-          chile: { d: 0.1, display: 'Chile' },
-          third: { d: 0.1 },
-        }),
-      }))
+describe('shipped dictionaries', () => {
+  it.each(ALL_LANGUAGES)('%s has no proper nouns (capitalized display text)', (lang) => {
+    const dictionary: wordUtils.Dictionary = JSON.parse(
+      readFileSync(join(process.cwd(), 'public', `${lang}.json`), 'utf8')
     );
-    try {
-      const { words } = await wordUtils.getWordsFromUuid(id);
-      expect(words).toEqual({ pt: 'third', it: 'third', fr: 'first' });
-    } finally {
-      vi.unstubAllGlobals();
-    }
+    const properNouns = Object.values(dictionary)
+      .map((entry) => entry.display)
+      .filter((display) => display && display !== display.toLowerCase());
+    expect(properNouns).toEqual([]);
   });
 });
 

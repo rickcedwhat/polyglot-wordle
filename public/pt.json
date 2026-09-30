@@ -11269,20 +11269,6 @@
     "def": "A hard, pointed growth on the head of some animals; also, a derogatory term for a cuckold.",
     "reviewed": true
   },
-  "sudao": {
-    "display": "Sudão",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "A large country located in Northeast Africa, officially known as the Republic of the Sudan.",
-    "reviewed": true
-  },
-  "chile": {
-    "display": "Chile",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "A long, narrow country situated along the western coast of South America.",
-    "reviewed": true
-  },
   "fungo": {
     "display": "fungo",
     "d": 0.65,
@@ -14489,13 +14475,6 @@
     "def": "A yellow alloy of copper and zinc, used for decorative objects and musical instruments; brass.",
     "reviewed": true
   },
-  "corao": {
-    "display": "Corão",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "The central religious text of Islam, believed by Muslims to be a revelation from God; the Quran.",
-    "reviewed": true
-  },
   "touca": {
     "display": "touca",
     "d": 0.65,
@@ -14578,13 +14557,6 @@
     "d": 0.65,
     "pos": "verb",
     "def": "To disappear, vanish, or go out of sight; to fade away.",
-    "reviewed": true
-  },
-  "satan": {
-    "display": "Satã",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "The chief evil spirit in Christianity and Islam; the Devil or Satan.",
     "reviewed": true
   },
   "totem": {
@@ -15607,13 +15579,6 @@
     "d": 0.65,
     "pos": "noun",
     "def": "A male deer, especially a large one with antlers; a stag or hart.",
-    "reviewed": true
-  },
-  "galia": {
-    "display": "Gália",
-    "d": 0.65,
-    "pos": "noun",
-    "def": "An ancient region in Western Europe, corresponding to modern-day France, Belgium, and parts of Germany.",
     "reviewed": true
   },
   "samba": {
