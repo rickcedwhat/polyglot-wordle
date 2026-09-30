@@ -2,7 +2,15 @@ import { describe, expect, it, vi } from 'vitest';
 import { buildGameId } from './languages';
 import * as wordUtils from './wordUtils';
 
-const { calculateScoreFromHistory } = wordUtils;
+const { calculateScoreFromHistory, getGuessStatuses, normalizeWord } = wordUtils;
+
+describe('capitalized display text', () => {
+  it('matches a capitalized dictionary display against a lowercase answer', () => {
+    expect(normalizeWord('Chile')).toBe('chile');
+    expect(normalizeWord('Dormí')).toBe('dormi');
+    expect(getGuessStatuses('Chile', 'chile')).toEqual(Array(5).fill('correct'));
+  });
+});
 
 describe('getWordsFromUuid', () => {
   it('derives a word and difficulty for all five encoded languages', async () => {
