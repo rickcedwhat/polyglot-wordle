@@ -1,8 +1,18 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import { buildGameId } from './languages';
+import { ALL_LANGUAGES, buildGameId } from './languages';
 import * as wordUtils from './wordUtils';
 
-const { calculateScoreFromHistory } = wordUtils;
+const { calculateScoreFromHistory, getGuessStatuses, normalizeWord } = wordUtils;
+
+describe('capitalized display text', () => {
+  it('matches a capitalized dictionary display against a lowercase answer', () => {
+    expect(normalizeWord('Chile')).toBe('chile');
+    expect(normalizeWord('Dormí')).toBe('dormi');
+    expect(getGuessStatuses('Chile', 'chile')).toEqual(Array(5).fill('correct'));
+  });
+});
 
 describe('getWordsFromUuid', () => {
   it('derives a word and difficulty for all five encoded languages', async () => {
@@ -43,6 +53,18 @@ describe('getWordsFromUuid', () => {
     } finally {
       vi.unstubAllGlobals();
     }
+  });
+});
+
+describe('shipped dictionaries', () => {
+  it.each(ALL_LANGUAGES)('%s has no proper nouns (capitalized display text)', (lang) => {
+    const dictionary: wordUtils.Dictionary = JSON.parse(
+      readFileSync(join(process.cwd(), 'public', `${lang}.json`), 'utf8')
+    );
+    const properNouns = Object.values(dictionary)
+      .map((entry) => entry.display)
+      .filter((display) => display && display !== display.toLowerCase());
+    expect(properNouns).toEqual([]);
   });
 });
 
@@ -297,31 +319,28 @@ describe('validateGuess', () => {
       guess: 'table',
       masterPools,
       solution,
-      isChallenge: false,
     });
     expect(res.isValid).toBe(true);
     expect(res.matchedLangs).toEqual(['en']);
     expect(res.solutionLangs).toEqual([]);
   });
 
-  it('rejects words missing from the master dictionary in solo mode', () => {
+  it('rejects words missing from the master dictionary that are not answers', () => {
     const res = wordUtils.validateGuess({
-      guess: 'ghost',
+      guess: 'zzzzz',
       masterPools,
       solution,
-      isChallenge: false,
     });
     expect(res.isValid).toBe(false);
     expect(res.matchedLangs).toEqual([]);
     expect(res.solutionLangs).toEqual([]);
   });
 
-  it('accepts inherited challenge solution words even when missing from master dictionary', () => {
+  it('accepts solution words even when missing from master dictionary', () => {
     const res = wordUtils.validateGuess({
       guess: 'ghost',
       masterPools,
       solution,
-      isChallenge: true,
     });
     expect(res.isValid).toBe(true);
     expect(res.matchedLangs).toEqual(['es']);
@@ -333,7 +352,6 @@ describe('validateGuess', () => {
       guess: 'ghost',
       masterPools,
       solution,
-      isChallenge: true,
       previousGuesses: ['ghost'],
     });
     expect(res.isValid).toBe(false);
@@ -345,7 +363,6 @@ describe('validateGuess', () => {
         guess: 'cat',
         masterPools,
         solution,
-        isChallenge: true,
       }).isValid
     ).toBe(false);
 
@@ -354,7 +371,6 @@ describe('validateGuess', () => {
         guess: 'bananas',
         masterPools,
         solution,
-        isChallenge: true,
       }).isValid
     ).toBe(false);
   });
@@ -370,7 +386,6 @@ describe('validateGuess', () => {
       guess: 'rêvée',
       masterPools,
       solution: accentedSolution,
-      isChallenge: true,
     });
     expect(res.isValid).toBe(true);
     expect(res.matchedLangs).toEqual(['fr']);

@@ -23,6 +23,7 @@ export type Dictionary = Record<string, WordEntry>;
 // New function to remove accents and special characters
 export const normalizeWord = (word: string): string => {
   return word
+    .toLowerCase() // Dictionary display text can be capitalized (e.g. 'Chile')
     .normalize('NFD') // Decomposes combined characters (e.g., 'é' -> 'e' + '´')
     .replace(/[\u0300-\u036f]/g, '') // Removes all the accent marks
     .replace('ñ', 'n') // Specifically handle the 'ñ'
@@ -391,7 +392,6 @@ export interface ValidateGuessParams {
   guess: string;
   masterPools: Partial<Record<Language, string[]>>;
   solution: SolutionWords;
-  isChallenge?: boolean;
   previousGuesses?: string[];
 }
 
@@ -404,16 +404,14 @@ export interface GuessValidationResult {
 /**
  * Validates a 5-letter guess against the loaded master dictionaries.
  *
- * In challenge mode (isChallenge: true), inherited solution words from the
- * challenger's session are always accepted as valid guesses even if they
- * are absent from the local/current master dictionary (preventing soft-locks
- * caused by dictionary drift).
+ * A game's own solution words are always accepted, even if they are absent from
+ * the current master dictionary (dictionary drift, inherited challenge words, or
+ * proper nouns that were answers before being excluded), so no game soft-locks.
  */
 export const validateGuess = ({
   guess,
   masterPools,
   solution,
-  isChallenge = false,
   previousGuesses = [],
 }: ValidateGuessParams): GuessValidationResult => {
   const normGuess = normalizeWord(guess);
@@ -437,7 +435,7 @@ export const validateGuess = ({
     if (isSolution) {
       solutionLangs.push(lang);
     }
-    if (inMaster || (isChallenge && isSolution)) {
+    if (inMaster || isSolution) {
       matchedLangs.push(lang);
     }
   });

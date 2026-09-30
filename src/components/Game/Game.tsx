@@ -180,12 +180,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           return;
         }
 
-        const isChallengeSession = Boolean(isChallenge || challengerGame);
         const { isValid, matchedLangs, solutionLangs } = validateGuess({
           guess: guessString,
           masterPools: wordPools.master,
           solution,
-          isChallenge: isChallengeSession,
           previousGuesses: guesses,
         });
 
@@ -264,7 +262,6 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     [
       currentGuess,
       cursorIndex,
-      challengerGame,
       endGame,
       fireBurst,
       gameSession,
@@ -273,7 +270,6 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       vocabulary,
       guessHistory,
       guesses,
-      isChallenge,
       scoringVersion,
       recalculateScore,
       recordGuess,
