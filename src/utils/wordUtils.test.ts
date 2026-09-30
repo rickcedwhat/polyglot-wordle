@@ -52,6 +52,32 @@ describe('getWordsFromUuid', () => {
       vi.unstubAllGlobals();
     }
   });
+
+  it('skips proper nouns as answers without moving other answers', async () => {
+    const id = buildGameId({
+      entropyHex: '000000010000000200000000',
+      languages: ['pt', 'it', 'fr'],
+      difficulties: ['basic', 'basic', 'basic'],
+      seedNibble: '0',
+    });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: true,
+        json: async () => ({
+          first: { d: 0.1 },
+          chile: { d: 0.1, display: 'Chile' },
+          third: { d: 0.1 },
+        }),
+      }))
+    );
+    try {
+      const { words } = await wordUtils.getWordsFromUuid(id);
+      expect(words).toEqual({ pt: 'third', it: 'third', fr: 'first' });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
 });
 
 describe('calculateScoreFromHistory (v1)', () => {

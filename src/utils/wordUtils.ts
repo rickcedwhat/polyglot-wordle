@@ -74,6 +74,10 @@ const fetchDictionary = async (lang: Language): Promise<Dictionary> => {
   return response.json();
 };
 
+/** Proper nouns are the only entries whose display text is capitalized (e.g. 'Chile'). */
+export const isProperNoun = (entry: WordEntry | undefined) =>
+  Boolean(entry?.display && entry.display !== entry.display.toLowerCase());
+
 const getIndexFromHex = (hex: string, max: number): number => {
   const decimal = parseInt(hex, 16);
   return decimal % max;
@@ -115,7 +119,16 @@ export const getWordsFromUuid = async (uuid: string) => {
     }
 
     const hexPart = uuid.substring(i * 8, (i + 1) * 8);
-    const index = getIndexFromHex(hexPart, wordList.length);
+    let index = getIndexFromHex(hexPart, wordList.length);
+    // Proper nouns stay valid guesses but are never answers. Stepping forward (instead of
+    // filtering them out of the list) keeps every other id's answer unchanged.
+    for (
+      let step = 0;
+      step < wordList.length && isProperNoun(dictionary[wordList[index]]);
+      step++
+    ) {
+      index = (index + 1) % wordList.length;
+    }
     solutionWords[lang] = wordList[index];
   });
 
