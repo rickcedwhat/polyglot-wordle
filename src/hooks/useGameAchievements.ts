@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { getGameAchievements, type AchievementGame } from '@/achievements/gameAchievements';
 import { useVocabulary } from '@/hooks/useVocabulary';
 
@@ -8,14 +8,23 @@ export const useGameAchievements = (
 ) => {
   const { vocabulary, isLoading } = useVocabulary(game.userId);
   const [now] = useState(() => new Date());
+  const [completedAt, setCompletedAt] = useState(() =>
+    game.isLiveGame === false ? now : undefined
+  );
+
+  useEffect(() => {
+    if (game.isLiveGame === false && !completedAt) {
+      setCompletedAt(new Date());
+    }
+  }, [game.isLiveGame, completedAt]);
 
   const achievements = useMemo(
     () =>
       getGameAchievements(game, isLoading ? undefined : vocabulary, {
         startedAt: now,
-        completedAt: game.isLiveGame === false ? now : undefined,
+        completedAt: game.isLiveGame === false ? completedAt : undefined,
       }),
-    [game, vocabulary, isLoading, now]
+    [game, vocabulary, isLoading, now, completedAt]
   );
 
   return { ...achievements, isLoading };
