@@ -167,9 +167,9 @@ export function languagesFromGame(game: {
   return [...DEFAULT_LANGUAGES];
 }
 
-/** Path segment like `en-it-pt` (order preserved; at least three unique codes). */
+/** Path segment like `en-it-pt`, always alphabetical (board order comes from the game id). */
 export function formatLangCombo(languages: Language[]): string {
-  return languages.join('-').toLowerCase();
+  return [...languages].sort().join('-').toLowerCase();
 }
 
 export function parseLangCombo(segment: string | undefined): LanguageCombo | null {

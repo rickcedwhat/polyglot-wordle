@@ -52,7 +52,7 @@ describe('languages UUID helpers', () => {
     expect(isV3GameId(id)).toBe(true);
     expect(isGameId(id)).toBe(true);
     expect(decodeLanguagesFromUuid(id)).toEqual(languages);
-    expect(gamePath(id)).toBe(`/game/${languages.join('-')}/${id}`);
+    expect(gamePath(id)).toBe(`/game/${[...languages].sort().join('-')}/${id}`);
   });
 
   it('rejects malformed extended ids and duplicate languages', () => {
@@ -87,6 +87,7 @@ describe('language path helpers', () => {
 
   it('formats and parses language combo segments', () => {
     expect(formatLangCombo(['en', 'it', 'pt'])).toBe('en-it-pt');
+    expect(formatLangCombo(['pt', 'en', 'es'])).toBe('en-es-pt');
     expect(parseLangCombo('en-it-pt')).toEqual(['en', 'it', 'pt']);
     expect(parseLangCombo('EN-IT-PT')).toEqual(['en', 'it', 'pt']);
     expect(parseLangCombo('EN-IT-PT-ES')).toEqual(['en', 'it', 'pt', 'es']);
