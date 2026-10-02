@@ -6,6 +6,7 @@ import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
 
 import { FEAT_ORDER, TRACKS } from '@/achievements/config';
+import { promptFlagMissingWord } from '@/components/Game/promptFlagMissingWord';
 import { showToast } from '@/utils/toast';
 import { FeatMedal, TrackBadge } from './Badges';
 import { EarnedThisGame, GameBadgeRow } from './GameAchievements';
@@ -76,6 +77,9 @@ export const Toasts: Story = {
         }}
       >
         Fire toasts
+      </Button>
+      <Button variant="light" onClick={() => promptFlagMissingWord('treco', ['pt', 'en', 'es'])}>
+        Flag missing word prompt
       </Button>
     </Stack>
   ),

@@ -12,22 +12,31 @@ export const clearPendingToasts = () => {
   nextToastAt = 0;
 };
 
+const show = (data: NotificationData) => {
+  const isMobile = window.matchMedia('(max-width: 48em)').matches;
+  notifications.show({
+    autoClose: 6000,
+    position: isMobile ? 'bottom-center' : 'bottom-right',
+    ...data,
+  });
+};
+
 /**
  * Shows a toast in the shared stack (bottom-right on desktop, bottom-center on mobile).
- * Toasts appear one after another rather than all at once.
+ * Toasts appear one after another rather than all at once; `immediate` skips the queue
+ * for direct responses to the player (e.g. a prompt).
  */
-export const showToast = (data: NotificationData) => {
+export const showToast = (data: NotificationData, { immediate = false } = {}) => {
+  if (immediate) {
+    show(data);
+    return;
+  }
   const now = Date.now();
   const showAt = Math.max(now + FIRST_TOAST_DELAY_MS, nextToastAt + TOAST_GAP_MS);
   nextToastAt = showAt;
   const timeout = setTimeout(() => {
     pendingToasts.delete(timeout);
-    const isMobile = window.matchMedia('(max-width: 48em)').matches;
-    notifications.show({
-      autoClose: 6000,
-      position: isMobile ? 'bottom-center' : 'bottom-right',
-      ...data,
-    });
+    show(data);
   }, showAt - now);
   pendingToasts.add(timeout);
 };
