@@ -36,7 +36,7 @@ import { useGameAchievements } from '@/hooks/useGameAchievements';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { GameDoc, Language } from '@/types/firestore';
 import { labelFor, languagesFromGame } from '@/utils/languages';
-import { shareGameResult } from '@/utils/shareImageUtils';
+import { shareGameResult } from '@/utils/shareUtils';
 import { calculateScoreFromHistory, normalizeWord, scoringVersionOf } from '@/utils/wordUtils';
 import { EarnedThisGame } from '../Badges/GameAchievements';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
@@ -216,8 +216,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
           isWin: effectiveIsWin,
         },
         currentUserId: currentUser?.uid,
-        challengerName: challengerUser?.displayName,
-        onFallbackCopied: () => {
+        onCopied: () => {
           setCopied(true);
           setTimeout(() => setCopied(false), 3000);
         },
@@ -374,7 +373,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             onClick={handleShare}
             loading={isSharing}
           >
-            {shareError ? 'Share Failed' : copied ? 'Link Copied!' : 'Share Challenge'}
+            {shareError ? 'Share Failed' : copied ? 'Copied!' : 'Share Challenge'}
           </Button>
           {onPlayAgain && (
             <Button
