@@ -2,6 +2,11 @@
   "firestore": {
     "rules": "firestore.rules"
   },
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22",
+    "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build"]
+  },
   "hosting": {
     "public": "dist",
     "ignore": [
@@ -10,6 +15,14 @@
       "**/node_modules/**"
     ],
     "rewrites": [
+      {
+        "source": "/game/**",
+        "function": { "functionId": "gamePreview", "region": "us-central1" }
+      },
+      {
+        "source": "/og/**",
+        "function": { "functionId": "gamePreview", "region": "us-central1" }
+      },
       {
         "source": "**",
         "destination": "/index.html"

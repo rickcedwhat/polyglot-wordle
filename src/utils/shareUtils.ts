@@ -1,60 +1,19 @@
 import { GameDoc } from '@/types/firestore';
 import { flagFor, gamePath, languagesFromGame } from '@/utils/languages';
-import { getGuessStatuses, LetterStatus, normalizeWord } from '@/utils/wordUtils';
-
-const MAX_GUESSES = 8;
-const WORD_LENGTH = 5;
-const BOARD_GUTTER = '  ';
-
-const SQUARES: Record<LetterStatus | 'empty', string> = {
-  correct: '🟩',
-  present: '🟨',
-  absent: '⬜',
-  unknown: '⬛',
-  empty: '⬛',
-};
 
 export interface ShareTextOptions {
-  gameSession: Pick<GameDoc, 'words' | 'guessHistory' | 'score' | 'shuffledLanguages'>;
+  gameSession: Pick<GameDoc, 'words' | 'score' | 'shuffledLanguages'>;
   challengeUrl: string;
 }
 
 /**
- * Wordle-style share text: a full 8-row grid per board, boards side by side in board order.
- * The flags line is alphabetical so it never reveals which board is which language.
+ * Short share text. The board grid is shown by the link's preview card (rendered server-side),
+ * since emoji grids for multiple boards wrap badly in phone message bubbles.
+ * Flags are alphabetical so they never reveal which board is which language.
  */
 export const buildShareText = ({ gameSession, challengeUrl }: ShareTextOptions): string => {
-  const { words, guessHistory, score } = gameSession;
-  const languages = languagesFromGame(gameSession);
-  const guesses = guessHistory.map(normalizeWord);
-
-  const boards = languages.map((lang) => {
-    const solution = words[lang]!;
-    const solvedTurn = guesses.indexOf(normalizeWord(solution));
-    return Array.from({ length: MAX_GUESSES }, (_, row) => {
-      const guess = guessHistory[row];
-      const isAfterSolve = solvedTurn !== -1 && row > solvedTurn;
-      if (!guess || isAfterSolve) {
-        return SQUARES.empty.repeat(WORD_LENGTH);
-      }
-      return getGuessStatuses(guess, solution)
-        .map((status) => SQUARES[status])
-        .join('');
-    });
-  });
-
-  const rows = Array.from({ length: MAX_GUESSES }, (_, row) =>
-    boards.map((board) => board[row]).join(BOARD_GUTTER)
-  );
-  const flags = [...languages].sort().map(flagFor).join(' ');
-
-  return [
-    `Polyglot Wordle • ${score ?? 0} pts`,
-    flags,
-    ...rows,
-    'Can you beat me?',
-    challengeUrl,
-  ].join('\n');
+  const flags = [...languagesFromGame(gameSession)].sort().map(flagFor).join(' ');
+  return [`${flags} • ${gameSession.score ?? 0} pts`, 'Can you beat me?', challengeUrl].join('\n');
 };
 
 export interface ShareGameResultParams {
