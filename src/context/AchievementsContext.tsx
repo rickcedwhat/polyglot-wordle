@@ -1,11 +1,11 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
-import { notifications } from '@mantine/notifications';
 import { TrackBadge } from '@/components/Badges/Badges';
 import { useAuth } from '@/context/AuthContext';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useDefinitionsRead } from '@/hooks/useDefinitionsRead';
 import type { Language } from '@/types/firestore';
 import { newlyEarned, type AchievementProgress } from '@/utils/achievements';
+import { showToast } from '@/utils/toast';
 
 interface AchievementsContextType {
   recordDefinitionRead: (lang: Language, word: string) => void;
@@ -27,7 +27,7 @@ const useAchievementNotifications = () => {
     if (previous.current?.userKey === userKey) {
       newlyEarned(previous.current.achievements, achievements).forEach((achievement) => {
         const { track, tier, next, current, level } = achievement;
-        notifications.show({
+        showToast({
           id: `${achievement.id}-${level}`,
           icon: <TrackBadge track={track} level={level} size={36} />,
           title: `${track.name}: ${tier?.label}`,
@@ -35,7 +35,6 @@ const useAchievementNotifications = () => {
             next ? `Next: ${next.label} at ${next.target}.` : 'Top level reached!'
           }`,
           color: 'gray',
-          autoClose: 6000,
           styles: { icon: { background: 'transparent', width: 36, height: 40 } },
         });
       });

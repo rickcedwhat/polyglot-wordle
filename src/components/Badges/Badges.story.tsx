@@ -1,8 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Group, Stack } from '@mantine/core';
+import { IconSwords } from '@tabler/icons-react';
+import { Button, Group, Stack } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+
+import '@mantine/notifications/styles.css';
+
 import { FEAT_ORDER, TRACKS } from '@/achievements/config';
+import { showToast } from '@/utils/toast';
 import { FeatMedal, TrackBadge } from './Badges';
 import { EarnedThisGame, GameBadgeRow } from './GameAchievements';
+import { notifyFeat } from './notifyFeat';
 
 const meta: Meta = { title: 'Badges' };
 
@@ -49,6 +56,27 @@ export const PostGame: Story = {
   render: () => (
     <Stack p="md" maw={480}>
       <EarnedThisGame {...sample} />
+    </Stack>
+  ),
+};
+
+export const Toasts: Story = {
+  render: () => (
+    <Stack p="md" align="flex-start">
+      <Notifications />
+      <Button
+        onClick={() => {
+          notifyFeat({ id: 'outOfNowhere', guess: 5, lang: 'fr', value: 1 });
+          notifyFeat({ id: 'jackpot', guess: 5, value: 9 });
+          showToast({
+            icon: <IconSwords size={18} />,
+            message: 'Alex finished — you won 1503–1240',
+            color: 'blue',
+          });
+        }}
+      >
+        Fire toasts
+      </Button>
     </Stack>
   ),
 };

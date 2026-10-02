@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import {
   IconAdjustmentsHorizontal,
   IconFlag,
@@ -12,8 +12,9 @@ import {
   IconUser,
 } from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Affix, Badge, Divider, Group, Paper, Stack, Text, Transition } from '@mantine/core';
+import { Badge, Divider, Paper, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { DifficultyModal } from '@/components/DifficultyModal/DifficultyModal';
 import { FlagsModal } from '@/components/FlagsModal/FlagsModal';
 import { HowToPlayModal } from '@/components/HowToPlayModal/HowToPlayModal';
@@ -24,6 +25,7 @@ import { useChallengeResultToasts, useChallenges } from '@/hooks/useChallenges';
 import { useGameActions } from '@/hooks/useGameActions';
 import { openSandboxDrawer } from '@/hooks/useSandboxDrawer';
 import type { LanguageCombo } from '@/types/firestore';
+import { showToast } from '@/utils/toast';
 import { BlurButton as Button } from '../BlurButton/BlurButton';
 import classes from './Sidebar.module.css';
 
@@ -46,31 +48,25 @@ export const Sidebar: FC = () => {
     useDisclosure(false);
   const [languageModalStartsGame, setLanguageModalStartsGame] = useState(true);
   const [flagsModalOpened, { open: openFlagsModal, close: closeFlagsModal }] = useDisclosure(false);
-  const [toast, setToast] = useState<ChallengeToast | null>(null);
-  const toastQueueRef = useRef<ChallengeToast[]>([]);
-
-  const handleToast = useCallback((item: ChallengeToast) => {
-    setToast((currentToast) => {
-      if (currentToast) {
-        toastQueueRef.current.push(item);
-        return currentToast;
-      }
-      return item;
-    });
-  }, []);
+  const handleToast = useCallback(
+    ({ challengeId, message }: ChallengeToast) => {
+      const id = `challenge-${challengeId}`;
+      showToast({
+        id,
+        icon: <IconSwords size={18} />,
+        message,
+        color: 'blue',
+        style: { cursor: 'pointer' },
+        onClick: () => {
+          notifications.hide(id);
+          navigate('/challenges');
+          closeSidebar();
+        },
+      });
+    },
+    [navigate, closeSidebar]
+  );
   useChallengeResultToasts(handleToast);
-
-  useEffect(() => {
-    if (!toast) {
-      return undefined;
-    }
-
-    const timeout = window.setTimeout(() => {
-      setToast(toastQueueRef.current.shift() ?? null);
-    }, 6000);
-
-    return () => window.clearTimeout(timeout);
-  }, [toast]);
 
   const handleNewGameClick = () => {
     if (preferencesNotSet) {
@@ -195,31 +191,6 @@ export const Sidebar: FC = () => {
           Logout
         </Button>
       </div>
-
-      <Affix position={{ bottom: 20, right: 20 }}>
-        <Transition transition="slide-up" mounted={!!toast}>
-          {(styles) => (
-            <Paper
-              style={styles}
-              shadow="md"
-              p="sm"
-              radius="md"
-              withBorder
-              maw={360}
-              onClick={() => {
-                setToast(toastQueueRef.current.shift() ?? null);
-                navigate('/challenges');
-                closeSidebar();
-              }}
-            >
-              <Group gap="xs" wrap="nowrap">
-                <IconSwords size={16} />
-                <Text size="sm">{toast?.message}</Text>
-              </Group>
-            </Paper>
-          )}
-        </Transition>
-      </Affix>
     </>
   );
 };
