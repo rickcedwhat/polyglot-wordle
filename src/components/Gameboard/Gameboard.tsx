@@ -65,8 +65,6 @@ export const GameBoard: FC<GameBoardProps> = ({
       {shuffledLanguages.map((lang, index) => {
         const isActive = index === activeIndex;
         const candidateLanguages = deduction.candidates[index] || [...shuffledLanguages];
-        const isConfirmed = deduction.isConfirmed[index];
-
         return (
           <motion.div
             key={lang}
@@ -83,7 +81,6 @@ export const GameBoard: FC<GameBoardProps> = ({
               words={wordPools.master[lang as Language] ?? []}
               dictionary={wordPools.dictionaries[lang as Language]}
               candidateLanguages={candidateLanguages}
-              isConfirmed={isConfirmed}
               hideFlags={hideFlags}
               isActive={isActive}
               flagsOnTop={isNarrow}

@@ -9,7 +9,7 @@ export interface ChallengerProfile {
   photoURL?: string;
 }
 
-export interface ChallengeData {
+interface ChallengeData {
   challengerId: string;
   user: ChallengerProfile | null;
   game: GameDoc | null;

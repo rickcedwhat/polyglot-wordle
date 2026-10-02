@@ -9,7 +9,7 @@ const blurActiveElement = () => {
 
 // 1. Combine Mantine's ButtonProps with all standard button attributes
 //    like `onClick`, `onMouseEnter`, etc.
-export type BlurButtonProps = ButtonProps & ComponentPropsWithoutRef<'button'>;
+type BlurButtonProps = ButtonProps & ComponentPropsWithoutRef<'button'>;
 
 export const BlurButton = forwardRef<HTMLButtonElement, BlurButtonProps>(
   ({ onClick, ...rest }, ref) => {

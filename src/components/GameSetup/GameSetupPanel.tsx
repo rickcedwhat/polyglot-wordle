@@ -21,7 +21,7 @@ import {
   labelFor,
 } from '@/utils/languages';
 
-export type GameSetupMode = 'newGame' | 'settings' | 'challenge';
+type GameSetupMode = 'newGame' | 'settings' | 'challenge';
 
 export interface GameSetupValue {
   languages: LanguageCombo;

@@ -7,7 +7,7 @@ import { ALL_LANGUAGES } from '@/utils/languages';
 import { normalizeWord } from '@/utils/wordUtils';
 
 /** First time each word's definition was opened (ISO timestamp), per language. */
-export type DefinitionsReadMap = Record<Language, Record<string, string>>;
+type DefinitionsReadMap = Record<Language, Record<string, string>>;
 
 export const DEFINITIONS_READ_STORAGE_KEY = 'polyglot_definitions_read_v1';
 
@@ -26,7 +26,7 @@ const sanitize = (raw: unknown): Record<string, string> =>
 const storageKey = (userId?: string) =>
   userId ? `${DEFINITIONS_READ_STORAGE_KEY}_${userId}` : DEFINITIONS_READ_STORAGE_KEY;
 
-export const getLocalDefinitionsRead = (userId?: string): DefinitionsReadMap => {
+const getLocalDefinitionsRead = (userId?: string): DefinitionsReadMap => {
   try {
     const parsed = JSON.parse(localStorage.getItem(storageKey(userId)) ?? '{}');
     return Object.fromEntries(
@@ -81,7 +81,7 @@ const migrateGuestReads = async (userId: string, remote: DefinitionsReadMap) => 
   return merged;
 };
 
-export const countDefinitionsRead = (map: DefinitionsReadMap) =>
+const countDefinitionsRead = (map: DefinitionsReadMap) =>
   ALL_LANGUAGES.reduce((total, lang) => total + Object.keys(map[lang] ?? {}).length, 0);
 
 export const useDefinitionsRead = (targetUserId?: string) => {

@@ -34,7 +34,7 @@ const progressToNext = ({ current, tier, next }: AchievementProgress) => {
   return Math.min(100, ((current - floor) / (next.target - floor)) * 100);
 };
 
-export const TrackCard: FC<{ achievement: AchievementProgress }> = ({ achievement }) => {
+const TrackCard: FC<{ achievement: AchievementProgress }> = ({ achievement }) => {
   const { track, current, level, next } = achievement;
   return (
     <Card withBorder radius="md" p="sm">

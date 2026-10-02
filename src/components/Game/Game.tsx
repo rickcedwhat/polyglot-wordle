@@ -424,5 +424,3 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     </Box>
   );
 }
-
-export default Game;

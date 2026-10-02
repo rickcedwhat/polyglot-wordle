@@ -145,3 +145,4 @@ evals/artifacts/
 
 # Firebase service-account keys
 *firebase-adminsdk*.json
+.fallow/

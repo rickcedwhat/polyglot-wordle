@@ -12,7 +12,7 @@ import { auth, googleProvider } from '@/firebase';
 import { UserDoc } from '@/types/firestore';
 import { clearPendingToasts } from '@/utils/toast';
 
-export interface AuthContextType {
+interface AuthContextType {
   currentUser: User | null;
   loading: boolean;
   signInWithGoogle: () => void;
