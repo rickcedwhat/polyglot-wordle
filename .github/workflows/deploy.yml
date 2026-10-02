@@ -1,10 +1,14 @@
-name: Deploy to Firebase Hosting
+name: Deploy to Firebase
 
 on:
   push:
     branches:
       - master
   workflow_dispatch:
+
+concurrency:
+  group: firebase-deploy
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -33,10 +37,16 @@ jobs:
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID || '402617980636' }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID || '1:402617980636:web:c4be7fa58d3b7cfab58619' }}
 
-      - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_POLYGLOT_WORDLE }}'
-          channelId: live
-          projectId: polyglot-wordle
+      # Rules deploy before hosting, so a rules failure aborts before the new client ships.
+      - name: Deploy Firestore rules and Hosting
+        run: |
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$GOOGLE_APPLICATION_CREDENTIALS"
+          npx --no-install firebase deploy --only firestore:rules --project polyglot-wordle --non-interactive
+          npx --no-install firebase deploy --only hosting --project polyglot-wordle --non-interactive
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_POLYGLOT_WORDLE }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-sa.json
+
+      - name: Remove service account key
+        if: always()
+        run: rm -f "${{ runner.temp }}/firebase-sa.json"
