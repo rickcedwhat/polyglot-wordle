@@ -213,6 +213,8 @@ export const FEAT_ORDER: FeatId[] = [
 export interface TrackDef {
   name: string;
   icon: BadgeIcon;
+  /** Language tracks render the player's custom flag instead of `icon`. */
+  lang?: Language;
   /** What the count measures, e.g. "words". */
   unit: string;
   description: string;
@@ -222,6 +224,7 @@ export interface TrackDef {
 export const certificationTrack = (lang: Language): TrackDef => ({
   name: `${labelFor(lang)} certification`,
   icon: flagFor(lang),
+  lang,
   unit: 'words',
   description: `Distinct ${labelFor(lang)} words you've guessed.`,
   levels: CERTIFICATION_LEVELS,

@@ -13,4 +13,11 @@ describe('buildGameLines', () => {
       { id: 'hatTrick', points: 75, label: 'Hat trick!', tone: 'green' },
     ]);
   });
+
+  it("labels an unsolved-board penalty with the player's flag", () => {
+    const lines = buildGameLines([{ kind: 'penalty', points: -100, lang: 'fr' }], () => '🥐');
+    expect(lines).toEqual([
+      { id: 'penalty-fr', points: -100, label: '🥐 French unsolved', tone: 'penalty' },
+    ]);
+  });
 });

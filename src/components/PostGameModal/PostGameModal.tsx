@@ -415,9 +415,6 @@ export const PostGameModal: FC<PostGameModalProps> = ({
               Play Again
             </Button>
           )}
-          <Button size="xs" variant="default" onClick={onClose}>
-            Close & View Boards
-          </Button>
         </Group>
       </Stack>
       <ChallengeFriendModal

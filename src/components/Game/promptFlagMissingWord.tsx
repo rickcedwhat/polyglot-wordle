@@ -1,14 +1,16 @@
 import { Button, Group, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { flagWord } from '@/hooks/useFlaggedWords';
+import { getStoredFlags } from '@/hooks/useLanguageFlags';
 import type { Language } from '@/types/firestore';
-import { flagFor, labelFor } from '@/utils/languages';
+import { labelFor } from '@/utils/languages';
 import { showToast } from '@/utils/toast';
 
 /** Asks whether a rejected guess should be flagged as missing from one of the game's dictionaries. */
 export const promptFlagMissingWord = (word: string, languages: Language[]) => {
   const id = `flag-missing-${word}`;
   const upper = word.toUpperCase();
+  const flags = getStoredFlags();
   showToast(
     {
       id,
@@ -38,7 +40,7 @@ export const promptFlagMissingWord = (word: string, languages: Language[]) => {
                   });
                 }}
               >
-                {flagFor(lang)} {labelFor(lang)}
+                {flags[lang]} {labelFor(lang)}
               </Button>
             ))}
           </Group>

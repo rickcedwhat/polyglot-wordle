@@ -8,6 +8,7 @@ import {
   type FeatId,
   type TrackDef,
 } from '@/achievements/config';
+import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 
 const BadgeIcon: FC<{ icon: BadgeIconType; size: number }> = ({ icon: IconOrText, size }) =>
   typeof IconOrText === 'string' ? (
@@ -106,6 +107,7 @@ interface TrackBadgeProps {
 
 /** Hexagon for a track showing its current level. */
 export const TrackBadge: FC<TrackBadgeProps> = ({ track, level, size = 64 }) => {
+  const { flags } = useLanguageFlags();
   const reached = level >= 0;
   const color = trackLevelColor(level, track.levels.length);
   const shades = SHADES[color];
@@ -141,7 +143,7 @@ export const TrackBadge: FC<TrackBadgeProps> = ({ track, level, size = 64 }) => 
           opacity: reached ? 1 : 0.55,
         }}
       >
-        <BadgeIcon icon={track.icon} size={size * 0.34} />
+        <BadgeIcon icon={track.lang ? flags[track.lang] : track.icon} size={size * 0.34} />
         {size >= 36 && (
           <Text
             fw={800}
