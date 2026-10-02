@@ -6,6 +6,10 @@ on:
       - master
   workflow_dispatch:
 
+concurrency:
+  group: firebase-deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     name: Deploy App
@@ -37,8 +41,8 @@ jobs:
       - name: Deploy Firestore rules and Hosting
         run: |
           printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$GOOGLE_APPLICATION_CREDENTIALS"
-          npx --yes firebase-tools@15 deploy --only firestore:rules --project polyglot-wordle --non-interactive
-          npx --yes firebase-tools@15 deploy --only hosting --project polyglot-wordle --non-interactive
+          npx --no-install firebase deploy --only firestore:rules --project polyglot-wordle --non-interactive
+          npx --no-install firebase deploy --only hosting --project polyglot-wordle --non-interactive
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_POLYGLOT_WORDLE }}
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-sa.json
