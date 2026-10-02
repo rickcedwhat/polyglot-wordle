@@ -11,6 +11,9 @@ initializeApp();
 const ALLOWED_HOSTS = new Set(['polyglot-wordle.web.app', 'polyglot-wordle.firebaseapp.com']);
 const DEFAULT_HOST = 'polyglot-wordle.web.app';
 const INDEX_TTL_MS = 60_000;
+const SHARED_CACHE = 'public, max-age=0, s-maxage=300';
+/** Fallback pages must not be CDN-cached, or a transient lookup failure sticks for that URL. */
+const NO_SHARED_CACHE = 'no-cache';
 
 let indexCache: { host: string; html: string; at: number } | null = null;
 
@@ -24,7 +27,7 @@ const loadIndexHtml = async (host: string): Promise<string> => {
   if (indexCache && indexCache.host === host && Date.now() - indexCache.at < INDEX_TTL_MS) {
     return indexCache.html;
   }
-  const res = await fetch(`https://${host}/index.html`);
+  const res = await fetch(`https://${host}/index.html`, { signal: AbortSignal.timeout(5000) });
   if (!res.ok) {
     throw new Error(`index.html fetch failed: ${res.status}`);
   }
@@ -73,20 +76,20 @@ export const gamePreview = onRequest(
       return;
     }
 
-    res.set('Cache-Control', 'public, max-age=0, s-maxage=300');
     const gameId = gameIdFromPath(req.path);
     const challenger = typeof req.query.challenger === 'string' ? req.query.challenger : '';
     if (!gameId || !isValidUid(challenger)) {
-      res.type('html').send(html);
+      res.set('Cache-Control', SHARED_CACHE).type('html').send(html);
       return;
     }
 
     try {
       const game = await loadGame(challenger, gameId);
       if (!game) {
-        res.type('html').send(html);
+        res.set('Cache-Control', NO_SHARED_CACHE).type('html').send(html);
         return;
       }
+      res.set('Cache-Control', SHARED_CACHE);
       res.type('html').send(
         injectPreviewMeta(html, {
           title: `Can you beat ${game.score ?? 0} pts?`,
@@ -97,7 +100,7 @@ export const gamePreview = onRequest(
       );
     } catch (err) {
       logger.error('preview meta failed', err);
-      res.type('html').send(html);
+      res.set('Cache-Control', NO_SHARED_CACHE).type('html').send(html);
     }
   }
 );
