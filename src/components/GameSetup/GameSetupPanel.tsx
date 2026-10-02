@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { IconCheck } from '@tabler/icons-react';
 import {
   Box,
@@ -34,7 +34,7 @@ interface GameSetupPanelProps {
   initialLanguages?: Language[] | null;
   initialDifficulties?: Partial<DifficultyPrefs> | null;
   initialSkipPicker?: boolean;
-  /** Re-seed the selection from the initial values when this changes (e.g. on open). */
+  /** Re-seed untouched selections when fetched initial values become available. */
   resetKey?: unknown;
   submitLabel?: string;
   loading?: boolean;
@@ -78,7 +78,12 @@ export const GameSetupPanel: FC<GameSetupPanelProps> = ({
   const [difficulties, setDifficulties] = useState(() => seedDifficulties(initialDifficulties));
   const [skipPicker, setSkipPicker] = useState(initialSkipPicker);
 
+  const touched = useRef(false);
+
   useEffect(() => {
+    if (touched.current) {
+      return;
+    }
     setSelected(isNewGameCombo(initialLanguages) ? [...initialLanguages] : [...DEFAULT_LANGUAGES]);
     setDifficulties(seedDifficulties(initialDifficulties));
     setSkipPicker(initialSkipPicker);
@@ -88,10 +93,12 @@ export const GameSetupPanel: FC<GameSetupPanelProps> = ({
   const full = selected.length >= BOARD_COUNT;
   const ready = isNewGameCombo(selected);
 
-  const toggle = (lang: Language) =>
+  const toggle = (lang: Language) => {
+    touched.current = true;
     setSelected((prev) =>
       prev.includes(lang) ? prev.filter((l) => l !== lang) : full ? prev : [...prev, lang]
     );
+  };
 
   const ordered = ALL_LANGUAGES.filter((lang) => selected.includes(lang));
 
@@ -113,7 +120,10 @@ export const GameSetupPanel: FC<GameSetupPanelProps> = ({
             disabled={!selected.includes(lang) && full}
             difficulty={difficulties[lang]}
             onToggle={() => toggle(lang)}
-            onDifficulty={(d) => setDifficulties((prev) => ({ ...prev, [lang]: d }))}
+            onDifficulty={(d) => {
+              touched.current = true;
+              setDifficulties((prev) => ({ ...prev, [lang]: d }));
+            }}
           />
         ))}
       </Stack>
@@ -129,7 +139,10 @@ export const GameSetupPanel: FC<GameSetupPanelProps> = ({
           label="Use this setup every time"
           description="New Game starts right away. Change it from Game setup in the menu."
           checked={skipPicker}
-          onChange={(e) => setSkipPicker(e.currentTarget.checked)}
+          onChange={(e) => {
+            touched.current = true;
+            setSkipPicker(e.currentTarget.checked);
+          }}
         />
       )}
 

@@ -25,7 +25,8 @@ export const GameSetupModal: FC<GameSetupModalProps> = ({
 }) => {
   const isPhone = useMediaQuery('(max-width: 36em)');
   const heading = title ?? DEFAULT_TITLES[panel.mode];
-  const content = <GameSetupPanel {...panel} resetKey={`${opened}:${String(resetKey)}`} />;
+  // Each opening gets a fresh picker; profile loading only seeds an untouched picker.
+  const content = <GameSetupPanel key={String(opened)} {...panel} resetKey={resetKey} />;
 
   if (isPhone) {
     return (

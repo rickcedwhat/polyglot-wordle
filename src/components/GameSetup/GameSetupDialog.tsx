@@ -4,6 +4,7 @@ import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { showToast } from '@/utils/toast';
 import { GameSetupModal } from './GameSetupModal';
 import type { GameSetupValue } from './GameSetupPanel';
 
@@ -36,6 +37,7 @@ export const GameSetupDialog: FC<GameSetupDialogProps> = ({ opened, onClose, mod
   const { data: profile } = useUserProfile(currentUser?.uid);
   const { createNewGame } = useGameActions();
   const save = useSaveGameSetup();
+  const [creating, setCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -53,11 +55,27 @@ export const GameSetupDialog: FC<GameSetupDialogProps> = ({ opened, onClose, mod
         setError('Could not save your game setup. Please try again.');
         return;
       }
+      showToast(
+        { message: 'Could not save your game setup preferences.', color: 'orange' },
+        { immediate: true }
+      );
+    }
+    if (mode === 'newGame') {
+      setCreating(true);
+      try {
+        const created = await createNewGame({
+          languages: value.languages,
+          difficulties: value.difficulties,
+        });
+        if (!created) {
+          setError('Could not start your game. Please try again.');
+          return;
+        }
+      } finally {
+        setCreating(false);
+      }
     }
     onClose();
-    if (mode === 'newGame') {
-      await createNewGame({ languages: value.languages, difficulties: value.difficulties });
-    }
   };
 
   return (
@@ -69,7 +87,7 @@ export const GameSetupDialog: FC<GameSetupDialogProps> = ({ opened, onClose, mod
       initialLanguages={profile?.languagePrefs?.languages}
       initialDifficulties={profile?.difficultyPrefs}
       initialSkipPicker={profile?.languagePrefs?.skipPicker ?? false}
-      loading={save.isPending}
+      loading={save.isPending || creating}
       error={error}
       onSubmit={handleSubmit}
     />
