@@ -1,4 +1,5 @@
 import {
+  deleteDoc,
   doc,
   getDoc,
   getFirestore,
@@ -92,6 +93,77 @@ export const ensureShareChallengeOnFirstGuess = async (args: {
   };
 
   await setDoc(challengeRef, payload);
+};
+
+export type FriendChallengeErrorCode = 'already_challenged' | 'not_allowed';
+
+export class FriendChallengeError extends Error {
+  constructor(public code: FriendChallengeErrorCode) {
+    super(code);
+    this.name = 'FriendChallengeError';
+  }
+}
+
+/**
+ * In-app challenge of an accepted friend on `gameId`.
+ * If the challenger already has a game doc for `gameId` (post-game challenge), its saved
+ * score is copied over; otherwise (new-game challenge) both players start fresh.
+ * One challenge per challenger per game (doc id `${challengerId}_${gameId}`).
+ */
+export const createFriendChallenge = async (args: {
+  challengerId: string;
+  challengerProfile: Pick<UserDoc, 'displayName' | 'photoURL'>;
+  friend: { id: string; displayName: string; photoURL: string };
+  gameId: string;
+}): Promise<string> => {
+  const { challengerId, challengerProfile, friend, gameId } = args;
+  const db = getFirestore();
+  const challengeId = challengeDocId(challengerId, gameId);
+  const challengeRef = doc(db, 'challenges', challengeId);
+
+  const [existing, challengerGameSnap] = await Promise.all([
+    getDoc(challengeRef).catch(() => null),
+    getDoc(doc(db, 'games', `${challengerId}_${gameId}`)),
+  ]);
+  if (existing?.exists()) {
+    throw new FriendChallengeError('already_challenged');
+  }
+  const challengerGame = challengerGameSnap.exists()
+    ? (challengerGameSnap.data() as GameDoc)
+    : null;
+
+  const payload: ChallengeDoc = {
+    gameId,
+    createdAt: serverTimestamp() as Timestamp,
+    createdBy: challengerId,
+    source: 'friend_invite',
+    type: 'direct',
+    maxPlayers: 2,
+    status: 'pending',
+    participants: {
+      [challengerId]: {
+        ...emptyParticipant(challengerProfile, 'accepted'),
+        score: challengerGame?.score ?? null,
+        completedAt: challengerGame?.completedAt ?? null,
+      },
+      [friend.id]: emptyParticipant(friend, 'pending'),
+    },
+    participantIds: [challengerId, friend.id],
+    winnerId: null,
+  };
+
+  try {
+    await setDoc(challengeRef, payload);
+  } catch {
+    // Rules reject non-friends and friends who already played this game.
+    throw new FriendChallengeError('not_allowed');
+  }
+  return challengeId;
+};
+
+/** Challenger withdraws an in-app challenge the friend hasn't started. */
+export const cancelFriendChallenge = async (challengeId: string) => {
+  await deleteDoc(doc(getFirestore(), 'challenges', challengeId));
 };
 
 const computeWinner = (

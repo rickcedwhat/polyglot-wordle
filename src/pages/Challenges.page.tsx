@@ -1,11 +1,13 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { IconSwords } from '@tabler/icons-react';
-import { Center, Container, Loader, Stack, Text, Title } from '@mantine/core';
+import { Button, Center, Container, Group, Loader, Stack, Text, Title } from '@mantine/core';
+import { ChallengeFriendModal } from '@/components/ChallengeFriendModal/ChallengeFriendModal';
 import { ChallengeInboxCard } from '@/components/ChallengeInboxCard/ChallengeInboxCard';
 import { useChallenges } from '@/hooks/useChallenges';
 
 export const ChallengesPage: FC = () => {
   const { needsYou, waiting, archive, isLoading, isError, markResultSeen } = useChallenges();
+  const [challengeOpened, setChallengeOpened] = useState(false);
 
   if (isLoading) {
     return (
@@ -27,15 +29,27 @@ export const ChallengesPage: FC = () => {
 
   return (
     <Container size="sm" py="lg">
-      <GroupTitle
-        title="Challenges"
-        subtitle="Duel inbox — play received challenges, track sent ones, and review showdowns."
-      />
+      <Group justify="space-between" align="flex-start" wrap="nowrap">
+        <GroupTitle
+          title="Challenges"
+          subtitle="Duel inbox — play received challenges, track sent ones, and review showdowns."
+        />
+        <Button
+          size="xs"
+          color="grape"
+          leftSection={<IconSwords size={14} />}
+          onClick={() => setChallengeOpened(true)}
+          style={{ flexShrink: 0 }}
+        >
+          Challenge a friend
+        </Button>
+      </Group>
+      <ChallengeFriendModal opened={challengeOpened} onClose={() => setChallengeOpened(false)} />
 
       {empty && (
         <Text c="dimmed" mt="xl">
-          No challenges yet. Finish a puzzle and tap Share Challenge, or open a friend&apos;s link
-          and make your first guess.
+          No challenges yet. Challenge a friend, or finish a puzzle and tap Challenge a friend or
+          Share.
         </Text>
       )}
 

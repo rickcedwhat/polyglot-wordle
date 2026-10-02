@@ -39,6 +39,7 @@ import { labelFor, languagesFromGame } from '@/utils/languages';
 import { shareGameResult } from '@/utils/shareUtils';
 import { calculateScoreFromHistory, normalizeWord, scoringVersionOf } from '@/utils/wordUtils';
 import { EarnedThisGame } from '../Badges/GameAchievements';
+import { ChallengeFriendModal } from '../ChallengeFriendModal/ChallengeFriendModal';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
 
 interface PostGameModalProps {
@@ -191,6 +192,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
   const [copied, setCopied] = useState(false);
   const [shareError, setShareError] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
+  const [challengeOpened, setChallengeOpened] = useState(false);
 
   const languages = languagesFromGame(gameSession);
   const solvedCount = languages.filter((l) =>
@@ -233,7 +235,8 @@ export const PostGameModal: FC<PostGameModalProps> = ({
 
   const myScore = effectiveScore;
   const theirScore = challengerGame?.score ?? 0;
-  const hasChallenger = !!challengerGame;
+  const hasChallenger = !!challengerGame?.completedAt;
+  const challengerStillPlaying = !!challengerGame && !challengerGame.completedAt;
   const isChallengerWin = myScore > theirScore;
   const isChallengerLoss = myScore < theirScore;
 
@@ -338,6 +341,18 @@ export const PostGameModal: FC<PostGameModalProps> = ({
           </Paper>
         )}
 
+        {challengerStillPlaying && (
+          <Paper p="xs" radius="md" withBorder bg="dark.8">
+            <Group gap={6}>
+              <IconSwords size={16} color="var(--mantine-color-yellow-4)" />
+              <Text size="xs" c="dimmed">
+                {challengerUser?.displayName || 'Your opponent'} hasn&apos;t finished yet.
+                You&apos;ll see the result in Challenges.
+              </Text>
+            </Group>
+          </Paper>
+        )}
+
         <EarnedThisGame feats={feats} levelUps={levelUps} />
 
         {/* Target Words & Definitions */}
@@ -357,6 +372,17 @@ export const PostGameModal: FC<PostGameModalProps> = ({
 
         {/* Action Controls */}
         <Group justify="flex-end" mt="xs" gap="xs">
+          {currentUser && (
+            <Button
+              size="xs"
+              variant="filled"
+              color="grape"
+              leftSection={<IconSwords size={14} />}
+              onClick={() => setChallengeOpened(true)}
+            >
+              Challenge a friend
+            </Button>
+          )}
           <Button
             size="xs"
             variant="filled"
@@ -373,7 +399,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             onClick={handleShare}
             loading={isSharing}
           >
-            {shareError ? 'Share Failed' : copied ? 'Copied!' : 'Share Challenge'}
+            {shareError ? 'Share Failed' : copied ? 'Copied!' : 'Share'}
           </Button>
           {onPlayAgain && (
             <Button
@@ -394,6 +420,12 @@ export const PostGameModal: FC<PostGameModalProps> = ({
           </Button>
         </Group>
       </Stack>
+      <ChallengeFriendModal
+        opened={challengeOpened}
+        onClose={() => setChallengeOpened(false)}
+        game={gameSession}
+        excludeIds={challengerGame ? [challengerGame.userId] : []}
+      />
     </Modal>
   );
 };

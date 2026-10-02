@@ -69,13 +69,16 @@ describe('LanguagePickerModal', () => {
     expect(onClose).toHaveBeenCalledOnce();
   });
 
-  it('starts a game with five selected languages', async () => {
+  it('caps the selection at three languages', async () => {
     const { onConfirm } = renderModal(true);
-    fireEvent.click(await screen.findByRole('button', { name: /Italian/ }));
+    expect(await screen.findByRole('button', { name: /Italian/ })).toBeDisabled();
+
+    fireEvent.click(screen.getByRole('button', { name: /French/ }));
+    expect(screen.getByRole('button', { name: 'Start Game' })).toBeDisabled();
+
+    fireEvent.click(screen.getByRole('button', { name: /Italian/ }));
     fireEvent.click(screen.getByRole('button', { name: /Portuguese/ }));
     fireEvent.click(screen.getByRole('button', { name: 'Start Game' }));
-    await waitFor(() =>
-      expect(onConfirm).toHaveBeenCalledWith(['en', 'es', 'fr', 'it', 'pt'], false)
-    );
+    await waitFor(() => expect(onConfirm).toHaveBeenCalledWith(['en', 'es', 'it'], false));
   });
 });

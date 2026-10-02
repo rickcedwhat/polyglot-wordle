@@ -20,6 +20,7 @@ export const ChallengeBanner: FC<ChallengeBannerProps> = ({ challengerUser, chal
   const name = challengerUser?.displayName || 'A Friend';
   const turns = challengerGame.guessHistory.length;
   const score = challengerGame.score ?? 0;
+  const challengerFinished = !!challengerGame.completedAt;
 
   return (
     <Paper
@@ -45,17 +46,28 @@ export const ChallengeBanner: FC<ChallengeBannerProps> = ({ challengerUser, chal
               <Text size="xs" fw={700} c="blue.3">
                 CHALLENGE MODE
               </Text>
-              <Badge size="xs" variant="filled" color="yellow">
-                {score} PTS
-              </Badge>
+              {challengerFinished && (
+                <Badge size="xs" variant="filled" color="yellow">
+                  {score} PTS
+                </Badge>
+              )}
             </Group>
-            <Text size="xs" c="gray.2">
-              Can you beat{' '}
-              <Text span fw={700}>
-                {name}
-              </Text>{' '}
-              ({turns}/{MAX_GUESSES} turns)?
-            </Text>
+            {challengerFinished ? (
+              <Text size="xs" c="gray.2">
+                Can you beat{' '}
+                <Text span fw={700}>
+                  {name}
+                </Text>{' '}
+                ({turns}/{MAX_GUESSES} turns)?
+              </Text>
+            ) : (
+              <Text size="xs" c="gray.2">
+                <Text span fw={700}>
+                  {name}
+                </Text>{' '}
+                challenged you. They haven&apos;t finished yet.
+              </Text>
+            )}
           </div>
         </Group>
 

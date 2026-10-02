@@ -1,10 +1,14 @@
 import { FC, useMemo, useState } from 'react';
 import { IconSwords } from '@tabler/icons-react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Badge, Button, Group, Modal, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { ChallengeFriendModal } from '@/components/ChallengeFriendModal/ChallengeFriendModal';
 import { useAuth } from '@/context/AuthContext';
 import type { ChallengeInboxItem } from '@/hooks/useChallenges';
+import { useFriendships } from '@/hooks/useFriendships';
 import { useGameActions } from '@/hooks/useGameActions';
+import { cancelFriendChallenge } from '@/utils/challengeUtils';
 import { gamePath } from '@/utils/languages';
 
 interface ChallengeInboxCardProps {
@@ -24,8 +28,12 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   const [resultOpened, setResultOpened] = useState(false);
   const [rematchBusy, setRematchBusy] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [friendRematchOpened, setFriendRematchOpened] = useState(false);
+  const [cancelBusy, setCancelBusy] = useState(false);
+  const queryClient = useQueryClient();
 
   const userId = currentUser?.uid;
+  const { getFriendshipStatus } = useFriendships(userId);
   const otherId = useMemo(
     () => challenge.participantIds.find((id) => id !== userId),
     [challenge.participantIds, userId]
@@ -49,6 +57,39 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   })();
 
   const unread = challenge.status === 'completed' && me && !me.resultSeenAt && bothDone;
+  const iAmChallenger = challenge.createdBy === userId;
+  const isInvite = challenge.source === 'friend_invite';
+  const canCancel = isInvite && iAmChallenger && challenge.status === 'pending';
+  const isFriend = !!otherId && getFriendshipStatus(otherId) === 'friends';
+
+  const statusText = (() => {
+    if (section === 'archive') {
+      return outcomeLabel ? `${outcomeLabel} · ${myScore} vs ${theirScore}` : 'Challenge';
+    }
+    if (section === 'waiting') {
+      return canCancel ? "Challenge sent — they haven't started" : 'Waiting for them to finish';
+    }
+    if (bothDone) {
+      return 'Result ready';
+    }
+    if (isInvite && iAmChallenger) {
+      return 'You challenged them — play your side';
+    }
+    if (isInvite && me?.rsvp === 'pending') {
+      return 'Challenged you — play this game';
+    }
+    return 'Your move — play this challenge';
+  })();
+
+  const handleCancel = async () => {
+    setCancelBusy(true);
+    try {
+      await cancelFriendChallenge(challenge.id);
+      await queryClient.invalidateQueries({ queryKey: ['challenges', userId] });
+    } finally {
+      setCancelBusy(false);
+    }
+  };
 
   const handlePlay = () => {
     navigate(
@@ -67,6 +108,11 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
 
   const handleRematch = async () => {
     if (!otherId || !currentUser) {
+      return;
+    }
+    if (isFriend) {
+      setResultOpened(false);
+      setFriendRematchOpened(true);
       return;
     }
     setRematchBusy(true);
@@ -121,16 +167,23 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
                 )}
               </Group>
               <Text size="xs" c="dimmed">
-                {section === 'waiting' && 'Waiting for them to finish'}
-                {section === 'needsYou' && !bothDone && 'Your move — play this challenge'}
-                {section === 'needsYou' && bothDone && 'Result ready'}
-                {section === 'archive' &&
-                  (outcomeLabel ? `${outcomeLabel} · ${myScore} vs ${theirScore}` : 'Challenge')}
+                {statusText}
               </Text>
             </Stack>
           </Group>
 
           <Group gap={6} wrap="nowrap">
+            {canCancel && (
+              <Button
+                size="xs"
+                variant="subtle"
+                color="gray"
+                loading={cancelBusy}
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+            )}
             {section === 'needsYou' && !bothDone && (
               <Button size="xs" onClick={handlePlay}>
                 Play
@@ -202,6 +255,18 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           </Group>
         </Stack>
       </Modal>
+
+      {otherId && isFriend && (
+        <ChallengeFriendModal
+          opened={friendRematchOpened}
+          onClose={() => setFriendRematchOpened(false)}
+          friend={{
+            id: otherId,
+            displayName: other?.displayName || 'Friend',
+            photoURL: other?.photoURL || '',
+          }}
+        />
+      )}
     </>
   );
 };

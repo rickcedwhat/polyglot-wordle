@@ -56,7 +56,7 @@ export const HowToPlaySlides: FC = () => {
             Multiple Games at Once
           </Title>
           <Text className={classes.text}>
-            Solve three to five 5-letter words simultaneously, one in each selected language.
+            Solve three 5-letter words simultaneously, one in each language you pick.
           </Text>
           <Center mt="lg">
             <Image
