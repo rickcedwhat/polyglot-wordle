@@ -131,6 +131,7 @@ dist
 
 .DS_Store
 .firebase/
+functions/lib/
 scripts/*.txt
 scripts/*.json
 scripts/*.tar.xz
