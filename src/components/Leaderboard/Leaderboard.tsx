@@ -4,6 +4,47 @@ import { useLeaderboard } from '@/hooks/useLeaderboard';
 import { GameDoc } from '@/types/firestore';
 import { LeaderboardCard } from '../LeaderboardCard/LeaderboardCard';
 
+interface LeaderboardListProps {
+  games: GameDoc[] | undefined;
+  isLoading?: boolean;
+  onGameSelect: (game: GameDoc) => void;
+  selectedUserId: string;
+}
+
+/** The Friends tab and its ranked games, without any data fetching. */
+export const LeaderboardList: FC<LeaderboardListProps> = ({
+  games,
+  isLoading = false,
+  onGameSelect,
+  selectedUserId,
+}) => (
+  <Tabs defaultValue="friends" mt="lg">
+    <Tabs.List grow>
+      <Tabs.Tab value="friends">Friends</Tabs.Tab>
+    </Tabs.List>
+
+    <Tabs.Panel value="friends" pt="xs">
+      {isLoading ? (
+        <Center mt="md">
+          <Loader />
+        </Center>
+      ) : (
+        <Stack mt="md">
+          {games?.map((game, index) => (
+            <LeaderboardCard
+              key={game.userId}
+              game={game}
+              rank={index + 1}
+              onClick={() => onGameSelect(game)}
+              isSelected={game.userId === selectedUserId}
+            />
+          ))}
+        </Stack>
+      )}
+    </Tabs.Panel>
+  </Tabs>
+);
+
 interface LeaderboardProps {
   gameId: string;
   onGameSelect: (game: GameDoc) => void;
@@ -11,56 +52,14 @@ interface LeaderboardProps {
 }
 
 export const Leaderboard: FC<LeaderboardProps> = ({ gameId, onGameSelect, selectedUserId }) => {
-  // const { globalQuery, friendsQuery } = useLeaderboard(gameId);
   const { friendsQuery } = useLeaderboard(gameId);
 
   return (
-    // Set the default tab to "friends"
-    <Tabs defaultValue="friends" mt="lg">
-      <Tabs.List grow>
-        {/* <Tabs.Tab value="global">Global</Tabs.Tab> */}
-        <Tabs.Tab value="friends">Friends</Tabs.Tab>
-      </Tabs.List>
-
-      {/* <Tabs.Panel value="global" pt="xs">
-        {globalQuery.isLoading ? (
-          <Center mt="md">
-            <Loader />
-          </Center>
-        ) : (
-          <Stack mt="md">
-            {globalQuery.data?.map((game, index) => (
-              <LeaderboardCard
-                key={game.userId}
-                game={game}
-                rank={index + 1}
-                onClick={() => onGameSelect(game)} // Pass the click handler
-                isSelected={game.userId === selectedUserId}
-              />
-            ))}
-          </Stack>
-        )}
-      </Tabs.Panel> */}
-
-      <Tabs.Panel value="friends" pt="xs">
-        {friendsQuery.isLoading ? (
-          <Center mt="md">
-            <Loader />
-          </Center>
-        ) : (
-          <Stack mt="md">
-            {friendsQuery.data?.map((game, index) => (
-              <LeaderboardCard
-                key={game.userId}
-                game={game}
-                rank={index + 1}
-                onClick={() => onGameSelect(game)} // Pass the click handler
-                isSelected={game.userId === selectedUserId}
-              />
-            ))}
-          </Stack>
-        )}
-      </Tabs.Panel>
-    </Tabs>
+    <LeaderboardList
+      games={friendsQuery.data}
+      isLoading={friendsQuery.isLoading}
+      onGameSelect={onGameSelect}
+      selectedUserId={selectedUserId}
+    />
   );
 };
