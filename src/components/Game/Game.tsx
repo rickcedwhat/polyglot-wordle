@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box, Center, Loader, Notification } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { featKey } from '@/achievements/detectFeats';
@@ -29,6 +29,10 @@ import { Score } from '../Score/Score';
 import { GAME_ORIGIN, SCORE_ORIGIN_ATTR, useScoreBurst } from '../ScoreFlights/flightUtils';
 import { ScoreFlights } from '../ScoreFlights/ScoreFlights';
 import { ScorePopups } from '../ScorePopups/ScorePopups';
+import { promptFlagMissingWord } from './promptFlagMissingWord';
+
+/** Pressing Enter this many times in a row on a rejected word offers to flag it as missing. */
+const REJECTED_ENTERS_TO_FLAG = 3;
 
 // Define the props the component will receive
 interface GameProps {
@@ -53,6 +57,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
   const [cursorIndex, setCursorIndex] = useState(0);
   const [isInvalidGuess, setIsInvalidGuess] = useState(false);
+  const rejectedStreak = useRef({ guess: '', count: 0 });
   const { setSidebarContent } = useSidebar();
   const { currentUser } = useAuth();
   const [rematchNotice, setRematchNotice] = useState<string | null>(null);
@@ -168,6 +173,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         setActiveKey(lowerKey);
       }, 10);
 
+      if (lowerKey !== 'enter') {
+        rejectedStreak.current = { guess: '', count: 0 };
+      }
+
       if (lowerKey === 'enter') {
         const guessString = currentGuess.join('');
         if (guessString.length !== 5 || guesses.length >= MAX_GUESSES) {
@@ -234,6 +243,18 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           }
         } else {
           // not a valid word or was already used before
+          const alreadyGuessed = guesses.map(normalizeWord).includes(normalizeWord(guessString));
+          const streak = rejectedStreak.current;
+          if (!alreadyGuessed) {
+            rejectedStreak.current =
+              streak.guess === guessString
+                ? { guess: guessString, count: streak.count + 1 }
+                : { guess: guessString, count: 1 };
+            if (rejectedStreak.current.count >= REJECTED_ENTERS_TO_FLAG) {
+              rejectedStreak.current = { guess: '', count: 0 };
+              promptFlagMissingWord(guessString, shuffledLanguages);
+            }
+          }
           setIsInvalidGuess(true);
           setTimeout(() => {
             setIsInvalidGuess(false);
@@ -316,7 +337,9 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
       const { key } = event;
       if (key === 'Enter') {
-        handleKeyPress('enter');
+        if (!event.repeat) {
+          handleKeyPress('enter');
+        }
       } else if (key === 'Backspace') {
         handleKeyPress('del');
       } else if (key.length === 1 && key.match(/[a-z]/i)) {
