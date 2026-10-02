@@ -11,7 +11,8 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
-import { LanguagePickerModal } from '@/components/LanguagePickerModal/LanguagePickerModal';
+import { GameSetupModal } from '@/components/GameSetup/GameSetupModal';
+import type { GameSetupValue } from '@/components/GameSetup/GameSetupPanel';
 import { useAuth } from '@/context/AuthContext';
 import {
   friendChallengeErrorMessage,
@@ -20,7 +21,7 @@ import {
 } from '@/hooks/useFriendChallenge';
 import { useFriendships } from '@/hooks/useFriendships';
 import { useUserProfile } from '@/hooks/useUserProfile';
-import type { GameDoc, LanguageCombo } from '@/types/firestore';
+import type { GameDoc } from '@/types/firestore';
 import { showToast } from '@/utils/toast';
 
 interface ChallengeFriendModalProps {
@@ -41,6 +42,8 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
   friend: fixedFriend,
   excludeIds = [],
 }) => {
+  const { currentUser } = useAuth();
+  const { data: profile } = useUserProfile(currentUser?.uid);
   const { challengeOnGame, challengeNewGame } = useFriendChallenge();
   const [picked, setPicked] = useState<ChallengeFriend | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -81,14 +84,14 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
     }
   };
 
-  const handleLanguages = async (languages: LanguageCombo) => {
+  const handleSetup = async ({ languages, difficulties }: GameSetupValue) => {
     if (!target) {
       return;
     }
     setBusyId(target.id);
     setError(null);
     try {
-      await challengeNewGame(target, languages);
+      await challengeNewGame(target, languages, difficulties);
       sent(target);
     } catch (err) {
       setError(friendChallengeErrorMessage(err, target.displayName));
@@ -129,15 +132,17 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
         )}
       </Modal>
 
-      <LanguagePickerModal
+      <GameSetupModal
         opened={choosingLanguages}
         onClose={() => (fixedFriend ? onClose() : setPicked(null))}
-        saveToPrefs={false}
-        title={target ? `Challenge ${target.displayName}: choose languages` : 'Choose languages'}
-        confirmLabel="Send challenge & play"
+        mode="challenge"
+        title={target ? `Challenge ${target.displayName}` : undefined}
+        resetKey={profile ? 'loaded' : 'loading'}
+        initialLanguages={profile?.languagePrefs?.languages}
+        initialDifficulties={profile?.difficultyPrefs}
         loading={!!busyId}
         error={error}
-        onConfirm={handleLanguages}
+        onSubmit={handleSetup}
       />
     </>
   );

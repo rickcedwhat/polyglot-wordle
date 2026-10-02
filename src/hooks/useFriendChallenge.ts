@@ -1,10 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import type { GameDoc, LanguageCombo } from '@/types/firestore';
+import type { DifficultyPrefs, GameDoc, LanguageCombo } from '@/types/firestore';
 import { createFriendChallenge, FriendChallengeError } from '@/utils/challengeUtils';
 import { gamePath } from '@/utils/languages';
-import { generateGameId, useGameActions } from './useGameActions';
+import { generateGameId } from './useGameActions';
 import { useUserProfile } from './useUserProfile';
 
 export interface ChallengeFriend {
@@ -26,7 +26,6 @@ export const friendChallengeErrorMessage = (err: unknown, friendName: string): s
 export const useFriendChallenge = () => {
   const { currentUser } = useAuth();
   const { data: profile } = useUserProfile(currentUser?.uid);
-  const { difficultiesFor } = useGameActions();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -51,8 +50,15 @@ export const useFriendChallenge = () => {
     send(friend, game.gameId);
 
   /** Start a brand-new game for both of you, then open it so you can play your side. */
-  const challengeNewGame = async (friend: ChallengeFriend, languages: LanguageCombo) => {
-    const gameId = generateGameId(languages, difficultiesFor(languages));
+  const challengeNewGame = async (
+    friend: ChallengeFriend,
+    languages: LanguageCombo,
+    difficulties: DifficultyPrefs
+  ) => {
+    const gameId = generateGameId(
+      languages,
+      languages.map((lang) => difficulties[lang])
+    );
     await send(friend, gameId);
     navigate(gamePath(gameId, languages));
   };

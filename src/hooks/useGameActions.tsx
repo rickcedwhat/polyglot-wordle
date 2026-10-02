@@ -3,7 +3,7 @@ import { collection, getDocs, getFirestore, limit, query, where } from 'firebase
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from '@/context/AuthContext';
-import type { Difficulty, Language, LanguageCombo } from '@/types/firestore';
+import type { Difficulty, DifficultyPrefs, Language, LanguageCombo } from '@/types/firestore';
 import {
   buildGameId,
   DEFAULT_LANGUAGES,
@@ -28,6 +28,8 @@ export const generateGameId = (languages: LanguageCombo, difficulties: Difficult
 export type CreateNewGameOptions = {
   /** Override languages for this game (skipPicker still respected separately). */
   languages?: LanguageCombo;
+  /** Override difficulties (e.g. just picked in game setup, before the saved profile refreshes). */
+  difficulties?: Partial<DifficultyPrefs>;
 };
 
 export const useGameActions = () => {
@@ -36,9 +38,18 @@ export const useGameActions = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const preferencesNotSet = !userProfile?.difficultyPrefs;
   const languagePrefs = userProfile?.languagePrefs ?? null;
-  const shouldAskLanguages = !languagePrefs?.skipPicker;
+  /** New Game opens game setup unless the player saved a setup and chose to skip it. */
+  const needsSetup = !userProfile?.difficultyPrefs || !languagePrefs?.skipPicker;
+
+  /** Difficulty per board: overrides first, then saved preferences, then Basic. */
+  const difficultiesFor = (
+    languages: LanguageCombo,
+    overrides?: Partial<DifficultyPrefs>
+  ): Difficulty[] =>
+    languages.map(
+      (lang) => overrides?.[lang] ?? userProfile?.difficultyPrefs?.[lang] ?? DEFAULT_DIFFICULTY
+    );
 
   const resolveLanguages = (override?: LanguageCombo): LanguageCombo => {
     if (isLanguageCombo(override)) {
@@ -58,15 +69,8 @@ export const useGameActions = () => {
 
     try {
       const db = getFirestore();
-      const prefs = userProfile?.difficultyPrefs;
-
-      if (!prefs) {
-        console.error('User difficulty preferences not found.');
-        return false;
-      }
-
       const languages = resolveLanguages(options?.languages);
-      const difficulties = languages.map((lang) => prefs[lang] ?? DEFAULT_DIFFICULTY);
+      const difficulties = difficultiesFor(languages, options?.difficulties);
 
       // Reuse an empty live game that matches difficulties + language set
       const gamesCollectionRef = collection(db, 'games');
@@ -115,15 +119,9 @@ export const useGameActions = () => {
     }
   };
 
-  /** Difficulty per board from the player's saved preferences. */
-  const difficultiesFor = (languages: LanguageCombo): Difficulty[] =>
-    languages.map((lang) => userProfile?.difficultyPrefs?.[lang] ?? DEFAULT_DIFFICULTY);
-
   return {
     createNewGame,
-    difficultiesFor,
-    preferencesNotSet,
-    shouldAskLanguages,
+    needsSetup,
     languagePrefs,
     resolveLanguages,
   };
