@@ -3,34 +3,23 @@ import { Link } from 'react-router-dom';
 import { Carousel } from '@mantine/carousel';
 import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { DifficultyModal } from '@/components/DifficultyModal/DifficultyModal';
+import { GameSetupDialog } from '@/components/GameSetup/GameSetupDialog';
 import { HowToPlaySlides } from '@/components/HowToPlayModal/HowToPlayModal';
-import { LanguagePickerModal } from '@/components/LanguagePickerModal/LanguagePickerModal';
 import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
-import type { LanguageCombo } from '@/types/firestore';
 import classes from './Home.page.module.css';
 
 export function HomePage() {
-  const { createNewGame, preferencesNotSet, shouldAskLanguages } = useGameActions();
+  const { createNewGame, needsSetup } = useGameActions();
   const { currentUser, signInWithGoogle } = useAuth();
-  const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
-    useDisclosure(false);
-  const [languageModalOpened, { open: openLanguageModal, close: closeLanguageModal }] =
-    useDisclosure(false);
+  const [setupOpened, { open: openSetup, close: closeSetup }] = useDisclosure(false);
 
   const handleNewGameClick = () => {
-    if (preferencesNotSet) {
-      openDifficultyModal();
-    } else if (shouldAskLanguages) {
-      openLanguageModal();
+    if (needsSetup) {
+      openSetup();
     } else {
       createNewGame();
     }
-  };
-
-  const handleLanguageConfirm = (languages: LanguageCombo) => {
-    createNewGame({ languages });
   };
 
   // Animation variants for Framer Motion
@@ -51,13 +40,7 @@ export function HomePage() {
       initial="hidden"
       animate="show"
     >
-      <DifficultyModal opened={difficultyModalOpened} onClose={closeDifficultyModal} />
-      <LanguagePickerModal
-        opened={languageModalOpened}
-        onClose={closeLanguageModal}
-        startGameOnConfirm
-        onConfirm={handleLanguageConfirm}
-      />
+      <GameSetupDialog opened={setupOpened} onClose={closeSetup} mode="newGame" />
       <div className={classes.inner}>
         <motion.div variants={itemVariants} className={classes.carouselWrapper}>
           <Carousel

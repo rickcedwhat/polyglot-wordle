@@ -4,7 +4,6 @@ import {
   IconFlag,
   IconHelpCircle,
   IconHome,
-  IconLanguage,
   IconLogout,
   IconRefresh,
   IconSettings,
@@ -15,16 +14,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Badge, Divider, Paper, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { DifficultyModal } from '@/components/DifficultyModal/DifficultyModal';
 import { FlagsModal } from '@/components/FlagsModal/FlagsModal';
+import { GameSetupDialog } from '@/components/GameSetup/GameSetupDialog';
 import { HowToPlayModal } from '@/components/HowToPlayModal/HowToPlayModal';
-import { LanguagePickerModal } from '@/components/LanguagePickerModal/LanguagePickerModal';
 import { useAuth } from '@/context/AuthContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useChallengeResultToasts, useChallenges } from '@/hooks/useChallenges';
 import { useGameActions } from '@/hooks/useGameActions';
 import { openSandboxDrawer } from '@/hooks/useSandboxDrawer';
-import type { LanguageCombo } from '@/types/firestore';
 import { showToast } from '@/utils/toast';
 import { BlurButton as Button } from '../BlurButton/BlurButton';
 import classes from './Sidebar.module.css';
@@ -38,15 +35,16 @@ export const Sidebar: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout, currentUser } = useAuth();
-  const { createNewGame, preferencesNotSet, shouldAskLanguages } = useGameActions();
+  const { createNewGame, needsSetup } = useGameActions();
   const { sidebarContent, close: closeSidebar } = useSidebar();
   const { unreadCount } = useChallenges();
   const [howToPlayOpened, { open: openHowToPlay, close: closeHowToPlay }] = useDisclosure(false);
-  const [difficultyModalOpened, { open: openDifficultyModal, close: closeDifficultyModal }] =
-    useDisclosure(false);
-  const [languageModalOpened, { open: openLanguageModal, close: closeLanguageModal }] =
-    useDisclosure(false);
-  const [languageModalStartsGame, setLanguageModalStartsGame] = useState(true);
+  const [setupOpened, { open: openSetupDialog, close: closeSetup }] = useDisclosure(false);
+  const [setupMode, setSetupMode] = useState<'newGame' | 'settings'>('newGame');
+  const openSetup = (mode: 'newGame' | 'settings') => {
+    setSetupMode(mode);
+    openSetupDialog();
+  };
   const [flagsModalOpened, { open: openFlagsModal, close: closeFlagsModal }] = useDisclosure(false);
   const handleToast = useCallback(
     ({ challengeId, message }: ChallengeToast) => {
@@ -69,24 +67,10 @@ export const Sidebar: FC = () => {
   useChallengeResultToasts(handleToast);
 
   const handleNewGameClick = () => {
-    if (preferencesNotSet) {
-      openDifficultyModal();
-    } else if (shouldAskLanguages) {
-      setLanguageModalStartsGame(true);
-      openLanguageModal();
+    if (needsSetup) {
+      openSetup('newGame');
     } else {
       createNewGame();
-    }
-  };
-
-  const handleOpenLanguageSettings = () => {
-    setLanguageModalStartsGame(false);
-    openLanguageModal();
-  };
-
-  const handleLanguageConfirm = (languages: LanguageCombo) => {
-    if (languageModalStartsGame) {
-      createNewGame({ languages });
     }
   };
 
@@ -121,8 +105,7 @@ export const Sidebar: FC = () => {
 
   const toolLinks = [
     { label: 'How to Play', icon: IconHelpCircle, action: openHowToPlay },
-    { label: 'Difficulty', icon: IconSettings, action: openDifficultyModal },
-    { label: 'Languages', icon: IconLanguage, action: handleOpenLanguageSettings },
+    { label: 'Game setup', icon: IconSettings, action: () => openSetup('settings') },
     { label: 'Custom Flags / Emojis', icon: IconFlag, action: openFlagsModal },
     { label: 'Sandbox Tools', icon: IconAdjustmentsHorizontal, action: handleSandboxTools },
   ];
@@ -130,13 +113,7 @@ export const Sidebar: FC = () => {
   return (
     <>
       <HowToPlayModal opened={howToPlayOpened} onClose={closeHowToPlay} />
-      <DifficultyModal opened={difficultyModalOpened} onClose={closeDifficultyModal} />
-      <LanguagePickerModal
-        opened={languageModalOpened}
-        onClose={closeLanguageModal}
-        startGameOnConfirm={languageModalStartsGame}
-        onConfirm={handleLanguageConfirm}
-      />
+      <GameSetupDialog opened={setupOpened} onClose={closeSetup} mode={setupMode} />
       <FlagsModal opened={flagsModalOpened} onClose={closeFlagsModal} />
 
       <div className={classes.wrapper}>
