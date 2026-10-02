@@ -10,6 +10,7 @@ import {
 import { doc, getDoc, getFirestore, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { auth, googleProvider } from '@/firebase';
 import { UserDoc } from '@/types/firestore';
+import { clearPendingToasts } from '@/utils/toast';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -45,6 +46,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const logout = () => {
+    clearPendingToasts();
     signOut(auth);
   };
 

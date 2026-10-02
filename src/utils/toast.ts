@@ -4,6 +4,13 @@ import { notifications, type NotificationData } from '@mantine/notifications';
 const FIRST_TOAST_DELAY_MS = 1000;
 const TOAST_GAP_MS = 500;
 let nextToastAt = 0;
+const pendingToasts = new Set<ReturnType<typeof setTimeout>>();
+
+export const clearPendingToasts = () => {
+  pendingToasts.forEach((timeout) => clearTimeout(timeout));
+  pendingToasts.clear();
+  nextToastAt = 0;
+};
 
 /**
  * Shows a toast in the shared stack (bottom-right on desktop, bottom-center on mobile).
@@ -13,7 +20,8 @@ export const showToast = (data: NotificationData) => {
   const now = Date.now();
   const showAt = Math.max(now + FIRST_TOAST_DELAY_MS, nextToastAt + TOAST_GAP_MS);
   nextToastAt = showAt;
-  setTimeout(() => {
+  const timeout = setTimeout(() => {
+    pendingToasts.delete(timeout);
     const isMobile = window.matchMedia('(max-width: 48em)').matches;
     notifications.show({
       autoClose: 6000,
@@ -21,4 +29,5 @@ export const showToast = (data: NotificationData) => {
       ...data,
     });
   }, showAt - now);
+  pendingToasts.add(timeout);
 };
