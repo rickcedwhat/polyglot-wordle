@@ -67,7 +67,7 @@ export const saveLocalVocabulary = (vocab: UserVocabularyMap, userId?: string): 
   }
 };
 
-export const clearAnonymousVocabulary = (): void => {
+const clearAnonymousVocabulary = (): void => {
   try {
     localStorage.removeItem(VOCABULARY_STORAGE_KEY);
   } catch (_e) {
@@ -75,7 +75,7 @@ export const clearAnonymousVocabulary = (): void => {
   }
 };
 
-export const fetchUserVocabulary = async (userId: string): Promise<UserVocabularyMap> => {
+const fetchUserVocabulary = async (userId: string): Promise<UserVocabularyMap> => {
   const db = getFirestore();
   const langs = [...ALL_LANGUAGES];
   const result = emptyVocab();
@@ -98,7 +98,7 @@ export const fetchUserVocabulary = async (userId: string): Promise<UserVocabular
   return result;
 };
 
-export interface RecordGuessPayload {
+interface RecordGuessPayload {
   guess: string;
   matchedLangs: Language[];
   solutionLangs?: Language[];

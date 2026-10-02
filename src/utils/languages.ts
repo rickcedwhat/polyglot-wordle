@@ -45,7 +45,7 @@ export function difficultyFromHex(hexChar: string): Difficulty {
   return 'advanced';
 }
 
-export function difficultyToHex(difficulty: Difficulty): string {
+function difficultyToHex(difficulty: Difficulty): string {
   if (difficulty === 'basic') {
     return '0';
   }

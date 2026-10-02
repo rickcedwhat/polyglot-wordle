@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Dictionary, normalizeWord, WordEntry } from '@/utils/wordUtils';
 
-export interface DefinitionData {
+interface DefinitionData {
   display: string;
   pos: string;
   def: string;

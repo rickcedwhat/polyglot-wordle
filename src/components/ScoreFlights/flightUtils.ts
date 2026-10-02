@@ -47,7 +47,7 @@ export function findScoreOrigin(origin: string): HTMLElement | null {
 const prefersReducedMotion = () =>
   window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
-export const canFlyScores = () => !prefersReducedMotion() && findVisibleScoreTarget() !== null;
+const canFlyScores = () => !prefersReducedMotion() && findVisibleScoreTarget() !== null;
 
 /** One combined flight per board, plus one for the game-level bonus/penalties. */
 export function buildFlights(events: ScoreEvent[]): ScoreFlight[] {

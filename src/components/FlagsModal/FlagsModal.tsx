@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { IconCheck, IconFlag, IconRefresh } from '@tabler/icons-react';
 import {
   Badge,

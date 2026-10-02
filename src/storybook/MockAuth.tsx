@@ -4,7 +4,7 @@ import type { User } from 'firebase/auth';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthContext } from '@/context/AuthContext';
 
-export const STORY_USER = { uid: 'me', displayName: 'You', photoURL: null } as unknown as User;
+const STORY_USER = { uid: 'me', displayName: 'You', photoURL: null } as unknown as User;
 
 /** Signed-in story user, a router, and React Query defaults that never hit Firestore. */
 export const MockAuth = ({ children }: { children: ReactNode }) => {

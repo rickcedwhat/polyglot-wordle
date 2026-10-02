@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import type { ChallengeDoc, GameDoc, UserDoc } from '@/types/firestore';
 
-export const challengeDocId = (challengerId: string, gameId: string) => `${challengerId}_${gameId}`;
+const challengeDocId = (challengerId: string, gameId: string) => `${challengerId}_${gameId}`;
 
 const emptyParticipant = (
   profile: Pick<UserDoc, 'displayName' | 'photoURL'>,

@@ -1,0 +1,29 @@
+{
+  // This file is JSONC: fallow reads these comments; generic JSON tools may not.
+  "$schema": "./node_modules/fallow/schema.json",
+  "entry": [
+    "src/main.tsx",
+    // Run by hand (node / tsx), not imported.
+    "scripts/**/*.{mjs,ts}",
+    "evals/**/*.ts",
+    // Separate dev-only Vite app (npm run dict:console).
+    "tools/dict-console/src/main.tsx"
+  ],
+  "ignorePatterns": [
+    // Cloud Functions is its own package with its own package.json.
+    "functions/**"
+  ],
+  // Called via npx in the deploy workflow, never imported.
+  "ignoreDependencies": ["firebase-tools"],
+  "duplicates": {
+    "minOccurrences": 2,
+    // One-off dictionary tooling; copy-paste there isn't worth refactoring.
+    "ignore": ["scripts/**", "evals/**", "**/*.story.tsx"]
+  },
+  "rules": {
+    "unused-dependencies": "error",
+    // Vite bundles the app, so nothing needs installing at runtime; the only
+    // hits are dev tooling in scripts/ and evals/.
+    "dev-dependency-in-production": "off"
+  }
+}

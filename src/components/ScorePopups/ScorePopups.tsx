@@ -49,7 +49,7 @@ export function buildGameLines(events: ScoreEvent[]): PopupLine[] {
  * Board-level line for one language's events. Full-size boards show tile points inline, so
  * only the solved bonus floats; compact boards float the board's whole turn total.
  */
-export function buildBoardLine(events: ScoreEvent[], compact: boolean): PopupLine | null {
+function buildBoardLine(events: ScoreEvent[], compact: boolean): PopupLine | null {
   const solved = events.find((e) => e.kind === 'wordSolved');
   if (!compact) {
     return solved

@@ -2,7 +2,7 @@ import { useSyncExternalStore } from 'react';
 import type { Language } from '@/types/firestore';
 import { flagFor } from '@/utils/languages';
 
-export interface FlaggedWordItem {
+interface FlaggedWordItem {
   id: string; // `${lang}:${wordKey}`
   lang: Language;
   wordKey: string;
@@ -16,7 +16,7 @@ export interface FlaggedWordItem {
 
 const STORAGE_KEY = 'polyglot_flagged_words_v1';
 
-export const getStoredFlaggedWords = (): FlaggedWordItem[] => {
+const getStoredFlaggedWords = (): FlaggedWordItem[] => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -25,7 +25,7 @@ export const getStoredFlaggedWords = (): FlaggedWordItem[] => {
   }
 };
 
-export const saveFlaggedWords = (items: FlaggedWordItem[]) => {
+const saveFlaggedWords = (items: FlaggedWordItem[]) => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   } catch (e) {

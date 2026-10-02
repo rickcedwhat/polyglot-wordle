@@ -35,7 +35,6 @@ interface LanguageBoardProps {
   words: string[];
   dictionary?: Dictionary;
   candidateLanguages?: Language[];
-  isConfirmed?: boolean;
   hideFlags?: boolean;
   isActive?: boolean;
   /** Render candidate flags above the grid instead of beside the current row. */
@@ -242,7 +241,6 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
     words,
     dictionary,
     candidateLanguages = ['en', 'es', 'fr'] as Language[],
-    isConfirmed: _isConfirmed = false,
     hideFlags = false,
     isActive = true,
     flagsOnTop = false,

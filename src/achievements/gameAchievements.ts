@@ -5,7 +5,7 @@ import { detectFeats } from './detectFeats';
 import { certificationLevelsBefore, certificationLevelUps, type LevelUp } from './levels';
 
 /** Firestore Timestamp (or anything with toDate) to a Date; null while unset or pending. */
-export const timestampToDate = (value: unknown): Date | null => {
+const timestampToDate = (value: unknown): Date | null => {
   const toDate = (value as { toDate?: () => Date } | null)?.toDate;
   return typeof toDate === 'function' ? toDate.call(value) : null;
 };

@@ -25,7 +25,7 @@ export const generateGameId = (languages: LanguageCombo, difficulties: Difficult
   return buildGameId({ entropyHex, languages, difficulties, seedNibble: uuidv4()[0] });
 };
 
-export type CreateNewGameOptions = {
+type CreateNewGameOptions = {
   /** Override languages for this game (skipPicker still respected separately). */
   languages?: LanguageCombo;
   /** Override difficulties (e.g. just picked in game setup, before the saved profile refreshes). */

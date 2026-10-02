@@ -342,7 +342,7 @@ export const calculateScoreFromHistory = (
  * Formats a definition string by capitalizing the first letter
  * (even if it's inside parentheses) and ensuring it ends with a period.
  */
-export const formatDefinition = (text: string): string => {
+const formatDefinition = (text: string): string => {
   if (!text) {
     return '';
   }

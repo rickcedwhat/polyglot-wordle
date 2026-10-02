@@ -3,9 +3,9 @@ import { Language } from '@/types/firestore';
 import { extractSingleEmoji } from '@/utils/emojiUtils';
 import { ALL_LANGUAGES, LANGUAGE_META } from '@/utils/languages';
 
-export type LanguageFlags = Record<Language, string>;
+type LanguageFlags = Record<Language, string>;
 
-export const DEFAULT_FLAGS: LanguageFlags = {
+const DEFAULT_FLAGS: LanguageFlags = {
   en: LANGUAGE_META.en.flag,
   es: LANGUAGE_META.es.flag,
   fr: LANGUAGE_META.fr.flag,
@@ -15,7 +15,7 @@ export const DEFAULT_FLAGS: LanguageFlags = {
 
 const STORAGE_KEY = 'polyglot_custom_flags_v2';
 
-export const getStoredFlags = (): LanguageFlags => {
+const getStoredFlags = (): LanguageFlags => {
   try {
     const raw =
       localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem('polyglot_custom_flags_v1');

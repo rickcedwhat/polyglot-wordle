@@ -7,11 +7,6 @@ export interface DiscoveredWordRecord {
   isSolved?: boolean; // true if this word was a winning target word
 }
 
-export interface LanguageVocabularyDoc {
-  words: Record<string, DiscoveredWordRecord>;
-  totalCount: number;
-}
-
 export type UserVocabularyMap = Record<Language, Record<string, DiscoveredWordRecord>>;
 
 export interface DiscoveredWordEntry extends DiscoveredWordRecord {
