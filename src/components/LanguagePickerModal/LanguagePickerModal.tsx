@@ -28,6 +28,12 @@ interface LanguagePickerModalProps {
   /** When true, confirming starts a new game with the selected languages. */
   startGameOnConfirm?: boolean;
   onConfirm?: (languages: LanguageCombo, skipPicker: boolean) => void;
+  /** When false, confirming only reports the choice (no saved prefs, no "don't ask again"). */
+  saveToPrefs?: boolean;
+  title?: string;
+  confirmLabel?: string;
+  loading?: boolean;
+  error?: string | null;
 }
 
 const useLanguagePrefs = () => {
@@ -71,6 +77,11 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
   onClose,
   startGameOnConfirm = true,
   onConfirm,
+  saveToPrefs = true,
+  title = 'Choose languages',
+  confirmLabel,
+  loading = false,
+  error,
 }) => {
   const { userProfileQuery, updatePrefsMutation } = useLanguagePrefs();
   const [selected, setSelected] = useState<Language[]>([...DEFAULT_LANGUAGES]);
@@ -108,6 +119,10 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
     if (!isLanguageCombo(selected)) {
       return;
     }
+    if (!saveToPrefs) {
+      onConfirm?.(selected, false);
+      return;
+    }
     const prefs: LanguagePrefs = { languages: selected, skipPicker: dontAskAgain };
 
     updatePrefsMutation.mutate(prefs, {
@@ -125,7 +140,7 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Choose languages" centered>
+    <Modal opened={opened} onClose={onClose} title={title} centered>
       {userProfileQuery.isLoading ? (
         <Center>
           <Loader />
@@ -165,13 +180,21 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
             {selected.length} selected (minimum 3)
           </Text>
 
-          <Checkbox
-            label="Don't ask again — use this combo for New Game"
-            checked={dontAskAgain}
-            onChange={(e) => setDontAskAgain(e.currentTarget.checked)}
-          />
+          {saveToPrefs && (
+            <Checkbox
+              label="Don't ask again — use this combo for New Game"
+              checked={dontAskAgain}
+              onChange={(e) => setDontAskAgain(e.currentTarget.checked)}
+            />
+          )}
 
-          {updatePrefsMutation.isError && (
+          {error && (
+            <Text size="sm" c="red" role="alert">
+              {error}
+            </Text>
+          )}
+
+          {saveToPrefs && updatePrefsMutation.isError && (
             <Text size="sm" c="red" role="alert">
               Could not save language preferences. Please try again.
             </Text>
@@ -180,10 +203,10 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
           <Button
             onClick={handleConfirm}
             disabled={!canConfirm}
-            loading={updatePrefsMutation.isPending}
+            loading={loading || updatePrefsMutation.isPending}
             mt="sm"
           >
-            {startGameOnConfirm ? 'Start Game' : 'Save Languages'}
+            {confirmLabel ?? (startGameOnConfirm ? 'Start Game' : 'Save Languages')}
           </Button>
         </Stack>
       )}

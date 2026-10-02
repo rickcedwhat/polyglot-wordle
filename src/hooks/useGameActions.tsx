@@ -15,6 +15,16 @@ import { useUserProfile } from './useUserProfile';
 
 const DEFAULT_DIFFICULTY: Difficulty = 'basic';
 
+/** Fresh random game id for these boards. */
+export const generateGameId = (languages: LanguageCombo, difficulties: Difficulty[]): string => {
+  const entropyHex = Array.from({ length: Math.ceil(languages.length / 4) }, () =>
+    uuidv4().replace(/-/g, '')
+  )
+    .join('')
+    .slice(0, languages.length * 8);
+  return buildGameId({ entropyHex, languages, difficulties, seedNibble: uuidv4()[0] });
+};
+
 export type CreateNewGameOptions = {
   /** Override languages for this game (skipPicker still respected separately). */
   languages?: LanguageCombo;
@@ -94,19 +104,7 @@ export const useGameActions = () => {
         console.log('Found existing empty game with matching difficulties, reusing it.');
         gameId = reusableGameId;
       } else {
-        const entropyHex = Array.from({ length: Math.ceil(languages.length / 4) }, () =>
-          uuidv4().replace(/-/g, '')
-        )
-          .join('')
-          .slice(0, languages.length * 8);
-        const seedNibble = uuidv4()[0];
-        gameId = buildGameId({
-          entropyHex,
-          languages,
-          difficulties,
-          seedNibble,
-        });
-
+        gameId = generateGameId(languages, difficulties);
         await queryClient.invalidateQueries({ queryKey: ['gameHistory'] });
       }
       navigate(gamePath(gameId, languages));
@@ -117,8 +115,13 @@ export const useGameActions = () => {
     }
   };
 
+  /** Difficulty per board from the player's saved preferences. */
+  const difficultiesFor = (languages: LanguageCombo): Difficulty[] =>
+    languages.map((lang) => userProfile?.difficultyPrefs?.[lang] ?? DEFAULT_DIFFICULTY);
+
   return {
     createNewGame,
+    difficultiesFor,
     preferencesNotSet,
     shouldAskLanguages,
     languagePrefs,

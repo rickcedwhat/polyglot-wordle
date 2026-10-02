@@ -180,6 +180,46 @@ service cloud.firestore {
                get(/databases/$(database)/documents/games/$(request.auth.uid + '_' + data.gameId)).data.guessHistory.size() > 0;
       }
 
+      // In-app challenge: the challenger invites an accepted friend who hasn't played this game.
+      // Post-game invites copy the challenger's finished score; new-game invites start at null.
+      function isValidFriendInviteCreate() {
+        let data = request.resource.data;
+        let me = request.auth.uid;
+        let friendId = data.participantIds[0] == me ? data.participantIds[1] : data.participantIds[0];
+        let myGamePath = /databases/$(database)/documents/games/$(me + '_' + data.gameId);
+        let friendshipPath = /databases/$(database)/documents/users/$(me)/friendships/$(friendId);
+        return request.auth != null &&
+               hasValidChallengeShape(data) &&
+               hasValidParticipants(data) &&
+               hasValidParticipantShape(data.participants[me]) &&
+               hasValidParticipantShape(data.participants[friendId]) &&
+               data.createdBy == me &&
+               me in data.participantIds &&
+               data.gameId is string &&
+               data.gameId.size() <= 64 &&
+               challengeId == me + '_' + data.gameId &&
+               data.createdAt == request.time &&
+               data.source == 'friend_invite' &&
+               data.type == 'direct' &&
+               data.maxPlayers == 2 &&
+               data.status == 'pending' &&
+               data.winnerId == null &&
+               exists(friendshipPath) &&
+               get(friendshipPath).data.status == 'accepted' &&
+               !exists(/databases/$(database)/documents/games/$(friendId + '_' + data.gameId)) &&
+               data.participants[me].rsvp == 'accepted' &&
+               data.participants[me].resultSeenAt == null &&
+               (exists(myGamePath)
+                 ? data.participants[me].score == get(myGamePath).data.score &&
+                   data.participants[me].completedAt == get(myGamePath).data.completedAt
+                 : data.participants[me].score == null &&
+                   data.participants[me].completedAt == null) &&
+               data.participants[friendId].score == null &&
+               data.participants[friendId].rsvp == 'pending' &&
+               data.participants[friendId].completedAt == null &&
+               data.participants[friendId].resultSeenAt == null;
+      }
+
       function ownParticipantScoreLocked() {
         let oldMe = resource.data.participants[request.auth.uid];
         let newMe = request.resource.data.participants[request.auth.uid];
@@ -233,11 +273,15 @@ service cloud.firestore {
       allow list: if isParticipant();
 
       // Trusted Admin SDK writes bypass these client rules.
-      allow create: if isValidClientCreate();
+      allow create: if isValidClientCreate() || isValidFriendInviteCreate();
 
       allow update: if isValidClientUpdate();
 
-      allow delete: if false;
+      // The challenger may withdraw an in-app invite until the friend starts playing it.
+      allow delete: if request.auth != null &&
+                       request.auth.uid == resource.data.createdBy &&
+                       resource.data.source == 'friend_invite' &&
+                       resource.data.status == 'pending';
     }
   }
 }

@@ -12,14 +12,15 @@ import { auth, googleProvider } from '@/firebase';
 import { UserDoc } from '@/types/firestore';
 import { clearPendingToasts } from '@/utils/toast';
 
-interface AuthContextType {
+export interface AuthContextType {
   currentUser: User | null;
   loading: boolean;
   signInWithGoogle: () => void;
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+/** Exported so Storybook can provide a signed-in user without Firebase Auth. */
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);

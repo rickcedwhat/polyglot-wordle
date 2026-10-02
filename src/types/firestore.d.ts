@@ -106,14 +106,14 @@ export interface GameDoc {
  * Manages a match between two players for a specific gameId.
  *
  * Share-link challenges are created when the opponent submits their first guess.
- * Future in-app friend invites can use source: 'friend_invite' with opponent
- * rsvp: 'pending' before play starts.
+ * In-app friend invites ('friend_invite') are created by the challenger with status
+ * 'pending' and the friend's rsvp 'pending'; the friend's first guess makes it 'active'.
  */
 export interface ChallengeDoc {
   gameId: string;
   createdAt: Timestamp;
   createdBy: string; // The UID of the user who created the challenge (challenger)
-  /** How the challenge was initiated. 'share' today; 'friend_invite' reserved for in-app. */
+  /** How the challenge was initiated: a shared link, or an in-app invite to a friend. */
   source: 'share' | 'friend_invite';
   type: 'direct' | 'open';
   maxPlayers: number | null; // The limit for 'open' challenges

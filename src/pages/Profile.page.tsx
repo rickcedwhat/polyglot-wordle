@@ -1,8 +1,16 @@
-import { FC } from 'react';
-import { IconAward, IconBooks, IconChartBar, IconUsers, IconVocabulary } from '@tabler/icons-react';
+import { FC, useState } from 'react';
+import {
+  IconAward,
+  IconBooks,
+  IconChartBar,
+  IconSwords,
+  IconUsers,
+  IconVocabulary,
+} from '@tabler/icons-react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Center, Container, Group, Loader, Tabs, Text, Title } from '@mantine/core';
+import { Button, Center, Container, Group, Loader, Tabs, Text, Title } from '@mantine/core';
 import { AchievementsTab } from '@/components/AchievementsTab/AchievementsTab';
+import { ChallengeFriendModal } from '@/components/ChallengeFriendModal/ChallengeFriendModal';
 import { FriendButton } from '@/components/FriendButton/FriendButton';
 import { FriendListTab } from '@/components/FriendsListTab/FriendsListTab';
 import { GameHistoryTab } from '@/components/GameHistoryTab/GameHistoryTab';
@@ -10,6 +18,7 @@ import { ShareProfileButton } from '@/components/ShareProfileButton/ShareProfile
 import { StatsTab } from '@/components/StatsTab/StatsTab';
 import { VocabularyTab } from '@/components/VocabularyTab/VocabularyTab';
 import { useAuth } from '@/context/AuthContext';
+import { useFriendships } from '@/hooks/useFriendships';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 export const ProfilePage: FC = () => {
@@ -21,6 +30,9 @@ export const ProfilePage: FC = () => {
   const { currentUser } = useAuth();
 
   const isOwnProfile = currentUser?.uid === userId;
+  const { getFriendshipStatus } = useFriendships(currentUser?.uid);
+  const isFriend = !isOwnProfile && getFriendshipStatus(userId) === 'friends';
+  const [challengeOpened, setChallengeOpened] = useState(false);
 
   // Determine active tab from URL hash, default to 'history'
   const validTabs = ['history', 'stats', 'vocabulary', 'achievements', 'friends'];
@@ -60,8 +72,34 @@ export const ProfilePage: FC = () => {
           <Text c="dimmed">Member since {userProfile.joinedAt.toDate().toLocaleDateString()}</Text>
         </div>
 
-        {isOwnProfile ? <ShareProfileButton /> : <FriendButton profileUserId={userId!} />}
+        {isOwnProfile ? (
+          <ShareProfileButton />
+        ) : (
+          <Group gap="xs">
+            {isFriend && (
+              <Button
+                color="grape"
+                leftSection={<IconSwords size={16} />}
+                onClick={() => setChallengeOpened(true)}
+              >
+                Challenge
+              </Button>
+            )}
+            <FriendButton profileUserId={userId!} />
+          </Group>
+        )}
       </Group>
+      {isFriend && (
+        <ChallengeFriendModal
+          opened={challengeOpened}
+          onClose={() => setChallengeOpened(false)}
+          friend={{
+            id: userId!,
+            displayName: userProfile.displayName,
+            photoURL: userProfile.photoURL,
+          }}
+        />
+      )}
 
       {/* The Tabs component is now controlled by state derived from the URL */}
       <Tabs value={activeTab} onChange={handleTabChange} mt="xl">

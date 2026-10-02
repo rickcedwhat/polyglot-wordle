@@ -28,6 +28,8 @@ export const useChallenges = () => {
     },
     enabled: !!userId,
     staleTime: 30_000,
+    // Picks up new invites and results while the app stays open.
+    refetchInterval: 60_000,
   });
 
   const challenges = challengesQuery.data ?? [];
@@ -57,12 +59,9 @@ export const useChallenges = () => {
         unreadCount += 1;
       }
 
-      // Needs you: received challenge you haven't finished, OR completed unread result
-      if (
-        !iAmChallenger &&
-        (myScore === null || myScore === undefined) &&
-        c.status !== 'completed'
-      ) {
+      // Needs you: a challenge you haven't finished (received, or a new-game challenge you sent),
+      // OR a completed result you haven't seen
+      if ((myScore === null || myScore === undefined) && c.status !== 'completed') {
         needsYou.push(c);
         return;
       }
@@ -77,12 +76,6 @@ export const useChallenges = () => {
         (theirScore === null || theirScore === undefined) &&
         c.status !== 'completed'
       ) {
-        waiting.push(c);
-        return;
-      }
-
-      // Future friend_invite pending (you invited, they haven't accepted/started)
-      if (c.source === 'friend_invite' && c.status === 'pending' && iAmChallenger) {
         waiting.push(c);
         return;
       }
@@ -133,7 +126,8 @@ const writeSeenToasts = (ids: Set<string>) => {
 };
 
 /**
- * Fires a callback once per unread completed challenge (persisted in localStorage).
+ * Fires a callback once per new in-app invite and once per unread completed challenge
+ * (persisted in localStorage).
  */
 export const useChallengeResultToasts = (
   onToast: (item: { challengeId: string; message: string }) => void
@@ -150,6 +144,18 @@ export const useChallengeResultToasts = (
 
     challenges.forEach((c) => {
       const me = c.participants[userId];
+      const isNewInvite =
+        c.source === 'friend_invite' && c.createdBy !== userId && me?.rsvp === 'pending';
+      if (isNewInvite) {
+        const inviteToastId = `${c.id}:${userId}:invite`;
+        if (!seenRef.current.has(inviteToastId)) {
+          seenRef.current.add(inviteToastId);
+          writeSeenToasts(seenRef.current);
+          const name = c.participants[c.createdBy]?.displayName || 'A friend';
+          onToast({ challengeId: c.id, message: `${name} challenged you — tap to play` });
+        }
+        return;
+      }
       if (c.status !== 'completed' || !me || me.resultSeenAt) {
         return;
       }
