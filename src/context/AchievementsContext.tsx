@@ -1,11 +1,11 @@
 import { createContext, FC, ReactNode, useContext, useEffect, useMemo, useRef } from 'react';
 import { TrackBadge } from '@/components/Badges/Badges';
-import { showAchievementToast } from '@/components/Badges/notifyFeat';
 import { useAuth } from '@/context/AuthContext';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useDefinitionsRead } from '@/hooks/useDefinitionsRead';
 import type { Language } from '@/types/firestore';
 import { newlyEarned, type AchievementProgress } from '@/utils/achievements';
+import { showToast } from '@/utils/toast';
 
 interface AchievementsContextType {
   recordDefinitionRead: (lang: Language, word: string) => void;
@@ -27,7 +27,7 @@ const useAchievementNotifications = () => {
     if (previous.current?.userKey === userKey) {
       newlyEarned(previous.current.achievements, achievements).forEach((achievement) => {
         const { track, tier, next, current, level } = achievement;
-        showAchievementToast({
+        showToast({
           id: `${achievement.id}-${level}`,
           icon: <TrackBadge track={track} level={level} size={36} />,
           title: `${track.name}: ${tier?.label}`,
