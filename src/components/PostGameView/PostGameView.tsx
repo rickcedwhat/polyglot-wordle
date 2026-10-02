@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { IconTrophy } from '@tabler/icons-react';
-import { Box, Button, Grid, Group } from '@mantine/core';
+import { Box, Button, Center, Group, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { Leaderboard } from '@/components/Leaderboard/Leaderboard';
@@ -51,57 +51,35 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
         challengerGame={challengerGame}
       />
 
-      <Group
-        justify="flex-end"
-        p="xs"
-        style={{ position: 'absolute', top: 0, right: 0, zIndex: 10 }}
-      >
-        <Button
-          size="xs"
-          variant="gradient"
-          gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
-          leftSection={<IconTrophy size={14} />}
-          onClick={openModal}
-        >
-          📊 Match Summary & Stats
-        </Button>
-      </Group>
-
-      <Grid gutter="xl" style={{ width: '100%', height: '100%', alignItems: 'center' }}>
-        <Grid.Col
-          span={{ base: 12, md: 9 }}
-          style={{
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Box
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+      <Stack gap="lg" align="center" w="100%" pb="xl">
+        <Group justify="flex-end" w="100%">
+          <Button
+            size="xs"
+            variant="gradient"
+            gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
+            leftSection={<IconTrophy size={14} />}
+            onClick={openModal}
           >
-            <GameBoard
-              solution={focusedGame.words}
-              guesses={focusedGame.guessHistory}
-              shuffledLanguages={focusedGame.shuffledLanguages}
-              hideFlags
-            />
-          </Box>
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 3 }}>
+            📊 Match Summary & Stats
+          </Button>
+        </Group>
+
+        <Center w="100%" style={{ overflow: 'visible' }}>
+          <GameBoard
+            solution={focusedGame.words}
+            guesses={focusedGame.guessHistory}
+            shuffledLanguages={focusedGame.shuffledLanguages}
+          />
+        </Center>
+
+        <Box w="100%" maw={720}>
           <Leaderboard
             gameId={gameSession.gameId}
             selectedUserId={focusedGame.userId}
             onGameSelect={setFocusedGame}
           />
-        </Grid.Col>
-      </Grid>
+        </Box>
+      </Stack>
     </Box>
   );
 };
