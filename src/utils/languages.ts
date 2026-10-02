@@ -3,6 +3,9 @@ import type { Difficulty, Language, LanguageCombo } from '@/types/firestore';
 /** All dictionaries available to the game. */
 export const ALL_LANGUAGES = ['en', 'es', 'fr', 'it', 'pt'] as const satisfies readonly Language[];
 
+/** Boards per game. */
+export const BOARD_COUNT = 3;
+
 /** Default New Game triple (legacy / first-run). */
 export const DEFAULT_LANGUAGES: [Language, Language, Language] = ['en', 'es', 'fr'];
 
@@ -142,6 +145,11 @@ export function isLanguageCombo(value: unknown): value is LanguageCombo {
     value.every((lang) => ALL_LANGUAGES.includes(lang as Language)) &&
     new Set(value).size === value.length
   );
+}
+
+/** A valid language set for starting a new game: exactly {@link BOARD_COUNT} languages. */
+export function isNewGameCombo(value: unknown): value is LanguageCombo {
+  return isLanguageCombo(value) && value.length === BOARD_COUNT;
 }
 
 export function labelFor(lang: Language): string {

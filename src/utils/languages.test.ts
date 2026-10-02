@@ -7,11 +7,21 @@ import {
   gamePath,
   isGameId,
   isLangComboSegment,
+  isNewGameCombo,
   isV2GameId,
   isV3GameId,
   languagesFromGame,
   parseLangCombo,
 } from './languages';
+
+describe('isNewGameCombo', () => {
+  it('accepts exactly three unique languages', () => {
+    expect(isNewGameCombo(['en', 'it', 'pt'])).toBe(true);
+    expect(isNewGameCombo(['en', 'it'])).toBe(false);
+    expect(isNewGameCombo(['en', 'es', 'fr', 'it'])).toBe(false);
+    expect(isNewGameCombo(['en', 'en', 'fr'])).toBe(false);
+  });
+});
 
 describe('languages UUID helpers', () => {
   it('builds and decodes a v2 game id with it/pt', () => {

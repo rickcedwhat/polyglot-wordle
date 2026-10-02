@@ -16,9 +16,10 @@ import { useAuth } from '@/context/AuthContext';
 import type { Language, LanguageCombo, LanguagePrefs, UserDoc } from '@/types/firestore.d.ts';
 import {
   ALL_LANGUAGES,
+  BOARD_COUNT,
   DEFAULT_LANGUAGES,
   flagFor,
-  isLanguageCombo,
+  isNewGameCombo,
   labelFor,
 } from '@/utils/languages';
 
@@ -92,7 +93,7 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
       return;
     }
     const prefs = userProfileQuery.data.languagePrefs;
-    if (prefs && isLanguageCombo(prefs.languages)) {
+    if (prefs && isNewGameCombo(prefs.languages)) {
       setSelected([...prefs.languages]);
       setDontAskAgain(Boolean(prefs.skipPicker));
     } else {
@@ -106,17 +107,17 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
       if (prev.includes(lang)) {
         return prev.filter((l) => l !== lang);
       }
-      if (prev.length >= ALL_LANGUAGES.length) {
+      if (prev.length >= BOARD_COUNT) {
         return prev;
       }
       return [...prev, lang];
     });
   };
 
-  const canConfirm = isLanguageCombo(selected);
+  const canConfirm = isNewGameCombo(selected);
 
   const handleConfirm = () => {
-    if (!isLanguageCombo(selected)) {
+    if (!isNewGameCombo(selected)) {
       return;
     }
     if (!saveToPrefs) {
@@ -148,13 +149,13 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
       ) : (
         <Stack>
           <Text size="sm" c="dimmed">
-            Pick at least three languages for your boards.
+            Pick three languages, one per board.
           </Text>
 
           <Group gap="xs">
             {ALL_LANGUAGES.map((lang) => {
               const isOn = selected.includes(lang);
-              const disabled = !isOn && selected.length >= ALL_LANGUAGES.length;
+              const disabled = !isOn && selected.length >= BOARD_COUNT;
               return (
                 <UnstyledButton
                   key={lang}
@@ -177,7 +178,7 @@ export const LanguagePickerModal: FC<LanguagePickerModalProps> = ({
           </Group>
 
           <Text size="xs" c={canConfirm ? 'dimmed' : 'orange'}>
-            {selected.length} selected (minimum 3)
+            {selected.length} of {BOARD_COUNT} selected
           </Text>
 
           {saveToPrefs && (

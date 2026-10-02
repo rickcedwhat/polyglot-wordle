@@ -32,7 +32,7 @@ export interface LanguageStats {
 export type DifficultyPrefs = Record<Language, Difficulty>;
 
 export type LanguagePrefs = {
-  /** Three or more unique supported languages for New Game boards. */
+  /** Three unique supported languages for New Game boards. */
   languages: LanguageCombo;
   /** When true, skip the New Game language picker and use `languages`. */
   skipPicker: boolean;
