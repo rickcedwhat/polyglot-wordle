@@ -1,8 +1,11 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { IconSwords } from '@tabler/icons-react';
 import {
   Avatar,
+  Badge,
+  Button,
   Center,
+  Checkbox,
   Group,
   Loader,
   Modal,
@@ -14,10 +17,13 @@ import {
 import { GameSetupModal } from '@/components/GameSetup/GameSetupModal';
 import type { GameSetupValue } from '@/components/GameSetup/GameSetupPanel';
 import { useAuth } from '@/context/AuthContext';
+import { useChallenges } from '@/hooks/useChallenges';
 import {
   friendChallengeErrorMessage,
+  joinNames,
   useFriendChallenge,
   type ChallengeFriend,
+  type FriendChallengeResult,
 } from '@/hooks/useFriendChallenge';
 import { useFriendships } from '@/hooks/useFriendships';
 import { useUserProfile } from '@/hooks/useUserProfile';
@@ -44,85 +50,119 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
 }) => {
   const { currentUser } = useAuth();
   const { data: profile } = useUserProfile(currentUser?.uid);
+  const { challenges } = useChallenges();
   const { challengeOnGame, challengeNewGame } = useFriendChallenge();
-  const [picked, setPicked] = useState<ChallengeFriend | null>(null);
-  const [busyId, setBusyId] = useState<string | null>(null);
+  const [selected, setSelected] = useState<ChallengeFriend[]>([]);
+  const [choosingSetup, setChoosingSetup] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (opened) {
-      setPicked(null);
+      setSelected([]);
+      setChoosingSetup(false);
       setError(null);
-      setBusyId(null);
+      setBusy(false);
     }
   }, [opened]);
 
-  const target = fixedFriend ?? picked;
+  const alreadyChallengedIds = useMemo(() => {
+    if (!game || !currentUser) {
+      return [];
+    }
+    return challenges
+      .filter((c) => c.gameId === game.gameId && c.createdBy === currentUser.uid)
+      .flatMap((c) => c.participantIds.filter((id) => id !== currentUser.uid));
+  }, [challenges, game, currentUser]);
 
-  const sent = (friend: ChallengeFriend) => {
-    showToast(
-      { message: `Challenge sent to ${friend.displayName}`, color: 'teal' },
-      { immediate: true }
+  const targets = fixedFriend ? [fixedFriend] : selected;
+
+  const toggle = (friend: ChallengeFriend) => {
+    setError(null);
+    setSelected((prev) =>
+      prev.some((f) => f.id === friend.id)
+        ? prev.filter((f) => f.id !== friend.id)
+        : [...prev, friend]
     );
+  };
+
+  const report = ({ sent, failed }: FriendChallengeResult) => {
+    if (sent.length > 0) {
+      showToast(
+        { message: `Challenge sent to ${joinNames(sent)}`, color: 'teal' },
+        { immediate: true }
+      );
+    }
+    const failure = failed
+      .map(({ friend, error: err }) => friendChallengeErrorMessage(err, friend.displayName))
+      .join(' ');
+    if (sent.length === 0) {
+      setError(failure || null);
+      return;
+    }
+    if (failure) {
+      showToast({ message: failure, color: 'red' }, { immediate: true });
+    }
     onClose();
   };
 
-  const handlePick = async (friend: ChallengeFriend) => {
+  const run = async (action: () => Promise<FriendChallengeResult>) => {
+    setBusy(true);
     setError(null);
-    if (!game) {
-      setPicked(friend);
-      return;
-    }
-    setBusyId(friend.id);
     try {
-      await challengeOnGame(friend, game);
-      sent(friend);
+      report(await action());
     } catch (err) {
-      setError(friendChallengeErrorMessage(err, friend.displayName));
+      setError(friendChallengeErrorMessage(err, joinNames(targets)));
     } finally {
-      setBusyId(null);
+      setBusy(false);
     }
   };
 
-  const handleSetup = async ({ languages, difficulties }: GameSetupValue) => {
-    if (!target) {
-      return;
-    }
-    setBusyId(target.id);
-    setError(null);
-    try {
-      await challengeNewGame(target, languages, difficulties);
-      sent(target);
-    } catch (err) {
-      setError(friendChallengeErrorMessage(err, target.displayName));
-    } finally {
-      setBusyId(null);
+  const handleContinue = () => {
+    if (game) {
+      run(() => challengeOnGame(selected, game));
+    } else {
+      setChoosingSetup(true);
     }
   };
 
-  const choosingLanguages = opened && !game && !!target;
+  const handleSetup = ({ languages, difficulties }: GameSetupValue) =>
+    run(() => challengeNewGame(targets, languages, difficulties));
+
+  const showSetup = opened && !game && (!!fixedFriend || choosingSetup);
+  const setupTitle =
+    targets.length === 1
+      ? `Challenge ${targets[0].displayName}`
+      : `Challenge ${targets.length} friends`;
+  const actionLabel = !game
+    ? 'Next: pick the game'
+    : selected.length > 1
+      ? `Send to ${selected.length} friends`
+      : 'Send challenge';
 
   return (
     <>
       <Modal
-        opened={opened && !choosingLanguages}
+        opened={opened && !showSetup}
         onClose={onClose}
         centered
         title={
           <Group gap={6}>
             <IconSwords size={16} />
-            <Text fw={700}>{game ? 'Challenge a friend on this game' : 'Challenge a friend'}</Text>
+            <Text fw={700}>{game ? 'Challenge friends on this game' : 'Challenge friends'}</Text>
           </Group>
         }
       >
         <FriendPicker
-          busyId={busyId}
+          selectedIds={selected.map((f) => f.id)}
+          challengedIds={alreadyChallengedIds}
           excludeIds={excludeIds}
-          onPick={handlePick}
+          disabled={busy}
+          onToggle={toggle}
           hint={
             game
-              ? 'They play the exact same boards. You both see the result when they finish.'
-              : "You'll both play a brand-new game."
+              ? 'They play the exact same boards. You see each result as they finish.'
+              : 'Everyone you pick plays the same brand-new game.'
           }
         />
         {error && (
@@ -130,17 +170,27 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
             {error}
           </Text>
         )}
+        <Button
+          fullWidth
+          mt="md"
+          leftSection={<IconSwords size={16} />}
+          disabled={selected.length === 0}
+          loading={busy}
+          onClick={handleContinue}
+        >
+          {actionLabel}
+        </Button>
       </Modal>
 
       <GameSetupModal
-        opened={choosingLanguages}
-        onClose={() => (fixedFriend ? onClose() : setPicked(null))}
+        opened={showSetup}
+        onClose={() => (fixedFriend ? onClose() : setChoosingSetup(false))}
         mode="challenge"
-        title={target ? `Challenge ${target.displayName}` : undefined}
+        title={targets.length > 0 ? setupTitle : undefined}
         resetKey={profile ? 'loaded' : 'loading'}
         initialLanguages={profile?.languagePrefs?.languages}
         initialDifficulties={profile?.difficultyPrefs}
-        loading={!!busyId}
+        loading={busy}
         error={error}
         onSubmit={handleSetup}
       />
@@ -149,11 +199,13 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
 };
 
 const FriendPicker: FC<{
-  busyId: string | null;
+  selectedIds: string[];
+  challengedIds: string[];
   excludeIds: string[];
+  disabled: boolean;
   hint: string;
-  onPick: (friend: ChallengeFriend) => void;
-}> = ({ busyId, excludeIds, hint, onPick }) => {
+  onToggle: (friend: ChallengeFriend) => void;
+}> = ({ selectedIds, challengedIds, excludeIds, disabled, hint, onToggle }) => {
   const { currentUser } = useAuth();
   const { data: friendships, isLoading } = useFriendships(currentUser?.uid);
   const friendIds = (friendships ?? [])
@@ -185,9 +237,10 @@ const FriendPicker: FC<{
         <FriendRow
           key={id}
           friendId={id}
-          busy={busyId === id}
-          disabled={!!busyId}
-          onPick={onPick}
+          checked={selectedIds.includes(id)}
+          challenged={challengedIds.includes(id)}
+          disabled={disabled}
+          onToggle={onToggle}
         />
       ))}
     </Stack>
@@ -196,10 +249,11 @@ const FriendPicker: FC<{
 
 const FriendRow: FC<{
   friendId: string;
-  busy: boolean;
+  checked: boolean;
+  challenged: boolean;
   disabled: boolean;
-  onPick: (friend: ChallengeFriend) => void;
-}> = ({ friendId, busy, disabled, onPick }) => {
+  onToggle: (friend: ChallengeFriend) => void;
+}> = ({ friendId, checked, challenged, disabled, onToggle }) => {
   const { data: profile, isLoading } = useUserProfile(friendId);
 
   if (isLoading) {
@@ -209,27 +263,45 @@ const FriendRow: FC<{
     return null;
   }
 
+  const inactive = disabled || challenged;
+
   return (
     <UnstyledButton
-      disabled={disabled}
+      disabled={inactive}
+      role="checkbox"
+      aria-checked={checked}
       onClick={() =>
-        onPick({ id: friendId, displayName: profile.displayName, photoURL: profile.photoURL })
+        onToggle({ id: friendId, displayName: profile.displayName, photoURL: profile.photoURL })
       }
       style={{
-        border: '1px solid var(--mantine-color-default-border)',
+        border: `1px solid ${
+          checked ? 'var(--mantine-primary-color-filled)' : 'var(--mantine-color-default-border)'
+        }`,
         borderRadius: 8,
         padding: '8px 12px',
-        opacity: disabled && !busy ? 0.5 : 1,
+        opacity: challenged ? 0.5 : 1,
       }}
     >
-      <Group justify="space-between">
-        <Group gap="sm">
+      <Group justify="space-between" wrap="nowrap">
+        <Group gap="sm" wrap="nowrap">
           <Avatar src={profile.photoURL} radius="xl" size="sm" />
           <Text size="sm" fw={600}>
             {profile.displayName}
           </Text>
         </Group>
-        {busy ? <Loader size="xs" /> : <IconSwords size={16} />}
+        {challenged ? (
+          <Badge size="sm" variant="light" color="gray">
+            Challenged
+          </Badge>
+        ) : (
+          <Checkbox
+            checked={checked}
+            readOnly
+            tabIndex={-1}
+            aria-hidden
+            styles={{ input: { cursor: 'pointer' } }}
+          />
+        )}
       </Group>
     </UnstyledButton>
   );

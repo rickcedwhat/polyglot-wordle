@@ -22,6 +22,41 @@ const SeedFriends = ({ children }: { children: React.ReactNode }) => {
     FRIENDS.forEach(({ id, displayName }) =>
       queryClient.setQueryData(['userProfile', id], { displayName, photoURL: '' })
     );
+    // Sam was already challenged on story-game, so they show as "Challenged".
+    queryClient.setQueryData(
+      ['challenges', 'me'],
+      [
+        {
+          id: 'me_story-game_sam',
+          gameId: 'story-game',
+          createdBy: 'me',
+          participantIds: ['me', 'sam'],
+          participants: {
+            me: {
+              displayName: 'You',
+              photoURL: '',
+              score: 7,
+              rsvp: 'accepted',
+              completedAt: null,
+              resultSeenAt: null,
+            },
+            sam: {
+              displayName: 'Sam Okafor',
+              photoURL: '',
+              score: null,
+              rsvp: 'pending',
+              completedAt: null,
+              resultSeenAt: null,
+            },
+          },
+          source: 'friend_invite',
+          type: 'direct',
+          maxPlayers: 2,
+          winnerId: null,
+          status: 'pending',
+        },
+      ]
+    );
     queryClient.setQueryData(['userProfile', 'me'], {
       displayName: 'You',
       languagePrefs: { languages: ['en', 'es', 'pt'], skipPicker: false },
@@ -54,7 +89,7 @@ export const OnThisGame: Story = {
   args: { game: { gameId: 'story-game' } as GameDoc },
 };
 
-/** From the Challenges tab: pick a friend, then languages for a new game. */
+/** From the Challenges tab: pick friends, then languages for a new game. */
 export const NewGame: Story = {};
 
 /** From a friend's profile or Rematch: straight to the language step. */

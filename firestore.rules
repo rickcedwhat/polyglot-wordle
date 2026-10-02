@@ -168,7 +168,7 @@ service cloud.firestore {
                data.participants[request.auth.uid].rsvp == 'accepted' &&
                data.participants[request.auth.uid].completedAt == null &&
                data.participants[request.auth.uid].resultSeenAt == null &&
-               challengeId == data.createdBy + '_' + data.gameId &&
+               challengeId == data.createdBy + '_' + data.gameId + '_' + request.auth.uid &&
                exists(/databases/$(database)/documents/games/$(data.createdBy + '_' + data.gameId)) &&
                get(/databases/$(database)/documents/games/$(data.createdBy + '_' + data.gameId)).data.userId == data.createdBy &&
                get(/databases/$(database)/documents/games/$(data.createdBy + '_' + data.gameId)).data.gameId == data.gameId &&
@@ -197,7 +197,7 @@ service cloud.firestore {
                me in data.participantIds &&
                data.gameId is string &&
                data.gameId.size() <= 64 &&
-               challengeId == me + '_' + data.gameId &&
+               challengeId == me + '_' + data.gameId + '_' + friendId &&
                data.createdAt == request.time &&
                data.source == 'friend_invite' &&
                data.type == 'direct' &&
@@ -270,7 +270,9 @@ service cloud.firestore {
                    (!exists(/databases/$(database)/documents/challenges/$(challengeId)) ||
                     request.auth.uid in resource.data.participantIds);
 
-      allow list: if isParticipant();
+      // The createdBy clause lets the challenger query all challenges they sent on one game.
+      allow list: if isParticipant() ||
+                    (request.auth != null && resource.data.createdBy == request.auth.uid);
 
       // Trusted Admin SDK writes bypass these client rules.
       allow create: if isValidClientCreate() || isValidFriendInviteCreate();
