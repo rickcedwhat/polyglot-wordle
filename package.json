@@ -22,6 +22,7 @@
     "audit:words": "node scripts/auditPuzzleWords.mjs",
     "bootstrap:dict": "vite-node --script scripts/bootstrapDictionary.mjs --",
     "dict:console": "node tools/dict-console/dev.mjs",
+    "dict:flags": "node scripts/reviewFlags.mjs",
     "dict:console:api": "DICT_CONSOLE_API_ONLY=1 DICT_CONSOLE_PORT=4092 node tools/dict-console/server.mjs",
     "eval:dict:pilot": "vite-node --script evals/dictionary/runEval.ts -- --pilot",
     "eval:dict:full": "vite-node --script evals/dictionary/runEval.ts -- --full",

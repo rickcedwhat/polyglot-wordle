@@ -285,5 +285,31 @@ service cloud.firestore {
                        resource.data.source == 'friend_invite' &&
                        resource.data.status == 'pending';
     }
+
+    // --- Word Flags Collection ---
+    // Players flag dictionary words (missing, bad definition, ...) for review. The id is
+    // `{uid}_{lang}_{wordKey}`. Reviewing everyone's flags is done with the Admin SDK.
+    match /wordFlags/{flagId} {
+      function isOwnFlagId() {
+        return request.auth != null && flagId.matches(request.auth.uid + '_.+');
+      }
+
+      function isValidFlag(data) {
+        return data.keys().hasOnly(['uid', 'lang', 'wordKey', 'display', 'note', 'reason', 'flaggedAt']) &&
+               data.keys().hasAll(['uid', 'lang', 'wordKey', 'display', 'note', 'reason', 'flaggedAt']) &&
+               data.uid == request.auth.uid &&
+               data.lang in ['en', 'es', 'fr', 'it', 'pt'] &&
+               data.wordKey is string && data.wordKey.size() > 0 && data.wordKey.size() <= 32 &&
+               flagId == data.uid + '_' + data.lang + '_' + data.wordKey &&
+               data.display is string && data.display.size() <= 32 &&
+               data.note is string && data.note.size() <= 500 &&
+               data.reason in ['missing', 'other'] &&
+               data.flaggedAt is timestamp;
+      }
+
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create, update: if isOwnFlagId() && isValidFlag(request.resource.data);
+      allow delete: if isOwnFlagId();
+    }
   }
 }
