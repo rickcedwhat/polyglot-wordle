@@ -41,6 +41,7 @@ import { calculateScoreFromHistory, normalizeWord, scoringVersionOf } from '@/ut
 import { EarnedThisGame } from '../Badges/GameAchievements';
 import { ChallengeFriendModal } from '../ChallengeFriendModal/ChallengeFriendModal';
 import { FormattedDefinition } from '../FormattedDefinition/FormattedDefinition';
+import { ProfileLink } from '../ProfileLink/ProfileLink';
 
 interface PostGameModalProps {
   opened: boolean;
@@ -322,9 +323,11 @@ export const PostGameModal: FC<PostGameModalProps> = ({
               </Paper>
 
               <Paper p="xs" radius="sm" bg="dark.7" withBorder>
-                <Text size="xs" c="dimmed">
-                  {challengerUser?.displayName || 'Challenger'}
-                </Text>
+                <ProfileLink userId={challengerGame.userId}>
+                  <Text size="xs" c="dimmed">
+                    {challengerUser?.displayName || 'Challenger'}
+                  </Text>
+                </ProfileLink>
                 <Text size="sm" fw={800} c={isChallengerLoss ? 'teal.4' : 'gray.1'}>
                   {theirScore} pts
                 </Text>
@@ -341,8 +344,10 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             <Group gap={6}>
               <IconSwords size={16} color="var(--mantine-color-yellow-4)" />
               <Text size="xs" c="dimmed">
-                {challengerUser?.displayName || 'Your opponent'} hasn&apos;t finished yet.
-                You&apos;ll see the result in Challenges.
+                <ProfileLink userId={challengerGame?.userId}>
+                  {challengerUser?.displayName || 'Your opponent'}
+                </ProfileLink>{' '}
+                hasn&apos;t finished yet. You&apos;ll see the result in Challenges.
               </Text>
             </Group>
           </Paper>

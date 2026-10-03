@@ -10,6 +10,7 @@ import { useFriendships } from '@/hooks/useFriendships';
 import { useGameActions } from '@/hooks/useGameActions';
 import { cancelFriendChallenge } from '@/utils/challengeUtils';
 import { gamePath } from '@/utils/languages';
+import { ProfileLink } from '../ProfileLink/ProfileLink';
 
 interface ChallengeInboxCardProps {
   challenge: ChallengeInboxItem;
@@ -152,14 +153,18 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
       <Paper withBorder p="sm" radius="md" bg={unread ? 'dark.6' : undefined}>
         <Group justify="space-between" align="flex-start" wrap="nowrap">
           <Group gap="sm" wrap="nowrap" style={{ minWidth: 0 }}>
-            <Avatar src={other?.photoURL} radius="xl" color="blue">
-              <IconSwords size={16} />
-            </Avatar>
+            <ProfileLink userId={otherId}>
+              <Avatar src={other?.photoURL} radius="xl" color="blue">
+                <IconSwords size={16} />
+              </Avatar>
+            </ProfileLink>
             <Stack gap={2} style={{ minWidth: 0 }}>
               <Group gap={6}>
-                <Text size="sm" fw={700} truncate>
-                  {other?.displayName || 'Opponent'}
-                </Text>
+                <ProfileLink userId={otherId}>
+                  <Text size="sm" fw={700} truncate>
+                    {other?.displayName || 'Opponent'}
+                  </Text>
+                </ProfileLink>
                 {unread && (
                   <Badge size="xs" color="blue">
                     New
@@ -237,9 +242,11 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
               </Text>
             </Paper>
             <Paper p="xs" radius="sm" withBorder bg="dark.7">
-              <Text size="xs" c="dimmed">
-                {other?.displayName || 'Opponent'}
-              </Text>
+              <ProfileLink userId={otherId}>
+                <Text size="xs" c="dimmed">
+                  {other?.displayName || 'Opponent'}
+                </Text>
+              </ProfileLink>
               <Text size="sm" fw={800}>
                 {theirScore ?? '—'} pts
               </Text>

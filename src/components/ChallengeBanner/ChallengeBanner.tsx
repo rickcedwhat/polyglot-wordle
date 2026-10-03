@@ -4,6 +4,7 @@ import { Avatar, Badge, CloseButton, Group, Paper, Text } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import type { ChallengerProfile } from '@/hooks/useChallenge';
 import type { GameDoc } from '@/types/firestore';
+import { ProfileLink } from '../ProfileLink/ProfileLink';
 
 interface ChallengeBannerProps {
   challengerUser: ChallengerProfile | null;
@@ -38,9 +39,11 @@ export const ChallengeBanner: FC<ChallengeBannerProps> = ({ challengerUser, chal
     >
       <Group justify="space-between" wrap="nowrap">
         <Group gap="xs" wrap="nowrap">
-          <Avatar src={challengerUser?.photoURL} size="sm" radius="xl" color="blue">
-            <IconSwords size={16} />
-          </Avatar>
+          <ProfileLink userId={challengerGame.userId}>
+            <Avatar src={challengerUser?.photoURL} size="sm" radius="xl" color="blue">
+              <IconSwords size={16} />
+            </Avatar>
+          </ProfileLink>
           <div>
             <Group gap={6} align="center">
               <Text size="xs" fw={700} c="blue.3">
@@ -55,16 +58,20 @@ export const ChallengeBanner: FC<ChallengeBannerProps> = ({ challengerUser, chal
             {challengerFinished ? (
               <Text size="xs" c="gray.2">
                 Can you beat{' '}
-                <Text span fw={700}>
-                  {name}
-                </Text>{' '}
+                <ProfileLink userId={challengerGame.userId}>
+                  <Text span fw={700}>
+                    {name}
+                  </Text>
+                </ProfileLink>{' '}
                 ({turns}/{MAX_GUESSES} turns)?
               </Text>
             ) : (
               <Text size="xs" c="gray.2">
-                <Text span fw={700}>
-                  {name}
-                </Text>{' '}
+                <ProfileLink userId={challengerGame.userId}>
+                  <Text span fw={700}>
+                    {name}
+                  </Text>
+                </ProfileLink>{' '}
                 challenged you. They haven&apos;t finished yet.
               </Text>
             )}
