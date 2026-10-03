@@ -46,26 +46,6 @@
   font-weight: 600;
 }
 
-.green {
-  background: var(--mantine-color-green-6);
-  color: var(--mantine-color-white);
-}
-
-.yellow {
-  background: var(--mantine-color-yellow-5);
-  color: var(--mantine-color-dark-8);
-}
-
-.solved {
-  background: var(--mantine-color-blue-6);
-  color: var(--mantine-color-white);
-}
-
-.penalty {
-  background: var(--mantine-color-red-7);
-  color: var(--mantine-color-white);
-}
-
 @keyframes float-up {
   0% {
     opacity: 0;

@@ -19,8 +19,14 @@
   "ignoreUnresolvedImports": ["@scaffold/ui"],
   "duplicates": {
     "minOccurrences": 2,
-    // One-off dictionary tooling; copy-paste there isn't worth refactoring.
-    "ignore": ["scripts/**", "evals/**", "**/*.story.tsx"]
+    // One-off dictionary tooling and dev-only pages; copy-paste there isn't worth refactoring.
+    "ignore": [
+      "scripts/**",
+      "evals/**",
+      "**/*.story.tsx",
+      "src/pages/Dictionaries.page.tsx",
+      "src/pages/Sandbox.page.tsx"
+    ]
   },
   "rules": {
     "unused-dependencies": "error",

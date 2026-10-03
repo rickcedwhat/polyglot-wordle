@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { Center, Image, Modal, Paper, Text, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
@@ -47,96 +47,76 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({ opened, onClose }) => 
   );
 };
 
+const Slide: FC<{
+  title: string;
+  text: ReactNode;
+  image: string;
+  alt: string;
+  children?: ReactNode;
+}> = ({ title, text, image, alt, children }) => (
+  <Carousel.Slide>
+    <Paper p="xl" className={classes.slide}>
+      <Title order={3} mt="md" className={classes.title}>
+        {title}
+      </Title>
+      <Text className={classes.text}>{text}</Text>
+      <Center mt="lg">
+        <Image src={image} alt={alt} className={classes.image} />
+      </Center>
+      {children}
+    </Paper>
+  </Carousel.Slide>
+);
+
 export const HowToPlaySlides: FC = () => {
   return (
     <>
-      <Carousel.Slide>
-        <Paper p="xl" className={classes.slide}>
-          <Title order={3} mt="md" className={classes.title}>
-            Multiple Games at Once
-          </Title>
-          <Text className={classes.text}>
-            Solve three 5-letter words simultaneously, one in each language you pick.
-          </Text>
-          <Center mt="lg">
-            <Image
-              src="/screenshots/how-to-play-1.png"
-              alt="Three game boards"
-              className={classes.image}
-            />
-          </Center>
-        </Paper>
-      </Carousel.Slide>
+      <Slide
+        title="Multiple Games at Once"
+        text="Solve three 5-letter words simultaneously, one in each language you pick."
+        image="/screenshots/how-to-play-1.png"
+        alt="Three game boards"
+      />
 
-      <Carousel.Slide>
-        <Paper p="xl" className={classes.slide}>
-          <Title order={3} mt="md" className={classes.title}>
-            Color Clues for Letters
-          </Title>
-          <Text className={classes.text}>
-            Just like classic wordle, the color of the tiles will change to show how close your
-            guess was.
-          </Text>
-          <Center mt="lg">
-            <Image
-              src="/screenshots/how-to-play-2.png"
-              alt="Color clues for letters"
-              className={classes.image}
-            />
-          </Center>
-          <Text mt="sm">
-            <Text span fw={700} c="green">
-              Green:
-            </Text>{' '}
-            Correct letter, correct spot.
-          </Text>
-          <Text>
-            <Text span fw={700} c="yellow">
-              Yellow:
-            </Text>{' '}
-            Correct letter, wrong spot.
-          </Text>
-          <Text>
-            <Text span fw={700}>
-              Gray:
-            </Text>{' '}
-            Letter is not in the word.
-          </Text>
-        </Paper>
-      </Carousel.Slide>
+      <Slide
+        title="Color Clues for Letters"
+        text="Just like classic wordle, the color of the tiles will change to show how close your guess was."
+        image="/screenshots/how-to-play-2.png"
+        alt="Color clues for letters"
+      >
+        <Text mt="sm">
+          <Text span fw={700} c="green">
+            Green:
+          </Text>{' '}
+          Correct letter, correct spot.
+        </Text>
+        <Text>
+          <Text span fw={700} c="yellow">
+            Yellow:
+          </Text>{' '}
+          Correct letter, wrong spot.
+        </Text>
+        <Text>
+          <Text span fw={700}>
+            Gray:
+          </Text>{' '}
+          Letter is not in the word.
+        </Text>
+      </Slide>
 
-      <Carousel.Slide>
-        <Paper p="xl" className={classes.slide}>
-          <Title order={3} mt="md" className={classes.title}>
-            Each board corresponds to a language
-          </Title>
-          <Text className={classes.text}>
-            A green line will appear beneath a word if it matches the current board's language
-          </Text>
-          <Center mt="lg">
-            <Image
-              src="/screenshots/how-to-play-3.png"
-              alt="Underlined word in English board"
-              className={classes.image}
-            />
-          </Center>
-        </Paper>
-      </Carousel.Slide>
-      <Carousel.Slide>
-        <Paper p="xl" className={classes.slide}>
-          <Title order={3} mt="md" className={classes.title}>
-            Winning
-          </Title>
-          <Text className={classes.text}>You have {MAX_GUESSES} guesses to solve every word.</Text>
-          <Center mt="lg">
-            <Image
-              src="/screenshots/how-to-play-4.png"
-              alt="Winning screen with solved words"
-              className={classes.image}
-            />
-          </Center>
-        </Paper>
-      </Carousel.Slide>
+      <Slide
+        title="Each board corresponds to a language"
+        text="A green line will appear beneath a word if it matches the current board's language"
+        image="/screenshots/how-to-play-3.png"
+        alt="Underlined word in English board"
+      />
+
+      <Slide
+        title="Winning"
+        text={`You have ${MAX_GUESSES} guesses to solve every word.`}
+        image="/screenshots/how-to-play-4.png"
+        alt="Winning screen with solved words"
+      />
     </>
   );
 };

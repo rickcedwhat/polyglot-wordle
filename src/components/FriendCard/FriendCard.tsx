@@ -1,13 +1,15 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Card, Group, Skeleton, Text } from '@mantine/core';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface FriendCardProps {
   friendId: string;
+  /** Action buttons under the name. Cards without actions link to the friend's profile. */
+  children?: ReactNode;
 }
 
-export const FriendCard: FC<FriendCardProps> = ({ friendId }) => {
+export const FriendCard: FC<FriendCardProps> = ({ friendId, children }) => {
   const { data: friendProfile, isLoading } = useUserProfile(friendId);
 
   if (isLoading) {
@@ -25,12 +27,25 @@ export const FriendCard: FC<FriendCardProps> = ({ friendId }) => {
     return null;
   }
 
+  const identity = (
+    <Group>
+      <Avatar src={friendProfile.photoURL} alt={friendProfile.displayName} radius="xl" />
+      <Text fw={500}>{friendProfile.displayName}</Text>
+    </Group>
+  );
+
+  if (children) {
+    return (
+      <Card withBorder p="md" radius="md">
+        {identity}
+        {children}
+      </Card>
+    );
+  }
+
   return (
     <Card component={Link} to={`/profile/${friendId}`} withBorder p="md" radius="md">
-      <Group>
-        <Avatar src={friendProfile.photoURL} alt={friendProfile.displayName} radius="xl" />
-        <Text fw={500}>{friendProfile.displayName}</Text>
-      </Group>
+      {identity}
     </Card>
   );
 };
