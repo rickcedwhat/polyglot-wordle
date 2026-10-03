@@ -21,6 +21,12 @@
   cursor: default;
 }
 
+.target {
+  border-radius: var(--mantine-radius-md);
+  outline: 2px solid var(--mantine-color-orange-5);
+  outline-offset: 4px;
+}
+
 /* Narrow screens: the active board stays full size, the other boards shrink to mini boards. */
 .narrow {
   justify-content: center;

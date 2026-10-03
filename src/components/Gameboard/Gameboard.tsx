@@ -23,6 +23,10 @@ interface GameBoardProps {
   hideFlags?: boolean;
   /** Initial focused board index. Used by Storybook and tests. */
   initialActiveIndex?: number;
+  /** Called when the player focuses a board. */
+  onActiveIndexChange?: (index: number) => void;
+  /** Board outlined as the Letter Jumble target. */
+  targetIndex?: number | null;
   /** Skip waiting on network — provide pools directly (Storybook / tests). */
   wordPoolsOverride?: GameBoardWordPools;
   /** Score events from the latest guess, animated on the boards. */
@@ -35,10 +39,16 @@ export const GameBoard: FC<GameBoardProps> = ({
   shuffledLanguages,
   hideFlags = false,
   initialActiveIndex = 1,
+  onActiveIndexChange,
+  targetIndex = null,
   wordPoolsOverride,
   scoreBurst,
 }) => {
-  const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
+  const [activeIndex, setActiveIndexState] = useState(initialActiveIndex);
+  const setActiveIndex = (index: number) => {
+    setActiveIndexState(index);
+    onActiveIndexChange?.(index);
+  };
   /** On narrow screens only the active board is full size; the others shrink to mini boards. */
   const isNarrow = useMediaQuery('(max-width: 48em)') ?? false;
   const prefersReducedMotion = useReducedMotion();
@@ -70,7 +80,10 @@ export const GameBoard: FC<GameBoardProps> = ({
             key={lang}
             layout={isNarrow && !prefersReducedMotion}
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-            className={cx(classes.boardWrapper, { [classes.active]: isActive })}
+            className={cx(classes.boardWrapper, {
+              [classes.active]: isActive,
+              [classes.target]: index === targetIndex,
+            })}
             onClick={() => setActiveIndex(index)}
             onLayoutAnimationComplete={() => window.dispatchEvent(new Event('resize'))}
           >

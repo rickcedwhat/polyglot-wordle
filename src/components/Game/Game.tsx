@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Box, Center, Loader, Notification } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { featKey } from '@/achievements/detectFeats';
 import { getGameAchievements } from '@/achievements/gameAchievements';
 import { notifyFeat } from '@/components/Badges/notifyFeat';
@@ -10,6 +10,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useScore } from '@/context/ScoreContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useChallenge } from '@/hooks/useChallenge';
+import { useLetterJumble } from '@/hooks/useLetterJumble';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
@@ -24,7 +25,7 @@ import {
 } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
-import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
+import { GuessInput } from '../LetterJumble/GuessInput';
 import { PostGameModal } from '../PostGameModal/PostGameModal';
 import { Score } from '../Score/Score';
 import { GAME_ORIGIN, SCORE_ORIGIN_ATTR, useScoreBurst } from '../ScoreFlights/flightUtils';
@@ -63,6 +64,15 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const { currentUser } = useAuth();
   const [rematchNotice, setRematchNotice] = useState<string | null>(null);
   const { burst: scoreBurst, fireBurst } = useScoreBurst();
+  /** Letter Jumble's target: the active board when narrow, the clicked board (left first) when wide. */
+  const isNarrow = useMediaQuery('(max-width: 48em)') ?? false;
+  const [activeBoard, setActiveBoard] = useState(1);
+  const [wideTarget, setWideTarget] = useState(0);
+
+  const shakeGuess = useCallback(() => {
+    setIsInvalidGuess(true);
+    setTimeout(() => setIsInvalidGuess(false), 500);
+  }, []);
 
   // Drop any held flight points if we leave mid-flight.
   useEffect(() => () => holdPoints(0, {}), [holdPoints]);
@@ -136,6 +146,17 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   };
   const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost'>(getInitialGameStatus());
 
+  const jumble = useLetterJumble({
+    guesses,
+    solution,
+    shuffledLanguages,
+    preferredBoard: isNarrow ? activeBoard : wideTarget,
+    currentGuess,
+    setCurrentGuess,
+    onNoArrangement: shakeGuess,
+    enabled: gameStatus === 'playing',
+  });
+
   const activeGameSession: GameDoc = useMemo(
     () => ({
       ...gameSession,
@@ -150,6 +171,11 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
   const handleTileClick = (index: number) => {
     setCursorIndex(Math.max(0, Math.min(4, index)));
+  };
+
+  const handleBoardFocus = (index: number) => {
+    setActiveBoard(index);
+    setWideTarget(index);
   };
 
   // Let the final guess's score flights land before showing the results.
@@ -271,10 +297,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
               promptFlagMissingWord(guessString, shuffledLanguages);
             }
           }
-          setIsInvalidGuess(true);
-          setTimeout(() => {
-            setIsInvalidGuess(false);
-          }, 500);
+          shakeGuess();
         }
       } else if (lowerKey === 'del' || lowerKey === 'backspace') {
         const newGuess = [...currentGuess];
@@ -302,6 +325,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       endGame,
       fireBurst,
       gameSession,
+      shakeGuess,
       gameStatus,
       mountedAt,
       vocabulary,
@@ -423,17 +447,20 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             guesses={guesses}
             shuffledLanguages={shuffledLanguages}
             scoreBurst={scoreBurst}
+            onActiveIndexChange={handleBoardFocus}
+            targetIndex={jumble.targetBoard}
           />
         </Center>
       </Box>
       <Box pos="relative" {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
         {scoreBurst && <ScorePopups key={scoreBurst.id} events={scoreBurst.events} />}
         {scoreBurst && <ScoreFlights burst={scoreBurst} />}
-        <CurrentGuessRow
+        <GuessInput
           guess={currentGuess}
           cursorIndex={cursorIndex}
-          onTileClick={handleTileClick}
           isInvalid={isInvalidGuess}
+          onTileClick={handleTileClick}
+          jumble={jumble}
         />
       </Box>
       <AlphabetStatus activeKey={activeKey} onKeyPress={handleKeyPress} />

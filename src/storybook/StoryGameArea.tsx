@@ -1,14 +1,31 @@
+import { useState } from 'react';
 import { Box, Center, Loader, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { AlphabetStatus } from '@/components/AlphabetStatus/AlphabetStatus';
-import { CurrentGuessRow } from '@/components/CurrentGuessRow/CurrentGuessRow';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
+import { GuessInput } from '@/components/LetterJumble/GuessInput';
 import { GAME_ORIGIN, SCORE_ORIGIN_ATTR } from '@/components/ScoreFlights/flightUtils';
 import { ScoreFlights } from '@/components/ScoreFlights/ScoreFlights';
 import { ScorePopups } from '@/components/ScorePopups/ScorePopups';
+import { useLetterJumble } from '@/hooks/useLetterJumble';
 import type { StoryGame } from './useStoryGame';
 
 /** Boards + guess row + keyboard, laid out like the real Game component. */
 export function StoryGameArea({ game }: { game: StoryGame }) {
+  const isNarrow = useMediaQuery('(max-width: 48em)') ?? false;
+  const [activeBoard, setActiveBoard] = useState(1);
+  const [wideTarget, setWideTarget] = useState(0);
+  const jumble = useLetterJumble({
+    guesses: game.guesses,
+    solution: game.solution,
+    shuffledLanguages: game.languages,
+    preferredBoard: isNarrow ? activeBoard : wideTarget,
+    currentGuess: game.currentGuess,
+    setCurrentGuess: game.setCurrentGuess,
+    onNoArrangement: game.shake,
+    enabled: !game.isOver,
+  });
+
   if (!game.wordPools) {
     return (
       <Center h="60vh">
@@ -27,6 +44,11 @@ export function StoryGameArea({ game }: { game: StoryGame }) {
           shuffledLanguages={game.languages}
           wordPoolsOverride={game.wordPools}
           scoreBurst={game.burst}
+          onActiveIndexChange={(index) => {
+            setActiveBoard(index);
+            setWideTarget(index);
+          }}
+          targetIndex={jumble.targetBoard}
         />
       </Box>
       <Box>
@@ -38,11 +60,12 @@ export function StoryGameArea({ game }: { game: StoryGame }) {
         <Box pos="relative" {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
           {game.burst && <ScorePopups key={game.burst.id} events={game.burst.events} />}
           {game.burst && <ScoreFlights burst={game.burst} />}
-          <CurrentGuessRow
+          <GuessInput
             guess={game.currentGuess}
             cursorIndex={game.cursorIndex}
-            onTileClick={game.setCursorIndex}
             isInvalid={game.isInvalid}
+            onTileClick={game.setCursorIndex}
+            jumble={jumble}
           />
         </Box>
         <AlphabetStatus activeKey={game.activeKey} onKeyPress={game.handleKeyPress} />
