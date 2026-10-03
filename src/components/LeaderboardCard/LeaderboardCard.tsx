@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Avatar, Group, Paper, Text } from '@mantine/core';
+import { Avatar, Group, Paper, Text, UnstyledButton } from '@mantine/core';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import type { GameDoc } from '@/types/firestore';
 import { ProfileLink } from '../ProfileLink/ProfileLink';
@@ -15,32 +15,31 @@ export const LeaderboardCard: FC<LeaderboardCardProps> = ({ game, rank, onClick,
   // Fetch the profile for the user who set this score
   const { data: userProfile } = useUserProfile(game.userId);
 
-  // A div rather than a button, so the player's profile link can sit inside the row.
   return (
     <Paper
       withBorder
       p="xs"
       radius="md"
-      role="button"
-      tabIndex={0}
-      aria-pressed={isSelected}
-      onClick={onClick}
-      onKeyDown={(event) => {
-        if (event.target === event.currentTarget && (event.key === 'Enter' || event.key === ' ')) {
-          event.preventDefault();
-          onClick();
-        }
-      }}
+      pos="relative"
       style={{
-        cursor: 'pointer',
         backgroundColor: isSelected ? 'var(--mantine-color-blue-light-hover)' : 'transparent',
       }}
     >
-      <Group>
+      <UnstyledButton
+        type="button"
+        pos="absolute"
+        inset={0}
+        w="100%"
+        aria-label={`View ${userProfile?.displayName || 'Player'}'s game, rank ${rank}, score ${game.score}`}
+        aria-pressed={isSelected}
+        onClick={onClick}
+        style={{ borderRadius: 'inherit' }}
+      />
+      <Group style={{ pointerEvents: 'none' }}>
         <Text fw={700} w={20}>
           {rank}.
         </Text>
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ flex: 1, minWidth: 0, position: 'relative', pointerEvents: 'auto' }}>
           <ProfileLink userId={game.userId}>
             <Group gap="sm" wrap="nowrap">
               <Avatar

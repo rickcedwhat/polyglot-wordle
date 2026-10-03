@@ -153,7 +153,10 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
       <Paper withBorder p="sm" radius="md" bg={unread ? 'dark.6' : undefined}>
         <Group justify="space-between" align="flex-start" wrap="nowrap">
           <Group gap="sm" wrap="nowrap" style={{ minWidth: 0 }}>
-            <ProfileLink userId={otherId}>
+            <ProfileLink
+              userId={otherId}
+              aria-label={`View ${other?.displayName || 'Opponent'}'s profile`}
+            >
               <Avatar src={other?.photoURL} radius="xl" color="blue">
                 <IconSwords size={16} />
               </Avatar>

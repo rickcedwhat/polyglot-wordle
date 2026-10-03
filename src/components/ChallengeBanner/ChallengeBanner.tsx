@@ -39,7 +39,7 @@ export const ChallengeBanner: FC<ChallengeBannerProps> = ({ challengerUser, chal
     >
       <Group justify="space-between" wrap="nowrap">
         <Group gap="xs" wrap="nowrap">
-          <ProfileLink userId={challengerGame.userId}>
+          <ProfileLink userId={challengerGame.userId} aria-label={`View ${name}'s profile`}>
             <Avatar src={challengerUser?.photoURL} size="sm" radius="xl" color="blue">
               <IconSwords size={16} />
             </Avatar>
