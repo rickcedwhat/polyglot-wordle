@@ -9,6 +9,7 @@ const FRIENDS = [
   { id: 'alex', displayName: 'Alex Rivera' },
   { id: 'sam', displayName: 'Sam Okafor' },
   { id: 'marido', displayName: 'Marido' },
+  { id: 'kim', displayName: 'Kim Tanaka' },
 ];
 
 /** Seeds the friends list, friend profiles and the player's language prefs. */
@@ -19,9 +20,11 @@ const SeedFriends = ({ children }: { children: React.ReactNode }) => {
       ['friendships', 'me'],
       FRIENDS.map(({ id }) => ({ id, status: 'accepted', direction: null }))
     );
-    FRIENDS.forEach(({ id, displayName }) =>
-      queryClient.setQueryData(['userProfile', id], { displayName, photoURL: '' })
-    );
+    FRIENDS.forEach(({ id, displayName }) => {
+      queryClient.setQueryData(['userProfile', id], { displayName, photoURL: '' });
+      // Marido already played story-game, so they show as "Played".
+      queryClient.setQueryData(['friendPlayed', id, 'story-game'], id === 'marido');
+    });
     // Sam was already challenged on story-game, so they show as "Challenged".
     queryClient.setQueryData(
       ['challenges', 'me'],

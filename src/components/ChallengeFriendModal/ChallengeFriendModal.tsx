@@ -1,5 +1,7 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import { IconSwords } from '@tabler/icons-react';
+import { useQuery } from '@tanstack/react-query';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import {
   Avatar,
   Badge,
@@ -154,6 +156,7 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
         }
       >
         <FriendPicker
+          gameId={game?.gameId}
           selectedIds={selected.map((f) => f.id)}
           challengedIds={alreadyChallengedIds}
           excludeIds={excludeIds}
@@ -199,13 +202,14 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
 };
 
 const FriendPicker: FC<{
+  gameId?: string;
   selectedIds: string[];
   challengedIds: string[];
   excludeIds: string[];
   disabled: boolean;
   hint: string;
   onToggle: (friend: ChallengeFriend) => void;
-}> = ({ selectedIds, challengedIds, excludeIds, disabled, hint, onToggle }) => {
+}> = ({ gameId, selectedIds, challengedIds, excludeIds, disabled, hint, onToggle }) => {
   const { currentUser } = useAuth();
   const { data: friendships, isLoading } = useFriendships(currentUser?.uid);
   const friendIds = (friendships ?? [])
@@ -237,6 +241,7 @@ const FriendPicker: FC<{
         <FriendRow
           key={id}
           friendId={id}
+          gameId={gameId}
           checked={selectedIds.includes(id)}
           challenged={challengedIds.includes(id)}
           disabled={disabled}
@@ -247,14 +252,33 @@ const FriendPicker: FC<{
   );
 };
 
+/**
+ * Whether the friend already has a game doc for `gameId` (rules block challenging them).
+ * Private profiles can't be checked and read as "not played"; the send then fails with a message.
+ */
+const useFriendPlayed = (friendId: string, gameId: string | undefined) =>
+  useQuery({
+    queryKey: ['friendPlayed', friendId, gameId],
+    queryFn: async () => {
+      const snap = await getDoc(doc(getFirestore(), 'games', `${friendId}_${gameId}`)).catch(
+        () => null
+      );
+      return !!snap?.exists();
+    },
+    enabled: !!gameId,
+    staleTime: 60_000,
+  });
+
 const FriendRow: FC<{
   friendId: string;
+  gameId?: string;
   checked: boolean;
   challenged: boolean;
   disabled: boolean;
   onToggle: (friend: ChallengeFriend) => void;
-}> = ({ friendId, checked, challenged, disabled, onToggle }) => {
+}> = ({ friendId, gameId, checked, challenged, disabled, onToggle }) => {
   const { data: profile, isLoading } = useUserProfile(friendId);
+  const { data: played = false } = useFriendPlayed(friendId, gameId);
 
   if (isLoading) {
     return <Skeleton height={44} radius="md" />;
@@ -263,7 +287,8 @@ const FriendRow: FC<{
     return null;
   }
 
-  const inactive = disabled || challenged;
+  const unavailableLabel = challenged ? 'Challenged' : played ? 'Played' : null;
+  const inactive = disabled || !!unavailableLabel;
 
   return (
     <UnstyledButton
@@ -279,7 +304,7 @@ const FriendRow: FC<{
         }`,
         borderRadius: 8,
         padding: '8px 12px',
-        opacity: challenged ? 0.5 : 1,
+        opacity: unavailableLabel ? 0.5 : 1,
       }}
     >
       <Group justify="space-between" wrap="nowrap">
@@ -289,9 +314,9 @@ const FriendRow: FC<{
             {profile.displayName}
           </Text>
         </Group>
-        {challenged ? (
+        {unavailableLabel ? (
           <Badge size="sm" variant="light" color="gray">
-            Challenged
+            {unavailableLabel}
           </Badge>
         ) : (
           <Checkbox
