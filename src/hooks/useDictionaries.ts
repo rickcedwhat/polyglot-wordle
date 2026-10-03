@@ -8,13 +8,14 @@ export const useDictionaries = (langs: Language[]) => {
   const key = [...new Set(langs)].sort().join(',');
   const unique = key ? (key.split(',') as Language[]) : [];
 
-  // Stable per language set, so the combined object only changes when a list finishes loading.
+  // Stable per language set, so the combined object updates when query data or status changes.
   const combine = useCallback(
     (results: UseQueryResult<Dictionary>[]) => ({
       dictionaries: Object.fromEntries(
         results.flatMap((result, i) => (result.data ? [[key.split(',')[i], result.data]] : []))
       ) as Partial<Record<Language, Dictionary>>,
       isLoading: results.some((result) => result.isLoading),
+      isError: results.some((result) => result.isError),
     }),
     [key]
   );

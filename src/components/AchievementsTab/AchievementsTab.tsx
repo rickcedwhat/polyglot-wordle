@@ -1,5 +1,6 @@
 import { FC, useMemo } from 'react';
 import {
+  Alert,
   Card,
   Center,
   Group,
@@ -122,7 +123,11 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
     () => [...new Set((games ?? []).flatMap((game) => Object.keys(game.words) as Language[]))],
     [games]
   );
-  const { dictionaries, isLoading: dictionariesLoading } = useDictionaries(gameLangs);
+  const {
+    dictionaries,
+    isLoading: dictionariesLoading,
+    isError: dictionariesError,
+  } = useDictionaries(gameLangs);
 
   const featCounts = useMemo(() => {
     const counts: FeatCounts = {};
@@ -139,6 +144,14 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
       <Center py={60}>
         <Loader size="md" />
       </Center>
+    );
+  }
+
+  if (dictionariesError) {
+    return (
+      <Alert color="red" title="Unable to load achievements" mt="md" role="alert">
+        Some word lists could not be loaded. Please refresh the page to try again.
+      </Alert>
     );
   }
 
