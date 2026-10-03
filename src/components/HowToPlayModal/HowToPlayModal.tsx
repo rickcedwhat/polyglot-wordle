@@ -30,7 +30,7 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({ opened, onClose }) => 
       onClose={onClose}
       title="How to Play Polyglot Wordle"
       fullScreen={isMobile} // Go full-screen on mobile
-      size="lg"
+      size="xl"
       centered={!isMobile} // Only center on larger screens
       classNames={{
         inner: classes.modalInner,

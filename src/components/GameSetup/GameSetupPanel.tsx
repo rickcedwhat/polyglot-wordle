@@ -168,7 +168,7 @@ export const GameSetupPanel: FC<GameSetupPanelProps> = ({
   );
 };
 
-const LanguageRow: FC<{
+export const LanguageRow: FC<{
   lang: Language;
   flag: string;
   selected: boolean;

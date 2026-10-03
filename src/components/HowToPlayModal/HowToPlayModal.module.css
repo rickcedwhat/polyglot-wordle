@@ -45,13 +45,6 @@
   line-height: 1.6;
 }
 
-.image {
-  max-width: 100%;
-  height: auto;
-  max-height: 40vh;
-  border-radius: var(--mantine-radius-md);
-}
-
 .indicator {
   width: 8px;
   height: 8px;
@@ -69,14 +62,25 @@
   gap: var(--mantine-spacing-sm);
 }
 
-/* Static version of the in-game score popup pill */
-.pill {
-  flex-shrink: 0;
-  padding: 0.15rem 0.6rem;
-  border-radius: var(--mantine-radius-xl);
-  white-space: nowrap;
-  font-weight: 700;
-  font-size: var(--mantine-font-size-sm);
+/* Live renderings of real game UI inside a slide */
+.demo {
+  width: 100%;
+  margin-top: var(--mantine-spacing-lg);
+  text-align: initial;
+  user-select: none;
+}
+
+/* Score counter with room above it for the game-level popups */
+.demoScore {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 3.5rem 0 var(--mantine-spacing-sm);
+}
+
+.demoPanel {
+  max-width: 380px;
+  margin-inline: auto;
 }
 
 .keyExample {
