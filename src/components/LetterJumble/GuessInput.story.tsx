@@ -1,38 +1,44 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Box } from '@mantine/core';
-import type { LetterJumble } from '@/hooks/useLetterJumble';
-import { togglePin, type JumbleSlot } from '@/utils/letterJumble';
+import { Box, Text } from '@mantine/core';
+import { useLetterJumble } from '@/hooks/useLetterJumble';
+import type { Language } from '@/types/firestore';
 import { GuessInput } from './GuessInput';
 
-function PinHintDemo() {
-  const [slots, setSlots] = useState<JumbleSlot[]>(
-    ['c', 'r', 'i', 's', 'p'].map((letter) => ({ letter, lock: 'kept' }))
-  );
+const SHUFFLED: Language[] = ['en', 'es', 'fr'];
+const SOLUTION = { en: 'crisp', es: 'nieve', fr: 'stylo' };
+/** Against CRISP: C and S green, R yellow. */
+const GUESSES = ['route', 'caser', 'valse'];
+
+function GuessInputDemo() {
+  const [currentGuess, setCurrentGuess] = useState(['', '', '', '', '']);
   const [cursorIndex, setCursorIndex] = useState(0);
-  const jumble: LetterJumble = {
+  const [isInvalid, setIsInvalid] = useState(false);
+  const jumble = useLetterJumble({
+    guesses: GUESSES,
+    solution: SOLUTION,
+    shuffledLanguages: SHUFFLED,
+    preferredBoard: 0,
+    currentGuess,
+    setCurrentGuess,
+    onNoArrangement: () => {
+      setIsInvalid(true);
+      setTimeout(() => setIsInvalid(false), 500);
+    },
     enabled: true,
-    isOpen: true,
-    targetBoard: 0,
-    slots,
-    statuses: ['correct', 'present', 'unknown', 'correct', 'unknown'],
-    conflicts: undefined,
-    press: () => {},
-    close: () => {},
-    togglePinAt: (index) =>
-      setSlots((prev) =>
-        prev.map((slot, i) => (i === index ? { ...slot, lock: togglePin(slot.lock) } : slot))
-      ),
-  };
+  });
   return (
     <Box pt={80} maw={420} mx="auto">
       <GuessInput
-        guess={slots.map((s) => s.letter)}
+        guess={currentGuess}
         cursorIndex={cursorIndex}
-        isInvalid={false}
+        isInvalid={isInvalid}
         onTileClick={setCursorIndex}
         jumble={jumble}
       />
+      <Text size="xs" c="dimmed" ta="center">
+        Target: CRISP after ROUTE, CASER, VALSE (C and S green, R yellow)
+      </Text>
     </Box>
   );
 }
@@ -49,8 +55,11 @@ const meta: Meta = {
 
 export default meta;
 
-/** The one-time hint (reset on every load). Pin a letter or press ✕ to see it go away. */
+/**
+ * Starts in normal play. 🔀 (or Space) opens jumble mode, then jumbles. The one-time pin hint
+ * appears once the row has letters; it resets on every load.
+ */
 export const PinHint: StoryObj = {
-  name: 'Pin hint (first time in jumble mode)',
-  render: () => <PinHintDemo />,
+  name: 'Jumble button and pin hint',
+  render: () => <GuessInputDemo />,
 };
