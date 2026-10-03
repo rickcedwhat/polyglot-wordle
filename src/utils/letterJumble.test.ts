@@ -71,6 +71,26 @@ describe('validArrangements', () => {
     expect(result.every((word) => word.filter((l) => l === 's').length === 1)).toBe(true);
   });
 
+  it('rejects a pinned letter that conflicts with a target green', () => {
+    const knowledge = boardKnowledge(['salty'], 'stylo');
+    expect(
+      validArrangements(
+        slots('x____', ['pinned', 'suggested', 'suggested', 'suggested', 'suggested']),
+        knowledge
+      )
+    ).toEqual([]);
+  });
+
+  it('accepts a pinned letter that matches a target green', () => {
+    const knowledge = boardKnowledge(['salty'], 'stylo');
+    const result = validArrangements(
+      slots('s____', ['pinned', 'suggested', 'suggested', 'suggested', 'suggested']),
+      knowledge
+    );
+    expect(result.length).toBeGreaterThan(0);
+    expect(result.every((word) => word[0] === 's')).toBe(true);
+  });
+
   it('leaves free slots open', () => {
     const result = validArrangements(
       slots('ab___', ['kept', 'kept', 'suggested', 'suggested', 'suggested'])
@@ -169,6 +189,19 @@ describe('relock', () => {
 });
 
 describe('createJumbler', () => {
+  it('refreshes the deck when required counts change with the same arrangement count', () => {
+    const jumble = createJumbler(() => 0);
+    const row = slots('_____', 'suggested');
+    const knowledge = boardKnowledge([], 'apple');
+    knowledge.required.set('a', 1);
+    expect(validArrangements(row, knowledge)).toHaveLength(5);
+    jumble(row, knowledge);
+
+    knowledge.required.set('a', 4);
+    expect(validArrangements(row, knowledge)).toHaveLength(5);
+    expect(jumble(row, knowledge)!.filter((letter) => letter === 'a')).toHaveLength(4);
+  });
+
   it('does not repeat until every arrangement has shown', () => {
     const jumble = createJumbler();
     const seen = new Set<string>();

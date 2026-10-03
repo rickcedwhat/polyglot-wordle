@@ -93,6 +93,15 @@ export const targetStatuses = (slots: JumbleSlot[], knowledge?: BoardKnowledge):
  * Spot-locked slots and target greens are pinned; '' marks a slot to fill randomly.
  */
 export const validArrangements = (slots: JumbleSlot[], knowledge?: BoardKnowledge): string[][] => {
+  if (
+    slots.some(
+      ({ letter, lock }, i) =>
+        lock === 'pinned' && knowledge?.greens[i] && knowledge.greens[i] !== letter
+    )
+  ) {
+    return [];
+  }
+
   const base = slots.map(({ letter, lock }) => (lock === 'pinned' ? letter : ''));
   const floating = slots
     .filter(({ letter, lock }) => letter && lock === 'kept')
@@ -234,6 +243,7 @@ export const createJumbler = (random: () => number = Math.random) => {
         knowledge.greens,
         [...knowledge.absent].sort(),
         knowledge.banned.map((b) => [...b].sort()),
+        [...knowledge.required].sort(),
       ],
     ]);
     if (nextSignature !== signature || !deck.length) {

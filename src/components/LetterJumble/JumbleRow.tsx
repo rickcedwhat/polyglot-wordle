@@ -52,7 +52,15 @@ export const JumbleRow: FC<JumbleRowProps> = ({
           role="button"
           tabIndex={0}
           aria-label={`Slot ${i + 1}: ${letter || 'empty'}${letter && lock !== 'kept' ? `, ${lock}` : ''}`}
-          onKeyDown={(event) => event.key === 'Enter' && onTileClick(i)}
+          onKeyDown={(event) => {
+            if (event.key === ' ') {
+              event.preventDefault();
+              event.stopPropagation();
+            } else if (event.key === 'Enter') {
+              onTileClick(i);
+            }
+          }}
+          onKeyUp={(event) => event.key === ' ' && onTileClick(i)}
           data-lock={letter ? lock : 'kept'}
           data-status={statuses?.[i] ?? 'unknown'}
           data-conflict={!!conflicts?.[i]}
