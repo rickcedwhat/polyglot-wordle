@@ -1,4 +1,4 @@
-import { getGuessStatuses, normalizeWord } from './wordUtils';
+import { getGuessStatuses, normalizeWord, type LetterStatus } from './wordUtils';
 
 export type JumbleLock = 'free' | 'letter' | 'spot';
 
@@ -15,6 +15,8 @@ export interface BoardKnowledge {
   banned: Set<string>[];
   /** Letters not in the word at all. */
   absent: Set<string>;
+  /** Letters known to be in the word, with the minimum count of each. */
+  required: Map<string, number>;
 }
 
 const KEYBOARD_ORDER = 'qwertyuiopasdfghjklzxcvbnm';
@@ -30,11 +32,16 @@ export const boardKnowledge = (guesses: string[], solution: string): BoardKnowle
   const banned = Array.from({ length: WORD_LENGTH }, () => new Set<string>());
   const seen = new Set<string>();
   const greyed = new Set<string>();
+  const required = new Map<string, number>();
 
   for (const guess of guesses) {
     const letters = normalizeWord(guess).split('');
+    const found = new Map<string, number>();
     getGuessStatuses(guess, solution).forEach((status, i) => {
       const letter = letters[i];
+      if (status !== 'absent') {
+        found.set(letter, (found.get(letter) ?? 0) + 1);
+      }
       if (status === 'correct') {
         greens[i] = letter;
         seen.add(letter);
@@ -47,10 +54,13 @@ export const boardKnowledge = (guesses: string[], solution: string): BoardKnowle
         }
       }
     });
+    found.forEach((count, letter) =>
+      required.set(letter, Math.max(required.get(letter) ?? 0, count))
+    );
   }
 
   const absent = new Set([...greyed].filter((letter) => !seen.has(letter)));
-  return { greens, banned, absent };
+  return { greens, banned, absent, required };
 };
 
 const isAllowedAt = (letter: string, position: number, knowledge?: BoardKnowledge) =>
@@ -62,8 +72,24 @@ export const conflictingSlots = (slots: JumbleSlot[], knowledge?: BoardKnowledge
     ({ letter, lock }) => !!knowledge && !!letter && lock !== 'free' && knowledge.absent.has(letter)
   );
 
+/** How each typed letter reads against the target: green here, known elsewhere, or not in it. */
+export const targetStatuses = (slots: JumbleSlot[], knowledge?: BoardKnowledge): LetterStatus[] =>
+  slots.map(({ letter }, i) => {
+    if (!knowledge || !letter) {
+      return 'unknown';
+    }
+    if (knowledge.greens[i] === letter) {
+      return 'correct';
+    }
+    if (knowledge.required.has(letter)) {
+      return 'present';
+    }
+    return knowledge.absent.has(letter) ? 'absent' : 'unknown';
+  });
+
 /**
- * Every placement of the letter-locked letters into the open slots that respects the target.
+ * Every placement of the floating letters into the open slots that respects the target.
+ * Floating letters are the letter-locked ones plus any letter the target is known to contain.
  * Spot-locked slots and target greens are pinned; '' marks a slot to fill randomly.
  */
 export const validArrangements = (slots: JumbleSlot[], knowledge?: BoardKnowledge): string[][] => {
@@ -80,6 +106,13 @@ export const validArrangements = (slots: JumbleSlot[], knowledge?: BoardKnowledg
       if (used !== -1) {
         floating.splice(used, 1);
       }
+    }
+  });
+
+  knowledge?.required.forEach((count, letter) => {
+    const have = [...base, ...floating].filter((l) => l === letter).length;
+    for (let i = have; i < count; i++) {
+      floating.push(letter);
     }
   });
 

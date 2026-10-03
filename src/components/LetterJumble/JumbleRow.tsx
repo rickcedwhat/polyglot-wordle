@@ -1,6 +1,7 @@
 import { FC, useRef } from 'react';
 import { IconLock, IconPin } from '@tabler/icons-react';
 import type { JumbleSlot } from '@/utils/letterJumble';
+import type { LetterStatus } from '@/utils/wordUtils';
 import { LetterTile } from '../LetterTile/LetterTile';
 import classes from './JumbleRow.module.css';
 
@@ -9,6 +10,8 @@ const LONG_PRESS_MS = 450;
 interface JumbleRowProps {
   slots: JumbleSlot[];
   cursorIndex: number;
+  /** How each letter reads against the target board. */
+  statuses?: LetterStatus[];
   /** Locked letters that are already grey on the target board. */
   conflicts?: boolean[];
   isInvalid?: boolean;
@@ -19,6 +22,7 @@ interface JumbleRowProps {
 export const JumbleRow: FC<JumbleRowProps> = ({
   slots,
   cursorIndex,
+  statuses,
   conflicts,
   isInvalid,
   onTileClick,
@@ -50,6 +54,7 @@ export const JumbleRow: FC<JumbleRowProps> = ({
           aria-label={`Slot ${i + 1}: ${letter || 'empty'}${letter && lock !== 'free' ? `, ${lock} locked` : ''}`}
           onKeyDown={(event) => event.key === 'Enter' && onTileClick(i)}
           data-lock={letter ? lock : 'free'}
+          data-status={statuses?.[i] ?? 'unknown'}
           data-conflict={!!conflicts?.[i]}
           onPointerDown={() => startPress(i)}
           onPointerUp={cancelPress}
@@ -64,7 +69,7 @@ export const JumbleRow: FC<JumbleRowProps> = ({
           <LetterTile
             letter={letter}
             isEmpty
-            status="unknown"
+            status={statuses?.[i] ?? 'unknown'}
             hasCursor={i === cursorIndex}
             onClick={() => {}}
           />

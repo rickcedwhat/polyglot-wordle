@@ -9,6 +9,7 @@ import {
   createJumbler,
   nextLock,
   relock,
+  targetStatuses,
   validArrangements,
   type JumbleLock,
   type JumbleSlot,
@@ -215,7 +216,7 @@ function LetterJumbleHarness({
     ? 'Nothing fits these locks on the target.'
     : openSlots === 1 && arrangements.length === 1
       ? 'One open slot: 🔀 steps through the keyboard (QWERTY order).'
-      : `${arrangements.length} ordering${arrangements.length === 1 ? '' : 's'} of the locked letters fit${
+      : `${arrangements.length} ordering${arrangements.length === 1 ? '' : 's'} of the known and locked letters fit${
           openSlots ? `, plus ${openSlots} random fill${openSlots === 1 ? '' : 's'}` : ''
         }.`;
 
@@ -258,6 +259,7 @@ function LetterJumbleHarness({
         <JumbleRow
           slots={visibleSlots}
           cursorIndex={cursorIndex}
+          statuses={jumbleMode ? targetStatuses(slots, knowledge) : undefined}
           conflicts={conflicts}
           isInvalid={isInvalid}
           onTileClick={onTileClick}
@@ -345,6 +347,11 @@ export const StuckOnFrench: Story = {
 export const KeyboardStep: Story = {
   name: 'Jumble mode: one open slot steps through the keyboard',
   args: { word: 'styl', locks: ['spot', 'spot', 'spot', 'spot', 'free'] },
+};
+
+export const EmptyRow: Story = {
+  name: "Jumble mode: empty row still uses the target's known letters",
+  args: { word: '', locks: [] },
 };
 
 export const NoTarget: Story = {

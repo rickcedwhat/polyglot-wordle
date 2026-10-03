@@ -7,6 +7,7 @@ import {
   nextKeyboardLetter,
   nextLock,
   relock,
+  targetStatuses,
   validArrangements,
   type JumbleLock,
   type JumbleSlot,
@@ -78,6 +79,19 @@ describe('validArrangements', () => {
     expect(result.every((word) => word.filter((l) => l === '').length === 3)).toBe(true);
   });
 
+  it('always includes letters the target is known to contain', () => {
+    const result = validArrangements(slots('_____', 'free'), STUMPED);
+    expect(result.length).toBeGreaterThan(0);
+    for (const word of result) {
+      expect([...word].sort()).toEqual(['', 'l', 'o', 's', 't']);
+    }
+  });
+
+  it('does not double up a known letter the player already locked', () => {
+    const result = validArrangements(slots('s____', ['letter', 'free', 'free', 'free', 'free']), STUMPED);
+    expect(result.every((word) => word.filter((l) => l === 's').length === 1)).toBe(true);
+  });
+
   it('returns nothing when the target makes it impossible', () => {
     expect(validArrangements(slots('sssss'), STUMPED)).toEqual([]);
   });
@@ -118,6 +132,23 @@ describe('conflictingSlots', () => {
     expect(
       conflictingSlots(slots('rotls', ['letter', 'letter', 'free', 'letter', 'letter']), STUMPED)
     ).toEqual([true, false, false, false, false]);
+  });
+});
+
+describe('targetStatuses', () => {
+  it('colours typed letters by what the target has revealed', () => {
+    const knowledge = boardKnowledge(['salty'], 'stylo');
+    expect(targetStatuses(slots('slaxo', 'free'), knowledge)).toEqual([
+      'correct',
+      'present',
+      'absent',
+      'unknown',
+      'unknown',
+    ]);
+  });
+
+  it('stays neutral without a target', () => {
+    expect(targetStatuses(slots('slaxo', 'free'))).toEqual(Array(5).fill('unknown'));
   });
 });
 

@@ -15,12 +15,12 @@
   user-select: none;
 }
 
-.slot[data-lock='letter'] > :first-child {
+.slot[data-status='unknown'][data-lock='letter'] > :first-child {
   border-style: dashed;
   border-color: var(--mantine-color-blue-4);
 }
 
-.slot[data-lock='spot'] > :first-child {
+.slot[data-status='unknown'][data-lock='spot'] > :first-child {
   border-color: var(--mantine-color-blue-6);
   background-color: rgb(34 139 230 / 22%);
 }
