@@ -6,7 +6,7 @@ import type { Language } from '@/types/firestore';
 import { labelFor } from '@/utils/languages';
 import { showToast } from '@/utils/toast';
 
-/** Asks whether a rejected guess should be flagged as missing from one of the game's dictionaries. */
+/** Asks whether a guess should be flagged as missing from one of `languages`' dictionaries. */
 export const promptFlagMissingWord = (word: string, languages: Language[]) => {
   const id = `flag-missing-${word}`;
   const upper = word.toUpperCase();
