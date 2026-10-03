@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import { IconUserCancel, IconUserExclamation, IconUserPlus } from '@tabler/icons-react';
 import { Button, Group, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
@@ -12,36 +12,14 @@ interface FriendButtonProps {
 
 export const FriendButton: FC<FriendButtonProps> = ({ profileUserId }) => {
   const { currentUser } = useAuth();
-  const {
-    data: myFriendships,
-    sendRequest,
-    removeFriendship,
-    acceptRequest,
-    isPending,
-  } = useFriendships(currentUser?.uid);
+  const { getFriendshipStatus, sendRequest, removeFriendship, acceptRequest, isPending } =
+    useFriendships(currentUser?.uid);
 
   // We need the other user's profile to show their name in the modal
   const { data: userProfile } = useUserProfile(profileUserId);
   const modals = useModals();
 
-  const friendshipStatus = useMemo(() => {
-    if (!myFriendships || !profileUserId) {
-      return null;
-    }
-    const friendship = myFriendships.find((f) => f.id === profileUserId);
-    if (!friendship) {
-      return 'none';
-    }
-    if (friendship.status === 'accepted') {
-      return 'friends';
-    }
-    if (friendship.status === 'pending' && friendship.direction === 'outgoing') {
-      return 'pending_sent';
-    }
-    if (friendship.status === 'pending' && friendship.direction === 'incoming') {
-      return 'pending_received';
-    }
-  }, [myFriendships, profileUserId]);
+  const friendshipStatus = getFriendshipStatus(profileUserId);
 
   const openConfirmationModal = (
     title: string,

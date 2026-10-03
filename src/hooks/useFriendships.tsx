@@ -1,5 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { collection, doc, getDocs, getFirestore, query, writeBatch } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  query,
+  writeBatch,
+  type DocumentReference,
+  type WriteBatch,
+} from 'firebase/firestore';
 import { useAuth } from '@/context/AuthContext';
 import type { FriendshipDoc } from '@/types/firestore';
 
@@ -48,67 +57,50 @@ export const useFriendships = (userId: string | undefined) => {
   // --- Mutations (these always act on behalf of the `currentUser`) ---
   const db = getFirestore();
 
-  //   Mutation to send a friend request
+  /** Writes both sides of a friendship (mine and theirs) in one batch. */
+  const commitPair = (
+    friendId: string,
+    write: (batch: WriteBatch, mine: DocumentReference, theirs: DocumentReference) => void
+  ) => {
+    if (!currentUser) {
+      throw new Error('User not logged in.');
+    }
+    const batch = writeBatch(db);
+    write(
+      batch,
+      doc(db, 'users', currentUser.uid, 'friendships', friendId),
+      doc(db, 'users', friendId, 'friendships', currentUser.uid)
+    );
+    return batch.commit();
+  };
+  const onSuccess = () => queryClient.invalidateQueries({ queryKey });
+
   const sendRequestMutation = useMutation({
-    mutationFn: async (friendId: string) => {
-      if (!currentUser) {
-        throw new Error('User not logged in.');
-      }
-      const batch = writeBatch(db);
-
-      // Add a pending request to your own friendships subcollection
-      const myFriendshipRef = doc(db, 'users', currentUser.uid, 'friendships', friendId);
-      batch.set(myFriendshipRef, { status: 'pending', direction: 'outgoing', since: new Date() });
-
-      // Add a pending request to the other user's subcollection
-      const theirFriendshipRef = doc(db, 'users', friendId, 'friendships', currentUser.uid);
-      batch.set(theirFriendshipRef, {
-        status: 'pending',
-        direction: 'incoming',
-        since: new Date(),
-      });
-
-      return batch.commit();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+    mutationFn: async (friendId: string) =>
+      commitPair(friendId, (batch, mine, theirs) => {
+        batch.set(mine, { status: 'pending', direction: 'outgoing', since: new Date() });
+        batch.set(theirs, { status: 'pending', direction: 'incoming', since: new Date() });
+      }),
+    onSuccess,
   });
 
-  // Mutation to accept a friend request
   const acceptRequestMutation = useMutation({
-    mutationFn: async (friendId: string) => {
-      if (!currentUser) {
-        throw new Error('User not logged in.');
-      }
-      const batch = writeBatch(db);
-
-      const myFriendshipRef = doc(db, 'users', currentUser.uid, 'friendships', friendId);
-      batch.update(myFriendshipRef, { status: 'accepted', direction: null });
-
-      const theirFriendshipRef = doc(db, 'users', friendId, 'friendships', currentUser.uid);
-      batch.update(theirFriendshipRef, { status: 'accepted', direction: null });
-
-      return batch.commit();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+    mutationFn: async (friendId: string) =>
+      commitPair(friendId, (batch, mine, theirs) => {
+        batch.update(mine, { status: 'accepted', direction: null });
+        batch.update(theirs, { status: 'accepted', direction: null });
+      }),
+    onSuccess,
   });
 
-  // Mutation for declining, canceling, or unfriending
+  // Declining, canceling, or unfriending
   const removeFriendshipMutation = useMutation({
-    mutationFn: async (friendId: string) => {
-      if (!currentUser) {
-        throw new Error('User not logged in.');
-      }
-      const batch = writeBatch(db);
-
-      const myFriendshipRef = doc(db, 'users', currentUser.uid, 'friendships', friendId);
-      batch.delete(myFriendshipRef);
-
-      const theirFriendshipRef = doc(db, 'users', friendId, 'friendships', currentUser.uid);
-      batch.delete(theirFriendshipRef);
-
-      return batch.commit();
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey }),
+    mutationFn: async (friendId: string) =>
+      commitPair(friendId, (batch, mine, theirs) => {
+        batch.delete(mine);
+        batch.delete(theirs);
+      }),
+    onSuccess,
   });
 
   return {

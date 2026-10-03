@@ -4,6 +4,7 @@ import type { Language } from '@/types/firestore';
 import { flagFor, labelFor } from '@/utils/languages';
 import type { ScoreEvent } from '@/utils/wordUtils';
 import classes from './ScorePopups.module.css';
+import tones from './ScoreTones.module.css';
 
 const POPUP_STAGGER_MS = 180;
 export const TILE_STAGGER_MS = 90;
@@ -80,7 +81,7 @@ const Pill: FC<{ line: PopupLine; animationDelay: string; bottomRem?: number }> 
   bottomRem = 0,
 }) => (
   <div
-    className={`${classes.popup} ${classes[line.tone]}`}
+    className={`${classes.popup} ${tones[line.tone]}`}
     style={{ animationDelay, bottom: `${bottomRem}rem` }}
   >
     <span className={classes.points}>

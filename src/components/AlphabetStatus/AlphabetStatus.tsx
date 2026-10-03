@@ -8,63 +8,48 @@ interface AlphabetStatusProps {
   activeKey: string | null;
 }
 
-export const AlphabetStatus: FC<AlphabetStatusProps> = ({ onKeyPress, activeKey }) => {
-  const topRow = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
-  const middleRow = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
-  const bottomRow = ['z', 'x', 'c', 'v', 'b', 'n', 'm'];
+/** Letter keys per row, plus the action key (if any) at the end of the row and its width. */
+const ROWS: { letters: string[]; action?: { key: string; label: string; flex: number } }[] = [
+  { letters: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'] },
+  {
+    letters: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+    action: { key: 'enter', label: '⏎', flex: 1.5 },
+  },
+  {
+    letters: ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+    action: { key: 'del', label: '←', flex: 1 },
+  },
+];
 
+export const AlphabetStatus: FC<AlphabetStatusProps> = ({ onKeyPress, activeKey }) => {
   const { letterStatusMap } = useLetterStatus();
 
   return (
     <Container my="xl" p={0} w="100%" style={{ maxWidth: 600 }}>
       <Stack gap={8}>
-        {/* Top Row (Q-P) */}
-        <Group gap="1.5%" wrap="nowrap">
-          {topRow.map((key) => (
-            <Box key={key} style={{ flex: 1 }}>
-              <AlphabetKey
-                activeKey={activeKey}
-                onClick={() => onKeyPress(key)}
-                letter={key}
-                statuses={letterStatusMap[key] || ['empty', 'empty', 'empty']}
-              />
-            </Box>
-          ))}
-        </Group>
-
-        {/* Middle Row (A-L) with Spacers */}
-        <Group gap="1.5%" wrap="nowrap">
-          {middleRow.map((key) => (
-            <Box key={key} style={{ flex: 1 }}>
-              <AlphabetKey
-                activeKey={activeKey}
-                onClick={() => onKeyPress(key)}
-                letter={key}
-                statuses={letterStatusMap[key] || ['empty', 'empty', 'empty']}
-              />
-            </Box>
-          ))}
-          <Box style={{ flex: 1.5 }}>
-            <AlphabetKey activeKey={activeKey} onClick={() => onKeyPress('enter')} letter="⏎" />
-          </Box>
-        </Group>
-
-        {/* Bottom Row (Z-M) with Spacers */}
-        <Group gap="1.5%" wrap="nowrap">
-          {bottomRow.map((key) => (
-            <Box key={key} style={{ flex: 1 }}>
-              <AlphabetKey
-                activeKey={activeKey}
-                onClick={() => onKeyPress(key)}
-                letter={key}
-                statuses={letterStatusMap[key] || ['empty', 'empty', 'empty']}
-              />
-            </Box>
-          ))}
-          <Box style={{ flex: 1 }}>
-            <AlphabetKey activeKey={activeKey} onClick={() => onKeyPress('del')} letter="←" />
-          </Box>
-        </Group>
+        {ROWS.map(({ letters, action }) => (
+          <Group key={letters[0]} gap="1.5%" wrap="nowrap">
+            {letters.map((key) => (
+              <Box key={key} style={{ flex: 1 }}>
+                <AlphabetKey
+                  activeKey={activeKey}
+                  onClick={() => onKeyPress(key)}
+                  letter={key}
+                  statuses={letterStatusMap[key] || ['empty', 'empty', 'empty']}
+                />
+              </Box>
+            ))}
+            {action && (
+              <Box style={{ flex: action.flex }}>
+                <AlphabetKey
+                  activeKey={activeKey}
+                  onClick={() => onKeyPress(action.key)}
+                  letter={action.label}
+                />
+              </Box>
+            )}
+          </Group>
+        ))}
       </Stack>
     </Container>
   );

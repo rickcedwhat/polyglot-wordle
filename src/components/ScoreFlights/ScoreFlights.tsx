@@ -11,6 +11,7 @@ import {
   type ScoreBurst,
   type ScoreFlight,
 } from './flightUtils';
+import tones from '../ScorePopups/ScoreTones.module.css';
 import classes from './ScoreFlights.module.css';
 
 const BASE_TILE_DURATION_MS = 1100;
@@ -123,7 +124,7 @@ export const ScoreFlights: FC<{ burst: ScoreBurst }> = ({ burst }) => {
             );
           }}
         >
-          <span className={`${classes.pill} ${classes[flight.tone]}`}>
+          <span className={`${classes.pill} ${tones[flight.tone]}`}>
             {flight.points > 0 ? '+' : '−'}
             {Math.abs(flight.points)}
           </span>
