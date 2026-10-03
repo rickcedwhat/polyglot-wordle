@@ -24,6 +24,26 @@ interface FlaggedWordItem {
 }
 
 const FLAGGED_WORDS_STORAGE_KEY = 'polyglot_flagged_words_v1';
+const DELETED_FLAGS_STORAGE_KEY = 'polyglot_deleted_flags_v1';
+
+type DeletedFlag = Pick<FlaggedWordItem, 'id' | 'lang' | 'wordKey'> & { ownerId: string };
+
+const getDeletedFlags = (): DeletedFlag[] => {
+  try {
+    return JSON.parse(localStorage.getItem(DELETED_FLAGS_STORAGE_KEY) ?? '[]');
+  } catch {
+    return [];
+  }
+};
+
+let deletedFlags = getDeletedFlags();
+const saveDeletedFlags = () => {
+  try {
+    localStorage.setItem(DELETED_FLAGS_STORAGE_KEY, JSON.stringify(deletedFlags));
+  } catch (err) {
+    console.error('Failed to save deleted flags:', err);
+  }
+};
 export const MISSING_WORD_NOTE = 'Missing word (rejected as a guess)';
 
 const getStoredFlaggedWords = (): FlaggedWordItem[] => {
@@ -86,7 +106,7 @@ const toItem = (entry: FlagEntry): FlaggedWordItem => ({
 
 // --- Firestore mirror (`wordFlags/{uid}_{lang}_{wordKey}`) ---
 
-const flagRef = (uid: string, item: FlaggedWordItem) =>
+const flagRef = (uid: string, item: Pick<FlaggedWordItem, 'lang' | 'wordKey'>) =>
   doc(getFirestore(), 'wordFlags', `${uid}_${item.lang}_${item.wordKey}`);
 
 /** The signed-in uid if this flag may be written to their account. */
@@ -107,32 +127,61 @@ const enqueue = (id: string, op: () => Promise<void>) => {
 
 const pushFlag = (item: FlaggedWordItem, uid: string) =>
   enqueue(item.id, async () => {
-    await setDoc(flagRef(uid, item), {
+    const latest = current.find((i) => i.id === item.id);
+    if (!latest || (latest.ownerId && latest.ownerId !== uid)) {
+      return;
+    }
+    const supersededDeletion = deletedFlags.find((i) => i.id === latest.id && i.ownerId === uid);
+    await setDoc(flagRef(uid, latest), {
       uid,
-      lang: item.lang,
-      wordKey: item.wordKey,
-      display: item.display || item.wordKey,
-      note: item.note || '',
-      reason: item.reason ?? (item.note === MISSING_WORD_NOTE ? 'missing' : 'other'),
-      flaggedAt: Timestamp.fromMillis(item.flaggedAt),
+      lang: latest.lang,
+      wordKey: latest.wordKey,
+      display: latest.display || latest.wordKey,
+      note: latest.note || '',
+      reason: latest.reason ?? (latest.note === MISSING_WORD_NOTE ? 'missing' : 'other'),
+      flaggedAt: Timestamp.fromMillis(latest.flaggedAt),
     });
+    if (supersededDeletion) {
+      deletedFlags = deletedFlags.filter((i) => i !== supersededDeletion);
+      saveDeletedFlags();
+    }
     setFlaggedWords((prev) =>
-      prev.map((i) => (i.id === item.id ? { ...i, ownerId: uid, synced: true } : i))
+      prev.map((i) => (i === latest ? { ...i, ownerId: uid, synced: true } : i))
     );
+  });
+
+const deleteRemoteFlag = (item: DeletedFlag) =>
+  enqueue(item.id, async () => {
+    if (!deletedFlags.includes(item)) {
+      return;
+    }
+    await deleteDoc(flagRef(item.ownerId, item));
+    deletedFlags = deletedFlags.filter((deleted) => deleted !== item);
+    saveDeletedFlags();
   });
 
 const removeRemoteFlag = (item: FlaggedWordItem) => {
   const uid = remoteOwner(item);
-  return uid ? enqueue(item.id, () => deleteDoc(flagRef(uid, item))) : Promise.resolve();
+  const ownerId = item.ownerId ?? uid;
+  if (!ownerId) {
+    return Promise.resolve();
+  }
+  // Persist before attempting the delete so sign-out or a failed request cannot lose it.
+  const deleted = { id: item.id, lang: item.lang, wordKey: item.wordKey, ownerId };
+  deletedFlags = deletedFlags.filter((i) => i.id !== item.id || i.ownerId !== ownerId);
+  deletedFlags.push(deleted);
+  saveDeletedFlags();
+  return uid ? deleteRemoteFlag(deleted) : Promise.resolve();
 };
 
-/** Uploads flags made while signed out, or before flags were synced, to `uid`'s account. */
+/** Replays this account's deletions before uploading its unsynced flags. */
 export const syncFlaggedWords = (uid: string) =>
-  Promise.all(
-    current
+  Promise.all([
+    ...deletedFlags.filter((item) => item.ownerId === uid).map(deleteRemoteFlag),
+    ...current
       .filter((item) => !item.synced && (!item.ownerId || item.ownerId === uid))
-      .map((item) => pushFlag(item, uid))
-  );
+      .map((item) => pushFlag(item, uid)),
+  ]);
 
 const addFlag = (item: FlaggedWordItem) => {
   setFlaggedWords((prev) => [...prev, item]);
@@ -177,7 +226,7 @@ export const useFlaggedWords = () => {
     const id = `${lang}:${wordKey.toLowerCase()}`;
     setFlaggedWords((prev) => prev.map((item) => (item.id === id ? { ...item, note } : item)));
     const updated = current.find((item) => item.id === id);
-    const uid = updated?.synced ? remoteOwner(updated) : null;
+    const uid = updated ? remoteOwner(updated) : null;
     if (updated && uid) {
       void pushFlag(updated, uid);
     }
