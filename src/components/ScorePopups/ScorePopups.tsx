@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { useLanguageFlags } from '@/hooks/useLanguageFlags';
+import type { Language } from '@/types/firestore';
 import { flagFor, labelFor } from '@/utils/languages';
 import type { ScoreEvent } from '@/utils/wordUtils';
 import classes from './ScorePopups.module.css';
@@ -20,7 +22,10 @@ interface PopupLine {
 const sum = (events: ScoreEvent[]) => events.reduce((total, e) => total + e.points, 0);
 
 /** Game-level lines shown above the guess row: bonuses not tied to one board, and penalties. */
-export function buildGameLines(events: ScoreEvent[]): PopupLine[] {
+export function buildGameLines(
+  events: ScoreEvent[],
+  flagOf: (lang: Language) => string = flagFor
+): PopupLine[] {
   return events.flatMap((event): PopupLine[] => {
     if (event.kind === 'crack') {
       return [{ id: 'crack', points: event.points, label: 'First word cracked!', tone: 'solved' }];
@@ -36,7 +41,7 @@ export function buildGameLines(events: ScoreEvent[]): PopupLine[] {
         {
           id: `penalty-${event.lang}`,
           points: event.points,
-          label: `${flagFor(event.lang)} ${labelFor(event.lang)} unsolved`,
+          label: `${flagOf(event.lang)} ${labelFor(event.lang)} unsolved`,
           tone: 'penalty',
         },
       ];
@@ -88,7 +93,8 @@ const Pill: FC<{ line: PopupLine; animationDelay: string; bottomRem?: number }> 
 
 /** Remount (via `key`) for each new guess to replay the animation. */
 export const ScorePopups: FC<{ events: ScoreEvent[] }> = ({ events }) => {
-  const lines = buildGameLines(events);
+  const { flags } = useLanguageFlags();
+  const lines = buildGameLines(events, (lang) => flags[lang]);
   if (lines.length === 0) {
     return null;
   }

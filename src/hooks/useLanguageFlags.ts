@@ -15,7 +15,7 @@ const DEFAULT_FLAGS: LanguageFlags = {
 
 const STORAGE_KEY = 'polyglot_custom_flags_v2';
 
-const getStoredFlags = (): LanguageFlags => {
+export const getStoredFlags = (): LanguageFlags => {
   try {
     const raw =
       localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem('polyglot_custom_flags_v1');
