@@ -6,6 +6,8 @@
 /* Make the carousel root a flex container that fills height */
 .carouselRoot {
   height: 100%;
+  /* Keeps the modal from resizing when switching topics */
+  min-height: 460px;
   display: flex;
   flex-direction: column;
 }
@@ -43,13 +45,6 @@
   line-height: 1.6;
 }
 
-.image {
-  max-width: 100%;
-  height: auto;
-  max-height: 40vh;
-  border-radius: var(--mantine-radius-md);
-}
-
 .indicator {
   width: 8px;
   height: 8px;
@@ -59,6 +54,37 @@
   &[data-active] {
     background-color: var(--mantine-color-blue-7);
   }
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-sm);
+}
+
+/* Live renderings of real game UI inside a slide */
+.demo {
+  width: 100%;
+  margin-top: var(--mantine-spacing-lg);
+  text-align: initial;
+  user-select: none;
+}
+
+/* Score counter with room above it for the game-level popups */
+.demoScore {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 3.5rem 0 var(--mantine-spacing-sm);
+}
+
+.demoPanel {
+  max-width: 380px;
+  margin-inline: auto;
+}
+
+.keyExample {
+  width: 3.5rem;
 }
 
 .modalTitle {

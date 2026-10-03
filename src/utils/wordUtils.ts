@@ -159,7 +159,7 @@ export const scoringVersionOf = (game: { scoringVersion?: number }): number =>
   game.scoringVersion ?? LEGACY_SCORING_VERSION;
 
 /** 10 on guess 1 down to 3 on guess 8. */
-const turnMultiplier = (guessNumber: number) => MAX_GUESSES + 3 - guessNumber;
+export const turnMultiplier = (guessNumber: number) => MAX_GUESSES + 3 - guessNumber;
 
 const rulesFor = (version: number): ScoringRules =>
   SCORING_RULES[version] ?? SCORING_RULES[SCORING_VERSION];
