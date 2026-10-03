@@ -101,6 +101,7 @@ export const GameSetupPanel: FC<GameSetupPanelProps> = ({
   };
 
   const ordered = ALL_LANGUAGES.filter((lang) => selected.includes(lang));
+  const rows = [...ordered, ...ALL_LANGUAGES.filter((lang) => !selected.includes(lang))];
 
   return (
     <Stack gap="md">
@@ -111,7 +112,7 @@ export const GameSetupPanel: FC<GameSetupPanelProps> = ({
       </Text>
 
       <Stack gap="xs">
-        {ALL_LANGUAGES.map((lang) => (
+        {rows.map((lang) => (
           <LanguageRow
             key={lang}
             lang={lang}
