@@ -1,0 +1,9 @@
+.input {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 320px) 28px;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  width: 100%;
+}

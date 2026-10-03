@@ -123,6 +123,11 @@ export function useStoryGame(
     }
   }, [requestedStep, targetStep, onStepChange]);
 
+  const shake = useCallback(() => {
+    setIsInvalid(true);
+    setTimeout(() => setIsInvalid(false), 500);
+  }, []);
+
   const submit = (guess: string) => {
     if (!wordPools || isOver) {
       return false;
@@ -134,8 +139,7 @@ export function useStoryGame(
       previousGuesses: guesses,
     });
     if (!isValid) {
-      setIsInvalid(true);
-      setTimeout(() => setIsInvalid(false), 500);
+      shake();
       return false;
     }
     const nextTimeline = [...guesses, guess];
@@ -229,9 +233,11 @@ export function useStoryGame(
     step,
     guesses,
     currentGuess,
+    setCurrentGuess,
     cursorIndex,
     setCursorIndex,
     isInvalid,
+    shake,
     activeKey,
     burst,
     score,

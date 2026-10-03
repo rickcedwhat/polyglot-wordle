@@ -22,12 +22,7 @@ export const CurrentGuessRow: FC<CurrentGuessRowProps> = ({
   const rowClassName = `${classes.row} ${isInvalid ? classes.shake : ''}`;
 
   return (
-    <SimpleGrid
-      className={rowClassName}
-      cols={5}
-      spacing="xs"
-      style={{ width: '320px', margin: '20px auto' }}
-    >
+    <SimpleGrid className={rowClassName} cols={5} spacing="xs" style={{ width: '100%' }}>
       {guess.map((letter, i) => {
         const isAbsentEverywhere =
           letter && letterStatusMap[letter]?.every((langStatus) => langStatus === 'absent');
