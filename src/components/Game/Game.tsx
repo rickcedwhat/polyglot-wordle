@@ -17,6 +17,7 @@ import type { GameDoc } from '@/types/firestore.d.ts';
 import { gamePath, languagesFromGame } from '@/utils/languages';
 import {
   getLatestTurnScoreEvents,
+  languagesMissingWord,
   normalizeWord,
   scoringVersionOf,
   validateGuess,
@@ -245,7 +246,16 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           // not a valid word or was already used before
           const alreadyGuessed = guesses.map(normalizeWord).includes(normalizeWord(guessString));
           const streak = rejectedStreak.current;
-          if (!alreadyGuessed) {
+          if (alreadyGuessed) {
+            const missingFrom = languagesMissingWord({
+              guess: guessString,
+              masterPools: wordPools.master,
+              solution,
+            });
+            if (missingFrom.length > 0) {
+              promptFlagMissingWord(guessString, missingFrom);
+            }
+          } else {
             rejectedStreak.current =
               streak.guess === guessString
                 ? { guess: guessString, count: streak.count + 1 }

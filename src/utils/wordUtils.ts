@@ -450,3 +450,13 @@ export const validateGuess = ({
     solutionLangs,
   };
 };
+
+/** The game's languages whose dictionary doesn't accept `guess` (ignores previous guesses). */
+export const languagesMissingWord = ({
+  guess,
+  masterPools,
+  solution,
+}: Omit<ValidateGuessParams, 'previousGuesses'>): Language[] => {
+  const { matchedLangs } = validateGuess({ guess, masterPools, solution });
+  return activeLanguages(solution).filter((lang) => !matchedLangs.includes(lang));
+};

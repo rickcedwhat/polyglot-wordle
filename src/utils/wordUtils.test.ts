@@ -301,6 +301,33 @@ describe('splitDefinition', () => {
   });
 });
 
+describe('languagesMissingWord', () => {
+  const masterPools = {
+    en: ['apple', 'table', 'radio'],
+    es: ['queso', 'radio'],
+    fr: ['fruit', 'radio'],
+  };
+  const solution = { en: 'apple', es: 'queso', fr: 'fruit' };
+
+  it('lists only the languages whose dictionary lacks the word', () => {
+    expect(wordUtils.languagesMissingWord({ guess: 'table', masterPools, solution })).toEqual([
+      'es',
+      'fr',
+    ]);
+  });
+
+  it('is empty when every language has the word', () => {
+    expect(wordUtils.languagesMissingWord({ guess: 'radio', masterPools, solution })).toEqual([]);
+  });
+
+  it("counts a board's answer as known in that language", () => {
+    expect(wordUtils.languagesMissingWord({ guess: 'queso', masterPools, solution })).toEqual([
+      'en',
+      'fr',
+    ]);
+  });
+});
+
 describe('validateGuess', () => {
   const masterPools = {
     en: ['apple', 'table', 'chair'],
