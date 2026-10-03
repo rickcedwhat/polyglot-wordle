@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import type { Language } from '@/types/firestore';
+import type { Dictionary } from '@/utils/wordUtils';
 import { detectFeats } from './detectFeats';
 
 const ids = (feats: ReturnType<typeof detectFeats>) => feats.map((f) => f.id);
@@ -39,13 +41,13 @@ describe('detectFeats', () => {
     expect(feats).toEqual([{ id: 'soClose', guess: 8, lang: 'en' }]);
   });
 
-  it('finds First Try and Two Birds when two boards share an answer', () => {
+  it('finds the per-language First Try and Two Birds when two boards share an answer', () => {
     const feats = detectFeats({
       words: { es: 'radio', en: 'radio', fr: 'pomme' },
       guessHistory: ['radio'],
     });
     // Ten new greens at once also counts as a Jackpot.
-    expect(ids(feats)).toEqual(['firstTry', 'firstTry', 'twoBirds', 'jackpot']);
+    expect(ids(feats)).toEqual(['aLaPrimera', 'holeInOne', 'twoBirds', 'jackpot']);
   });
 
   it('finds Hail Mary when no letters were known', () => {
@@ -85,5 +87,79 @@ describe('detectFeats', () => {
       guessHistory: ['think', 'spoil', 'dandi', 'fleur'],
     });
     expect(ids(feats)).toEqual(['outOfNowhere']);
+  });
+
+  it('finds Chapeau for a French answer with a circumflex', () => {
+    const feats = detectFeats({
+      words: { fr: 'boîte', en: 'plant', es: 'perro' },
+      guessHistory: ['boite'],
+    });
+    expect(feats).toEqual(
+      expect.arrayContaining([
+        { id: 'duPremierCoup', guess: 1, lang: 'fr' },
+        { id: 'chapeau', guess: 1, lang: 'fr' },
+      ])
+    );
+  });
+
+  it('finds Piñata for a Spanish answer with an ñ', () => {
+    const feats = detectFeats({
+      words: { es: 'pañal', en: 'plant', fr: 'pomme' },
+      guessHistory: ['stare', 'panal'],
+    });
+    expect(feats).toContainEqual({ id: 'pinata', guess: 2, lang: 'es' });
+  });
+
+  it('finds Bravery on the guess that plays the third of Q, W, X, Y, Z', () => {
+    const feats = detectFeats({
+      words: { en: 'plant', es: 'perro', fr: 'pomme' },
+      guessHistory: ['waxes', 'stale', 'fuzzy', 'jazzy'],
+    });
+    expect(feats.filter((f) => f.id === 'bravery')).toEqual([
+      { id: 'bravery', guess: 3, value: 4 },
+    ]);
+  });
+
+  describe('language ambiguity', () => {
+    const dict = (...words: string[]) =>
+      Object.fromEntries(
+        words.map((w) => [w, { display: w, d: 0.3, pos: 'noun', def: '' }])
+      ) as Dictionary;
+    // BALSA and TENUE are words in both Spanish and Portuguese, so those boards stay ambiguous.
+    const dictionaries: Partial<Record<Language, Dictionary>> = {
+      en: dict('plant'),
+      es: dict('balsa', 'tenue'),
+      pt: dict('balsa', 'tenue'),
+    };
+    const game = {
+      words: { es: 'balsa', pt: 'tenue', en: 'plant' },
+      shuffledLanguages: ['es', 'pt', 'en'] as Language[],
+      guessHistory: ['plant', 'balsa', 'tenue'],
+    };
+
+    it('finds Lost in Translation and Je ne sais quoi', () => {
+      const feats = detectFeats(game, { dictionaries });
+      expect(feats).toEqual(
+        expect.arrayContaining([
+          { id: 'lostInTranslation', guess: 2, lang: 'es' },
+          { id: 'lostInTranslation', guess: 3, lang: 'pt' },
+          { id: 'jeNeSaisQuoi', guess: 3, value: 2 },
+        ])
+      );
+      expect(feats.find((f) => f.id === 'lostInTranslation' && f.lang === 'en')).toBeUndefined();
+    });
+
+    it('skips them once a guess unique to one language confirms the boards', () => {
+      const feats = detectFeats(
+        { ...game, guessHistory: ['plant', 'llama', 'balsa', 'tenue'] },
+        { dictionaries: { ...dictionaries, es: dict('balsa', 'tenue', 'llama') } }
+      );
+      expect(ids(feats)).not.toContain('lostInTranslation');
+      expect(ids(feats)).not.toContain('jeNeSaisQuoi');
+    });
+
+    it('skips them without dictionaries', () => {
+      expect(ids(detectFeats(game))).not.toContain('lostInTranslation');
+    });
   });
 });

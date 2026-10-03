@@ -30,6 +30,7 @@ interface FeatMedalProps {
 
 /** Round medal for a feat, colored by its category. */
 export const FeatMedal: FC<FeatMedalProps> = ({ id, count = 1, size = 56, showCount = false }) => {
+  const { flags } = useLanguageFlags();
   const feat = FEATS[id];
   const earned = count > 0;
   const color = earned ? FEAT_CATEGORIES[feat.category].color : 'gray';
@@ -52,7 +53,7 @@ export const FeatMedal: FC<FeatMedalProps> = ({ id, count = 1, size = 56, showCo
         }}
       >
         {earned ? (
-          <BadgeIcon icon={feat.icon} size={size * 0.5} />
+          <BadgeIcon icon={feat.icon ?? flags[feat.lang!]} size={size * 0.5} />
         ) : (
           <IconLock size={size * 0.5} stroke={1.6} />
         )}

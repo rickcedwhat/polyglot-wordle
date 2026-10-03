@@ -1,5 +1,6 @@
 import { FC, useMemo } from 'react';
 import {
+  Alert,
   Card,
   Center,
   Group,
@@ -20,7 +21,9 @@ import {
 import { getGameAchievements } from '@/achievements/gameAchievements';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAllGames } from '@/hooks/useAllGames';
+import { useDictionaries } from '@/hooks/useDictionaries';
 import { useVocabulary } from '@/hooks/useVocabulary';
+import type { Language } from '@/types/firestore';
 import type { AchievementProgress } from '@/utils/achievements';
 import { FeatMedal, TrackBadge, trackLevelColor } from '../Badges/Badges';
 
@@ -72,40 +75,43 @@ export const TrackGrid: FC<{ achievements: AchievementProgress[] }> = ({ achieve
 
 export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) => (
   <Stack gap="lg">
-    {(Object.keys(FEAT_CATEGORIES) as FeatCategory[]).map((category) => (
-      <Stack key={category} gap="xs">
-        <Text size="xs" fw={700} c="dimmed" tt="uppercase">
-          {FEAT_CATEGORIES[category].label}
-        </Text>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-          {FEAT_ORDER.filter((id) => FEATS[id].category === category).map((id) => {
-            const count = counts[id] ?? 0;
-            return (
-              <Card key={id} withBorder radius="md" p="sm">
-                <Group gap="sm" wrap="nowrap" align="flex-start">
-                  <FeatMedal id={id} count={count} size={44} />
-                  <div style={{ minWidth: 0 }}>
-                    <Group gap={6}>
-                      <Text size="sm" fw={700} c={count ? undefined : 'dimmed'}>
-                        {FEATS[id].name}
-                      </Text>
-                      {count > 0 && (
-                        <Text size="xs" c="dimmed">
-                          ×{count}
+    {(Object.keys(FEAT_CATEGORIES) as FeatCategory[]).map((category) => {
+      const ids = FEAT_ORDER.filter((id) => FEATS[id].category === category);
+      return ids.length === 0 ? null : (
+        <Stack key={category} gap="xs">
+          <Text size="xs" fw={700} c="dimmed" tt="uppercase">
+            {FEAT_CATEGORIES[category].label}
+          </Text>
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+            {ids.map((id) => {
+              const count = counts[id] ?? 0;
+              return (
+                <Card key={id} withBorder radius="md" p="sm">
+                  <Group gap="sm" wrap="nowrap" align="flex-start">
+                    <FeatMedal id={id} count={count} size={44} />
+                    <div style={{ minWidth: 0 }}>
+                      <Group gap={6}>
+                        <Text size="sm" fw={700} c={count ? undefined : 'dimmed'}>
+                          {FEATS[id].name}
                         </Text>
-                      )}
-                    </Group>
-                    <Text size="xs" c="dimmed">
-                      {FEATS[id].description}
-                    </Text>
-                  </div>
-                </Group>
-              </Card>
-            );
-          })}
-        </SimpleGrid>
-      </Stack>
-    ))}
+                        {count > 0 && (
+                          <Text size="xs" c="dimmed">
+                            ×{count}
+                          </Text>
+                        )}
+                      </Group>
+                      <Text size="xs" c="dimmed">
+                        {FEATS[id].description}
+                      </Text>
+                    </div>
+                  </Group>
+                </Card>
+              );
+            })}
+          </SimpleGrid>
+        </Stack>
+      );
+    })}
   </Stack>
 );
 
@@ -113,22 +119,39 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
   const { achievements, isLoading: tracksLoading } = useAchievements(profileUserId);
   const { data: games, isLoading: gamesLoading } = useAllGames(profileUserId);
   const { vocabulary, isLoading: vocabLoading } = useVocabulary(profileUserId);
+  const gameLangs = useMemo(
+    () => [...new Set((games ?? []).flatMap((game) => Object.keys(game.words) as Language[]))],
+    [games]
+  );
+  const {
+    dictionaries,
+    isLoading: dictionariesLoading,
+    isError: dictionariesError,
+  } = useDictionaries(gameLangs);
 
   const featCounts = useMemo(() => {
     const counts: FeatCounts = {};
     (games ?? []).forEach((game) => {
-      getGameAchievements(game, vocabulary).feats.forEach(({ id }) => {
+      getGameAchievements(game, vocabulary, {}, dictionaries).feats.forEach(({ id }) => {
         counts[id] = (counts[id] ?? 0) + 1;
       });
     });
     return counts;
-  }, [games, vocabulary]);
+  }, [games, vocabulary, dictionaries]);
 
-  if (tracksLoading || gamesLoading || vocabLoading) {
+  if (tracksLoading || gamesLoading || vocabLoading || dictionariesLoading) {
     return (
       <Center py={60}>
         <Loader size="md" />
       </Center>
+    );
+  }
+
+  if (dictionariesError) {
+    return (
+      <Alert color="red" title="Unable to load achievements" mt="md" role="alert">
+        Some word lists could not be loaded. Please refresh the page to try again.
+      </Alert>
     );
   }
 

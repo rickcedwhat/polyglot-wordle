@@ -1,17 +1,41 @@
 import { MAX_GUESSES, SCORING_VERSION } from '@/config';
 import type { Language } from '@/types/firestore';
-import { getGuessStatuses, normalizeWord, scoreHistory } from '@/utils/wordUtils';
-import { FEAT_RULES, type EarnedFeat } from './config';
+import { deduceColumnLanguages } from '@/utils/deductionUtils';
+import { getGuessStatuses, normalizeWord, scoreHistory, type Dictionary } from '@/utils/wordUtils';
+import { FEAT_RULES, FIRST_TRY_FEATS, type EarnedFeat } from './config';
 
 export interface FeatGame {
   words: Partial<Record<Language, string>>;
   guessHistory: string[];
+  /** Board order. Needed, with `dictionaries`, for the language-ambiguity feats. */
+  shuffledLanguages?: Language[];
 }
 
 export interface FeatContext {
   /** Certification level index (-1 for none) per language when the game started. Needed for Underdog. */
   startLevels?: Partial<Record<Language, number>>;
+  /** Word lists for every board language. Needed for Lost in Translation and Je ne sais quoi. */
+  dictionaries?: Partial<Record<Language, Dictionary>>;
 }
+
+const CIRCUMFLEX = /[âêîôû]/i;
+
+/** Board-language deduction after a number of guesses, or null when it can't be computed. */
+const languageDeduction = (game: FeatGame, langs: Language[], context: FeatContext) => {
+  const boards = game.shuffledLanguages;
+  const dictionaries = context.dictionaries;
+  if (!boards || !dictionaries || !langs.every((lang) => dictionaries[lang])) {
+    return null;
+  }
+  return (guessCount: number) => {
+    const { isConfirmed } = deduceColumnLanguages(
+      game.guessHistory.slice(0, guessCount),
+      boards,
+      dictionaries
+    );
+    return (lang: Language) => isConfirmed[boards.indexOf(lang)] === true;
+  };
+};
 
 const activeLanguages = (words: FeatGame['words']) =>
   (Object.keys(words) as Language[]).filter((lang) => Boolean(words[lang]));
@@ -50,6 +74,8 @@ export const detectFeats = (game: FeatGame, context: FeatContext = {}): EarnedFe
   const greenSlots = Object.fromEntries(langs.map((lang) => [lang, new Set<number>()]));
   const seenResults = Object.fromEntries(langs.map((lang) => [lang, new Set<string>()]));
   const playedLetters = new Set<string>();
+  const braveLetters = new Set<string>();
+  const confirmedAfter = languageDeduction(game, langs, context);
 
   guesses.forEach((guess, index) => {
     const turn = index + 1;
@@ -59,14 +85,26 @@ export const detectFeats = (game: FeatGame, context: FeatContext = {}): EarnedFe
     );
     const solvedNow = open.filter((lang) => solutions[lang] === guess);
 
+    const isConfirmed = solvedNow.length > 0 ? confirmedAfter?.(turn) : undefined;
     solvedNow.forEach((lang) => {
       const known = knownLetters[lang].size;
       if (turn === 1) {
-        feats.push({ id: 'firstTry', guess: turn, lang });
+        feats.push({ id: FIRST_TRY_FEATS[lang], guess: turn, lang });
       } else if (known === 0) {
         feats.push({ id: 'hailMary', guess: turn, lang, value: 0 });
       } else if (known <= FEAT_RULES.outOfNowhereMaxKnown) {
         feats.push({ id: 'outOfNowhere', guess: turn, lang, value: known });
+      }
+      if (isConfirmed && !isConfirmed(lang)) {
+        feats.push({ id: 'lostInTranslation', guess: turn, lang });
+      }
+      // Some older games saved the answer without its accents; the dictionary has them.
+      const spelling = `${game.words[lang]} ${context.dictionaries?.[lang]?.[guess]?.display ?? ''}`;
+      if (lang === 'fr' && CIRCUMFLEX.test(spelling)) {
+        feats.push({ id: 'chapeau', guess: turn, lang });
+      }
+      if (lang === 'es' && /ñ/i.test(spelling)) {
+        feats.push({ id: 'pinata', guess: turn, lang });
       }
     });
 
@@ -112,7 +150,19 @@ export const detectFeats = (game: FeatGame, context: FeatContext = {}): EarnedFe
       feats.push({ id: 'dud', guess: turn });
     }
 
-    [...guess].forEach((letter) => playedLetters.add(letter));
+    const braveBefore = braveLetters.size;
+    [...guess].forEach((letter) => {
+      playedLetters.add(letter);
+      if (FEAT_RULES.braveryLetters.includes(letter)) {
+        braveLetters.add(letter);
+      }
+    });
+    if (
+      braveBefore < FEAT_RULES.braveryMinLetters &&
+      braveLetters.size >= FEAT_RULES.braveryMinLetters
+    ) {
+      feats.push({ id: 'bravery', guess: turn, value: braveLetters.size });
+    }
     open.forEach((lang) => {
       statuses[lang].forEach((status, position) => {
         if (status !== 'absent') {
@@ -143,6 +193,11 @@ export const detectFeats = (game: FeatGame, context: FeatContext = {}): EarnedFe
     }
     if (finalSolve <= FEAT_RULES.speedrunMaxGuesses) {
       feats.push({ id: 'speedrun', guess: finalSolve, value: finalSolve });
+    }
+    const isConfirmed = confirmedAfter?.(finalSolve);
+    const unconfirmed = isConfirmed ? langs.filter((lang) => !isConfirmed(lang)).length : 0;
+    if (unconfirmed > 0) {
+      feats.push({ id: 'jeNeSaisQuoi', guess: finalSolve, value: unconfirmed });
     }
   } else {
     const closeLang = langs.find(

@@ -10,6 +10,10 @@ vi.mock('@/hooks/useVocabulary', () => ({
   useVocabulary: () => ({ vocabulary, isLoading }),
 }));
 
+vi.mock('@/hooks/useDictionaries', () => ({
+  useDictionaries: () => ({ dictionaries: {}, isLoading: false }),
+}));
+
 const wordsSeenAt = (count: number, firstSeen: string) =>
   Object.fromEntries(
     Array.from({ length: count }, (_, index) => [

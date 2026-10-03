@@ -14,12 +14,14 @@ import {
   IconFlame,
   IconFlare,
   IconHeartBroken,
+  IconLanguage,
   IconLetterCase,
   IconMoodEmpty,
   IconPlaneTilt,
+  IconQuestionMark,
+  IconShieldStar,
   IconSparkles,
   IconSwords,
-  IconTarget,
   IconUsers,
   IconWorld,
   type Icon,
@@ -49,26 +51,36 @@ export const CERTIFICATION_LEVELS: TrackLevel[] = [
 // Feats
 // ---------------------------------------------------------------------------
 
-export type FeatCategory = 'solving' | 'language' | 'fun';
+export type FeatCategory = 'solving' | 'language' | 'local' | 'fun';
 
 export const FEAT_CATEGORIES: Record<FeatCategory, { label: string; color: string }> = {
   solving: { label: 'Solving', color: 'teal' },
   language: { label: 'Multi-language', color: 'violet' },
+  local: { label: 'Language-specific', color: 'orange' },
   fun: { label: 'Just for fun', color: 'pink' },
 };
 
 export type FeatId =
   | 'outOfNowhere'
   | 'hailMary'
-  | 'firstTry'
+  | 'holeInOne'
+  | 'aLaPrimera'
+  | 'duPremierCoup'
+  | 'alPrimoColpo'
+  | 'dePrimeira'
+  | 'chapeau'
+  | 'pinata'
   | 'jackpot'
   | 'minimalist'
   | 'speedrun'
   | 'underdog'
   | 'twoBirds'
+  | 'lostInTranslation'
+  | 'jeNeSaisQuoi'
   | 'dud'
   | 'scrambled'
-  | 'soClose';
+  | 'soClose'
+  | 'bravery';
 
 /** One occurrence of a feat in a game. */
 export interface EarnedFeat {
@@ -77,13 +89,16 @@ export interface EarnedFeat {
   guess: number;
   /** Board the feat is about, when it's about one board. */
   lang?: Language;
-  /** Feat-specific number: letters known, tiles revealed, letters used, guesses taken. */
+  /** Feat-specific number: letters known, tiles revealed, letters used, guesses taken, boards. */
   value?: number;
 }
 
 export interface FeatDef {
   name: string;
-  icon: BadgeIcon;
+  /** Falls back to the player's custom flag for `lang`. */
+  icon?: BadgeIcon;
+  /** Set on language-specific feats. */
+  lang?: Language;
   category: FeatCategory;
   /** How to earn it, shown on the profile. */
   description: string;
@@ -103,9 +118,43 @@ export const FEAT_RULES = {
   /** ... and how many levels above the weakest it must be. */
   underdogMinLevelGap: 2,
   soCloseGreens: 4,
+  braveryLetters: 'qwxyz',
+  braveryMinLetters: 3,
 };
 
 const board = (lang?: Language) => (lang ? `the ${labelFor(lang)} board` : 'a board');
+
+/** Solving a board on the first guess, named in that board's language. */
+export const FIRST_TRY_FEATS = {
+  en: 'holeInOne',
+  es: 'aLaPrimera',
+  fr: 'duPremierCoup',
+  it: 'alPrimoColpo',
+  pt: 'dePrimeira',
+} as const satisfies Record<Language, FeatId>;
+
+const FIRST_TRY_NAMES: Record<Language, { name: string; meaning?: string }> = {
+  en: { name: 'Hole in One' },
+  es: { name: 'A la primera', meaning: 'First time' },
+  fr: { name: 'Du premier coup', meaning: 'On the first try' },
+  it: { name: 'Al primo colpo', meaning: 'At the first shot' },
+  pt: { name: 'De primeira', meaning: 'First time' },
+};
+
+const firstTryFeats = () =>
+  Object.fromEntries(
+    (Object.keys(FIRST_TRY_FEATS) as Language[]).map((lang) => {
+      const { name, meaning } = FIRST_TRY_NAMES[lang];
+      const def: FeatDef = {
+        name,
+        lang,
+        category: 'local',
+        description: `${meaning ? `"${meaning}." ` : ''}Solve the ${labelFor(lang)} board with your first guess.`,
+        detail: () => `Solved the ${labelFor(lang)} board on your first guess.`,
+      };
+      return [FIRST_TRY_FEATS[lang], def];
+    })
+  ) as Record<(typeof FIRST_TRY_FEATS)[Language], FeatDef>;
 
 export const FEATS: Record<FeatId, FeatDef> = {
   outOfNowhere: {
@@ -122,13 +171,6 @@ export const FEATS: Record<FeatId, FeatDef> = {
     category: 'solving',
     description: 'Solve a board when none of its letters had been colored.',
     detail: ({ lang }) => `Solved ${board(lang)} with no letters known.`,
-  },
-  firstTry: {
-    name: 'First Try',
-    icon: IconTarget,
-    category: 'solving',
-    description: 'Solve a board with your first guess.',
-    detail: ({ lang }) => `Solved ${board(lang)} on your first guess.`,
   },
   jackpot: {
     name: 'Jackpot',
@@ -161,6 +203,21 @@ export const FEATS: Record<FeatId, FeatDef> = {
     detail: ({ lang }) =>
       `Solved ${lang ? labelFor(lang) : 'your weakest language'} before your stronger languages.`,
   },
+  lostInTranslation: {
+    name: 'Lost in Translation',
+    icon: IconLanguage,
+    category: 'language',
+    description: 'Solve a board while its language is still unconfirmed, even after the solve.',
+    detail: ({ lang }) => `Solved ${board(lang)} without ever confirming its language.`,
+  },
+  jeNeSaisQuoi: {
+    name: 'Je ne sais quoi',
+    icon: IconQuestionMark,
+    category: 'language',
+    description: '"I don\'t know what." Win with at least one board\'s language never confirmed.',
+    detail: ({ value }) =>
+      `Won with ${value} board${value === 1 ? '' : 's'} whose language was never confirmed.`,
+  },
   twoBirds: {
     name: 'Two Birds',
     icon: IconFeather,
@@ -169,10 +226,11 @@ export const FEATS: Record<FeatId, FeatDef> = {
     detail: () => 'Solved two boards with one guess.',
   },
   dud: {
-    name: 'Dud',
+    name: 'Dolce far niente',
     icon: IconMoodEmpty,
     category: 'fun',
-    description: 'Play a guess that reveals nothing new while every board is still open.',
+    description:
+      '"The sweetness of doing nothing." Play a guess that reveals nothing new while every board is still open.',
     detail: () => 'That guess told you nothing new. Happens to the best of us.',
   },
   scrambled: {
@@ -189,21 +247,58 @@ export const FEATS: Record<FeatId, FeatDef> = {
     description: `Lose with ${FEAT_RULES.soCloseGreens} greens on an unsolved board.`,
     detail: ({ lang }) => `One letter away on ${board(lang)}.`,
   },
+  bravery: {
+    name: 'Bravery',
+    icon: IconShieldStar,
+    category: 'fun',
+    description: `Play ${FEAT_RULES.braveryMinLetters} different letters from ${[
+      ...FEAT_RULES.braveryLetters.toUpperCase(),
+    ].join(', ')} in one game.`,
+    detail: ({ value }) =>
+      `Played ${value} of ${[...FEAT_RULES.braveryLetters.toUpperCase()].join(', ')} in one game.`,
+  },
+  ...firstTryFeats(),
+  chapeau: {
+    name: 'Chapeau !',
+    icon: '🎩',
+    lang: 'fr',
+    category: 'local',
+    description:
+      '"Hats off," and the nickname for the circumflex. Solve a French board whose answer has a circumflex (â ê î ô û).',
+    detail: () => 'Solved a French word with a circumflex.',
+  },
+  pinata: {
+    name: 'Piñata',
+    icon: '🪅',
+    lang: 'es',
+    category: 'local',
+    description: 'Solve a Spanish board whose answer has an ñ.',
+    detail: () => 'Cracked open a Spanish word with an ñ.',
+  },
 };
 
 /** Display order on the profile. */
 export const FEAT_ORDER: FeatId[] = [
   'outOfNowhere',
   'hailMary',
-  'firstTry',
   'jackpot',
   'minimalist',
   'speedrun',
   'underdog',
   'twoBirds',
+  'lostInTranslation',
+  'jeNeSaisQuoi',
+  'holeInOne',
+  'aLaPrimera',
+  'duPremierCoup',
+  'alPrimoColpo',
+  'dePrimeira',
+  'chapeau',
+  'pinata',
   'dud',
   'scrambled',
   'soClose',
+  'bravery',
 ];
 
 // ---------------------------------------------------------------------------
