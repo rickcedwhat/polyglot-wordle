@@ -14,6 +14,5 @@ export interface DiscoveredWordEntry extends DiscoveredWordRecord {
   lang: Language;
   display: string;
   pos: string;
-  d: number;
   def: string;
 }

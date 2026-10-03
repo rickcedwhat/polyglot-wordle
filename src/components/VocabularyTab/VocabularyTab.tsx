@@ -114,7 +114,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
 
   const [selectedLang, setSelectedLang] = useState<Language>('es');
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortOption, setSortOption] = useState<'freq' | 'recent' | 'alpha' | 'diff'>('freq');
+  const [sortOption, setSortOption] = useState<'freq' | 'recent' | 'alpha'>('freq');
   const [filterType, setFilterType] = useState<'all' | 'verb' | 'noun' | 'adj' | 'solved'>('all');
 
   const [dictionaries, setDictionaries] = useState<Record<Language, Dictionary | null>>({
@@ -157,7 +157,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
   const currentDict = dictionaries[selectedLang];
   const langVocabRecords = vocabulary[selectedLang] || {};
 
-  // Hydrate discovered records with dictionary definitions, POS, and difficulty
+  // Hydrate discovered records with dictionary definitions and POS
   const enrichedWords = useMemo((): DiscoveredWordEntry[] => {
     if (!currentDict) {
       return [];
@@ -171,7 +171,6 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
         lang: selectedLang,
         display: dictEntry?.display || key,
         pos: dictEntry?.pos || 'unknown',
-        d: dictEntry?.d ?? 0.5,
         def: dictEntry?.def || '',
         timesGuessed: record.timesGuessed,
         firstSeen: record.firstSeen,
@@ -213,8 +212,6 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
           return new Date(b.lastSeen).getTime() - new Date(a.lastSeen).getTime();
         case 'alpha':
           return a.display.localeCompare(b.display, selectedLang, { sensitivity: 'base' });
-        case 'diff':
-          return b.d - a.d;
         default:
           return 0;
       }
@@ -364,7 +361,6 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
                 { value: 'freq', label: 'Most Guessed' },
                 { value: 'recent', label: 'Recently Played' },
                 { value: 'alpha', label: 'Alphabetical (A-Z)' },
-                { value: 'diff', label: 'Difficulty (Hardest)' },
               ]}
             />
 
@@ -436,9 +432,6 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
       ) : (
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
           {filteredAndSortedWords.map((word) => {
-            const diffPct = Math.round(word.d * 100);
-            const diffColor = word.d <= 0.4 ? 'teal' : word.d <= 0.65 ? 'blue' : 'orange';
-
             return (
               <Card
                 key={word.key}
@@ -477,10 +470,6 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
                         )}
                       </Group>
                     </div>
-
-                    <Badge size="xs" variant="outline" color={diffColor}>
-                      d: {word.d.toFixed(2)} ({diffPct}%)
-                    </Badge>
                   </Group>
 
                   {/* High Contrast Option 3 Definition */}
