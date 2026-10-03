@@ -1,5 +1,5 @@
 import { FC, useRef } from 'react';
-import { IconLock, IconPin } from '@tabler/icons-react';
+import { IconPin } from '@tabler/icons-react';
 import type { JumbleSlot } from '@/utils/letterJumble';
 import type { LetterStatus } from '@/utils/wordUtils';
 import { LetterTile } from '../LetterTile/LetterTile';
@@ -51,9 +51,9 @@ export const JumbleRow: FC<JumbleRowProps> = ({
           className={classes.slot}
           role="button"
           tabIndex={0}
-          aria-label={`Slot ${i + 1}: ${letter || 'empty'}${letter && lock !== 'free' ? `, ${lock} locked` : ''}`}
+          aria-label={`Slot ${i + 1}: ${letter || 'empty'}${letter && lock !== 'kept' ? `, ${lock}` : ''}`}
           onKeyDown={(event) => event.key === 'Enter' && onTileClick(i)}
-          data-lock={letter ? lock : 'free'}
+          data-lock={letter ? lock : 'kept'}
           data-status={statuses?.[i] ?? 'unknown'}
           data-conflict={!!conflicts?.[i]}
           onPointerDown={() => startPress(i)}
@@ -73,9 +73,9 @@ export const JumbleRow: FC<JumbleRowProps> = ({
             hasCursor={i === cursorIndex}
             onClick={() => {}}
           />
-          {letter && lock !== 'free' && (
+          {letter && lock === 'pinned' && (
             <span className={classes.badge}>
-              {lock === 'spot' ? <IconPin size={12} /> : <IconLock size={12} />}
+              <IconPin size={12} />
             </span>
           )}
         </div>

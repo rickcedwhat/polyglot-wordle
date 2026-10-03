@@ -5,15 +5,15 @@ import {
   createJumbler,
   fillOpenSlots,
   nextKeyboardLetter,
-  nextLock,
   relock,
   targetStatuses,
+  togglePin,
   validArrangements,
   type JumbleLock,
   type JumbleSlot,
 } from './letterJumble';
 
-const slots = (word: string, locks: JumbleLock | JumbleLock[] = 'letter'): JumbleSlot[] =>
+const slots = (word: string, locks: JumbleLock | JumbleLock[] = 'kept'): JumbleSlot[] =>
   word.split('').map((letter, i) => ({
     letter: letter === '_' ? '' : letter,
     lock: Array.isArray(locks) ? locks[i] : locks,
@@ -22,11 +22,11 @@ const slots = (word: string, locks: JumbleLock | JumbleLock[] = 'letter'): Jumbl
 // Against STYLO: yellows O(2) T(4) from ROUTE, S(3) from CASER, L(3) S(4) from VALSE.
 const STUMPED = boardKnowledge(['route', 'caser', 'valse'], 'stylo');
 
-describe('nextLock', () => {
-  it('cycles free → letter → spot → free', () => {
-    expect(nextLock('free')).toBe('letter');
-    expect(nextLock('letter')).toBe('spot');
-    expect(nextLock('spot')).toBe('free');
+describe('togglePin', () => {
+  it('pins any letter and unpins back to kept', () => {
+    expect(togglePin('kept')).toBe('pinned');
+    expect(togglePin('suggested')).toBe('pinned');
+    expect(togglePin('pinned')).toBe('kept');
   });
 });
 
@@ -56,9 +56,7 @@ describe('validArrangements', () => {
   });
 
   it('keeps spot-locked letters in place', () => {
-    const result = validArrangements(
-      slots('stoll', ['spot', 'letter', 'letter', 'letter', 'letter'])
-    );
+    const result = validArrangements(slots('stoll', ['pinned', 'kept', 'kept', 'kept', 'kept']));
     expect(result.every((word) => word[0] === 's')).toBe(true);
     expect(result).toHaveLength(12);
   });
@@ -66,7 +64,7 @@ describe('validArrangements', () => {
   it('pins target greens and consumes a matching locked letter', () => {
     const knowledge = boardKnowledge(['salty'], 'stylo');
     const result = validArrangements(
-      slots('tos__', ['letter', 'letter', 'letter', 'free', 'free']),
+      slots('tos__', ['kept', 'kept', 'kept', 'suggested', 'suggested']),
       knowledge
     );
     expect(result.every((word) => word[0] === 's')).toBe(true);
@@ -74,13 +72,15 @@ describe('validArrangements', () => {
   });
 
   it('leaves free slots open', () => {
-    const result = validArrangements(slots('ab___', ['letter', 'letter', 'free', 'free', 'free']));
+    const result = validArrangements(
+      slots('ab___', ['kept', 'kept', 'suggested', 'suggested', 'suggested'])
+    );
     expect(result).toHaveLength(20);
     expect(result.every((word) => word.filter((l) => l === '').length === 3)).toBe(true);
   });
 
   it('always includes letters the target is known to contain', () => {
-    const result = validArrangements(slots('_____', 'free'), STUMPED);
+    const result = validArrangements(slots('_____', 'suggested'), STUMPED);
     expect(result.length).toBeGreaterThan(0);
     for (const word of result) {
       expect([...word].sort()).toEqual(['', 'l', 'o', 's', 't']);
@@ -88,7 +88,10 @@ describe('validArrangements', () => {
   });
 
   it('does not double up a known letter the player already locked', () => {
-    const result = validArrangements(slots('s____', ['letter', 'free', 'free', 'free', 'free']), STUMPED);
+    const result = validArrangements(
+      slots('s____', ['kept', 'suggested', 'suggested', 'suggested', 'suggested']),
+      STUMPED
+    );
     expect(result.every((word) => word.filter((l) => l === 's').length === 1)).toBe(true);
   });
 
@@ -130,7 +133,7 @@ describe('nextKeyboardLetter', () => {
 describe('conflictingSlots', () => {
   it('flags locked letters that are grey on the target', () => {
     expect(
-      conflictingSlots(slots('rotls', ['letter', 'letter', 'free', 'letter', 'letter']), STUMPED)
+      conflictingSlots(slots('rotls', ['kept', 'kept', 'suggested', 'kept', 'kept']), STUMPED)
     ).toEqual([true, false, false, false, false]);
   });
 });
@@ -138,7 +141,7 @@ describe('conflictingSlots', () => {
 describe('targetStatuses', () => {
   it('colours typed letters by what the target has revealed', () => {
     const knowledge = boardKnowledge(['salty'], 'stylo');
-    expect(targetStatuses(slots('slaxo', 'free'), knowledge)).toEqual([
+    expect(targetStatuses(slots('slaxo', 'suggested'), knowledge)).toEqual([
       'correct',
       'present',
       'absent',
@@ -148,19 +151,19 @@ describe('targetStatuses', () => {
   });
 
   it('stays neutral without a target', () => {
-    expect(targetStatuses(slots('slaxo', 'free'))).toEqual(Array(5).fill('unknown'));
+    expect(targetStatuses(slots('slaxo', 'suggested'))).toEqual(Array(5).fill('unknown'));
   });
 });
 
 describe('relock', () => {
   it('moves letter locks with their letters and keeps spot locks', () => {
-    const before = slots('tlo__', ['spot', 'letter', 'letter', 'free', 'free']);
+    const before = slots('tlo__', ['pinned', 'kept', 'kept', 'suggested', 'suggested']);
     expect(relock(before, ['t', 'x', 'o', 'y', 'l']).map((s) => s.lock)).toEqual([
-      'spot',
-      'free',
-      'letter',
-      'free',
-      'letter',
+      'pinned',
+      'suggested',
+      'kept',
+      'suggested',
+      'kept',
     ]);
   });
 });
@@ -177,7 +180,7 @@ describe('createJumbler', () => {
 
   it('steps through keyboard order when one slot is free', () => {
     const jumble = createJumbler();
-    const row = slots('styl_', ['spot', 'spot', 'spot', 'spot', 'free']);
+    const row = slots('styl_', ['pinned', 'pinned', 'pinned', 'pinned', 'suggested']);
     expect(jumble(row)!.join('')).toBe('stylq');
     row[4].letter = 'q';
     expect(jumble(row)!.join('')).toBe('stylw');

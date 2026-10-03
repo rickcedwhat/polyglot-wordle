@@ -1,6 +1,7 @@
 import { getGuessStatuses, normalizeWord, type LetterStatus } from './wordUtils';
 
-export type JumbleLock = 'free' | 'letter' | 'spot';
+/** suggested: a random fill · kept: the player's letter, free to move · pinned: stays in its spot */
+export type JumbleLock = 'suggested' | 'kept' | 'pinned';
 
 export interface JumbleSlot {
   letter: string;
@@ -23,9 +24,7 @@ const KEYBOARD_ORDER = 'qwertyuiopasdfghjklzxcvbnm';
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz'.split('');
 const WORD_LENGTH = 5;
 
-const LOCK_CYCLE: Record<JumbleLock, JumbleLock> = { free: 'letter', letter: 'spot', spot: 'free' };
-
-export const nextLock = (lock: JumbleLock): JumbleLock => LOCK_CYCLE[lock];
+export const togglePin = (lock: JumbleLock): JumbleLock => (lock === 'pinned' ? 'kept' : 'pinned');
 
 export const boardKnowledge = (guesses: string[], solution: string): BoardKnowledge => {
   const greens: (string | null)[] = Array(WORD_LENGTH).fill(null);
@@ -69,7 +68,8 @@ const isAllowedAt = (letter: string, position: number, knowledge?: BoardKnowledg
 /** Letter-locked letters that are already grey on the target board. */
 export const conflictingSlots = (slots: JumbleSlot[], knowledge?: BoardKnowledge): boolean[] =>
   slots.map(
-    ({ letter, lock }) => !!knowledge && !!letter && lock !== 'free' && knowledge.absent.has(letter)
+    ({ letter, lock }) =>
+      !!knowledge && !!letter && lock !== 'suggested' && knowledge.absent.has(letter)
   );
 
 /** How each typed letter reads against the target: green here, known elsewhere, or not in it. */
@@ -93,14 +93,14 @@ export const targetStatuses = (slots: JumbleSlot[], knowledge?: BoardKnowledge):
  * Spot-locked slots and target greens are pinned; '' marks a slot to fill randomly.
  */
 export const validArrangements = (slots: JumbleSlot[], knowledge?: BoardKnowledge): string[][] => {
-  const base = slots.map(({ letter, lock }) => (lock === 'spot' ? letter : ''));
+  const base = slots.map(({ letter, lock }) => (lock === 'pinned' ? letter : ''));
   const floating = slots
-    .filter(({ letter, lock }) => letter && lock === 'letter')
+    .filter(({ letter, lock }) => letter && lock === 'kept')
     .map((s) => s.letter);
 
   slots.forEach(({ lock }, i) => {
     const green = knowledge?.greens[i];
-    if (lock !== 'spot' && green) {
+    if (lock !== 'pinned' && green) {
       base[i] = green;
       const used = floating.indexOf(green);
       if (used !== -1) {
@@ -178,16 +178,19 @@ export const nextKeyboardLetter = (
 /** Carry locks over to a jumbled result: letter locks follow their letter, spot locks stay. */
 export const relock = (slots: JumbleSlot[], result: string[]): JumbleSlot[] => {
   const floating = slots
-    .filter(({ letter, lock }) => letter && lock === 'letter')
+    .filter(({ letter, lock }) => letter && lock === 'kept')
     .map((s) => s.letter);
   const relocked = result.map(
-    (letter, i): JumbleSlot => ({ letter, lock: slots[i].lock === 'spot' ? 'spot' : 'free' })
+    (letter, i): JumbleSlot => ({
+      letter,
+      lock: slots[i].lock === 'pinned' ? 'pinned' : 'suggested',
+    })
   );
   relocked.forEach((slot, i) => {
     const index = floating.indexOf(slot.letter);
-    if (slots[i].lock !== 'spot' && index !== -1) {
+    if (slots[i].lock !== 'pinned' && index !== -1) {
       floating.splice(index, 1);
-      slot.lock = 'letter';
+      slot.lock = 'kept';
     }
   });
   return relocked;
@@ -225,7 +228,7 @@ export const createJumbler = (random: () => number = Math.random) => {
     }
 
     const nextSignature = JSON.stringify([
-      slots.map(({ letter, lock }) => (lock === 'free' ? '' : `${letter}${lock}`)),
+      slots.map(({ letter, lock }) => (lock === 'suggested' ? '' : `${letter}${lock}`)),
       arrangements.length,
       knowledge && [
         knowledge.greens,

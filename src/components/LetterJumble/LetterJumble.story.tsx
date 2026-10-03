@@ -7,9 +7,9 @@ import {
   boardKnowledge,
   conflictingSlots,
   createJumbler,
-  nextLock,
   relock,
   targetStatuses,
+  togglePin,
   validArrangements,
   type JumbleLock,
   type JumbleSlot,
@@ -46,7 +46,7 @@ interface HarnessProps {
 const toSlots = (word: string, locks: JumbleLock[]): JumbleSlot[] =>
   Array.from({ length: 5 }, (_, i) => {
     const letter = (word[i] ?? '').replace(/[^a-z]/, '');
-    return { letter, lock: letter ? (locks[i] ?? 'free') : 'free' };
+    return { letter, lock: letter ? (locks[i] ?? 'kept') : 'suggested' };
   });
 
 const keyStatuses = (letter: string): LetterStatus[] =>
@@ -135,7 +135,7 @@ function LetterJumbleHarness({
 
   const knowledge = useMemo(() => boardKnowledge(GUESSES, SOLUTIONS[target]), [target]);
   const conflicts = jumbleMode ? conflictingSlots(slots, knowledge) : undefined;
-  const visibleSlots = jumbleMode ? slots : slots.map((s) => ({ ...s, lock: 'free' as const }));
+  const visibleSlots = jumbleMode ? slots : slots.map((s) => ({ ...s, lock: 'kept' as const }));
   const arrangements = validArrangements(slots, knowledge);
   const openSlots = arrangements[0]?.filter((l) => !l).length ?? 0;
 
@@ -144,11 +144,11 @@ function LetterJumbleHarness({
     setTimeout(() => setIsInvalid(false), 500);
   };
 
-  const cycleLock = (index: number) => {
+  const toggleTilePin = (index: number) => {
     if (!slots[index].letter) {
       return;
     }
-    setSlots((prev) => prev.map((s, i) => (i === index ? { ...s, lock: nextLock(s.lock) } : s)));
+    setSlots((prev) => prev.map((s, i) => (i === index ? { ...s, lock: togglePin(s.lock) } : s)));
   };
 
   const jumble = useCallback(() => {
@@ -168,11 +168,13 @@ function LetterJumbleHarness({
         setJumbleMode(false);
       } else if (key === 'del') {
         const index = slots[cursorIndex]?.letter ? cursorIndex : Math.max(0, cursorIndex - 1);
-        setSlots((prev) => prev.map((s, i) => (i === index ? { letter: '', lock: 'free' } : s)));
+        setSlots((prev) =>
+          prev.map((s, i) => (i === index ? { letter: '', lock: 'suggested' } : s))
+        );
         setCursorIndex(index);
       } else if (/^[a-z]$/.test(key) && cursorIndex < 5) {
         setSlots((prev) =>
-          prev.map((s, i) => (i === cursorIndex ? { letter: key, lock: 'free' } : s))
+          prev.map((s, i) => (i === cursorIndex ? { letter: key, lock: 'kept' } : s))
         );
         setCursorIndex((i) => Math.min(4, i + 1));
       }
@@ -213,7 +215,7 @@ function LetterJumbleHarness({
 
   const onTileClick = (index: number) => {
     if (jumbleMode && lockGesture === 'tap-again' && index === cursorIndex) {
-      cycleLock(index);
+      toggleTilePin(index);
     }
     setCursorIndex(index);
   };
@@ -222,7 +224,7 @@ function LetterJumbleHarness({
     ? 'Nothing fits these locks on the target.'
     : openSlots === 1 && arrangements.length === 1
       ? 'One open slot: 🔀 steps through the keyboard (QWERTY order).'
-      : `${arrangements.length} ordering${arrangements.length === 1 ? '' : 's'} of the known and locked letters fit${
+      : `${arrangements.length} ordering${arrangements.length === 1 ? '' : 's'} of your letters and the target's known letters fit${
           openSlots ? `, plus ${openSlots} random fill${openSlots === 1 ? '' : 's'}` : ''
         }.`;
 
@@ -270,7 +272,7 @@ function LetterJumbleHarness({
           conflicts={conflicts}
           isInvalid={isInvalid}
           onTileClick={onTileClick}
-          onTileLongPress={jumbleMode && lockGesture === 'long-press' ? cycleLock : undefined}
+          onTileLongPress={jumbleMode && lockGesture === 'long-press' ? toggleTilePin : undefined}
         />
         <ActionIcon
           variant={jumbleMode ? 'filled' : 'subtle'}
@@ -311,8 +313,8 @@ function LetterJumbleHarness({
         {jumbleMode
           ? `${
               lockGesture === 'tap-again'
-                ? 'Tap a tile, then tap it again to cycle 🔓 → 🔒 letter → 📌 spot.'
-                : 'Long-press a tile to cycle 🔓 → 🔒 letter → 📌 spot.'
+                ? 'Your letters move around; tap a tile, then tap it again to pin it in place. Faded letters are random suggestions.'
+                : 'Your letters move around; long-press a tile to pin it in place. Faded letters are random suggestions.'
             } Tap a board to target it. 🔀 (or Space) jumbles; ✕, Esc or ⏎ leaves.`
           : 'Normal play. Tap 🔀 (or Space) to enter jumble mode.'}
       </Text>
@@ -350,23 +352,32 @@ export const EmptyRow: Story = {
   name: "Jumble mode: empty row uses the target's known letters",
 };
 
+export const TryALetter: Story = {
+  name: 'Jumble mode: try I anywhere (greens C and S, yellow R)',
+  args: { word: '__i__', initialBoard: 0 },
+};
+
 export const StuckOnFrench: Story = {
   name: 'Jumble mode: TLOHS, letters locked',
   args: {
     word: 'tlohs',
-    locks: ['letter', 'letter', 'letter', 'letter', 'letter'],
+    locks: ['kept', 'kept', 'kept', 'kept', 'kept'],
     initialBoard: 2,
   },
 };
 
 export const KeyboardStep: Story = {
   name: 'Jumble mode: one open slot steps through the keyboard',
-  args: { word: 'styl', locks: ['spot', 'spot', 'spot', 'spot', 'free'], initialBoard: 2 },
+  args: {
+    word: 'styl',
+    locks: ['pinned', 'pinned', 'pinned', 'pinned', 'suggested'],
+    initialBoard: 2,
+  },
 };
 
 export const LockedGreyLetter: Story = {
   name: 'Jumble mode: locked letter already grey on the target',
-  args: { word: 'rotls', locks: ['letter', 'letter', 'free', 'letter', 'letter'] },
+  args: { word: 'rotls', locks: ['kept', 'kept', 'suggested', 'kept', 'kept'] },
 };
 
 export const SmallPhone: Story = {
