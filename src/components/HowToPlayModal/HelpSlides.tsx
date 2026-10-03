@@ -5,7 +5,13 @@ import { AlphabetKey } from '@/components/AlphabetKey/AlphabetKey';
 import { MAX_GUESSES, SCORING_RULES, SCORING_VERSION } from '@/config';
 import { turnMultiplier, type LetterStatus } from '@/utils/wordUtils';
 import { DEMO_LOSS, DEMO_WIN } from './demoGame';
-import { DemoBoards, DemoDifficultyRows, DemoScoring, DemoSetupPanel } from './HelpDemos';
+import {
+  DemoBoards,
+  DemoDifficultyRows,
+  DemoJumbleRow,
+  DemoScoring,
+  DemoSetupPanel,
+} from './HelpDemos';
 import classes from './HowToPlayModal.module.css';
 
 const Slide: FC<{ title: string; text: ReactNode; children?: ReactNode }> = ({
@@ -151,6 +157,71 @@ const GameSetupSlides: FC = () => (
   </>
 );
 
+/** After CRANE, the English board (PLANT) has A and N green. */
+const JUMBLE_GUESSES = DEMO_WIN.slice(1, 2);
+const JUMBLE_TARGET = 1;
+const NEAR_GREENS: LetterStatus[] = ['unknown', 'unknown', 'correct', 'correct', 'unknown'];
+
+const JumbleSlides: FC = () => (
+  <>
+    <Slide
+      title="Stuck? Try Letter Jumble"
+      text="Tap 🔀 beside your guess row (or press Space). Each press of 🔀 shows a new arrangement of letters you already know about. It never reveals anything new."
+    >
+      <DemoJumbleRow isOpen={false} />
+    </Slide>
+
+    <Slide
+      title="It follows one board"
+      text="Letter Jumble outlines a target board: the board you're focused on, or the left one on wide screens. Tap another board to switch. Its greens stay in place, its yellows are always included in a new spot, and its gray letters are never used."
+    >
+      <DemoBoards guesses={JUMBLE_GUESSES} targetIndex={JUMBLE_TARGET} />
+      <DemoJumbleRow
+        isOpen
+        letters="shank"
+        locks={['suggested', 'suggested', 'kept', 'kept', 'suggested']}
+        statuses={NEAR_GREENS}
+      />
+    </Slide>
+
+    <Slide
+      title="Your letters, your pins"
+      text="Letters you type stay in the jumble but move around. Tap a letter twice to pin it in place, and again to unpin it. Faded letters are random suggestions; type over one to use your own."
+    >
+      <DemoJumbleRow
+        isOpen
+        letters="toans"
+        locks={['kept', 'pinned', 'kept', 'kept', 'suggested']}
+        statuses={NEAR_GREENS}
+      />
+    </Slide>
+
+    <Slide
+      title="One gap left"
+      text="When only one slot is open, each press tries the next letter in keyboard order (Q, W, E, …), skipping letters already ruled out."
+    >
+      <DemoJumbleRow
+        isOpen
+        letters="blanq"
+        locks={['pinned', 'pinned', 'kept', 'kept', 'kept']}
+        statuses={NEAR_GREENS}
+      />
+    </Slide>
+
+    <Slide
+      title="Guess or leave"
+      text="Like it? Press Enter to guess as usual and Letter Jumble closes. Not a word? It shakes like always. Press ✕ or Esc to leave without guessing."
+    >
+      <DemoJumbleRow
+        isOpen
+        letters="toans"
+        locks={['kept', 'kept', 'kept', 'kept', 'kept']}
+        statuses={NEAR_GREENS}
+      />
+    </Slide>
+  </>
+);
+
 const KEY_EXAMPLES: { letter: string; statuses: LetterStatus[] }[] = [
   { letter: 'e', statuses: ['correct', 'present', 'absent'] },
   { letter: 'r', statuses: ['absent', 'absent', 'correct'] },
@@ -203,5 +274,6 @@ export const HELP_TOPICS = [
   { value: 'play', label: 'How to play', Slides: HowToPlaySlides },
   { value: 'scoring', label: 'Scoring', Slides: ScoringSlides },
   { value: 'setup', label: 'Game setup', Slides: GameSetupSlides },
+  { value: 'jumble', label: 'Jumble', Slides: JumbleSlides },
   { value: 'faq', label: 'FAQ', Slides: FaqSlides },
 ] as const;

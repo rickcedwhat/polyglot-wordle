@@ -25,7 +25,7 @@ import {
 } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
-import { GuessInput } from '../LetterJumble/GuessInput';
+import { GuessInputWithHelp } from '../LetterJumble/GuessInputWithHelp';
 import { PostGameModal } from '../PostGameModal/PostGameModal';
 import { Score } from '../Score/Score';
 import { GAME_ORIGIN, SCORE_ORIGIN_ATTR, useScoreBurst } from '../ScoreFlights/flightUtils';
@@ -455,7 +455,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       <Box pos="relative" {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
         {scoreBurst && <ScorePopups key={scoreBurst.id} events={scoreBurst.events} />}
         {scoreBurst && <ScoreFlights burst={scoreBurst} />}
-        <GuessInput
+        <GuessInputWithHelp
           guess={currentGuess}
           cursorIndex={cursorIndex}
           isInvalid={isInvalidGuess}

@@ -8,13 +8,10 @@ import { GuessInput } from './GuessInput';
 
 vi.mock('@/hooks/useLetterStatus', () => ({ useLetterStatus: () => ({ letterStatusMap: {} }) }));
 
-const HINT = 'Tap a letter twice to pin it in place';
+const INTRO = /rearranges letters you already know/;
 
-const slotsFor = (word: string, pinned: number[] = []): JumbleSlot[] =>
-  word.split('').map((l, i) => ({
-    letter: l === '_' ? '' : l,
-    lock: pinned.includes(i) ? 'pinned' : 'kept',
-  }));
+const slotsFor = (word: string): JumbleSlot[] =>
+  word.split('').map((l) => ({ letter: l === '_' ? '' : l, lock: 'kept' }));
 
 const jumbleWith = (overrides: Partial<LetterJumble>): LetterJumble => ({
   enabled: true,
@@ -29,7 +26,7 @@ const jumbleWith = (overrides: Partial<LetterJumble>): LetterJumble => ({
   ...overrides,
 });
 
-const renderInput = (jumble: LetterJumble) =>
+const renderInput = (jumble: LetterJumble, onJumbleHelp: (() => void) | null = vi.fn()) =>
   render(
     <MantineProvider>
       <GuessInput
@@ -38,38 +35,41 @@ const renderInput = (jumble: LetterJumble) =>
         isInvalid={false}
         onTileClick={vi.fn()}
         jumble={jumble}
+        onJumbleHelp={onJumbleHelp ?? undefined}
       />
     </MantineProvider>
   );
 
-describe('GuessInput pin hint', () => {
+describe('GuessInput intro note', () => {
   beforeEach(() => localStorage.clear());
 
-  it('waits until there is a letter to pin', () => {
-    renderInput(jumbleWith({}));
-    expect(screen.queryByText(HINT)).toBeNull();
-  });
-
-  it('shows once jumble mode has letters, and dismissing it is remembered', async () => {
-    const { unmount } = renderInput(jumbleWith({ slots: slotsFor('ab___') }));
-    expect(await screen.findByText(HINT)).toBeTruthy();
+  it('shows the first time jumble mode opens, and dismissing it is remembered', async () => {
+    const { unmount } = renderInput(jumbleWith({}));
+    expect(await screen.findByText(INTRO)).toBeTruthy();
 
     await userEvent.click(screen.getByLabelText('Dismiss hint'));
     unmount();
 
-    renderInput(jumbleWith({ slots: slotsFor('ab___') }));
-    expect(screen.queryByText(HINT)).toBeNull();
+    renderInput(jumbleWith({}));
+    expect(screen.queryByText(INTRO)).toBeNull();
   });
 
-  it('is never shown again after the player pins a letter', () => {
-    const { unmount } = renderInput(jumbleWith({ slots: slotsFor('ab___', [0]) }));
-    unmount();
-    renderInput(jumbleWith({ slots: slotsFor('ab___') }));
-    expect(screen.queryByText(HINT)).toBeNull();
+  it('"How it works" opens the help and counts as seen', async () => {
+    const onJumbleHelp = vi.fn();
+    renderInput(jumbleWith({}), onJumbleHelp);
+    await userEvent.click(await screen.findByRole('button', { name: 'How it works' }));
+
+    expect(onJumbleHelp).toHaveBeenCalled();
+    expect(localStorage.getItem('polyglot_jumble_intro_seen_v1')).toBe('1');
   });
 
   it('stays hidden outside jumble mode', () => {
-    renderInput(jumbleWith({ isOpen: false, slots: slotsFor('ab___') }));
-    expect(screen.queryByText(HINT)).toBeNull();
+    renderInput(jumbleWith({ isOpen: false }));
+    expect(screen.queryByText(INTRO)).toBeNull();
+  });
+
+  it('stays hidden when there is no help to open (static demos)', () => {
+    renderInput(jumbleWith({}), null);
+    expect(screen.queryByText(INTRO)).toBeNull();
   });
 });

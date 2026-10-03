@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Box, Text } from '@mantine/core';
 import { useLetterJumble } from '@/hooks/useLetterJumble';
 import type { Language } from '@/types/firestore';
-import { GuessInput } from './GuessInput';
+import { GuessInputWithHelp } from './GuessInputWithHelp';
 
 const SHUFFLED: Language[] = ['en', 'es', 'fr'];
 const SOLUTION = { en: 'crisp', es: 'nieve', fr: 'stylo' };
@@ -29,7 +29,7 @@ function GuessInputDemo() {
   });
   return (
     <Box pt={80} maw={420} mx="auto">
-      <GuessInput
+      <GuessInputWithHelp
         guess={currentGuess}
         cursorIndex={cursorIndex}
         isInvalid={isInvalid}
@@ -47,7 +47,7 @@ const meta: Meta = {
   title: 'Game/Letter Jumble',
   decorators: [
     (Story) => {
-      localStorage.removeItem('polyglot_jumble_pin_hint_seen_v1');
+      localStorage.removeItem('polyglot_jumble_intro_seen_v1');
       return <Story />;
     },
   ],
@@ -56,10 +56,10 @@ const meta: Meta = {
 export default meta;
 
 /**
- * Starts in normal play. 🔀 (or Space) opens jumble mode, then jumbles. The one-time pin hint
- * appears once the row has letters; it resets on every load.
+ * Starts in normal play. 🔀 (or Space) opens jumble mode, then jumbles. The first-time note
+ * links to the Jumble tab of How to Play; it resets on every load.
  */
-export const PinHint: StoryObj = {
-  name: 'Jumble button and pin hint',
+export const FirstJumble: StoryObj = {
+  name: 'Jumble button and intro note',
   render: () => <GuessInputDemo />,
 };

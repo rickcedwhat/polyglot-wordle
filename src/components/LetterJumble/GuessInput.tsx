@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
-import { IconArrowsShuffle, IconPin, IconX } from '@tabler/icons-react';
-import { ActionIcon, CloseButton, Group, Popover, Text } from '@mantine/core';
+import { FC, useState } from 'react';
+import { IconArrowsShuffle, IconX } from '@tabler/icons-react';
+import { ActionIcon, Anchor, CloseButton, Group, Popover, Text } from '@mantine/core';
 import type { LetterJumble } from '@/hooks/useLetterJumble';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
 import { JumbleRow } from './JumbleRow';
@@ -12,29 +12,22 @@ interface GuessInputProps {
   isInvalid: boolean;
   onTileClick: (index: number) => void;
   jumble: LetterJumble;
+  /** Opens Letter Jumble help; without it the first-time note is never shown. */
+  onJumbleHelp?: () => void;
 }
 
-const PIN_HINT_SEEN_KEY = 'polyglot_jumble_pin_hint_seen_v1';
+const INTRO_SEEN_KEY = 'polyglot_jumble_intro_seen_v1';
 
-/** Shown once: until the player pins a letter or dismisses the hint. */
-function usePinHint(jumble: LetterJumble) {
-  const [seen, setSeen] = useState(() => localStorage.getItem(PIN_HINT_SEEN_KEY) === '1');
-  const hasLetter = jumble.slots.some((slot) => slot.letter);
-  const hasPin = jumble.slots.some((slot) => slot.letter && slot.lock === 'pinned');
+/** Shown the first time Letter Jumble opens, until dismissed or followed. */
+function useJumbleIntro(isOpen: boolean, enabled: boolean) {
+  const [seen, setSeen] = useState(() => localStorage.getItem(INTRO_SEEN_KEY) === '1');
 
   const dismiss = () => {
-    localStorage.setItem(PIN_HINT_SEEN_KEY, '1');
+    localStorage.setItem(INTRO_SEEN_KEY, '1');
     setSeen(true);
   };
 
-  useEffect(() => {
-    if (hasPin && !seen) {
-      localStorage.setItem(PIN_HINT_SEEN_KEY, '1');
-      setSeen(true);
-    }
-  }, [hasPin, seen]);
-
-  return { show: jumble.isOpen && hasLetter && !seen, dismiss };
+  return { show: enabled && isOpen && !seen, dismiss };
 }
 
 /** The guess row flanked by Letter Jumble's controls: ✕ (while open) and 🔀. */
@@ -44,9 +37,15 @@ export const GuessInput: FC<GuessInputProps> = ({
   isInvalid,
   onTileClick,
   jumble,
+  onJumbleHelp,
 }) => {
   const { isOpen } = jumble;
-  const pinHint = usePinHint(jumble);
+  const intro = useJumbleIntro(isOpen, !!onJumbleHelp);
+
+  const openHelp = () => {
+    intro.dismiss();
+    onJumbleHelp?.();
+  };
 
   const handleTileClick = (index: number) => {
     if (isOpen && index === cursorIndex) {
@@ -70,7 +69,7 @@ export const GuessInput: FC<GuessInputProps> = ({
         <span />
       )}
       {isOpen ? (
-        <Popover opened={pinHint.show} position="top" withArrow shadow="md" zIndex={150}>
+        <Popover opened={intro.show} position="top" withArrow shadow="md" zIndex={150}>
           <Popover.Target>
             <div>
               <JumbleRow
@@ -85,9 +84,13 @@ export const GuessInput: FC<GuessInputProps> = ({
           </Popover.Target>
           <Popover.Dropdown py={6} px="sm">
             <Group gap={6} wrap="nowrap">
-              <IconPin size={14} />
-              <Text size="sm">Tap a letter twice to pin it in place</Text>
-              <CloseButton size="sm" onClick={pinHint.dismiss} aria-label="Dismiss hint" />
+              <Text size="sm">
+                Letter Jumble rearranges letters you already know.{' '}
+                <Anchor component="button" type="button" size="sm" onClick={openHelp}>
+                  How it works
+                </Anchor>
+              </Text>
+              <CloseButton size="sm" onClick={intro.dismiss} aria-label="Dismiss hint" />
             </Group>
           </Popover.Dropdown>
         </Popover>
