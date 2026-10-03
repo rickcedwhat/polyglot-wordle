@@ -22,6 +22,12 @@ import { JumbleRow } from './JumbleRow';
 /** The board from the French game you were stuck on: yellows O(2) T(4) S(3) L(3) S(4). */
 const GUESSES = ['route', 'caser', 'valse'];
 const SOLUTIONS = ['crisp', 'nieve', 'stylo'];
+/** Stand-in for the real dictionaries: anything else shakes on ⏎. */
+const VALID_WORDS = new Set([
+  ...GUESSES,
+  ...SOLUTIONS,
+  ...['crane', 'lotus', 'plots', 'slots', 'stool', 'tools', 'crust', 'prism', 'scrip'],
+]);
 const KEY_ROWS = [
   'qwertyuiop'.split(''),
   [...'asdfghjkl'.split(''), 'enter'],
@@ -49,9 +55,9 @@ const toSlots = (word: string, locks: JumbleLock[]): JumbleSlot[] =>
     return { letter, lock: letter ? (locks[i] ?? 'kept') : 'suggested' };
   });
 
-const keyStatuses = (letter: string): LetterStatus[] =>
+const keyStatuses = (letter: string, guesses: string[]): LetterStatus[] =>
   SOLUTIONS.map((solution) =>
-    GUESSES.reduce<LetterStatus>((best, guess) => {
+    guesses.reduce<LetterStatus>((best, guess) => {
       const statuses = getGuessStatuses(guess, solution);
       return guess.split('').reduce<LetterStatus>((acc, l, i) => {
         return l === letter && RANK[statuses[i]] > RANK[acc] ? statuses[i] : acc;
@@ -61,12 +67,14 @@ const keyStatuses = (letter: string): LetterStatus[] =>
 
 function MockBoard({
   solution,
+  guesses,
   index,
   isTarget,
   tileSize,
   onSelect,
 }: {
   solution: string;
+  guesses: string[];
   index: number;
   isTarget: boolean;
   tileSize: number;
@@ -87,7 +95,7 @@ function MockBoard({
         {isTarget ? '🎯 Target' : `Board ${index + 1}`}
       </Text>
       {Array.from({ length: MAX_GUESSES }, (_, row) => {
-        const guess = GUESSES[row];
+        const guess = guesses[row];
         const statuses = guess ? getGuessStatuses(guess, solution) : [];
         return (
           <Box
@@ -122,6 +130,7 @@ function LetterJumbleHarness({
   const [desktopTarget, setDesktopTarget] = useState(initialBoard ?? 0);
   const target = isDesktop ? desktopTarget : activeBoard;
   const [jumbleMode, setJumbleMode] = useState(startInJumbleMode);
+  const [guesses, setGuesses] = useState(GUESSES);
   const [isInvalid, setIsInvalid] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const jumbler = useRef(createJumbler());
@@ -131,9 +140,10 @@ function LetterJumbleHarness({
     setActiveBoard(initialBoard ?? 1);
     setDesktopTarget(initialBoard ?? 0);
     setJumbleMode(startInJumbleMode);
+    setGuesses(GUESSES);
   }, [word, locks, initialBoard, startInJumbleMode]);
 
-  const knowledge = useMemo(() => boardKnowledge(GUESSES, SOLUTIONS[target]), [target]);
+  const knowledge = useMemo(() => boardKnowledge(guesses, SOLUTIONS[target]), [guesses, target]);
   const conflicts = jumbleMode ? conflictingSlots(slots, knowledge) : undefined;
   const visibleSlots = jumbleMode ? slots : slots.map((s) => ({ ...s, lock: 'kept' as const }));
   const arrangements = validArrangements(slots, knowledge);
@@ -165,6 +175,14 @@ function LetterJumbleHarness({
       setActiveKey(null);
       setTimeout(() => setActiveKey(key), 0);
       if (key === 'enter') {
+        const guess = slots.map((s) => s.letter).join('');
+        if (!VALID_WORDS.has(guess)) {
+          shake();
+          return;
+        }
+        setGuesses((prev) => [...prev, guess]);
+        setSlots(toSlots('', []));
+        setCursorIndex(0);
         setJumbleMode(false);
       } else if (key === 'del') {
         const index = slots[cursorIndex]?.letter ? cursorIndex : Math.max(0, cursorIndex - 1);
@@ -235,6 +253,7 @@ function LetterJumbleHarness({
           <MockBoard
             key={solution}
             solution={solution}
+            guesses={guesses}
             index={i}
             isTarget={jumbleMode && target === i}
             tileSize={isDesktop ? 30 : i === activeBoard ? 21 : 12}
@@ -299,7 +318,7 @@ function LetterJumbleHarness({
               <Box key={key} style={{ flex: key.length > 1 ? 1.5 : 1 }}>
                 <AlphabetKey
                   letter={KEY_LABELS[key] ?? key}
-                  statuses={key.length === 1 ? keyStatuses(key) : undefined}
+                  statuses={key.length === 1 ? keyStatuses(key, guesses) : undefined}
                   activeKey={activeKey === key ? (KEY_LABELS[key] ?? key) : null}
                   onClick={() => pressKey(key)}
                 />
