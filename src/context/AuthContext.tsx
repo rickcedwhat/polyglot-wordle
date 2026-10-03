@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, getFirestore, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { auth, googleProvider } from '@/firebase';
+import { syncFlaggedWords } from '@/hooks/useFlaggedWords';
 import { UserDoc } from '@/types/firestore';
 import { clearPendingToasts } from '@/utils/toast';
 
@@ -107,6 +108,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             },
           } as UserDoc);
         }
+        void syncFlaggedWords(user.uid);
       }
       setCurrentUser(user);
       setLoading(false);

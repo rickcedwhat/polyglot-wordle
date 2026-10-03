@@ -1,6 +1,6 @@
 import { Button, Group, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { flagWord } from '@/hooks/useFlaggedWords';
+import { flagWord, MISSING_WORD_NOTE } from '@/hooks/useFlaggedWords';
 import { getStoredFlags } from '@/hooks/useLanguageFlags';
 import type { Language } from '@/types/firestore';
 import { labelFor } from '@/utils/languages';
@@ -30,7 +30,7 @@ export const promptFlagMissingWord = (word: string, languages: Language[]) => {
                 variant="light"
                 color="orange"
                 onClick={() => {
-                  flagWord({ lang, wordKey: word, note: 'Missing word (rejected as a guess)' });
+                  flagWord({ lang, wordKey: word, note: MISSING_WORD_NOTE, reason: 'missing' });
                   notifications.update({
                     id,
                     title: `Flagged ${upper}`,
