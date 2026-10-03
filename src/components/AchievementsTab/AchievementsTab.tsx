@@ -72,20 +72,10 @@ export const TrackGrid: FC<{ achievements: AchievementProgress[] }> = ({ achieve
   </SimpleGrid>
 );
 
-/** Feats shown on a profile: language-specific ones only for languages the player has played. */
-const visibleFeats = (playedLangs?: Language[]) =>
-  FEAT_ORDER.filter((id) => {
-    const lang = FEATS[id].lang;
-    return !lang || !playedLangs || playedLangs.includes(lang);
-  });
-
-export const FeatGrid: FC<{ counts: FeatCounts; playedLangs?: Language[] }> = ({
-  counts,
-  playedLangs,
-}) => (
+export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) => (
   <Stack gap="lg">
     {(Object.keys(FEAT_CATEGORIES) as FeatCategory[]).map((category) => {
-      const ids = visibleFeats(playedLangs).filter((id) => FEATS[id].category === category);
+      const ids = FEAT_ORDER.filter((id) => FEATS[id].category === category);
       return ids.length === 0 ? null : (
         <Stack key={category} gap="xs">
           <Text size="xs" fw={700} c="dimmed" tt="uppercase">
@@ -128,11 +118,11 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
   const { achievements, isLoading: tracksLoading } = useAchievements(profileUserId);
   const { data: games, isLoading: gamesLoading } = useAllGames(profileUserId);
   const { vocabulary, isLoading: vocabLoading } = useVocabulary(profileUserId);
-  const playedLangs = useMemo(
+  const gameLangs = useMemo(
     () => [...new Set((games ?? []).flatMap((game) => Object.keys(game.words) as Language[]))],
     [games]
   );
-  const { dictionaries, isLoading: dictionariesLoading } = useDictionaries(playedLangs);
+  const { dictionaries, isLoading: dictionariesLoading } = useDictionaries(gameLangs);
 
   const featCounts = useMemo(() => {
     const counts: FeatCounts = {};
@@ -152,19 +142,18 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
     );
   }
 
-  const shownFeats = visibleFeats(playedLangs);
-  const featsEarned = shownFeats.filter((id) => featCounts[id]).length;
+  const featsEarned = FEAT_ORDER.filter((id) => featCounts[id]).length;
 
   return (
     <Tabs defaultValue="feats" variant="pills" mt="md">
       <Tabs.List mb="md">
         <Tabs.Tab value="feats">
-          Feats ({featsEarned}/{shownFeats.length})
+          Feats ({featsEarned}/{FEAT_ORDER.length})
         </Tabs.Tab>
         <Tabs.Tab value="tracks">Tracks</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="feats">
-        <FeatGrid counts={featCounts} playedLangs={playedLangs} />
+        <FeatGrid counts={featCounts} />
       </Tabs.Panel>
       <Tabs.Panel value="tracks">
         <TrackGrid achievements={achievements} />

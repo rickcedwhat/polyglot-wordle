@@ -38,7 +38,6 @@ export const FeatsRegular: Story = {
         aLaPrimera: 1,
         bravery: 1,
       }}
-      playedLangs={['en', 'es', 'fr']}
     />
   ),
 };

@@ -101,7 +101,7 @@ These are the ones only Polyglot Wordle can have.
 
 ### Language-specific
 
-Only earnable on one language's board, so the profile hides them for languages the player has never played.
+Only earnable on one language's board. They show for everyone, to nudge players toward languages they haven't tried.
 
 | Name                                                                                            | How to get it                                                                                                                     | Boards   | Seen                      | Notes                                                                 |
 | ----------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------- | --------------------------------------------------------------------- |

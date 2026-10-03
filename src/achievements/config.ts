@@ -97,7 +97,7 @@ export interface FeatDef {
   name: string;
   /** Falls back to the player's custom flag for `lang`. */
   icon?: BadgeIcon;
-  /** Set on language-specific feats; hidden on profiles that never played the language. */
+  /** Set on language-specific feats. */
   lang?: Language;
   category: FeatCategory;
   /** How to earn it, shown on the profile. */
