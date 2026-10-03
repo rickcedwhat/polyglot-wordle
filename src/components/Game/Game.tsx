@@ -221,10 +221,16 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             getGameAchievements(
               { ...gameSession, guessHistory: guesses },
               vocabulary,
-              fallbacks
+              fallbacks,
+              wordPools.dictionaries
             ).feats.map(featKey)
           );
-          getGameAchievements({ ...gameSession, guessHistory: newGuesses }, vocabulary, fallbacks)
+          getGameAchievements(
+            { ...gameSession, guessHistory: newGuesses },
+            vocabulary,
+            fallbacks,
+            wordPools.dictionaries
+          )
             .feats.filter((feat) => !featsBefore.has(featKey(feat)))
             .forEach(notifyFeat);
           await updateGuessHistory(guessString);

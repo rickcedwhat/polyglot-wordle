@@ -20,7 +20,9 @@ import {
 import { getGameAchievements } from '@/achievements/gameAchievements';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useAllGames } from '@/hooks/useAllGames';
+import { useDictionaries } from '@/hooks/useDictionaries';
 import { useVocabulary } from '@/hooks/useVocabulary';
+import type { Language } from '@/types/firestore';
 import type { AchievementProgress } from '@/utils/achievements';
 import { FeatMedal, TrackBadge, trackLevelColor } from '../Badges/Badges';
 
@@ -70,42 +72,55 @@ export const TrackGrid: FC<{ achievements: AchievementProgress[] }> = ({ achieve
   </SimpleGrid>
 );
 
-export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) => (
+/** Feats shown on a profile: language-specific ones only for languages the player has played. */
+const visibleFeats = (playedLangs?: Language[]) =>
+  FEAT_ORDER.filter((id) => {
+    const lang = FEATS[id].lang;
+    return !lang || !playedLangs || playedLangs.includes(lang);
+  });
+
+export const FeatGrid: FC<{ counts: FeatCounts; playedLangs?: Language[] }> = ({
+  counts,
+  playedLangs,
+}) => (
   <Stack gap="lg">
-    {(Object.keys(FEAT_CATEGORIES) as FeatCategory[]).map((category) => (
-      <Stack key={category} gap="xs">
-        <Text size="xs" fw={700} c="dimmed" tt="uppercase">
-          {FEAT_CATEGORIES[category].label}
-        </Text>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-          {FEAT_ORDER.filter((id) => FEATS[id].category === category).map((id) => {
-            const count = counts[id] ?? 0;
-            return (
-              <Card key={id} withBorder radius="md" p="sm">
-                <Group gap="sm" wrap="nowrap" align="flex-start">
-                  <FeatMedal id={id} count={count} size={44} />
-                  <div style={{ minWidth: 0 }}>
-                    <Group gap={6}>
-                      <Text size="sm" fw={700} c={count ? undefined : 'dimmed'}>
-                        {FEATS[id].name}
-                      </Text>
-                      {count > 0 && (
-                        <Text size="xs" c="dimmed">
-                          ×{count}
+    {(Object.keys(FEAT_CATEGORIES) as FeatCategory[]).map((category) => {
+      const ids = visibleFeats(playedLangs).filter((id) => FEATS[id].category === category);
+      return ids.length === 0 ? null : (
+        <Stack key={category} gap="xs">
+          <Text size="xs" fw={700} c="dimmed" tt="uppercase">
+            {FEAT_CATEGORIES[category].label}
+          </Text>
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+            {ids.map((id) => {
+              const count = counts[id] ?? 0;
+              return (
+                <Card key={id} withBorder radius="md" p="sm">
+                  <Group gap="sm" wrap="nowrap" align="flex-start">
+                    <FeatMedal id={id} count={count} size={44} />
+                    <div style={{ minWidth: 0 }}>
+                      <Group gap={6}>
+                        <Text size="sm" fw={700} c={count ? undefined : 'dimmed'}>
+                          {FEATS[id].name}
                         </Text>
-                      )}
-                    </Group>
-                    <Text size="xs" c="dimmed">
-                      {FEATS[id].description}
-                    </Text>
-                  </div>
-                </Group>
-              </Card>
-            );
-          })}
-        </SimpleGrid>
-      </Stack>
-    ))}
+                        {count > 0 && (
+                          <Text size="xs" c="dimmed">
+                            ×{count}
+                          </Text>
+                        )}
+                      </Group>
+                      <Text size="xs" c="dimmed">
+                        {FEATS[id].description}
+                      </Text>
+                    </div>
+                  </Group>
+                </Card>
+              );
+            })}
+          </SimpleGrid>
+        </Stack>
+      );
+    })}
   </Stack>
 );
 
@@ -113,18 +128,23 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
   const { achievements, isLoading: tracksLoading } = useAchievements(profileUserId);
   const { data: games, isLoading: gamesLoading } = useAllGames(profileUserId);
   const { vocabulary, isLoading: vocabLoading } = useVocabulary(profileUserId);
+  const playedLangs = useMemo(
+    () => [...new Set((games ?? []).flatMap((game) => Object.keys(game.words) as Language[]))],
+    [games]
+  );
+  const { dictionaries, isLoading: dictionariesLoading } = useDictionaries(playedLangs);
 
   const featCounts = useMemo(() => {
     const counts: FeatCounts = {};
     (games ?? []).forEach((game) => {
-      getGameAchievements(game, vocabulary).feats.forEach(({ id }) => {
+      getGameAchievements(game, vocabulary, {}, dictionaries).feats.forEach(({ id }) => {
         counts[id] = (counts[id] ?? 0) + 1;
       });
     });
     return counts;
-  }, [games, vocabulary]);
+  }, [games, vocabulary, dictionaries]);
 
-  if (tracksLoading || gamesLoading || vocabLoading) {
+  if (tracksLoading || gamesLoading || vocabLoading || dictionariesLoading) {
     return (
       <Center py={60}>
         <Loader size="md" />
@@ -132,18 +152,19 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
     );
   }
 
-  const featsEarned = FEAT_ORDER.filter((id) => featCounts[id]).length;
+  const shownFeats = visibleFeats(playedLangs);
+  const featsEarned = shownFeats.filter((id) => featCounts[id]).length;
 
   return (
     <Tabs defaultValue="feats" variant="pills" mt="md">
       <Tabs.List mb="md">
         <Tabs.Tab value="feats">
-          Feats ({featsEarned}/{FEAT_ORDER.length})
+          Feats ({featsEarned}/{shownFeats.length})
         </Tabs.Tab>
         <Tabs.Tab value="tracks">Tracks</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="feats">
-        <FeatGrid counts={featCounts} />
+        <FeatGrid counts={featCounts} playedLangs={playedLangs} />
       </Tabs.Panel>
       <Tabs.Panel value="tracks">
         <TrackGrid achievements={achievements} />

@@ -32,7 +32,13 @@ export const FeatsRegular: Story = {
         underdog: 3,
         dud: 1,
         soClose: 9,
+        lostInTranslation: 4,
+        jeNeSaisQuoi: 1,
+        chapeau: 2,
+        aLaPrimera: 1,
+        bravery: 1,
       }}
+      playedLangs={['en', 'es', 'fr']}
     />
   ),
 };
