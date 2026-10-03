@@ -27,6 +27,7 @@ const KEY_ROWS = [
   [...'asdfghjkl'.split(''), 'enter'],
   [...'zxcvbnm'.split(''), 'del'],
 ];
+const DESKTOP_MIN_WIDTH = 768;
 const KEY_LABELS: Record<string, string> = { enter: '⏎', del: '←' };
 const RANK: Record<LetterStatus, number> = { unknown: 0, absent: 1, present: 2, correct: 3 };
 
@@ -35,7 +36,8 @@ type LockGesture = 'tap-again' | 'long-press';
 interface HarnessProps {
   word: string;
   locks: JumbleLock[];
-  target: number | null;
+  /** Defaults to the centre (active) board on mobile and the left board on desktop. */
+  initialBoard?: number;
   lockGesture: LockGesture;
   startInJumbleMode: boolean;
   width: number;
@@ -61,11 +63,13 @@ function MockBoard({
   solution,
   index,
   isTarget,
+  tileSize,
   onSelect,
 }: {
   solution: string;
   index: number;
   isTarget: boolean;
+  tileSize: number;
   onSelect: () => void;
 }) {
   return (
@@ -88,7 +92,7 @@ function MockBoard({
         return (
           <Box
             key={row}
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 21px)', gap: 2 }}
+            style={{ display: 'grid', gridTemplateColumns: `repeat(5, ${tileSize}px)`, gap: 2 }}
           >
             {Array.from({ length: 5 }, (__, col) => (
               <Box key={col} style={{ containerType: 'inline-size', fontSize: 10 }}>
@@ -105,14 +109,18 @@ function MockBoard({
 function LetterJumbleHarness({
   word,
   locks,
-  target: initialTarget,
+  initialBoard,
   lockGesture,
   startInJumbleMode,
   width,
 }: HarnessProps) {
   const [slots, setSlots] = useState(() => toSlots(word, locks));
   const [cursorIndex, setCursorIndex] = useState(() => Math.min(word.length, 4));
-  const [target, setTarget] = useState(initialTarget);
+  const isDesktop = width >= DESKTOP_MIN_WIDTH;
+  /** Mobile targets the active (full-size) board; desktop keeps its own target, left by default. */
+  const [activeBoard, setActiveBoard] = useState(initialBoard ?? 1);
+  const [desktopTarget, setDesktopTarget] = useState(initialBoard ?? 0);
+  const target = isDesktop ? desktopTarget : activeBoard;
   const [jumbleMode, setJumbleMode] = useState(startInJumbleMode);
   const [isInvalid, setIsInvalid] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
@@ -120,14 +128,12 @@ function LetterJumbleHarness({
 
   useEffect(() => {
     setSlots(toSlots(word, locks));
-    setTarget(initialTarget);
+    setActiveBoard(initialBoard ?? 1);
+    setDesktopTarget(initialBoard ?? 0);
     setJumbleMode(startInJumbleMode);
-  }, [word, locks, initialTarget, startInJumbleMode]);
+  }, [word, locks, initialBoard, startInJumbleMode]);
 
-  const knowledge = useMemo(
-    () => (target === null ? undefined : boardKnowledge(GUESSES, SOLUTIONS[target])),
-    [target]
-  );
+  const knowledge = useMemo(() => boardKnowledge(GUESSES, SOLUTIONS[target]), [target]);
   const conflicts = jumbleMode ? conflictingSlots(slots, knowledge) : undefined;
   const visibleSlots = jumbleMode ? slots : slots.map((s) => ({ ...s, lock: 'free' as const }));
   const arrangements = validArrangements(slots, knowledge);
@@ -229,7 +235,8 @@ function LetterJumbleHarness({
             solution={solution}
             index={i}
             isTarget={jumbleMode && target === i}
-            onSelect={() => setTarget((t) => (t === i && jumbleMode ? null : i))}
+            tileSize={isDesktop ? 30 : i === activeBoard ? 21 : 12}
+            onSelect={() => (isDesktop ? setDesktopTarget(i) : setActiveBoard(i))}
           />
         ))}
       </Group>
@@ -283,7 +290,7 @@ function LetterJumbleHarness({
         </Text>
       )}
 
-      <Stack gap={8}>
+      <Stack gap={8} w="100%" maw={600} mx="auto">
         {KEY_ROWS.map((row) => (
           <Group key={row[0]} gap="1.5%" wrap="nowrap">
             {row.map((key) => (
@@ -319,13 +326,12 @@ const meta: Meta<HarnessProps> = {
   parameters: { layout: 'fullscreen' },
   argTypes: {
     lockGesture: { control: 'inline-radio', options: ['tap-again', 'long-press'] },
-    target: { control: 'select', options: [null, 0, 1, 2] },
-    width: { control: 'inline-radio', options: [320, 375, 430] },
+    initialBoard: { control: 'select', options: [undefined, 0, 1, 2] },
+    width: { control: 'inline-radio', options: [320, 375, 430, 1024] },
   },
   args: {
-    word: 'tlohs',
-    locks: ['letter', 'letter', 'letter', 'letter', 'letter'],
-    target: 2,
+    word: '',
+    locks: [],
     lockGesture: 'tap-again',
     startInJumbleMode: true,
     width: 375,
@@ -340,23 +346,22 @@ export const NormalPlay: Story = {
   args: { startInJumbleMode: false },
 };
 
+export const EmptyRow: Story = {
+  name: "Jumble mode: empty row uses the target's known letters",
+};
+
 export const StuckOnFrench: Story = {
   name: 'Jumble mode: TLOHS, letters locked',
+  args: {
+    word: 'tlohs',
+    locks: ['letter', 'letter', 'letter', 'letter', 'letter'],
+    initialBoard: 2,
+  },
 };
 
 export const KeyboardStep: Story = {
   name: 'Jumble mode: one open slot steps through the keyboard',
-  args: { word: 'styl', locks: ['spot', 'spot', 'spot', 'spot', 'free'] },
-};
-
-export const EmptyRow: Story = {
-  name: "Jumble mode: empty row still uses the target's known letters",
-  args: { word: '', locks: [] },
-};
-
-export const NoTarget: Story = {
-  name: 'Jumble mode: no target board',
-  args: { target: null },
+  args: { word: 'styl', locks: ['spot', 'spot', 'spot', 'spot', 'free'], initialBoard: 2 },
 };
 
 export const LockedGreyLetter: Story = {
@@ -367,6 +372,11 @@ export const LockedGreyLetter: Story = {
 export const SmallPhone: Story = {
   name: 'Small phone (320px)',
   args: { width: 320 },
+};
+
+export const Desktop: Story = {
+  name: 'Desktop (targets the left board by default)',
+  args: { width: 1024 },
 };
 
 export const LongPress: Story = {
