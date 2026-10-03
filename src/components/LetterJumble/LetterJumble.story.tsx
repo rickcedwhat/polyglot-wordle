@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { IconArrowsShuffle } from '@tabler/icons-react';
+import { IconArrowsShuffle, IconX } from '@tabler/icons-react';
 import { ActionIcon, Box, Group, Stack, Text } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import {
@@ -21,25 +21,23 @@ import { JumbleRow } from './JumbleRow';
 /** The board from the French game you were stuck on: yellows O(2) T(4) S(3) L(3) S(4). */
 const GUESSES = ['route', 'caser', 'valse'];
 const SOLUTIONS = ['crisp', 'nieve', 'stylo'];
-const JUMBLE_KEY = '🔀';
-
 const KEY_ROWS = [
   'qwertyuiop'.split(''),
   [...'asdfghjkl'.split(''), 'enter'],
-  [...'zxcvbnm'.split(''), 'del', JUMBLE_KEY],
+  [...'zxcvbnm'.split(''), 'del'],
 ];
 const KEY_LABELS: Record<string, string> = { enter: '⏎', del: '←' };
 const RANK: Record<LetterStatus, number> = { unknown: 0, absent: 1, present: 2, correct: 3 };
 
 type LockGesture = 'tap-again' | 'long-press';
-type JumblePlacement = 'keyboard' | 'row';
 
 interface HarnessProps {
   word: string;
   locks: JumbleLock[];
   target: number | null;
   lockGesture: LockGesture;
-  jumblePlacement: JumblePlacement;
+  startInJumbleMode: boolean;
+  width: number;
 }
 
 const toSlots = (word: string, locks: JumbleLock[]): JumbleSlot[] =>
@@ -108,11 +106,13 @@ function LetterJumbleHarness({
   locks,
   target: initialTarget,
   lockGesture,
-  jumblePlacement,
+  startInJumbleMode,
+  width,
 }: HarnessProps) {
   const [slots, setSlots] = useState(() => toSlots(word, locks));
   const [cursorIndex, setCursorIndex] = useState(() => Math.min(word.length, 4));
   const [target, setTarget] = useState(initialTarget);
+  const [jumbleMode, setJumbleMode] = useState(startInJumbleMode);
   const [isInvalid, setIsInvalid] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const jumbler = useRef(createJumbler());
@@ -120,13 +120,15 @@ function LetterJumbleHarness({
   useEffect(() => {
     setSlots(toSlots(word, locks));
     setTarget(initialTarget);
-  }, [word, locks, initialTarget]);
+    setJumbleMode(startInJumbleMode);
+  }, [word, locks, initialTarget, startInJumbleMode]);
 
   const knowledge = useMemo(
     () => (target === null ? undefined : boardKnowledge(GUESSES, SOLUTIONS[target])),
     [target]
   );
-  const conflicts = conflictingSlots(slots, knowledge);
+  const conflicts = jumbleMode ? conflictingSlots(slots, knowledge) : undefined;
+  const visibleSlots = jumbleMode ? slots : slots.map((s) => ({ ...s, lock: 'free' as const }));
   const arrangements = validArrangements(slots, knowledge);
   const openSlots = arrangements[0]?.filter((l) => !l).length ?? 0;
 
@@ -155,8 +157,8 @@ function LetterJumbleHarness({
     (key: string) => {
       setActiveKey(null);
       setTimeout(() => setActiveKey(key), 0);
-      if (key === JUMBLE_KEY) {
-        jumble();
+      if (key === 'enter') {
+        setJumbleMode(false);
       } else if (key === 'del') {
         const index = slots[cursorIndex]?.letter ? cursorIndex : Math.max(0, cursorIndex - 1);
         setSlots((prev) => prev.map((s, i) => (i === index ? { letter: '', lock: 'free' } : s)));
@@ -168,14 +170,26 @@ function LetterJumbleHarness({
         setCursorIndex((i) => Math.min(4, i + 1));
       }
     },
-    [cursorIndex, jumble, slots]
+    [cursorIndex, slots]
   );
+
+  const onJumbleButton = useCallback(() => {
+    if (jumbleMode) {
+      jumble();
+    } else {
+      setJumbleMode(true);
+    }
+  }, [jumble, jumbleMode]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === ' ') {
         event.preventDefault();
-        pressKey(JUMBLE_KEY);
+        onJumbleButton();
+      } else if (event.key === 'Escape') {
+        setJumbleMode(false);
+      } else if (event.key === 'Enter') {
+        pressKey('enter');
       } else if (event.key === 'Backspace') {
         pressKey('del');
       } else if (event.key === 'ArrowLeft') {
@@ -188,10 +202,10 @@ function LetterJumbleHarness({
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [pressKey]);
+  }, [onJumbleButton, pressKey]);
 
   const onTileClick = (index: number) => {
-    if (lockGesture === 'tap-again' && index === cursorIndex) {
+    if (jumbleMode && lockGesture === 'tap-again' && index === cursorIndex) {
       cycleLock(index);
     }
     setCursorIndex(index);
@@ -206,66 +220,92 @@ function LetterJumbleHarness({
         }.`;
 
   return (
-    <Stack gap="md" w={375} mx="auto" p="sm">
+    <Stack gap="md" w={width} mx="auto" p="sm">
       <Group justify="center" gap={4} wrap="nowrap">
         {SOLUTIONS.map((solution, i) => (
           <MockBoard
             key={solution}
             solution={solution}
             index={i}
-            isTarget={target === i}
-            onSelect={() => setTarget((t) => (t === i ? null : i))}
+            isTarget={jumbleMode && target === i}
+            onSelect={() => setTarget((t) => (t === i && jumbleMode ? null : i))}
           />
         ))}
       </Group>
 
-      <Group gap="xs" wrap="nowrap" align="center">
-        <Box style={{ flex: 1 }}>
-          <JumbleRow
-            slots={slots}
-            cursorIndex={cursorIndex}
-            conflicts={conflicts}
-            isInvalid={isInvalid}
-            onTileClick={onTileClick}
-            onTileLongPress={lockGesture === 'long-press' ? cycleLock : undefined}
-          />
-        </Box>
-        {jumblePlacement === 'row' && (
-          <ActionIcon variant="light" size="lg" onClick={jumble} aria-label="Jumble letters">
-            <IconArrowsShuffle size={20} />
+      <Box
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '28px minmax(0, 320px) 28px',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 6,
+        }}
+      >
+        {jumbleMode ? (
+          <ActionIcon
+            variant="subtle"
+            color="gray"
+            size="md"
+            onClick={() => setJumbleMode(false)}
+            aria-label="Leave jumble mode"
+          >
+            <IconX size={16} />
           </ActionIcon>
+        ) : (
+          <span />
         )}
-      </Group>
+        <JumbleRow
+          slots={visibleSlots}
+          cursorIndex={cursorIndex}
+          conflicts={conflicts}
+          isInvalid={isInvalid}
+          onTileClick={onTileClick}
+          onTileLongPress={jumbleMode && lockGesture === 'long-press' ? cycleLock : undefined}
+        />
+        <ActionIcon
+          variant={jumbleMode ? 'filled' : 'subtle'}
+          color={jumbleMode ? 'blue' : 'gray'}
+          size="md"
+          onClick={onJumbleButton}
+          aria-label={jumbleMode ? 'Jumble letters' : 'Jumble mode'}
+        >
+          <IconArrowsShuffle size={16} />
+        </ActionIcon>
+      </Box>
 
-      <Text size="xs" c="dimmed" ta="center">
-        {hint}
-        {conflicts.some(Boolean) && ' Red = locked letter already grey on the target.'}
-      </Text>
+      {jumbleMode && (
+        <Text size="xs" c="dimmed" ta="center">
+          {hint}
+          {conflicts?.some(Boolean) && ' Red = locked letter already grey on the target.'}
+        </Text>
+      )}
 
       <Stack gap={8}>
         {KEY_ROWS.map((row) => (
           <Group key={row[0]} gap="1.5%" wrap="nowrap">
-            {row
-              .filter((key) => key !== JUMBLE_KEY || jumblePlacement === 'keyboard')
-              .map((key) => (
-                <Box key={key} style={{ flex: key.length > 1 ? 1.5 : 1 }}>
-                  <AlphabetKey
-                    letter={KEY_LABELS[key] ?? key}
-                    statuses={key.length === 1 ? keyStatuses(key) : undefined}
-                    activeKey={activeKey === key ? (KEY_LABELS[key] ?? key) : null}
-                    onClick={() => pressKey(key)}
-                  />
-                </Box>
-              ))}
+            {row.map((key) => (
+              <Box key={key} style={{ flex: key.length > 1 ? 1.5 : 1 }}>
+                <AlphabetKey
+                  letter={KEY_LABELS[key] ?? key}
+                  statuses={key.length === 1 ? keyStatuses(key) : undefined}
+                  activeKey={activeKey === key ? (KEY_LABELS[key] ?? key) : null}
+                  onClick={() => pressKey(key)}
+                />
+              </Box>
+            ))}
           </Group>
         ))}
       </Stack>
 
       <Text size="xs" c="dimmed">
-        {lockGesture === 'tap-again'
-          ? 'Tap a tile to move the cursor; tap it again to cycle 🔓 → 🔒 letter → 📌 spot.'
-          : 'Tap a tile to move the cursor; long-press to cycle 🔓 → 🔒 letter → 📌 spot.'}{' '}
-        Tap a board to target it (tap again to clear). Space = jumble.
+        {jumbleMode
+          ? `${
+              lockGesture === 'tap-again'
+                ? 'Tap a tile, then tap it again to cycle 🔓 → 🔒 letter → 📌 spot.'
+                : 'Long-press a tile to cycle 🔓 → 🔒 letter → 📌 spot.'
+            } Tap a board to target it. 🔀 (or Space) jumbles; ✕, Esc or ⏎ leaves.`
+          : 'Normal play. Tap 🔀 (or Space) to enter jumble mode.'}
       </Text>
     </Stack>
   );
@@ -277,41 +317,52 @@ const meta: Meta<HarnessProps> = {
   parameters: { layout: 'fullscreen' },
   argTypes: {
     lockGesture: { control: 'inline-radio', options: ['tap-again', 'long-press'] },
-    jumblePlacement: { control: 'inline-radio', options: ['keyboard', 'row'] },
     target: { control: 'select', options: [null, 0, 1, 2] },
+    width: { control: 'inline-radio', options: [320, 375, 430] },
   },
   args: {
     word: 'tlohs',
     locks: ['letter', 'letter', 'letter', 'letter', 'letter'],
     target: 2,
     lockGesture: 'tap-again',
-    jumblePlacement: 'keyboard',
+    startInJumbleMode: true,
+    width: 375,
   },
 };
 
 export default meta;
 type Story = StoryObj<HarnessProps>;
 
+export const NormalPlay: Story = {
+  name: 'Normal play (jumble button only)',
+  args: { startInJumbleMode: false },
+};
+
 export const StuckOnFrench: Story = {
-  name: 'Stuck on the French board (TLOHS, letters locked)',
+  name: 'Jumble mode: TLOHS, letters locked',
 };
 
 export const KeyboardStep: Story = {
-  name: 'One open slot steps through the keyboard',
+  name: 'Jumble mode: one open slot steps through the keyboard',
   args: { word: 'styl', locks: ['spot', 'spot', 'spot', 'spot', 'free'] },
 };
 
 export const NoTarget: Story = {
-  name: 'No target board',
+  name: 'Jumble mode: no target board',
   args: { target: null },
 };
 
 export const LockedGreyLetter: Story = {
-  name: 'Locked letter already grey on the target',
+  name: 'Jumble mode: locked letter already grey on the target',
   args: { word: 'rotls', locks: ['letter', 'letter', 'free', 'letter', 'letter'] },
 };
 
-export const LongPressAndRowButton: Story = {
-  name: 'Variant: long-press to lock, shuffle button by the row',
-  args: { lockGesture: 'long-press', jumblePlacement: 'row' },
+export const SmallPhone: Story = {
+  name: 'Small phone (320px)',
+  args: { width: 320 },
+};
+
+export const LongPress: Story = {
+  name: 'Variant: long-press to lock',
+  args: { lockGesture: 'long-press' },
 };
