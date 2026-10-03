@@ -143,11 +143,6 @@ const WordSummaryCard: FC<{
                     <Text size="xs" c="dimmed" fs="italic">
                       ({data.pos})
                     </Text>
-                    {data.d !== undefined && (
-                      <Badge size="xs" variant="outline" color="teal">
-                        d: {data.d}
-                      </Badge>
-                    )}
                   </Group>
                   <Tooltip label={flagged ? 'Unflag word' : 'Flag word for AI discussion'}>
                     <ActionIcon
