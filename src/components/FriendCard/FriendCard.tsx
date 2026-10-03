@@ -2,10 +2,11 @@ import { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Avatar, Card, Group, Skeleton, Text } from '@mantine/core';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { ProfileLink } from '../ProfileLink/ProfileLink';
 
 interface FriendCardProps {
   friendId: string;
-  /** Action buttons under the name. Cards without actions link to the friend's profile. */
+  /** Action buttons under the name. Without actions the whole card links to the profile. */
   children?: ReactNode;
 }
 
@@ -37,7 +38,7 @@ export const FriendCard: FC<FriendCardProps> = ({ friendId, children }) => {
   if (children) {
     return (
       <Card withBorder p="md" radius="md">
-        {identity}
+        <ProfileLink userId={friendId}>{identity}</ProfileLink>
         {children}
       </Card>
     );

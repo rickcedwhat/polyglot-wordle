@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { MemoryRouter } from 'react-router-dom';
 import { Box } from '@mantine/core';
 import type { GameDoc } from '@/types/firestore';
 import { ChallengeBanner } from './ChallengeBanner';
@@ -12,9 +13,11 @@ const meta: Meta<typeof ChallengeBanner> = {
   },
   decorators: [
     (Story) => (
-      <Box maw={640} mx="auto" pt="md">
-        <Story />
-      </Box>
+      <MemoryRouter>
+        <Box maw={640} mx="auto" pt="md">
+          <Story />
+        </Box>
+      </MemoryRouter>
     ),
   ],
 };
