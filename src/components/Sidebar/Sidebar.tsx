@@ -107,7 +107,10 @@ export const Sidebar: FC = () => {
     { label: 'How to Play', icon: IconHelpCircle, action: openHowToPlay },
     { label: 'Game setup', icon: IconSettings, action: () => openSetup('settings') },
     { label: 'Custom Flags / Emojis', icon: IconFlag, action: openFlagsModal },
-    { label: 'Sandbox Tools', icon: IconAdjustmentsHorizontal, action: handleSandboxTools },
+    // The /sandbox route only exists in dev builds.
+    ...(import.meta.env.DEV
+      ? [{ label: 'Sandbox Tools', icon: IconAdjustmentsHorizontal, action: handleSandboxTools }]
+      : []),
   ];
 
   return (
