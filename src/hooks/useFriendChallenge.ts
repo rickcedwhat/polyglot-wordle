@@ -13,14 +13,27 @@ export interface ChallengeFriend {
   photoURL: string;
 }
 
+export interface FriendChallengeResult {
+  sent: ChallengeFriend[];
+  failed: { friend: ChallengeFriend; error: unknown }[];
+}
+
 export const friendChallengeErrorMessage = (err: unknown, friendName: string): string => {
   if (err instanceof FriendChallengeError && err.code === 'already_challenged') {
-    return 'You already challenged someone on this game. Start a new game to challenge another friend.';
+    return `You already challenged ${friendName} on this game.`;
   }
   if (err instanceof FriendChallengeError) {
     return `Couldn't challenge ${friendName}. They may have already played this game.`;
   }
   return `Couldn't challenge ${friendName}. Please try again.`;
+};
+
+/** "Alex", "Alex and Sam", "Alex, Sam and Kim". */
+export const joinNames = (friends: ChallengeFriend[]): string => {
+  const names = friends.map((f) => f.displayName);
+  return names.length <= 1
+    ? (names[0] ?? '')
+    : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
 };
 
 export const useFriendChallenge = () => {
@@ -29,29 +42,41 @@ export const useFriendChallenge = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const send = async (friend: ChallengeFriend, gameId: string) => {
+  const send = async (
+    friends: ChallengeFriend[],
+    gameId: string
+  ): Promise<FriendChallengeResult> => {
     if (!currentUser) {
       throw new Error('Not signed in');
     }
-    await createFriendChallenge({
-      challengerId: currentUser.uid,
-      challengerProfile: {
-        displayName: profile?.displayName || currentUser.displayName || 'Player',
-        photoURL: profile?.photoURL || currentUser.photoURL || '',
-      },
-      friend,
-      gameId,
+    const challengerProfile = {
+      displayName: profile?.displayName || currentUser.displayName || 'Player',
+      photoURL: profile?.photoURL || currentUser.photoURL || '',
+    };
+    const outcomes = await Promise.allSettled(
+      friends.map((friend) =>
+        createFriendChallenge({ challengerId: currentUser.uid, challengerProfile, friend, gameId })
+      )
+    );
+    const result: FriendChallengeResult = { sent: [], failed: [] };
+    outcomes.forEach((outcome, i) => {
+      if (outcome.status === 'fulfilled') {
+        result.sent.push(friends[i]);
+      } else {
+        result.failed.push({ friend: friends[i], error: outcome.reason });
+      }
     });
     await queryClient.invalidateQueries({ queryKey: ['challenges', currentUser.uid] });
+    return result;
   };
 
-  /** Challenge a friend on a game you already finished. */
-  const challengeOnGame = (friend: ChallengeFriend, game: Pick<GameDoc, 'gameId'>) =>
-    send(friend, game.gameId);
+  /** Challenge friends on a game you already finished. */
+  const challengeOnGame = (friends: ChallengeFriend[], game: Pick<GameDoc, 'gameId'>) =>
+    send(friends, game.gameId);
 
-  /** Start a brand-new game for both of you, then open it so you can play your side. */
+  /** Start a brand-new game for everyone, then open it so you can play your side. */
   const challengeNewGame = async (
-    friend: ChallengeFriend,
+    friends: ChallengeFriend[],
     languages: LanguageCombo,
     difficulties: DifficultyPrefs
   ) => {
@@ -59,8 +84,11 @@ export const useFriendChallenge = () => {
       languages,
       languages.map((lang) => difficulties[lang])
     );
-    await send(friend, gameId);
-    navigate(gamePath(gameId, languages));
+    const result = await send(friends, gameId);
+    if (result.sent.length > 0) {
+      navigate(gamePath(gameId, languages));
+    }
+    return result;
   };
 
   return { challengeOnGame, challengeNewGame };

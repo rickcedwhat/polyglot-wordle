@@ -1,17 +1,26 @@
 import {
+  collection,
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   getFirestore,
+  query,
   runTransaction,
   serverTimestamp,
   setDoc,
   Timestamp,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import type { ChallengeDoc, GameDoc, UserDoc } from '@/types/firestore';
 
-const challengeDocId = (challengerId: string, gameId: string) => `${challengerId}_${gameId}`;
+/** One 1v1 challenge per opponent, so a game can be shared with any number of players. */
+const challengeDocId = (challengerId: string, gameId: string, opponentId: string) =>
+  `${challengerId}_${gameId}_${opponentId}`;
+
+/** Pre-#61 id (one opponent per game). Existing docs keep it. */
+const legacyChallengeDocId = (challengerId: string, gameId: string) => `${challengerId}_${gameId}`;
 
 const emptyParticipant = (
   profile: Pick<UserDoc, 'displayName' | 'photoURL'>,
@@ -27,7 +36,7 @@ const emptyParticipant = (
 
 /**
  * Upsert a share-based challenge when the opponent submits their first guess.
- * Idempotent for the deterministic doc id `${challengerId}_${gameId}`.
+ * Idempotent for the deterministic doc id `${challengerId}_${gameId}_${opponentId}`.
  */
 export const ensureShareChallengeOnFirstGuess = async (args: {
   challengerId: string;
@@ -41,8 +50,15 @@ export const ensureShareChallengeOnFirstGuess = async (args: {
   }
 
   const db = getFirestore();
-  const challengeRef = doc(db, 'challenges', challengeDocId(challengerId, gameId));
-  const existing = await getDoc(challengeRef);
+  const legacyRef = doc(db, 'challenges', legacyChallengeDocId(challengerId, gameId));
+  // A legacy doc owned by a different opponent is unreadable; treat that as "not mine".
+  const legacy = await getDoc(legacyRef).catch(() => null);
+  const legacyIsMine =
+    !!legacy?.exists() && !!(legacy.data() as ChallengeDoc).participants[opponentId];
+  const challengeRef = legacyIsMine
+    ? legacyRef
+    : doc(db, 'challenges', challengeDocId(challengerId, gameId, opponentId));
+  const existing = legacyIsMine ? legacy : await getDoc(challengeRef);
   if (existing.exists()) {
     // Already tracked (e.g. refresh / retry) — ensure opponent is accepted.
     const data = existing.data() as ChallengeDoc;
@@ -108,7 +124,7 @@ export class FriendChallengeError extends Error {
  * In-app challenge of an accepted friend on `gameId`.
  * If the challenger already has a game doc for `gameId` (post-game challenge), its saved
  * score is copied over; otherwise (new-game challenge) both players start fresh.
- * One challenge per challenger per game (doc id `${challengerId}_${gameId}`).
+ * One challenge per friend per game (doc id `${challengerId}_${gameId}_${friendId}`).
  */
 export const createFriendChallenge = async (args: {
   challengerId: string;
@@ -118,7 +134,7 @@ export const createFriendChallenge = async (args: {
 }): Promise<string> => {
   const { challengerId, challengerProfile, friend, gameId } = args;
   const db = getFirestore();
-  const challengeId = challengeDocId(challengerId, gameId);
+  const challengeId = challengeDocId(challengerId, gameId, friend.id);
   const challengeRef = doc(db, 'challenges', challengeId);
 
   const [existing, challengerGameSnap] = await Promise.all([
@@ -197,32 +213,45 @@ export const recordChallengeGameCompletion = async (args: {
 }): Promise<void> => {
   const { userId, gameId, challengerId, score } = args;
   if (!challengerId) {
-    // User finished their own shared game — look up challenge by createdBy + gameId
+    // User finished their own game — update every challenge they sent on it.
     const db = getFirestore();
-    const ownChallengeRef = doc(db, 'challenges', challengeDocId(userId, gameId));
-    const ownSnap = await getDoc(ownChallengeRef);
-    if (!ownSnap.exists()) {
-      return; // No opponent has joined yet
-    }
-    await applyCompletion(ownChallengeRef.id, userId, score);
+    const own = await getDocs(
+      query(
+        collection(db, 'challenges'),
+        where('createdBy', '==', userId),
+        where('gameId', '==', gameId)
+      )
+    );
+    await Promise.all(own.docs.map((d) => applyCompletion(d.id, userId, score)));
     return;
   }
 
-  await applyCompletion(challengeDocId(challengerId, gameId), userId, score);
+  if (await applyCompletion(challengeDocId(challengerId, gameId, userId), userId, score)) {
+    return;
+  }
+  // Legacy doc may belong to another opponent, in which case the read is denied.
+  await applyCompletion(legacyChallengeDocId(challengerId, gameId), userId, score).catch(
+    () => false
+  );
 };
 
-const applyCompletion = async (challengeId: string, userId: string, score: number) => {
+/** Returns whether a challenge containing `userId` was found and updated. */
+const applyCompletion = async (
+  challengeId: string,
+  userId: string,
+  score: number
+): Promise<boolean> => {
   const db = getFirestore();
   const challengeRef = doc(db, 'challenges', challengeId);
-  await runTransaction(db, async (transaction) => {
+  return runTransaction(db, async (transaction) => {
     const snap = await transaction.get(challengeRef);
     if (!snap.exists()) {
-      return;
+      return false;
     }
 
     const data = snap.data() as ChallengeDoc;
     if (!data.participantIds.includes(userId) || !data.participants[userId]) {
-      return;
+      return false;
     }
 
     const completedAt = serverTimestamp() as Timestamp;
@@ -251,6 +280,7 @@ const applyCompletion = async (challengeId: string, userId: string, score: numbe
       winnerId: computeWinner(participants, data.participantIds),
       status: bothDone ? 'completed' : data.status,
     });
+    return true;
   });
 };
 
