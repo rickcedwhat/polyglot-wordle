@@ -4,7 +4,7 @@ import { Carousel } from '@mantine/carousel';
 import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { GameSetupDialog } from '@/components/GameSetup/GameSetupDialog';
-import { HowToPlaySlides } from '@/components/HowToPlayModal/HowToPlayModal';
+import { HowToPlaySlides } from '@/components/HowToPlayModal/HelpSlides';
 import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
 import classes from './Home.page.module.css';

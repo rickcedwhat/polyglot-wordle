@@ -6,6 +6,8 @@
 /* Make the carousel root a flex container that fills height */
 .carouselRoot {
   height: 100%;
+  /* Keeps the modal from resizing when switching topics */
+  min-height: 460px;
   display: flex;
   flex-direction: column;
 }
@@ -59,6 +61,26 @@
   &[data-active] {
     background-color: var(--mantine-color-blue-7);
   }
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-sm);
+}
+
+/* Static version of the in-game score popup pill */
+.pill {
+  flex-shrink: 0;
+  padding: 0.15rem 0.6rem;
+  border-radius: var(--mantine-radius-xl);
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: var(--mantine-font-size-sm);
+}
+
+.keyExample {
+  width: 3.5rem;
 }
 
 .modalTitle {
