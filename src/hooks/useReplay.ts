@@ -42,6 +42,7 @@ export function useReplay(
     setStep(startAt === 'start' ? 0 : length);
     setPlaying(false);
     setTyped(null);
+    callbacks.current.onJump?.();
   }, [timelineKey, startAt]);
 
   // Type the current guess one letter at a time, then land it.

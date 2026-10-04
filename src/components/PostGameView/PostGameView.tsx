@@ -167,15 +167,17 @@ export const PostGameLayout: FC<PostGameLayoutProps> = ({
         />
       </Center>
 
-      {replay.isReplaying && (
+      {(replay.isReplaying || burst) && (
         <Box pos="relative" w="100%" maw={320} {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
-          {burst && <ScorePopups key={burst.id} events={burst.events} />}
+          {replay.isReplaying && burst && <ScorePopups key={burst.id} events={burst.events} />}
           {burst && <ScoreFlights burst={burst} />}
-          <CurrentGuessRow
-            guess={EMPTY_ROW.map((_, i) => typed?.[i] ?? '')}
-            cursorIndex={typed ? Math.min(typed.length, 4) : -1}
-            onTileClick={() => {}}
-          />
+          {replay.isReplaying && (
+            <CurrentGuessRow
+              guess={EMPTY_ROW.map((_, i) => typed?.[i] ?? '')}
+              cursorIndex={typed ? Math.min(typed.length, 4) : -1}
+              onTileClick={() => {}}
+            />
+          )}
         </Box>
       )}
 

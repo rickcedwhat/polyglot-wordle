@@ -78,4 +78,44 @@ describe('useReplay', () => {
     rerender({ timeline: ['audio', 'plant'] });
     expect(result.current.step).toBe(2);
   });
+
+  it.each(['timeline', 'startAt'] as const)(
+    'clears animations and stops typing when %s changes',
+    (changed) => {
+      const onJump = vi.fn();
+      const onGuessPlayed = vi.fn();
+      const { result, rerender } = renderHook(
+        ({ timeline, startAt, onJump }) => useReplay(timeline, { startAt, onJump, onGuessPlayed }),
+        {
+          initialProps: {
+            timeline: TIMELINE,
+            startAt: 'end' as 'start' | 'end',
+            onJump,
+          },
+        }
+      );
+      act(() => result.current.play());
+      tick(450);
+      expect(result.current.playing).toBe(true);
+      expect(result.current.typedLetters).toEqual(['c']);
+
+      onJump.mockClear();
+      const latestOnJump = vi.fn();
+      const timeline = changed === 'timeline' ? ['audio', 'plant'] : TIMELINE;
+      const startAt = changed === 'startAt' ? 'start' : 'end';
+      rerender({ timeline, startAt, onJump: latestOnJump });
+
+      expect(latestOnJump).toHaveBeenCalledTimes(1);
+      expect(onJump).not.toHaveBeenCalled();
+      expect(result.current.step).toBe(startAt === 'start' ? 0 : timeline.length);
+      expect(result.current.playing).toBe(false);
+      expect(result.current.typedLetters).toBeNull();
+      tick(20_000);
+      expect(onGuessPlayed).not.toHaveBeenCalled();
+
+      const unchangedOnJump = vi.fn();
+      rerender({ timeline: [...timeline], startAt, onJump: unchangedOnJump });
+      expect(unchangedOnJump).not.toHaveBeenCalled();
+    }
+  );
 });
