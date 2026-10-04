@@ -2,9 +2,12 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
+import { Box } from '@mantine/core';
+import { ScoreProvider } from '@/context/ScoreContext';
 import { STORY_GAMES, type StoryGameFixture } from '@/storybook/fixtures';
 import type { GameDoc } from '@/types/firestore';
 import { LeaderboardList } from '../Leaderboard/Leaderboard';
+import { Score } from '../Score/Score';
 import { PostGameLayout } from './PostGameView';
 
 const FRIENDS = [
@@ -40,19 +43,24 @@ const PostGameStory = ({ fixture }: { fixture: StoryGameFixture }) => {
   const games = FRIENDS.map(({ uid, score }) => toGame(fixture, uid, score));
   const [selected, setSelected] = useState(games[0]);
   return (
-    <PostGameLayout
-      game={selected}
-      viewingUserId={selected.userId === games[0].userId ? null : selected.userId}
-      onViewOwn={() => setSelected(games[0])}
-      onOpenSummary={() => {}}
-      leaderboard={
-        <LeaderboardList
-          games={games}
-          selectedUserId={selected.userId}
-          onGameSelect={setSelected}
-        />
-      }
-    />
+    <>
+      <Box maw={220} mb="md">
+        <Score />
+      </Box>
+      <PostGameLayout
+        game={selected}
+        viewingUserId={selected.userId === games[0].userId ? null : selected.userId}
+        onViewOwn={() => setSelected(games[0])}
+        onOpenSummary={() => {}}
+        leaderboard={
+          <LeaderboardList
+            games={games}
+            selectedUserId={selected.userId}
+            onGameSelect={setSelected}
+          />
+        }
+      />
+    </>
   );
 };
 
@@ -62,9 +70,11 @@ const meta: Meta<typeof PostGameStory> = {
   decorators: [
     (Story) => (
       <MemoryRouter>
-        <SeedProfiles>
-          <Story />
-        </SeedProfiles>
+        <ScoreProvider>
+          <SeedProfiles>
+            <Story />
+          </SeedProfiles>
+        </ScoreProvider>
       </MemoryRouter>
     ),
   ],
