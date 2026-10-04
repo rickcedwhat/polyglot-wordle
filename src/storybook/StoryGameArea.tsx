@@ -3,7 +3,7 @@ import { Box, Center, Loader, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { AlphabetStatus } from '@/components/AlphabetStatus/AlphabetStatus';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
-import { GuessInput } from '@/components/LetterJumble/GuessInput';
+import { GuessInputWithHelp } from '@/components/LetterJumble/GuessInputWithHelp';
 import { GAME_ORIGIN, SCORE_ORIGIN_ATTR } from '@/components/ScoreFlights/flightUtils';
 import { ScoreFlights } from '@/components/ScoreFlights/ScoreFlights';
 import { ScorePopups } from '@/components/ScorePopups/ScorePopups';
@@ -60,7 +60,7 @@ export function StoryGameArea({ game }: { game: StoryGame }) {
         <Box pos="relative" {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
           {game.burst && <ScorePopups key={game.burst.id} events={game.burst.events} />}
           {game.burst && <ScoreFlights burst={game.burst} />}
-          <GuessInput
+          <GuessInputWithHelp
             guess={game.currentGuess}
             cursorIndex={game.cursorIndex}
             isInvalid={game.isInvalid}

@@ -49,7 +49,7 @@ const PostGameStory = ({ fixture }: { fixture: StoryGameFixture }) => {
       </Box>
       <PostGameLayout
         game={selected}
-        viewingUserId={selected.userId === 'me' ? null : selected.userId}
+        viewingUserId={selected.userId === games[0].userId ? null : selected.userId}
         onViewOwn={() => setSelected(games[0])}
         onOpenSummary={() => {}}
         leaderboard={

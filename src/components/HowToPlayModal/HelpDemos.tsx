@@ -2,26 +2,72 @@ import { FC, useEffect, useState } from 'react';
 import { Badge, Stack, Text } from '@mantine/core';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { GameSetupPanel, LanguageRow } from '@/components/GameSetup/GameSetupPanel';
+import { GuessInput } from '@/components/LetterJumble/GuessInput';
 import { ScorePopups } from '@/components/ScorePopups/ScorePopups';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
+import type { LetterJumble } from '@/hooks/useLetterJumble';
 import type { Difficulty, Language } from '@/types/firestore';
-import { calculateScoreFromHistory, getLatestTurnScoreEvents } from '@/utils/wordUtils';
+import type { JumbleLock, JumbleSlot } from '@/utils/letterJumble';
+import {
+  calculateScoreFromHistory,
+  getLatestTurnScoreEvents,
+  type LetterStatus,
+} from '@/utils/wordUtils';
 import { DEMO_BOARDS, DEMO_POOLS, DEMO_SOLUTION } from './demoGame';
 import classes from './HowToPlayModal.module.css';
 
 const noop = () => {};
 
 /** The real game boards for a scripted game; not interactive. */
-export const DemoBoards: FC<{ guesses: string[] }> = ({ guesses }) => (
+export const DemoBoards: FC<{ guesses: string[]; targetIndex?: number }> = ({
+  guesses,
+  targetIndex,
+}) => (
   <div inert className={classes.demo}>
     <GameBoard
       solution={DEMO_SOLUTION}
       shuffledLanguages={DEMO_BOARDS}
       guesses={guesses}
       wordPoolsOverride={DEMO_POOLS}
+      targetIndex={targetIndex}
     />
   </div>
 );
+
+/** The real guess row with Letter Jumble's controls, frozen in one state. */
+export const DemoJumbleRow: FC<{
+  isOpen: boolean;
+  letters?: string;
+  locks?: JumbleLock[];
+  statuses?: LetterStatus[];
+}> = ({ isOpen, letters = '', locks = [], statuses }) => {
+  const slots: JumbleSlot[] = Array.from({ length: 5 }, (_, i) => ({
+    letter: letters[i]?.trim() ?? '',
+    lock: locks[i] ?? 'kept',
+  }));
+  const jumble: LetterJumble = {
+    enabled: true,
+    isOpen,
+    targetBoard: null,
+    slots,
+    statuses,
+    conflicts: undefined,
+    press: noop,
+    close: noop,
+    togglePinAt: noop,
+  };
+  return (
+    <div inert className={`${classes.demo} ${classes.demoPanel}`}>
+      <GuessInput
+        guess={slots.map((s) => s.letter)}
+        cursorIndex={-1}
+        isInvalid={false}
+        onTileClick={noop}
+        jumble={jumble}
+      />
+    </div>
+  );
+};
 
 const REPLAY_MS = 4000;
 
