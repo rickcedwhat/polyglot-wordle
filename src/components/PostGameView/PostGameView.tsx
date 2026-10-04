@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import { IconArrowBackUp, IconTrophy } from '@tabler/icons-react';
 import { Box, Button, Center, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -20,7 +20,7 @@ import { useChallenge } from '@/hooks/useChallenge';
 import { useReplay } from '@/hooks/useReplay';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import type { GameDoc } from '@/types/firestore';
-import { getLatestTurnScoreEvents, normalizeWord, scoringVersionOf } from '@/utils/wordUtils';
+import { getLatestTurnScoreEvents, scoringVersionOf } from '@/utils/wordUtils';
 import { Score } from '../Score/Score';
 
 interface PostGameViewProps {
@@ -126,14 +126,7 @@ function useGameReplay(game: PostGameLayoutProps['game']) {
     recalculateScore(guessHistory.slice(0, replay.step), solution, version);
   }, [replay.step, guessHistory, solution, version, recalculateScore]);
 
-  const solvedSteps = useMemo(() => {
-    const solutions = Object.values(solution).map((word) => normalizeWord(word));
-    return guessHistory.flatMap((guess, i) =>
-      solutions.includes(normalizeWord(guess)) ? [i + 1] : []
-    );
-  }, [guessHistory, solution]);
-
-  return { replay, burst, solvedSteps };
+  return { replay, burst };
 }
 
 /** Summary button, the finished boards at full width, the replay bar, then the leaderboard. */
@@ -145,7 +138,7 @@ export const PostGameLayout: FC<PostGameLayoutProps> = ({
   leaderboard,
   wordPoolsOverride,
 }) => {
-  const { replay, burst, solvedSteps } = useGameReplay(game);
+  const { replay, burst } = useGameReplay(game);
   const typed = replay.typedLetters;
 
   return (
@@ -186,7 +179,7 @@ export const PostGameLayout: FC<PostGameLayoutProps> = ({
         </Box>
       )}
 
-      <ReplayBar replay={replay} solvedSteps={solvedSteps} />
+      <ReplayBar replay={replay} />
 
       <Box w="100%" maw={720}>
         {leaderboard}

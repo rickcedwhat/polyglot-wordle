@@ -70,15 +70,6 @@ describe('useReplay', () => {
     expect(result.current.step).toBe(1);
   });
 
-  it('2× halves the timings', () => {
-    const { result } = renderHook(() => useReplay(TIMELINE));
-    act(() => result.current.setSpeed(2));
-    act(() => result.current.goTo(0));
-    act(() => result.current.next());
-    tick(600);
-    expect(result.current.step).toBe(1);
-  });
-
   it('resets to the end when a different game is shown', () => {
     const { result, rerender } = renderHook(({ timeline }) => useReplay(timeline), {
       initialProps: { timeline: TIMELINE },

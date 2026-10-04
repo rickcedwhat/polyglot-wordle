@@ -1,0 +1,276 @@
+.lane {
+  position: relative;
+  border-color: color-mix(in srgb, var(--lane-color) 55%, transparent);
+}
+
+.total {
+  font-variant-numeric: tabular-nums;
+}
+
+.total[data-negative] {
+  color: var(--mantine-color-red-6);
+}
+
+.delta {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--mantine-color-green-7);
+  animation: rise 1.6s ease-out both;
+}
+
+.delta[data-negative] {
+  color: var(--mantine-color-red-6);
+}
+
+.bonus {
+  position: absolute;
+  right: 100%;
+  margin-right: 8px;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 8px;
+  border-radius: 99px;
+  color: #fff;
+  background: linear-gradient(90deg, var(--mantine-color-green-6), var(--mantine-color-yellow-6));
+  animation: bonus 1.8s ease-out both;
+  animation-delay: calc(var(--i) * 250ms + 400ms);
+}
+
+/* Tiles */
+.big,
+.mini {
+  display: flex;
+  justify-content: center;
+}
+
+.big {
+  gap: 6px;
+}
+
+.mini {
+  gap: 3px;
+}
+
+.tile {
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+.big .tile {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border: 2px solid var(--mantine-color-default-border);
+}
+
+.big .tile:not(:empty) {
+  border-color: var(--mantine-color-gray-6);
+}
+
+.mini .tile {
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  border-radius: 3px;
+  color: #fff;
+  background: var(--mantine-color-default-border);
+}
+
+.mini .tile[data-status='absent'] {
+  background: var(--mantine-color-dark-4);
+}
+
+.mini .tile[data-status='present'] {
+  background: var(--mantine-color-yellow-5);
+}
+
+.mini .tile[data-status='correct'] {
+  background: var(--mantine-color-green-6);
+}
+
+.tile[data-flip] {
+  animation: flip 420ms ease-out both;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+.solvedRow {
+  opacity: 0.35;
+}
+
+.finished {
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+/* Language rows */
+.langRow {
+  display: grid;
+  grid-template-columns: 20px auto 1fr 44px;
+  align-items: center;
+  gap: 8px;
+}
+
+.flag {
+  font-size: 15px;
+  text-align: center;
+}
+
+.track {
+  position: relative;
+  height: 12px;
+  border-radius: 99px;
+  background: var(--mantine-color-default-hover);
+  transition: background 400ms;
+}
+
+.track[data-negative] {
+  background: color-mix(in srgb, var(--mantine-color-red-6) 22%, transparent);
+}
+
+.fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--lane-color);
+  transition:
+    width 700ms ease 450ms,
+    background 300ms ease 450ms;
+}
+
+.fill[data-solved] {
+  background: linear-gradient(90deg, var(--mantine-color-green-6), var(--mantine-color-lime-5));
+}
+
+.points {
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.points[data-negative] {
+  color: var(--mantine-color-red-6);
+}
+
+/* Points flying into a language's bar */
+.chip {
+  position: absolute;
+  top: -18px;
+  left: 0;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 99px;
+  color: #fff;
+  pointer-events: none;
+  animation: fly 1.3s ease-in-out both;
+  animation-delay: 300ms;
+}
+
+.chip[data-tone='green'] {
+  background: var(--mantine-color-green-6);
+}
+
+.chip[data-tone='yellow'] {
+  background: var(--mantine-color-yellow-7);
+}
+
+.chip[data-tone='solved'] {
+  background: linear-gradient(90deg, var(--mantine-color-green-6), var(--mantine-color-yellow-6));
+}
+
+.chip[data-tone='penalty'] {
+  background: var(--mantine-color-red-6);
+}
+
+@keyframes flip {
+  from {
+    transform: rotateX(90deg);
+  }
+
+  to {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes fly {
+  0% {
+    opacity: 0;
+    transform: translate(-40px, 6px) scale(0.6);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translate(-20px, 0) scale(1.05);
+  }
+
+  75% {
+    opacity: 1;
+    transform: translate(30px, 2px) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(50px, 12px) scale(0.8);
+  }
+}
+
+@keyframes rise {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  20%,
+  70% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes bonus {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  15%,
+  75% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile[data-flip],
+  .chip,
+  .delta,
+  .bonus {
+    animation: none;
+  }
+
+  .chip,
+  .delta,
+  .bonus {
+    display: none;
+  }
+
+  .fill {
+    transition: none;
+  }
+}

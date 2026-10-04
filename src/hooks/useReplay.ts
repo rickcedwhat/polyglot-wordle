@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-/** Per-letter delay while a guess is typed out, at 1×. */
+/** Per-letter delay while a guess is typed out. */
 const TYPING_DELAY_MS = 150;
-/** Pause after a guess lands (its score animations play) before typing the next, at 1×. */
+/** Pause after a guess lands (its score animations play) before typing the next. */
 const TURN_PAUSE_MS = 1400;
-
-export const REPLAY_SPEEDS = [1, 2] as const;
-export type ReplaySpeed = (typeof REPLAY_SPEEDS)[number];
 
 interface UseReplayOptions {
   /** Called when a guess is played forward (not jumped to), so its animations can run. */
@@ -23,7 +20,6 @@ export function useReplay(timeline: string[], { onGuessPlayed, onJump }: UseRepl
   const total = timeline.length;
   const [step, setStep] = useState(total);
   const [playing, setPlaying] = useState(false);
-  const [speed, setSpeed] = useState<ReplaySpeed>(1);
   /** Letters of `timeline[step]` typed so far, while a guess is being typed out. */
   const [typed, setTyped] = useState<number | null>(null);
 
@@ -58,10 +54,10 @@ export function useReplay(timeline: string[], { onGuessPlayed, onJump }: UseRepl
           setTyped(typed + 1);
         }
       },
-      (landing ? TYPING_DELAY_MS * 2 : TYPING_DELAY_MS) / speed
+      landing ? TYPING_DELAY_MS * 2 : TYPING_DELAY_MS
     );
     return () => window.clearTimeout(timer);
-  }, [typed, step, timeline, speed]);
+  }, [typed, step, timeline]);
 
   // While playing, start typing the next guess after the previous one has had its moment.
   useEffect(() => {
@@ -72,9 +68,9 @@ export function useReplay(timeline: string[], { onGuessPlayed, onJump }: UseRepl
       setPlaying(false);
       return undefined;
     }
-    const timer = window.setTimeout(() => setTyped(0), step === 0 ? 300 : TURN_PAUSE_MS / speed);
+    const timer = window.setTimeout(() => setTyped(0), step === 0 ? 300 : TURN_PAUSE_MS);
     return () => window.clearTimeout(timer);
-  }, [playing, typed, step, total, speed]);
+  }, [playing, typed, step, total]);
 
   const goTo = useCallback(
     (next: number) => {
@@ -117,14 +113,11 @@ export function useReplay(timeline: string[], { onGuessPlayed, onJump }: UseRepl
     /** The guess being typed out, letter by letter, or null when not typing. */
     typedLetters,
     playing,
-    speed,
-    setSpeed,
     /** True while the replay isn't showing the finished game. */
     isReplaying: playing || typed !== null || step < total,
     play,
     pause,
     next,
-    prev: () => goTo(step - 1),
     goTo,
   };
 }
