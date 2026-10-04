@@ -202,8 +202,8 @@ const JumbleSlides: FC = () => (
     >
       <DemoJumbleRow
         isOpen
-        letters="blanq"
-        locks={['pinned', 'pinned', 'kept', 'kept', 'kept']}
+        letters="blan"
+        locks={['pinned', 'pinned', 'kept', 'kept', 'suggested']}
         statuses={NEAR_GREENS}
       />
     </Slide>

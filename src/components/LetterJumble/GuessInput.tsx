@@ -20,11 +20,21 @@ const INTRO_SEEN_KEY = 'polyglot_jumble_intro_seen_v1';
 
 /** Shown the first time Letter Jumble opens, until dismissed or followed. */
 function useJumbleIntro(isOpen: boolean, enabled: boolean) {
-  const [seen, setSeen] = useState(() => localStorage.getItem(INTRO_SEEN_KEY) === '1');
+  const [seen, setSeen] = useState(() => {
+    try {
+      return localStorage.getItem(INTRO_SEEN_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
 
   const dismiss = () => {
-    localStorage.setItem(INTRO_SEEN_KEY, '1');
     setSeen(true);
+    try {
+      localStorage.setItem(INTRO_SEEN_KEY, '1');
+    } catch {
+      // Keep the hint dismissed for this session when storage is unavailable.
+    }
   };
 
   return { show: enabled && isOpen && !seen, dismiss };

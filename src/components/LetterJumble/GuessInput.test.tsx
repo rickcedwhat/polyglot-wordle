@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { MantineProvider } from '@mantine/core';
 import type { LetterJumble } from '@/hooks/useLetterJumble';
 import type { JumbleSlot } from '@/utils/letterJumble';
@@ -42,6 +42,7 @@ const renderInput = (jumble: LetterJumble, onJumbleHelp: (() => void) | null = v
 
 describe('GuessInput intro note', () => {
   beforeEach(() => localStorage.clear());
+  afterEach(() => vi.restoreAllMocks());
 
   it('shows the first time jumble mode opens, and dismissing it is remembered', async () => {
     const { unmount } = renderInput(jumbleWith({}));
@@ -62,6 +63,28 @@ describe('GuessInput intro note', () => {
     expect(onJumbleHelp).toHaveBeenCalled();
     expect(localStorage.getItem('polyglot_jumble_intro_seen_v1')).toBe('1');
   });
+
+  it('renders when reading storage throws', async () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('Storage blocked');
+    });
+    renderInput(jumbleWith({}));
+    expect(await screen.findByText(INTRO)).toBeTruthy();
+  });
+
+  it.each(['Dismiss hint', 'How it works'])(
+    '%s completes when writing storage throws',
+    async (action) => {
+      vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new Error('Storage full');
+      });
+      const onJumbleHelp = vi.fn();
+      renderInput(jumbleWith({}), onJumbleHelp);
+      await userEvent.click(await screen.findByRole('button', { name: action }));
+      await waitFor(() => expect(screen.queryByText(INTRO)).toBeNull());
+      expect(onJumbleHelp).toHaveBeenCalledTimes(action === 'How it works' ? 1 : 0);
+    }
+  );
 
   it('stays hidden outside jumble mode', () => {
     renderInput(jumbleWith({ isOpen: false }));
