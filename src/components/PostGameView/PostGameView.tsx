@@ -1,11 +1,12 @@
-import { FC, ReactNode, useEffect, useRef, useState } from 'react';
-import { IconArrowBackUp, IconTrophy } from '@tabler/icons-react';
+import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { IconArrowBackUp, IconSwords, IconTrophy } from '@tabler/icons-react';
 import { Box, Button, Center, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { CurrentGuessRow } from '@/components/CurrentGuessRow/CurrentGuessRow';
 import { GameBoard, type GameBoardWordPools } from '@/components/Gameboard/Gameboard';
 import { Leaderboard } from '@/components/Leaderboard/Leaderboard';
 import { PostGameModal } from '@/components/PostGameModal/PostGameModal';
+import { HeadToHeadModal, type HeadToHeadSide } from '@/components/Replay/HeadToHeadModal';
 import { ReplayBar } from '@/components/Replay/ReplayBar';
 import {
   GAME_ORIGIN,
@@ -14,6 +15,7 @@ import {
 } from '@/components/ScoreFlights/flightUtils';
 import { ScoreFlights } from '@/components/ScoreFlights/ScoreFlights';
 import { ScorePopups } from '@/components/ScorePopups/ScorePopups';
+import { useAuth } from '@/context/AuthContext';
 import { useScore } from '@/context/ScoreContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useChallenge } from '@/hooks/useChallenge';
@@ -33,6 +35,8 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
   const [focusedGame, setFocusedGame] = useState<GameDoc>(gameSession);
   const { setSidebarContent } = useSidebar();
   const { challengerUser, challengerGame } = useChallenge(gameSession.gameId);
+  /** The opponent in the open head-to-head replay. */
+  const [duelWith, setDuelWith] = useState<string | null>(null);
 
   useEffect(() => {
     setFocusedGame(gameSession);
@@ -52,12 +56,21 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
         onPlayAgain={onPlayAgain}
         challengerUser={challengerUser}
         challengerGame={challengerGame}
+        onWatchDuel={
+          challengerGame
+            ? () => {
+                closeModal();
+                setDuelWith(challengerGame.userId);
+              }
+            : undefined
+        }
       />
 
       <PostGameLayout
         game={focusedGame}
         viewingUserId={focusedGame.userId === gameSession.userId ? null : focusedGame.userId}
         onViewOwn={() => setFocusedGame(gameSession)}
+        onWatchDuel={() => setDuelWith(focusedGame.userId)}
         onOpenSummary={openModal}
         leaderboard={
           <Leaderboard
@@ -67,8 +80,33 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
           />
         }
       />
+
+      {duelWith && (
+        <DuelModal
+          gameId={gameSession.gameId}
+          opponentId={duelWith}
+          onClose={() => setDuelWith(null)}
+        />
+      )}
     </Box>
   );
+};
+
+const DuelModal: FC<{ gameId: string; opponentId: string; onClose: () => void }> = ({
+  gameId,
+  opponentId,
+  onClose,
+}) => {
+  const { currentUser } = useAuth();
+  const { data: opponent } = useUserProfile(opponentId);
+  const sides = useMemo<[HeadToHeadSide, HeadToHeadSide]>(
+    () => [
+      { userId: currentUser?.uid ?? '', name: 'You', photoURL: currentUser?.photoURL },
+      { userId: opponentId, name: opponent?.displayName || 'Player', photoURL: opponent?.photoURL },
+    ],
+    [currentUser?.uid, currentUser?.photoURL, opponentId, opponent?.displayName, opponent?.photoURL]
+  );
+  return <HeadToHeadModal opened onClose={onClose} gameId={gameId} sides={sides} />;
 };
 
 interface PostGameLayoutProps {
@@ -76,13 +114,19 @@ interface PostGameLayoutProps {
   /** Whose boards are shown when they aren't yours. */
   viewingUserId?: string | null;
   onViewOwn?: () => void;
+  /** Opens the turn-by-turn head-to-head replay against the viewed player. */
+  onWatchDuel?: () => void;
   onOpenSummary: () => void;
   leaderboard: ReactNode;
   /** Skip fetching dictionaries (Storybook / tests). */
   wordPoolsOverride?: GameBoardWordPools;
 }
 
-const ViewingBar: FC<{ userId: string; onViewOwn?: () => void }> = ({ userId, onViewOwn }) => {
+const ViewingBar: FC<{ userId: string; onViewOwn?: () => void; onWatchDuel?: () => void }> = ({
+  userId,
+  onViewOwn,
+  onWatchDuel,
+}) => {
   const { data: profile } = useUserProfile(userId);
   return (
     <Group gap="xs" wrap="nowrap" miw={0}>
@@ -97,6 +141,17 @@ const ViewingBar: FC<{ userId: string; onViewOwn?: () => void }> = ({ userId, on
       >
         Back to mine
       </Button>
+      {onWatchDuel && (
+        <Button
+          size="compact-xs"
+          variant="light"
+          color="grape"
+          leftSection={<IconSwords size={12} />}
+          onClick={onWatchDuel}
+        >
+          Head-to-head
+        </Button>
+      )}
     </Group>
   );
 };
@@ -134,6 +189,7 @@ export const PostGameLayout: FC<PostGameLayoutProps> = ({
   game,
   viewingUserId,
   onViewOwn,
+  onWatchDuel,
   onOpenSummary,
   leaderboard,
   wordPoolsOverride,
@@ -155,7 +211,9 @@ export const PostGameLayout: FC<PostGameLayoutProps> = ({
         </Button>
       </Group>
 
-      {viewingUserId && <ViewingBar userId={viewingUserId} onViewOwn={onViewOwn} />}
+      {viewingUserId && (
+        <ViewingBar userId={viewingUserId} onViewOwn={onViewOwn} onWatchDuel={onWatchDuel} />
+      )}
 
       <Center w="100%" style={{ overflow: 'visible' }}>
         <GameBoard

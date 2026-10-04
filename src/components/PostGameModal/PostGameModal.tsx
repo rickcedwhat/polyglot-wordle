@@ -5,6 +5,7 @@ import {
   IconFlagFilled,
   IconHelpCircle,
   IconMoodSad,
+  IconPlayerPlay,
   IconRefresh,
   IconShare,
   IconSwords,
@@ -50,6 +51,8 @@ interface PostGameModalProps {
   onPlayAgain?: () => void;
   challengerUser?: ChallengerProfile | null;
   challengerGame?: GameDoc | null;
+  /** Opens the turn-by-turn head-to-head replay against the challenger. */
+  onWatchDuel?: () => void;
 }
 
 const WordSummaryCard: FC<{
@@ -180,6 +183,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
   onClose,
   gameSession,
   onPlayAgain,
+  onWatchDuel,
   challengerUser,
   challengerGame,
 }) => {
@@ -336,6 +340,18 @@ export const PostGameModal: FC<PostGameModalProps> = ({
                 </Text>
               </Paper>
             </SimpleGrid>
+            {onWatchDuel && (
+              <Button
+                fullWidth
+                mt="xs"
+                size="xs"
+                variant="light"
+                leftSection={<IconPlayerPlay size={14} />}
+                onClick={onWatchDuel}
+              >
+                Watch the replay
+              </Button>
+            )}
           </Paper>
         )}
 
