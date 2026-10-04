@@ -119,10 +119,12 @@ const Lane: FC<LaneProps> = ({
       style={{ '--lane-color': `var(--mantine-color-${player.color}-5)` } as CSSProperties}
     >
       <div className={classes.scoreBar} data-negative={now.total < 0 || undefined}>
-        <div
-          className={classes.scoreFill}
-          style={{ width: `${(Math.max(0, now.total) / totalMax) * 100}%` }}
-        />
+        <div className={classes.scoreTrack}>
+          <div
+            className={classes.scoreFill}
+            style={{ width: `${(Math.max(0, now.total) / totalMax) * 100}%` }}
+          />
+        </div>
         <span className={classes.nameChip}>
           <Avatar src={player.photoURL} size={20} radius="xl" color={player.color}>
             {player.name[0]}

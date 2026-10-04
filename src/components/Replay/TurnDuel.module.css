@@ -7,55 +7,45 @@
   position: relative;
   height: 34px;
   margin-bottom: var(--mantine-spacing-sm);
-  border-radius: 99px;
-  background: var(--mantine-color-default-hover);
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(5rem, 1fr) minmax(0, max-content) minmax(5rem, 1fr);
   align-items: center;
-  justify-content: space-between;
   padding: 0 4px;
-  gap: 8px;
   isolation: isolate;
 }
 
-.scoreFill {
+/* Clips the fill to the bar's rounded ends, so even a tiny total stays inside the bar. */
+.scoreTrack {
   position: absolute;
-  inset: 0 auto 0 0;
+  inset: 0;
   z-index: -1;
-  min-width: 34px;
+  border-radius: 99px;
+  overflow: hidden;
+  background: var(--mantine-color-default-hover);
+}
+
+.scoreFill {
+  height: 100%;
   border-radius: 99px;
   background: var(--lane-color);
   transition: width 900ms ease 500ms;
 }
 
 .nameChip {
-  position: relative;
+  grid-column: 2;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   min-width: 0;
-  max-width: 60%;
   padding: 2px 10px 2px 3px;
   border-radius: 99px;
   background: var(--mantine-color-body);
   box-shadow: 0 1px 3px rgb(0 0 0 / 15%);
 }
 
-/* Keeps the fill at least as wide as the name chip, so tiny totals still read as a pill. */
-.nameChip::before {
-  content: '';
-  position: absolute;
-  inset: -5px -5px -5px -4px;
-  z-index: -1;
-  border-radius: 99px;
-  background: var(--lane-color);
-  transition: background 400ms ease;
-}
-
-.scoreBar[data-negative] .nameChip::before {
-  background: var(--mantine-color-red-6);
-}
-
 .scoreValue {
+  grid-column: 3;
+  justify-self: end;
   position: relative;
   display: inline-flex;
   align-items: baseline;
