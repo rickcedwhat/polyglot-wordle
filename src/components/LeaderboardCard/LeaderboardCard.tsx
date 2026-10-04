@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { Avatar, Group, Paper, Text, UnstyledButton } from '@mantine/core';
+import { IconEye } from '@tabler/icons-react';
+import { Avatar, Badge, Box, Group, Paper, Text, UnstyledButton } from '@mantine/core';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import type { GameDoc } from '@/types/firestore';
 import { ProfileLink } from '../ProfileLink/ProfileLink';
@@ -22,7 +23,8 @@ export const LeaderboardCard: FC<LeaderboardCardProps> = ({ game, rank, onClick,
       radius="md"
       pos="relative"
       style={{
-        backgroundColor: isSelected ? 'var(--mantine-color-blue-light-hover)' : 'transparent',
+        backgroundColor: isSelected ? 'var(--mantine-color-blue-light)' : 'transparent',
+        borderColor: isSelected ? 'var(--mantine-color-blue-filled)' : undefined,
       }}
     >
       <UnstyledButton
@@ -35,25 +37,38 @@ export const LeaderboardCard: FC<LeaderboardCardProps> = ({ game, rank, onClick,
         onClick={onClick}
         style={{ borderRadius: 'inherit' }}
       />
-      <Group style={{ pointerEvents: 'none' }}>
+      <Group wrap="nowrap" style={{ pointerEvents: 'none' }}>
         <Text fw={700} w={20}>
           {rank}.
         </Text>
-        <div style={{ flex: 1, minWidth: 0, position: 'relative', pointerEvents: 'auto' }}>
-          <ProfileLink userId={game.userId}>
-            <Group gap="sm" wrap="nowrap">
-              <Avatar
-                src={userProfile?.photoURL}
-                alt={userProfile?.displayName}
-                radius="xl"
-                size="sm"
-              />
-              <Text size="sm" fw={500} truncate>
-                {userProfile?.displayName || '...'}
-              </Text>
-            </Group>
-          </ProfileLink>
-        </div>
+        <Box style={{ flex: 1, minWidth: 0 }}>
+          {/* Only the avatar and name open the profile; the rest of the row picks the game. */}
+          <Box display="inline-block" maw="100%" pos="relative" style={{ pointerEvents: 'auto' }}>
+            <ProfileLink userId={game.userId}>
+              <Group gap="sm" wrap="nowrap">
+                <Avatar
+                  src={userProfile?.photoURL}
+                  alt={userProfile?.displayName}
+                  radius="xl"
+                  size="sm"
+                />
+                <Text size="sm" fw={500} truncate>
+                  {userProfile?.displayName || '...'}
+                </Text>
+              </Group>
+            </ProfileLink>
+          </Box>
+        </Box>
+        {isSelected ? (
+          <Badge size="sm" variant="filled">
+            Viewing
+          </Badge>
+        ) : (
+          <Group gap={4} c="dimmed" wrap="nowrap">
+            <IconEye size={14} />
+            <Text size="xs">View</Text>
+          </Group>
+        )}
         <Text size="sm" fw={700}>
           {game.score}
         </Text>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useQueryClient } from '@tanstack/react-query';
+import { MemoryRouter } from 'react-router-dom';
 import { STORY_GAMES, type StoryGameFixture } from '@/storybook/fixtures';
 import type { GameDoc } from '@/types/firestore';
 import { LeaderboardList } from '../Leaderboard/Leaderboard';
@@ -41,6 +42,8 @@ const PostGameStory = ({ fixture }: { fixture: StoryGameFixture }) => {
   return (
     <PostGameLayout
       game={selected}
+      viewingUserId={selected === games[0] ? null : selected.userId}
+      onViewOwn={() => setSelected(games[0])}
       onOpenSummary={() => {}}
       leaderboard={
         <LeaderboardList
@@ -58,9 +61,11 @@ const meta: Meta<typeof PostGameStory> = {
   component: PostGameStory,
   decorators: [
     (Story) => (
-      <SeedProfiles>
-        <Story />
-      </SeedProfiles>
+      <MemoryRouter>
+        <SeedProfiles>
+          <Story />
+        </SeedProfiles>
+      </MemoryRouter>
     ),
   ],
 };

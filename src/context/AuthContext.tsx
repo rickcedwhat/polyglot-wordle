@@ -86,7 +86,6 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             difficultyPrefs: null,
             languagePrefs: null,
             pinnedGames: [],
-            isPrivate: false,
             stats: {
               // Overall Game Stats
               gamesPlayed: 0,
