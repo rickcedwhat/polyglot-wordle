@@ -254,7 +254,7 @@ const FriendPicker: FC<{
 
 /**
  * Whether the friend already has a game doc for `gameId` (rules block challenging them).
- * Private profiles can't be checked and read as "not played"; the send then fails with a message.
+ * A failed check reads as "not played"; the send then fails with a message.
  */
 const useFriendPlayed = (friendId: string, gameId: string | undefined) =>
   useQuery({

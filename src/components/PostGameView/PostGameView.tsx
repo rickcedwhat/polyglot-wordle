@@ -1,6 +1,6 @@
 import { FC, ReactNode, useEffect, useState } from 'react';
-import { IconTrophy } from '@tabler/icons-react';
-import { Box, Button, Center, Group, Stack } from '@mantine/core';
+import { IconArrowBackUp, IconTrophy } from '@tabler/icons-react';
+import { Box, Button, Center, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { GameBoard, type GameBoardWordPools } from '@/components/Gameboard/Gameboard';
 import { Leaderboard } from '@/components/Leaderboard/Leaderboard';
@@ -8,6 +8,7 @@ import { PostGameModal } from '@/components/PostGameModal/PostGameModal';
 import { useScore } from '@/context/ScoreContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useChallenge } from '@/hooks/useChallenge';
+import { useUserProfile } from '@/hooks/useUserProfile';
 import type { GameDoc } from '@/types/firestore';
 import { scoringVersionOf } from '@/utils/wordUtils';
 import { Score } from '../Score/Score';
@@ -53,6 +54,8 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
 
       <PostGameLayout
         game={focusedGame}
+        viewingUserId={focusedGame.userId === gameSession.userId ? null : focusedGame.userId}
+        onViewOwn={() => setFocusedGame(gameSession)}
         onOpenSummary={openModal}
         leaderboard={
           <Leaderboard
@@ -68,21 +71,46 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
 
 interface PostGameLayoutProps {
   game: Pick<GameDoc, 'words' | 'guessHistory' | 'shuffledLanguages'>;
+  /** Whose boards are shown when they aren't yours. */
+  viewingUserId?: string | null;
+  onViewOwn?: () => void;
   onOpenSummary: () => void;
   leaderboard: ReactNode;
   /** Skip fetching dictionaries (Storybook / tests). */
   wordPoolsOverride?: GameBoardWordPools;
 }
 
+const ViewingBar: FC<{ userId: string; onViewOwn?: () => void }> = ({ userId, onViewOwn }) => {
+  const { data: profile } = useUserProfile(userId);
+  return (
+    <Group gap="xs" wrap="nowrap" miw={0}>
+      <Text size="sm" truncate>
+        Viewing <b>{profile?.displayName || 'Player'}</b>&apos;s game
+      </Text>
+      <Button
+        size="compact-xs"
+        variant="light"
+        leftSection={<IconArrowBackUp size={12} />}
+        onClick={onViewOwn}
+      >
+        Back to mine
+      </Button>
+    </Group>
+  );
+};
+
 /** Summary button, the finished boards at full width, then the leaderboard. */
 export const PostGameLayout: FC<PostGameLayoutProps> = ({
   game,
+  viewingUserId,
+  onViewOwn,
   onOpenSummary,
   leaderboard,
   wordPoolsOverride,
 }) => (
   <Stack gap="lg" align="center" w="100%" pb="xl">
-    <Group justify="flex-end" w="100%">
+    <Group justify={viewingUserId ? 'space-between' : 'flex-end'} w="100%" wrap="nowrap">
+      {viewingUserId && <ViewingBar userId={viewingUserId} onViewOwn={onViewOwn} />}
       <Button
         size="xs"
         variant="gradient"

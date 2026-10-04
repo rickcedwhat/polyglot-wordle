@@ -53,7 +53,6 @@ export interface UserDoc {
   languagePrefs: LanguagePrefs | null;
   // An array of game IDs (the UUIDs) that the user has pinned to their profile.
   pinnedGames: string[];
-  isPrivate: boolean;
   stats: {
     // --- Overall Game Stats (across all difficulties) ---
     gamesPlayed: number;
