@@ -57,7 +57,7 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
         challengerUser={challengerUser}
         challengerGame={challengerGame}
         onWatchDuel={
-          challengerGame
+          challengerGame && focusedGame.userId === gameSession.userId
             ? () => {
                 closeModal();
                 setDuelWith(challengerGame.userId);

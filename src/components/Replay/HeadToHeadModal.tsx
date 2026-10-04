@@ -42,8 +42,8 @@ export const HeadToHeadModal: FC<HeadToHeadModalProps> = ({ opened, onClose, gam
   });
 
   const duel = useMemo(() => {
-    const first = games?.find(Boolean);
-    if (!games || !first) {
+    const first = games?.[0];
+    if (!first || !games?.[1]) {
       return null;
     }
     const players: DuelPlayer[] = sides.map((side, i) => ({
@@ -52,6 +52,7 @@ export const HeadToHeadModal: FC<HeadToHeadModalProps> = ({ opened, onClose, gam
       photoURL: side.photoURL,
       color: COLORS[i],
       guesses: games[i]?.guessHistory ?? [],
+      scoringVersion: scoringVersionOf(games[i] ?? first),
     }));
     return {
       players,
