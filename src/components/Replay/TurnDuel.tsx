@@ -119,10 +119,10 @@ const Lane: FC<LaneProps> = ({
       style={{ '--lane-color': `var(--mantine-color-${player.color}-5)` } as CSSProperties}
     >
       <div className={classes.player}>
-        <Avatar src={player.photoURL} size={40} radius="xl" color={player.color}>
+        <Avatar src={player.photoURL} size={64} radius="50%" color={player.color}>
           {player.name[0]}
         </Avatar>
-        <Text fw={700} fz="lg" truncate>
+        <Text fw={700} fz={24} truncate>
           {player.name}
         </Text>
       </div>
