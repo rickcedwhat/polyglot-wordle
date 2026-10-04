@@ -118,6 +118,14 @@ const Lane: FC<LaneProps> = ({
       className={classes.lane}
       style={{ '--lane-color': `var(--mantine-color-${player.color}-5)` } as CSSProperties}
     >
+      <div className={classes.player}>
+        <Avatar src={player.photoURL} size={40} radius="xl" color={player.color}>
+          {player.name[0]}
+        </Avatar>
+        <Text fw={700} fz="lg" truncate>
+          {player.name}
+        </Text>
+      </div>
       <div className={classes.scoreBar} data-negative={now.total < 0 || undefined}>
         <div className={classes.scoreTrack}>
           <div
@@ -125,14 +133,6 @@ const Lane: FC<LaneProps> = ({
             style={{ width: `${(Math.max(0, now.total) / totalMax) * 100}%` }}
           />
         </div>
-        <span className={classes.nameChip}>
-          <Avatar src={player.photoURL} size={20} radius="xl" color={player.color}>
-            {player.name[0]}
-          </Avatar>
-          <Text component="span" size="sm" fw={700} truncate>
-            {player.name}
-          </Text>
-        </span>
         <span className={classes.scoreValue}>
           {animateId !== null && turnPoints !== 0 && (
             <span
