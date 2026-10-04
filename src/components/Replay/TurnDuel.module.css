@@ -14,11 +14,14 @@
   justify-content: space-between;
   padding: 0 4px;
   gap: 8px;
+  isolation: isolate;
 }
 
 .scoreFill {
   position: absolute;
   inset: 0 auto 0 0;
+  z-index: -1;
+  min-width: 34px;
   border-radius: 99px;
   background: var(--lane-color);
   transition: width 900ms ease 500ms;
@@ -35,6 +38,21 @@
   border-radius: 99px;
   background: var(--mantine-color-body);
   box-shadow: 0 1px 3px rgb(0 0 0 / 15%);
+}
+
+/* Keeps the fill at least as wide as the name chip, so tiny totals still read as a pill. */
+.nameChip::before {
+  content: '';
+  position: absolute;
+  inset: -5px -5px -5px -4px;
+  z-index: -1;
+  border-radius: 99px;
+  background: var(--lane-color);
+  transition: background 400ms ease;
+}
+
+.scoreBar[data-negative] .nameChip::before {
+  background: var(--mantine-color-red-6);
 }
 
 .scoreValue {

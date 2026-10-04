@@ -250,6 +250,8 @@ export const TurnDuel: FC<TurnDuelProps> = ({
     },
     onJump: () => setLanded(null),
     startAt,
+    typingDelayMs: 90,
+    turnPauseMs: 2200,
   });
   const typing = replay.typedLetters?.length ?? null;
   const { step } = replay;

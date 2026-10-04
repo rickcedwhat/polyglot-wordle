@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-/** Per-letter delay while a guess is typed out. */
-const TYPING_DELAY_MS = 150;
-/** Pause after a guess lands (its score animations play) before typing the next. */
-const TURN_PAUSE_MS = 1400;
-
 interface UseReplayOptions {
   /** Called when a guess is played forward (not jumped to), so its animations can run. */
   onGuessPlayed?: (step: number) => void;
@@ -12,6 +7,10 @@ interface UseReplayOptions {
   onJump?: () => void;
   /** Open on the finished position (default) or before the first guess. */
   startAt?: 'end' | 'start';
+  /** Per-letter delay while a guess is typed out. */
+  typingDelayMs?: number;
+  /** Pause after a guess lands (its score animations play) before typing the next. */
+  turnPauseMs?: number;
 }
 
 /**
@@ -20,7 +19,13 @@ interface UseReplayOptions {
  */
 export function useReplay(
   timeline: string[],
-  { onGuessPlayed, onJump, startAt = 'end' }: UseReplayOptions = {}
+  {
+    onGuessPlayed,
+    onJump,
+    startAt = 'end',
+    typingDelayMs = 150,
+    turnPauseMs = 1400,
+  }: UseReplayOptions = {}
 ) {
   const total = timeline.length;
   const [step, setStep] = useState(startAt === 'start' ? 0 : total);
@@ -60,10 +65,10 @@ export function useReplay(
           setTyped(typed + 1);
         }
       },
-      landing ? TYPING_DELAY_MS * 2 : TYPING_DELAY_MS
+      landing ? typingDelayMs * 2 : typingDelayMs
     );
     return () => window.clearTimeout(timer);
-  }, [typed, step, timeline]);
+  }, [typed, step, timeline, typingDelayMs]);
 
   // While playing, start typing the next guess after the previous one has had its moment.
   useEffect(() => {
@@ -74,9 +79,9 @@ export function useReplay(
       setPlaying(false);
       return undefined;
     }
-    const timer = window.setTimeout(() => setTyped(0), step === 0 ? 300 : TURN_PAUSE_MS);
+    const timer = window.setTimeout(() => setTyped(0), step === 0 ? 300 : turnPauseMs);
     return () => window.clearTimeout(timer);
-  }, [playing, typed, step, total]);
+  }, [playing, typed, step, total, turnPauseMs]);
 
   const goTo = useCallback(
     (next: number) => {
