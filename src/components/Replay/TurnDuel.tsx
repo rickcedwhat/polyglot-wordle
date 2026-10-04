@@ -1,9 +1,15 @@
 import { CSSProperties, FC, useMemo, useRef, useState } from 'react';
-import { Avatar, Box, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Avatar, Box, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useCountUp } from '@/hooks/useCountUp';
 import { useReplay } from '@/hooks/useReplay';
 import type { Language } from '@/types/firestore';
-import { buildDuelTimeline, duelBarMax, type DuelTurn } from '@/utils/duelReplay';
+import {
+  buildDuelTimeline,
+  duelBarMax,
+  duelTotalMax,
+  isLetterEvent,
+  type DuelTurn,
+} from '@/utils/duelReplay';
 import { flagFor } from '@/utils/languages';
 import { getGuessStatuses, type ScoreEvent } from '@/utils/wordUtils';
 import { ReplayBar } from './ReplayBar';
@@ -23,12 +29,26 @@ interface TurnDuelProps {
   languages: Language[];
   players: DuelPlayer[];
   scoringVersion: number;
+  /** Open before turn 1 (default) or on the final standings. */
+  startAt?: 'start' | 'end';
 }
 
-const BONUS_LABELS: Partial<Record<ScoreEvent['kind'], string>> = {
-  crack: 'first solve',
-  hatTrick: 'hat trick',
-  gameSolved: 'all solved!',
+const bonusLabel = (event: ScoreEvent) => {
+  const flag = event.lang ? flagFor(event.lang) : '';
+  switch (event.kind) {
+    case 'wordSolved':
+      return `${flag} solved!`;
+    case 'penalty':
+      return `${flag} unsolved`;
+    case 'crack':
+      return 'first solve';
+    case 'hatTrick':
+      return 'hat trick';
+    case 'gameSolved':
+      return 'all solved!';
+    default:
+      return '';
+  }
 };
 
 const signed = (points: number) => (points > 0 ? `+${points}` : `−${Math.abs(points)}`);
@@ -65,6 +85,7 @@ interface LaneProps {
   words: Partial<Record<Language, string>>;
   languages: Language[];
   barMax: number;
+  totalMax: number;
 }
 
 const Lane: FC<LaneProps> = ({
@@ -76,6 +97,7 @@ const Lane: FC<LaneProps> = ({
   words,
   languages,
   barMax,
+  totalMax,
 }) => {
   const now = timeline[step];
   const total = useCountUp(now.total, animateId !== null ? 1100 : 0);
@@ -83,7 +105,7 @@ const Lane: FC<LaneProps> = ({
   const upcoming = typing !== null ? (player.guesses[step] ?? null) : null;
   const finished = typing !== null ? upcoming === null : step > 0 && now.guess === null;
   const turnPoints = now.events.reduce((sum, e) => sum + e.points, 0);
-  const bonuses = now.events.filter((e) => !e.lang && e.points);
+  const bonuses = now.events.filter((e) => !isLetterEvent(e) && e.points);
 
   const bigLetters =
     typing !== null ? (upcoming ?? '').slice(0, typing).split('') : (now.guess ?? '').split('');
@@ -96,32 +118,20 @@ const Lane: FC<LaneProps> = ({
       className={classes.lane}
       style={{ '--lane-color': `var(--mantine-color-${player.color}-5)` } as CSSProperties}
     >
-      <Group justify="space-between" wrap="nowrap" mb="xs">
-        <Group gap={6} wrap="nowrap">
-          <Avatar src={player.photoURL} size={22} radius="xl" color={player.color}>
+      <div className={classes.scoreBar} data-negative={now.total < 0 || undefined}>
+        <div
+          className={classes.scoreFill}
+          style={{ width: `${(Math.max(0, now.total) / totalMax) * 100}%` }}
+        />
+        <span className={classes.nameChip}>
+          <Avatar src={player.photoURL} size={20} radius="xl" color={player.color}>
             {player.name[0]}
           </Avatar>
-          <Text fw={700}>{player.name}</Text>
-        </Group>
-        <Group gap={6} wrap="nowrap" pos="relative">
-          {animateId !== null &&
-            bonuses.map((e, i) => (
-              <span
-                key={`${animateId}-${e.kind}`}
-                className={classes.bonus}
-                style={{ '--i': i } as CSSProperties}
-              >
-                {signed(e.points)} {BONUS_LABELS[e.kind] ?? ''}
-              </span>
-            ))}
-          <Text
-            fw={800}
-            fz="xl"
-            className={classes.total}
-            data-negative={now.total < 0 || undefined}
-          >
-            {total}
+          <Text component="span" size="sm" fw={700} truncate>
+            {player.name}
           </Text>
+        </span>
+        <span className={classes.scoreValue}>
           {animateId !== null && turnPoints !== 0 && (
             <span
               key={animateId}
@@ -131,8 +141,22 @@ const Lane: FC<LaneProps> = ({
               {signed(turnPoints)}
             </span>
           )}
-        </Group>
-      </Group>
+          <Text component="span" fw={800} fz="lg" className={classes.total}>
+            {total < 0 ? `−${Math.abs(total)}` : total}
+          </Text>
+        </span>
+        {animateId !== null &&
+          bonuses.map((e, i) => (
+            <span
+              key={`${animateId}-${e.kind}-${e.lang ?? ''}`}
+              className={classes.bonus}
+              data-negative={e.points < 0 || undefined}
+              style={{ '--i': i } as CSSProperties}
+            >
+              {signed(e.points)} {bonusLabel(e)}
+            </span>
+          ))}
+      </div>
 
       {finished ? (
         <Text className={classes.finished} c="dimmed" fw={600}>
@@ -148,15 +172,10 @@ const Lane: FC<LaneProps> = ({
           const solvedEarlier =
             solvedOn !== undefined && solvedOn < (typing !== null ? step + 1 : step);
           const value = now.langTotals[lang] ?? 0;
-          const langEvents = animateId !== null ? now.events.filter((e) => e.lang === lang) : [];
+          const langEvents =
+            animateId !== null ? now.events.filter((e) => isLetterEvent(e) && e.lang === lang) : [];
           const langPoints = langEvents.reduce((sum, e) => sum + e.points, 0);
-          const tone = langEvents.some((e) => e.kind === 'penalty')
-            ? 'penalty'
-            : langEvents.some((e) => e.kind === 'wordSolved')
-              ? 'solved'
-              : langEvents.some((e) => e.kind === 'green')
-                ? 'green'
-                : 'yellow';
+          const tone = langEvents.some((e) => e.kind === 'green') ? 'green' : 'yellow';
 
           let row;
           if (solvedEarlier) {
@@ -183,22 +202,20 @@ const Lane: FC<LaneProps> = ({
             <div key={lang} className={classes.langRow}>
               <span className={classes.flag}>{flagFor(lang)}</span>
               {row}
-              <div className={classes.track} data-negative={value < 0 || undefined}>
+              <div className={classes.track}>
                 <div
                   className={classes.fill}
                   data-solved={(solvedOn !== undefined && solvedOn <= step) || undefined}
+                  data-unsolved={now.unsolved.includes(lang) || undefined}
                   style={{ width: `${(Math.max(0, value) / barMax) * 100}%` }}
                 />
                 {langPoints !== 0 && (
                   <span key={animateId} className={classes.chip} data-tone={tone}>
                     {signed(langPoints)}
-                    {tone === 'solved' ? ' solved!' : ''}
                   </span>
                 )}
               </div>
-              <span className={classes.points} data-negative={value < 0 || undefined}>
-                {value < 0 ? `−${Math.abs(value)}` : value}
-              </span>
+              <span className={classes.points}>{value}</span>
             </div>
           );
         })}
@@ -208,13 +225,20 @@ const Lane: FC<LaneProps> = ({
 };
 
 /** Head-to-head replay, one turn at a time: both guesses, scored per language. */
-export const TurnDuel: FC<TurnDuelProps> = ({ words, languages, players, scoringVersion }) => {
+export const TurnDuel: FC<TurnDuelProps> = ({
+  words,
+  languages,
+  players,
+  scoringVersion,
+  startAt = 'start',
+}) => {
   const turns = Math.max(...players.map((p) => p.guesses.length));
   const timelines = useMemo(
     () => players.map((p) => buildDuelTimeline(p.guesses, words, languages, scoringVersion, turns)),
     [players, words, languages, scoringVersion, turns]
   );
   const barMax = duelBarMax(timelines);
+  const totalMax = duelTotalMax(timelines);
   const turnKeys = useMemo(() => Array.from({ length: turns }, () => '#####'), [turns]);
   const [landed, setLanded] = useState<{ step: number; id: number } | null>(null);
   const landedId = useRef(0);
@@ -225,6 +249,7 @@ export const TurnDuel: FC<TurnDuelProps> = ({ words, languages, players, scoring
       setLanded({ step, id: landedId.current });
     },
     onJump: () => setLanded(null),
+    startAt,
   });
   const typing = replay.typedLetters?.length ?? null;
   const { step } = replay;
@@ -247,6 +272,7 @@ export const TurnDuel: FC<TurnDuelProps> = ({ words, languages, players, scoring
             words={words}
             languages={languages}
             barMax={barMax}
+            totalMax={totalMax}
           />
         ))}
       </SimpleGrid>

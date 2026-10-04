@@ -29,7 +29,7 @@ const meta: Meta<typeof TurnDuel> = {
 export default meta;
 type Story = StoryObj<typeof TurnDuel>;
 
-/** Opens on the final standings; Play runs every turn, Next turn plays one. */
+/** Opens before turn 1; Play runs every turn, Next turn plays one. */
 export const YouVsThiery: Story = { name: 'You vs Thiery (1366 – 17)' };
 
 export const Phone: Story = {

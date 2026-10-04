@@ -10,15 +10,20 @@ interface UseReplayOptions {
   onGuessPlayed?: (step: number) => void;
   /** Called on any jump, so in-flight animations can be cleared. */
   onJump?: () => void;
+  /** Open on the finished position (default) or before the first guess. */
+  startAt?: 'end' | 'start';
 }
 
 /**
- * Turn-by-turn playback of a finished game's guesses. Starts on the final position; playing
- * types each guess out, lands it, pauses, then moves to the next.
+ * Turn-by-turn playback of a finished game's guesses. Playing types each guess out, lands it,
+ * pauses, then moves to the next.
  */
-export function useReplay(timeline: string[], { onGuessPlayed, onJump }: UseReplayOptions = {}) {
+export function useReplay(
+  timeline: string[],
+  { onGuessPlayed, onJump, startAt = 'end' }: UseReplayOptions = {}
+) {
   const total = timeline.length;
-  const [step, setStep] = useState(total);
+  const [step, setStep] = useState(startAt === 'start' ? 0 : total);
   const [playing, setPlaying] = useState(false);
   /** Letters of `timeline[step]` typed so far, while a guess is being typed out. */
   const [typed, setTyped] = useState<number | null>(null);
@@ -28,10 +33,11 @@ export function useReplay(timeline: string[], { onGuessPlayed, onJump }: UseRepl
 
   const timelineKey = timeline.join(',');
   useEffect(() => {
-    setStep(timelineKey ? timelineKey.split(',').length : 0);
+    const length = timelineKey ? timelineKey.split(',').length : 0;
+    setStep(startAt === 'start' ? 0 : length);
     setPlaying(false);
     setTyped(null);
-  }, [timelineKey]);
+  }, [timelineKey, startAt]);
 
   // Type the current guess one letter at a time, then land it.
   useEffect(() => {
