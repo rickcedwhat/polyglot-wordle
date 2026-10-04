@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { IconArrowsShuffle, IconX } from '@tabler/icons-react';
-import { ActionIcon } from '@mantine/core';
+import { ActionIcon, Anchor, CloseButton, Group, Popover, Text } from '@mantine/core';
 import type { LetterJumble } from '@/hooks/useLetterJumble';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
 import { JumbleRow } from './JumbleRow';
@@ -12,6 +12,32 @@ interface GuessInputProps {
   isInvalid: boolean;
   onTileClick: (index: number) => void;
   jumble: LetterJumble;
+  /** Opens Letter Jumble help; without it the first-time note is never shown. */
+  onJumbleHelp?: () => void;
+}
+
+const INTRO_SEEN_KEY = 'polyglot_jumble_intro_seen_v1';
+
+/** Shown the first time Letter Jumble opens, until dismissed or followed. */
+function useJumbleIntro(isOpen: boolean, enabled: boolean) {
+  const [seen, setSeen] = useState(() => {
+    try {
+      return localStorage.getItem(INTRO_SEEN_KEY) === '1';
+    } catch {
+      return false;
+    }
+  });
+
+  const dismiss = () => {
+    setSeen(true);
+    try {
+      localStorage.setItem(INTRO_SEEN_KEY, '1');
+    } catch {
+      // Keep the hint dismissed for this session when storage is unavailable.
+    }
+  };
+
+  return { show: enabled && isOpen && !seen, dismiss };
 }
 
 /** The guess row flanked by Letter Jumble's controls: ✕ (while open) and 🔀. */
@@ -21,8 +47,15 @@ export const GuessInput: FC<GuessInputProps> = ({
   isInvalid,
   onTileClick,
   jumble,
+  onJumbleHelp,
 }) => {
   const { isOpen } = jumble;
+  const intro = useJumbleIntro(isOpen, !!onJumbleHelp);
+
+  const openHelp = () => {
+    intro.dismiss();
+    onJumbleHelp?.();
+  };
 
   const handleTileClick = (index: number) => {
     if (isOpen && index === cursorIndex) {
@@ -46,14 +79,31 @@ export const GuessInput: FC<GuessInputProps> = ({
         <span />
       )}
       {isOpen ? (
-        <JumbleRow
-          slots={jumble.slots}
-          cursorIndex={cursorIndex}
-          statuses={jumble.statuses}
-          conflicts={jumble.conflicts}
-          isInvalid={isInvalid}
-          onTileClick={handleTileClick}
-        />
+        <Popover opened={intro.show} position="top" withArrow shadow="md" zIndex={150}>
+          <Popover.Target>
+            <div>
+              <JumbleRow
+                slots={jumble.slots}
+                cursorIndex={cursorIndex}
+                statuses={jumble.statuses}
+                conflicts={jumble.conflicts}
+                isInvalid={isInvalid}
+                onTileClick={handleTileClick}
+              />
+            </div>
+          </Popover.Target>
+          <Popover.Dropdown py={6} px="sm">
+            <Group gap={6} wrap="nowrap">
+              <Text size="sm">
+                Letter Jumble rearranges letters you already know.{' '}
+                <Anchor component="button" type="button" size="sm" onClick={openHelp}>
+                  How it works
+                </Anchor>
+              </Text>
+              <CloseButton size="sm" onClick={intro.dismiss} aria-label="Dismiss hint" />
+            </Group>
+          </Popover.Dropdown>
+        </Popover>
       ) : (
         <CurrentGuessRow
           guess={guess}

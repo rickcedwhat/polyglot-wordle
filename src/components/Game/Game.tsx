@@ -25,7 +25,7 @@ import {
 } from '@/utils/wordUtils';
 import { AlphabetStatus } from '../AlphabetStatus/AlphabetStatus';
 import { ChallengeBanner } from '../ChallengeBanner/ChallengeBanner';
-import { GuessInput } from '../LetterJumble/GuessInput';
+import { GuessInputWithHelp } from '../LetterJumble/GuessInputWithHelp';
 import { PostGameModal } from '../PostGameModal/PostGameModal';
 import { Score } from '../Score/Score';
 import { GAME_ORIGIN, SCORE_ORIGIN_ATTR, useScoreBurst } from '../ScoreFlights/flightUtils';
@@ -52,6 +52,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const { updateLetterStatuses } = useLetterStatus();
   const { recordGuess, vocabulary } = useVocabulary();
   const [mountedAt] = useState(() => new Date());
+  const [helpOpen, setHelpOpen] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const { data: wordPools } = useWordPools(difficulties);
   const { challengerUser, challengerGame, isChallenge } = useChallenge(gameSession.gameId);
@@ -344,6 +345,9 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (helpOpen) {
+        return;
+      }
       const target = event.target as HTMLElement | null;
       if (
         target &&
@@ -389,7 +393,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentGuess, cursorIndex, handleKeyPress]); // The dependencies are correct
+  }, [currentGuess, cursorIndex, handleKeyPress, helpOpen]);
 
   // Render a loading state while the static word pools are being fetched for the first time
   if (!wordPools) {
@@ -455,7 +459,8 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       <Box pos="relative" {...{ [SCORE_ORIGIN_ATTR]: GAME_ORIGIN }}>
         {scoreBurst && <ScorePopups key={scoreBurst.id} events={scoreBurst.events} />}
         {scoreBurst && <ScoreFlights burst={scoreBurst} />}
-        <GuessInput
+        <GuessInputWithHelp
+          onHelpOpenChange={setHelpOpen}
           guess={currentGuess}
           cursorIndex={cursorIndex}
           isInvalid={isInvalidGuess}
