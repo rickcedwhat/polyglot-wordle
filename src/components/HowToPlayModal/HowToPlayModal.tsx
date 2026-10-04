@@ -10,19 +10,25 @@ type HelpTopic = (typeof HELP_TOPICS)[number]['value'];
 interface HowToPlayModalProps {
   opened: boolean;
   onClose: () => void;
+  /** Tab shown when the modal opens. */
+  initialTopic?: HelpTopic;
 }
 
-export const HowToPlayModal: FC<HowToPlayModalProps> = ({ opened, onClose }) => {
+export const HowToPlayModal: FC<HowToPlayModalProps> = ({
+  opened,
+  onClose,
+  initialTopic = 'play',
+}) => {
   // Use Mantine's hook to check for mobile screen sizes (breakpoint: sm)
   const isMobile = useMediaQuery(`(max-width: 576px)`);
-  const [topic, setTopic] = useState<HelpTopic>('play');
+  const [topic, setTopic] = useState<HelpTopic>(initialTopic);
   const { Slides } = HELP_TOPICS.find((t) => t.value === topic) ?? HELP_TOPICS[0];
 
   useEffect(() => {
     if (opened) {
-      setTopic('play');
+      setTopic(initialTopic);
     }
-  }, [opened]);
+  }, [opened, initialTopic]);
 
   return (
     <Modal
