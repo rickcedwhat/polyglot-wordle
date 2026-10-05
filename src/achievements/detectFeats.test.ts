@@ -22,7 +22,11 @@ describe('detectFeats', () => {
       words: { es: 'pesos', en: 'slump', fr: 'pluie' },
       guessHistory: ['hello', 'yells', 'grate', 'slime', 'slate', 'slump', 'pluie', 'pesos'],
     });
-    expect(feats).toEqual([{ id: 'dud', guess: 5 }]);
+    // SLATE also drops the M that SLIME had already turned green on English.
+    expect(feats).toEqual([
+      { id: 'dud', guess: 5 },
+      { id: 'noInstructions', guess: 5, value: 3 },
+    ]);
   });
 
   it('finds a Jackpot (real game)', () => {
@@ -161,5 +165,65 @@ describe('detectFeats', () => {
     it('skips them without dictionaries', () => {
       expect(ids(detectFeats(game))).not.toContain('lostInTranslation');
     });
+  });
+
+  it('finds No Instructions For Me and WTF Are You Doing (real game)', () => {
+    const feats = detectFeats({
+      words: { pt: 'menti', en: 'emery', es: 'rubia' },
+      guessHistory: ['water', 'hater', 'later', 'miner', 'menos', 'mente', 'menti', 'merge'],
+    });
+    // HATER and LATER keep T, E and R in spots already marked yellow; MINER reuses R after it
+    // was ruled out on Portuguese; MERGE reuses M where English already marked it yellow.
+    expect(feats.filter((f) => f.id === 'noInstructions' || f.id === 'wtf')).toEqual([
+      { id: 'noInstructions', guess: 4, value: 3 },
+      { id: 'wtf', guess: 8, value: 4 },
+    ]);
+  });
+
+  it('does not count guesses that follow the tiles on at least one board', () => {
+    const feats = detectFeats({
+      words: { fr: 'fleur', en: 'craps', es: 'dandi' },
+      guessHistory: ['think', 'spoil', 'dandi', 'fleur', 'craps'],
+    });
+    expect(ids(feats)).not.toContain('noInstructions');
+  });
+
+  it.each(['crane', 'crepe'])('counts surplus duplicates revealed by feedback for %s', (en) => {
+    const feats = detectFeats({
+      words: { en },
+      guessHistory: ['eerie', 'creee', 'creee', 'creee', 'creee'],
+    });
+    // EERIE reveals one E in CRANE, or two in CREPE (one green and one yellow).
+    // CREEE respects the known positions but exceeds that count on every later turn.
+    expect(feats.filter((f) => f.id === 'noInstructions' || f.id === 'wtf')).toEqual([
+      { id: 'noInstructions', guess: 4, value: 3 },
+      { id: 'wtf', guess: 5, value: 4 },
+    ]);
+  });
+
+  it('keeps occurrence bounds per board and ignores solved boards', () => {
+    const feats = detectFeats({
+      words: { en: 'crane', fr: 'creme' },
+      guessHistory: ['eerie', 'crepe', 'creme', 'crene', 'crene', 'crene', 'crene'],
+    });
+    // Two Es still fit French until CREME solves it. Then CRENE only contradicts
+    // the one-E limit on English, while respecting its green and yellow positions.
+    expect(feats.filter((f) => f.id === 'noInstructions' || f.id === 'wtf')).toEqual([
+      { id: 'noInstructions', guess: 6, value: 3 },
+      { id: 'wtf', guess: 7, value: 4 },
+    ]);
+  });
+
+  it('learns an occurrence bound only after an absent copy appears', () => {
+    const feats = detectFeats({
+      words: { en: 'crane' },
+      guessHistory: ['creak', 'craee', 'craee', 'craee', 'craee', 'craee'],
+    });
+    // CREAK reveals an E without limiting its count. The first CRAEE establishes
+    // the one-E limit; only subsequent guesses exceed previously known feedback.
+    expect(feats.filter((f) => f.id === 'noInstructions' || f.id === 'wtf')).toEqual([
+      { id: 'noInstructions', guess: 5, value: 3 },
+      { id: 'wtf', guess: 6, value: 4 },
+    ]);
   });
 });

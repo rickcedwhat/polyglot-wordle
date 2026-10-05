@@ -75,7 +75,19 @@ export const detectFeats = (game: FeatGame, context: FeatContext = {}): EarnedFe
   const seenResults = Object.fromEntries(langs.map((lang) => [lang, new Set<string>()]));
   const playedLetters = new Set<string>();
   const braveLetters = new Set<string>();
+  const maxOccurrences = Object.fromEntries(langs.map((lang) => [lang, new Map<string, number>()]));
+  const yellowSpots = Object.fromEntries(langs.map((lang) => [lang, new Set<string>()]));
+  const greenAt = Object.fromEntries(langs.map((lang) => [lang, new Map<number, string>()]));
+  let ignoredGuesses = 0;
   const confirmedAfter = languageDeduction(game, langs, context);
+
+  /** The guess goes against what this board's tiles already showed. */
+  const ignoresTiles = (guess: string, lang: Language) =>
+    [...guess].some((letter, position) => yellowSpots[lang].has(`${position}${letter}`)) ||
+    [...greenAt[lang]].some(([position, letter]) => guess[position] !== letter) ||
+    [...maxOccurrences[lang]].some(
+      ([letter, max]) => [...guess].filter((copy) => copy === letter).length > max
+    );
 
   guesses.forEach((guess, index) => {
     const turn = index + 1;
@@ -150,6 +162,16 @@ export const detectFeats = (game: FeatGame, context: FeatContext = {}): EarnedFe
       feats.push({ id: 'dud', guess: turn });
     }
 
+    if (turn > 1 && open.length > 0 && open.every((lang) => ignoresTiles(guess, lang))) {
+      ignoredGuesses += 1;
+      if (ignoredGuesses === FEAT_RULES.noInstructionsMinGuesses) {
+        feats.push({ id: 'noInstructions', guess: turn, value: ignoredGuesses });
+      }
+      if (ignoredGuesses === FEAT_RULES.wtfMinGuesses) {
+        feats.push({ id: 'wtf', guess: turn, value: ignoredGuesses });
+      }
+    }
+
     const braveBefore = braveLetters.size;
     [...guess].forEach((letter) => {
       playedLetters.add(letter);
@@ -170,6 +192,15 @@ export const detectFeats = (game: FeatGame, context: FeatContext = {}): EarnedFe
         }
         if (status === 'correct') {
           greenSlots[lang].add(position);
+          greenAt[lang].set(position, guess[position]);
+        } else if (status === 'present') {
+          yellowSpots[lang].add(`${position}${guess[position]}`);
+        } else if (status === 'absent') {
+          // A gray copy caps the count at the greens and yellows in this guess.
+          const copies = statuses[lang].filter(
+            (result, index) => result !== 'absent' && guess[index] === guess[position]
+          ).length;
+          maxOccurrences[lang].set(guess[position], copies);
         }
       });
     });
