@@ -134,6 +134,7 @@ interface ChallengeToast {
   toastId: string;
   challengeId: string;
   message: string;
+  occurredAt: number;
 }
 
 /** One toast per new in-app invite and per unread completed challenge. */
@@ -147,6 +148,7 @@ const challengeToasts = (challenges: ChallengeInboxItem[], userId: string): Chal
           toastId: `${c.id}:${userId}:invite`,
           challengeId: c.id,
           message: `${name} challenged you — tap to play`,
+          occurredAt: c.createdAt.toMillis(),
         },
       ];
     }
@@ -164,6 +166,7 @@ const challengeToasts = (challenges: ChallengeInboxItem[], userId: string): Chal
         toastId: `${c.id}:${userId}`,
         challengeId: c.id,
         message: `${name} finished — ${outcome} ${myScore}–${theirScore}`,
+        occurredAt: Math.max(me.completedAt?.toMillis() ?? 0, other?.completedAt?.toMillis() ?? 0),
       },
     ];
   });
@@ -182,6 +185,11 @@ export const useChallengeResultToasts = (
   const { challenges, isSuccess } = useChallenges();
   const seenRef = useRef(readSeenToasts());
   const loadedForRef = useRef<string | null>(null);
+  const gameplayEnteredAtRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    gameplayEnteredAtRef.current = isPlaying ? Date.now() : null;
+  }, [isPlaying]);
 
   useEffect(() => {
     if (!userId || !isSuccess) {
@@ -196,8 +204,11 @@ export const useChallengeResultToasts = (
     }
     const arrivedLive = loadedForRef.current === userId;
     loadedForRef.current = userId;
-    if (arrivedLive && isPlaying) {
-      fresh.forEach(({ challengeId, message }) => onToast({ challengeId, message }));
+    const gameplayEnteredAt = gameplayEnteredAtRef.current;
+    if (arrivedLive && isPlaying && gameplayEnteredAt !== null) {
+      fresh
+        .filter(({ occurredAt }) => occurredAt >= gameplayEnteredAt)
+        .forEach(({ challengeId, message }) => onToast({ challengeId, message }));
     }
   }, [challenges, userId, isSuccess, isPlaying, onToast]);
 };
