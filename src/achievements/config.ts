@@ -16,6 +16,7 @@ import {
   IconHeartBroken,
   IconLanguage,
   IconLetterCase,
+  IconMoodConfuzed,
   IconMoodEmpty,
   IconPlaneTilt,
   IconQuestionMark,
@@ -80,7 +81,9 @@ export type FeatId =
   | 'dud'
   | 'scrambled'
   | 'soClose'
-  | 'bravery';
+  | 'bravery'
+  | 'noInstructions'
+  | 'wtf';
 
 /** One occurrence of a feat in a game. */
 export interface EarnedFeat {
@@ -102,6 +105,8 @@ export interface FeatDef {
   category: FeatCategory;
   /** How to earn it, shown on the profile. */
   description: string;
+  /** Kept off the profile until earned. */
+  hidden?: boolean;
   /** What happened in a specific game, shown in notifications and the post-game summary. */
   detail: (feat: EarnedFeat) => string;
 }
@@ -120,6 +125,10 @@ export const FEAT_RULES = {
   soCloseGreens: 4,
   braveryLetters: 'qwxyz',
   braveryMinLetters: 3,
+  /** No Instructions For Me: guesses that go against what every open board already showed. */
+  noInstructionsMinGuesses: 3,
+  /** WTF Are You Doing: the same, but more of them. */
+  wtfMinGuesses: 4,
 };
 
 const board = (lang?: Language) => (lang ? `the ${labelFor(lang)} board` : 'a board');
@@ -257,6 +266,22 @@ export const FEATS: Record<FeatId, FeatDef> = {
     detail: ({ value }) =>
       `Played ${value} of ${[...FEAT_RULES.braveryLetters.toUpperCase()].join(', ')} in one game.`,
   },
+  noInstructions: {
+    name: 'No Instructions For Me',
+    icon: IconMoodConfuzed,
+    category: 'fun',
+    hidden: true,
+    description: `Play ${FEAT_RULES.noInstructionsMinGuesses} guesses in one game that ignore what the tiles already told you, on every open board.`,
+    detail: () => 'The tiles were trying to tell you something.',
+  },
+  wtf: {
+    name: 'WTF Are You Doing',
+    icon: IconQuestionMark,
+    category: 'fun',
+    hidden: true,
+    description: `Play ${FEAT_RULES.wtfMinGuesses} guesses in one game that ignore what the tiles already told you, on every open board.`,
+    detail: ({ value }) => `${value} guesses that ignored the tiles. Bold strategy.`,
+  },
   ...firstTryFeats(),
   chapeau: {
     name: 'Chapeau !',
@@ -299,6 +324,8 @@ export const FEAT_ORDER: FeatId[] = [
   'scrambled',
   'soClose',
   'bravery',
+  'noInstructions',
+  'wtf',
 ];
 
 // ---------------------------------------------------------------------------

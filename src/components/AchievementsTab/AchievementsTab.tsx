@@ -73,10 +73,14 @@ export const TrackGrid: FC<{ achievements: AchievementProgress[] }> = ({ achieve
   </SimpleGrid>
 );
 
+/** Every feat except hidden ones that haven't been earned yet. */
+const visibleFeats = (counts: FeatCounts) =>
+  FEAT_ORDER.filter((id) => !FEATS[id].hidden || counts[id]);
+
 export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) => (
   <Stack gap="lg">
     {(Object.keys(FEAT_CATEGORIES) as FeatCategory[]).map((category) => {
-      const ids = FEAT_ORDER.filter((id) => FEATS[id].category === category);
+      const ids = visibleFeats(counts).filter((id) => FEATS[id].category === category);
       return ids.length === 0 ? null : (
         <Stack key={category} gap="xs">
           <Text size="xs" fw={700} c="dimmed" tt="uppercase">
@@ -155,13 +159,14 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
     );
   }
 
-  const featsEarned = FEAT_ORDER.filter((id) => featCounts[id]).length;
+  const featsShown = visibleFeats(featCounts);
+  const featsEarned = featsShown.filter((id) => featCounts[id]).length;
 
   return (
     <Tabs defaultValue="feats" variant="pills" mt="md">
       <Tabs.List mb="md">
         <Tabs.Tab value="feats">
-          Feats ({featsEarned}/{FEAT_ORDER.length})
+          Feats ({featsEarned}/{featsShown.length})
         </Tabs.Tab>
         <Tabs.Tab value="tracks">Tracks</Tabs.Tab>
       </Tabs.List>

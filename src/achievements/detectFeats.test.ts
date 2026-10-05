@@ -22,7 +22,11 @@ describe('detectFeats', () => {
       words: { es: 'pesos', en: 'slump', fr: 'pluie' },
       guessHistory: ['hello', 'yells', 'grate', 'slime', 'slate', 'slump', 'pluie', 'pesos'],
     });
-    expect(feats).toEqual([{ id: 'dud', guess: 5 }]);
+    // SLATE also drops the M that SLIME had already turned green on English.
+    expect(feats).toEqual([
+      { id: 'dud', guess: 5 },
+      { id: 'noInstructions', guess: 5, value: 3 },
+    ]);
   });
 
   it('finds a Jackpot (real game)', () => {
@@ -161,5 +165,26 @@ describe('detectFeats', () => {
     it('skips them without dictionaries', () => {
       expect(ids(detectFeats(game))).not.toContain('lostInTranslation');
     });
+  });
+
+  it('finds No Instructions For Me and WTF Are You Doing (real game)', () => {
+    const feats = detectFeats({
+      words: { pt: 'menti', en: 'emery', es: 'rubia' },
+      guessHistory: ['water', 'hater', 'later', 'miner', 'menos', 'mente', 'menti', 'merge'],
+    });
+    // HATER and LATER keep T, E and R in spots already marked yellow; MINER reuses R after it
+    // was ruled out on Portuguese; MERGE reuses M where English already marked it yellow.
+    expect(feats.filter((f) => f.id === 'noInstructions' || f.id === 'wtf')).toEqual([
+      { id: 'noInstructions', guess: 4, value: 3 },
+      { id: 'wtf', guess: 8, value: 4 },
+    ]);
+  });
+
+  it('does not count guesses that follow the tiles on at least one board', () => {
+    const feats = detectFeats({
+      words: { fr: 'fleur', en: 'craps', es: 'dandi' },
+      guessHistory: ['think', 'spoil', 'dandi', 'fleur', 'craps'],
+    });
+    expect(ids(feats)).not.toContain('noInstructions');
   });
 });
