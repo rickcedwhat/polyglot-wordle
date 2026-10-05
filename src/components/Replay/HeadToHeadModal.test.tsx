@@ -59,6 +59,25 @@ function renderGames(games: (GameDoc | null)[]) {
 
 beforeEach(() => vi.mocked(getDoc).mockClear());
 
+it.each([0, 1, 3])('renders nothing with %i duel players', (count) => {
+  const { container } = render(
+    <MantineProvider withGlobalClasses={false} withCssVariables={false}>
+      <TurnDuel
+        words={game.words}
+        languages={game.shuffledLanguages}
+        scoringVersion={2}
+        players={Array.from({ length: count }, (_, i) => ({
+          id: String(i),
+          name: `Player ${i}`,
+          color: 'blue',
+          guesses: game.guessHistory,
+        }))}
+      />
+    </MantineProvider>
+  );
+  expect(container).toBeEmptyDOMElement();
+});
+
 describe('head-to-head game loading', () => {
   it.each([
     [null, game],
