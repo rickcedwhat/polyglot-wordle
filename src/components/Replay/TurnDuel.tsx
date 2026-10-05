@@ -265,10 +265,10 @@ export const TurnDuel: FC<TurnDuelProps> = ({
     return null;
   }
   const finals = timelines.map((timeline) => timeline[turns].total);
-  const leader = finals[0] >= finals[1] ? 0 : 1;
-  const margin = Math.abs(finals[0] - finals[1]);
+  const [high, low] = [...finals].sort((a, b) => b - a).map((n) => n.toLocaleString());
+  const winner = finals[0] > finals[1] ? players[0] : players[1];
   const result =
-    margin === 0 ? 'Tied' : `${players[leader].name} won by ${margin.toLocaleString()}`;
+    finals[0] === finals[1] ? `Tied ${high} vs ${low}` : `${winner.name} won ${high} vs ${low}`;
   const heading =
     shownTurn === 0
       ? 'Head-to-head replay'

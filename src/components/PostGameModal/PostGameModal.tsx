@@ -37,7 +37,6 @@ import { useGameAchievements } from '@/hooks/useGameAchievements';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
 import { GameDoc, Language } from '@/types/firestore';
 import { labelFor, languagesFromGame } from '@/utils/languages';
-import { marginLabel } from '@/utils/outcome';
 import { shareGameResult } from '@/utils/shareUtils';
 import { calculateScoreFromHistory, normalizeWord, scoringVersionOf } from '@/utils/wordUtils';
 import { EarnedThisGame } from '../Badges/GameAchievements';
@@ -310,8 +309,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
                 variant="light"
                 size="sm"
               >
-                {isChallengerWin ? '🏆 ' : isChallengerLoss ? '🥈 ' : '🤝 '}
-                {marginLabel(myScore, theirScore)}
+                {isChallengerWin ? '🏆 You Won!' : isChallengerLoss ? '🥈 Defeated' : '🤝 Tied'}
               </Badge>
             </Group>
 
