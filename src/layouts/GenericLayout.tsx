@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { AppShell, Avatar, Group, Text, Title } from '@mantine/core';
+import { AppShell, Group, Text, Title } from '@mantine/core';
+import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useAuth } from '@/context/AuthContext';
 import classes from './GenericLayout.module.css';
 
@@ -21,11 +22,7 @@ export const GenericLayout: FC = () => {
 
           {currentUser && (
             <Link to={`/profile/${currentUser.uid}`}>
-              <Avatar
-                src={currentUser.photoURL}
-                alt={currentUser.displayName || 'Profile'}
-                radius="xl"
-              />
+              <UserAvatar src={currentUser.photoURL} name={currentUser.displayName || 'Profile'} />
             </Link>
           )}
         </Group>

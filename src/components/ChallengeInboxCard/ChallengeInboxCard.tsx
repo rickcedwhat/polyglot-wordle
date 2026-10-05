@@ -2,9 +2,10 @@ import { FC, useMemo, useState } from 'react';
 import { IconPlayerPlay, IconSwords } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Badge, Button, Group, Modal, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Badge, Button, Group, Modal, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import { ChallengeFriendModal } from '@/components/ChallengeFriendModal/ChallengeFriendModal';
 import { HeadToHeadModal, type HeadToHeadSide } from '@/components/Replay/HeadToHeadModal';
+import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useAuth } from '@/context/AuthContext';
 import type { ChallengeInboxItem } from '@/hooks/useChallenges';
 import { useFriendships } from '@/hooks/useFriendships';
@@ -170,9 +171,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
               userId={otherId}
               aria-label={`View ${other?.displayName || 'Opponent'}'s profile`}
             >
-              <Avatar src={other?.photoURL} radius="xl" color="blue">
-                <IconSwords size={16} />
-              </Avatar>
+              <UserAvatar src={other?.photoURL} name={other?.displayName || 'Opponent'} />
             </ProfileLink>
             <Stack gap={2} style={{ minWidth: 0 }}>
               <Group gap={6}>

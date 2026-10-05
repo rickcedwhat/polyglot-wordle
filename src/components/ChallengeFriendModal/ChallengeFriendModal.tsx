@@ -3,7 +3,6 @@ import { IconSwords } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import {
-  Avatar,
   Badge,
   Button,
   Center,
@@ -18,6 +17,7 @@ import {
 } from '@mantine/core';
 import { GameSetupModal } from '@/components/GameSetup/GameSetupModal';
 import type { GameSetupValue } from '@/components/GameSetup/GameSetupPanel';
+import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useAuth } from '@/context/AuthContext';
 import { useChallenges } from '@/hooks/useChallenges';
 import {
@@ -309,7 +309,7 @@ const FriendRow: FC<{
     >
       <Group justify="space-between" wrap="nowrap">
         <Group gap="sm" wrap="nowrap">
-          <Avatar src={profile.photoURL} radius="xl" size="sm" />
+          <UserAvatar src={profile.photoURL} name={profile.displayName} size="sm" />
           <Text size="sm" fw={600}>
             {profile.displayName}
           </Text>

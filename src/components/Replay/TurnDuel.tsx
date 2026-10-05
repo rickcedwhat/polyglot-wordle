@@ -1,5 +1,6 @@
 import { CSSProperties, FC, useMemo, useRef, useState } from 'react';
-import { Avatar, Box, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Box, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useCountUp } from '@/hooks/useCountUp';
 import { useReplay } from '@/hooks/useReplay';
 import type { Language } from '@/types/firestore';
@@ -120,9 +121,7 @@ const Lane: FC<LaneProps> = ({
       style={{ '--lane-color': `var(--mantine-color-${player.color}-5)` } as CSSProperties}
     >
       <div className={classes.player}>
-        <Avatar src={player.photoURL} size={32} radius="50%" color={player.color}>
-          {player.name[0]}
-        </Avatar>
+        <UserAvatar src={player.photoURL} name={player.name} size={32} color={player.color} />
         <Text fw={700} fz={24} truncate>
           {player.name}
         </Text>
