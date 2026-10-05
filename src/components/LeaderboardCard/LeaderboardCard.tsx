@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { IconEye } from '@tabler/icons-react';
-import { Avatar, Badge, Box, Group, Paper, Text, UnstyledButton } from '@mantine/core';
+import { Badge, Box, Group, Paper, Text, UnstyledButton } from '@mantine/core';
+import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import type { GameDoc } from '@/types/firestore';
 import { ProfileLink } from '../ProfileLink/ProfileLink';
@@ -46,12 +47,7 @@ export const LeaderboardCard: FC<LeaderboardCardProps> = ({ game, rank, onClick,
           <Box display="inline-block" maw="100%" pos="relative" style={{ pointerEvents: 'auto' }}>
             <ProfileLink userId={game.userId}>
               <Group gap="sm" wrap="nowrap">
-                <Avatar
-                  src={userProfile?.photoURL}
-                  alt={userProfile?.displayName}
-                  radius="xl"
-                  size="sm"
-                />
+                <UserAvatar src={userProfile?.photoURL} name={userProfile?.displayName} size="sm" />
                 <Text size="sm" fw={500} truncate>
                   {userProfile?.displayName || '...'}
                 </Text>

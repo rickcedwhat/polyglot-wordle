@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
-import { IconSwords } from '@tabler/icons-react';
-import { Avatar, Badge, CloseButton, Group, Paper, Text } from '@mantine/core';
+import { Badge, CloseButton, Group, Paper, Text } from '@mantine/core';
+import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { MAX_GUESSES } from '@/config';
 import type { ChallengerProfile } from '@/hooks/useChallenge';
 import type { GameDoc } from '@/types/firestore';
@@ -40,9 +40,7 @@ export const ChallengeBanner: FC<ChallengeBannerProps> = ({ challengerUser, chal
       <Group justify="space-between" wrap="nowrap">
         <Group gap="xs" wrap="nowrap">
           <ProfileLink userId={challengerGame.userId} aria-label={`View ${name}'s profile`}>
-            <Avatar src={challengerUser?.photoURL} size="sm" radius="xl" color="blue">
-              <IconSwords size={16} />
-            </Avatar>
+            <UserAvatar src={challengerUser?.photoURL} name={name} size="sm" />
           </ProfileLink>
           <div>
             <Group gap={6} align="center">

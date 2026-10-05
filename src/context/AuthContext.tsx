@@ -7,7 +7,16 @@ import {
   signOut,
   type User,
 } from 'firebase/auth';
-import { doc, getDoc, getFirestore, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  serverTimestamp,
+  setDoc,
+  Timestamp,
+  updateDoc,
+  type DocumentReference,
+} from 'firebase/firestore';
 import { auth, googleProvider } from '@/firebase';
 import { syncFlaggedWords } from '@/hooks/useFlaggedWords';
 import { UserDoc } from '@/types/firestore';
@@ -22,6 +31,23 @@ interface AuthContextType {
 
 /** Exported so Storybook can provide a signed-in user without Firebase Auth. */
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+/**
+ * Keeps the saved name and photo in step with the Google account, so friends don't keep loading
+ * a photo URL that Google has since retired.
+ */
+async function syncProfile(ref: DocumentReference, saved: UserDoc, user: User) {
+  const changes: Partial<Pick<UserDoc, 'displayName' | 'photoURL'>> = {};
+  if (user.displayName && user.displayName !== saved.displayName) {
+    changes.displayName = user.displayName;
+  }
+  if (user.photoURL && user.photoURL !== saved.photoURL) {
+    changes.photoURL = user.photoURL;
+  }
+  if (Object.keys(changes).length > 0) {
+    await updateDoc(ref, changes).catch((error) => console.error('Profile sync failed:', error));
+  }
+}
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -106,6 +132,8 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
               },
             },
           } as UserDoc);
+        } else {
+          await syncProfile(userDocRef, userDocSnap.data() as UserDoc, user);
         }
         void syncFlaggedWords(user.uid);
       }

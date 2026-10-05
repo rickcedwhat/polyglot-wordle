@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Avatar, Card, Group, Skeleton, Text } from '@mantine/core';
+import { Card, Group, Skeleton, Text } from '@mantine/core';
+import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { ProfileLink } from '../ProfileLink/ProfileLink';
 
@@ -30,7 +31,7 @@ export const FriendCard: FC<FriendCardProps> = ({ friendId, children }) => {
 
   const identity = (
     <Group>
-      <Avatar src={friendProfile.photoURL} alt={friendProfile.displayName} radius="xl" />
+      <UserAvatar src={friendProfile.photoURL} name={friendProfile.displayName} />
       <Text fw={500}>{friendProfile.displayName}</Text>
     </Group>
   );
