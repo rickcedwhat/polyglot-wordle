@@ -66,6 +66,10 @@ export function StoryGameArea({ game }: { game: StoryGame }) {
             isInvalid={game.isInvalid}
             onTileClick={game.setCursorIndex}
             jumble={jumble}
+            onClear={() => {
+              game.setCurrentGuess(Array(5).fill(''));
+              game.setCursorIndex(0);
+            }}
           />
         </Box>
         <AlphabetStatus activeKey={game.activeKey} onKeyPress={game.handleKeyPress} />

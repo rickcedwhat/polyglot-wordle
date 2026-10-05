@@ -466,6 +466,10 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           isInvalid={isInvalidGuess}
           onTileClick={handleTileClick}
           jumble={jumble}
+          onClear={() => {
+            setCurrentGuess(Array(5).fill(''));
+            setCursorIndex(0);
+          }}
         />
       </Box>
       <AlphabetStatus activeKey={activeKey} onKeyPress={handleKeyPress} />

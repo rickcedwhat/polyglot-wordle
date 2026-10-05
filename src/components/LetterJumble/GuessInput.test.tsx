@@ -96,3 +96,37 @@ describe('GuessInput intro note', () => {
     expect(screen.queryByText(INTRO)).toBeNull();
   });
 });
+
+describe('GuessInput clear button', () => {
+  const renderWithClear = (word: string, isOpen: boolean, onClear = vi.fn()) =>
+    render(
+      <MantineProvider>
+        <GuessInput
+          guess={slotsFor(word).map((s) => s.letter)}
+          cursorIndex={0}
+          isInvalid={false}
+          onTileClick={vi.fn()}
+          jumble={jumbleWith({ isOpen })}
+          onClear={onClear}
+        />
+      </MantineProvider>
+    );
+
+  it('clears a guess with letters outside jumble mode', async () => {
+    const onClear = vi.fn();
+    renderWithClear('ca___', false, onClear);
+    await userEvent.click(screen.getByRole('button', { name: 'Clear guess' }));
+    expect(onClear).toHaveBeenCalledTimes(1);
+  });
+
+  it('hides when the guess is empty', () => {
+    renderWithClear('_____', false);
+    expect(screen.queryByRole('button', { name: 'Clear guess' })).toBeNull();
+  });
+
+  it('hides in jumble mode, where the left slot leaves jumble', () => {
+    renderWithClear('ca___', true);
+    expect(screen.queryByRole('button', { name: 'Clear guess' })).toBeNull();
+    expect(screen.getByRole('button', { name: 'Leave Letter Jumble' })).toBeTruthy();
+  });
+});
