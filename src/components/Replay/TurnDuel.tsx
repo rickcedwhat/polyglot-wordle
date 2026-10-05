@@ -261,6 +261,9 @@ export const TurnDuel: FC<TurnDuelProps> = ({
   const typing = replay.typedLetters?.length ?? null;
   const { step } = replay;
   const shownTurn = typing !== null ? step + 1 : step;
+  if (players.length !== 2) {
+    return null;
+  }
   const finals = timelines.map((timeline) => timeline[turns].total);
   const leader = finals[0] >= finals[1] ? 0 : 1;
   const margin = Math.abs(finals[0] - finals[1]);
