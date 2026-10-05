@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { IconArrowsShuffle, IconX } from '@tabler/icons-react';
+import { IconArrowsShuffle, IconEraser, IconX } from '@tabler/icons-react';
 import { ActionIcon, Anchor, CloseButton, Group, Popover, Text } from '@mantine/core';
 import type { LetterJumble } from '@/hooks/useLetterJumble';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
@@ -14,6 +14,8 @@ interface GuessInputProps {
   jumble: LetterJumble;
   /** Opens Letter Jumble help; without it the first-time note is never shown. */
   onJumbleHelp?: () => void;
+  /** Empties the guess; its button shows while Letter Jumble is closed and the guess has letters. */
+  onClear?: () => void;
 }
 
 const INTRO_SEEN_KEY = 'polyglot_jumble_intro_seen_v1';
@@ -40,7 +42,7 @@ function useJumbleIntro(isOpen: boolean, enabled: boolean) {
   return { show: enabled && isOpen && !seen, dismiss };
 }
 
-/** The guess row flanked by Letter Jumble's controls: ✕ (while open) and 🔀. */
+/** The guess row flanked by ✕ (leave Letter Jumble) or clear on the left, and 🔀 on the right. */
 export const GuessInput: FC<GuessInputProps> = ({
   guess,
   cursorIndex,
@@ -48,6 +50,7 @@ export const GuessInput: FC<GuessInputProps> = ({
   onTileClick,
   jumble,
   onJumbleHelp,
+  onClear,
 }) => {
   const { isOpen } = jumble;
   const intro = useJumbleIntro(isOpen, !!onJumbleHelp);
@@ -74,6 +77,10 @@ export const GuessInput: FC<GuessInputProps> = ({
           aria-label="Leave Letter Jumble"
         >
           <IconX size={16} />
+        </ActionIcon>
+      ) : onClear && guess.some(Boolean) ? (
+        <ActionIcon variant="subtle" color="gray" onClick={onClear} aria-label="Clear guess">
+          <IconEraser size={16} />
         </ActionIcon>
       ) : (
         <span />
