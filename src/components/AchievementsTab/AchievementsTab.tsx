@@ -73,51 +73,56 @@ export const TrackGrid: FC<{ achievements: AchievementProgress[] }> = ({ achieve
   </SimpleGrid>
 );
 
-/** Every feat except hidden ones that haven't been earned yet. */
-const visibleFeats = (counts: FeatCounts) =>
-  FEAT_ORDER.filter((id) => !FEATS[id].hidden || counts[id]);
+/** Feats only appear once earned; players discover the rest on friends' profiles. */
+const earnedFeats = (counts: FeatCounts) => FEAT_ORDER.filter((id) => counts[id]);
 
-export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) => (
-  <Stack gap="lg">
-    {(Object.keys(FEAT_CATEGORIES) as FeatCategory[]).map((category) => {
-      const ids = visibleFeats(counts).filter((id) => FEATS[id].category === category);
-      return ids.length === 0 ? null : (
-        <Stack key={category} gap="xs">
-          <Text size="xs" fw={700} c="dimmed" tt="uppercase">
-            {FEAT_CATEGORIES[category].label}
-          </Text>
-          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-            {ids.map((id) => {
-              const count = counts[id] ?? 0;
-              return (
-                <Card key={id} withBorder radius="md" p="sm">
-                  <Group gap="sm" wrap="nowrap" align="flex-start">
-                    <FeatMedal id={id} count={count} size={44} />
-                    <div style={{ minWidth: 0 }}>
-                      <Group gap={6}>
-                        <Text size="sm" fw={700} c={count ? undefined : 'dimmed'}>
-                          {FEATS[id].name}
-                        </Text>
-                        {count > 0 && (
-                          <Text size="xs" c="dimmed">
-                            ×{count}
+export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) =>
+  earnedFeats(counts).length === 0 ? (
+    <Text size="sm" c="dimmed" ta="center" py="xl">
+      No feats yet. They&apos;re earned by pulling off something special in a game. Peek at
+      friends&apos; profiles to see what&apos;s out there.
+    </Text>
+  ) : (
+    <Stack gap="lg">
+      {(Object.keys(FEAT_CATEGORIES) as FeatCategory[]).map((category) => {
+        const ids = earnedFeats(counts).filter((id) => FEATS[id].category === category);
+        return ids.length === 0 ? null : (
+          <Stack key={category} gap="xs">
+            <Text size="xs" fw={700} c="dimmed" tt="uppercase">
+              {FEAT_CATEGORIES[category].label}
+            </Text>
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+              {ids.map((id) => {
+                const count = counts[id] ?? 0;
+                return (
+                  <Card key={id} withBorder radius="md" p="sm">
+                    <Group gap="sm" wrap="nowrap" align="flex-start">
+                      <FeatMedal id={id} count={count} size={44} />
+                      <div style={{ minWidth: 0 }}>
+                        <Group gap={6}>
+                          <Text size="sm" fw={700} c={count ? undefined : 'dimmed'}>
+                            {FEATS[id].name}
                           </Text>
-                        )}
-                      </Group>
-                      <Text size="xs" c="dimmed">
-                        {FEATS[id].description}
-                      </Text>
-                    </div>
-                  </Group>
-                </Card>
-              );
-            })}
-          </SimpleGrid>
-        </Stack>
-      );
-    })}
-  </Stack>
-);
+                          {count > 0 && (
+                            <Text size="xs" c="dimmed">
+                              ×{count}
+                            </Text>
+                          )}
+                        </Group>
+                        <Text size="xs" c="dimmed">
+                          {FEATS[id].description}
+                        </Text>
+                      </div>
+                    </Group>
+                  </Card>
+                );
+              })}
+            </SimpleGrid>
+          </Stack>
+        );
+      })}
+    </Stack>
+  );
 
 export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }) => {
   const { achievements, isLoading: tracksLoading } = useAchievements(profileUserId);
@@ -159,15 +164,12 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
     );
   }
 
-  const featsShown = visibleFeats(featCounts);
-  const featsEarned = featsShown.filter((id) => featCounts[id]).length;
+  const featsEarned = earnedFeats(featCounts).length;
 
   return (
     <Tabs defaultValue="feats" variant="pills" mt="md">
       <Tabs.List mb="md">
-        <Tabs.Tab value="feats">
-          Feats ({featsEarned}/{featsShown.length})
-        </Tabs.Tab>
+        <Tabs.Tab value="feats">Feats ({featsEarned})</Tabs.Tab>
         <Tabs.Tab value="tracks">Tracks</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="feats">
