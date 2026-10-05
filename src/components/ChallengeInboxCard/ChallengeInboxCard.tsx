@@ -12,6 +12,7 @@ import { useFriendships } from '@/hooks/useFriendships';
 import { useGameActions } from '@/hooks/useGameActions';
 import { cancelFriendChallenge } from '@/utils/challengeUtils';
 import { gamePath } from '@/utils/languages';
+import { marginLabel, outcomeOf } from '@/utils/outcome';
 import { ProfileLink } from '../ProfileLink/ProfileLink';
 
 interface ChallengeInboxCardProps {
@@ -61,15 +62,8 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   const bothDone =
     myScore !== null && myScore !== undefined && theirScore !== null && theirScore !== undefined;
 
-  const outcomeLabel = (() => {
-    if (!bothDone) {
-      return null;
-    }
-    if (myScore === theirScore) {
-      return 'Tied';
-    }
-    return myScore! > theirScore! ? 'You won' : 'You lost';
-  })();
+  const outcome = bothDone ? outcomeOf(myScore, theirScore) : null;
+  const outcomeLabel = bothDone ? marginLabel(myScore, theirScore) : null;
 
   const unread = challenge.status === 'completed' && me && !me.resultSeenAt && bothDone;
   const iAmChallenger = challenge.createdBy === userId;
@@ -240,9 +234,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           {outcomeLabel && (
             <Badge
               size="lg"
-              color={
-                outcomeLabel === 'You won' ? 'teal' : outcomeLabel === 'You lost' ? 'red' : 'yellow'
-              }
+              color={outcome === 'won' ? 'teal' : outcome === 'lost' ? 'red' : 'yellow'}
             >
               {outcomeLabel}
             </Badge>

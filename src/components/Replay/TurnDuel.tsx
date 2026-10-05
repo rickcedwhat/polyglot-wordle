@@ -261,11 +261,22 @@ export const TurnDuel: FC<TurnDuelProps> = ({
   const typing = replay.typedLetters?.length ?? null;
   const { step } = replay;
   const shownTurn = typing !== null ? step + 1 : step;
+  const finals = timelines.map((timeline) => timeline[turns].total);
+  const leader = finals[0] >= finals[1] ? 0 : 1;
+  const margin = Math.abs(finals[0] - finals[1]);
+  const result =
+    margin === 0 ? 'Tied' : `${players[leader].name} won by ${margin.toLocaleString()}`;
+  const heading =
+    shownTurn === 0
+      ? 'Head-to-head replay'
+      : step >= turns && typing === null
+        ? result
+        : `Turn ${shownTurn} of ${turns}`;
 
   return (
     <Stack gap="md" w="100%" maw={860} mx="auto">
       <Text fw={700} ta="center">
-        {shownTurn === 0 ? 'Head-to-head replay' : `Turn ${shownTurn} of ${turns}`}
+        {heading}
       </Text>
       <SimpleGrid cols={{ base: 1, sm: players.length }} spacing="md">
         {players.map((player, i) => (
