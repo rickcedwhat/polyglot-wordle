@@ -22,6 +22,7 @@ export interface DuelPlayer {
   /** Mantine color for this player's bars. */
   color: string;
   guesses: string[];
+  scoringVersion?: number;
 }
 
 interface TurnDuelProps {
@@ -236,7 +237,10 @@ export const TurnDuel: FC<TurnDuelProps> = ({
 }) => {
   const turns = Math.max(...players.map((p) => p.guesses.length));
   const timelines = useMemo(
-    () => players.map((p) => buildDuelTimeline(p.guesses, words, languages, scoringVersion, turns)),
+    () =>
+      players.map((p) =>
+        buildDuelTimeline(p.guesses, words, languages, p.scoringVersion ?? scoringVersion, turns)
+      ),
     [players, words, languages, scoringVersion, turns]
   );
   const barMax = duelBarMax(timelines);

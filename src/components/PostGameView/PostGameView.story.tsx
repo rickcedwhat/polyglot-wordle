@@ -51,6 +51,7 @@ const PostGameStory = ({ fixture }: { fixture: StoryGameFixture }) => {
         game={selected}
         viewingUserId={selected.userId === games[0].userId ? null : selected.userId}
         onViewOwn={() => setSelected(games[0])}
+        onWatchDuel={() => {}}
         onOpenSummary={() => {}}
         leaderboard={
           <LeaderboardList

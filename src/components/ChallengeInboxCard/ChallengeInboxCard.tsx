@@ -1,9 +1,10 @@
 import { FC, useMemo, useState } from 'react';
-import { IconSwords } from '@tabler/icons-react';
+import { IconPlayerPlay, IconSwords } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Badge, Button, Group, Modal, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import { ChallengeFriendModal } from '@/components/ChallengeFriendModal/ChallengeFriendModal';
+import { HeadToHeadModal, type HeadToHeadSide } from '@/components/Replay/HeadToHeadModal';
 import { useAuth } from '@/context/AuthContext';
 import type { ChallengeInboxItem } from '@/hooks/useChallenges';
 import { useFriendships } from '@/hooks/useFriendships';
@@ -31,6 +32,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   const [copied, setCopied] = useState(false);
   const [friendRematchOpened, setFriendRematchOpened] = useState(false);
   const [cancelBusy, setCancelBusy] = useState(false);
+  const [duelOpened, setDuelOpened] = useState(false);
   const queryClient = useQueryClient();
 
   const userId = currentUser?.uid;
@@ -41,6 +43,17 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   );
   const me = userId ? challenge.participants[userId] : undefined;
   const other = otherId ? challenge.participants[otherId] : undefined;
+
+  const duelSides = useMemo<[HeadToHeadSide, HeadToHeadSide] | null>(
+    () =>
+      userId && otherId
+        ? [
+            { userId, name: 'You', photoURL: me?.photoURL },
+            { userId: otherId, name: other?.displayName || 'Opponent', photoURL: other?.photoURL },
+          ]
+        : null,
+    [userId, otherId, me?.photoURL, other?.displayName, other?.photoURL]
+  );
 
   const myScore = me?.score;
   const theirScore = other?.score;
@@ -255,6 +268,19 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
               </Text>
             </Paper>
           </SimpleGrid>
+          {duelSides && (
+            <Button
+              leftSection={<IconPlayerPlay size={14} />}
+              variant="gradient"
+              gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
+              onClick={() => {
+                setResultOpened(false);
+                setDuelOpened(true);
+              }}
+            >
+              Watch the replay
+            </Button>
+          )}
           <Group justify="flex-end" gap="xs">
             <Button size="xs" variant="light" onClick={handleCopyRematchFromResult}>
               {copied ? 'Link copied' : 'Copy challenge link'}
@@ -265,6 +291,15 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           </Group>
         </Stack>
       </Modal>
+
+      {duelSides && challenge.gameId && (
+        <HeadToHeadModal
+          opened={duelOpened}
+          onClose={() => setDuelOpened(false)}
+          gameId={challenge.gameId}
+          sides={duelSides}
+        />
+      )}
 
       {otherId && isFriend && (
         <ChallengeFriendModal
