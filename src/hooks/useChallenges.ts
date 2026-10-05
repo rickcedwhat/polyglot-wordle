@@ -7,6 +7,11 @@ import { markChallengeResultSeen } from '@/utils/challengeUtils';
 
 export type ChallengeInboxItem = ChallengeDoc & { id: string };
 
+const isNewInvite = (c: ChallengeDoc, userId: string) =>
+  c.source === 'friend_invite' &&
+  c.createdBy !== userId &&
+  c.participants[userId]?.rsvp === 'pending';
+
 export const useChallenges = () => {
   const { currentUser } = useAuth();
   const userId = currentUser?.uid;
@@ -55,7 +60,7 @@ export const useChallenges = () => {
       const unreadResult =
         c.status === 'completed' && me && !me.resultSeenAt && theirScore !== null;
 
-      if (unreadResult) {
+      if (unreadResult || isNewInvite(c, userId)) {
         unreadCount += 1;
       }
 
@@ -125,63 +130,85 @@ const writeSeenToasts = (ids: Set<string>) => {
   }
 };
 
+interface ChallengeToast {
+  toastId: string;
+  challengeId: string;
+  message: string;
+  occurredAt: number;
+}
+
+/** One toast per new in-app invite and per unread completed challenge. */
+const challengeToasts = (challenges: ChallengeInboxItem[], userId: string): ChallengeToast[] =>
+  challenges.flatMap((c): ChallengeToast[] => {
+    const me = c.participants[userId];
+    if (isNewInvite(c, userId)) {
+      const name = c.participants[c.createdBy]?.displayName || 'A friend';
+      return [
+        {
+          toastId: `${c.id}:${userId}:invite`,
+          challengeId: c.id,
+          message: `${name} challenged you — tap to play`,
+          occurredAt: c.createdAt.toMillis(),
+        },
+      ];
+    }
+    if (c.status !== 'completed' || !me || me.resultSeenAt) {
+      return [];
+    }
+    const otherId = c.participantIds.find((id) => id !== userId);
+    const other = otherId ? c.participants[otherId] : undefined;
+    const myScore = me.score ?? 0;
+    const theirScore = other?.score ?? 0;
+    const name = other?.displayName || 'Your friend';
+    const outcome = myScore > theirScore ? 'you won' : myScore < theirScore ? 'you lost' : 'tied';
+    return [
+      {
+        toastId: `${c.id}:${userId}`,
+        challengeId: c.id,
+        message: `${name} finished — ${outcome} ${myScore}–${theirScore}`,
+        occurredAt: Math.max(me.completedAt?.toMillis() ?? 0, other?.completedAt?.toMillis() ?? 0),
+      },
+    ];
+  });
+
 /**
- * Fires a callback once per new in-app invite and once per unread completed challenge
- * (persisted in localStorage).
+ * Toasts invites and results that arrive mid-game, once each (persisted in localStorage).
+ * Whatever is already waiting at sign-in, or arrives while not playing, is marked seen
+ * silently and left to the Challenges badge.
  */
 export const useChallengeResultToasts = (
-  onToast: (item: { challengeId: string; message: string }) => void
+  onToast: (item: { challengeId: string; message: string }) => void,
+  { isPlaying }: { isPlaying: boolean }
 ) => {
   const { currentUser } = useAuth();
   const userId = currentUser?.uid;
-  const { challenges } = useChallenges();
+  const { challenges, isSuccess } = useChallenges();
   const seenRef = useRef(readSeenToasts());
+  const loadedForRef = useRef<string | null>(null);
+  const gameplayEnteredAtRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!userId) {
+    gameplayEnteredAtRef.current = isPlaying ? Date.now() : null;
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (!userId || !isSuccess) {
       return;
     }
-
-    challenges.forEach((c) => {
-      const me = c.participants[userId];
-      const isNewInvite =
-        c.source === 'friend_invite' && c.createdBy !== userId && me?.rsvp === 'pending';
-      if (isNewInvite) {
-        const inviteToastId = `${c.id}:${userId}:invite`;
-        if (!seenRef.current.has(inviteToastId)) {
-          seenRef.current.add(inviteToastId);
-          writeSeenToasts(seenRef.current);
-          const name = c.participants[c.createdBy]?.displayName || 'A friend';
-          onToast({ challengeId: c.id, message: `${name} challenged you — tap to play` });
-        }
-        return;
-      }
-      if (c.status !== 'completed' || !me || me.resultSeenAt) {
-        return;
-      }
-      const toastId = `${c.id}:${userId}`;
-      if (seenRef.current.has(toastId)) {
-        return;
-      }
-
-      const otherId = c.participantIds.find((id) => id !== userId);
-      const other = otherId ? c.participants[otherId] : undefined;
-      const myScore = me.score ?? 0;
-      const theirScore = other?.score ?? 0;
-      const name = other?.displayName || 'Your friend';
-      let outcome = 'tied';
-      if (myScore > theirScore) {
-        outcome = 'you won';
-      } else if (myScore < theirScore) {
-        outcome = 'you lost';
-      }
-
-      seenRef.current.add(toastId);
+    const fresh = challengeToasts(challenges, userId).filter(
+      ({ toastId }) => !seenRef.current.has(toastId)
+    );
+    if (fresh.length > 0) {
+      fresh.forEach(({ toastId }) => seenRef.current.add(toastId));
       writeSeenToasts(seenRef.current);
-      onToast({
-        challengeId: c.id,
-        message: `${name} finished — ${outcome} ${myScore}–${theirScore}`,
-      });
-    });
-  }, [challenges, userId, onToast]);
+    }
+    const arrivedLive = loadedForRef.current === userId;
+    loadedForRef.current = userId;
+    const gameplayEnteredAt = gameplayEnteredAtRef.current;
+    if (arrivedLive && isPlaying && gameplayEnteredAt !== null) {
+      fresh
+        .filter(({ occurredAt }) => occurredAt >= gameplayEnteredAt)
+        .forEach(({ challengeId, message }) => onToast({ challengeId, message }));
+    }
+  }, [challenges, userId, isSuccess, isPlaying, onToast]);
 };

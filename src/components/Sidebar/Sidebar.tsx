@@ -64,7 +64,7 @@ export const Sidebar: FC = () => {
     },
     [navigate, closeSidebar]
   );
-  useChallengeResultToasts(handleToast);
+  useChallengeResultToasts(handleToast, { isPlaying: location.pathname.startsWith('/game/') });
 
   const handleNewGameClick = () => {
     if (needsSetup) {
