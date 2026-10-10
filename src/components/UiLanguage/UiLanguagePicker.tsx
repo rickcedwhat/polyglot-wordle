@@ -69,7 +69,7 @@ export const UiLanguageModal: FC<{ opened: boolean; onClose: () => void }> = ({
   };
 
   return (
-    <Modal opened={opened} onClose={confirm} title={t('uiLanguage.title')} centered size="sm">
+    <Modal opened={opened} onClose={onClose} title={t('uiLanguage.title')} centered size="sm">
       <Stack gap="sm">
         <Text size="sm" c="dimmed">
           {t('uiLanguage.intro')}
@@ -105,19 +105,34 @@ export const UiLanguageSync: FC = () => {
   const { data: profile } = useUserProfile(currentUser?.uid);
   const choose = useChooseUiLanguage();
   const [asking, setAsking] = useState(false);
-  const handled = useRef<string | null>(null);
+  const handled = useRef<{ uid: string; language?: Language } | null>(null);
 
   useEffect(() => {
-    if (!currentUser || !profile || handled.current === currentUser.uid) {
+    if (!currentUser) {
+      handled.current = null;
+      setAsking(false);
       return;
     }
-    handled.current = currentUser.uid;
+    if (!profile) {
+      return;
+    }
     if (profile.uiLanguage) {
+      if (
+        handled.current?.uid === currentUser.uid &&
+        handled.current.language === profile.uiLanguage
+      ) {
+        return;
+      }
+      handled.current = { uid: currentUser.uid, language: profile.uiLanguage };
       if (profile.uiLanguage !== currentUiLanguage()) {
         setUiLanguage(profile.uiLanguage);
       }
       return;
     }
+    if (handled.current?.uid === currentUser.uid) {
+      return;
+    }
+    handled.current = { uid: currentUser.uid };
     const saved = readSavedUiLanguage();
     if (saved) {
       choose(saved);
