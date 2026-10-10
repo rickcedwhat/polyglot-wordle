@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Carousel } from '@mantine/carousel';
 import { Modal, SegmentedControl } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
@@ -19,6 +20,7 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({
   onClose,
   initialTopic = 'play',
 }) => {
+  const { t } = useTranslation();
   // Use Mantine's hook to check for mobile screen sizes (breakpoint: sm)
   const isMobile = useMediaQuery(`(max-width: 576px)`);
   const [topic, setTopic] = useState<HelpTopic>(initialTopic);
@@ -34,7 +36,7 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({
     <Modal
       opened={opened}
       onClose={onClose}
-      title="How to Play Polyglot Wordle"
+      title={t('help.title')}
       fullScreen={isMobile} // Go full-screen on mobile
       size="xl"
       centered={!isMobile} // Only center on larger screens
@@ -49,7 +51,7 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({
         size={isMobile ? 'xs' : 'sm'}
         value={topic}
         onChange={(value) => setTopic(value as HelpTopic)}
-        data={HELP_TOPICS.map(({ value, label }) => ({ value, label }))}
+        data={HELP_TOPICS.map(({ value }) => ({ value, label: t(`help.topics.${value}`) }))}
       />
       <Carousel
         key={topic}

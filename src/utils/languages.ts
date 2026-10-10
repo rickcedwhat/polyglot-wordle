@@ -1,3 +1,4 @@
+import i18n from '@/i18n';
 import type { Difficulty, Language, LanguageCombo } from '@/types/firestore';
 
 /** All dictionaries available to the game. */
@@ -152,8 +153,9 @@ export function isNewGameCombo(value: unknown): value is LanguageCombo {
   return isLanguageCombo(value) && value.length === BOARD_COUNT;
 }
 
+/** The language's name in the interface language. */
 export function labelFor(lang: Language): string {
-  return LANGUAGE_META[lang]?.name ?? lang.toUpperCase();
+  return LANGUAGE_META[lang] ? i18n.t(`languages.${lang}`) : lang.toUpperCase();
 }
 
 export function flagFor(lang: Language): string {
@@ -210,7 +212,7 @@ export function isGameId(value: string | undefined): boolean {
 export function gamePath(
   gameId: string,
   languages?: Language[] | null,
-  search?: { challenger?: string | null }
+  search?: { challenger?: string | null; lang?: string | null }
 ): string {
   const combo = isLanguageCombo(languages)
     ? formatLangCombo(languages)
@@ -219,8 +221,13 @@ export function gamePath(
       : null;
 
   const base = combo ? `/game/${combo}/${gameId}` : `/game/${gameId}`;
+  const params = new URLSearchParams();
   if (search?.challenger) {
-    return `${base}?challenger=${encodeURIComponent(search.challenger)}`;
+    params.set('challenger', search.challenger);
   }
-  return base;
+  if (search?.lang) {
+    params.set('lang', search.lang);
+  }
+  const query = params.toString();
+  return query ? `${base}?${query}` : base;
 }

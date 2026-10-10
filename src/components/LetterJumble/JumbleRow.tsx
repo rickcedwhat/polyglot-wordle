@@ -1,5 +1,6 @@
 import { FC, useRef } from 'react';
 import { IconPin } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import type { JumbleSlot } from '@/utils/letterJumble';
 import type { LetterStatus } from '@/utils/wordUtils';
 import { LetterTile } from '../LetterTile/LetterTile';
@@ -28,6 +29,7 @@ export const JumbleRow: FC<JumbleRowProps> = ({
   onTileClick,
   onTileLongPress,
 }) => {
+  const { t } = useTranslation();
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const longPressed = useRef(false);
 
@@ -51,7 +53,13 @@ export const JumbleRow: FC<JumbleRowProps> = ({
           className={classes.slot}
           role="button"
           tabIndex={0}
-          aria-label={`Slot ${i + 1}: ${letter || 'empty'}${letter && lock !== 'kept' ? `, ${lock}` : ''}`}
+          aria-label={
+            !letter
+              ? t('game.slotEmpty', { n: i + 1 })
+              : lock === 'kept'
+                ? t('game.slot', { n: i + 1, letter })
+                : t('game.slotLocked', { n: i + 1, letter, lock: t(`game.locks.${lock}`) })
+          }
           onKeyDown={(event) => {
             if (event.key === ' ') {
               event.preventDefault();

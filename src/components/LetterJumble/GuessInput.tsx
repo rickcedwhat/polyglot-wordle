@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
 import { IconArrowsShuffle, IconEraser, IconX } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { ActionIcon, Anchor, CloseButton, Group, Popover, Text } from '@mantine/core';
 import type { LetterJumble } from '@/hooks/useLetterJumble';
 import { CurrentGuessRow } from '../CurrentGuessRow/CurrentGuessRow';
@@ -52,6 +53,7 @@ export const GuessInput: FC<GuessInputProps> = ({
   onJumbleHelp,
   onClear,
 }) => {
+  const { t } = useTranslation();
   const { isOpen } = jumble;
   const intro = useJumbleIntro(isOpen, !!onJumbleHelp);
 
@@ -74,12 +76,17 @@ export const GuessInput: FC<GuessInputProps> = ({
           variant="subtle"
           color="gray"
           onClick={jumble.close}
-          aria-label="Leave Letter Jumble"
+          aria-label={t('game.jumbleLeave')}
         >
           <IconX size={16} />
         </ActionIcon>
       ) : onClear && guess.some(Boolean) ? (
-        <ActionIcon variant="subtle" color="gray" onClick={onClear} aria-label="Clear guess">
+        <ActionIcon
+          variant="subtle"
+          color="gray"
+          onClick={onClear}
+          aria-label={t('game.clearGuess')}
+        >
           <IconEraser size={16} />
         </ActionIcon>
       ) : (
@@ -102,12 +109,12 @@ export const GuessInput: FC<GuessInputProps> = ({
           <Popover.Dropdown py={6} px="sm" maw="min(22rem, calc(100vw - 2rem))">
             <Group gap={6} wrap="nowrap" align="flex-start">
               <Text size="sm">
-                Letter Jumble rearranges letters you already know.{' '}
+                {t('game.jumbleIntro')}{' '}
                 <Anchor component="button" type="button" size="sm" onClick={openHelp}>
-                  How it works
+                  {t('game.jumbleHowItWorks')}
                 </Anchor>
               </Text>
-              <CloseButton size="sm" onClick={intro.dismiss} aria-label="Dismiss hint" />
+              <CloseButton size="sm" onClick={intro.dismiss} aria-label={t('game.dismissHint')} />
             </Group>
           </Popover.Dropdown>
         </Popover>
@@ -124,7 +131,7 @@ export const GuessInput: FC<GuessInputProps> = ({
           variant={isOpen ? 'filled' : 'subtle'}
           color={isOpen ? 'blue' : 'gray'}
           onClick={jumble.press}
-          aria-label={isOpen ? 'Jumble letters' : 'Letter Jumble'}
+          aria-label={isOpen ? t('game.jumbleShuffle') : t('game.jumble')}
         >
           <IconArrowsShuffle size={16} />
         </ActionIcon>

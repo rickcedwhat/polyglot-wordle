@@ -1,0 +1,14 @@
+.option {
+  padding: 10px var(--mantine-spacing-md);
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-md);
+  font-weight: 600;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease;
+
+  &[data-selected] {
+    border-color: var(--mantine-color-blue-filled);
+    background: var(--mantine-color-blue-light);
+  }
+}

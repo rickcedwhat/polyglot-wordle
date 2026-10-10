@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 import { useGameActions } from '@/hooks/useGameActions';
 import { useUserProfile } from '@/hooks/useUserProfile';
@@ -33,6 +34,7 @@ const useSaveGameSetup = () => {
 };
 
 export const GameSetupDialog: FC<GameSetupDialogProps> = ({ opened, onClose, mode }) => {
+  const { t } = useTranslation();
   const { currentUser } = useAuth();
   const { data: profile } = useUserProfile(currentUser?.uid);
   const { createNewGame } = useGameActions();
@@ -52,13 +54,10 @@ export const GameSetupDialog: FC<GameSetupDialogProps> = ({ opened, onClose, mod
       await save.mutateAsync(value);
     } catch {
       if (mode === 'settings') {
-        setError('Could not save your game setup. Please try again.');
+        setError(t('setup.saveFailed'));
         return;
       }
-      showToast(
-        { message: 'Could not save your game setup preferences.', color: 'orange' },
-        { immediate: true }
-      );
+      showToast({ message: t('setup.savePrefsFailed'), color: 'orange' }, { immediate: true });
     }
     if (mode === 'newGame') {
       setCreating(true);
@@ -68,7 +67,7 @@ export const GameSetupDialog: FC<GameSetupDialogProps> = ({ opened, onClose, mod
           difficulties: value.difficulties,
         });
         if (!created) {
-          setError('Could not start your game. Please try again.');
+          setError(t('setup.startFailed'));
           return;
         }
       } finally {
