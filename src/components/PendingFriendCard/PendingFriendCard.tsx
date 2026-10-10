@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Group } from '@mantine/core';
 import { FriendCard } from '@/components/FriendCard/FriendCard';
 import { useAuth } from '@/context/AuthContext';
@@ -12,6 +13,7 @@ interface PendingFriendCardProps {
 
 export const PendingFriendCard: FC<PendingFriendCardProps> = ({ friendship, friendId }) => {
   const { currentUser } = useAuth();
+  const { t } = useTranslation();
   const { acceptRequest, removeFriendship } = useFriendships(currentUser?.uid || '');
 
   // Denying and canceling both remove the friendship
@@ -24,17 +26,17 @@ export const PendingFriendCard: FC<PendingFriendCardProps> = ({ friendship, frie
       {friendship.direction === 'incoming' && (
         <Group mt="md">
           <Button onClick={() => acceptRequest(friendId)} fullWidth>
-            Accept
+            {t('friends.accept')}
           </Button>
           <Button onClick={handleRemove} fullWidth variant="outline">
-            Deny
+            {t('friends.deny')}
           </Button>
         </Group>
       )}
 
       {friendship.direction === 'outgoing' && (
         <Button onClick={handleRemove} mt="md" fullWidth variant="outline">
-          Cancel Request
+          {t('friends.cancelRequest')}
         </Button>
       )}
     </FriendCard>

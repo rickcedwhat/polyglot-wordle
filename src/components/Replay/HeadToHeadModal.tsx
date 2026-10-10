@@ -2,6 +2,7 @@ import { FC, useMemo } from 'react';
 import { IconSwords } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next';
 import { Center, Group, Loader, Modal, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import type { GameDoc } from '@/types/firestore';
@@ -33,6 +34,7 @@ const fetchGame = async (userId: string, gameId: string) => {
 /** Both players' games for one puzzle, replayed turn by turn. */
 export const HeadToHeadModal: FC<HeadToHeadModalProps> = ({ opened, onClose, gameId, sides }) => {
   const phone = useMediaQuery('(max-width: 48em)');
+  const { t } = useTranslation();
   const ids = sides.map((s) => s.userId);
   const { data: games, isLoading } = useQuery({
     queryKey: ['headToHead', gameId, ...ids],
@@ -73,7 +75,7 @@ export const HeadToHeadModal: FC<HeadToHeadModalProps> = ({ opened, onClose, gam
         <Group gap={6}>
           <IconSwords size={16} />
           <Text fw={700} size="sm">
-            Head-to-head replay
+            {t('replay.title')}
           </Text>
         </Group>
       }
@@ -85,7 +87,7 @@ export const HeadToHeadModal: FC<HeadToHeadModalProps> = ({ opened, onClose, gam
       )}
       {!isLoading && !duel && (
         <Text c="dimmed" ta="center" py="xl">
-          Couldn&apos;t load this game.
+          {t('replay.loadFailed')}
         </Text>
       )}
       {duel && <TurnDuel {...duel} />}

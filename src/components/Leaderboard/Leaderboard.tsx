@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Center, Loader, Stack, Tabs } from '@mantine/core';
 import { useLeaderboard } from '@/hooks/useLeaderboard';
 import { GameDoc } from '@/types/firestore';
@@ -17,33 +18,36 @@ export const LeaderboardList: FC<LeaderboardListProps> = ({
   isLoading = false,
   onGameSelect,
   selectedUserId,
-}) => (
-  <Tabs defaultValue="friends" mt="lg">
-    <Tabs.List grow>
-      <Tabs.Tab value="friends">Friends</Tabs.Tab>
-    </Tabs.List>
+}) => {
+  const { t } = useTranslation();
+  return (
+    <Tabs defaultValue="friends" mt="lg">
+      <Tabs.List grow>
+        <Tabs.Tab value="friends">{t('leaderboard.friends')}</Tabs.Tab>
+      </Tabs.List>
 
-    <Tabs.Panel value="friends" pt="xs">
-      {isLoading ? (
-        <Center mt="md">
-          <Loader />
-        </Center>
-      ) : (
-        <Stack mt="md">
-          {games?.map((game, index) => (
-            <LeaderboardCard
-              key={game.userId}
-              game={game}
-              rank={index + 1}
-              onClick={() => onGameSelect(game)}
-              isSelected={game.userId === selectedUserId}
-            />
-          ))}
-        </Stack>
-      )}
-    </Tabs.Panel>
-  </Tabs>
-);
+      <Tabs.Panel value="friends" pt="xs">
+        {isLoading ? (
+          <Center mt="md">
+            <Loader />
+          </Center>
+        ) : (
+          <Stack mt="md">
+            {games?.map((game, index) => (
+              <LeaderboardCard
+                key={game.userId}
+                game={game}
+                rank={index + 1}
+                onClick={() => onGameSelect(game)}
+                isSelected={game.userId === selectedUserId}
+              />
+            ))}
+          </Stack>
+        )}
+      </Tabs.Panel>
+    </Tabs>
+  );
+};
 
 interface LeaderboardProps {
   gameId: string;

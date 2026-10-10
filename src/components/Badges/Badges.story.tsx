@@ -7,6 +7,7 @@ import '@mantine/notifications/styles.css';
 
 import { FEAT_ORDER, TRACKS } from '@/achievements/config';
 import { promptFlagMissingWord } from '@/components/Game/promptFlagMissingWord';
+import i18n from '@/i18n';
 import { showToast } from '@/utils/toast';
 import { FeatMedal, TrackBadge } from './Badges';
 import { EarnedThisGame, GameBadgeRow } from './GameAchievements';
@@ -71,7 +72,7 @@ export const Toasts: Story = {
           notifyFeat({ id: 'jackpot', guess: 5, value: 9 });
           showToast({
             icon: <IconSwords size={18} />,
-            message: 'Alex finished — you won 1503–1240',
+            message: i18n.t('challenges.toastWon', { name: 'Alex', mine: 1503, theirs: 1240 }),
             color: 'blue',
           });
         }}

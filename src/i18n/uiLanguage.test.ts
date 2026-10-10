@@ -56,9 +56,11 @@ describe('gamePath', () => {
   });
 });
 
-/** `{{name}}` placeholders and `<tag>` markup, which every translation must keep. */
+/** `{{name}}` placeholders (ignoring formats like `, lower`) and `<tag>` markup, which every translation must keep. */
 const tokens = (text: string) =>
-  [...text.matchAll(/\{\{\w+\}\}|<\/?\w+>/g)].map(([token]) => token).sort();
+  [...text.matchAll(/\{\{(\w+)(?:, *\w+)?\}\}|<\/?\w+>/g)]
+    .map(([token, name]) => (name ? `{{${name}}}` : token))
+    .sort();
 
 const leaves = (node: object, prefix = ''): [string, string][] =>
   Object.entries(node).flatMap(([key, value]) =>

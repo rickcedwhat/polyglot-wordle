@@ -61,7 +61,7 @@ When reviewing:
 | `setup.difficulties.basic` | Basic | Básico |
 | `setup.difficulties.intermediate` | Intermediate | Intermedio |
 | `setup.difficulties.advanced` | Advanced | Avanzado |
-| `setup.difficultyLabel` | {{language}} difficulty | Dificultad de {{language}} |
+| `setup.difficultyLabel` | {{language}} difficulty | Dificultad de {{language, lower}} |
 | `setup.saveFailed` | Could not save your game setup. Please try again. | No se pudo guardar la configuración. Inténtalo de nuevo. |
 | `setup.savePrefsFailed` | Could not save your game setup preferences. | No se pudieron guardar tus preferencias de partida. |
 | `setup.startFailed` | Could not start your game. Please try again. | No se pudo empezar la partida. Inténtalo de nuevo. |
@@ -96,9 +96,9 @@ When reviewing:
 | `game.missingWord.title` | Is {{word}} a real word? | ¿{{word}} existe de verdad? |
 | `game.missingWord.prompt` | Flag it as missing from: | Avisar que falta en: |
 | `game.missingWord.flagged` | Flagged {{word}} | {{word}} marcada |
-| `game.missingWord.thanks` | Marked as missing from {{language}}. Thanks! | Anotamos que falta en {{language}}. ¡Gracias! |
+| `game.missingWord.thanks` | Marked as missing from {{language}}. Thanks! | Anotamos que falta en {{language, lower}}. ¡Gracias! |
 | `game.challenge.mode` | CHALLENGE MODE | MODO DESAFÍO |
-| `game.challenge.points` | {{score}} PTS | {{score}} PTS |
+| `game.challenge.points` | {{score, number}} PTS | {{score, number}} PTS |
 | `game.challenge.canYouBeat` | Can you beat &lt;name&gt;{{name}}&lt;/name&gt; ({{turns}}/{{max}} turns)? | ¿Puedes superar a &lt;name&gt;{{name}}&lt;/name&gt; ({{turns}}/{{max}} turnos)? |
 | `game.challenge.notFinished` | &lt;name&gt;{{name}}&lt;/name&gt; challenged you. They haven’t finished yet. | &lt;name&gt;{{name}}&lt;/name&gt; te desafió y todavía no termina su partida. |
 | `game.challenge.aFriend` | A friend | Un amigo |
@@ -173,3 +173,420 @@ When reviewing:
 | `help.faq.difficultyText` | No. Scoring is the same at every difficulty; harder boards just have rarer answers. | No. Los puntos son iguales en todas las dificultades; los tableros difíciles solo tienen respuestas más raras. |
 | `help.faq.languageTitle` | Can I play in another language? | ¿Puedo jugar en otro idioma? |
 | `help.faq.languageText` | The boards are always in the languages you pick for the game. The menus and instructions follow the interface language: change it from Language in the menu. | Los tableros siempre están en los idiomas que eliges para la partida. Los menús y las instrucciones siguen el idioma de la interfaz: cámbialo desde Idioma en el menú. |
+
+## Menu and home page
+
+| Key | English | Spanish |
+|---|---|---|
+| `nav.home` | Home | Inicio |
+| `nav.profile` | My profile | Mi perfil |
+| `nav.challenges` | Challenges | Desafíos |
+| `nav.newGame` | New game | Nueva partida |
+| `nav.howToPlay` | How to play | Cómo jugar |
+| `nav.gameSetup` | Game setup | Configuración de partida |
+| `nav.flags` | Custom flags / emojis | Banderas / emojis personalizados |
+| `nav.sandbox` | Sandbox tools | Herramientas de prueba |
+| `nav.logout` | Log out | Cerrar sesión |
+| `nav.startNewGame` | Start a new game | Empezar una partida |
+| `nav.logIn` | Log in | Iniciar sesión |
+
+## Score panel
+
+| Key | English | Spanish |
+|---|---|---|
+| `score.score` | Score | Puntos |
+| `score.guesses` | Guesses | Intentos |
+| `score.summary` | Summary | Resumen |
+
+## Match summary
+
+| Key | English | Spanish |
+|---|---|---|
+| `postGame.titleWin` | Match summary | Resumen de la partida |
+| `postGame.titleLoss` | Game over: solutions revealed | Fin de la partida: estas eran las palabras |
+| `postGame.victory` | 🎉 Victory! All {{count}} solved in {{turns}}/{{max}} turns | 🎉 ¡Victoria! Las {{count}} palabras resueltas en {{turns}}/{{max}} turnos |
+| `postGame.partial` | ❌ {{solved}}/{{count}} languages solved in {{turns}}/{{max}} turns | ❌ {{solved}}/{{count}} idiomas resueltos en {{turns}}/{{max}} turnos |
+| `postGame.finalScore` | Final score: {{score, number}} pts | Puntuación final: {{score, number}} pts |
+| `postGame.pts` | {{score, number}} pts | {{score, number}} pts |
+| `postGame.turns` | {{turns}}/{{max}} turns | {{turns}}/{{max}} turnos |
+| `postGame.showdown` | Head-to-head showdown | Cara a cara |
+| `postGame.youWon` | 🏆 You won! | 🏆 ¡Ganaste! |
+| `postGame.defeated` | 🥈 Defeated | 🥈 Perdiste |
+| `postGame.tied` | 🤝 Tied | 🤝 Empate |
+| `postGame.you` | You | Tú |
+| `postGame.challenger` | Challenger | Retador |
+| `postGame.player` | Player | Jugador |
+| `postGame.watchReplay` | Watch the replay | Ver la repetición |
+| `postGame.opponentPlaying` | &lt;name&gt;{{name}}&lt;/name&gt; hasn’t finished yet. You’ll see the result in Challenges. | &lt;name&gt;{{name}}&lt;/name&gt; todavía no termina. Verás el resultado en Desafíos. |
+| `postGame.yourOpponent` | Your opponent | Tu rival |
+| `postGame.targetWords` | Target words &amp; definitions | Palabras y definiciones |
+| `postGame.solvedOnTurn` | ✓ Turn {{turn}} | ✓ Turno {{turn}} |
+| `postGame.unsolved` | ❌ Unsolved | ❌ Sin resolver |
+| `postGame.hide` | Hide | Ocultar |
+| `postGame.definition` | Definition | Definición |
+| `postGame.definitionMissing` | Definition not found in the {{language}} dictionary. | No encontramos la definición en el diccionario de {{language, lower}}. |
+| `postGame.share` | Share | Compartir |
+| `postGame.shareFailed` | Share failed | No se pudo compartir |
+| `postGame.copied` | Copied! | ¡Copiado! |
+| `postGame.playAgain` | Play again | Jugar otra vez |
+| `postGame.earnedThisGame` | Earned this game | Logros de esta partida |
+| `postGame.reachedThisGame` | Reached with this game | Lo conseguiste en esta partida |
+| `postGame.viewing` | Viewing &lt;name&gt;{{name}}&lt;/name&gt;’s game | Viendo la partida de &lt;name&gt;{{name}}&lt;/name&gt; |
+| `postGame.backToMine` | Back to mine | Volver a la mía |
+| `postGame.headToHead` | Head-to-head | Cara a cara |
+| `postGame.shareText` | Can you beat me? | ¿Me puedes ganar? |
+
+## Replays
+
+| Key | English | Spanish |
+|---|---|---|
+| `replay.play` | Play | Reproducir |
+| `replay.pause` | Pause | Pausa |
+| `replay.replay` | Replay | Repetir |
+| `replay.startOver` | Start over | Desde el principio |
+| `replay.nextGuess` | Next guess | Siguiente intento |
+| `replay.nextTurn` | Next turn | Siguiente turno |
+| `replay.title` | Head-to-head replay | Repetición cara a cara |
+| `replay.loadFailed` | Couldn’t load this game. | No se pudo cargar esta partida. |
+| `replay.turnOf` | Turn {{turn}} of {{total}} | Turno {{turn}} de {{total}} |
+| `replay.tied` | Tied {{high}} vs {{low}} | Empate {{high}} a {{low}} |
+| `replay.won` | {{name}} won {{high}} vs {{low}} | {{name}} ganó {{high}} a {{low}} |
+| `replay.finishedIn` | Finished ✓ in {{count}} | Terminó ✓ en {{count}} |
+| `replay.bonus.solved` | {{flag}} solved! | ¡{{flag}} resuelta! |
+| `replay.bonus.unsolved` | {{flag}} unsolved | {{flag}} sin resolver |
+| `replay.bonus.crack` | first solve | primera resuelta |
+| `replay.bonus.hatTrick` | hat trick | triplete |
+| `replay.bonus.allSolved` | all solved! | ¡todas resueltas! |
+
+## Leaderboard
+
+| Key | English | Spanish |
+|---|---|---|
+| `leaderboard.friends` | Friends | Amigos |
+| `leaderboard.viewing` | Viewing | Viendo |
+| `leaderboard.view` | View | Ver |
+| `leaderboard.viewGame` | View {{name}}’s game, rank {{rank}}, score {{score}} | Ver la partida de {{name}}, puesto {{rank}}, {{score}} puntos |
+
+## Challenges page
+
+| Key | English | Spanish |
+|---|---|---|
+| `challenges.title` | Challenges | Desafíos |
+| `challenges.subtitle` | Play challenges you received, keep track of the ones you sent, and look back at results. | Juega los desafíos que recibiste, sigue los que enviaste y revisa los resultados. |
+| `challenges.empty` | No challenges yet. Challenge a friend, or finish a puzzle and tap Challenge a friend or Share. | Todavía no tienes desafíos. Desafía a un amigo, o termina una partida y toca Desafiar a un amigo o Compartir. |
+| `challenges.loadFailed` | Couldn’t load challenges. | No se pudieron cargar los desafíos. |
+| `challenges.needsYou` | Needs you | Te toca |
+| `challenges.waiting` | Waiting on them | Esperando al rival |
+| `challenges.archive` | Archive | Archivo |
+| `challenges.tied` | Tied | Empate |
+| `challenges.youWon` | You won | Ganaste |
+| `challenges.youLost` | You lost | Perdiste |
+| `challenges.archiveStatus` | {{outcome}} · {{mine}} vs {{theirs}} | {{outcome}} · {{mine}} a {{theirs}} |
+| `challenges.challenge` | Challenge | Desafío |
+| `challenges.sentNotStarted` | Challenge sent. They haven’t started yet. | Desafío enviado. Todavía no empieza. |
+| `challenges.waitingFinish` | Waiting for them to finish | Esperando a que termine |
+| `challenges.resultReady` | Result ready | Resultado listo |
+| `challenges.youChallenged` | You challenged them. Play your side. | Lo desafiaste. Juega tu partida. |
+| `challenges.challengedYou` | Challenged you. Play this game. | Te desafió. Juega esta partida. |
+| `challenges.yourMove` | Your move. Play this challenge. | Te toca. Juega este desafío. |
+| `challenges.cancel` | Cancel | Cancelar |
+| `challenges.play` | Play | Jugar |
+| `challenges.showdown` | Showdown | Ver resultado |
+| `challenges.rematch` | Rematch | Revancha |
+| `challenges.new` | New | Nuevo |
+| `challenges.copyLink` | Copy challenge link | Copiar enlace del desafío |
+| `challenges.linkCopied` | Link copied | Enlace copiado |
+| `challenges.opponent` | Opponent | Rival |
+| `challenges.friend` | Friend | Amigo |
+| `challenges.toastInvite` | {{name}} challenged you. Tap to play. | {{name}} te desafió. Toca para jugar. |
+| `challenges.toastWon` | {{name}} finished. You won {{mine}}–{{theirs}}. | {{name}} terminó. Ganaste {{mine}} a {{theirs}}. |
+| `challenges.toastLost` | {{name}} finished. You lost {{mine}}–{{theirs}}. | {{name}} terminó. Perdiste {{mine}} a {{theirs}}. |
+| `challenges.toastTied` | {{name}} finished. You tied {{mine}}–{{theirs}}. | {{name}} terminó. Empataron {{mine}} a {{theirs}}. |
+| `challenges.yourFriend` | Your friend | Tu amigo |
+
+## Challenge a friend
+
+| Key | English | Spanish |
+|---|---|---|
+| `challengeFriend.titleOnGame` | Challenge friends on this game | Desafía a tus amigos con esta partida |
+| `challengeFriend.title` | Challenge friends | Desafiar a amigos |
+| `challengeFriend.challengeName` | Challenge {{name}} | Desafiar a {{name}} |
+| `challengeFriend.challengeCount` | Challenge {{count}} friends | Desafiar a {{count}} amigos |
+| `challengeFriend.next` | Next: pick the game | Siguiente: elige la partida |
+| `challengeFriend.sendTo` | Send to {{count}} friends | Enviar a {{count}} amigos |
+| `challengeFriend.send` | Send challenge | Enviar desafío |
+| `challengeFriend.hintOnGame` | They play the exact same boards. You see each result as they finish. | Juegan exactamente la misma partida. Verás cada resultado en cuanto terminen. |
+| `challengeFriend.hintNew` | Everyone you pick plays the same brand-new game. | Todos los que elijas juegan la misma partida nueva. |
+| `challengeFriend.noFriends` | No friends to challenge yet. Add friends from their profile, or use Share to send a link. | Todavía no tienes amigos para desafiar. Agrégalos desde su perfil, o usa Compartir para enviar un enlace. |
+| `challengeFriend.challenged` | Challenged | Desafiado |
+| `challengeFriend.played` | Played | Ya jugó |
+| `challengeFriend.sentTo` | Challenge sent to {{names}} | Desafío enviado a {{names}} |
+| `challengeFriend.alreadyChallenged` | You already challenged {{name}} on this game. | Ya desafiaste a {{name}} con esta partida. |
+| `challengeFriend.notAllowed` | Couldn’t challenge {{name}}. They may have already played this game. | No se pudo desafiar a {{name}}. Puede que ya haya jugado esta partida. |
+| `challengeFriend.failed` | Couldn’t challenge {{name}}. Please try again. | No se pudo desafiar a {{name}}. Inténtalo de nuevo. |
+
+## Profile
+
+| Key | English | Spanish |
+|---|---|---|
+| `profile.notFound` | Profile not found. | No encontramos este perfil. |
+| `profile.memberSince` | Member since {{date}} | Miembro desde el {{date}} |
+| `profile.challenge` | Challenge | Desafiar |
+| `profile.tabs.history` | Game history | Partidas |
+| `profile.tabs.stats` | Stats | Estadísticas |
+| `profile.tabs.vocabulary` | Vocabulary | Vocabulario |
+| `profile.tabs.achievements` | Achievements | Logros |
+| `profile.tabs.friends` | Friends | Amigos |
+| `profile.share` | Share profile | Compartir perfil |
+| `profile.shareCopied` | Link copied! | ¡Enlace copiado! |
+| `profile.shareTooltip` | Copy profile link | Copiar enlace del perfil |
+| `profile.shareTitle` | Polyglot Wordle profile | Perfil de Polyglot Wordle |
+| `profile.shareText` | Come play Polyglot Wordle with me and add me as a friend! | ¡Juega Polyglot Wordle conmigo y agrégame como amigo! |
+
+## Friends
+
+| Key | English | Spanish |
+|---|---|---|
+| `friends.none` | No friends yet. | Todavía no hay amigos. |
+| `friends.incoming` | Incoming friend requests | Solicitudes recibidas |
+| `friends.outgoing` | Sent friend requests | Solicitudes enviadas |
+| `friends.friends` | Friends | Amigos |
+| `friends.accept` | Accept | Aceptar |
+| `friends.deny` | Deny | Rechazar |
+| `friends.cancel` | Cancel | Cancelar |
+| `friends.cancelRequest` | Cancel request | Cancelar solicitud |
+| `friends.add` | Add friend | Agregar amigo |
+| `friends.remove` | Remove friend | Eliminar amigo |
+| `friends.removeConfirm` | Remove | Eliminar |
+| `friends.removeText` | Remove {{name}} from your friends? | ¿Eliminar a {{name}} de tus amigos? |
+| `friends.requestSent` | Request sent | Solicitud enviada |
+| `friends.cancelTitle` | Cancel friend request | Cancelar solicitud de amistad |
+| `friends.cancelText` | Cancel your friend request to {{name}}? | ¿Cancelar tu solicitud de amistad a {{name}}? |
+| `friends.decline` | Decline | Rechazar |
+| `friends.declineTitle` | Decline friend request | Rechazar solicitud de amistad |
+| `friends.declineText` | Decline the friend request from {{name}}? | ¿Rechazar la solicitud de amistad de {{name}}? |
+| `friends.thisUser` | this player | este jugador |
+
+## Stats
+
+| Key | English | Spanish |
+|---|---|---|
+| `stats.none` | No stats yet. | Todavía no hay estadísticas. |
+| `stats.overall` | Overall performance | Rendimiento general |
+| `stats.winsLosses` | Wins - losses | Victorias - derrotas |
+| `stats.winRate` | Win rate | % de victorias |
+| `stats.currentStreak` | Current streak | Racha actual |
+| `stats.maxStreak` | Best streak | Mejor racha |
+| `stats.bestScore` | Best score | Mejor puntuación |
+| `stats.difficultyStats` | {{difficulty}} stats | Nivel {{difficulty, lower}} |
+| `stats.solvesFails` | Solved - failed | Resueltas - falladas |
+| `stats.solveRate` | Solve rate | % resueltas |
+| `stats.avgGuesses` | Avg. guesses | Intentos promedio |
+| `stats.lost` | Lost | Perdida |
+| `stats.you` | You | Tú |
+
+## Game history
+
+| Key | English | Spanish |
+|---|---|---|
+| `history.pinned` | Pinned games | Partidas fijadas |
+| `history.noPinned` | No pinned games. | No hay partidas fijadas. |
+| `history.recent` | Recent games | Partidas recientes |
+| `history.noRecent` | No recent games. | No hay partidas recientes. |
+| `history.loadMore` | Load more | Cargar más |
+| `history.won` | Won | Ganada |
+| `history.lost` | Lost | Perdida |
+| `history.inProgress` | In progress | En curso |
+| `history.score` | Score: {{score}} | Puntos: {{score}} |
+| `history.guesses` | Guesses: {{count}} | Intentos: {{count}} |
+| `history.pin` | Pin | Fijar |
+
+## Achievements
+
+| Key | English | Spanish |
+|---|---|---|
+| `achievements.noFeats` | No feats yet. They’re earned by pulling off something special in a game. Peek at friends’ profiles to see what’s out there. | Todavía no hay hazañas. Se consiguen haciendo algo especial en una partida. Echa un vistazo a los perfiles de tus amigos para ver cuáles hay. |
+| `achievements.loadFailedTitle` | Couldn’t load achievements | No se pudieron cargar los logros |
+| `achievements.loadFailedText` | Some word lists couldn’t be loaded. Refresh the page to try again. | No se pudieron cargar algunas listas de palabras. Recarga la página para intentarlo de nuevo. |
+| `achievements.featsTab` | Feats ({{count}}) | Hazañas ({{count}}) |
+| `achievements.tracksTab` | Tracks | Trayectorias |
+| `achievements.progress` | {{track}} progress | Progreso en {{track}} |
+| `achievements.toNext` | {{current}} / {{target}} to {{level}} | {{current}} / {{target}} para {{level}} |
+| `achievements.top` | {{amount}} · top level | {{amount}} · nivel máximo |
+| `achievements.locked` | {{name}} (locked) | {{name}} (bloqueada) |
+| `achievements.notStarted` | not started | sin empezar |
+| `achievements.toast` | {{amount}}. Next: {{level}} at {{target}}. | {{amount}}. Siguiente: {{level}} con {{target}}. |
+| `achievements.toastTop` | {{amount}}. Top level reached! | {{amount}}. ¡Llegaste al nivel máximo! |
+
+## Feats
+
+| Key | English | Spanish |
+|---|---|---|
+| `feats.categories.solving` | Solving | Resolución |
+| `feats.categories.language` | Multi-language | Multilingüe |
+| `feats.categories.local` | Language-specific | De un idioma |
+| `feats.categories.fun` | Just for fun | Por diversión |
+| `feats.board` | the {{language}} board | el tablero de {{language, lower}} |
+| `feats.aBoard` | a board | un tablero |
+| `feats.gloss` | “{{meaning}}.” {{description}} | “{{meaning}}”. {{description}} |
+| `feats.firstTry.description` | Solve the {{language}} board with your first guess. | Resuelve el tablero de {{language, lower}} en tu primer intento. |
+| `feats.firstTry.detail` | Solved the {{language}} board on your first guess. | Resolviste el tablero de {{language, lower}} en tu primer intento. |
+| `feats.firstTry.meanings.es` | First time | A la primera |
+| `feats.firstTry.meanings.fr` | On the first try | Al primer intento |
+| `feats.firstTry.meanings.it` | At the first shot | Al primer golpe |
+| `feats.firstTry.meanings.pt` | First time | A la primera |
+| `feats.outOfNowhere.name` | Out of Nowhere | De la nada |
+| `feats.outOfNowhere.description` | Solve a board when at most {{max}} of its letters had been colored. | Resuelve un tablero cuando como mucho {{max}} de sus letras tenían color. |
+| `feats.outOfNowhere.detail_one` | Solved {{board}} with only {{count}} letter known. | Resolviste {{board}} conociendo solo {{count}} letra. |
+| `feats.outOfNowhere.detail_other` | Solved {{board}} with only {{count}} letters known. | Resolviste {{board}} conociendo solo {{count}} letras. |
+| `feats.hailMary.name` | Hail Mary | A ciegas |
+| `feats.hailMary.description` | Solve a board when none of its letters had been colored. | Resuelve un tablero cuando ninguna de sus letras tenía color. |
+| `feats.hailMary.detail` | Solved {{board}} with no letters known. | Resolviste {{board}} sin conocer ninguna letra. |
+| `feats.jackpot.name` | Jackpot | Premio gordo |
+| `feats.jackpot.description` | Reveal {{min}} or more new colored tiles with one guess. | Descubre {{min}} o más casillas de color nuevas con un solo intento. |
+| `feats.jackpot.detail` | {{count}} new colored tiles in one guess. | {{count}} casillas de color nuevas en un solo intento. |
+| `feats.minimalist.name` | Minimalist | Minimalista |
+| `feats.minimalist.description` | Win using {{max}} or fewer different letters. | Gana usando {{max}} letras distintas o menos. |
+| `feats.minimalist.detail` | Won using only {{count}} different letters. | Ganaste usando solo {{count}} letras distintas. |
+| `feats.speedrun.name` | Speedrun | Contrarreloj |
+| `feats.speedrun.description` | Solve every board within {{max}} guesses. | Resuelve todos los tableros en {{max}} intentos o menos. |
+| `feats.speedrun.detail` | Solved every board in {{count}} guesses. | Resolviste todos los tableros en {{count}} intentos. |
+| `feats.underdog.name` | Underdog | Contra todo pronóstico |
+| `feats.underdog.description` | Solve your weakest language first, when your strongest is {{level}} or higher and {{gap}}+ levels above it. | Resuelve primero tu idioma más flojo, cuando el más fuerte está en {{level}} o más y al menos {{gap}} niveles por encima. |
+| `feats.underdog.detail` | Solved {{language}} before your stronger languages. | Resolviste el tablero de {{language, lower}} antes que los de tus idiomas más fuertes. |
+| `feats.underdog.detailUnknown` | Solved your weakest language before your stronger languages. | Resolviste tu idioma más flojo antes que los más fuertes. |
+| `feats.lostInTranslation.gloss` | Lost in translation | Perdido en la traducción |
+| `feats.lostInTranslation.description` | Solve a board while its language is still unconfirmed, even after the solve. | Resuelve un tablero sin haber confirmado su idioma, ni siquiera después de resolverlo. |
+| `feats.lostInTranslation.detail` | Solved {{board}} without ever confirming its language. | Resolviste {{board}} sin llegar a confirmar su idioma. |
+| `feats.jeNeSaisQuoi.gloss` | I don’t know what | No sé qué |
+| `feats.jeNeSaisQuoi.description` | Win with at least one board’s language never confirmed. | Gana sin haber confirmado el idioma de al menos un tablero. |
+| `feats.jeNeSaisQuoi.detail_one` | Won with {{count}} board whose language was never confirmed. | Ganaste con {{count}} tablero cuyo idioma nunca se confirmó. |
+| `feats.jeNeSaisQuoi.detail_other` | Won with {{count}} boards whose language was never confirmed. | Ganaste con {{count}} tableros cuyo idioma nunca se confirmó. |
+| `feats.twoBirds.name` | Two Birds | Dos pájaros de un tiro |
+| `feats.twoBirds.description` | Solve two boards with one guess. | Resuelve dos tableros con un solo intento. |
+| `feats.twoBirds.detail` | Solved two boards with one guess. | Resolviste dos tableros con un solo intento. |
+| `feats.dud.gloss` | The sweetness of doing nothing | Lo dulce de no hacer nada |
+| `feats.dud.description` | Play a guess that reveals nothing new while every board is still open. | Juega un intento que no revela nada nuevo mientras todos los tableros siguen abiertos. |
+| `feats.dud.detail` | That guess told you nothing new. Happens to the best of us. | Ese intento no te dijo nada nuevo. Le pasa a cualquiera. |
+| `feats.scrambled.name` | Scrambled | Todo revuelto |
+| `feats.scrambled.description` | Get 5 yellows on one board. | Consigue 5 amarillas en un tablero. |
+| `feats.scrambled.detail` | All five letters of {{board}}, all in the wrong spots. | Las cinco letras de {{board}}, todas fuera de lugar. |
+| `feats.soClose.name` | So Close | Por un pelo |
+| `feats.soClose.description` | Lose with {{greens}} greens on an unsolved board. | Pierde con {{greens}} verdes en un tablero sin resolver. |
+| `feats.soClose.detail` | One letter away on {{board}}. | Te faltó una letra en {{board}}. |
+| `feats.bravery.name` | Bravery | Valentía |
+| `feats.bravery.description` | Play {{min}} different letters from {{letters}} in one game. | Juega {{min}} letras distintas de entre {{letters}} en una misma partida. |
+| `feats.bravery.detail` | Played {{count}} of {{letters}} in one game. | Jugaste {{count}} de {{letters}} en una misma partida. |
+| `feats.noInstructions.name` | No Instructions For Me | ¿Instrucciones? No, gracias |
+| `feats.noInstructions.description` | Play {{min}} guesses in one game that ignore what the tiles already told you, on every open board. | Juega {{min}} intentos en una partida que ignoren lo que ya te dijeron las casillas, en todos los tableros abiertos. |
+| `feats.noInstructions.detail` | The tiles were trying to tell you something. | Las casillas intentaban decirte algo. |
+| `feats.wtf.gloss` | What are you doing | ¿Qué demonios haces? |
+| `feats.wtf.description` | Play {{min}} guesses in one game that ignore what the tiles already told you, on every open board. | Juega {{min}} intentos en una partida que ignoren lo que ya te dijeron las casillas, en todos los tableros abiertos. |
+| `feats.wtf.detail` | {{count}} guesses that ignored the tiles. Bold strategy. | {{count}} intentos ignorando las casillas. Qué estrategia tan audaz. |
+| `feats.chapeau.gloss` | Hats off, and the nickname for the circumflex | Me quito el sombrero, y el apodo del acento circunflejo |
+| `feats.chapeau.description` | Solve a French board whose answer has a circumflex (â ê î ô û). | Resuelve un tablero de francés cuya respuesta lleve acento circunflejo (â ê î ô û). |
+| `feats.chapeau.detail` | Solved a French word with a circumflex. | Resolviste una palabra francesa con acento circunflejo. |
+| `feats.pinata.description` | Solve a Spanish board whose answer has an ñ. | Resuelve un tablero de español cuya respuesta lleve ñ. |
+| `feats.pinata.detail` | Cracked open a Spanish word with an ñ. | Rompiste una palabra española con ñ. |
+
+## Tracks
+
+| Key | English | Spanish |
+|---|---|---|
+| `tracks.certification.name` | {{language}} certification | Certificación de {{language, lower}} |
+| `tracks.certification.description` | Distinct {{language}} words you’ve guessed. | Palabras distintas en {{language, lower}} que has jugado. |
+| `tracks.polyglot.name` | Polyglot | Políglota |
+| `tracks.polyglot.description` | Languages certified at {{level}} or above. | Idiomas certificados en {{level}} o más. |
+| `tracks.polyglot.levels.bilingual` | Bilingual | Bilingüe |
+| `tracks.polyglot.levels.trilingual` | Trilingual | Trilingüe |
+| `tracks.polyglot.levels.polyglot` | Polyglot | Políglota |
+| `tracks.reader.name` | Reader | Lector |
+| `tracks.reader.description` | Distinct word definitions you’ve opened. | Definiciones distintas que has abierto. |
+| `tracks.reader.levels.curious` | Curious | Curioso |
+| `tracks.reader.levels.bookworm` | Bookworm | Estudioso |
+| `tracks.reader.levels.scholar` | Scholar | Erudito |
+| `tracks.reader.levels.lexicographer` | Lexicographer | Lexicógrafo |
+| `tracks.globetrotter.name` | Globetrotter | Trotamundos |
+| `tracks.globetrotter.description` | Languages where you’ve opened at least {{min}} definitions. | Idiomas en los que has abierto al menos {{min}} definiciones. |
+| `tracks.streak.name` | On Fire | En racha |
+| `tracks.streak.description` | Your best winning streak. | Tu mejor racha de victorias. |
+| `tracks.regular.name` | Regular | Habitual |
+| `tracks.regular.description` | Games finished. | Partidas terminadas. |
+| `tracks.duelist.name` | Duelist | Duelista |
+| `tracks.duelist.description` | Head-to-head challenges won. | Desafíos cara a cara ganados. |
+| `tracks.squad.name` | Squad | La pandilla |
+| `tracks.squad.description` | Friends added. | Amigos agregados. |
+| `tracks.units.words_one` | {{count, number}} word | {{count, number}} palabra |
+| `tracks.units.words_other` | {{count, number}} words | {{count, number}} palabras |
+| `tracks.units.languages_one` | {{count, number}} language | {{count, number}} idioma |
+| `tracks.units.languages_other` | {{count, number}} languages | {{count, number}} idiomas |
+| `tracks.units.definitions_one` | {{count, number}} definition | {{count, number}} definición |
+| `tracks.units.definitions_other` | {{count, number}} definitions | {{count, number}} definiciones |
+| `tracks.units.wins_one` | {{count, number}} win in a row | {{count, number}} victoria seguida |
+| `tracks.units.wins_other` | {{count, number}} wins in a row | {{count, number}} victorias seguidas |
+| `tracks.units.games_one` | {{count, number}} game | {{count, number}} partida |
+| `tracks.units.games_other` | {{count, number}} games | {{count, number}} partidas |
+| `tracks.units.challengeWins_one` | {{count, number}} challenge win | {{count, number}} desafío ganado |
+| `tracks.units.challengeWins_other` | {{count, number}} challenge wins | {{count, number}} desafíos ganados |
+| `tracks.units.friends_one` | {{count, number}} friend | {{count, number}} amigo |
+| `tracks.units.friends_other` | {{count, number}} friends | {{count, number}} amigos |
+
+## Custom flags
+
+| Key | English | Spanish |
+|---|---|---|
+| `flags.title` | Language flags &amp; emojis | Banderas y emojis de los idiomas |
+| `flags.intro` | Pick any flag or emoji to stand for each language on the boards and everywhere else. The presets are country flags, but you can type any single emoji. | Elige cualquier bandera o emoji para representar cada idioma en los tableros y en el resto del juego. Las sugerencias son banderas de países, pero puedes escribir cualquier emoji. |
+| `flags.preview` | Preview | Vista previa |
+| `flags.placeholder` | Paste or type a flag or emoji... | Pega o escribe una bandera o un emoji... |
+| `flags.description` | One emoji only (a flag or anything else) | Solo un emoji (una bandera o cualquier otro) |
+| `flags.presets` | Presets: | Sugerencias: |
+| `flags.use` | Use {{flag}} | Usar {{flag}} |
+| `flags.reset` | Reset to defaults | Restablecer |
+| `flags.done` | Done | Listo |
+
+## Vocabulary
+
+| Key | English | Spanish |
+|---|---|---|
+| `vocab.loading` | Loading your vocabulary... | Cargando tu vocabulario... |
+| `vocab.loadFailed` | Couldn’t load your vocabulary | No se pudo cargar tu vocabulario |
+| `vocab.loadFailedText` | Check your connection and try again. | Revisa tu conexión e inténtalo de nuevo. |
+| `vocab.retry` | Retry | Reintentar |
+| `vocab.words_one` | {{count}} word | {{count}} palabra |
+| `vocab.words_other` | {{count}} words | {{count}} palabras |
+| `vocab.progress` | Progress: {{percent}} | Progreso: {{percent}} |
+| `vocab.search` | Search words or meanings... | Busca palabras o significados... |
+| `vocab.sort.freq` | Most guessed | Más jugadas |
+| `vocab.sort.recent` | Recently played | Jugadas recientemente |
+| `vocab.sort.alpha` | Alphabetical (A-Z) | Alfabético (A-Z) |
+| `vocab.filter.all` | All types | Todos los tipos |
+| `vocab.filter.verb` | Verbs only | Solo verbos |
+| `vocab.filter.noun` | Nouns only | Solo sustantivos |
+| `vocab.filter.adj` | Adjectives only | Solo adjetivos |
+| `vocab.filter.solved` | Answers only | Solo respuestas |
+| `vocab.discoveries` | {{flag}} {{language}} words | {{flag}} Palabras en {{language, lower}} |
+| `vocab.shownOf` | {{shown}} of {{total}} | {{shown}} de {{total}} |
+| `vocab.explore` | Explore the full dictionary | Ver el diccionario completo |
+| `vocab.emptyLanguage` | No {{language}} words yet | Todavía no hay palabras en {{language, lower}} |
+| `vocab.emptyFilter` | No words match your filters | Ninguna palabra coincide con tus filtros |
+| `vocab.emptyLanguageHint` | Every word you guess in {{language}} shows up here. | Cada palabra que juegues en {{language, lower}} aparecerá aquí. |
+| `vocab.emptyFilterHint` | Try clearing the search or changing the filter. | Prueba a borrar la búsqueda o cambiar el filtro. |
+| `vocab.play` | Play a game | Jugar una partida |
+| `vocab.solved` | Solved | Resuelta |
+| `vocab.solvedTooltip` | This word was a game’s answer | Esta palabra fue la respuesta de una partida |
+| `vocab.guessedTooltip` | Times guessed in games | Veces que la jugaste |
+| `vocab.guessed_one` | Guessed {{count}} time | Jugada {{count}} vez |
+| `vocab.guessed_other` | Guessed {{count}} times | Jugada {{count}} veces |
+| `vocab.played` | Played {{when}} | Jugada {{when}} |
+| `vocab.pos.noun` | noun | sust. |
+| `vocab.pos.verb` | verb | verbo |
+| `vocab.pos.adj` | adj. | adj. |
+| `vocab.pos.adv` | adv. | adv. |
+| `vocab.pos.pron` | pron. | pron. |
+| `vocab.pos.interj` | interj. | interj. |
+| `vocab.pos.num` | num. | núm. |
+| `vocab.pos.prep` | prep. | prep. |
+| `vocab.pos.conj` | conj. | conj. |
+| `vocab.pos.det` | det. | det. |
+| `vocab.pos.contraction` | contr. | contr. |

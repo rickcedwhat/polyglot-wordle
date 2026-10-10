@@ -2,6 +2,7 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import { IconSwords } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next';
 import {
   Badge,
   Button,
@@ -51,6 +52,7 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
   excludeIds = [],
 }) => {
   const { currentUser } = useAuth();
+  const { t } = useTranslation();
   const { data: profile } = useUserProfile(currentUser?.uid);
   const { challenges } = useChallenges();
   const { challengeOnGame, challengeNewGame } = useFriendChallenge();
@@ -91,7 +93,7 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
   const report = ({ sent, failed }: FriendChallengeResult) => {
     if (sent.length > 0) {
       showToast(
-        { message: `Challenge sent to ${joinNames(sent)}`, color: 'teal' },
+        { message: t('challengeFriend.sentTo', { names: joinNames(sent) }), color: 'teal' },
         { immediate: true }
       );
     }
@@ -134,13 +136,13 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
   const showSetup = opened && !game && (!!fixedFriend || choosingSetup);
   const setupTitle =
     targets.length === 1
-      ? `Challenge ${targets[0].displayName}`
-      : `Challenge ${targets.length} friends`;
+      ? t('challengeFriend.challengeName', { name: targets[0].displayName })
+      : t('challengeFriend.challengeCount', { count: targets.length });
   const actionLabel = !game
-    ? 'Next: pick the game'
+    ? t('challengeFriend.next')
     : selected.length > 1
-      ? `Send to ${selected.length} friends`
-      : 'Send challenge';
+      ? t('challengeFriend.sendTo', { count: selected.length })
+      : t('challengeFriend.send');
 
   return (
     <>
@@ -151,7 +153,9 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
         title={
           <Group gap={6}>
             <IconSwords size={16} />
-            <Text fw={700}>{game ? 'Challenge friends on this game' : 'Challenge friends'}</Text>
+            <Text fw={700}>
+              {game ? t('challengeFriend.titleOnGame') : t('challengeFriend.title')}
+            </Text>
           </Group>
         }
       >
@@ -162,11 +166,7 @@ export const ChallengeFriendModal: FC<ChallengeFriendModalProps> = ({
           excludeIds={excludeIds}
           disabled={busy}
           onToggle={toggle}
-          hint={
-            game
-              ? 'They play the exact same boards. You see each result as they finish.'
-              : 'Everyone you pick plays the same brand-new game.'
-          }
+          hint={game ? t('challengeFriend.hintOnGame') : t('challengeFriend.hintNew')}
         />
         {error && (
           <Text size="sm" c="red" mt="sm" role="alert">
@@ -211,6 +211,7 @@ const FriendPicker: FC<{
   onToggle: (friend: ChallengeFriend) => void;
 }> = ({ gameId, selectedIds, challengedIds, excludeIds, disabled, hint, onToggle }) => {
   const { currentUser } = useAuth();
+  const { t } = useTranslation();
   const { data: friendships, isLoading } = useFriendships(currentUser?.uid);
   const friendIds = (friendships ?? [])
     .filter((f) => f.status === 'accepted' && !excludeIds.includes(f.id))
@@ -227,7 +228,7 @@ const FriendPicker: FC<{
   if (friendIds.length === 0) {
     return (
       <Text size="sm" c="dimmed">
-        No friends to challenge yet. Add friends from their profile, or use Share to send a link.
+        {t('challengeFriend.noFriends')}
       </Text>
     );
   }
@@ -279,6 +280,7 @@ const FriendRow: FC<{
 }> = ({ friendId, gameId, checked, challenged, disabled, onToggle }) => {
   const { data: profile, isLoading } = useUserProfile(friendId);
   const { data: played = false } = useFriendPlayed(friendId, gameId);
+  const { t } = useTranslation();
 
   if (isLoading) {
     return <Skeleton height={44} radius="md" />;
@@ -287,7 +289,11 @@ const FriendRow: FC<{
     return null;
   }
 
-  const unavailableLabel = challenged ? 'Challenged' : played ? 'Played' : null;
+  const unavailableLabel = challenged
+    ? t('challengeFriend.challenged')
+    : played
+      ? t('challengeFriend.played')
+      : null;
   const inactive = disabled || !!unavailableLabel;
 
   return (

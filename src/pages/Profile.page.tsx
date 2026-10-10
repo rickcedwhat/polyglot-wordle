@@ -7,6 +7,7 @@ import {
   IconUsers,
   IconVocabulary,
 } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Button, Center, Container, Group, Loader, Tabs, Text, Title } from '@mantine/core';
 import { AchievementsTab } from '@/components/AchievementsTab/AchievementsTab';
@@ -25,6 +26,7 @@ export const ProfilePage: FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const location = useLocation();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const { data: userProfile, isLoading: isProfileLoading, isError } = useUserProfile(userId);
   const { currentUser } = useAuth();
@@ -57,7 +59,7 @@ export const ProfilePage: FC = () => {
   if (isError || !userProfile) {
     return (
       <Center h="100%">
-        <Text c="red">User profile not found.</Text>
+        <Text c="red">{t('profile.notFound')}</Text>
       </Center>
     );
   }
@@ -69,7 +71,11 @@ export const ProfilePage: FC = () => {
           <Title order={2} style={{ textTransform: 'capitalize' }}>
             {userProfile.displayName}
           </Title>
-          <Text c="dimmed">Member since {userProfile.joinedAt.toDate().toLocaleDateString()}</Text>
+          <Text c="dimmed">
+            {t('profile.memberSince', {
+              date: userProfile.joinedAt.toDate().toLocaleDateString(i18n.language),
+            })}
+          </Text>
         </div>
 
         {isOwnProfile ? (
@@ -82,7 +88,7 @@ export const ProfilePage: FC = () => {
                 leftSection={<IconSwords size={16} />}
                 onClick={() => setChallengeOpened(true)}
               >
-                Challenge
+                {t('profile.challenge')}
               </Button>
             )}
             <FriendButton profileUserId={userId!} />
@@ -108,27 +114,27 @@ export const ProfilePage: FC = () => {
           {/* Add grow to make tabs fill the space */}
           <Tabs.Tab value="history" leftSection={<IconBooks size={16} />}>
             <Text component="span" visibleFrom="xs">
-              Game History
+              {t('profile.tabs.history')}
             </Text>
           </Tabs.Tab>
           <Tabs.Tab value="stats" leftSection={<IconChartBar size={16} />}>
             <Text component="span" visibleFrom="xs">
-              Stats
+              {t('profile.tabs.stats')}
             </Text>
           </Tabs.Tab>
           <Tabs.Tab value="vocabulary" leftSection={<IconVocabulary size={16} />}>
             <Text component="span" visibleFrom="xs">
-              Vocabulary
+              {t('profile.tabs.vocabulary')}
             </Text>
           </Tabs.Tab>
           <Tabs.Tab value="achievements" leftSection={<IconAward size={16} />}>
             <Text component="span" visibleFrom="xs">
-              Achievements
+              {t('profile.tabs.achievements')}
             </Text>
           </Tabs.Tab>
           <Tabs.Tab value="friends" leftSection={<IconUsers size={16} />}>
             <Text component="span" visibleFrom="xs">
-              Friends
+              {t('profile.tabs.friends')}
             </Text>
           </Tabs.Tab>
         </Tabs.List>

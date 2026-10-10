@@ -23,6 +23,22 @@ const SECTION_TITLES: Record<keyof typeof en, string> = {
   setup: 'Game setup',
   game: 'Game screen',
   help: 'How to Play',
+  nav: 'Menu and home page',
+  score: 'Score panel',
+  postGame: 'Match summary',
+  replay: 'Replays',
+  leaderboard: 'Leaderboard',
+  challenges: 'Challenges page',
+  challengeFriend: 'Challenge a friend',
+  profile: 'Profile',
+  friends: 'Friends',
+  stats: 'Stats',
+  history: 'Game history',
+  achievements: 'Achievements',
+  feats: 'Feats',
+  tracks: 'Tracks',
+  flags: 'Custom flags',
+  vocab: 'Vocabulary',
 };
 
 function flatten(tree: Tree, prefix = ''): [string, string][] {

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Center, Loader, SimpleGrid, Text, Title } from '@mantine/core';
 import { useFriendships } from '@/hooks/useFriendships';
 import { FriendCard } from '../FriendCard/FriendCard';
@@ -10,6 +11,7 @@ interface FriendListTabProps {
 
 export const FriendListTab: FC<FriendListTabProps> = ({ profileUserId }) => {
   const { data: friendships, isLoading } = useFriendships(profileUserId);
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
@@ -22,7 +24,7 @@ export const FriendListTab: FC<FriendListTabProps> = ({ profileUserId }) => {
   if (!friendships || friendships.length === 0) {
     return (
       <Text c="dimmed" mt="md">
-        This user has no friends yet.
+        {t('friends.none')}
       </Text>
     );
   }
@@ -35,7 +37,7 @@ export const FriendListTab: FC<FriendListTabProps> = ({ profileUserId }) => {
     <>
       {incomingPendingFriends.length > 0 && (
         <Title order={4} mt="md">
-          Incoming Friend Requests
+          {t('friends.incoming')}
         </Title>
       )}
       <SimpleGrid cols={{ base: 1, xs: 2 }} mt="md">
@@ -46,7 +48,7 @@ export const FriendListTab: FC<FriendListTabProps> = ({ profileUserId }) => {
 
       {outgoingPendingFriends.length > 0 && (
         <Title order={4} mt="md">
-          Outgoing Friend Requests
+          {t('friends.outgoing')}
         </Title>
       )}
       <SimpleGrid cols={{ base: 1, xs: 2 }} mt="md">
@@ -57,7 +59,7 @@ export const FriendListTab: FC<FriendListTabProps> = ({ profileUserId }) => {
 
       {acceptedFriends.length > 0 && (
         <Title order={4} mt="md">
-          Friends
+          {t('friends.friends')}
         </Title>
       )}
       <SimpleGrid cols={{ base: 1, xs: 2 }} mt="md">

@@ -9,6 +9,7 @@ import {
   IconSearch,
   IconSortAscending,
 } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
   Badge,
@@ -30,45 +31,40 @@ import {
 } from '@mantine/core';
 import { FormattedDefinition } from '@/components/FormattedDefinition/FormattedDefinition';
 import { useVocabulary } from '@/hooks/useVocabulary';
+import i18n from '@/i18n';
+import { formatPercent } from '@/i18n/format';
 import { Language } from '@/types/firestore';
 import { DiscoveredWordEntry } from '@/types/vocabulary';
-import { ALL_LANGUAGES } from '@/utils/languages';
+import { ALL_LANGUAGES, labelFor } from '@/utils/languages';
+import { posLabel } from '@/utils/partOfSpeech';
 import { Dictionary } from '@/utils/wordUtils';
 
 interface VocabularyTabProps {
   profileUserId: string;
 }
 
-const LANGUAGE_META: Record<
-  Language,
-  { name: string; flag: string; color: string; hoverBorder: string }
-> = {
+const LANGUAGE_META: Record<Language, { flag: string; color: string; hoverBorder: string }> = {
   es: {
-    name: 'Spanish',
     flag: '🇪🇸',
     color: 'orange',
     hoverBorder: '#f59f00',
   },
   fr: {
-    name: 'French',
     flag: '🇫🇷',
     color: 'indigo',
     hoverBorder: '#6366f1',
   },
   en: {
-    name: 'English',
     flag: '🇬🇧',
     color: 'teal',
     hoverBorder: '#14b8a6',
   },
   it: {
-    name: 'Italian',
     flag: '🇮🇹',
     color: 'green',
     hoverBorder: '#40c057',
   },
   pt: {
-    name: 'Portuguese',
     flag: '🇵🇹',
     color: 'yellow',
     hoverBorder: '#fab005',
@@ -79,29 +75,25 @@ const formatTimeAgo = (isoString: string): string => {
   if (!isoString) {
     return '';
   }
-  const now = Date.now();
-  const date = new Date(isoString).getTime();
-  const diffSec = Math.floor((now - date) / 1000);
+  const rtf = new Intl.RelativeTimeFormat(i18n.language, { numeric: 'auto', style: 'short' });
+  const diffSec = Math.floor((Date.now() - new Date(isoString).getTime()) / 1000);
 
   if (diffSec < 60) {
-    return 'Just now';
+    return rtf.format(0, 'second');
   }
   const diffMin = Math.floor(diffSec / 60);
   if (diffMin < 60) {
-    return `${diffMin}m ago`;
+    return rtf.format(-diffMin, 'minute');
   }
   const diffHours = Math.floor(diffMin / 60);
   if (diffHours < 24) {
-    return `${diffHours}h ago`;
+    return rtf.format(-diffHours, 'hour');
   }
   const diffDays = Math.floor(diffHours / 24);
-  if (diffDays === 1) {
-    return 'Yesterday';
-  }
   if (diffDays < 30) {
-    return `${diffDays}d ago`;
+    return rtf.format(-diffDays, 'day');
   }
-  return new Date(isoString).toLocaleDateString();
+  return new Date(isoString).toLocaleDateString(i18n.language);
 };
 
 export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
@@ -112,6 +104,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
     isError: isVocabError,
     refetch: refetchVocab,
   } = useVocabulary(profileUserId);
+  const { t } = useTranslation();
 
   const [selectedLang, setSelectedLang] = useState<Language>('es');
   const [searchQuery, setSearchQuery] = useState('');
@@ -227,7 +220,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
         <Stack align="center" gap="sm">
           <Loader size="md" />
           <Text size="sm" c="dimmed">
-            Loading your personal vocabulary tracker...
+            {t('vocab.loading')}
           </Text>
         </Stack>
       </Center>
@@ -243,11 +236,10 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
               <IconAlertCircle size={24} />
             </ThemeIcon>
             <Text fw={600} size="md">
-              Failed to load vocabulary data
+              {t('vocab.loadFailed')}
             </Text>
             <Text size="xs" c="dimmed" maw={360}>
-              {dictError ||
-                'We could not fetch your vocabulary records. Please check your connection and try again.'}
+              {t('vocab.loadFailedText')}
             </Text>
             <Button
               size="xs"
@@ -263,7 +255,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
                 }
               }}
             >
-              Retry
+              {t('vocab.retry')}
             </Button>
           </Stack>
         </Paper>
@@ -309,11 +301,11 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
                 <Group gap="xs">
                   <Text size="xl">{meta.flag}</Text>
                   <Text fw={700} size="sm">
-                    {meta.name}
+                    {labelFor(lang)}
                   </Text>
                 </Group>
                 <Badge variant={isSelected ? 'filled' : 'light'} color={meta.color} size="sm">
-                  {count} words
+                  {t('vocab.words', { count })}
                 </Badge>
               </Group>
 
@@ -328,10 +320,11 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
 
               <Group justify="space-between">
                 <Text size="xs" c="dimmed">
-                  Progress: {pct.toFixed(1)}%
+                  {t('vocab.progress', { percent: formatPercent(pct) })}
                 </Text>
                 <Text size="xs" c="dimmed">
-                  {count} / {masterCount.toLocaleString()}
+                  {count.toLocaleString(i18n.language)} /{' '}
+                  {masterCount.toLocaleString(i18n.language)}
                 </Text>
               </Group>
             </Paper>
@@ -343,7 +336,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
       <Paper p="sm" radius="md" withBorder bg="var(--mantine-color-dark-8)">
         <Group justify="space-between" wrap="wrap" gap="sm">
           <TextInput
-            placeholder="Search discovered words or meanings..."
+            placeholder={t('vocab.search')}
             leftSection={<IconSearch size={16} />}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.currentTarget.value)}
@@ -359,9 +352,9 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
               size="sm"
               style={{ width: 175 }}
               data={[
-                { value: 'freq', label: 'Most Guessed' },
-                { value: 'recent', label: 'Recently Played' },
-                { value: 'alpha', label: 'Alphabetical (A-Z)' },
+                { value: 'freq', label: t('vocab.sort.freq') },
+                { value: 'recent', label: t('vocab.sort.recent') },
+                { value: 'alpha', label: t('vocab.sort.alpha') },
               ]}
             />
 
@@ -372,11 +365,11 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
               size="sm"
               style={{ width: 180 }}
               data={[
-                { value: 'all', label: 'All Types' },
-                { value: 'verb', label: 'Verbs only' },
-                { value: 'noun', label: 'Nouns only' },
-                { value: 'adj', label: 'Adjectives only' },
-                { value: 'solved', label: 'Game-Winning Words' },
+                { value: 'all', label: t('vocab.filter.all') },
+                { value: 'verb', label: t('vocab.filter.verb') },
+                { value: 'noun', label: t('vocab.filter.noun') },
+                { value: 'adj', label: t('vocab.filter.adj') },
+                { value: 'solved', label: t('vocab.filter.solved') },
               ]}
             />
           </Group>
@@ -387,10 +380,13 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
       <Group justify="space-between" align="center">
         <Group gap="xs">
           <Text fw={700} size="md">
-            {LANGUAGE_META[selectedLang].flag} {LANGUAGE_META[selectedLang].name} Discoveries
+            {t('vocab.discoveries', {
+              flag: LANGUAGE_META[selectedLang].flag,
+              language: labelFor(selectedLang),
+            })}
           </Text>
           <Badge variant="outline" color={LANGUAGE_META[selectedLang].color} size="sm">
-            {filteredAndSortedWords.length} of {discoveredCount}
+            {t('vocab.shownOf', { shown: filteredAndSortedWords.length, total: discoveredCount })}
           </Badge>
         </Group>
 
@@ -402,7 +398,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
           size="xs"
           rightSection={<IconExternalLink size={14} />}
         >
-          Explore Full Dictionary
+          {t('vocab.explore')}
         </Button>
       </Group>
 
@@ -415,17 +411,17 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
             </ThemeIcon>
             <Text fw={600} size="sm">
               {discoveredCount === 0
-                ? `No ${LANGUAGE_META[selectedLang].name} words discovered yet`
-                : 'No words match your current filters'}
+                ? t('vocab.emptyLanguage', { language: labelFor(selectedLang) })
+                : t('vocab.emptyFilter')}
             </Text>
             <Text size="xs" c="dimmed" maw={400}>
               {discoveredCount === 0
-                ? 'Play daily games or practice in Spanish, French, English, Italian, or Portuguese to expand your personal vocabulary log!'
-                : 'Try clearing your search query or switching the type filter above.'}
+                ? t('vocab.emptyLanguageHint', { language: labelFor(selectedLang) })
+                : t('vocab.emptyFilterHint')}
             </Text>
             {discoveredCount === 0 && (
               <Button component={Link} to="/" size="xs" variant="light" color="blue" mt="xs">
-                Play Today's Wordle
+                {t('vocab.play')}
               </Button>
             )}
           </Stack>
@@ -454,18 +450,20 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
                         <Text fw={800} size="lg" style={{ letterSpacing: '0.5px' }}>
                           {word.display.toUpperCase()}
                         </Text>
-                        <Badge size="xs" variant="light" color="gray">
-                          {word.pos}
-                        </Badge>
+                        {word.pos !== 'unknown' && (
+                          <Badge size="xs" variant="light" color="gray" tt="none">
+                            {posLabel(word.pos)}
+                          </Badge>
+                        )}
                         {word.isSolved && (
-                          <Tooltip label="Game-Winning Target Word" withArrow>
+                          <Tooltip label={t('vocab.solvedTooltip')} withArrow>
                             <Badge
                               size="xs"
                               variant="filled"
                               color="green"
                               leftSection={<IconCheck size={10} />}
                             >
-                              Solved
+                              {t('vocab.solved')}
                             </Badge>
                           </Tooltip>
                         )}
@@ -484,9 +482,9 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
                 {/* Footer Metadata */}
                 <Group justify="space-between" align="center">
                   <Group gap="xs">
-                    <Tooltip label="Total times guessed in games" withArrow>
+                    <Tooltip label={t('vocab.guessedTooltip')} withArrow>
                       <Badge size="xs" variant="dot" color="blue">
-                        Guessed {word.timesGuessed} {word.timesGuessed === 1 ? 'time' : 'times'}
+                        {t('vocab.guessed', { count: word.timesGuessed })}
                       </Badge>
                     </Tooltip>
                   </Group>
@@ -494,7 +492,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
                   <Group gap={8}>
                     {word.lastSeen && (
                       <Text size="xs" c="dimmed">
-                        Played {formatTimeAgo(word.lastSeen)}
+                        {t('vocab.played', { when: formatTimeAgo(word.lastSeen) })}
                       </Text>
                     )}
                   </Group>

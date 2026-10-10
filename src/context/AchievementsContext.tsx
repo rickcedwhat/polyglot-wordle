@@ -3,6 +3,7 @@ import { TrackBadge } from '@/components/Badges/Badges';
 import { useAuth } from '@/context/AuthContext';
 import { useAchievements } from '@/hooks/useAchievements';
 import { useDefinitionsRead } from '@/hooks/useDefinitionsRead';
+import i18n from '@/i18n';
 import type { Language } from '@/types/firestore';
 import { newlyEarned, type AchievementProgress } from '@/utils/achievements';
 import { showToast } from '@/utils/toast';
@@ -31,9 +32,13 @@ const useAchievementNotifications = () => {
           id: `${achievement.id}-${level}`,
           icon: <TrackBadge track={track} level={level} size={36} />,
           title: `${track.name}: ${tier?.label}`,
-          message: `${current} ${track.unit}. ${
-            next ? `Next: ${next.label} at ${next.target}.` : 'Top level reached!'
-          }`,
+          message: next
+            ? i18n.t('achievements.toast', {
+                amount: track.amount(current),
+                level: next.label,
+                target: next.target.toLocaleString(i18n.language),
+              })
+            : i18n.t('achievements.toastTop', { amount: track.amount(current) }),
           color: 'gray',
           styles: { icon: { background: 'transparent', width: 36, height: 40 } },
         });
