@@ -35,8 +35,24 @@ export function StoryGameArea({ game }: { game: StoryGame }) {
   }
 
   return (
-    <Box style={{ display: 'grid', gridTemplateRows: '1fr auto', height: '100%', minHeight: 0 }}>
-      <Box pt="xl" style={{ display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
+    <Box
+      style={{
+        display: 'grid',
+        gridTemplateRows: 'minmax(0, 1fr) auto',
+        height: '100%',
+        minHeight: 0,
+      }}
+    >
+      <Box
+        pt="xl"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          overflow: 'visible',
+          minHeight: 0,
+          containerType: 'size',
+        }}
+      >
         <GameBoard
           key={game.fixture.label}
           solution={game.solution}

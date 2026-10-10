@@ -434,8 +434,9 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       style={{
         position: 'relative',
         display: 'grid',
-        gridTemplateRows: '1fr auto',
+        gridTemplateRows: 'minmax(0, 1fr) auto auto',
         height: '100%',
+        minHeight: 0,
       }}
     >
       <PostGameModal
@@ -452,6 +453,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           flexDirection: 'column',
           alignItems: 'center',
           width: '100%',
+          minHeight: 0,
           overflow: 'visible',
         }}
       >
@@ -470,7 +472,15 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             {rematchNotice}
           </Notification>
         )}
-        <Center style={{ overflow: 'visible', width: '100%' }}>
+        <Center
+          style={{
+            flex: '1 1 0',
+            minHeight: 0,
+            overflow: 'visible',
+            width: '100%',
+            containerType: 'size',
+          }}
+        >
           <GameBoard
             solution={solution}
             guesses={guesses}
