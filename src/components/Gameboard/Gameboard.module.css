@@ -1,6 +1,5 @@
 .boardContainer {
-  /* Eight rows of square tiles make a board about 1.6× as tall as it is wide; leave room for
-     the flags. Without a size container (cqh falls back to the viewport) this rarely binds. */
+  /* Eight rows of square tiles are about 1.6 times the board width; reserve space for flags. */
   --board-max: min(280px, calc((100cqh - 2.5rem) / 1.6));
 
   width: 100%;
