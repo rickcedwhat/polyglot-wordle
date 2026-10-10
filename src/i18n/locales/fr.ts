@@ -88,7 +88,7 @@ export const fr: Translation = {
     },
     challenge: {
       mode: 'MODE DÉFI',
-      points: '{{score}} PTS',
+      points: '{{score, number}} PTS',
       canYouBeat: 'Pouvez-vous battre <name>{{name}}</name> ({{turns}}/{{max}} tours) ?',
       notFinished: '<name>{{name}}</name> vous a défié et n’a pas encore fini sa partie.',
       aFriend: 'Un ami',
@@ -224,8 +224,8 @@ export const fr: Translation = {
     titleLoss: 'Partie terminée : voici les mots',
     victory: '🎉 Victoire ! Les {{count}} mots trouvés en {{turns}}/{{max}} tours',
     partial: '❌ {{solved}}/{{count}} langues trouvées en {{turns}}/{{max}} tours',
-    finalScore: 'Score final : {{score}} pts',
-    pts: '{{score}} pts',
+    finalScore: 'Score final : {{score, number}} pts',
+    pts: '{{score, number}} pts',
     turns: '{{turns}}/{{max}} tours',
     showdown: 'Face-à-face',
     youWon: '🏆 Gagné !',
@@ -597,7 +597,7 @@ export const fr: Translation = {
     retry: 'Réessayer',
     words_one: '{{count}} mot',
     words_other: '{{count}} mots',
-    progress: 'Progression : {{percent}} %',
+    progress: 'Progression : {{percent}}',
     search: 'Chercher des mots ou des définitions...',
     sort: {
       freq: 'Les plus joués',

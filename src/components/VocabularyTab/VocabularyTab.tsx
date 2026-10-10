@@ -32,6 +32,7 @@ import {
 import { FormattedDefinition } from '@/components/FormattedDefinition/FormattedDefinition';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import i18n from '@/i18n';
+import { formatPercent } from '@/i18n/format';
 import { Language } from '@/types/firestore';
 import { DiscoveredWordEntry } from '@/types/vocabulary';
 import { ALL_LANGUAGES, labelFor } from '@/utils/languages';
@@ -319,10 +320,11 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
 
               <Group justify="space-between">
                 <Text size="xs" c="dimmed">
-                  {t('vocab.progress', { percent: pct.toFixed(1) })}
+                  {t('vocab.progress', { percent: formatPercent(pct) })}
                 </Text>
                 <Text size="xs" c="dimmed">
-                  {count} / {masterCount.toLocaleString(i18n.language)}
+                  {count.toLocaleString(i18n.language)} /{' '}
+                  {masterCount.toLocaleString(i18n.language)}
                 </Text>
               </Group>
             </Paper>

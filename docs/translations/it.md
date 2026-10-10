@@ -61,7 +61,7 @@ When reviewing:
 | `setup.difficulties.basic` | Basic | Base |
 | `setup.difficulties.intermediate` | Intermediate | Intermedio |
 | `setup.difficulties.advanced` | Advanced | Avanzato |
-| `setup.difficultyLabel` | {{language}} difficulty | Difficoltà {{language, lower}} |
+| `setup.difficultyLabel` | {{language}} difficulty | Difficoltà in {{language, lower}} |
 | `setup.saveFailed` | Could not save your game setup. Please try again. | Impossibile salvare le impostazioni. Riprova. |
 | `setup.savePrefsFailed` | Could not save your game setup preferences. | Impossibile salvare le tue preferenze di partita. |
 | `setup.startFailed` | Could not start your game. Please try again. | Impossibile iniziare la partita. Riprova. |
@@ -98,7 +98,7 @@ When reviewing:
 | `game.missingWord.flagged` | Flagged {{word}} | {{word}} segnalata |
 | `game.missingWord.thanks` | Marked as missing from {{language}}. Thanks! | Segnalata come mancante in {{language, lower}}. Grazie! |
 | `game.challenge.mode` | CHALLENGE MODE | MODALITÀ SFIDA |
-| `game.challenge.points` | {{score}} PTS | {{score}} PTI |
+| `game.challenge.points` | {{score, number}} PTS | {{score, number}} PUNTI |
 | `game.challenge.canYouBeat` | Can you beat &lt;name&gt;{{name}}&lt;/name&gt; ({{turns}}/{{max}} turns)? | Riesci a battere &lt;name&gt;{{name}}&lt;/name&gt; ({{turns}}/{{max}} turni)? |
 | `game.challenge.notFinished` | &lt;name&gt;{{name}}&lt;/name&gt; challenged you. They haven’t finished yet. | &lt;name&gt;{{name}}&lt;/name&gt; ti ha sfidato e non ha ancora finito. |
 | `game.challenge.aFriend` | A friend | Un amico |
@@ -206,8 +206,8 @@ When reviewing:
 | `postGame.titleLoss` | Game over: solutions revealed | Partita finita: ecco le parole |
 | `postGame.victory` | 🎉 Victory! All {{count}} solved in {{turns}}/{{max}} turns | 🎉 Vittoria! Tutte e {{count}} risolte in {{turns}}/{{max}} turni |
 | `postGame.partial` | ❌ {{solved}}/{{count}} languages solved in {{turns}}/{{max}} turns | ❌ {{solved}}/{{count}} lingue risolte in {{turns}}/{{max}} turni |
-| `postGame.finalScore` | Final score: {{score}} pts | Punteggio finale: {{score}} pti |
-| `postGame.pts` | {{score}} pts | {{score}} pti |
+| `postGame.finalScore` | Final score: {{score, number}} pts | Punteggio finale: {{score, number}} punti |
+| `postGame.pts` | {{score, number}} pts | {{score, number}} punti |
 | `postGame.turns` | {{turns}}/{{max}} turns | {{turns}}/{{max}} turni |
 | `postGame.showdown` | Head-to-head showdown | Testa a testa |
 | `postGame.youWon` | 🏆 You won! | 🏆 Hai vinto! |
@@ -555,7 +555,7 @@ When reviewing:
 | `vocab.retry` | Retry | Riprova |
 | `vocab.words_one` | {{count}} word | {{count}} parola |
 | `vocab.words_other` | {{count}} words | {{count}} parole |
-| `vocab.progress` | Progress: {{percent}}% | Avanzamento: {{percent}}% |
+| `vocab.progress` | Progress: {{percent}} | Avanzamento: {{percent}} |
 | `vocab.search` | Search words or meanings... | Cerca parole o significati... |
 | `vocab.sort.freq` | Most guessed | Più giocate |
 | `vocab.sort.recent` | Recently played | Giocate di recente |

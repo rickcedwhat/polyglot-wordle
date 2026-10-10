@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import { useAuth } from '@/context/AuthContext';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { formatDecimal, formatPercent } from '@/i18n/format';
 import type { Difficulty, Language } from '@/types/firestore';
 import { labelFor } from '@/utils/languages';
 import { GuessDistributionChart } from '../GuessDistributionChart/GuessDistributionChart';
@@ -115,7 +116,7 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
         />
         <StatCard
           label={t('stats.winRate')}
-          value={`${profileStats.winPercentage.toFixed(1) || 0}%`}
+          value={formatPercent(profileStats.winPercentage || 0)}
         />
         <StatCard label={t('stats.currentStreak')} value={profileStats.currentStreak || 0} />
         <StatCard label={t('stats.maxStreak')} value={profileStats.maxStreak || 0} />
@@ -160,7 +161,6 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
           const fails = langStats.boardsFailed;
           const totalBoards = solves + fails;
           const percentage = totalBoards > 0 ? (solves / totalBoards) * 100 : 0;
-          const sfRatio = percentage.toFixed(1);
 
           return (
             <div key={lang}>
@@ -205,10 +205,10 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
                     </Title>
                     <SimpleGrid cols={3}>
                       <StatCard label={t('stats.solvesFails')} value={`${solves} - ${fails}`} />
-                      <StatCard label={t('stats.solveRate')} value={`${sfRatio}%`} />
+                      <StatCard label={t('stats.solveRate')} value={formatPercent(percentage)} />
                       <StatCard
                         label={t('stats.avgGuesses')}
-                        value={langStats.averageGuesses.toFixed(2)}
+                        value={formatDecimal(langStats.averageGuesses, 2)}
                       />
                     </SimpleGrid>
                   </Stack>

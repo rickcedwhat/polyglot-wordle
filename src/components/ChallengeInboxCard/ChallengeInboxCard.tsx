@@ -275,7 +275,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
                 {t('postGame.you')}
               </Text>
               <Text size="sm" fw={800}>
-                {t('postGame.pts', { score: myScore ?? '—' })}
+                {myScore == null ? '—' : t('postGame.pts', { score: myScore })}
               </Text>
             </Paper>
             <Paper p="xs" radius="sm" withBorder bg="dark.7">
@@ -285,7 +285,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
                 </Text>
               </ProfileLink>
               <Text size="sm" fw={800}>
-                {t('postGame.pts', { score: theirScore ?? '—' })}
+                {theirScore == null ? '—' : t('postGame.pts', { score: theirScore })}
               </Text>
             </Paper>
           </SimpleGrid>

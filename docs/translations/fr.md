@@ -98,7 +98,7 @@ When reviewing:
 | `game.missingWord.flagged` | Flagged {{word}} | {{word}} signalé |
 | `game.missingWord.thanks` | Marked as missing from {{language}}. Thanks! | Signalé comme manquant en {{language, lower}}. Merci ! |
 | `game.challenge.mode` | CHALLENGE MODE | MODE DÉFI |
-| `game.challenge.points` | {{score}} PTS | {{score}} PTS |
+| `game.challenge.points` | {{score, number}} PTS | {{score, number}} PTS |
 | `game.challenge.canYouBeat` | Can you beat &lt;name&gt;{{name}}&lt;/name&gt; ({{turns}}/{{max}} turns)? | Pouvez-vous battre &lt;name&gt;{{name}}&lt;/name&gt; ({{turns}}/{{max}} tours) ? |
 | `game.challenge.notFinished` | &lt;name&gt;{{name}}&lt;/name&gt; challenged you. They haven’t finished yet. | &lt;name&gt;{{name}}&lt;/name&gt; vous a défié et n’a pas encore fini sa partie. |
 | `game.challenge.aFriend` | A friend | Un ami |
@@ -206,8 +206,8 @@ When reviewing:
 | `postGame.titleLoss` | Game over: solutions revealed | Partie terminée : voici les mots |
 | `postGame.victory` | 🎉 Victory! All {{count}} solved in {{turns}}/{{max}} turns | 🎉 Victoire ! Les {{count}} mots trouvés en {{turns}}/{{max}} tours |
 | `postGame.partial` | ❌ {{solved}}/{{count}} languages solved in {{turns}}/{{max}} turns | ❌ {{solved}}/{{count}} langues trouvées en {{turns}}/{{max}} tours |
-| `postGame.finalScore` | Final score: {{score}} pts | Score final : {{score}} pts |
-| `postGame.pts` | {{score}} pts | {{score}} pts |
+| `postGame.finalScore` | Final score: {{score, number}} pts | Score final : {{score, number}} pts |
+| `postGame.pts` | {{score, number}} pts | {{score, number}} pts |
 | `postGame.turns` | {{turns}}/{{max}} turns | {{turns}}/{{max}} tours |
 | `postGame.showdown` | Head-to-head showdown | Face-à-face |
 | `postGame.youWon` | 🏆 You won! | 🏆 Gagné ! |
@@ -555,7 +555,7 @@ When reviewing:
 | `vocab.retry` | Retry | Réessayer |
 | `vocab.words_one` | {{count}} word | {{count}} mot |
 | `vocab.words_other` | {{count}} words | {{count}} mots |
-| `vocab.progress` | Progress: {{percent}}% | Progression : {{percent}} % |
+| `vocab.progress` | Progress: {{percent}} | Progression : {{percent}} |
 | `vocab.search` | Search words or meanings... | Chercher des mots ou des définitions... |
 | `vocab.sort.freq` | Most guessed | Les plus joués |
 | `vocab.sort.recent` | Recently played | Joués récemment |

@@ -87,7 +87,7 @@ export const pt: Translation = {
     },
     challenge: {
       mode: 'MODO DESAFIO',
-      points: '{{score}} PTS',
+      points: '{{score, number}} PTS',
       canYouBeat: 'Você consegue vencer <name>{{name}}</name> ({{turns}}/{{max}} jogadas)?',
       notFinished: '<name>{{name}}</name> te desafiou e ainda não terminou o jogo.',
       aFriend: 'Um amigo',
@@ -222,8 +222,8 @@ export const pt: Translation = {
     titleLoss: 'Fim de jogo: estas eram as palavras',
     victory: '🎉 Vitória! As {{count}} palavras resolvidas em {{turns}}/{{max}} rodadas',
     partial: '❌ {{solved}}/{{count}} idiomas resolvidos em {{turns}}/{{max}} rodadas',
-    finalScore: 'Pontuação final: {{score}} pts',
-    pts: '{{score}} pts',
+    finalScore: 'Pontuação final: {{score, number}} pts',
+    pts: '{{score, number}} pts',
     turns: '{{turns}}/{{max}} rodadas',
     showdown: 'Frente a frente',
     youWon: '🏆 Você venceu!',
@@ -596,7 +596,7 @@ export const pt: Translation = {
     retry: 'Tentar de novo',
     words_one: '{{count}} palavra',
     words_other: '{{count}} palavras',
-    progress: 'Progresso: {{percent}}%',
+    progress: 'Progresso: {{percent}}',
     search: 'Buscar palavras ou significados...',
     sort: {
       freq: 'Mais jogadas',

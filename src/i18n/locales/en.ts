@@ -82,7 +82,7 @@ export const en = {
     },
     challenge: {
       mode: 'CHALLENGE MODE',
-      points: '{{score}} PTS',
+      points: '{{score, number}} PTS',
       canYouBeat: 'Can you beat <name>{{name}}</name> ({{turns}}/{{max}} turns)?',
       notFinished: '<name>{{name}}</name> challenged you. They haven’t finished yet.',
       aFriend: 'A friend',
@@ -216,8 +216,8 @@ export const en = {
     titleLoss: 'Game over: solutions revealed',
     victory: '🎉 Victory! All {{count}} solved in {{turns}}/{{max}} turns',
     partial: '❌ {{solved}}/{{count}} languages solved in {{turns}}/{{max}} turns',
-    finalScore: 'Final score: {{score}} pts',
-    pts: '{{score}} pts',
+    finalScore: 'Final score: {{score, number}} pts',
+    pts: '{{score, number}} pts',
     turns: '{{turns}}/{{max}} turns',
     showdown: 'Head-to-head showdown',
     youWon: '🏆 You won!',
@@ -585,7 +585,7 @@ export const en = {
     retry: 'Retry',
     words_one: '{{count}} word',
     words_other: '{{count}} words',
-    progress: 'Progress: {{percent}}%',
+    progress: 'Progress: {{percent}}',
     search: 'Search words or meanings...',
     sort: {
       freq: 'Most guessed',
