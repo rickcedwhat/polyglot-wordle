@@ -32,6 +32,7 @@ import { FormattedDefinition } from '@/components/FormattedDefinition/FormattedD
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { Language } from '@/types/firestore';
 import { DiscoveredWordEntry } from '@/types/vocabulary';
+import { ALL_LANGUAGES } from '@/utils/languages';
 import { Dictionary } from '@/utils/wordUtils';
 
 interface VocabularyTabProps {
@@ -131,7 +132,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
     setIsDictLoading(true);
     setDictError(null);
     Promise.all(
-      (['en', 'es', 'fr', 'it', 'pt'] as Language[]).map(async (lang) => {
+      ALL_LANGUAGES.map(async (lang) => {
         const res = await fetch(`/${lang}.json`);
         if (!res.ok) {
           throw new Error(`Failed to load ${lang} dictionary`);
@@ -274,7 +275,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
     <Stack gap="lg" mt="md">
       {/* LANGUAGE SELECTOR CARDS WITH PROGRESS */}
       <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="md">
-        {(['es', 'fr', 'en'] as Language[]).map((lang) => {
+        {ALL_LANGUAGES.map((lang) => {
           const isSelected = selectedLang === lang;
           const meta = LANGUAGE_META[lang];
           const langDict = dictionaries[lang];
@@ -419,7 +420,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
             </Text>
             <Text size="xs" c="dimmed" maw={400}>
               {discoveredCount === 0
-                ? 'Play daily games or practice in Spanish, French, or English to expand your personal vocabulary log!'
+                ? 'Play daily games or practice in Spanish, French, English, Italian, or Portuguese to expand your personal vocabulary log!'
                 : 'Try clearing your search query or switching the type filter above.'}
             </Text>
             {discoveredCount === 0 && (
