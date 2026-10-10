@@ -1,4 +1,8 @@
 .boardContainer {
+  /* Eight rows of square tiles make a board about 1.6× as tall as it is wide; leave room for
+     the flags. Without a size container (cqh falls back to the viewport) this rarely binds. */
+  --board-max: min(280px, calc((100cqh - 2.5rem) / 1.6));
+
   width: 100%;
   display: flex;
   gap: var(--mantine-spacing-md);
@@ -7,9 +11,9 @@
 }
 
 .boardWrapper {
-  flex: 0 1 280px;
+  flex: 0 1 var(--board-max);
   width: 100%;
-  max-width: 280px;
+  max-width: var(--board-max);
   min-width: 100px;
   cursor: pointer;
   display: flex;
@@ -42,5 +46,5 @@
 .narrow .active {
   flex-grow: 10;
   min-width: 0;
-  max-width: 280px;
+  max-width: var(--board-max);
 }

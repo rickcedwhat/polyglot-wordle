@@ -14,7 +14,7 @@ export const SidebarLayout: FC = () => {
   const isGamePage = Boolean(matchLegacyGame || matchLangGame);
 
   return (
-    <Box h="100vh">
+    <Box h="100dvh">
       <AppShell
         h="100%"
         header={isMobile ? { height: 60 } : undefined}
@@ -38,7 +38,8 @@ export const SidebarLayout: FC = () => {
           <Sidebar />
         </AppShell.Navbar>
 
-        <AppShell.Main>
+        {/* A fixed height lets the live game's boards shrink to fit instead of scrolling. */}
+        <AppShell.Main h={isGamePage ? '100dvh' : undefined}>
           <Outlet />
         </AppShell.Main>
       </AppShell>

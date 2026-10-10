@@ -103,7 +103,7 @@ const FullGame = ({ updateArgs, ...args }: StoryArgs & { updateArgs: UpdateRepla
   } as CSSProperties;
 
   return (
-    <Box h="100vh" style={animationVars}>
+    <Box h="100dvh" style={animationVars}>
       <AppShell
         h="100%"
         header={isMobile ? { height: 60 } : undefined}
@@ -122,7 +122,7 @@ const FullGame = ({ updateArgs, ...args }: StoryArgs & { updateArgs: UpdateRepla
         <AppShell.Navbar p="md">
           <MockSidebar />
         </AppShell.Navbar>
-        <AppShell.Main h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
+        <AppShell.Main h="100dvh" style={{ display: 'flex', flexDirection: 'column' }}>
           {showSolution && (
             <Group gap="xs" justify="center">
               {game.languages.map((lang) => (

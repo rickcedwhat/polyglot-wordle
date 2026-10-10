@@ -32,6 +32,7 @@ import { GAME_ORIGIN, SCORE_ORIGIN_ATTR, useScoreBurst } from '../ScoreFlights/f
 import { ScoreFlights } from '../ScoreFlights/ScoreFlights';
 import { ScorePopups } from '../ScorePopups/ScorePopups';
 import { promptFlagMissingWord } from './promptFlagMissingWord';
+import classes from './Game.module.css';
 
 /** Pressing Enter this many times in a row on a rejected word offers to flag it as missing. */
 const REJECTED_ENTERS_TO_FLAG = 3;
@@ -409,7 +410,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       style={{
         position: 'relative',
         display: 'grid',
-        gridTemplateRows: '1fr auto',
+        gridTemplateRows: 'minmax(0, 1fr) auto auto',
         height: '100%',
       }}
     >
@@ -427,6 +428,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           flexDirection: 'column',
           alignItems: 'center',
           width: '100%',
+          minHeight: 0,
           overflow: 'visible',
         }}
       >
@@ -445,7 +447,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             {rematchNotice}
           </Notification>
         )}
-        <Center style={{ overflow: 'visible', width: '100%' }}>
+        <Center className={classes.boardArea}>
           <GameBoard
             solution={solution}
             guesses={guesses}
