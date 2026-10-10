@@ -10,15 +10,15 @@ export const es: Translation = {
   },
   common: {
     tryAgain: 'Reintentar',
-    slowLoad: 'Esto está tardando más de lo normal.',
+    slowLoad: 'Está tardando más de lo normal.',
   },
   uiLanguage: {
     menu: 'Idioma',
     title: 'Elige tu idioma',
     intro:
-      'Los menús, las instrucciones y los mensajes usarán este idioma. Puedes cambiarlo cuando quieras desde Idioma en el menú.',
+      'Los menús, las instrucciones y los mensajes aparecerán en este idioma. Puedes cambiarlo cuando quieras en Idioma, en el menú.',
     confirm: 'Continuar',
-    saveFailed: 'No se pudo guardar el idioma en tu cuenta. Sigue configurado en este dispositivo.',
+    saveFailed: 'No se pudo guardar el idioma en tu cuenta, pero se mantiene en este dispositivo.',
   },
   login: {
     welcome: '¡Bienvenido a Polyglot Wordle!',
@@ -32,11 +32,11 @@ export const es: Translation = {
     },
     intro: 'Elige tres idiomas y luego una dificultad para cada tablero.',
     introChallenge:
-      'Elige tres idiomas y una dificultad para cada uno. Los dos tendrán los mismos tableros.',
+      'Elige tres idiomas y una dificultad para cada uno. Los dos jugarán la misma partida.',
     selectedCount: '{{count}} de {{total}} seleccionados',
     skipPicker: 'Usar siempre esta configuración',
     skipPickerHint:
-      'Nueva partida empieza directamente. Cámbialo desde Configuración de partida en el menú.',
+      'Nueva partida empezará de inmediato. Puedes cambiarlo en Configuración de partida, en el menú.',
     submit: {
       newGame: 'Empezar partida',
       settings: 'Guardar',
@@ -79,16 +79,16 @@ export const es: Translation = {
     flagWord: 'Marcar palabra para revisión con IA',
     unflagWord: 'Quitar marca',
     missingWord: {
-      title: '¿{{word}} es una palabra real?',
-      prompt: 'Márcala como ausente en:',
+      title: '¿{{word}} existe de verdad?',
+      prompt: 'Avisar que falta en:',
       flagged: '{{word}} marcada',
-      thanks: 'Marcada como ausente en {{language}}. ¡Gracias!',
+      thanks: 'Anotamos que falta en {{language}}. ¡Gracias!',
     },
     challenge: {
       mode: 'MODO DESAFÍO',
       points: '{{score}} PTS',
       canYouBeat: '¿Puedes superar a <name>{{name}}</name> ({{turns}}/{{max}} turnos)?',
-      notFinished: '<name>{{name}}</name> te ha desafiado. Todavía no ha terminado.',
+      notFinished: '<name>{{name}}</name> te desafió y todavía no termina su partida.',
       aFriend: 'Un amigo',
       viewProfile: 'Ver el perfil de {{name}}',
       dismiss: 'Cerrar aviso de desafío',
@@ -119,7 +119,7 @@ export const es: Translation = {
         'Como en el Wordle clásico, cada tablero colorea tu intento según su propia palabra. <green>Verde</green> es la letra correcta en el lugar correcto, <yellow>amarillo</yellow> está en la palabra pero en otro lugar, y <gray>gris</gray> no está en la palabra.',
       whichTitle: '¿Qué tablero es cuál?',
       whichText:
-        'Los tableros están mezclados y las banderas muestran qué idiomas podría ser cada uno. Una línea verde bajo un intento significa que es una palabra real en el idioma de ese tablero. PLATE es inglés y francés, así que el tablero sin línea debe ser el español; CRANE solo es inglés, lo que resuelve los otros dos.',
+        'Los tableros están mezclados y las banderas muestran en qué idioma podría estar cada uno. Una línea verde bajo un intento significa que es una palabra real en el idioma de ese tablero. PLATE es inglés y francés, así que el tablero sin línea debe ser el español; CRANE solo es inglés, lo que resuelve los otros dos.',
       winTitle: 'Cómo ganar',
       winText: 'Resuelve las tres palabras en {{max}} intentos o menos.',
     },
@@ -152,7 +152,7 @@ export const es: Translation = {
         'La dificultad define lo rara que puede ser la respuesta de ese tablero. Cualquier palabra real del idioma sigue valiendo como intento.',
       everyTimeTitle: 'Usar siempre esta configuración',
       everyTimeText:
-        'Actívalo y Nueva partida empieza directamente con estos idiomas y dificultades. Cámbialos cuando quieras desde Configuración de partida en el menú.',
+        'Si lo activas, Nueva partida empieza de inmediato con estos idiomas y dificultades. Puedes cambiarlos cuando quieras en Configuración de partida, en el menú.',
       examples: {
         basic: 'Palabras cotidianas',
         intermediate: 'Palabras menos comunes',
@@ -165,8 +165,8 @@ export const es: Translation = {
         'Toca 🔀 junto a tu fila de intento (o presiona Espacio). Cada vez que presionas 🔀 ves una nueva combinación de letras que ya conoces. Nunca revela nada nuevo.',
       followsTitle: 'Sigue a un tablero',
       followsText:
-        'La mezcla de letras resalta un tablero objetivo: el que tienes enfocado, o el de la izquierda en pantallas anchas. Toca otro tablero para cambiar. Sus verdes se quedan en su sitio, sus amarillos siempre se incluyen en otra posición y sus letras grises nunca se usan.',
-      pinsTitle: 'Tus letras, tus fijaciones',
+        'La mezcla de letras resalta un tablero objetivo: el que tienes enfocado, o el de la izquierda en pantallas anchas. Toca otro tablero para cambiar. Sus verdes se quedan en su sitio, sus amarillos siempre cambian de posición y sus letras grises nunca se usan.',
+      pinsTitle: 'Tus letras, a tu manera',
       pinsText:
         'Las letras que escribes se quedan en la mezcla pero cambian de sitio. Toca una letra dos veces para fijarla y otra vez para soltarla. Las letras atenuadas son sugerencias al azar; escribe encima para usar la tuya.',
       gapTitle: 'Queda un hueco',
@@ -174,7 +174,7 @@ export const es: Translation = {
         'Cuando solo queda una casilla libre, cada vez que presionas se prueba la siguiente letra en el orden del teclado (Q, W, E, …), saltándose las letras ya descartadas.',
       leaveTitle: 'Adivinar o salir',
       leaveText:
-        '¿Te gusta? Presiona Enter para jugarla como siempre y la mezcla se cierra. ¿No es una palabra? Se sacude como siempre. Presiona ✕ o Esc para salir sin jugar.',
+        '¿Te convence? Presiona Enter para jugarla como siempre y la mezcla se cierra. ¿No es una palabra? La fila tiembla, como siempre. Presiona ✕ o Esc para salir sin jugar.',
     },
     faq: {
       dotsTitle: '¿Qué son los puntos del teclado?',
@@ -188,10 +188,10 @@ export const es: Translation = {
         'No. Las tildes se ignoran al comprobar los intentos, así que UNITE coincide con UNITÉ y ARBOL con ÁRBOL.',
       rejectedTitle: 'No me aceptó una palabra',
       rejectedText:
-        'Presiona Enter tres veces sobre ella y podrás marcarla como ausente de un diccionario. Si vuelves a escribir una palabra que ya jugaste, puedes marcarla para los idiomas que no la tienen.',
+        'Presiona Enter tres veces y podrás avisar que falta en un diccionario. Si vuelves a escribir una palabra que ya jugaste, puedes marcarla para los idiomas que no la tienen.',
       challengesTitle: '¿Cómo funcionan los desafíos?',
       challengesText:
-        'Desafía a tus amigos con una partida que acabas de terminar o empiecen una nueva juntos. Todos juegan exactamente los mismos tableros y ves cada resultado cuando terminan.',
+        'Desafía a tus amigos con una partida que acabas de terminar o empiecen una nueva juntos. Todos juegan la misma partida y ves el resultado de cada uno en cuanto termina.',
       difficultyTitle: '¿La dificultad cambia mi puntuación?',
       difficultyText:
         'No. Los puntos son iguales en todas las dificultades; los tableros difíciles solo tienen respuestas más raras.',

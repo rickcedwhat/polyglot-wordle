@@ -24,7 +24,7 @@ When reviewing:
 | Key | English | Spanish |
 |---|---|---|
 | `common.tryAgain` | Try again | Reintentar |
-| `common.slowLoad` | This is taking longer than usual. | Esto está tardando más de lo normal. |
+| `common.slowLoad` | This is taking longer than usual. | Está tardando más de lo normal. |
 
 ## Language picker
 
@@ -32,9 +32,9 @@ When reviewing:
 |---|---|---|
 | `uiLanguage.menu` | Language | Idioma |
 | `uiLanguage.title` | Choose your language | Elige tu idioma |
-| `uiLanguage.intro` | Menus, instructions and messages will use this language. You can change it anytime from Language in the menu. | Los menús, las instrucciones y los mensajes usarán este idioma. Puedes cambiarlo cuando quieras desde Idioma en el menú. |
+| `uiLanguage.intro` | Menus, instructions and messages will use this language. You can change it anytime from Language in the menu. | Los menús, las instrucciones y los mensajes aparecerán en este idioma. Puedes cambiarlo cuando quieras en Idioma, en el menú. |
 | `uiLanguage.confirm` | Continue | Continuar |
-| `uiLanguage.saveFailed` | Could not save your language to your account. It is still set on this device. | No se pudo guardar el idioma en tu cuenta. Sigue configurado en este dispositivo. |
+| `uiLanguage.saveFailed` | Could not save your language to your account. It is still set on this device. | No se pudo guardar el idioma en tu cuenta, pero se mantiene en este dispositivo. |
 
 ## Login page
 
@@ -51,10 +51,10 @@ When reviewing:
 | `setup.titles.settings` | Game setup | Configuración de partida |
 | `setup.titles.challenge` | Challenge a friend | Desafiar a un amigo |
 | `setup.intro` | Pick three languages, then a difficulty for each board. | Elige tres idiomas y luego una dificultad para cada tablero. |
-| `setup.introChallenge` | Pick three languages and a difficulty for each. You both get the same boards. | Elige tres idiomas y una dificultad para cada uno. Los dos tendrán los mismos tableros. |
+| `setup.introChallenge` | Pick three languages and a difficulty for each. You both get the same boards. | Elige tres idiomas y una dificultad para cada uno. Los dos jugarán la misma partida. |
 | `setup.selectedCount` | {{count}} of {{total}} selected | {{count}} de {{total}} seleccionados |
 | `setup.skipPicker` | Use this setup every time | Usar siempre esta configuración |
-| `setup.skipPickerHint` | New Game starts right away. Change it from Game setup in the menu. | Nueva partida empieza directamente. Cámbialo desde Configuración de partida en el menú. |
+| `setup.skipPickerHint` | New Game starts right away. Change it from Game setup in the menu. | Nueva partida empezará de inmediato. Puedes cambiarlo en Configuración de partida, en el menú. |
 | `setup.submit.newGame` | Start game | Empezar partida |
 | `setup.submit.settings` | Save | Guardar |
 | `setup.submit.challenge` | Send challenge &amp; play | Enviar desafío y jugar |
@@ -93,14 +93,14 @@ When reviewing:
 | `game.definitionNotFound` | Definition not found. | Definición no encontrada. |
 | `game.flagWord` | Flag word for AI discussion | Marcar palabra para revisión con IA |
 | `game.unflagWord` | Unflag word | Quitar marca |
-| `game.missingWord.title` | Is {{word}} a real word? | ¿{{word}} es una palabra real? |
-| `game.missingWord.prompt` | Flag it as missing from: | Márcala como ausente en: |
+| `game.missingWord.title` | Is {{word}} a real word? | ¿{{word}} existe de verdad? |
+| `game.missingWord.prompt` | Flag it as missing from: | Avisar que falta en: |
 | `game.missingWord.flagged` | Flagged {{word}} | {{word}} marcada |
-| `game.missingWord.thanks` | Marked as missing from {{language}}. Thanks! | Marcada como ausente en {{language}}. ¡Gracias! |
+| `game.missingWord.thanks` | Marked as missing from {{language}}. Thanks! | Anotamos que falta en {{language}}. ¡Gracias! |
 | `game.challenge.mode` | CHALLENGE MODE | MODO DESAFÍO |
 | `game.challenge.points` | {{score}} PTS | {{score}} PTS |
 | `game.challenge.canYouBeat` | Can you beat &lt;name&gt;{{name}}&lt;/name&gt; ({{turns}}/{{max}} turns)? | ¿Puedes superar a &lt;name&gt;{{name}}&lt;/name&gt; ({{turns}}/{{max}} turnos)? |
-| `game.challenge.notFinished` | &lt;name&gt;{{name}}&lt;/name&gt; challenged you. They haven’t finished yet. | &lt;name&gt;{{name}}&lt;/name&gt; te ha desafiado. Todavía no ha terminado. |
+| `game.challenge.notFinished` | &lt;name&gt;{{name}}&lt;/name&gt; challenged you. They haven’t finished yet. | &lt;name&gt;{{name}}&lt;/name&gt; te desafió y todavía no termina su partida. |
 | `game.challenge.aFriend` | A friend | Un amigo |
 | `game.challenge.viewProfile` | View {{name}}'s profile | Ver el perfil de {{name}} |
 | `game.challenge.dismiss` | Dismiss challenge banner | Cerrar aviso de desafío |
@@ -125,7 +125,7 @@ When reviewing:
 | `help.play.colorsTitle` | Color clues for letters | Pistas de colores |
 | `help.play.colorsText` | Like classic Wordle, each board colors your guess against its own word. &lt;green&gt;Green&lt;/green&gt; is the right letter in the right spot, &lt;yellow&gt;yellow&lt;/yellow&gt; is in the word but somewhere else, and &lt;gray&gt;gray&lt;/gray&gt; isn't in the word. | Como en el Wordle clásico, cada tablero colorea tu intento según su propia palabra. &lt;green&gt;Verde&lt;/green&gt; es la letra correcta en el lugar correcto, &lt;yellow&gt;amarillo&lt;/yellow&gt; está en la palabra pero en otro lugar, y &lt;gray&gt;gris&lt;/gray&gt; no está en la palabra. |
 | `help.play.whichTitle` | Which board is which? | ¿Qué tablero es cuál? |
-| `help.play.whichText` | Boards are shuffled, and the flags show which languages each one could be. A green line under a guess means it's a real word in that board's language. PLATE is English and French, so the board without a line must be Spanish; CRANE is only English, which settles the other two. | Los tableros están mezclados y las banderas muestran qué idiomas podría ser cada uno. Una línea verde bajo un intento significa que es una palabra real en el idioma de ese tablero. PLATE es inglés y francés, así que el tablero sin línea debe ser el español; CRANE solo es inglés, lo que resuelve los otros dos. |
+| `help.play.whichText` | Boards are shuffled, and the flags show which languages each one could be. A green line under a guess means it's a real word in that board's language. PLATE is English and French, so the board without a line must be Spanish; CRANE is only English, which settles the other two. | Los tableros están mezclados y las banderas muestran en qué idioma podría estar cada uno. Una línea verde bajo un intento significa que es una palabra real en el idioma de ese tablero. PLATE es inglés y francés, así que el tablero sin línea debe ser el español; CRANE solo es inglés, lo que resuelve los otros dos. |
 | `help.play.winTitle` | Winning | Cómo ganar |
 | `help.play.winText` | Solve all three words within {{max}} guesses. | Resuelve las tres palabras en {{max}} intentos o menos. |
 | `help.scoring.pointsTitle` | Points on every board | Puntos en cada tablero |
@@ -145,20 +145,20 @@ When reviewing:
 | `help.setup.difficultyTitle` | A difficulty for each board | Una dificultad para cada tablero |
 | `help.setup.difficultyText` | Difficulty sets how rare that board's answer can be. Any real word in the language still counts as a guess. | La dificultad define lo rara que puede ser la respuesta de ese tablero. Cualquier palabra real del idioma sigue valiendo como intento. |
 | `help.setup.everyTimeTitle` | Use this setup every time | Usar siempre esta configuración |
-| `help.setup.everyTimeText` | Turn it on and New Game starts right away with these languages and difficulties. Change them anytime from Game setup in the menu. | Actívalo y Nueva partida empieza directamente con estos idiomas y dificultades. Cámbialos cuando quieras desde Configuración de partida en el menú. |
+| `help.setup.everyTimeText` | Turn it on and New Game starts right away with these languages and difficulties. Change them anytime from Game setup in the menu. | Si lo activas, Nueva partida empieza de inmediato con estos idiomas y dificultades. Puedes cambiarlos cuando quieras en Configuración de partida, en el menú. |
 | `help.setup.examples.basic` | Everyday words | Palabras cotidianas |
 | `help.setup.examples.intermediate` | Less common words | Palabras menos comunes |
 | `help.setup.examples.advanced` | Any word in the dictionary | Cualquier palabra del diccionario |
 | `help.jumble.stuckTitle` | Stuck? Try Letter Jumble | ¿Atascado? Prueba la mezcla de letras |
 | `help.jumble.stuckText` | Tap 🔀 beside your guess row (or press Space). Each press of 🔀 shows a new arrangement of letters you already know about. It never reveals anything new. | Toca 🔀 junto a tu fila de intento (o presiona Espacio). Cada vez que presionas 🔀 ves una nueva combinación de letras que ya conoces. Nunca revela nada nuevo. |
 | `help.jumble.followsTitle` | It follows one board | Sigue a un tablero |
-| `help.jumble.followsText` | Letter Jumble outlines a target board: the board you're focused on, or the left one on wide screens. Tap another board to switch. Its greens stay in place, its yellows are always included in a new spot, and its gray letters are never used. | La mezcla de letras resalta un tablero objetivo: el que tienes enfocado, o el de la izquierda en pantallas anchas. Toca otro tablero para cambiar. Sus verdes se quedan en su sitio, sus amarillos siempre se incluyen en otra posición y sus letras grises nunca se usan. |
-| `help.jumble.pinsTitle` | Your letters, your pins | Tus letras, tus fijaciones |
+| `help.jumble.followsText` | Letter Jumble outlines a target board: the board you're focused on, or the left one on wide screens. Tap another board to switch. Its greens stay in place, its yellows are always included in a new spot, and its gray letters are never used. | La mezcla de letras resalta un tablero objetivo: el que tienes enfocado, o el de la izquierda en pantallas anchas. Toca otro tablero para cambiar. Sus verdes se quedan en su sitio, sus amarillos siempre cambian de posición y sus letras grises nunca se usan. |
+| `help.jumble.pinsTitle` | Your letters, your pins | Tus letras, a tu manera |
 | `help.jumble.pinsText` | Letters you type stay in the jumble but move around. Tap a letter twice to pin it in place, and again to unpin it. Faded letters are random suggestions; type over one to use your own. | Las letras que escribes se quedan en la mezcla pero cambian de sitio. Toca una letra dos veces para fijarla y otra vez para soltarla. Las letras atenuadas son sugerencias al azar; escribe encima para usar la tuya. |
 | `help.jumble.gapTitle` | One gap left | Queda un hueco |
 | `help.jumble.gapText` | When only one slot is open, each press tries the next letter in keyboard order (Q, W, E, …), skipping letters already ruled out. | Cuando solo queda una casilla libre, cada vez que presionas se prueba la siguiente letra en el orden del teclado (Q, W, E, …), saltándose las letras ya descartadas. |
 | `help.jumble.leaveTitle` | Guess or leave | Adivinar o salir |
-| `help.jumble.leaveText` | Like it? Press Enter to guess as usual and Letter Jumble closes. Not a word? It shakes like always. Press ✕ or Esc to leave without guessing. | ¿Te gusta? Presiona Enter para jugarla como siempre y la mezcla se cierra. ¿No es una palabra? Se sacude como siempre. Presiona ✕ o Esc para salir sin jugar. |
+| `help.jumble.leaveText` | Like it? Press Enter to guess as usual and Letter Jumble closes. Not a word? It shakes like always. Press ✕ or Esc to leave without guessing. | ¿Te convence? Presiona Enter para jugarla como siempre y la mezcla se cierra. ¿No es una palabra? La fila tiembla, como siempre. Presiona ✕ o Esc para salir sin jugar. |
 | `help.faq.dotsTitle` | What are the dots on the keyboard? | ¿Qué son los puntos del teclado? |
 | `help.faq.dotsText` | Each key has three dots, one per board from left to right. Green and yellow work like the tiles, red means the letter isn't in that board's word, and a dim dot means you haven't tried it there yet. | Cada tecla tiene tres puntos, uno por tablero de izquierda a derecha. El verde y el amarillo funcionan como en las casillas, el rojo significa que la letra no está en la palabra de ese tablero, y un punto apagado significa que aún no la has probado ahí. |
 | `help.faq.flagsTitle` | Can I change the flags? | ¿Puedo cambiar las banderas? |
@@ -166,9 +166,9 @@ When reviewing:
 | `help.faq.accentsTitle` | Do I need to type accents? | ¿Tengo que escribir las tildes? |
 | `help.faq.accentsText` | No. Accents are ignored when checking guesses, so UNITE matches UNITÉ and ARBOL matches ÁRBOL. | No. Las tildes se ignoran al comprobar los intentos, así que UNITE coincide con UNITÉ y ARBOL con ÁRBOL. |
 | `help.faq.rejectedTitle` | My word wasn't accepted | No me aceptó una palabra |
-| `help.faq.rejectedText` | Press Enter three times on it and you can flag it as missing from a dictionary. If you re-enter a word you already played, you can flag it for the languages that don't have it. | Presiona Enter tres veces sobre ella y podrás marcarla como ausente de un diccionario. Si vuelves a escribir una palabra que ya jugaste, puedes marcarla para los idiomas que no la tienen. |
+| `help.faq.rejectedText` | Press Enter three times on it and you can flag it as missing from a dictionary. If you re-enter a word you already played, you can flag it for the languages that don't have it. | Presiona Enter tres veces y podrás avisar que falta en un diccionario. Si vuelves a escribir una palabra que ya jugaste, puedes marcarla para los idiomas que no la tienen. |
 | `help.faq.challengesTitle` | How do challenges work? | ¿Cómo funcionan los desafíos? |
-| `help.faq.challengesText` | Challenge friends on a game you just finished, or start a new one together. Everyone plays the exact same boards, and you see each result as they finish. | Desafía a tus amigos con una partida que acabas de terminar o empiecen una nueva juntos. Todos juegan exactamente los mismos tableros y ves cada resultado cuando terminan. |
+| `help.faq.challengesText` | Challenge friends on a game you just finished, or start a new one together. Everyone plays the exact same boards, and you see each result as they finish. | Desafía a tus amigos con una partida que acabas de terminar o empiecen una nueva juntos. Todos juegan la misma partida y ves el resultado de cada uno en cuanto termina. |
 | `help.faq.difficultyTitle` | Does difficulty change my score? | ¿La dificultad cambia mi puntuación? |
 | `help.faq.difficultyText` | No. Scoring is the same at every difficulty; harder boards just have rarer answers. | No. Los puntos son iguales en todas las dificultades; los tableros difíciles solo tienen respuestas más raras. |
 | `help.faq.languageTitle` | Can I play in another language? | ¿Puedo jugar en otro idioma? |

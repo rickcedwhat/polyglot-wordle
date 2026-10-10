@@ -19,7 +19,7 @@ export const it: Translation = {
       'Menu, istruzioni e messaggi useranno questa lingua. Puoi cambiarla quando vuoi da Lingua nel menu.',
     confirm: 'Continua',
     saveFailed:
-      'Impossibile salvare la lingua nel tuo account. Resta impostata su questo dispositivo.',
+      'Impossibile salvare la lingua nel tuo account, ma resta impostata su questo dispositivo.',
   },
   login: {
     welcome: 'Benvenuto su Polyglot Wordle!',
@@ -33,10 +33,11 @@ export const it: Translation = {
     },
     intro: 'Scegli tre lingue, poi una difficoltà per ogni griglia.',
     introChallenge:
-      'Scegli tre lingue e una difficoltà per ciascuna. Avrete entrambi le stesse griglie.',
+      'Scegli tre lingue e una difficoltà per ciascuna. Giocherete la stessa partita.',
     selectedCount: '{{count}} di {{total}} selezionate',
     skipPicker: 'Usa sempre queste impostazioni',
-    skipPickerHint: 'Nuova partita inizia subito. Cambiale da Impostazioni partita nel menu.',
+    skipPickerHint:
+      'Nuova partita partirà subito. Puoi cambiarle da Impostazioni partita, nel menu.',
     submit: {
       newGame: 'Inizia',
       settings: 'Salva',
@@ -79,7 +80,7 @@ export const it: Translation = {
     flagWord: 'Segnala la parola per una revisione con IA',
     unflagWord: 'Rimuovi segnalazione',
     missingWord: {
-      title: '{{word}} è una parola vera?',
+      title: '{{word}} esiste davvero?',
       prompt: 'Segnalala come mancante in:',
       flagged: '{{word}} segnalata',
       thanks: 'Segnalata come mancante in {{language}}. Grazie!',
@@ -88,7 +89,7 @@ export const it: Translation = {
       mode: 'MODALITÀ SFIDA',
       points: '{{score}} PTI',
       canYouBeat: 'Riesci a battere <name>{{name}}</name> ({{turns}}/{{max}} turni)?',
-      notFinished: '<name>{{name}}</name> ti ha sfidato. Non ha ancora finito.',
+      notFinished: '<name>{{name}}</name> ti ha sfidato e non ha ancora finito.',
       aFriend: 'Un amico',
       viewProfile: 'Vedi il profilo di {{name}}',
       dismiss: 'Chiudi il banner della sfida',
@@ -119,7 +120,7 @@ export const it: Translation = {
         'Come nel Wordle classico, ogni griglia colora il tuo tentativo in base alla sua parola. <green>Verde</green> è la lettera giusta al posto giusto, <yellow>giallo</yellow> è nella parola ma in un altro posto, e <gray>grigio</gray> non è nella parola.',
       whichTitle: 'Quale griglia è quale?',
       whichText:
-        'Le griglie sono mescolate e le bandiere mostrano quali lingue potrebbe essere ciascuna. Una linea verde sotto un tentativo indica che è una parola vera nella lingua di quella griglia. PLATE è inglese e francese, quindi la griglia senza linea deve essere lo spagnolo; CRANE è solo inglese, e questo risolve le altre due.',
+        'Le griglie sono mescolate e le bandiere mostrano in quale lingua potrebbe essere ciascuna. Una linea verde sotto un tentativo indica che è una parola vera nella lingua di quella griglia. PLATE è inglese e francese, quindi la griglia senza linea deve essere lo spagnolo; CRANE è solo inglese, e questo risolve le altre due.',
       winTitle: 'Vincere',
       winText: 'Risolvi tutte e tre le parole entro {{max}} tentativi.',
     },
@@ -150,7 +151,7 @@ export const it: Translation = {
         'La difficoltà stabilisce quanto può essere rara la risposta di quella griglia. Qualsiasi parola vera della lingua vale comunque come tentativo.',
       everyTimeTitle: 'Usa sempre queste impostazioni',
       everyTimeText:
-        'Attivalo e Nuova partita inizia subito con queste lingue e difficoltà. Cambiale quando vuoi da Impostazioni partita nel menu.',
+        'Se lo attivi, Nuova partita parte subito con queste lingue e difficoltà. Puoi cambiarle quando vuoi da Impostazioni partita, nel menu.',
       examples: {
         basic: 'Parole di tutti i giorni',
         intermediate: 'Parole meno comuni',
@@ -160,19 +161,19 @@ export const it: Translation = {
     jumble: {
       stuckTitle: 'Bloccato? Prova Mescola lettere',
       stuckText:
-        'Tocca 🔀 accanto alla riga del tentativo (o premi Spazio). Ogni pressione di 🔀 mostra una nuova disposizione delle lettere che conosci già. Non rivela mai niente di nuovo.',
+        'Tocca 🔀 accanto alla riga del tentativo (o premi Spazio). Ogni tocco su 🔀 mostra una nuova disposizione delle lettere che conosci già. Non rivela mai niente di nuovo.',
       followsTitle: 'Segue una griglia',
       followsText:
-        'Mescola lettere evidenzia una griglia obiettivo: quella su cui sei, o quella a sinistra sugli schermi larghi. Tocca un’altra griglia per cambiare. I suoi verdi restano al loro posto, i suoi gialli sono sempre inclusi in un posto nuovo e le sue lettere grigie non vengono mai usate.',
-      pinsTitle: 'Le tue lettere, i tuoi fermi',
+        'Mescola lettere evidenzia una griglia obiettivo: quella su cui sei, o quella a sinistra sugli schermi larghi. Tocca un’altra griglia per cambiare. I suoi verdi restano al loro posto, i suoi gialli cambiano sempre posto e le sue lettere grigie non vengono mai usate.',
+      pinsTitle: 'Le tue lettere, a modo tuo',
       pinsText:
-        'Le lettere che scrivi restano nel mescolamento ma cambiano posto. Tocca una lettera due volte per fissarla e un’altra volta per sbloccarla. Le lettere sbiadite sono suggerimenti casuali; scrivici sopra per usare la tua.',
+        'Le lettere che scrivi restano tra quelle mescolate ma cambiano posto. Tocca una lettera due volte per fissarla e un’altra volta per sbloccarla. Le lettere sbiadite sono suggerimenti casuali; scrivici sopra per usare la tua.',
       gapTitle: 'Un solo spazio libero',
       gapText:
-        'Quando resta una sola casella libera, ogni pressione prova la lettera successiva nell’ordine della tastiera (Q, W, E, …), saltando le lettere già escluse.',
+        'Quando resta una sola casella libera, ogni tocco prova la lettera successiva nell’ordine della tastiera (Q, W, E, …), saltando le lettere già escluse.',
       leaveTitle: 'Gioca o esci',
       leaveText:
-        'Ti piace? Premi Invio per giocarla come sempre e Mescola lettere si chiude. Non è una parola? Trema come al solito. Premi ✕ o Esc per uscire senza giocare.',
+        'Ti piace? Premi Invio per giocarla come sempre e Mescola lettere si chiude. Non è una parola? La riga trema, come al solito. Premi ✕ o Esc per uscire senza giocare.',
     },
     faq: {
       dotsTitle: 'Cosa sono i puntini sulla tastiera?',
@@ -189,7 +190,7 @@ export const it: Translation = {
         'Premi Invio tre volte e potrai segnalarla come mancante da un dizionario. Se riscrivi una parola già giocata, puoi segnalarla per le lingue che non ce l’hanno.',
       challengesTitle: 'Come funzionano le sfide?',
       challengesText:
-        'Sfida gli amici su una partita appena finita, o iniziatene una nuova insieme. Tutti giocano esattamente le stesse griglie e vedi ogni risultato appena finiscono.',
+        'Sfida gli amici su una partita appena finita, o iniziatene una nuova insieme. Tutti giocano la stessa partita e vedi il risultato di ognuno appena finisce.',
       difficultyTitle: 'La difficoltà cambia il mio punteggio?',
       difficultyText:
         'No. I punti sono gli stessi a ogni difficoltà; le griglie più difficili hanno solo risposte più rare.',
