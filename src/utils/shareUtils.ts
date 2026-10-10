@@ -1,3 +1,4 @@
+import { shareLanguage } from '@/i18n';
 import { GameDoc } from '@/types/firestore';
 import { flagFor, gamePath, languagesFromGame } from '@/utils/languages';
 
@@ -34,7 +35,7 @@ export const shareGameResult = async ({
   const challengeUrl = `${window.location.origin}${gamePath(
     gameSession.gameId,
     languagesFromGame(gameSession),
-    currentUserId ? { challenger: currentUserId } : undefined
+    { challenger: currentUserId, lang: shareLanguage() }
   )}`;
   const text = buildShareText({ gameSession, challengeUrl });
 

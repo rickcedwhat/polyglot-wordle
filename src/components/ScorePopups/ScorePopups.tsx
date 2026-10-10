@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useLanguageFlags } from '@/hooks/useLanguageFlags';
+import i18n from '@/i18n';
 import type { Language } from '@/types/firestore';
 import { flagFor, labelFor } from '@/utils/languages';
 import type { ScoreEvent } from '@/utils/wordUtils';
@@ -27,22 +28,30 @@ export function buildGameLines(
   events: ScoreEvent[],
   flagOf: (lang: Language) => string = flagFor
 ): PopupLine[] {
+  const t = i18n.t.bind(i18n);
   return events.flatMap((event): PopupLine[] => {
     if (event.kind === 'crack') {
-      return [{ id: 'crack', points: event.points, label: 'First word cracked!', tone: 'solved' }];
+      return [{ id: 'crack', points: event.points, label: t('game.popups.crack'), tone: 'solved' }];
     }
     if (event.kind === 'hatTrick') {
-      return [{ id: 'hatTrick', points: event.points, label: 'Hat trick!', tone: 'green' }];
+      return [
+        { id: 'hatTrick', points: event.points, label: t('game.popups.hatTrick'), tone: 'green' },
+      ];
     }
     if (event.kind === 'gameSolved') {
-      return [{ id: 'game', points: event.points, label: 'All words solved!', tone: 'solved' }];
+      return [
+        { id: 'game', points: event.points, label: t('game.popups.allSolved'), tone: 'solved' },
+      ];
     }
     if (event.kind === 'penalty' && event.lang) {
       return [
         {
           id: `penalty-${event.lang}`,
           points: event.points,
-          label: `${flagOf(event.lang)} ${labelFor(event.lang)} unsolved`,
+          label: t('game.popups.unsolved', {
+            flag: flagOf(event.lang),
+            language: labelFor(event.lang),
+          }),
           tone: 'penalty',
         },
       ];
@@ -57,9 +66,10 @@ export function buildGameLines(
  */
 function buildBoardLine(events: ScoreEvent[], compact: boolean): PopupLine | null {
   const solved = events.find((e) => e.kind === 'wordSolved');
+  const solvedLabel = i18n.t('game.popups.solved');
   if (!compact) {
     return solved
-      ? { id: 'solved', points: solved.points, label: 'Solved!', tone: 'solved' }
+      ? { id: 'solved', points: solved.points, label: solvedLabel, tone: 'solved' }
       : null;
   }
   const total = sum(events.filter((e) => e.kind !== 'penalty'));
@@ -70,7 +80,7 @@ function buildBoardLine(events: ScoreEvent[], compact: boolean): PopupLine | nul
   return {
     id: 'total',
     points: total,
-    label: solved ? 'Solved!' : '',
+    label: solved ? solvedLabel : '',
     tone: solved ? 'solved' : hasGreen ? 'green' : 'yellow',
   };
 }

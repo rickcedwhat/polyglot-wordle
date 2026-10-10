@@ -4,12 +4,14 @@ import {
   IconFlag,
   IconHelpCircle,
   IconHome,
+  IconLanguage,
   IconLogout,
   IconRefresh,
   IconSettings,
   IconSwords,
   IconUser,
 } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Badge, Divider, Paper, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -17,6 +19,7 @@ import { notifications } from '@mantine/notifications';
 import { FlagsModal } from '@/components/FlagsModal/FlagsModal';
 import { GameSetupDialog } from '@/components/GameSetup/GameSetupDialog';
 import { HowToPlayModal } from '@/components/HowToPlayModal/HowToPlayModal';
+import { UiLanguageModal } from '@/components/UiLanguage/UiLanguagePicker';
 import { useAuth } from '@/context/AuthContext';
 import { useSidebar } from '@/context/SidebarContext';
 import { useChallengeResultToasts, useChallenges } from '@/hooks/useChallenges';
@@ -46,6 +49,8 @@ export const Sidebar: FC = () => {
     openSetupDialog();
   };
   const [flagsModalOpened, { open: openFlagsModal, close: closeFlagsModal }] = useDisclosure(false);
+  const [languageOpened, { open: openLanguage, close: closeLanguage }] = useDisclosure(false);
+  const { t } = useTranslation();
   const handleToast = useCallback(
     ({ challengeId, message }: ChallengeToast) => {
       const id = `challenge-${challengeId}`;
@@ -107,6 +112,7 @@ export const Sidebar: FC = () => {
     { label: 'How to Play', icon: IconHelpCircle, action: openHowToPlay },
     { label: 'Game setup', icon: IconSettings, action: () => openSetup('settings') },
     { label: 'Custom Flags / Emojis', icon: IconFlag, action: openFlagsModal },
+    { label: t('uiLanguage.menu'), icon: IconLanguage, action: openLanguage },
     // The /sandbox route only exists in dev builds.
     ...(import.meta.env.DEV
       ? [{ label: 'Sandbox Tools', icon: IconAdjustmentsHorizontal, action: handleSandboxTools }]
@@ -118,6 +124,7 @@ export const Sidebar: FC = () => {
       <HowToPlayModal opened={howToPlayOpened} onClose={closeHowToPlay} />
       <GameSetupDialog opened={setupOpened} onClose={closeSetup} mode={setupMode} />
       <FlagsModal opened={flagsModalOpened} onClose={closeFlagsModal} />
+      <UiLanguageModal opened={languageOpened} onClose={closeLanguage} />
 
       <div className={classes.wrapper}>
         <Stack>

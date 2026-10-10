@@ -64,10 +64,10 @@ describe('avatar profile links', () => {
         challengerUser={{ displayName, photoURL: '/avatar.png' }}
       />
     );
-    const link = screen.getByRole('link', { name: `View ${displayName || 'A Friend'}'s profile` });
+    const link = screen.getByRole('link', { name: `View ${displayName || 'A friend'}'s profile` });
     expect(link).toHaveAttribute('href', '/profile/opponent');
     fireEvent.load(link.querySelector('img')!);
-    expect(link).toHaveAccessibleName(`View ${displayName || 'A Friend'}'s profile`);
+    expect(link).toHaveAccessibleName(`View ${displayName || 'A friend'}'s profile`);
   });
 
   it.each(['Alex', ''])('names the inbox avatar before and after loading (%s)', (displayName) => {

@@ -1,10 +1,13 @@
 import { FC, useEffect } from 'react';
 import { IconBrandGoogle } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom'; // 1. Import useLocation
 import { Button, Center, Container, Paper, Stack, Title } from '@mantine/core';
+import { UiLanguageSelect } from '@/components/UiLanguage/UiLanguagePicker';
 import { useAuth } from '@/context/AuthContext';
 
 export const LoginPage: FC = () => {
+  const { t } = useTranslation();
   const { signInWithGoogle, currentUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation(); // 2. Get the location object
@@ -36,11 +39,12 @@ export const LoginPage: FC = () => {
         <Paper withBorder shadow="md" p={30} radius="md">
           <Stack>
             <Title order={2} ta="center">
-              Welcome to Polyglot Wordle!
+              {t('login.welcome')}
             </Title>
             <Button leftSection={<IconBrandGoogle />} onClick={handleSignIn} variant="outline">
-              Sign in with Google
+              {t('login.signIn')}
             </Button>
+            <UiLanguageSelect />
           </Stack>
         </Paper>
       </Center>

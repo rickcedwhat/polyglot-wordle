@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Badge, Stack, Text } from '@mantine/core';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { GameSetupPanel, LanguageRow } from '@/components/GameSetup/GameSetupPanel';
@@ -73,6 +74,7 @@ const REPLAY_MS = 4000;
 
 /** Replays the score animation of the last guess in `guesses` every few seconds. */
 export const DemoScoring: FC<{ guesses: string[] }> = ({ guesses }) => {
+  const { t } = useTranslation();
   const [replay, setReplay] = useState(0);
   useEffect(() => {
     const timer = window.setInterval(() => setReplay((n) => n + 1), REPLAY_MS);
@@ -86,7 +88,7 @@ export const DemoScoring: FC<{ guesses: string[] }> = ({ guesses }) => {
       <div className={classes.demoScore}>
         <ScorePopups key={replay} events={events} />
         <Badge variant="outline" size="lg">
-          Score {score}
+          {t('help.scoring.score', { score })}
         </Badge>
       </div>
       <GameBoard
@@ -114,18 +116,19 @@ export const DemoSetupPanel: FC<{ skipPicker?: boolean }> = ({ skipPicker = fals
   </div>
 );
 
-const DIFFICULTY_EXAMPLES: { lang: Language; difficulty: Difficulty; meaning: string }[] = [
-  { lang: 'pt', difficulty: 'basic', meaning: 'Everyday words' },
-  { lang: 'es', difficulty: 'intermediate', meaning: 'Less common words' },
-  { lang: 'en', difficulty: 'advanced', meaning: 'Any word in the dictionary' },
+const DIFFICULTY_EXAMPLES: { lang: Language; difficulty: Difficulty }[] = [
+  { lang: 'pt', difficulty: 'basic' },
+  { lang: 'es', difficulty: 'intermediate' },
+  { lang: 'en', difficulty: 'advanced' },
 ];
 
 /** Setup rows at each difficulty, with what that difficulty means. */
 export const DemoDifficultyRows: FC = () => {
+  const { t } = useTranslation();
   const { flags } = useLanguageFlags();
   return (
     <Stack inert gap="sm" className={`${classes.demo} ${classes.demoPanel}`}>
-      {DIFFICULTY_EXAMPLES.map(({ lang, difficulty, meaning }) => (
+      {DIFFICULTY_EXAMPLES.map(({ lang, difficulty }) => (
         <div key={lang}>
           <LanguageRow
             lang={lang}
@@ -137,7 +140,7 @@ export const DemoDifficultyRows: FC = () => {
             onDifficulty={noop}
           />
           <Text size="xs" c="dimmed" ta="left" mt={4}>
-            {meaning}
+            {t(`help.setup.examples.${difficulty}`)}
           </Text>
         </div>
       ))}

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Button, Center, Loader, Notification, Stack, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { featKey } from '@/achievements/detectFeats';
@@ -15,6 +16,7 @@ import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useSlow } from '@/hooks/useSlow';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
+import { shareLanguage } from '@/i18n';
 import type { GameDoc } from '@/types/firestore.d.ts';
 import { gamePath, languagesFromGame } from '@/utils/languages';
 import {
@@ -52,6 +54,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const { recalculateScore, flightsInProgress, holdPoints } = useScore();
   const { updateLetterStatuses } = useLetterStatus();
   const { recordGuess, vocabulary } = useVocabulary();
+  const { t } = useTranslation();
   const [mountedAt] = useState(() => new Date());
   const [helpOpen, setHelpOpen] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
@@ -103,18 +106,20 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
       const url = `${window.location.origin}${gamePath(
         gameSession.gameId,
         languagesFromGame(gameSession),
-        { challenger: currentUser.uid }
+        { challenger: currentUser.uid, lang: shareLanguage() }
       )}`;
       navigator.clipboard.writeText(url).then(
         () => {
           setRematchNotice(
-            `Rematch link copied — send to ${pending.opponentName || 'your friend'}`
+            pending.opponentName
+              ? t('game.rematchCopied', { name: pending.opponentName })
+              : t('game.rematchCopiedFriend')
           );
           sessionStorage.removeItem('polyglot_pending_rematch');
           window.setTimeout(() => setRematchNotice(null), 6000);
         },
         () => {
-          setRematchNotice('Could not copy the rematch link. Please try sharing it manually.');
+          setRematchNotice(t('game.rematchCopyFailed'));
           sessionStorage.removeItem('polyglot_pending_rematch');
           window.setTimeout(() => setRematchNotice(null), 6000);
         }
@@ -122,7 +127,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     } catch {
       sessionStorage.removeItem('polyglot_pending_rematch');
     }
-  }, [currentUser, gameSession.gameId]);
+  }, [currentUser, gameSession.gameId, t]);
 
   const currentScore = useMemo(
     () => recalculateScore(guesses, solution, scoringVersion),
@@ -416,11 +421,9 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         {wordPoolsError || wordPoolsSlow ? (
           <Stack align="center" gap="sm">
             <Text c="dimmed">
-              {wordPoolsError
-                ? "Couldn't load the word lists. Check your connection."
-                : 'This is taking longer than usual.'}
+              {wordPoolsError ? t('game.wordListsFailed') : t('common.slowLoad')}
             </Text>
-            <Button onClick={retryWordPools}>Try again</Button>
+            <Button onClick={retryWordPools}>{t('common.tryAgain')}</Button>
           </Stack>
         ) : (
           <Loader />
@@ -467,7 +470,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
             maw={420}
             withCloseButton
             onClose={() => setRematchNotice(null)}
-            title="Rematch ready"
+            title={t('game.rematchReady')}
           >
             {rematchNotice}
           </Notification>

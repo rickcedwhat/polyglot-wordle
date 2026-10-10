@@ -7,6 +7,7 @@ import { addons } from '@storybook/preview-api';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
 import { Box, MantineProvider, useMantineColorScheme } from '@mantine/core';
+import i18n from '../src/i18n';
 import { theme } from '../src/theme';
 
 const channel = addons.getChannel();
@@ -30,6 +31,19 @@ const viewport = (name: string, width: number, height: number, type: string) => 
   styles: { width: `${width}px`, height: `${height}px` },
   type,
 });
+
+export const globalTypes = {
+  locale: {
+    description: 'Interface language',
+    defaultValue: 'en',
+    toolbar: {
+      title: 'Language',
+      icon: 'globe',
+      items: ['en', 'es', 'fr', 'it', 'pt'],
+      dynamicTitle: true,
+    },
+  },
+};
 
 export const parameters = {
   layout: 'fullscreen',
@@ -84,13 +98,22 @@ function ColorSchemeWrapper({
 }
 
 export const decorators = [
-  (renderStory: any, context: { id: string; parameters: { fullBleed?: boolean } }) => (
-    <StoryQueryClientProvider key={context.id}>
-      <MantineProvider theme={theme} defaultColorScheme="dark">
-        <ColorSchemeWrapper fullBleed={context.parameters.fullBleed}>
-          {renderStory()}
-        </ColorSchemeWrapper>
-      </MantineProvider>
-    </StoryQueryClientProvider>
-  ),
+  (
+    renderStory: any,
+    context: { id: string; parameters: { fullBleed?: boolean }; globals: { locale?: string } }
+  ) => {
+    const locale = context.globals.locale ?? 'en';
+    if (i18n.language !== locale) {
+      i18n.changeLanguage(locale);
+    }
+    return (
+      <StoryQueryClientProvider key={`${context.id}-${locale}`}>
+        <MantineProvider theme={theme} defaultColorScheme="dark">
+          <ColorSchemeWrapper fullBleed={context.parameters.fullBleed}>
+            {renderStory()}
+          </ColorSchemeWrapper>
+        </MantineProvider>
+      </StoryQueryClientProvider>
+    );
+  },
 ];

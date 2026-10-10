@@ -1,4 +1,5 @@
 import { ComponentProps, FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Drawer, Modal } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { GameSetupPanel } from './GameSetupPanel';
@@ -9,12 +10,6 @@ type GameSetupModalProps = ComponentProps<typeof GameSetupPanel> & {
   title?: string;
 };
 
-const DEFAULT_TITLES = {
-  newGame: 'New game',
-  settings: 'Game setup',
-  challenge: 'Challenge a friend',
-} as const;
-
 /** Centered modal on desktop, bottom sheet on phones. */
 export const GameSetupModal: FC<GameSetupModalProps> = ({
   opened,
@@ -24,7 +19,8 @@ export const GameSetupModal: FC<GameSetupModalProps> = ({
   ...panel
 }) => {
   const isPhone = useMediaQuery('(max-width: 36em)');
-  const heading = title ?? DEFAULT_TITLES[panel.mode];
+  const { t } = useTranslation();
+  const heading = title ?? t(`setup.titles.${panel.mode}`);
   // Each opening gets a fresh picker; profile loading only seeds an untouched picker.
   const content = <GameSetupPanel key={String(opened)} {...panel} resetKey={resetKey} />;
 

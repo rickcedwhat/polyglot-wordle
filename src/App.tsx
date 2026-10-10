@@ -5,9 +5,11 @@ import '@mantine/notifications/styles.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import cx from 'clsx';
+import { useTranslation } from 'react-i18next';
 import { Box, MantineProvider, useComputedColorScheme } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { Notifications } from '@mantine/notifications';
+import { UiLanguageSync } from '@/components/UiLanguage/UiLanguagePicker';
 import { AchievementsProvider } from '@/context/AchievementsContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { SidebarProvider } from '@/context/SidebarContext';
@@ -61,11 +63,14 @@ export default function App() {
 
 function AppContainer() {
   const colorScheme = useComputedColorScheme('dark');
+  const { i18n } = useTranslation();
 
   return (
     // Apply the styles to a root Box component
     <Box className={cx(classes.root, { [classes.light]: colorScheme === 'light' })}>
-      <Router />
+      {/* Routes are created once, so remount them to re-render every screen in the new language. */}
+      <Router key={i18n.language} />
+      <UiLanguageSync />
     </Box>
   );
 }

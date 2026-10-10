@@ -51,6 +51,8 @@ export interface UserDoc {
   difficultyPrefs: DifficultyPrefs | null;
   /** New Game languages + whether to skip the picker. */
   languagePrefs: LanguagePrefs | null;
+  /** Interface language the player picked; unset until they choose one. */
+  uiLanguage?: Language;
   // An array of game IDs (the UUIDs) that the user has pinned to their profile.
   pinnedGames: string[];
   stats: {

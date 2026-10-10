@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import cx from 'clsx';
 import { motion, useReducedMotion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Group } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useWordPools } from '@/hooks/useWordPools';
@@ -44,6 +45,7 @@ export const GameBoard: FC<GameBoardProps> = ({
   wordPoolsOverride,
   scoreBurst,
 }) => {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndexState] = useState(initialActiveIndex);
   const setActiveIndex = (index: number) => {
     setActiveIndexState(index);
@@ -59,7 +61,7 @@ export const GameBoard: FC<GameBoardProps> = ({
   const wordPools = wordPoolsOverride ?? fetchedPools;
 
   if (!wordPools) {
-    return <div>Loading boards...</div>;
+    return <div>{t('game.loadingBoards')}</div>;
   }
 
   const deduction = deduceColumnLanguages(guesses, shuffledLanguages, wordPools.dictionaries);

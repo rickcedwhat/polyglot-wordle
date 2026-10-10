@@ -10,6 +10,7 @@ import { useAuth } from '@/context/AuthContext';
 import type { ChallengeInboxItem } from '@/hooks/useChallenges';
 import { useFriendships } from '@/hooks/useFriendships';
 import { useGameActions } from '@/hooks/useGameActions';
+import { shareLanguage } from '@/i18n';
 import { cancelFriendChallenge } from '@/utils/challengeUtils';
 import { gamePath } from '@/utils/languages';
 import { ProfileLink } from '../ProfileLink/ProfileLink';
@@ -156,6 +157,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
     // Rematch = new game; from result modal we still offer sharing THIS completed puzzle too.
     const url = `${window.location.origin}${gamePath(challenge.gameId, null, {
       challenger: currentUser.uid,
+      lang: shareLanguage(),
     })}`;
     await navigator.clipboard.writeText(url);
     setCopied(true);

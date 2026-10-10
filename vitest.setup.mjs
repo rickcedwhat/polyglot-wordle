@@ -2,6 +2,9 @@
 import '@testing-library/jest-dom/vitest';
 
 import { vi } from 'vitest';
+import i18n from './src/i18n';
+
+i18n.changeLanguage('en');
 
 // Provide stubbed Firebase config values for headless test environments / CI
 process.env.VITE_FIREBASE_API_KEY = process.env.VITE_FIREBASE_API_KEY || 'fake-api-key-for-tests';

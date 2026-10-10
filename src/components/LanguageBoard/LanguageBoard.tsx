@@ -1,5 +1,6 @@
 import { FC, memo, useEffect, useState } from 'react';
 import { IconFlag, IconFlagFilled } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import {
   ActionIcon,
   Box,
@@ -62,6 +63,7 @@ const SubmittedRow: FC<{
   onActivate,
   tilePoints,
 }) => {
+  const { t } = useTranslation();
   const [opened, setOpened] = useState(false);
   const statuses = getGuessStatuses(guess, solutionWord);
 
@@ -168,7 +170,7 @@ const SubmittedRow: FC<{
         {isLoading && <Loader size="xs" />}
         {isError && (
           <Text size="sm" c="dimmed">
-            Definition not found.
+            {t('game.definitionNotFound')}
           </Text>
         )}
         {data && (
@@ -182,7 +184,7 @@ const SubmittedRow: FC<{
                   ({data.pos})
                 </Text>
               </Group>
-              <Tooltip label={flagged ? 'Unflag word' : 'Flag word for AI discussion'}>
+              <Tooltip label={flagged ? t('game.unflagWord') : t('game.flagWord')}>
                 <ActionIcon
                   size="xs"
                   variant={flagged ? 'filled' : 'light'}

@@ -34,7 +34,8 @@
     "eval:dict:verb-form": "vite-node --script evals/dictionary/runVerbForm.ts --",
     "test": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "i18n:review": "vite-node --script scripts/translationReview.ts"
   },
   "dependencies": {
     "@mantine/carousel": "^8.2.8",
@@ -56,9 +57,11 @@
     "embla-carousel-react": "^8.5.2",
     "firebase": "^12.1.0",
     "framer-motion": "^12.23.12",
+    "i18next": "^26.4.3",
     "lottie-react": "^3.1.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-i18next": "^17.0.16",
     "react-router-dom": "^7.6.2",
     "recharts": "^3.1.2",
     "uuid": "^11.1.0"
