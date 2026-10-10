@@ -9,7 +9,7 @@ export const ProtectedRoute: FC<{ children: ReactNode }> = ({ children }) => {
 
   if (loading) {
     return (
-      <Center style={{ height: '100vh' }}>
+      <Center style={{ height: '100dvh' }}>
         <Loader />
       </Center>
     );

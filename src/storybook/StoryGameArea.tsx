@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Box, Center, Loader, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { AlphabetStatus } from '@/components/AlphabetStatus/AlphabetStatus';
-import gameClasses from '@/components/Game/Game.module.css';
 import { GameBoard } from '@/components/Gameboard/Gameboard';
 import { GuessInputWithHelp } from '@/components/LetterJumble/GuessInputWithHelp';
 import { GAME_ORIGIN, SCORE_ORIGIN_ATTR } from '@/components/ScoreFlights/flightUtils';
@@ -36,16 +35,8 @@ export function StoryGameArea({ game }: { game: StoryGame }) {
   }
 
   return (
-    <Box
-      style={{
-        display: 'grid',
-        gridTemplateRows: 'minmax(0, 1fr) auto',
-        flex: 1,
-        height: '100%',
-        minHeight: 0,
-      }}
-    >
-      <Center className={gameClasses.boardArea}>
+    <Box style={{ display: 'grid', gridTemplateRows: '1fr auto', height: '100%', minHeight: 0 }}>
+      <Box pt="xl" style={{ display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
         <GameBoard
           key={game.fixture.label}
           solution={game.solution}
@@ -59,7 +50,7 @@ export function StoryGameArea({ game }: { game: StoryGame }) {
           }}
           targetIndex={jumble.targetBoard}
         />
-      </Center>
+      </Box>
       <Box>
         {game.isOver && (
           <Text ta="center" fw={700} c={game.solvedAll ? 'green' : 'red'}>
