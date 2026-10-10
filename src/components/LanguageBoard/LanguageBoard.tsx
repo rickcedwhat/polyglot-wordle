@@ -317,7 +317,7 @@ const LanguageBoard: FC<LanguageBoardProps> = memo(
             large={isActive}
           />
         )}
-        <Stack gap="xs" style={{ width: '100%' }} mx="auto">
+        <Stack gap={6} style={{ width: '100%' }} mx="auto">
           {relevantGuesses.map((guess, rowIndex) => {
             const { displayGuess, languageMatch } = resolveDisplayGuess(guess);
             const showFlagHere = showSideFlags && rowIndex === targetRowIndex;
