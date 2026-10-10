@@ -420,7 +420,7 @@ export const VocabularyTab: FC<VocabularyTabProps> = ({ profileUserId }) => {
             </Text>
             <Text size="xs" c="dimmed" maw={400}>
               {discoveredCount === 0
-                ? 'Play daily games or practice in Spanish, French, or English to expand your personal vocabulary log!'
+                ? 'Play daily games or practice in Spanish, French, English, Italian, or Portuguese to expand your personal vocabulary log!'
                 : 'Try clearing your search query or switching the type filter above.'}
             </Text>
             {discoveredCount === 0 && (
