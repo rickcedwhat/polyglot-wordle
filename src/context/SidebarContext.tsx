@@ -1,10 +1,13 @@
-import { createContext, FC, ReactNode, useContext, useMemo, useState } from 'react';
+import { createContext, FC, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 
 interface SidebarContextType {
   // Existing properties
   sidebarContent: ReactNode | null;
   setSidebarContent: (content: ReactNode | null) => void;
+  /** Opens the match summary; set while a finished game is on screen. */
+  onOpenSummary: (() => void) | null;
+  setOnOpenSummary: (handler: (() => void) | null) => void;
 
   // New disclosure properties
   opened: boolean;
@@ -17,6 +20,11 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
 export const SidebarProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarContent, setSidebarContent] = useState<ReactNode | null>(null);
+  const [onOpenSummary, setSummaryState] = useState<(() => void) | null>(null);
+  const setOnOpenSummary = useCallback(
+    (handler: (() => void) | null) => setSummaryState(() => handler),
+    []
+  );
   // 1. Call the useDisclosure hook here
   const [opened, { open, close, toggle }] = useDisclosure();
 
@@ -25,12 +33,14 @@ export const SidebarProvider: FC<{ children: ReactNode }> = ({ children }) => {
     () => ({
       sidebarContent,
       setSidebarContent,
+      onOpenSummary,
+      setOnOpenSummary,
       opened,
       open,
       close,
       toggle,
     }),
-    [sidebarContent, opened, open, close, toggle]
+    [sidebarContent, onOpenSummary, setOnOpenSummary, opened, open, close, toggle]
   );
 
   return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>;

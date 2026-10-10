@@ -99,8 +99,8 @@ export const GuessInput: FC<GuessInputProps> = ({
               />
             </div>
           </Popover.Target>
-          <Popover.Dropdown py={6} px="sm">
-            <Group gap={6} wrap="nowrap">
+          <Popover.Dropdown py={6} px="sm" maw="min(22rem, calc(100vw - 2rem))">
+            <Group gap={6} wrap="nowrap" align="flex-start">
               <Text size="sm">
                 Letter Jumble rearranges letters you already know.{' '}
                 <Anchor component="button" type="button" size="sm" onClick={openHelp}>

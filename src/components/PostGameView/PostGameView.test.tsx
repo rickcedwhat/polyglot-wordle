@@ -9,7 +9,7 @@ import type { GameDoc } from '@/types/firestore';
 import { PostGameView } from './PostGameView';
 
 vi.mock('@/context/SidebarContext', () => ({
-  useSidebar: () => ({ setSidebarContent: vi.fn() }),
+  useSidebar: () => ({ setSidebarContent: vi.fn(), setOnOpenSummary: vi.fn() }),
 }));
 vi.mock('@/hooks/useChallenge', () => ({
   useChallenge: () => ({ challengerGame: { userId: 'challenger' } }),
