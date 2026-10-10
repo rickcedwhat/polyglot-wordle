@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { IconArrowBackUp, IconSwords, IconTrophy } from '@tabler/icons-react';
+import { IconArrowBackUp, IconSwords } from '@tabler/icons-react';
 import { Box, Button, Center, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { CurrentGuessRow } from '@/components/CurrentGuessRow/CurrentGuessRow';
@@ -33,7 +33,7 @@ interface PostGameViewProps {
 export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }) => {
   const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(true);
   const [focusedGame, setFocusedGame] = useState<GameDoc>(gameSession);
-  const { setSidebarContent } = useSidebar();
+  const { setSidebarContent, setOnOpenSummary } = useSidebar();
   const { challengerUser, challengerGame } = useChallenge(gameSession.gameId);
   /** The opponent in the open head-to-head replay. */
   const [duelWith, setDuelWith] = useState<string | null>(null);
@@ -43,9 +43,13 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
   }, [gameSession]);
 
   useEffect(() => {
-    setSidebarContent(<Score />);
-    return () => setSidebarContent(null);
-  }, [setSidebarContent]);
+    setSidebarContent(<Score onOpenSummary={openModal} />);
+    setOnOpenSummary(openModal);
+    return () => {
+      setSidebarContent(null);
+      setOnOpenSummary(null);
+    };
+  }, [setSidebarContent, setOnOpenSummary, openModal]);
 
   return (
     <Box style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -71,7 +75,6 @@ export const PostGameView: FC<PostGameViewProps> = ({ gameSession, onPlayAgain }
         viewingUserId={focusedGame.userId === gameSession.userId ? null : focusedGame.userId}
         onViewOwn={() => setFocusedGame(gameSession)}
         onWatchDuel={() => setDuelWith(focusedGame.userId)}
-        onOpenSummary={openModal}
         leaderboard={
           <Leaderboard
             gameId={gameSession.gameId}
@@ -116,7 +119,6 @@ interface PostGameLayoutProps {
   onViewOwn?: () => void;
   /** Opens the turn-by-turn head-to-head replay against the viewed player. */
   onWatchDuel?: () => void;
-  onOpenSummary: () => void;
   leaderboard: ReactNode;
   /** Skip fetching dictionaries (Storybook / tests). */
   wordPoolsOverride?: GameBoardWordPools;
@@ -190,7 +192,6 @@ export const PostGameLayout: FC<PostGameLayoutProps> = ({
   viewingUserId,
   onViewOwn,
   onWatchDuel,
-  onOpenSummary,
   leaderboard,
   wordPoolsOverride,
 }) => {
@@ -199,18 +200,6 @@ export const PostGameLayout: FC<PostGameLayoutProps> = ({
 
   return (
     <Stack gap="lg" align="center" w="100%" pb="xl">
-      <Group justify="flex-end" w="100%">
-        <Button
-          size="xs"
-          variant="gradient"
-          gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
-          leftSection={<IconTrophy size={14} />}
-          onClick={onOpenSummary}
-        >
-          📊 Match Summary & Stats
-        </Button>
-      </Group>
-
       {viewingUserId && (
         <ViewingBar userId={viewingUserId} onViewOwn={onViewOwn} onWatchDuel={onWatchDuel} />
       )}

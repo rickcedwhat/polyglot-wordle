@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons-react';
 import { AppShell, Badge, Box, Burger, Button, Divider, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { Score } from '@/components/Score/Score';
+import { Score, ScoreHeader } from '@/components/Score/Score';
 import { ScoreProvider, useScore } from '@/context/ScoreContext';
 import {
   replayArgTypes,
@@ -112,11 +112,10 @@ const FullGame = ({ updateArgs, ...args }: StoryArgs & { updateArgs: UpdateRepla
       >
         {isMobile && (
           <AppShell.Header p="md" style={{ display: 'flex', alignItems: 'center' }}>
-            <Burger opened={opened} onClick={toggle} size="sm" />
-            <Group justify="center" style={{ flex: 1 }}>
-              {!opened && <Score orientation="horizontal" />}
-            </Group>
-            <Burger size="sm" style={{ visibility: 'hidden' }} />
+            <ScoreHeader
+              menu={<Burger opened={opened} onClick={toggle} size="sm" />}
+              showScore={!opened}
+            />
           </AppShell.Header>
         )}
         <AppShell.Navbar p="md">
