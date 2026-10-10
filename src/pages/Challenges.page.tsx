@@ -1,5 +1,6 @@
 import { FC, ReactNode, useState } from 'react';
 import { IconSwords } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Button, Center, Container, Group, Loader, Stack, Text, Title } from '@mantine/core';
 import { ChallengeFriendModal } from '@/components/ChallengeFriendModal/ChallengeFriendModal';
 import { ChallengeInboxCard } from '@/components/ChallengeInboxCard/ChallengeInboxCard';
@@ -8,6 +9,7 @@ import { useChallenges } from '@/hooks/useChallenges';
 export const ChallengesPage: FC = () => {
   const { needsYou, waiting, archive, isLoading, isError, markResultSeen } = useChallenges();
   const [challengeOpened, setChallengeOpened] = useState(false);
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
@@ -20,7 +22,7 @@ export const ChallengesPage: FC = () => {
   if (isError) {
     return (
       <Center h="100%">
-        <Text c="red">Could not load challenges.</Text>
+        <Text c="red">{t('challenges.loadFailed')}</Text>
       </Center>
     );
   }
@@ -30,10 +32,7 @@ export const ChallengesPage: FC = () => {
   return (
     <Container size="sm" py="lg">
       <Group justify="space-between" align="flex-start" wrap="nowrap">
-        <GroupTitle
-          title="Challenges"
-          subtitle="Duel inbox — play received challenges, track sent ones, and review showdowns."
-        />
+        <GroupTitle title={t('challenges.title')} subtitle={t('challenges.subtitle')} />
         <Button
           size="xs"
           color="grape"
@@ -41,20 +40,19 @@ export const ChallengesPage: FC = () => {
           onClick={() => setChallengeOpened(true)}
           style={{ flexShrink: 0 }}
         >
-          Challenge a friend
+          {t('setup.titles.challenge')}
         </Button>
       </Group>
       <ChallengeFriendModal opened={challengeOpened} onClose={() => setChallengeOpened(false)} />
 
       {empty && (
         <Text c="dimmed" mt="xl">
-          No challenges yet. Challenge a friend, or finish a puzzle and tap Challenge a friend or
-          Share.
+          {t('challenges.empty')}
         </Text>
       )}
 
       {needsYou.length > 0 && (
-        <Section title="Needs you">
+        <Section title={t('challenges.needsYou')}>
           {needsYou.map((c) => (
             <ChallengeInboxCard
               key={c.id}
@@ -67,7 +65,7 @@ export const ChallengesPage: FC = () => {
       )}
 
       {waiting.length > 0 && (
-        <Section title="Waiting on them">
+        <Section title={t('challenges.waiting')}>
           {waiting.map((c) => (
             <ChallengeInboxCard
               key={c.id}
@@ -80,7 +78,7 @@ export const ChallengesPage: FC = () => {
       )}
 
       {archive.length > 0 && (
-        <Section title="Archive">
+        <Section title={t('challenges.archive')}>
           {archive.map((c) => (
             <ChallengeInboxCard
               key={c.id}

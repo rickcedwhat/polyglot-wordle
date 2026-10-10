@@ -112,8 +112,8 @@ describe('challenge toasts', () => {
   });
 
   it.each([
-    { create: invite, message: 'Thiery challenged you — tap to play', type: 'invite' },
-    { create: result, message: 'Thiery finished — you won 900–17', type: 'result' },
+    { create: invite, message: 'Thiery challenged you. Tap to play.', type: 'invite' },
+    { create: result, message: 'Thiery finished. You won 900–17.', type: 'result' },
   ])('toasts a $type that arrives mid-game, once', async ({ create, message }) => {
     inbox = [result('b')];
     const { onToast, result: hook, rerender } = renderToasts(true);

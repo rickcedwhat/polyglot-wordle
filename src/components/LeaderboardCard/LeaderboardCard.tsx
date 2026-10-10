@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { IconEye } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Badge, Box, Group, Paper, Text, UnstyledButton } from '@mantine/core';
 import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useUserProfile } from '@/hooks/useUserProfile';
@@ -16,6 +17,7 @@ interface LeaderboardCardProps {
 export const LeaderboardCard: FC<LeaderboardCardProps> = ({ game, rank, onClick, isSelected }) => {
   // Fetch the profile for the user who set this score
   const { data: userProfile } = useUserProfile(game.userId);
+  const { t } = useTranslation();
 
   return (
     <Paper
@@ -33,7 +35,11 @@ export const LeaderboardCard: FC<LeaderboardCardProps> = ({ game, rank, onClick,
         pos="absolute"
         inset={0}
         w="100%"
-        aria-label={`View ${userProfile?.displayName || 'Player'}'s game, rank ${rank}, score ${game.score}`}
+        aria-label={t('leaderboard.viewGame', {
+          name: userProfile?.displayName || t('postGame.player'),
+          rank,
+          score: game.score,
+        })}
         aria-pressed={isSelected}
         onClick={onClick}
         style={{ borderRadius: 'inherit' }}
@@ -57,12 +63,12 @@ export const LeaderboardCard: FC<LeaderboardCardProps> = ({ game, rank, onClick,
         </Box>
         {isSelected ? (
           <Badge size="sm" variant="filled">
-            Viewing
+            {t('leaderboard.viewing')}
           </Badge>
         ) : (
           <Group gap={4} c="dimmed" wrap="nowrap">
             <IconEye size={14} />
-            <Text size="xs">View</Text>
+            <Text size="xs">{t('leaderboard.view')}</Text>
           </Group>
         )}
         <Text size="sm" fw={700}>

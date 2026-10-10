@@ -107,7 +107,7 @@ describe('leaderboard controls', () => {
     const user = userEvent.setup();
     const onClick = vi.fn();
     renderCard(<LeaderboardCard game={game} rank={1} onClick={onClick} isSelected />);
-    const button = screen.getByRole('button', { name: "View Alex's game, rank 1, score 100" });
+    const button = screen.getByRole('button', { name: 'View Alex’s game, rank 1, score 100' });
     const link = screen.getByRole('link');
     expect(button.tagName).toBe('BUTTON');
     expect(button).toHaveAttribute('aria-pressed', 'true');

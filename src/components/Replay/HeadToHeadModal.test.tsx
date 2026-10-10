@@ -85,7 +85,7 @@ describe('head-to-head game loading', () => {
     [null, null],
   ])('shows a load error if either game is missing (%#)', async (first, second) => {
     renderGames([first, second]);
-    expect(await screen.findByText("Couldn't load this game.")).toBeInTheDocument();
+    expect(await screen.findByText('Couldn’t load this game.')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Replay' })).not.toBeInTheDocument();
   });
 
@@ -96,7 +96,7 @@ describe('head-to-head game loading', () => {
     expect(modern).not.toBe(legacy);
     expect(await screen.findByText(String(modern))).toBeInTheDocument();
     expect(screen.getByText(String(legacy))).toBeInTheDocument();
-    expect(screen.queryByText("Couldn't load this game.")).not.toBeInTheDocument();
+    expect(screen.queryByText('Couldn’t load this game.')).not.toBeInTheDocument();
   });
 });
 

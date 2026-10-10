@@ -4,18 +4,20 @@ import {
   IconPlayerPlayFilled,
   IconPlayerTrackNextFilled,
 } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Button, Group } from '@mantine/core';
 import type { Replay } from '@/hooks/useReplay';
 
 interface ReplayBarProps {
   replay: Replay;
-  /** What one step is called ("guess", "turn"). */
-  stepLabel?: string;
+  /** What one step is. */
+  step?: 'guess' | 'turn';
 }
 
 /** Play (runs to the end) / pause, and play just the next step. */
-export const ReplayBar: FC<ReplayBarProps> = ({ replay, stepLabel = 'guess' }) => {
+export const ReplayBar: FC<ReplayBarProps> = ({ replay, step: stepKind = 'guess' }) => {
   const { step, total, playing } = replay;
+  const { t } = useTranslation();
   const busy = playing || replay.typedLetters !== null;
 
   return (
@@ -29,7 +31,7 @@ export const ReplayBar: FC<ReplayBarProps> = ({ replay, stepLabel = 'guess' }) =
         onClick={playing ? replay.pause : replay.play}
         disabled={total === 0}
       >
-        {playing ? 'Pause' : step >= total ? 'Replay' : 'Play'}
+        {playing ? t('replay.pause') : step >= total ? t('replay.replay') : t('replay.play')}
       </Button>
       <Button
         radius="xl"
@@ -39,7 +41,11 @@ export const ReplayBar: FC<ReplayBarProps> = ({ replay, stepLabel = 'guess' }) =
         onClick={() => (step >= total ? replay.goTo(0) : replay.next())}
         disabled={busy || total === 0}
       >
-        {step >= total ? 'Start over' : `Next ${stepLabel}`}
+        {step >= total
+          ? t('replay.startOver')
+          : stepKind === 'turn'
+            ? t('replay.nextTurn')
+            : t('replay.nextGuess')}
       </Button>
     </Group>
   );

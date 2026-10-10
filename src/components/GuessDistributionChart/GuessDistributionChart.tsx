@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Bar, BarChart, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { Box, Group, Text, UnstyledButton } from '@mantine/core';
 
@@ -95,6 +96,7 @@ export const GuessDistributionChart: FC<GuessDistributionChartProps> = ({
   currentUserDistribution,
 }) => {
   const [focusedUser, setFocusedUser] = useState<'profile' | 'currentUser'>('profile');
+  const { t } = useTranslation();
 
   const profileTotal = profileDistribution.reduce((sum, count) => sum + count, 0);
   const currentUserTotal = currentUserDistribution
@@ -107,7 +109,7 @@ export const GuessDistributionChart: FC<GuessDistributionChartProps> = ({
     const currentUserPercentage =
       currentUserTotal > 0 ? (currentUserValue / currentUserTotal) * 100 : 0;
     return {
-      name: index < 8 ? `${index + 1}` : 'Lost',
+      name: index < 8 ? `${index + 1}` : t('stats.lost'),
       [profileName]: profilePercentage,
       You: currentUserPercentage,
       maxHeight: Math.max(profilePercentage, currentUserPercentage),
@@ -142,7 +144,7 @@ export const GuessDistributionChart: FC<GuessDistributionChartProps> = ({
           >
             <Box w={12} h={12} bg="var(--mantine-color-blue-6)" />
             <Text size="sm" c="dimmed">
-              You
+              {t('stats.you')}
             </Text>
           </Group>
         </UnstyledButton>

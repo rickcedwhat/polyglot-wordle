@@ -97,25 +97,29 @@ export const Sidebar: FC = () => {
     action: () => void;
     badge?: number;
   }[] = [
-    { label: 'Home', icon: IconHome, action: () => navigate('/') },
-    { label: 'My Profile', icon: IconUser, action: () => navigate(`/profile/${currentUser?.uid}`) },
+    { label: t('nav.home'), icon: IconHome, action: () => navigate('/') },
     {
-      label: 'Challenges',
+      label: t('nav.profile'),
+      icon: IconUser,
+      action: () => navigate(`/profile/${currentUser?.uid}`),
+    },
+    {
+      label: t('nav.challenges'),
       icon: IconSwords,
       action: () => navigate('/challenges'),
       badge: unreadCount > 0 ? unreadCount : undefined,
     },
-    { label: 'New Game', icon: IconRefresh, action: handleNewGameClick },
+    { label: t('nav.newGame'), icon: IconRefresh, action: handleNewGameClick },
   ];
 
   const toolLinks = [
-    { label: 'How to Play', icon: IconHelpCircle, action: openHowToPlay },
-    { label: 'Game setup', icon: IconSettings, action: () => openSetup('settings') },
-    { label: 'Custom Flags / Emojis', icon: IconFlag, action: openFlagsModal },
+    { label: t('nav.howToPlay'), icon: IconHelpCircle, action: openHowToPlay },
+    { label: t('nav.gameSetup'), icon: IconSettings, action: () => openSetup('settings') },
+    { label: t('nav.flags'), icon: IconFlag, action: openFlagsModal },
     { label: t('uiLanguage.menu'), icon: IconLanguage, action: openLanguage },
     // The /sandbox route only exists in dev builds.
     ...(import.meta.env.DEV
-      ? [{ label: 'Sandbox Tools', icon: IconAdjustmentsHorizontal, action: handleSandboxTools }]
+      ? [{ label: t('nav.sandbox'), icon: IconAdjustmentsHorizontal, action: handleSandboxTools }]
       : []),
   ];
 
@@ -175,7 +179,7 @@ export const Sidebar: FC = () => {
           variant="light"
           color="red"
         >
-          Logout
+          {t('nav.logout')}
         </Button>
       </div>
     </>

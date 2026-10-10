@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { IconUserCancel, IconUserExclamation, IconUserPlus } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Button, Group, Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useAuth } from '@/context/AuthContext';
@@ -12,6 +13,7 @@ interface FriendButtonProps {
 
 export const FriendButton: FC<FriendButtonProps> = ({ profileUserId }) => {
   const { currentUser } = useAuth();
+  const { t } = useTranslation();
   const { getFriendshipStatus, sendRequest, removeFriendship, acceptRequest, isPending } =
     useFriendships(currentUser?.uid);
 
@@ -31,7 +33,7 @@ export const FriendButton: FC<FriendButtonProps> = ({ profileUserId }) => {
       title,
       centered: true,
       children: <Text size="sm">{message}</Text>,
-      labels: { confirm: confirmLabel, cancel: 'Cancel' },
+      labels: { confirm: confirmLabel, cancel: t('friends.cancel') },
       confirmProps: { color: 'red' },
       onConfirm,
     });
@@ -41,7 +43,7 @@ export const FriendButton: FC<FriendButtonProps> = ({ profileUserId }) => {
     return null;
   }
 
-  const displayName = userProfile?.displayName ?? 'this user';
+  const name = userProfile?.displayName ?? t('friends.thisUser');
 
   switch (friendshipStatus) {
     case 'friends':
@@ -51,15 +53,15 @@ export const FriendButton: FC<FriendButtonProps> = ({ profileUserId }) => {
           leftSection={<IconUserCancel size={16} />}
           onClick={() =>
             openConfirmationModal(
-              'Remove Buddy',
-              `Are you sure you want to remove ${displayName} as your buddy?`,
-              'Remove',
+              t('friends.remove'),
+              t('friends.removeText', { name }),
+              t('friends.removeConfirm'),
               () => removeFriendship(profileUserId)
             )
           }
           loading={isPending}
         >
-          Remove Buddy
+          {t('friends.remove')}
         </Button>
       );
     case 'pending_sent':
@@ -69,15 +71,15 @@ export const FriendButton: FC<FriendButtonProps> = ({ profileUserId }) => {
           leftSection={<IconUserExclamation size={16} />}
           onClick={() =>
             openConfirmationModal(
-              'Cancel Friend Request',
-              `Are you sure you want to cancel your friend request to ${displayName}?`,
-              'Cancel Request',
+              t('friends.cancelTitle'),
+              t('friends.cancelText', { name }),
+              t('friends.cancelRequest'),
               () => removeFriendship(profileUserId)
             )
           }
           loading={isPending}
         >
-          Request Sent
+          {t('friends.requestSent')}
         </Button>
       );
     case 'pending_received':
@@ -88,18 +90,18 @@ export const FriendButton: FC<FriendButtonProps> = ({ profileUserId }) => {
             variant="outline"
             onClick={() =>
               openConfirmationModal(
-                'Decline Friend Request',
-                `Are you sure you want to decline the friend request from ${displayName}?`,
-                'Decline',
+                t('friends.declineTitle'),
+                t('friends.declineText', { name }),
+                t('friends.decline'),
                 () => removeFriendship(profileUserId)
               )
             }
             loading={isPending}
           >
-            Decline
+            {t('friends.decline')}
           </Button>
           <Button color="green" onClick={() => acceptRequest(profileUserId)} loading={isPending}>
-            Accept
+            {t('friends.accept')}
           </Button>
         </Group>
       );
@@ -111,7 +113,7 @@ export const FriendButton: FC<FriendButtonProps> = ({ profileUserId }) => {
           onClick={() => sendRequest(profileUserId)}
           loading={isPending}
         >
-          Add Buddy
+          {t('friends.add')}
         </Button>
       );
   }

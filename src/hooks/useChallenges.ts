@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import { useAuth } from '@/context/AuthContext';
+import i18n from '@/i18n';
 import type { ChallengeDoc } from '@/types/firestore';
 import { markChallengeResultSeen } from '@/utils/challengeUtils';
 
@@ -142,12 +143,12 @@ const challengeToasts = (challenges: ChallengeInboxItem[], userId: string): Chal
   challenges.flatMap((c): ChallengeToast[] => {
     const me = c.participants[userId];
     if (isNewInvite(c, userId)) {
-      const name = c.participants[c.createdBy]?.displayName || 'A friend';
+      const name = c.participants[c.createdBy]?.displayName || i18n.t('game.challenge.aFriend');
       return [
         {
           toastId: `${c.id}:${userId}:invite`,
           challengeId: c.id,
-          message: `${name} challenged you — tap to play`,
+          message: i18n.t('challenges.toastInvite', { name }),
           occurredAt: c.createdAt.toMillis(),
         },
       ];
@@ -159,13 +160,14 @@ const challengeToasts = (challenges: ChallengeInboxItem[], userId: string): Chal
     const other = otherId ? c.participants[otherId] : undefined;
     const myScore = me.score ?? 0;
     const theirScore = other?.score ?? 0;
-    const name = other?.displayName || 'Your friend';
-    const outcome = myScore > theirScore ? 'you won' : myScore < theirScore ? 'you lost' : 'tied';
+    const name = other?.displayName || i18n.t('challenges.yourFriend');
+    const outcome =
+      myScore > theirScore ? 'toastWon' : myScore < theirScore ? 'toastLost' : 'toastTied';
     return [
       {
         toastId: `${c.id}:${userId}`,
         challengeId: c.id,
-        message: `${name} finished — ${outcome} ${myScore}–${theirScore}`,
+        message: i18n.t(`challenges.${outcome}`, { name, mine: myScore, theirs: theirScore }),
         occurredAt: Math.max(me.completedAt?.toMillis() ?? 0, other?.completedAt?.toMillis() ?? 0),
       },
     ];

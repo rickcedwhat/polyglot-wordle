@@ -1,18 +1,8 @@
 import { FC, memo, useEffect, useState } from 'react';
-import { IconFlag, IconFlagFilled } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import {
-  ActionIcon,
-  Box,
-  Group,
-  Loader,
-  Popover,
-  Stack,
-  Text,
-  Tooltip,
-  UnstyledButton,
-} from '@mantine/core';
+import { Box, Group, Loader, Popover, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
+import { DefinitionHeader } from '@/components/DefinitionHeader/DefinitionHeader';
 import { MAX_GUESSES } from '@/config';
 import { useRecordDefinitionRead } from '@/context/AchievementsContext';
 import { useDefinition } from '@/hooks/useDefinition';
@@ -175,36 +165,25 @@ const SubmittedRow: FC<{
         )}
         {data && (
           <Stack gap={2}>
-            <Group justify="space-between" align="center">
-              <Group gap={6} align="baseline">
+            <DefinitionHeader
+              word={
                 <Text size="sm" fw={700}>
                   {data.display}
                 </Text>
-                <Text size="xs" c="dimmed" fs="italic">
-                  ({data.pos})
-                </Text>
-              </Group>
-              <Tooltip label={flagged ? t('game.unflagWord') : t('game.flagWord')}>
-                <ActionIcon
-                  size="xs"
-                  variant={flagged ? 'filled' : 'light'}
-                  color="red"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleFlag({
-                      lang: language,
-                      wordKey: guess,
-                      display: data.display || guess,
-                      pos: data.pos,
-                      d: data.d,
-                      def: data.def,
-                    });
-                  }}
-                >
-                  {flagged ? <IconFlagFilled size={12} /> : <IconFlag size={12} />}
-                </ActionIcon>
-              </Tooltip>
-            </Group>
+              }
+              pos={data.pos}
+              flagged={flagged}
+              onToggleFlag={() =>
+                toggleFlag({
+                  lang: language,
+                  wordKey: guess,
+                  display: data.display || guess,
+                  pos: data.pos,
+                  d: data.d,
+                  def: data.def,
+                })
+              }
+            />
             <FormattedDefinition def={data.def} size="sm" />
           </Stack>
         )}

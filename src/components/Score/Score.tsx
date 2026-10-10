@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { IconChartBar, IconTrophy } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Button, Divider, Group, Paper, Stack, Text } from '@mantine/core';
 import { MAX_GUESSES } from '@/config';
 import { useScore } from '@/context/ScoreContext';
@@ -16,6 +17,7 @@ const DIGITS = { fontVariantNumeric: 'tabular-nums' } as const;
 
 export const Score: FC<ScoreProps> = ({ orientation = 'vertical', onOpenSummary }) => {
   const { score: targetScore, heldPoints, numberOfGuesses } = useScore();
+  const { t } = useTranslation();
   const score = useCountUp(targetScore - heldPoints);
   const targetProps = { [SCORE_TARGET_ATTR]: true };
 
@@ -43,7 +45,7 @@ export const Score: FC<ScoreProps> = ({ orientation = 'vertical', onOpenSummary 
           <Group gap="xs" wrap="nowrap">
             <IconTrophy size="1.1rem" />
             <Text fz="sm" fw={500}>
-              Score
+              {t('score.score')}
             </Text>
           </Group>
           <Text fw={700} style={DIGITS} {...targetProps}>
@@ -52,7 +54,7 @@ export const Score: FC<ScoreProps> = ({ orientation = 'vertical', onOpenSummary 
         </Group>
         <Group justify="space-between" wrap="nowrap" gap="xs">
           <Text fz="sm" fw={500}>
-            Guesses
+            {t('score.guesses')}
           </Text>
           <Text fw={700} style={DIGITS}>
             {numberOfGuesses} / {MAX_GUESSES}
@@ -66,7 +68,7 @@ export const Score: FC<ScoreProps> = ({ orientation = 'vertical', onOpenSummary 
             leftSection={<IconChartBar size={14} />}
             onClick={onOpenSummary}
           >
-            Summary
+            {t('score.summary')}
           </Button>
         )}
       </Stack>
@@ -82,18 +84,21 @@ export const ScoreHeader: FC<{
   menu: ReactNode;
   showScore: boolean;
   onOpenSummary?: (() => void) | null;
-}> = ({ menu, showScore, onOpenSummary }) => (
-  <Group justify="space-between" wrap="nowrap" w="100%" gap="xs">
-    <Group style={SIDE} wrap="nowrap">
-      {menu}
+}> = ({ menu, showScore, onOpenSummary }) => {
+  const { t } = useTranslation();
+  return (
+    <Group justify="space-between" wrap="nowrap" w="100%" gap="xs">
+      <Group style={SIDE} wrap="nowrap">
+        {menu}
+      </Group>
+      {showScore && <Score orientation="horizontal" />}
+      <Group style={SIDE} justify="flex-end" wrap="nowrap">
+        {showScore && onOpenSummary && (
+          <Button size="compact-xs" variant="light" onClick={onOpenSummary}>
+            {t('score.summary')}
+          </Button>
+        )}
+      </Group>
     </Group>
-    {showScore && <Score orientation="horizontal" />}
-    <Group style={SIDE} justify="flex-end" wrap="nowrap">
-      {showScore && onOpenSummary && (
-        <Button size="compact-xs" variant="light" onClick={onOpenSummary}>
-          Summary
-        </Button>
-      )}
-    </Group>
-  </Group>
-);
+  );
+};
