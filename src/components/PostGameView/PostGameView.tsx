@@ -1,5 +1,6 @@
 import { FC, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { IconArrowBackUp, IconSwords } from '@tabler/icons-react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Box, Button, Center, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { CurrentGuessRow } from '@/components/CurrentGuessRow/CurrentGuessRow';
@@ -101,13 +102,25 @@ const DuelModal: FC<{ gameId: string; opponentId: string; onClose: () => void }>
   onClose,
 }) => {
   const { currentUser } = useAuth();
+  const { t } = useTranslation();
   const { data: opponent } = useUserProfile(opponentId);
   const sides = useMemo<[HeadToHeadSide, HeadToHeadSide]>(
     () => [
-      { userId: currentUser?.uid ?? '', name: 'You', photoURL: currentUser?.photoURL },
-      { userId: opponentId, name: opponent?.displayName || 'Player', photoURL: opponent?.photoURL },
+      { userId: currentUser?.uid ?? '', name: t('postGame.you'), photoURL: currentUser?.photoURL },
+      {
+        userId: opponentId,
+        name: opponent?.displayName || t('postGame.player'),
+        photoURL: opponent?.photoURL,
+      },
     ],
-    [currentUser?.uid, currentUser?.photoURL, opponentId, opponent?.displayName, opponent?.photoURL]
+    [
+      currentUser?.uid,
+      currentUser?.photoURL,
+      opponentId,
+      opponent?.displayName,
+      opponent?.photoURL,
+      t,
+    ]
   );
   return <HeadToHeadModal opened onClose={onClose} gameId={gameId} sides={sides} />;
 };
@@ -130,10 +143,15 @@ const ViewingBar: FC<{ userId: string; onViewOwn?: () => void; onWatchDuel?: () 
   onWatchDuel,
 }) => {
   const { data: profile } = useUserProfile(userId);
+  const { t } = useTranslation();
   return (
     <Group gap="xs" wrap="nowrap" miw={0}>
       <Text size="sm" truncate>
-        Viewing <b>{profile?.displayName || 'Player'}</b>&apos;s game
+        <Trans
+          i18nKey="postGame.viewing"
+          values={{ name: profile?.displayName || t('postGame.player') }}
+          components={{ name: <b /> }}
+        />
       </Text>
       <Button
         size="compact-xs"
@@ -141,7 +159,7 @@ const ViewingBar: FC<{ userId: string; onViewOwn?: () => void; onWatchDuel?: () 
         leftSection={<IconArrowBackUp size={12} />}
         onClick={onViewOwn}
       >
-        Back to mine
+        {t('postGame.backToMine')}
       </Button>
       {onWatchDuel && (
         <Button
@@ -151,7 +169,7 @@ const ViewingBar: FC<{ userId: string; onViewOwn?: () => void; onWatchDuel?: () 
           leftSection={<IconSwords size={12} />}
           onClick={onWatchDuel}
         >
-          Head-to-head
+          {t('postGame.headToHead')}
         </Button>
       )}
     </Group>

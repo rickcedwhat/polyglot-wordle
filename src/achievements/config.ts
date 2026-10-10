@@ -27,6 +27,7 @@ import {
   IconWorld,
   type Icon,
 } from '@tabler/icons-react';
+import i18n from '@/i18n';
 import type { Language } from '@/types/firestore';
 import { flagFor, labelFor } from '@/utils/languages';
 
@@ -54,11 +55,18 @@ export const CERTIFICATION_LEVELS: TrackLevel[] = [
 
 export type FeatCategory = 'solving' | 'language' | 'local' | 'fun';
 
+const category = (id: FeatCategory, color: string) => ({
+  get label() {
+    return i18n.t(`feats.categories.${id}`);
+  },
+  color,
+});
+
 export const FEAT_CATEGORIES: Record<FeatCategory, { label: string; color: string }> = {
-  solving: { label: 'Solving', color: 'teal' },
-  language: { label: 'Multi-language', color: 'violet' },
-  local: { label: 'Language-specific', color: 'orange' },
-  fun: { label: 'Just for fun', color: 'pink' },
+  solving: category('solving', 'teal'),
+  language: category('language', 'violet'),
+  local: category('local', 'orange'),
+  fun: category('fun', 'pink'),
 };
 
 export type FeatId =
@@ -129,7 +137,14 @@ export const FEAT_RULES = {
   wtfMinGuesses: 4,
 };
 
-const board = (lang?: Language) => (lang ? `the ${labelFor(lang)} board` : 'a board');
+const board = (lang?: Language) =>
+  lang ? i18n.t('feats.board', { language: labelFor(lang) }) : i18n.t('feats.aBoard');
+
+/** A kept foreign name's meaning, left off when the interface is already in that language. */
+const glossed = (lang: Language, meaning: string, description: string) =>
+  i18n.language === lang ? description : i18n.t('feats.gloss', { meaning, description });
+
+const BRAVERY_LETTERS = [...FEAT_RULES.braveryLetters.toUpperCase()].join(', ');
 
 /** Solving a board on the first guess, named in that board's language. */
 export const FIRST_TRY_FEATS = {
@@ -140,24 +155,28 @@ export const FIRST_TRY_FEATS = {
   pt: 'dePrimeira',
 } as const satisfies Record<Language, FeatId>;
 
-const FIRST_TRY_NAMES: Record<Language, { name: string; meaning?: string }> = {
-  en: { name: 'Hole in One' },
-  es: { name: 'A la primera', meaning: 'First time' },
-  fr: { name: 'Du premier coup', meaning: 'On the first try' },
-  it: { name: 'Al primo colpo', meaning: 'At the first shot' },
-  pt: { name: 'De primeira', meaning: 'First time' },
+const FIRST_TRY_NAMES: Record<Language, string> = {
+  en: 'Hole in One',
+  es: 'A la primera',
+  fr: 'Du premier coup',
+  it: 'Al primo colpo',
+  pt: 'De primeira',
 };
 
 const firstTryFeats = () =>
   Object.fromEntries(
     (Object.keys(FIRST_TRY_FEATS) as Language[]).map((lang) => {
-      const { name, meaning } = FIRST_TRY_NAMES[lang];
       const def: FeatDef = {
-        name,
+        name: FIRST_TRY_NAMES[lang],
         lang,
         category: 'local',
-        description: `${meaning ? `"${meaning}." ` : ''}Solve the ${labelFor(lang)} board with your first guess.`,
-        detail: () => `Solved the ${labelFor(lang)} board on your first guess.`,
+        get description() {
+          const description = i18n.t('feats.firstTry.description', { language: labelFor(lang) });
+          return lang === 'en'
+            ? description
+            : glossed(lang, i18n.t(`feats.firstTry.meanings.${lang}`), description);
+        },
+        detail: () => i18n.t('feats.firstTry.detail', { language: labelFor(lang) }),
       };
       return [FIRST_TRY_FEATS[lang], def];
     })
@@ -165,118 +184,186 @@ const firstTryFeats = () =>
 
 export const FEATS: Record<FeatId, FeatDef> = {
   outOfNowhere: {
-    name: 'Out of Nowhere',
+    get name() {
+      return i18n.t('feats.outOfNowhere.name');
+    },
     icon: IconSparkles,
     category: 'solving',
-    description: `Solve a board when at most ${FEAT_RULES.outOfNowhereMaxKnown} of its letters had been colored.`,
+    get description() {
+      return i18n.t('feats.outOfNowhere.description', { max: FEAT_RULES.outOfNowhereMaxKnown });
+    },
     detail: ({ lang, value }) =>
-      `Solved ${board(lang)} with only ${value} letter${value === 1 ? '' : 's'} known.`,
+      i18n.t('feats.outOfNowhere.detail', { board: board(lang), count: value ?? 0 }),
   },
   hailMary: {
-    name: 'Hail Mary',
+    get name() {
+      return i18n.t('feats.hailMary.name');
+    },
     icon: IconBallAmericanFootball,
     category: 'solving',
-    description: 'Solve a board when none of its letters had been colored.',
-    detail: ({ lang }) => `Solved ${board(lang)} with no letters known.`,
+    get description() {
+      return i18n.t('feats.hailMary.description');
+    },
+    detail: ({ lang }) => i18n.t('feats.hailMary.detail', { board: board(lang) }),
   },
   jackpot: {
-    name: 'Jackpot',
+    get name() {
+      return i18n.t('feats.jackpot.name');
+    },
     icon: IconFlare,
     category: 'solving',
-    description: `Reveal ${FEAT_RULES.jackpotMinTiles} or more new colored tiles with one guess.`,
-    detail: ({ value }) => `${value} new colored tiles in one guess.`,
+    get description() {
+      return i18n.t('feats.jackpot.description', { min: FEAT_RULES.jackpotMinTiles });
+    },
+    detail: ({ value }) => i18n.t('feats.jackpot.detail', { count: value ?? 0 }),
   },
   minimalist: {
-    name: 'Minimalist',
+    get name() {
+      return i18n.t('feats.minimalist.name');
+    },
     icon: IconLetterCase,
     category: 'solving',
-    description: `Win using ${FEAT_RULES.minimalistMaxLetters} or fewer different letters.`,
-    detail: ({ value }) => `Won using only ${value} different letters.`,
+    get description() {
+      return i18n.t('feats.minimalist.description', { max: FEAT_RULES.minimalistMaxLetters });
+    },
+    detail: ({ value }) => i18n.t('feats.minimalist.detail', { count: value ?? 0 }),
   },
   speedrun: {
-    name: 'Speedrun',
+    get name() {
+      return i18n.t('feats.speedrun.name');
+    },
     icon: IconBolt,
     category: 'solving',
-    description: `Solve every board within ${FEAT_RULES.speedrunMaxGuesses} guesses.`,
-    detail: ({ guess }) => `Solved every board in ${guess} guesses.`,
+    get description() {
+      return i18n.t('feats.speedrun.description', { max: FEAT_RULES.speedrunMaxGuesses });
+    },
+    detail: ({ guess }) => i18n.t('feats.speedrun.detail', { count: guess }),
   },
   underdog: {
-    name: 'Underdog',
+    get name() {
+      return i18n.t('feats.underdog.name');
+    },
     icon: IconArrowBigUpLines,
     category: 'language',
-    description: `Solve your weakest language first, when your strongest is ${
-      CERTIFICATION_LEVELS[FEAT_RULES.underdogStrongestMinLevel].label
-    } or higher and ${FEAT_RULES.underdogMinLevelGap}+ levels above it.`,
+    get description() {
+      return i18n.t('feats.underdog.description', {
+        level: CERTIFICATION_LEVELS[FEAT_RULES.underdogStrongestMinLevel].label,
+        gap: FEAT_RULES.underdogMinLevelGap,
+      });
+    },
     detail: ({ lang }) =>
-      `Solved ${lang ? labelFor(lang) : 'your weakest language'} before your stronger languages.`,
+      lang
+        ? i18n.t('feats.underdog.detail', { language: labelFor(lang) })
+        : i18n.t('feats.underdog.detailUnknown'),
   },
   lostInTranslation: {
     name: 'Lost in Translation',
     icon: IconLanguage,
     category: 'language',
-    description: 'Solve a board while its language is still unconfirmed, even after the solve.',
-    detail: ({ lang }) => `Solved ${board(lang)} without ever confirming its language.`,
+    get description() {
+      return glossed(
+        'en',
+        i18n.t('feats.lostInTranslation.gloss'),
+        i18n.t('feats.lostInTranslation.description')
+      );
+    },
+    detail: ({ lang }) => i18n.t('feats.lostInTranslation.detail', { board: board(lang) }),
   },
   jeNeSaisQuoi: {
     name: 'Je ne sais quoi',
     icon: IconQuestionMark,
     category: 'language',
-    description: '"I don\'t know what." Win with at least one board\'s language never confirmed.',
-    detail: ({ value }) =>
-      `Won with ${value} board${value === 1 ? '' : 's'} whose language was never confirmed.`,
+    get description() {
+      return glossed(
+        'fr',
+        i18n.t('feats.jeNeSaisQuoi.gloss'),
+        i18n.t('feats.jeNeSaisQuoi.description')
+      );
+    },
+    detail: ({ value }) => i18n.t('feats.jeNeSaisQuoi.detail', { count: value ?? 0 }),
   },
   twoBirds: {
-    name: 'Two Birds',
+    get name() {
+      return i18n.t('feats.twoBirds.name');
+    },
     icon: IconFeather,
     category: 'language',
-    description: 'Solve two boards with one guess.',
-    detail: () => 'Solved two boards with one guess.',
+    get description() {
+      return i18n.t('feats.twoBirds.description');
+    },
+    detail: () => i18n.t('feats.twoBirds.detail'),
   },
   dud: {
     name: 'Dolce far niente',
     icon: IconMoodEmpty,
     category: 'fun',
-    description:
-      '"The sweetness of doing nothing." Play a guess that reveals nothing new while every board is still open.',
-    detail: () => 'That guess told you nothing new. Happens to the best of us.',
+    get description() {
+      return glossed('it', i18n.t('feats.dud.gloss'), i18n.t('feats.dud.description'));
+    },
+    detail: () => i18n.t('feats.dud.detail'),
   },
   scrambled: {
-    name: 'Scrambled',
+    get name() {
+      return i18n.t('feats.scrambled.name');
+    },
     icon: IconArrowsShuffle,
     category: 'fun',
-    description: 'Get 5 yellows on one board.',
-    detail: ({ lang }) => `All five letters of ${board(lang)}, all in the wrong spots.`,
+    get description() {
+      return i18n.t('feats.scrambled.description');
+    },
+    detail: ({ lang }) => i18n.t('feats.scrambled.detail', { board: board(lang) }),
   },
   soClose: {
-    name: 'So Close',
+    get name() {
+      return i18n.t('feats.soClose.name');
+    },
     icon: IconHeartBroken,
     category: 'fun',
-    description: `Lose with ${FEAT_RULES.soCloseGreens} greens on an unsolved board.`,
-    detail: ({ lang }) => `One letter away on ${board(lang)}.`,
+    get description() {
+      return i18n.t('feats.soClose.description', { greens: FEAT_RULES.soCloseGreens });
+    },
+    detail: ({ lang }) => i18n.t('feats.soClose.detail', { board: board(lang) }),
   },
   bravery: {
-    name: 'Bravery',
+    get name() {
+      return i18n.t('feats.bravery.name');
+    },
     icon: IconShieldStar,
     category: 'fun',
-    description: `Play ${FEAT_RULES.braveryMinLetters} different letters from ${[
-      ...FEAT_RULES.braveryLetters.toUpperCase(),
-    ].join(', ')} in one game.`,
+    get description() {
+      return i18n.t('feats.bravery.description', {
+        min: FEAT_RULES.braveryMinLetters,
+        letters: BRAVERY_LETTERS,
+      });
+    },
     detail: ({ value }) =>
-      `Played ${value} of ${[...FEAT_RULES.braveryLetters.toUpperCase()].join(', ')} in one game.`,
+      i18n.t('feats.bravery.detail', { count: value ?? 0, letters: BRAVERY_LETTERS }),
   },
   noInstructions: {
-    name: 'No Instructions For Me',
+    get name() {
+      return i18n.t('feats.noInstructions.name');
+    },
     icon: IconMoodConfuzed,
     category: 'fun',
-    description: `Play ${FEAT_RULES.noInstructionsMinGuesses} guesses in one game that ignore what the tiles already told you, on every open board.`,
-    detail: () => 'The tiles were trying to tell you something.',
+    get description() {
+      return i18n.t('feats.noInstructions.description', {
+        min: FEAT_RULES.noInstructionsMinGuesses,
+      });
+    },
+    detail: () => i18n.t('feats.noInstructions.detail'),
   },
   wtf: {
     name: 'WTF Are You Doing',
     icon: IconQuestionMark,
     category: 'fun',
-    description: `Play ${FEAT_RULES.wtfMinGuesses} guesses in one game that ignore what the tiles already told you, on every open board.`,
-    detail: ({ value }) => `${value} guesses that ignored the tiles. Bold strategy.`,
+    get description() {
+      return glossed(
+        'en',
+        i18n.t('feats.wtf.gloss'),
+        i18n.t('feats.wtf.description', { min: FEAT_RULES.wtfMinGuesses })
+      );
+    },
+    detail: ({ value }) => i18n.t('feats.wtf.detail', { count: value ?? 0 }),
   },
   ...firstTryFeats(),
   chapeau: {
@@ -284,17 +371,20 @@ export const FEATS: Record<FeatId, FeatDef> = {
     icon: '🎩',
     lang: 'fr',
     category: 'local',
-    description:
-      '"Hats off," and the nickname for the circumflex. Solve a French board whose answer has a circumflex (â ê î ô û).',
-    detail: () => 'Solved a French word with a circumflex.',
+    get description() {
+      return glossed('fr', i18n.t('feats.chapeau.gloss'), i18n.t('feats.chapeau.description'));
+    },
+    detail: () => i18n.t('feats.chapeau.detail'),
   },
   pinata: {
     name: 'Piñata',
     icon: '🪅',
     lang: 'es',
     category: 'local',
-    description: 'Solve a Spanish board whose answer has an ñ.',
-    detail: () => 'Cracked open a Spanish word with an ñ.',
+    get description() {
+      return i18n.t('feats.pinata.description');
+    },
+    detail: () => i18n.t('feats.pinata.detail'),
   },
 };
 
@@ -333,18 +423,44 @@ export interface TrackDef {
   icon: BadgeIcon;
   /** Language tracks render the player's custom flag instead of `icon`. */
   lang?: Language;
-  /** What the count measures, e.g. "words". */
-  unit: string;
+  /** A count with its unit, e.g. "12 words". */
+  amount: (count: number) => string;
   description: string;
   levels: TrackLevel[];
 }
 
+type TrackUnit =
+  | 'words'
+  | 'languages'
+  | 'definitions'
+  | 'wins'
+  | 'games'
+  | 'challengeWins'
+  | 'friends';
+
+const amountIn = (unit: TrackUnit) => (count: number) => i18n.t(`tracks.units.${unit}`, { count });
+
+/** A level whose label is looked up in the current interface language. */
+const namedLevel = (label: () => string, target: number): TrackLevel => ({
+  get label() {
+    return label();
+  },
+  target,
+});
+
+const numberLevels = (...targets: number[]): TrackLevel[] =>
+  targets.map((target) => ({ label: String(target), target }));
+
 export const certificationTrack = (lang: Language): TrackDef => ({
-  name: `${labelFor(lang)} certification`,
+  get name() {
+    return i18n.t('tracks.certification.name', { language: labelFor(lang) });
+  },
   icon: flagFor(lang),
   lang,
-  unit: 'words',
-  description: `Distinct ${labelFor(lang)} words you've guessed.`,
+  amount: amountIn('words'),
+  get description() {
+    return i18n.t('tracks.certification.description', { language: labelFor(lang) });
+  },
   levels: CERTIFICATION_LEVELS,
 });
 
@@ -357,86 +473,94 @@ export type TrackId =
   | 'duelist'
   | 'squad';
 
+/** Minimum definitions per language for Globetrotter. */
+export const GLOBETROTTER_MIN_READS = 5;
+
 export const TRACKS: Record<TrackId, TrackDef> = {
   polyglot: {
-    name: 'Polyglot',
+    get name() {
+      return i18n.t('tracks.polyglot.name');
+    },
     icon: IconWorld,
-    unit: 'languages',
-    description: `Languages certified at ${CERTIFICATION_LEVELS[0].label} or above.`,
+    amount: amountIn('languages'),
+    get description() {
+      return i18n.t('tracks.polyglot.description', { level: CERTIFICATION_LEVELS[0].label });
+    },
     levels: [
-      { label: 'Bilingual', target: 2 },
-      { label: 'Trilingual', target: 3 },
-      { label: 'Polyglot', target: 5 },
+      namedLevel(() => i18n.t('tracks.polyglot.levels.bilingual'), 2),
+      namedLevel(() => i18n.t('tracks.polyglot.levels.trilingual'), 3),
+      namedLevel(() => i18n.t('tracks.polyglot.levels.polyglot'), 5),
     ],
   },
   reader: {
-    name: 'Reader',
+    get name() {
+      return i18n.t('tracks.reader.name');
+    },
     icon: IconBook,
-    unit: 'definitions',
-    description: 'Distinct word definitions you’ve opened.',
+    amount: amountIn('definitions'),
+    get description() {
+      return i18n.t('tracks.reader.description');
+    },
     levels: [
-      { label: 'Curious', target: 10 },
-      { label: 'Bookworm', target: 50 },
-      { label: 'Scholar', target: 200 },
-      { label: 'Lexicographer', target: 500 },
+      namedLevel(() => i18n.t('tracks.reader.levels.curious'), 10),
+      namedLevel(() => i18n.t('tracks.reader.levels.bookworm'), 50),
+      namedLevel(() => i18n.t('tracks.reader.levels.scholar'), 200),
+      namedLevel(() => i18n.t('tracks.reader.levels.lexicographer'), 500),
     ],
   },
   globetrotter: {
-    name: 'Globetrotter',
+    get name() {
+      return i18n.t('tracks.globetrotter.name');
+    },
     icon: IconPlaneTilt,
-    unit: 'languages',
-    description: 'Languages where you’ve opened at least 5 definitions.',
-    levels: [{ label: 'Globetrotter', target: 5 }],
+    amount: amountIn('languages'),
+    get description() {
+      return i18n.t('tracks.globetrotter.description', { min: GLOBETROTTER_MIN_READS });
+    },
+    levels: [namedLevel(() => i18n.t('tracks.globetrotter.name'), 5)],
   },
   streak: {
-    name: 'On Fire',
+    get name() {
+      return i18n.t('tracks.streak.name');
+    },
     icon: IconFlame,
-    unit: 'wins in a row',
-    description: 'Your best winning streak.',
-    levels: [
-      { label: '3', target: 3 },
-      { label: '7', target: 7 },
-      { label: '14', target: 14 },
-      { label: '30', target: 30 },
-    ],
+    amount: amountIn('wins'),
+    get description() {
+      return i18n.t('tracks.streak.description');
+    },
+    levels: numberLevels(3, 7, 14, 30),
   },
   regular: {
-    name: 'Regular',
+    get name() {
+      return i18n.t('tracks.regular.name');
+    },
     icon: IconCalendarCheck,
-    unit: 'games',
-    description: 'Games finished.',
-    levels: [
-      { label: '10', target: 10 },
-      { label: '50', target: 50 },
-      { label: '100', target: 100 },
-      { label: '250', target: 250 },
-      { label: '500', target: 500 },
-    ],
+    amount: amountIn('games'),
+    get description() {
+      return i18n.t('tracks.regular.description');
+    },
+    levels: numberLevels(10, 50, 100, 250, 500),
   },
   duelist: {
-    name: 'Duelist',
+    get name() {
+      return i18n.t('tracks.duelist.name');
+    },
     icon: IconSwords,
-    unit: 'challenge wins',
-    description: 'Head-to-head challenges won.',
-    levels: [
-      { label: '1', target: 1 },
-      { label: '10', target: 10 },
-      { label: '25', target: 25 },
-      { label: '50', target: 50 },
-    ],
+    amount: amountIn('challengeWins'),
+    get description() {
+      return i18n.t('tracks.duelist.description');
+    },
+    levels: numberLevels(1, 10, 25, 50),
   },
   squad: {
-    name: 'Squad',
+    get name() {
+      return i18n.t('tracks.squad.name');
+    },
     icon: IconUsers,
-    unit: 'friends',
-    description: 'Friends added.',
-    levels: [
-      { label: '1', target: 1 },
-      { label: '5', target: 5 },
-      { label: '10', target: 10 },
-    ],
+    amount: amountIn('friends'),
+    get description() {
+      return i18n.t('tracks.squad.description');
+    },
+    levels: numberLevels(1, 5, 10),
   },
 };
-
-/** Minimum definitions per language for Globetrotter. */
-export const GLOBETROTTER_MIN_READS = 5;

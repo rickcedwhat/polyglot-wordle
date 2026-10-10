@@ -39,7 +39,7 @@ describe('AchievementsTab dictionary requests', () => {
     );
 
     expect(screen.queryByRole('tab', { name: /Feats/ })).not.toBeInTheDocument();
-    expect(await screen.findByRole('alert')).toHaveTextContent('Unable to load achievements');
+    expect(await screen.findByRole('alert')).toHaveTextContent('Couldn’t load achievements');
     expect(client.getQueryData(['dictionary', 'en'])).toEqual({});
     expect(screen.queryByRole('tab', { name: /Feats/ })).not.toBeInTheDocument();
 

@@ -1,4 +1,4 @@
-import { shareLanguage } from '@/i18n';
+import i18n, { shareLanguage } from '@/i18n';
 import { GameDoc } from '@/types/firestore';
 import { flagFor, gamePath, languagesFromGame } from '@/utils/languages';
 
@@ -14,7 +14,11 @@ export interface ShareTextOptions {
  */
 export const buildShareText = ({ gameSession, challengeUrl }: ShareTextOptions): string => {
   const flags = [...languagesFromGame(gameSession)].sort().map(flagFor).join(' ');
-  return [`${flags} • ${gameSession.score ?? 0} pts`, 'Can you beat me?', challengeUrl].join('\n');
+  return [
+    `${flags} • ${i18n.t('postGame.pts', { score: gameSession.score ?? 0 })}`,
+    i18n.t('postGame.shareText'),
+    challengeUrl,
+  ].join('\n');
 };
 
 export interface ShareGameResultParams {

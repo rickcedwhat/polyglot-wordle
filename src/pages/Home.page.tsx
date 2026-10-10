@@ -1,4 +1,5 @@
 import { motion, Variants } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Carousel } from '@mantine/carousel';
 import { Button } from '@mantine/core';
@@ -12,6 +13,7 @@ import classes from './Home.page.module.css';
 export function HomePage() {
   const { createNewGame, needsSetup } = useGameActions();
   const { currentUser, signInWithGoogle } = useAuth();
+  const { t } = useTranslation();
   const [setupOpened, { open: openSetup, close: closeSetup }] = useDisclosure(false);
 
   const handleNewGameClick = () => {
@@ -59,11 +61,11 @@ export function HomePage() {
         <motion.div variants={itemVariants}>
           {currentUser ? (
             <Button size="xl" onClick={handleNewGameClick} variant="gradient">
-              Start a New Game
+              {t('nav.startNewGame')}
             </Button>
           ) : (
             <Button size="xl" onClick={signInWithGoogle} variant="gradient">
-              Log In
+              {t('nav.logIn')}
             </Button>
           )}
           {import.meta.env.DEV && (

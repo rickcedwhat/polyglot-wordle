@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { IconPin, IconPinnedFilled } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ActionIcon, Badge, Box, Card, Group, Text } from '@mantine/core';
 import { useGameAchievements } from '@/hooks/useGameAchievements';
@@ -17,6 +18,7 @@ interface GameHistoryCardProps {
   isOwnProfile?: boolean;
 }
 export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, isOwnProfile }) => {
+  const { t, i18n } = useTranslation();
   const { pinGame, unpinGame, isPending } = usePinning();
   const { feats, levelUps } = useGameAchievements(game);
   const isPinned = userProfile?.pinnedGames?.includes(game.gameId);
@@ -32,24 +34,24 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
     }
   };
 
-  let status: 'Won' | 'Lost' | 'In Progress';
+  let status: string;
   let color: string;
 
   if (game.isLiveGame) {
-    status = 'In Progress';
+    status = t('history.inProgress');
     color = 'blue';
   } else if (game.isWin) {
-    status = 'Won';
+    status = t('history.won');
     color = 'green';
   } else {
-    status = 'Lost';
+    status = t('history.lost');
     color = 'red';
   }
 
   const numberOfGuesses = game.guessHistory.length;
 
   // Convert Firestore Timestamp to a readable date
-  const gameDate = game.startedAt.toDate().toLocaleDateString();
+  const gameDate = game.startedAt.toDate().toLocaleDateString(i18n.language);
 
   return (
     <Card
@@ -86,14 +88,19 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
       </Group>
       <Group justify="space-between" mt="xs">
         <Text size="sm" c="dimmed">
-          Score: {game.score ?? '---'}
+          {t('history.score', { score: game.score ?? '---' })}
         </Text>
         <Text size="sm" c="dimmed">
-          Guesses: {numberOfGuesses}
+          {t('history.guesses', { count: numberOfGuesses })}
         </Text>
         <Group gap="xs">
           {isOwnProfile && canPin && (
-            <ActionIcon onClick={handlePinClick} variant="subtle" loading={isPending} title="Pin">
+            <ActionIcon
+              onClick={handlePinClick}
+              variant="subtle"
+              loading={isPending}
+              title={t('history.pin')}
+            >
               {isPinned ? <IconPinnedFilled size={20} /> : <IconPin size={20} />}
             </ActionIcon>
           )}

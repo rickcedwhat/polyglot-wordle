@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Center, Loader, SimpleGrid, Stack, Text, Title } from '@mantine/core';
 import { useGameHistory } from '@/hooks/useGameHistory';
 import { usePinnedGames } from '@/hooks/usePinnedGames';
@@ -16,6 +17,7 @@ export const GameHistoryTab: FC<GameHistoryTabProps> = ({
   userProfile,
   isOwnProfile,
 }) => {
+  const { t } = useTranslation();
   const { data: pinnedGames, isLoading: arePinsLoading } = usePinnedGames(
     profileUserId,
     userProfile.pinnedGames
@@ -47,7 +49,7 @@ export const GameHistoryTab: FC<GameHistoryTabProps> = ({
   return (
     <Stack mt="md">
       {/* Pinned Games Section */}
-      <Title order={4}>Pinned Games</Title>
+      <Title order={4}>{t('history.pinned')}</Title>
       {pinnedGames && pinnedGames.length > 0 ? (
         <SimpleGrid cols={{ base: 1, xs: 2 }}>
           {pinnedGames.map((game) => (
@@ -61,13 +63,13 @@ export const GameHistoryTab: FC<GameHistoryTabProps> = ({
         </SimpleGrid>
       ) : (
         <Text c="dimmed" size="sm">
-          No games have been pinned.
+          {t('history.noPinned')}
         </Text>
       )}
 
       {/* Game History Section */}
       <Title order={4} mt="xl">
-        Recent Games
+        {t('history.recent')}
       </Title>
       {nonPinnedGames.length > 0 ? (
         <SimpleGrid cols={{ base: 1, xs: 2 }}>
@@ -82,14 +84,14 @@ export const GameHistoryTab: FC<GameHistoryTabProps> = ({
         </SimpleGrid>
       ) : (
         <Text c="dimmed" size="sm">
-          No recent game history found.
+          {t('history.noRecent')}
         </Text>
       )}
 
       {hasNextPage && (
         <Center mt="xl">
           <Button onClick={() => fetchNextPage()} loading={isFetchingNextPage}>
-            Load More
+            {t('history.loadMore')}
           </Button>
         </Center>
       )}

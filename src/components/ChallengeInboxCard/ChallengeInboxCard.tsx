@@ -1,6 +1,7 @@
 import { FC, useMemo, useState } from 'react';
 import { IconPlayerPlay, IconSwords } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Button, Group, Modal, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import { ChallengeFriendModal } from '@/components/ChallengeFriendModal/ChallengeFriendModal';
@@ -27,6 +28,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   onMarkSeen,
 }) => {
   const { currentUser } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { createNewGame } = useGameActions();
   const [resultOpened, setResultOpened] = useState(false);
@@ -50,11 +52,15 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
     () =>
       userId && otherId
         ? [
-            { userId, name: 'You', photoURL: me?.photoURL },
-            { userId: otherId, name: other?.displayName || 'Opponent', photoURL: other?.photoURL },
+            { userId, name: t('postGame.you'), photoURL: me?.photoURL },
+            {
+              userId: otherId,
+              name: other?.displayName || t('challenges.opponent'),
+              photoURL: other?.photoURL,
+            },
           ]
         : null,
-    [userId, otherId, me?.photoURL, other?.displayName, other?.photoURL]
+    [userId, otherId, me?.photoURL, other?.displayName, other?.photoURL, t]
   );
 
   const myScore = me?.score;
@@ -62,15 +68,20 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   const bothDone =
     myScore !== null && myScore !== undefined && theirScore !== null && theirScore !== undefined;
 
-  const outcomeLabel = (() => {
+  const outcome = (() => {
     if (!bothDone) {
       return null;
     }
     if (myScore === theirScore) {
-      return 'Tied';
+      return 'tied';
     }
-    return myScore! > theirScore! ? 'You won' : 'You lost';
+    return myScore! > theirScore! ? 'won' : 'lost';
   })();
+  const outcomeLabel =
+    outcome &&
+    { tied: t('challenges.tied'), won: t('challenges.youWon'), lost: t('challenges.youLost') }[
+      outcome
+    ];
 
   const unread = challenge.status === 'completed' && me && !me.resultSeenAt && bothDone;
   const iAmChallenger = challenge.createdBy === userId;
@@ -80,21 +91,27 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
 
   const statusText = (() => {
     if (section === 'archive') {
-      return outcomeLabel ? `${outcomeLabel} · ${myScore} vs ${theirScore}` : 'Challenge';
+      return outcomeLabel
+        ? t('challenges.archiveStatus', {
+            outcome: outcomeLabel,
+            mine: myScore,
+            theirs: theirScore,
+          })
+        : t('challenges.challenge');
     }
     if (section === 'waiting') {
-      return canCancel ? "Challenge sent — they haven't started" : 'Waiting for them to finish';
+      return canCancel ? t('challenges.sentNotStarted') : t('challenges.waitingFinish');
     }
     if (bothDone) {
-      return 'Result ready';
+      return t('challenges.resultReady');
     }
     if (isInvite && iAmChallenger) {
-      return 'You challenged them — play your side';
+      return t('challenges.youChallenged');
     }
     if (isInvite && me?.rsvp === 'pending') {
-      return 'Challenged you — play this game';
+      return t('challenges.challengedYou');
     }
-    return 'Your move — play this challenge';
+    return t('challenges.yourMove');
   })();
 
   const handleCancel = async () => {
@@ -138,7 +155,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
         'polyglot_pending_rematch',
         JSON.stringify({
           opponentId: otherId,
-          opponentName: other?.displayName || 'Friend',
+          opponentName: other?.displayName || t('challenges.friend'),
         })
       );
       const gameStarted = await createNewGame();
@@ -171,20 +188,25 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           <Group gap="sm" wrap="nowrap" style={{ minWidth: 0 }}>
             <ProfileLink
               userId={otherId}
-              aria-label={`View ${other?.displayName || 'Opponent'}'s profile`}
+              aria-label={t('game.challenge.viewProfile', {
+                name: other?.displayName || t('challenges.opponent'),
+              })}
             >
-              <UserAvatar src={other?.photoURL} name={other?.displayName || 'Opponent'} />
+              <UserAvatar
+                src={other?.photoURL}
+                name={other?.displayName || t('challenges.opponent')}
+              />
             </ProfileLink>
             <Stack gap={2} style={{ minWidth: 0 }}>
               <Group gap={6}>
                 <ProfileLink userId={otherId}>
                   <Text size="sm" fw={700} truncate>
-                    {other?.displayName || 'Opponent'}
+                    {other?.displayName || t('challenges.opponent')}
                   </Text>
                 </ProfileLink>
                 {unread && (
                   <Badge size="xs" color="blue">
-                    New
+                    {t('challenges.new')}
                   </Badge>
                 )}
               </Group>
@@ -203,22 +225,22 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
                 loading={cancelBusy}
                 onClick={handleCancel}
               >
-                Cancel
+                {t('challenges.cancel')}
               </Button>
             )}
             {section === 'needsYou' && !bothDone && (
               <Button size="xs" onClick={handlePlay}>
-                Play
+                {t('challenges.play')}
               </Button>
             )}
             {bothDone && (
               <Button size="xs" variant="light" onClick={handleOpenResult}>
-                Showdown
+                {t('challenges.showdown')}
               </Button>
             )}
             {bothDone && (
               <Button size="xs" variant="subtle" loading={rematchBusy} onClick={handleRematch}>
-                Rematch
+                {t('challenges.rematch')}
               </Button>
             )}
           </Group>
@@ -232,7 +254,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           <Group gap={6}>
             <IconSwords size={16} />
             <Text fw={700} size="sm">
-              Head-to-Head Showdown
+              {t('postGame.showdown')}
             </Text>
           </Group>
         }
@@ -242,9 +264,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           {outcomeLabel && (
             <Badge
               size="lg"
-              color={
-                outcomeLabel === 'You won' ? 'teal' : outcomeLabel === 'You lost' ? 'red' : 'yellow'
-              }
+              color={outcome === 'won' ? 'teal' : outcome === 'lost' ? 'red' : 'yellow'}
             >
               {outcomeLabel}
             </Badge>
@@ -252,20 +272,20 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           <SimpleGrid cols={2} spacing="xs">
             <Paper p="xs" radius="sm" withBorder bg="dark.7">
               <Text size="xs" c="dimmed">
-                You
+                {t('postGame.you')}
               </Text>
               <Text size="sm" fw={800}>
-                {myScore ?? '—'} pts
+                {t('postGame.pts', { score: myScore ?? '—' })}
               </Text>
             </Paper>
             <Paper p="xs" radius="sm" withBorder bg="dark.7">
               <ProfileLink userId={otherId}>
                 <Text size="xs" c="dimmed">
-                  {other?.displayName || 'Opponent'}
+                  {other?.displayName || t('challenges.opponent')}
                 </Text>
               </ProfileLink>
               <Text size="sm" fw={800}>
-                {theirScore ?? '—'} pts
+                {t('postGame.pts', { score: theirScore ?? '—' })}
               </Text>
             </Paper>
           </SimpleGrid>
@@ -279,15 +299,15 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
                 setDuelOpened(true);
               }}
             >
-              Watch the replay
+              {t('postGame.watchReplay')}
             </Button>
           )}
           <Group justify="flex-end" gap="xs">
             <Button size="xs" variant="light" onClick={handleCopyRematchFromResult}>
-              {copied ? 'Link copied' : 'Copy challenge link'}
+              {copied ? t('challenges.linkCopied') : t('challenges.copyLink')}
             </Button>
             <Button size="xs" loading={rematchBusy} onClick={handleRematch}>
-              Rematch
+              {t('challenges.rematch')}
             </Button>
           </Group>
         </Stack>
@@ -308,7 +328,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
           onClose={() => setFriendRematchOpened(false)}
           friend={{
             id: otherId,
-            displayName: other?.displayName || 'Friend',
+            displayName: other?.displayName || t('challenges.friend'),
             photoURL: other?.photoURL || '',
           }}
         />

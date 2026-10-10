@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Group, Stack, Text, Tooltip } from '@mantine/core';
 import { certificationTrack, FEATS, type EarnedFeat } from '@/achievements/config';
 import { featKey } from '@/achievements/detectFeats';
@@ -12,13 +13,14 @@ interface GameAchievementsProps {
 
 /** "Earned this game" list for the post-game summary. Renders nothing if nothing was earned. */
 export const EarnedThisGame: FC<GameAchievementsProps> = ({ feats, levelUps }) => {
+  const { t } = useTranslation();
   if (feats.length === 0 && levelUps.length === 0) {
     return null;
   }
   return (
     <Stack gap="xs">
-      <Text size="xs" fw={700} c="dimmed">
-        EARNED THIS GAME
+      <Text size="xs" fw={700} c="dimmed" tt="uppercase">
+        {t('postGame.earnedThisGame')}
       </Text>
       {feats.map((feat) => (
         <Group key={featKey(feat)} gap="sm" wrap="nowrap">
@@ -43,7 +45,7 @@ export const EarnedThisGame: FC<GameAchievementsProps> = ({ feats, levelUps }) =
                 {track.name}: {track.levels[level].label}
               </Text>
               <Text size="xs" c="dimmed">
-                Reached with this game
+                {t('postGame.reachedThisGame')}
               </Text>
             </div>
           </Group>

@@ -30,6 +30,9 @@ i18n.use(initReactI18next).init({
   initAsync: false,
 });
 
+// Language names are capitalised as labels but lowercase mid-sentence outside English: `{{language, lower}}`.
+i18n.services.formatter?.add('lower', (value: string, lng) => value.toLocaleLowerCase(lng));
+
 if (typeof document !== 'undefined') {
   document.documentElement.lang = detected.language;
 }

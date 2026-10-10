@@ -1,8 +1,6 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import {
   IconCheck,
-  IconFlag,
-  IconFlagFilled,
   IconHelpCircle,
   IconMoodSad,
   IconPlayerPlay,
@@ -11,8 +9,8 @@ import {
   IconSwords,
   IconTrophy,
 } from '@tabler/icons-react';
+import { Trans, useTranslation } from 'react-i18next';
 import {
-  ActionIcon,
   Badge,
   Box,
   Button,
@@ -25,8 +23,8 @@ import {
   Stack,
   Text,
   ThemeIcon,
-  Tooltip,
 } from '@mantine/core';
+import { DefinitionHeader } from '@/components/DefinitionHeader/DefinitionHeader';
 import { MAX_GUESSES } from '@/config';
 import { useRecordDefinitionRead } from '@/context/AchievementsContext';
 import { useAuth } from '@/context/AuthContext';
@@ -61,6 +59,7 @@ const WordSummaryCard: FC<{
   guessHistory: string[];
 }> = ({ lang, solutionWord, guessHistory }) => {
   const [expanded, setExpanded] = useState(false);
+  const { t } = useTranslation();
   const { flags } = useLanguageFlags();
   const { isFlagged, toggleFlag } = useFlaggedWords();
 
@@ -110,11 +109,11 @@ const WordSummaryCard: FC<{
           <Group gap="xs">
             {isSolved ? (
               <Badge color="teal" variant="light" size="sm">
-                ✓ Turn {solvedIndex + 1}
+                {t('postGame.solvedOnTurn', { turn: solvedIndex + 1 })}
               </Badge>
             ) : (
               <Badge color="red" variant="light" size="sm">
-                ❌ Unsolved
+                {t('postGame.unsolved')}
               </Badge>
             )}
             <Button
@@ -124,7 +123,7 @@ const WordSummaryCard: FC<{
               leftSection={<IconHelpCircle size={12} />}
               onClick={handleToggle}
             >
-              {expanded ? 'Hide' : 'Definition'}
+              {expanded ? t('postGame.hide') : t('postGame.definition')}
             </Button>
           </Group>
         </Group>
@@ -134,40 +133,30 @@ const WordSummaryCard: FC<{
             {isLoading && <Loader size="xs" />}
             {isError && (
               <Text size="xs" c="red.4">
-                Definition not found in {langLabel} dictionary.
+                {t('postGame.definitionMissing', { language: langLabel })}
               </Text>
             )}
             {data && (
               <Stack gap={4}>
-                <Group justify="space-between" align="center">
-                  <Group gap={6} align="baseline">
+                <DefinitionHeader
+                  word={
                     <Text size="xs" fw={700} c="teal.4">
                       {data.display || normSolution}
                     </Text>
-                    <Text size="xs" c="dimmed" fs="italic">
-                      ({data.pos})
-                    </Text>
-                  </Group>
-                  <Tooltip label={flagged ? 'Unflag word' : 'Flag word for AI discussion'}>
-                    <ActionIcon
-                      size="xs"
-                      variant={flagged ? 'filled' : 'light'}
-                      color="red"
-                      onClick={() =>
-                        toggleFlag({
-                          lang,
-                          wordKey: normSolution,
-                          display: data.display || normSolution,
-                          pos: data.pos,
-                          d: data.d,
-                          def: data.def,
-                        })
-                      }
-                    >
-                      {flagged ? <IconFlagFilled size={12} /> : <IconFlag size={12} />}
-                    </ActionIcon>
-                  </Tooltip>
-                </Group>
+                  }
+                  pos={data.pos}
+                  flagged={flagged}
+                  onToggleFlag={() =>
+                    toggleFlag({
+                      lang,
+                      wordKey: normSolution,
+                      display: data.display || normSolution,
+                      pos: data.pos,
+                      d: data.d,
+                      def: data.def,
+                    })
+                  }
+                />
                 <FormattedDefinition def={data.def} size="xs" />
               </Stack>
             )}
@@ -177,6 +166,11 @@ const WordSummaryCard: FC<{
     </Paper>
   );
 };
+
+/** `Trans` replaces its target's children, so the profile link needs a wrapper that accepts them. */
+const OpponentLink: FC<{ userId?: string; children?: ReactNode }> = ({ userId, children }) => (
+  <ProfileLink userId={userId}>{children}</ProfileLink>
+);
 
 export const PostGameModal: FC<PostGameModalProps> = ({
   opened,
@@ -188,6 +182,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
   challengerGame,
 }) => {
   const { words, guessHistory, isWin, score } = gameSession;
+  const { t } = useTranslation();
   const { currentUser } = useAuth();
   const [copied, setCopied] = useState(false);
   const [shareError, setShareError] = useState(false);
@@ -257,7 +252,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             {effectiveIsWin ? <IconTrophy size={14} /> : <IconMoodSad size={14} />}
           </ThemeIcon>
           <Text fw={700} size="md">
-            {effectiveIsWin ? 'Match Summary & Results' : 'Game Over — Solutions Revealed'}
+            {effectiveIsWin ? t('postGame.titleWin') : t('postGame.titleLoss')}
           </Text>
         </Group>
       }
@@ -269,15 +264,24 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             <Box>
               <Text size="sm" fw={700} c={effectiveIsWin ? 'teal.1' : 'gray.2'}>
                 {effectiveIsWin
-                  ? `🎉 Victory! All ${languages.length} Solved in ${guessHistory.length}/${MAX_GUESSES} turns`
-                  : `❌ ${solvedCount}/${languages.length} Languages Solved in ${guessHistory.length}/${MAX_GUESSES} turns`}
+                  ? t('postGame.victory', {
+                      count: languages.length,
+                      turns: guessHistory.length,
+                      max: MAX_GUESSES,
+                    })
+                  : t('postGame.partial', {
+                      solved: solvedCount,
+                      count: languages.length,
+                      turns: guessHistory.length,
+                      max: MAX_GUESSES,
+                    })}
               </Text>
               <Text size="xs" c={effectiveIsWin ? 'teal.1' : 'gray.4'} fw={600} opacity={0.9}>
-                Final Score: {effectiveScore} pts
+                {t('postGame.finalScore', { score: effectiveScore })}
               </Text>
             </Box>
             <Badge color={effectiveIsWin ? 'teal' : 'red'} size="lg">
-              {effectiveScore} PTS
+              {t('game.challenge.points', { score: effectiveScore })}
             </Badge>
           </Group>
         </Paper>
@@ -300,8 +304,8 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             <Group justify="space-between" align="center" mb={6}>
               <Group gap={6}>
                 <IconSwords size={16} color="var(--mantine-color-yellow-4)" />
-                <Text size="xs" fw={700} c="dimmed">
-                  HEAD-TO-HEAD SHOWDOWN
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase">
+                  {t('postGame.showdown')}
                 </Text>
               </Group>
               <Badge
@@ -309,34 +313,41 @@ export const PostGameModal: FC<PostGameModalProps> = ({
                 variant="light"
                 size="sm"
               >
-                {isChallengerWin ? '🏆 You Won!' : isChallengerLoss ? '🥈 Defeated' : '🤝 Tied'}
+                {isChallengerWin
+                  ? t('postGame.youWon')
+                  : isChallengerLoss
+                    ? t('postGame.defeated')
+                    : t('postGame.tied')}
               </Badge>
             </Group>
 
             <SimpleGrid cols={2} spacing="xs">
               <Paper p="xs" radius="sm" bg="dark.7" withBorder>
                 <Text size="xs" c="dimmed">
-                  You
+                  {t('postGame.you')}
                 </Text>
                 <Text size="sm" fw={800} c={isChallengerWin ? 'teal.4' : 'gray.1'}>
-                  {myScore} pts
+                  {t('postGame.pts', { score: myScore })}
                 </Text>
                 <Text size="xs" c="dimmed">
-                  {guessHistory.length}/{MAX_GUESSES} turns
+                  {t('postGame.turns', { turns: guessHistory.length, max: MAX_GUESSES })}
                 </Text>
               </Paper>
 
               <Paper p="xs" radius="sm" bg="dark.7" withBorder>
                 <ProfileLink userId={challengerGame.userId}>
                   <Text size="xs" c="dimmed">
-                    {challengerUser?.displayName || 'Challenger'}
+                    {challengerUser?.displayName || t('postGame.challenger')}
                   </Text>
                 </ProfileLink>
                 <Text size="sm" fw={800} c={isChallengerLoss ? 'teal.4' : 'gray.1'}>
-                  {theirScore} pts
+                  {t('postGame.pts', { score: theirScore })}
                 </Text>
                 <Text size="xs" c="dimmed">
-                  {challengerGame.guessHistory.length}/{MAX_GUESSES} turns
+                  {t('postGame.turns', {
+                    turns: challengerGame.guessHistory.length,
+                    max: MAX_GUESSES,
+                  })}
                 </Text>
               </Paper>
             </SimpleGrid>
@@ -349,7 +360,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
                 leftSection={<IconPlayerPlay size={14} />}
                 onClick={onWatchDuel}
               >
-                Watch the replay
+                {t('postGame.watchReplay')}
               </Button>
             )}
           </Paper>
@@ -360,10 +371,11 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             <Group gap={6}>
               <IconSwords size={16} color="var(--mantine-color-yellow-4)" />
               <Text size="xs" c="dimmed">
-                <ProfileLink userId={challengerGame?.userId}>
-                  {challengerUser?.displayName || 'Your opponent'}
-                </ProfileLink>{' '}
-                hasn&apos;t finished yet. You&apos;ll see the result in Challenges.
+                <Trans
+                  i18nKey="postGame.opponentPlaying"
+                  values={{ name: challengerUser?.displayName || t('postGame.yourOpponent') }}
+                  components={{ name: <OpponentLink userId={challengerGame?.userId} /> }}
+                />
               </Text>
             </Group>
           </Paper>
@@ -373,8 +385,8 @@ export const PostGameModal: FC<PostGameModalProps> = ({
 
         {/* Target Words & Definitions */}
         <Stack gap="xs">
-          <Text size="xs" fw={700} c="dimmed">
-            TARGET WORDS & DEFINITIONS
+          <Text size="xs" fw={700} c="dimmed" tt="uppercase">
+            {t('postGame.targetWords')}
           </Text>
           {languages.map((lang) => (
             <WordSummaryCard
@@ -396,7 +408,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
               leftSection={<IconSwords size={14} />}
               onClick={() => setChallengeOpened(true)}
             >
-              Challenge a friend
+              {t('setup.titles.challenge')}
             </Button>
           )}
           <Button
@@ -415,7 +427,11 @@ export const PostGameModal: FC<PostGameModalProps> = ({
             onClick={handleShare}
             loading={isSharing}
           >
-            {shareError ? 'Share Failed' : copied ? 'Copied!' : 'Share'}
+            {shareError
+              ? t('postGame.shareFailed')
+              : copied
+                ? t('postGame.copied')
+                : t('postGame.share')}
           </Button>
           {onPlayAgain && (
             <Button
@@ -428,7 +444,7 @@ export const PostGameModal: FC<PostGameModalProps> = ({
                 onPlayAgain();
               }}
             >
-              Play Again
+              {t('postGame.playAgain')}
             </Button>
           )}
         </Group>

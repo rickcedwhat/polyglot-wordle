@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import i18n from '@/i18n';
 import type { DifficultyPrefs, GameDoc, LanguageCombo } from '@/types/firestore';
 import { createFriendChallenge, FriendChallengeError } from '@/utils/challengeUtils';
 import { gamePath } from '@/utils/languages';
@@ -20,21 +21,19 @@ export interface FriendChallengeResult {
 
 export const friendChallengeErrorMessage = (err: unknown, friendName: string): string => {
   if (err instanceof FriendChallengeError && err.code === 'already_challenged') {
-    return `You already challenged ${friendName} on this game.`;
+    return i18n.t('challengeFriend.alreadyChallenged', { name: friendName });
   }
   if (err instanceof FriendChallengeError) {
-    return `Couldn't challenge ${friendName}. They may have already played this game.`;
+    return i18n.t('challengeFriend.notAllowed', { name: friendName });
   }
-  return `Couldn't challenge ${friendName}. Please try again.`;
+  return i18n.t('challengeFriend.failed', { name: friendName });
 };
 
-/** "Alex", "Alex and Sam", "Alex, Sam and Kim". */
-export const joinNames = (friends: ChallengeFriend[]): string => {
-  const names = friends.map((f) => f.displayName);
-  return names.length <= 1
-    ? (names[0] ?? '')
-    : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
-};
+/** "Alex", "Alex and Sam", "Alex, Sam, and Kim", in the interface language. */
+export const joinNames = (friends: ChallengeFriend[]): string =>
+  new Intl.ListFormat(i18n.language, { type: 'conjunction' }).format(
+    friends.map((f) => f.displayName)
+  );
 
 export const useFriendChallenge = () => {
   const { currentUser } = useAuth();
@@ -50,7 +49,7 @@ export const useFriendChallenge = () => {
       throw new Error('Not signed in');
     }
     const challengerProfile = {
-      displayName: profile?.displayName || currentUser.displayName || 'Player',
+      displayName: profile?.displayName || currentUser.displayName || i18n.t('postGame.player'),
       photoURL: profile?.photoURL || currentUser.photoURL || '',
     };
     const outcomes = await Promise.allSettled(

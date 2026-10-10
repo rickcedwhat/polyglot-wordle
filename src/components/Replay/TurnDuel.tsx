@@ -1,8 +1,10 @@
 import { CSSProperties, FC, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Box, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useCountUp } from '@/hooks/useCountUp';
 import { useReplay } from '@/hooks/useReplay';
+import i18n from '@/i18n';
 import type { Language } from '@/types/firestore';
 import {
   buildDuelTimeline,
@@ -39,15 +41,15 @@ const bonusLabel = (event: ScoreEvent) => {
   const flag = event.lang ? flagFor(event.lang) : '';
   switch (event.kind) {
     case 'wordSolved':
-      return `${flag} solved!`;
+      return i18n.t('replay.bonus.solved', { flag });
     case 'penalty':
-      return `${flag} unsolved`;
+      return i18n.t('replay.bonus.unsolved', { flag });
     case 'crack':
-      return 'first solve';
+      return i18n.t('replay.bonus.crack');
     case 'hatTrick':
-      return 'hat trick';
+      return i18n.t('replay.bonus.hatTrick');
     case 'gameSolved':
-      return 'all solved!';
+      return i18n.t('replay.bonus.allSolved');
     default:
       return '';
   }
@@ -101,6 +103,7 @@ const Lane: FC<LaneProps> = ({
   barMax,
   totalMax,
 }) => {
+  const { t } = useTranslation();
   const now = timeline[step];
   const total = useCountUp(now.total, animateId !== null ? 1100 : 0);
   const finishedOn = player.guesses.length;
@@ -162,7 +165,7 @@ const Lane: FC<LaneProps> = ({
 
       {finished ? (
         <Text className={classes.finished} c="dimmed" fw={600}>
-          Finished ✓ in {finishedOn}
+          {t('replay.finishedIn', { count: finishedOn })}
         </Text>
       ) : (
         <Tiles letters={bigLetters} size="big" />
@@ -234,6 +237,10 @@ export const TurnDuel: FC<TurnDuelProps> = ({
   scoringVersion,
   startAt = 'start',
 }) => {
+  const {
+    t,
+    i18n: { language },
+  } = useTranslation();
   const turns = Math.max(...players.map((p) => p.guesses.length));
   const timelines = useMemo(
     () =>
@@ -265,16 +272,18 @@ export const TurnDuel: FC<TurnDuelProps> = ({
     return null;
   }
   const finals = timelines.map((timeline) => timeline[turns].total);
-  const [high, low] = [...finals].sort((a, b) => b - a).map((n) => n.toLocaleString());
+  const [high, low] = [...finals].sort((a, b) => b - a).map((n) => n.toLocaleString(language));
   const winner = finals[0] > finals[1] ? players[0] : players[1];
   const result =
-    finals[0] === finals[1] ? `Tied ${high} vs ${low}` : `${winner.name} won ${high} vs ${low}`;
+    finals[0] === finals[1]
+      ? t('replay.tied', { high, low })
+      : t('replay.won', { name: winner.name, high, low });
   const heading =
     shownTurn === 0
-      ? 'Head-to-head replay'
+      ? t('replay.title')
       : step >= turns && typing === null
         ? result
-        : `Turn ${shownTurn} of ${turns}`;
+        : t('replay.turnOf', { turn: shownTurn, total: turns });
 
   return (
     <Stack gap="md" w="100%" maw={860} mx="auto">
@@ -298,7 +307,7 @@ export const TurnDuel: FC<TurnDuelProps> = ({
         ))}
       </SimpleGrid>
       <Box>
-        <ReplayBar replay={replay} stepLabel="turn" />
+        <ReplayBar replay={replay} step="turn" />
       </Box>
     </Stack>
   );

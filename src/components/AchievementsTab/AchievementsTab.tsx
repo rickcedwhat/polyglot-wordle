@@ -1,4 +1,5 @@
 import { FC, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Card,
@@ -39,6 +40,7 @@ const progressToNext = ({ current, tier, next }: AchievementProgress) => {
 
 const TrackCard: FC<{ achievement: AchievementProgress }> = ({ achievement }) => {
   const { track, current, level, next } = achievement;
+  const { t, i18n } = useTranslation();
   return (
     <Card withBorder radius="md" p="sm">
       <Group gap="sm" wrap="nowrap">
@@ -52,12 +54,16 @@ const TrackCard: FC<{ achievement: AchievementProgress }> = ({ achievement }) =>
             size="sm"
             radius="xl"
             color={level >= 0 ? trackLevelColor(level, track.levels.length) : 'gray'}
-            aria-label={`${track.name} progress`}
+            aria-label={t('achievements.progress', { track: track.name })}
           />
           <Text size="xs" c="dimmed">
             {next
-              ? `${current.toLocaleString()} / ${next.target.toLocaleString()} ${track.unit} to ${next.label}`
-              : `${current.toLocaleString()} ${track.unit} · top level`}
+              ? t('achievements.toNext', {
+                  current: current.toLocaleString(i18n.language),
+                  target: track.amount(next.target),
+                  level: next.label,
+                })
+              : t('achievements.top', { amount: track.amount(current) })}
           </Text>
         </Stack>
       </Group>
@@ -76,11 +82,11 @@ export const TrackGrid: FC<{ achievements: AchievementProgress[] }> = ({ achieve
 /** Feats only appear once earned; players discover the rest on friends' profiles. */
 const earnedFeats = (counts: FeatCounts) => FEAT_ORDER.filter((id) => counts[id]);
 
-export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) =>
-  earnedFeats(counts).length === 0 ? (
+export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) => {
+  const { t } = useTranslation();
+  return earnedFeats(counts).length === 0 ? (
     <Text size="sm" c="dimmed" ta="center" py="xl">
-      No feats yet. They&apos;re earned by pulling off something special in a game. Peek at
-      friends&apos; profiles to see what&apos;s out there.
+      {t('achievements.noFeats')}
     </Text>
   ) : (
     <Stack gap="lg">
@@ -123,8 +129,10 @@ export const FeatGrid: FC<{ counts: FeatCounts }> = ({ counts }) =>
       })}
     </Stack>
   );
+};
 
 export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }) => {
+  const { t } = useTranslation();
   const { achievements, isLoading: tracksLoading } = useAchievements(profileUserId);
   const { data: games, isLoading: gamesLoading } = useAllGames(profileUserId);
   const { vocabulary, isLoading: vocabLoading } = useVocabulary(profileUserId);
@@ -158,8 +166,8 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
 
   if (dictionariesError) {
     return (
-      <Alert color="red" title="Unable to load achievements" mt="md" role="alert">
-        Some word lists could not be loaded. Please refresh the page to try again.
+      <Alert color="red" title={t('achievements.loadFailedTitle')} mt="md" role="alert">
+        {t('achievements.loadFailedText')}
       </Alert>
     );
   }
@@ -169,8 +177,8 @@ export const AchievementsTab: FC<{ profileUserId: string }> = ({ profileUserId }
   return (
     <Tabs defaultValue="feats" variant="pills" mt="md">
       <Tabs.List mb="md">
-        <Tabs.Tab value="feats">Feats ({featsEarned})</Tabs.Tab>
-        <Tabs.Tab value="tracks">Tracks</Tabs.Tab>
+        <Tabs.Tab value="feats">{t('achievements.featsTab', { count: featsEarned })}</Tabs.Tab>
+        <Tabs.Tab value="tracks">{t('achievements.tracksTab')}</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="feats">
         <FeatGrid counts={featCounts} />

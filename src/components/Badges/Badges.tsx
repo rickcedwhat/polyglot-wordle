@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { IconLock } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { Badge, Box, Text } from '@mantine/core';
 import {
   FEAT_CATEGORIES,
@@ -31,6 +32,7 @@ interface FeatMedalProps {
 /** Round medal for a feat, colored by its category. */
 export const FeatMedal: FC<FeatMedalProps> = ({ id, count = 1, size = 56, showCount = false }) => {
   const { flags } = useLanguageFlags();
+  const { t } = useTranslation();
   const feat = FEATS[id];
   const earned = count > 0;
   const color = earned ? FEAT_CATEGORIES[feat.category].color : 'gray';
@@ -39,7 +41,7 @@ export const FeatMedal: FC<FeatMedalProps> = ({ id, count = 1, size = 56, showCo
       <Box
         w={size}
         h={size}
-        aria-label={earned ? feat.name : `${feat.name} (locked)`}
+        aria-label={earned ? feat.name : t('achievements.locked', { name: feat.name })}
         role="img"
         style={{
           borderRadius: '50%',
@@ -109,6 +111,7 @@ interface TrackBadgeProps {
 /** Hexagon for a track showing its current level. */
 export const TrackBadge: FC<TrackBadgeProps> = ({ track, level, size = 64 }) => {
   const { flags } = useLanguageFlags();
+  const { t } = useTranslation();
   const reached = level >= 0;
   const color = trackLevelColor(level, track.levels.length);
   const shades = SHADES[color];
@@ -119,7 +122,7 @@ export const TrackBadge: FC<TrackBadgeProps> = ({ track, level, size = 64 }) => 
       w={size}
       h={height}
       role="img"
-      aria-label={`${track.name}: ${reached ? label : 'not started'}`}
+      aria-label={`${track.name}: ${reached ? label : t('achievements.notStarted')}`}
       style={{
         clipPath: HEXAGON,
         background: `var(--mantine-color-${color}-${shades.ring})`,

@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Card,
   Center,
@@ -35,6 +36,7 @@ const StatCard: FC<{ label: string; value: string | number }> = ({ label, value 
 
 export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
   const { currentUser } = useAuth();
+  const { t } = useTranslation();
   const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile(profileUserId);
   const { data: currentUserProfile, isLoading: isLoadingCurrentUser } = useUserProfile(
     currentUser?.uid ?? ''
@@ -91,7 +93,7 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
   if (!userProfile || !userProfile.stats) {
     return (
       <Text c="dimmed" mt="md">
-        This user has no stats to display.
+        {t('stats.none')}
       </Text>
     );
   }
@@ -99,22 +101,25 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
   const { stats: profileStats } = userProfile;
   const languages: Language[] = ['en', 'es', 'fr', 'it', 'pt'];
   const isOwnProfile = currentUser?.uid === profileUserId;
-  const profileDisplayName = userProfile.displayName || 'Profile';
+  const profileDisplayName = userProfile.displayName || t('postGame.player');
 
   return (
     <Stack mt="md">
-      <Title order={3}>Overall Performance</Title>
+      <Title order={3}>{t('stats.overall')}</Title>
       <SimpleGrid cols={{ base: 2, sm: 3, lg: 6 }}>
         <StatCard
-          label="Wins - Losses"
+          label={t('stats.winsLosses')}
           value={`${profileStats.wins || 0} - ${
             profileStats.gamesPlayed - (profileStats.wins ?? 0) || 0
           }`}
         />
-        <StatCard label="Win Rate" value={`${profileStats.winPercentage.toFixed(1) || 0}%`} />
-        <StatCard label="Current Streak" value={profileStats.currentStreak || 0} />
-        <StatCard label="Max Streak" value={profileStats.maxStreak || 0} />
-        <StatCard label="Best Score" value={profileStats.highScore || 0} />
+        <StatCard
+          label={t('stats.winRate')}
+          value={`${profileStats.winPercentage.toFixed(1) || 0}%`}
+        />
+        <StatCard label={t('stats.currentStreak')} value={profileStats.currentStreak || 0} />
+        <StatCard label={t('stats.maxStreak')} value={profileStats.maxStreak || 0} />
+        <StatCard label={t('stats.bestScore')} value={profileStats.highScore || 0} />
       </SimpleGrid>
 
       <Stack mt="xl" gap="xl">
@@ -171,8 +176,10 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
                   onChange={(value) =>
                     setSelectedDifficulties((prev) => ({ ...prev, [lang]: value as Difficulty }))
                   }
-                  data={availableDifficulties}
-                  tt="capitalize"
+                  data={availableDifficulties.map((value) => ({
+                    value,
+                    label: t(`setup.difficulties.${value}`),
+                  }))}
                 />
               )}
 
@@ -191,13 +198,18 @@ export const StatsTab: FC<StatsTabProps> = ({ profileUserId }) => {
 
                 <Grid.Col span={{ base: 12, md: 5 }}>
                   <Stack>
-                    <Title order={4} tt="capitalize">
-                      {selectedDifficulty} Stats
+                    <Title order={4}>
+                      {t('stats.difficultyStats', {
+                        difficulty: t(`setup.difficulties.${selectedDifficulty}`),
+                      })}
                     </Title>
                     <SimpleGrid cols={3}>
-                      <StatCard label="Solve - Fails" value={`${solves} - ${fails}`} />
-                      <StatCard label="Solve Rate" value={`${sfRatio}%`} />
-                      <StatCard label="Avg. Guesses" value={langStats.averageGuesses.toFixed(2)} />
+                      <StatCard label={t('stats.solvesFails')} value={`${solves} - ${fails}`} />
+                      <StatCard label={t('stats.solveRate')} value={`${sfRatio}%`} />
+                      <StatCard
+                        label={t('stats.avgGuesses')}
+                        value={langStats.averageGuesses.toFixed(2)}
+                      />
                     </SimpleGrid>
                   </Stack>
                 </Grid.Col>

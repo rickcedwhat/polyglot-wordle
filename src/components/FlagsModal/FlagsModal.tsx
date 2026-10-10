@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { IconCheck, IconFlag, IconRefresh } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import {
   Badge,
   Button,
@@ -32,6 +33,7 @@ const PRESETS: Record<Language, string[]> = {
 
 export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
   const { flags, setFlag, resetFlags } = useLanguageFlags();
+  const { t } = useTranslation();
 
   return (
     <Modal
@@ -43,7 +45,7 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
             <IconFlag size={14} />
           </ThemeIcon>
           <Text fw={700} size="md">
-            Language Flag & Emoji Customization
+            {t('flags.title')}
           </Text>
         </Group>
       }
@@ -51,14 +53,12 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
     >
       <Stack gap="md">
         <Text size="xs" c="dimmed">
-          Choose any flag or emoji to represent each language across the game boards and column
-          deduction tags. (Presets contain country flags, but custom inputs accept any single
-          emoji).
+          {t('flags.intro')}
         </Text>
 
         <Paper p="xs" withBorder radius="md" bg="var(--mantine-color-dark-8)">
-          <Text size="xs" fw={700} c="dimmed" mb={6}>
-            LIVE PREVIEW
+          <Text size="xs" fw={700} c="dimmed" mb={6} tt="uppercase">
+            {t('flags.preview')}
           </Text>
           <Group justify="center" gap="sm">
             {ALL_LANGUAGES.map((lang) => (
@@ -84,9 +84,9 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
 
               <TextInput
                 size="xs"
-                placeholder="Paste or type any single flag or emoji..."
+                placeholder={t('flags.placeholder')}
                 value={flags[lang]}
-                description="Only 1 emoji character allowed (flag or any emoji)"
+                description={t('flags.description')}
                 onChange={(e) => {
                   const extracted = extractSingleEmoji(e.currentTarget.value);
                   if (extracted) {
@@ -97,10 +97,10 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
 
               <Group gap={4} wrap="wrap" mt={4}>
                 <Text size="xs" c="dimmed" me={4}>
-                  Flag Presets:
+                  {t('flags.presets')}
                 </Text>
                 {PRESETS[lang].map((preset) => (
-                  <Tooltip key={preset} label={`Use ${preset}`}>
+                  <Tooltip key={preset} label={t('flags.use', { flag: preset })}>
                     <Button
                       size="compact-xs"
                       variant={flags[lang] === preset ? 'filled' : 'subtle'}
@@ -124,11 +124,11 @@ export const FlagsModal: FC<FlagsModalProps> = ({ opened, onClose }) => {
             leftSection={<IconRefresh size={14} />}
             onClick={resetFlags}
           >
-            Reset Defaults
+            {t('flags.reset')}
           </Button>
 
           <Button size="xs" color="blue" leftSection={<IconCheck size={14} />} onClick={onClose}>
-            Done
+            {t('flags.done')}
           </Button>
         </Group>
       </Stack>
