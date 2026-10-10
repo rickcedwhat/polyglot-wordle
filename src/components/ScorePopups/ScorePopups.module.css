@@ -18,6 +18,14 @@
   z-index: 5;
 }
 
+/* Phones: boards sit right under the header, so rising from the top edge would hide the
+   popup behind it. Start inside the board instead. */
+@media (max-width: 48em) {
+  .boardContainer {
+    top: 35%;
+  }
+}
+
 .popup {
   position: absolute;
   left: 50%;

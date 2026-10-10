@@ -25,7 +25,7 @@ export const AlphabetStatus: FC<AlphabetStatusProps> = ({ onKeyPress, activeKey 
   const { letterStatusMap } = useLetterStatus();
 
   return (
-    <Container my="xl" p={0} w="100%" style={{ maxWidth: 600 }}>
+    <Container mt="xs" mb={0} p={0} w="100%" style={{ maxWidth: 600 }}>
       <Stack gap={8}>
         {ROWS.map(({ letters, action }) => (
           <Group key={letters[0]} gap="1.5%" wrap="nowrap">
