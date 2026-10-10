@@ -10,16 +10,16 @@ export const pt: Translation = {
   },
   common: {
     tryAgain: 'Tentar de novo',
-    slowLoad: 'Isso está demorando mais do que o normal.',
+    slowLoad: 'Está demorando mais do que o normal.',
   },
   uiLanguage: {
     menu: 'Idioma',
     title: 'Escolha seu idioma',
     intro:
-      'Os menus, as instruções e as mensagens vão usar este idioma. Você pode mudar quando quiser em Idioma no menu.',
+      'Menus, instruções e mensagens vão aparecer neste idioma. Dá para trocar quando quiser em Idioma, no menu.',
     confirm: 'Continuar',
     saveFailed:
-      'Não foi possível salvar o idioma na sua conta. Ele continua definido neste dispositivo.',
+      'Não deu para salvar o idioma na sua conta, mas ele continua valendo neste dispositivo.',
   },
   login: {
     welcome: 'Bem-vindo ao Polyglot Wordle!',
@@ -33,10 +33,10 @@ export const pt: Translation = {
     },
     intro: 'Escolha três idiomas e depois uma dificuldade para cada tabuleiro.',
     introChallenge:
-      'Escolha três idiomas e uma dificuldade para cada um. Vocês dois recebem os mesmos tabuleiros.',
+      'Escolha três idiomas e uma dificuldade para cada um. Vocês dois vão jogar o mesmo jogo.',
     selectedCount: '{{count}} de {{total}} selecionados',
     skipPicker: 'Usar sempre esta configuração',
-    skipPickerHint: 'Novo jogo começa direto. Mude em Configurações do jogo no menu.',
+    skipPickerHint: 'O Novo jogo começa direto. Dá para mudar em Configurações do jogo, no menu.',
     submit: {
       newGame: 'Começar',
       settings: 'Salvar',
@@ -58,8 +58,8 @@ export const pt: Translation = {
     wordListsFailed: 'Não foi possível carregar as listas de palavras. Verifique sua conexão.',
     loadingBoards: 'Carregando tabuleiros...',
     rematchReady: 'Revanche pronta',
-    rematchCopied: 'Link da revanche copiado. Envie para {{name}}.',
-    rematchCopiedFriend: 'Link da revanche copiado. Envie para seu amigo.',
+    rematchCopied: 'Link da revanche copiado. É só mandar para {{name}}.',
+    rematchCopiedFriend: 'Link da revanche copiado. É só mandar para seu amigo.',
     rematchCopyFailed:
       'Não foi possível copiar o link da revanche. Tente compartilhar manualmente.',
     clearGuess: 'Apagar tentativa',
@@ -80,7 +80,7 @@ export const pt: Translation = {
     flagWord: 'Marcar palavra para revisão com IA',
     unflagWord: 'Remover marcação',
     missingWord: {
-      title: '{{word}} é uma palavra de verdade?',
+      title: '{{word}} existe mesmo?',
       prompt: 'Marcar como faltando em:',
       flagged: '{{word}} marcada',
       thanks: 'Marcada como faltando em {{language}}. Obrigado!',
@@ -89,7 +89,7 @@ export const pt: Translation = {
       mode: 'MODO DESAFIO',
       points: '{{score}} PTS',
       canYouBeat: 'Você consegue vencer <name>{{name}}</name> ({{turns}}/{{max}} jogadas)?',
-      notFinished: '<name>{{name}}</name> desafiou você. Ainda não terminou.',
+      notFinished: '<name>{{name}}</name> te desafiou e ainda não terminou o jogo.',
       aFriend: 'Um amigo',
       viewProfile: 'Ver o perfil de {{name}}',
       dismiss: 'Fechar aviso de desafio',
@@ -144,13 +144,14 @@ export const pt: Translation = {
     },
     setup: {
       pickTitle: 'Escolha seus três idiomas',
-      pickText: 'Novo jogo abre este seletor. Toque em três idiomas; cada um ganha seu tabuleiro.',
+      pickText:
+        'Novo jogo abre este seletor. Toque em três idiomas; cada um tem seu próprio tabuleiro.',
       difficultyTitle: 'Uma dificuldade para cada tabuleiro',
       difficultyText:
         'A dificuldade define quão rara pode ser a resposta desse tabuleiro. Qualquer palavra de verdade do idioma continua valendo como tentativa.',
       everyTimeTitle: 'Usar sempre esta configuração',
       everyTimeText:
-        'Ative e Novo jogo começa direto com estes idiomas e dificuldades. Mude quando quiser em Configurações do jogo no menu.',
+        'Com isso ativado, o Novo jogo já começa com estes idiomas e dificuldades. Dá para mudar quando quiser em Configurações do jogo, no menu.',
       examples: {
         basic: 'Palavras do dia a dia',
         intermediate: 'Palavras menos comuns',
@@ -164,7 +165,7 @@ export const pt: Translation = {
       followsTitle: 'Segue um tabuleiro',
       followsText:
         'Embaralhar letras destaca um tabuleiro alvo: aquele em que você está, ou o da esquerda em telas largas. Toque em outro tabuleiro para trocar. Os verdes ficam no lugar, os amarelos sempre vão para uma posição nova e as letras cinza nunca são usadas.',
-      pinsTitle: 'Suas letras, suas fixações',
+      pinsTitle: 'Suas letras, do seu jeito',
       pinsText:
         'As letras que você digita ficam no embaralhamento, mas mudam de lugar. Toque duas vezes em uma letra para fixá-la e mais uma vez para soltá-la. As letras apagadas são sugestões aleatórias; digite por cima para usar a sua.',
       gapTitle: 'Só falta uma casa',
@@ -172,7 +173,7 @@ export const pt: Translation = {
         'Quando só sobra uma casa livre, cada toque testa a próxima letra na ordem do teclado (Q, W, E, …), pulando as letras já descartadas.',
       leaveTitle: 'Jogar ou sair',
       leaveText:
-        'Gostou? Aperte Enter para jogar normalmente, e Embaralhar letras fecha. Não é uma palavra? Treme como sempre. Aperte ✕ ou Esc para sair sem jogar.',
+        'Gostou? Aperte Enter para jogar normalmente e o Embaralhar letras fecha. Não é uma palavra? A linha treme, como sempre. Aperte ✕ ou Esc para sair sem jogar.',
     },
     faq: {
       dotsTitle: 'O que são os pontinhos no teclado?',
@@ -189,7 +190,7 @@ export const pt: Translation = {
         'Aperte Enter três vezes e você pode marcá-la como faltando em um dicionário. Se digitar de novo uma palavra que já jogou, pode marcá-la para os idiomas que não a têm.',
       challengesTitle: 'Como funcionam os desafios?',
       challengesText:
-        'Desafie amigos em um jogo que você acabou de terminar, ou comecem um novo juntos. Todo mundo joga exatamente os mesmos tabuleiros, e você vê cada resultado assim que a pessoa termina.',
+        'Desafie amigos em um jogo que você acabou de terminar, ou comecem um novo juntos. Todo mundo joga o mesmo jogo, e você vê o resultado de cada um assim que ele termina.',
       difficultyTitle: 'A dificuldade muda minha pontuação?',
       difficultyText:
         'Não. Os pontos são iguais em todas as dificuldades; os tabuleiros mais difíceis só têm respostas mais raras.',
