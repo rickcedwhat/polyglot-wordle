@@ -81,7 +81,12 @@ export const fetchOrCreateGame = async (
     shuffledLanguages,
   };
 
-  await setDoc(gameDocRef, newGame);
+  // The SDK only resolves this once the server acknowledges it, which can hang on a flaky
+  // connection. Later guess updates queue behind it in order, so the game can start now.
+  setDoc(gameDocRef, newGame).catch((err) => {
+    // eslint-disable-next-line no-console
+    console.error('Failed to save new game:', err);
+  });
 
   return newGame as GameDoc;
 };
@@ -109,6 +114,7 @@ export const useGameSession = () => {
       return fetchOrCreateGame(gameId, userId, activeChallengerId);
     },
     enabled: !!user && !!gameId && isValidUuid(gameId),
+    retry: 1,
     staleTime: Infinity,
     gcTime: Infinity,
   });

@@ -61,6 +61,7 @@ describe('useGameSession & fetchOrCreateGame', () => {
       },
     });
 
+    vi.mocked(firestore.setDoc).mockResolvedValue(undefined);
     vi.mocked(wordUtils.getWordsFromUuid).mockResolvedValue({
       words: { en: 'derived_en', es: 'derived_es', fr: 'derived_fr' },
       difficulties: { en: 'basic', es: 'basic', fr: 'basic' },
@@ -143,6 +144,15 @@ describe('useGameSession & fetchOrCreateGame', () => {
       expect(result.words).toEqual({ en: 'derived_en', es: 'derived_es', fr: 'derived_fr' });
       expect(wordUtils.getWordsFromUuid).toHaveBeenCalledWith('b3e47403d2ec4ec9beb8a41faa0b3e47');
       expect(firestore.setDoc).toHaveBeenCalled();
+    });
+
+    it('starts the game without waiting for the server to confirm the new doc', async () => {
+      vi.mocked(firestore.getDoc).mockResolvedValueOnce({ exists: () => false } as any);
+      vi.mocked(firestore.setDoc).mockReturnValueOnce(new Promise(() => {}));
+
+      const result = await fetchOrCreateGame('b3e47403d2ec4ec9beb8a41faa0b3e47', 'user_1');
+
+      expect(result.isLiveGame).toBe(true);
     });
 
     it('falls back to getWordsFromUuid when challengerId is self', async () => {

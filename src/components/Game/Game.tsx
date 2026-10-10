@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Box, Center, Loader, Notification } from '@mantine/core';
+import { Box, Button, Center, Loader, Notification, Stack, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { featKey } from '@/achievements/detectFeats';
 import { getGameAchievements } from '@/achievements/gameAchievements';
@@ -54,7 +54,12 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const [mountedAt] = useState(() => new Date());
   const [helpOpen, setHelpOpen] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
-  const { data: wordPools } = useWordPools(difficulties);
+  const {
+    data: wordPools,
+    isError: wordPoolsFailed,
+    isFetching: wordPoolsFetching,
+    refetch: refetchWordPools,
+  } = useWordPools(difficulties);
   const { challengerUser, challengerGame, isChallenge } = useChallenge(gameSession.gameId);
   const [guesses, setGuesses] = useState<string[]>(guessHistory);
   const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
@@ -399,7 +404,14 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   if (!wordPools) {
     return (
       <Center style={{ height: '80vh' }}>
-        <Loader />
+        {wordPoolsFailed && !wordPoolsFetching ? (
+          <Stack align="center" gap="sm">
+            <Text c="dimmed">Couldn&apos;t load the word lists. Check your connection.</Text>
+            <Button onClick={() => refetchWordPools()}>Try again</Button>
+          </Stack>
+        ) : (
+          <Loader />
+        )}
       </Center>
     );
   }
