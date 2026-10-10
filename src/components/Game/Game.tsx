@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Box, Center, Loader, Notification } from '@mantine/core';
+import { Box, Button, Center, Loader, Notification, Stack, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { featKey } from '@/achievements/detectFeats';
 import { getGameAchievements } from '@/achievements/gameAchievements';
@@ -12,6 +12,7 @@ import { useSidebar } from '@/context/SidebarContext';
 import { useChallenge } from '@/hooks/useChallenge';
 import { useLetterJumble } from '@/hooks/useLetterJumble';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
+import { useSlow } from '@/hooks/useSlow';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
@@ -54,7 +55,20 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   const [mountedAt] = useState(() => new Date());
   const [helpOpen, setHelpOpen] = useState(false);
   const [activeKey, setActiveKey] = useState<string | null>(null);
-  const { data: wordPools } = useWordPools(difficulties);
+  const {
+    data: wordPools,
+    isError: wordPoolsFailed,
+    isFetching: wordPoolsFetching,
+    refetch: refetchWordPools,
+  } = useWordPools(difficulties);
+  const wordPoolsError = wordPoolsFailed && !wordPoolsFetching;
+  const { slow: wordPoolsSlow, restart: restartWordPoolsWait } = useSlow(
+    !wordPools && (!wordPoolsFailed || wordPoolsFetching)
+  );
+  const retryWordPools = () => {
+    restartWordPoolsWait();
+    refetchWordPools();
+  };
   const { challengerUser, challengerGame, isChallenge } = useChallenge(gameSession.gameId);
   const [guesses, setGuesses] = useState<string[]>(guessHistory);
   const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
@@ -399,7 +413,18 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   if (!wordPools) {
     return (
       <Center style={{ height: '80vh' }}>
-        <Loader />
+        {wordPoolsError || wordPoolsSlow ? (
+          <Stack align="center" gap="sm">
+            <Text c="dimmed">
+              {wordPoolsError
+                ? "Couldn't load the word lists. Check your connection."
+                : 'This is taking longer than usual.'}
+            </Text>
+            <Button onClick={retryWordPools}>Try again</Button>
+          </Stack>
+        ) : (
+          <Loader />
+        )}
       </Center>
     );
   }

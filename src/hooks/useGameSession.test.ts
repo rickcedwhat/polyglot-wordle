@@ -57,10 +57,11 @@ describe('useGameSession & fetchOrCreateGame', () => {
     vi.clearAllMocks();
     queryClient = new QueryClient({
       defaultOptions: {
-        queries: { retry: false },
+        queries: { retry: false, retryDelay: 0 },
       },
     });
 
+    vi.mocked(firestore.setDoc).mockResolvedValue(undefined);
     vi.mocked(wordUtils.getWordsFromUuid).mockResolvedValue({
       words: { en: 'derived_en', es: 'derived_es', fr: 'derived_fr' },
       difficulties: { en: 'basic', es: 'basic', fr: 'basic' },
@@ -145,6 +146,26 @@ describe('useGameSession & fetchOrCreateGame', () => {
       expect(firestore.setDoc).toHaveBeenCalled();
     });
 
+    it('keeps the game unavailable until the server confirms the new doc', async () => {
+      vi.mocked(firestore.getDoc).mockResolvedValueOnce({ exists: () => false } as any);
+      let save!: () => void;
+      vi.mocked(firestore.setDoc).mockReturnValueOnce(
+        new Promise((resolve) => {
+          save = resolve;
+        })
+      );
+      const onAvailable = vi.fn();
+      const pending = fetchOrCreateGame('b3e47403d2ec4ec9beb8a41faa0b3e47', 'user_1').then(
+        onAvailable
+      );
+
+      await waitFor(() => expect(firestore.setDoc).toHaveBeenCalledOnce());
+      expect(onAvailable).not.toHaveBeenCalled();
+      save();
+      await pending;
+      expect(onAvailable).toHaveBeenCalledWith(expect.objectContaining({ isLiveGame: true }));
+    });
+
     it('falls back to getWordsFromUuid when challengerId is self', async () => {
       vi.mocked(firestore.getDoc).mockResolvedValueOnce({
         exists: () => false,
@@ -185,6 +206,41 @@ describe('useGameSession & fetchOrCreateGame', () => {
   });
 
   describe('useGameSession hook', () => {
+    it('exposes creation errors without a playable session and recovers after a saved retry', async () => {
+      const gameId = 'b3e47403d2ec4ec9beb8a41faa0b3e47';
+      vi.mocked(reactRouterDom.useParams).mockReturnValue({ uuid: gameId });
+      vi.mocked(reactRouterDom.useSearchParams).mockReturnValue([new URLSearchParams(), vi.fn()]);
+      vi.mocked(authContext.useAuth).mockReturnValue({
+        currentUser: { uid: 'user_current' },
+      } as any);
+      vi.mocked(firestore.getDoc).mockResolvedValue({ exists: () => false } as any);
+      const error = new Error('permission denied');
+      vi.mocked(firestore.setDoc).mockRejectedValue(error);
+
+      const { result } = renderHook(() => useGameSession(), { wrapper: createWrapper() });
+      await waitFor(() => expect(result.current.isError).toBe(true));
+      expect(result.current.error).toBe(error);
+      expect(result.current.data).toBeUndefined();
+      expect(queryClient.getQueryData(['gameSession', gameId, 'user_current'])).toBeUndefined();
+
+      let save!: () => void;
+      vi.mocked(firestore.setDoc).mockReturnValueOnce(
+        new Promise((resolve) => {
+          save = resolve;
+        })
+      );
+      act(() => {
+        void result.current.refetch();
+      });
+      await waitFor(() => expect(result.current.isFetching).toBe(true));
+      expect(result.current.data).toBeUndefined();
+      await act(async () => {
+        save();
+      });
+      await waitFor(() => expect(result.current.isSuccess).toBe(true));
+      expect(result.current.data?.isLiveGame).toBe(true);
+    });
+
     it('accepts a v2 game id from the game route', async () => {
       const gameId = buildGameId({
         entropyHex: 'a'.repeat(24),

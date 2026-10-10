@@ -1,16 +1,46 @@
 import { FC, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Box, Center, Loader, Text } from '@mantine/core';
+import { Box, Button, Center, Loader, Stack, Text } from '@mantine/core';
 import { Game } from '@/components/Game/Game';
 import { PostGameView } from '@/components/PostGameView/PostGameView';
 import { useGameSession } from '@/hooks/useGameSession';
-import { formatLangCombo, gamePath, languagesFromGame, parseLangCombo } from '@/utils/languages';
+import { useSlow } from '@/hooks/useSlow';
+import {
+  formatLangCombo,
+  gamePath,
+  isGameId,
+  languagesFromGame,
+  parseLangCombo,
+} from '@/utils/languages';
+
+const LoadProblem: FC<{ message: string; onRetry?: () => void }> = ({ message, onRetry }) => (
+  <Center style={{ height: '80vh' }}>
+    <Stack align="center" gap="sm">
+      <Text c="dimmed" ta="center">
+        {message}
+      </Text>
+      {onRetry && <Button onClick={onRetry}>Try again</Button>}
+    </Stack>
+  </Center>
+);
 
 export const GamePage: FC = () => {
   const navigate = useNavigate();
   const { uuid, languages: langSegment } = useParams<{ languages?: string; uuid: string }>();
   const [searchParams] = useSearchParams();
-  const { data: gameSession, isLoading, isError, updateGuessHistory, endGame } = useGameSession();
+  const {
+    data: gameSession,
+    isError,
+    isFetching,
+    refetch,
+    updateGuessHistory,
+    endGame,
+  } = useGameSession();
+  const { slow, restart } = useSlow(!gameSession && (!isError || isFetching));
+  const retry = () => {
+    restart();
+    refetch();
+  };
 
   // Canonicalize to `/game/en-it-pt/:uuid` once the session languages are known.
   useEffect(() => {
@@ -28,18 +58,22 @@ export const GamePage: FC = () => {
     });
   }, [uuid, langSegment, gameSession, navigate, searchParams]);
 
-  if (isLoading || !gameSession) {
+  if (!uuid || !isGameId(uuid)) {
+    return <LoadProblem message="This game link isn't valid." />;
+  }
+
+  if (isError && !isFetching) {
     return (
-      <Center style={{ height: '80vh' }}>
-        <Loader />
-      </Center>
+      <LoadProblem message="Couldn't load this game. Check your connection." onRetry={retry} />
     );
   }
 
-  if (isError) {
-    return (
-      <Center>
-        <Text c="red">Error loading game session.</Text>
+  if (!gameSession) {
+    return slow ? (
+      <LoadProblem message="This is taking longer than usual." onRetry={retry} />
+    ) : (
+      <Center style={{ height: '80vh' }}>
+        <Loader />
       </Center>
     );
   }

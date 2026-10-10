@@ -109,6 +109,7 @@ export const useGameSession = () => {
       return fetchOrCreateGame(gameId, userId, activeChallengerId);
     },
     enabled: !!user && !!gameId && isValidUuid(gameId),
+    retry: 1,
     staleTime: Infinity,
     gcTime: Infinity,
   });
