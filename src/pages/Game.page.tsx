@@ -1,9 +1,10 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { Box, Button, Center, Loader, Stack, Text } from '@mantine/core';
 import { Game } from '@/components/Game/Game';
 import { PostGameView } from '@/components/PostGameView/PostGameView';
 import { useGameSession } from '@/hooks/useGameSession';
+import { useSlow } from '@/hooks/useSlow';
 import {
   formatLangCombo,
   gamePath,
@@ -11,24 +12,6 @@ import {
   languagesFromGame,
   parseLangCombo,
 } from '@/utils/languages';
-
-/** How long the spinner shows before offering a retry. */
-export const SLOW_LOAD_MS = 12_000;
-
-/** True once `active` has lasted SLOW_LOAD_MS; `restart` starts the wait over. */
-const useSlow = (active: boolean) => {
-  const [slow, setSlow] = useState(false);
-  const [attempt, setAttempt] = useState(0);
-  useEffect(() => {
-    setSlow(false);
-    if (!active) {
-      return;
-    }
-    const timer = window.setTimeout(() => setSlow(true), SLOW_LOAD_MS);
-    return () => window.clearTimeout(timer);
-  }, [active, attempt]);
-  return { slow, restart: () => setAttempt((n) => n + 1) };
-};
 
 const LoadProblem: FC<{ message: string; onRetry?: () => void }> = ({ message, onRetry }) => (
   <Center style={{ height: '80vh' }}>
@@ -53,7 +36,7 @@ export const GamePage: FC = () => {
     updateGuessHistory,
     endGame,
   } = useGameSession();
-  const { slow, restart } = useSlow(!gameSession && !isError);
+  const { slow, restart } = useSlow(!gameSession && (!isError || isFetching));
   const retry = () => {
     restart();
     refetch();

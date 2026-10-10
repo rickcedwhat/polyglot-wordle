@@ -1,10 +1,11 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { MantineProvider } from '@mantine/core';
 import { useGameSession } from '@/hooks/useGameSession';
-import { GamePage, SLOW_LOAD_MS } from './Game.page';
+import { SLOW_LOAD_MS } from '@/hooks/useSlow';
+import { GamePage } from './Game.page';
 
 vi.mock('@/hooks/useGameSession', () => ({ useGameSession: vi.fn() }));
 vi.mock('@/components/Game/Game', () => ({ Game: () => <div>live game</div> }));
@@ -55,6 +56,23 @@ describe('GamePage loading', () => {
 
     act(() => vi.advanceTimersByTime(SLOW_LOAD_MS));
     expect(screen.getByText('This is taking longer than usual.')).toBeInTheDocument();
+  });
+
+  it('offers another retry after an error retry hangs, and restarts the wait on click', () => {
+    vi.useFakeTimers();
+    session({ isError: true, isFetching: true });
+    renderAt(GAME_ID);
+    expect(screen.queryByRole('button', { name: 'Try again' })).toBeNull();
+
+    act(() => vi.advanceTimersByTime(SLOW_LOAD_MS - 1));
+    expect(screen.queryByRole('button', { name: 'Try again' })).toBeNull();
+    act(() => vi.advanceTimersByTime(1));
+    fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
+    expect(refetch).toHaveBeenCalledOnce();
+    expect(screen.queryByRole('button', { name: 'Try again' })).toBeNull();
+
+    act(() => vi.advanceTimersByTime(SLOW_LOAD_MS));
+    expect(screen.getByRole('button', { name: 'Try again' })).toBeInTheDocument();
   });
 
   it('explains a broken game link', () => {

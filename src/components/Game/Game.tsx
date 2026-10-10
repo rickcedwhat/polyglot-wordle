@@ -12,6 +12,7 @@ import { useSidebar } from '@/context/SidebarContext';
 import { useChallenge } from '@/hooks/useChallenge';
 import { useLetterJumble } from '@/hooks/useLetterJumble';
 import { useLetterStatus } from '@/hooks/useLetterStatus';
+import { useSlow } from '@/hooks/useSlow';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
 import type { GameDoc } from '@/types/firestore.d.ts';
@@ -60,6 +61,14 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     isFetching: wordPoolsFetching,
     refetch: refetchWordPools,
   } = useWordPools(difficulties);
+  const wordPoolsError = wordPoolsFailed && !wordPoolsFetching;
+  const { slow: wordPoolsSlow, restart: restartWordPoolsWait } = useSlow(
+    !wordPools && (!wordPoolsFailed || wordPoolsFetching)
+  );
+  const retryWordPools = () => {
+    restartWordPoolsWait();
+    refetchWordPools();
+  };
   const { challengerUser, challengerGame, isChallenge } = useChallenge(gameSession.gameId);
   const [guesses, setGuesses] = useState<string[]>(guessHistory);
   const [currentGuess, setCurrentGuess] = useState<string[]>(Array(5).fill(''));
@@ -404,10 +413,14 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
   if (!wordPools) {
     return (
       <Center style={{ height: '80vh' }}>
-        {wordPoolsFailed && !wordPoolsFetching ? (
+        {wordPoolsError || wordPoolsSlow ? (
           <Stack align="center" gap="sm">
-            <Text c="dimmed">Couldn&apos;t load the word lists. Check your connection.</Text>
-            <Button onClick={() => refetchWordPools()}>Try again</Button>
+            <Text c="dimmed">
+              {wordPoolsError
+                ? "Couldn't load the word lists. Check your connection."
+                : 'This is taking longer than usual.'}
+            </Text>
+            <Button onClick={retryWordPools}>Try again</Button>
           </Stack>
         ) : (
           <Loader />

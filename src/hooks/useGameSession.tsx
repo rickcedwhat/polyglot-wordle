@@ -81,12 +81,7 @@ export const fetchOrCreateGame = async (
     shuffledLanguages,
   };
 
-  // The SDK only resolves this once the server acknowledges it, which can hang on a flaky
-  // connection. Later guess updates queue behind it in order, so the game can start now.
-  setDoc(gameDocRef, newGame).catch((err) => {
-    // eslint-disable-next-line no-console
-    console.error('Failed to save new game:', err);
-  });
+  await setDoc(gameDocRef, newGame);
 
   return newGame as GameDoc;
 };
