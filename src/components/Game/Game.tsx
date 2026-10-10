@@ -33,6 +33,7 @@ import { GAME_ORIGIN, SCORE_ORIGIN_ATTR, useScoreBurst } from '../ScoreFlights/f
 import { ScoreFlights } from '../ScoreFlights/ScoreFlights';
 import { ScorePopups } from '../ScorePopups/ScorePopups';
 import { promptFlagMissingWord } from './promptFlagMissingWord';
+
 /** Pressing Enter this many times in a row on a rejected word offers to flag it as missing. */
 const REJECTED_ENTERS_TO_FLAG = 3;
 
