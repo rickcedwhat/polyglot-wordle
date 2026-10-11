@@ -25,6 +25,7 @@ import { Language } from './types';
 import {
   decide,
   mainMeaningIndex,
+  offensiveBucket,
   REVIEW_TASK,
   ReviewResult,
   reviewWordWithJev,
@@ -213,15 +214,14 @@ function summarize(lang: Language, results: ReviewResult[]) {
   const mixed = rows.filter(
     ({ r }) =>
       r.meanings.length > 1 &&
-      new Set(r.meanings.map((m) => (m.jev.rating.confidence >= 0.7 ? m.jev.rating.choice : '?')))
-        .size > 1
+      new Set(r.meanings.map((m) => offensiveBucket(m.jev).replace('?', ''))).size > 1
   );
   md += `\n## Mixed meanings (main meaning decides)\n\n`;
   for (const { r, outcome } of mixed) {
     const main = mainMeaningIndex(r);
     md += `- **${r.display}** → ${outcome.kind === 'answer' ? `answer (${outcome.level})` : outcome.kind}\n`;
     r.meanings.forEach((m, i) => {
-      md += `  - ${i === main ? '★ ' : ''}${m.jev.rating.choice}${m.jev.slang.choice === 'yes' ? ', slang' : ''}: ${m.def}\n`;
+      md += `  - ${i === main ? '★ ' : ''}${offensiveBucket(m.jev)}${m.jev.slang.choice === 'yes' ? ', slang' : ''}: ${m.def}\n`;
     });
   }
   return md;
