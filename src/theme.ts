@@ -1,6 +1,10 @@
-import { createTheme } from '@mantine/core';
+import { createTheme, DEFAULT_THEME } from '@mantine/core';
+
+export const FLAG_FONT = 'Twemoji Country Flags';
 
 export const theme = createTheme({
+  fontFamily: `'${FLAG_FONT}', ${DEFAULT_THEME.fontFamily}`,
+  headings: { fontFamily: `'${FLAG_FONT}', ${DEFAULT_THEME.fontFamily}` },
   components: {
     AppShell: {
       styles: {
