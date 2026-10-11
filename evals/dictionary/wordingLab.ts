@@ -52,6 +52,8 @@ interface Variant {
   label: string;
   /** Example words quoted in the wording; must not be pilot words. */
   examples: string[];
+  /** Only ask about words in these languages (default: all). */
+  langs?: string[];
   questions: (w: LabWord) => Record<string, ReturnType<typeof choice>>;
   /** Reads Jev's answers into a bucket name, its side, and a confidence. */
   read: (answers: Record<string, { choice: string; confidence: number }>) => {
@@ -396,6 +398,203 @@ const VARIANTS: Variant[] = [
   },
 ];
 
+const NON_EN = ['es', 'fr', 'it', 'pt'];
+type Native = Record<string, (w: LabWord) => { q: string; c: Record<string, string> }>;
+
+const NATIVE_REAL: Native = {
+  es: (w) => ({
+    q: `¿Es "${w.display}" una palabra real del español que usan los hablantes nativos?`,
+    c: {
+      yes: 'Sí. Todo esto cuenta como sí: cualquier forma estándar de una palabra real (conjugaciones, plurales, formas femeninas); palabras vulgares, de argot, raras o anticuadas; préstamos que los hispanohablantes usan habitualmente (como "pizza" o "tofu"); palabras que se escriben como una palabra inglesa pero que también existen en español; nombres que también tienen un significado común.',
+      no: 'No: solo un nombre propio, una palabra extranjera que los hispanohablantes no usan, una abreviatura, una errata o algo que no es una palabra.',
+    },
+  }),
+  fr: (w) => ({
+    q: `Est-ce que "${w.display}" est un vrai mot français employé par les locuteurs natifs ?`,
+    c: {
+      yes: 'Oui. Tout ceci compte comme oui : toute forme standard d\'un vrai mot (conjugaisons, pluriels, formes féminines) ; les mots vulgaires, argotiques, rares ou vieillis ; les emprunts courants chez les francophones (comme "pizza" ou "tofu") ; les mots qui s\'écrivent comme un mot anglais mais existent aussi en français ; les noms qui ont aussi un sens ordinaire.',
+      no: "Non : seulement un nom propre, un mot étranger que les francophones n'utilisent pas, une abréviation, une faute de frappe, ou pas un mot du tout.",
+    },
+  }),
+  it: (w) => ({
+    q: `"${w.display}" è una vera parola italiana usata dai madrelingua?`,
+    c: {
+      yes: 'Sì. Tutto questo conta come sì: qualsiasi forma standard di una parola reale (coniugazioni, plurali, forme femminili); parole volgari, gergali, rare o antiquate; prestiti usati comunemente dagli italiani (come "tofu" o "weekend"); parole scritte come una parola inglese che esistono anche in italiano; nomi che hanno anche un significato comune.',
+      no: "No: solo un nome proprio, una parola straniera che gli italiani non usano, un'abbreviazione, un refuso, o non è affatto una parola.",
+    },
+  }),
+  pt: (w) => ({
+    q: `"${w.display}" é uma palavra real do português usada por falantes nativos?`,
+    c: {
+      yes: 'Sim. Tudo isto conta como sim: qualquer forma padrão de uma palavra real (conjugações, plurais, formas femininas); palavras vulgares, de gíria, raras ou antiquadas; empréstimos que os falantes de português usam com frequência (como "pizza" ou "tofu"); palavras escritas como uma palavra inglesa que também existem em português; nomes que também têm um significado comum.',
+      no: 'Não: apenas um nome próprio, uma palavra estrangeira que os falantes de português não usam, uma abreviatura, um erro de digitação, ou nem sequer é uma palavra.',
+    },
+  }),
+};
+
+const NATIVE_RATING: Native = {
+  es: (w) => ({
+    q: `¿Qué tan ofensiva es la palabra española "${w.display}" cuando se usa con este significado (definición en inglés): "${w.main.def}"?`,
+    c: {
+      clean:
+        'Limpia: neutral o educada, aceptable en cualquier contexto, también con niños. Las palabras que describen personas, grupos o condiciones de forma neutral son limpias.',
+      mild: 'Leve: un poco grosera o burda pero no es una palabrota, como palabras infantiles del baño o insultos suaves (como "bobo", "moco" o "pedo")',
+      vulgar: 'Vulgar: palabrotas, groserías o lenguaje sexual explícito',
+      slur: 'Insulto discriminatorio: se usa para denigrar a un grupo de personas por su raza, etnia, nacionalidad, religión, sexualidad, género o discapacidad',
+    },
+  }),
+  fr: (w) => ({
+    q: `À quel point le mot français "${w.display}" est-il offensant quand il est employé dans ce sens (définition en anglais) : "${w.main.def}" ?`,
+    c: {
+      clean:
+        'Correct : neutre ou poli, acceptable partout, y compris avec des enfants. Les mots qui décrivent des personnes, des groupes ou des états de façon neutre sont corrects.',
+      mild: 'Léger : un peu grossier ou cru sans être un juron, comme les mots enfantins liés aux toilettes ou les insultes légères (comme "crotte", "zizi" ou "nigaud")',
+      vulgar: 'Vulgaire : jurons, grossièretés ou langage sexuel explicite',
+      slur: 'Injure discriminatoire : employée pour rabaisser un groupe de personnes en raison de leur race, origine ethnique, nationalité, religion, sexualité, genre ou handicap',
+    },
+  }),
+  it: (w) => ({
+    q: `Quanto è offensiva la parola italiana "${w.display}" quando è usata con questo significato (definizione in inglese): "${w.main.def}"?`,
+    c: {
+      clean:
+        'Pulita: neutra o educata, va bene ovunque, anche con i bambini. Le parole che descrivono persone, gruppi o condizioni in modo neutro sono pulite.',
+      mild: 'Lieve: un po\' maleducata o grossolana ma non è una parolaccia, come le parole infantili da bagno o gli insulti leggeri (come "stupido", "moccio" o "pupù")',
+      vulgar: 'Volgare: parolacce, bestemmie o linguaggio sessuale esplicito',
+      slur: 'Insulto discriminatorio: usato per denigrare un gruppo di persone per razza, etnia, nazionalità, religione, sessualità, genere o disabilità',
+    },
+  }),
+  pt: (w) => ({
+    q: `Quão ofensiva é a palavra portuguesa "${w.display}" quando usada com este significado (definição em inglês): "${w.main.def}"?`,
+    c: {
+      clean:
+        'Limpa: neutra ou educada, adequada em qualquer lugar, inclusive com crianças. Palavras que descrevem pessoas, grupos ou condições de forma neutra são limpas.',
+      mild: 'Leve: um pouco rude ou grosseira mas não é palavrão, como palavras infantis de banheiro ou insultos leves (como "bobo", "meleca" ou "cocô")',
+      vulgar: 'Vulgar: palavrões, obscenidades ou linguagem sexual explícita',
+      slur: 'Insulto discriminatório: usado para rebaixar um grupo de pessoas por raça, etnia, nacionalidade, religião, sexualidade, gênero ou deficiência',
+    },
+  }),
+};
+
+const NATIVE_SLANG: Native = {
+  es: (w) => ({
+    q: `¿Un diccionario estándar de español marcaría este significado de "${w.display}" como argot o jerga, y no solo como informal o coloquial? Significado (en inglés): "${w.main.def}"`,
+    c: { no: 'No', yes: 'Sí, está marcado como argot' },
+  }),
+  fr: (w) => ({
+    q: `Un dictionnaire français standard indiquerait-il ce sens de "${w.display}" comme argotique, et pas seulement familier ? Sens (en anglais) : "${w.main.def}"`,
+    c: { no: 'Non', yes: 'Oui, il est marqué comme argot' },
+  }),
+  it: (w) => ({
+    q: `Un dizionario italiano standard indicherebbe questo significato di "${w.display}" come gergale, e non solo informale o colloquiale? Significato (in inglese): "${w.main.def}"`,
+    c: { no: 'No', yes: 'Sì, è indicato come gergale' },
+  }),
+  pt: (w) => ({
+    q: `Um dicionário padrão de português marcaria este significado de "${w.display}" como gíria, e não apenas como informal ou coloquial? Significado (em inglês): "${w.main.def}"`,
+    c: { no: 'Não', yes: 'Sim, está marcado como gíria' },
+  }),
+};
+
+const NATIVE_OBSCURE: Native = {
+  es: (w) => ({
+    q: `¿Qué tan conocido es para los hablantes nativos el significado de la palabra española "${w.display}"? Juzga el significado, no la forma gramatical: un tiempo verbal o una forma poco común de una palabra conocida cuenta como esa palabra.`,
+    c: {
+      common: 'Común: una palabra cotidiana que la mayoría conoce',
+      specialist:
+        'Especializada pero conocida: una palabra técnica, científica, jurídica, culinaria o deportiva que la mayoría de los adultos con estudios reconoce (como "vacuna" o "árbitro")',
+      obscure:
+        'Rara: arcaica, poco usada, regional o jerga experta que la mayoría de los hablantes nativos no reconocería',
+    },
+  }),
+  fr: (w) => ({
+    q: `Dans quelle mesure le sens du mot français "${w.display}" est-il familier aux locuteurs natifs ? Jugez le sens, pas la forme grammaticale : un temps ou une forme rare d'un mot bien connu compte comme ce mot.`,
+    c: {
+      common: 'Courant : un mot de tous les jours que la plupart des gens connaissent',
+      specialist:
+        'Spécialisé mais connu : un mot technique, scientifique, juridique, culinaire ou sportif que la plupart des adultes instruits reconnaissent (comme "vaccin" ou "arbitre")',
+      obscure:
+        "Obscur : archaïque, rare, régional ou jargon d'expert que la plupart des locuteurs natifs ne reconnaîtraient pas",
+    },
+  }),
+  it: (w) => ({
+    q: `Quanto è familiare ai madrelingua il significato della parola italiana "${w.display}"? Giudica il significato, non la forma grammaticale: un tempo verbale o una forma rara di una parola nota conta come quella parola.`,
+    c: {
+      common: 'Comune: una parola di tutti i giorni che la maggior parte delle persone conosce',
+      specialist:
+        'Specialistica ma nota: una parola tecnica, scientifica, giuridica, gastronomica o sportiva che la maggior parte degli adulti istruiti riconosce (come "vaccino" o "arbitro")',
+      obscure:
+        'Oscura: arcaica, rara, regionale o gergo da esperti che la maggior parte dei madrelingua non riconoscerebbe',
+    },
+  }),
+  pt: (w) => ({
+    q: `Quão familiar é para os falantes nativos o significado da palavra portuguesa "${w.display}"? Julgue o significado, não a forma gramatical: um tempo verbal ou uma forma rara de uma palavra conhecida conta como essa palavra.`,
+    c: {
+      common: 'Comum: uma palavra do dia a dia que a maioria das pessoas conhece',
+      specialist:
+        'Especializada mas conhecida: uma palavra técnica, científica, jurídica, culinária ou esportiva que a maioria dos adultos instruídos reconhece (como "vacina" ou "árbitro")',
+      obscure:
+        'Obscura: arcaica, rara, regional ou jargão especializado que a maioria dos falantes nativos não reconheceria',
+    },
+  }),
+};
+
+const nativeVariant = (
+  base: string,
+  key: string,
+  native: Native,
+  sides: Record<string, Side>,
+  examples: string[]
+): Variant => {
+  const b = VARIANTS.find((v) => v.id === base)!;
+  return {
+    id: `${base}_native`,
+    gate: b.gate,
+    label: `${base} asked in the word's own language`,
+    examples,
+    langs: NON_EN,
+    questions: (w) => {
+      const { q, c } = native[w.lang](w);
+      return { [key]: choice(q, c) };
+    },
+    read: one(key, sides),
+  };
+};
+
+for (const base of ['real_C', 'off_B', 'slang_C', 'obs_E']) {
+  const b = VARIANTS.find((v) => v.id === base)!;
+  VARIANTS.push({
+    ...b,
+    id: `${base}_again`,
+    label: `${base} repeated (noise check)`,
+    langs: NON_EN,
+  });
+}
+VARIANTS.push(
+  nativeVariant('real_C', 'realWord', NATIVE_REAL, REAL_SIDES, ['pizza', 'tofu', 'weekend']),
+  nativeVariant('off_B', 'rating', NATIVE_RATING, RATING_SIDES, [
+    'bobo',
+    'moco',
+    'pedo',
+    'crotte',
+    'zizi',
+    'nigaud',
+    'stupido',
+    'moccio',
+    'pupù',
+    'meleca',
+    'cocô',
+  ]),
+  nativeVariant('slang_C', 'slang', NATIVE_SLANG, SLANG_SIDES, []),
+  nativeVariant('obs_E', 'obscure', NATIVE_OBSCURE, OBSCURE_SIDES, [
+    'vacuna',
+    'árbitro',
+    'vaccin',
+    'arbitre',
+    'vaccino',
+    'arbitro',
+    'vacina',
+  ])
+);
+
 /** The pilot's sure side at a gate, or null when the pilot was unsure there. */
 function pilotSide(r: ReviewResult, gate: Gate): Side | null {
   const main = r.meanings[mainMeaningIndex(r)];
@@ -517,7 +716,9 @@ async function main() {
     }
   }
 
-  const jobs = picked.flatMap((v) => sets[v.gate].map((w) => ({ v, w })));
+  const jobs = picked.flatMap((v) =>
+    sets[v.gate].filter((w) => !v.langs || v.langs.includes(w.lang)).map((w) => ({ v, w }))
+  );
   console.log(`\n🧪 Wording lab: ${jobs.length} Jev calls`);
   for (const gate of Object.keys(sets) as Gate[]) {
     const maybes = sets[gate].filter((w) => w.role === 'maybe').length;
