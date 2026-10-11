@@ -25,19 +25,27 @@ export interface MeaningsInput {
 
 export const MAX_MEANINGS = 3;
 
-export function buildMeaningsPrompt(lang: Language, words: MeaningsInput[]) {
+/** Language the definitions are written in: English, or the word's own language. */
+export type DefLanguage = 'en' | 'native';
+
+export function buildMeaningsPrompt(
+  lang: Language,
+  words: MeaningsInput[],
+  defLanguage: DefLanguage = 'en'
+) {
   const langName = getLanguageName(lang);
+  const defName = defLanguage === 'native' ? langName : 'English';
   return `You are a lexicographer for a multilingual Wordle game that teaches players what ${langName} words mean.
-For each 5-letter ${langName} word below, list its distinct meanings in modern ${langName}, in English.
+For each 5-letter ${langName} word below, list its distinct meanings in modern ${langName}, written in ${defName}.
 
 Rules:
 1. List 1 to ${MAX_MEANINGS} meanings, ordered by how often native speakers use them today. The first meaning must be the one most people think of first.
 2. Only list meanings that are genuinely different (different sense or different part of speech). Do not split one meaning into near-synonyms. Skip archaic or very rare meanings.
 3. Include vulgar, slang, sexual or offensive meanings when they are a real, common use of the word. Define them plainly and factually, like a good dictionary does. Never skip or soften a meaning because it is rude, and never invent one.
 4. If the spelling is both a conjugated verb and a noun/adjective (e.g. English "barns", Spanish "frena"), list each reading as its own meaning, in order of how common it is.
-5. For a conjugated verb or inflected meaning, give the English meaning first and cite the lemma in parentheses at the end, e.g. "Slows down or applies the brakes (present tense of frenar)."
+5. For a conjugated verb or inflected meaning, give the meaning first and cite the lemma in parentheses at the end, e.g. "Slows down or applies the brakes (present tense of frenar)."
 6. If the word is spelled like an English word but is a real ${langName} word, define the ${langName} meaning, never the English one.
-7. Each definition: 8 to 25 words, plain English, no circular formulas like "Plural of X" or "Pertaining to X". Do not start with "In ${langName}".
+7. Each definition: 8 to 25 words, plain ${defName}, no circular formulas like "Plural of X" or "Pertaining to X". Do not start with "In ${langName}".
 8. pos must be one of: ${POS_VALUES.join(', ')}.
 9. display: the word with its standard accents, lowercase.
 10. If the word has no real ${langName} meaning (a name, a foreign word, gibberish), return an empty meanings list. Do not invent one.
@@ -117,16 +125,72 @@ export async function generateMeanings(
   lang: Language,
   words: MeaningsInput[],
   apiKey: string,
-  model = 'gemini-2.5-flash'
+  model = 'gemini-2.5-flash',
+  defLanguage: DefLanguage = 'en'
 ): Promise<MeaningsResult[]> {
+  return callGemini(
+    buildMeaningsPrompt(lang, words, defLanguage),
+    RESPONSE_SCHEMA,
+    apiKey,
+    model,
+    (raw) => parseMeaningsResponse(words, raw)
+  );
+}
+
+export interface TranslateInput {
+  key: string;
+  defs: string[];
+}
+
+/** Translates English definitions into the word's own language, keeping their order. */
+export async function translateMeanings(
+  lang: Language,
+  items: TranslateInput[],
+  apiKey: string,
+  model = 'gemini-2.5-flash'
+): Promise<Record<string, string[]>> {
+  const langName = getLanguageName(lang);
+  const prompt = `Translate each English dictionary definition below into natural ${langName}, as a ${langName} dictionary would word it. Keep the meaning exact: do not soften vulgar or offensive meanings, and do not add or drop details. Keep the same number of definitions, in the same order. Return one result for every key.
+
+${JSON.stringify(items, null, 2)}
+`;
+  const schema = {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: { key: { type: 'string' }, defs: { type: 'array', items: { type: 'string' } } },
+      required: ['key', 'defs'],
+    },
+  };
+  return callGemini(prompt, schema, apiKey, model, (raw) => {
+    const rows = raw as TranslateInput[];
+    const out: Record<string, string[]> = {};
+    for (const item of items) {
+      const found = rows.find((r) => r.key === item.key);
+      if (!found || found.defs.length !== item.defs.length) {
+        throw new Error(`Translation mismatch for "${item.key}"`);
+      }
+      out[item.key] = found.defs;
+    }
+    return out;
+  });
+}
+
+async function callGemini<T>(
+  prompt: string,
+  schema: object,
+  apiKey: string,
+  model: string,
+  parse: (raw: unknown) => T
+): Promise<T> {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
   const payload = {
-    contents: [{ parts: [{ text: buildMeaningsPrompt(lang, words) }] }],
+    contents: [{ parts: [{ text: prompt }] }],
     safetySettings: SAFETY_OFF,
     generationConfig: {
       temperature: 0.2,
       responseMimeType: 'application/json',
-      responseSchema: RESPONSE_SCHEMA,
+      responseSchema: schema,
     },
   };
 
@@ -155,7 +219,7 @@ export async function generateMeanings(
           `Gemini returned no text (${data.candidates?.[0]?.finishReason ?? 'unknown'})`
         );
       }
-      return parseMeaningsResponse(words, JSON.parse(text));
+      return parse(JSON.parse(text));
     } catch (err) {
       lastError = err;
       await new Promise((r) => setTimeout(r, 2000));

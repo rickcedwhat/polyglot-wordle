@@ -15,7 +15,8 @@ import path from 'path';
 import { choice, TypeSafeClient } from '@typesafe-ai/sdk';
 import { loadEnv, mapPool } from './cli';
 import { getLanguageName } from './lexicalValidity';
-import { Meaning } from './meanings';
+import { generateMeanings, Meaning, translateMeanings } from './meanings';
+import { Language } from './types';
 import {
   buildMeaningQuestions,
   buildWordQuestions,
@@ -44,6 +45,8 @@ interface LabWord {
   role: 'maybe' | 'control';
   /** The pilot's side at this gate (controls only). */
   pilotSide?: Side;
+  /** Language the meanings are written in (default English). */
+  defLang?: 'en' | 'native';
 }
 
 interface Variant {
@@ -54,6 +57,8 @@ interface Variant {
   examples: string[];
   /** Only ask about words in these languages (default: all). */
   langs?: string[];
+  /** Swap the English meanings for native ones: translated from English, or written natively. */
+  nativeDefs?: 'translated' | 'generated';
   questions: (w: LabWord) => Record<string, ReturnType<typeof choice>>;
   /** Reads Jev's answers into a bucket name, its side, and a confidence. */
   read: (answers: Record<string, { choice: string; confidence: number }>) => {
@@ -399,6 +404,7 @@ const VARIANTS: Variant[] = [
 ];
 
 const NON_EN = ['es', 'fr', 'it', 'pt'];
+const enNote = (w: LabWord, note: string) => (w.defLang === 'native' ? '' : note);
 type Native = Record<string, (w: LabWord) => { q: string; c: Record<string, string> }>;
 
 const NATIVE_REAL: Native = {
@@ -434,7 +440,7 @@ const NATIVE_REAL: Native = {
 
 const NATIVE_RATING: Native = {
   es: (w) => ({
-    q: `¿Qué tan ofensiva es la palabra española "${w.display}" cuando se usa con este significado (definición en inglés): "${w.main.def}"?`,
+    q: `¿Qué tan ofensiva es la palabra española "${w.display}" cuando se usa con este significado${enNote(w, ' (definición en inglés)')}: "${w.main.def}"?`,
     c: {
       clean:
         'Limpia: neutral o educada, aceptable en cualquier contexto, también con niños. Las palabras que describen personas, grupos o condiciones de forma neutral son limpias.',
@@ -444,7 +450,7 @@ const NATIVE_RATING: Native = {
     },
   }),
   fr: (w) => ({
-    q: `À quel point le mot français "${w.display}" est-il offensant quand il est employé dans ce sens (définition en anglais) : "${w.main.def}" ?`,
+    q: `À quel point le mot français "${w.display}" est-il offensant quand il est employé dans ce sens${enNote(w, ' (définition en anglais)')} : "${w.main.def}" ?`,
     c: {
       clean:
         'Correct : neutre ou poli, acceptable partout, y compris avec des enfants. Les mots qui décrivent des personnes, des groupes ou des états de façon neutre sont corrects.',
@@ -454,7 +460,7 @@ const NATIVE_RATING: Native = {
     },
   }),
   it: (w) => ({
-    q: `Quanto è offensiva la parola italiana "${w.display}" quando è usata con questo significato (definizione in inglese): "${w.main.def}"?`,
+    q: `Quanto è offensiva la parola italiana "${w.display}" quando è usata con questo significato${enNote(w, ' (definizione in inglese)')}: "${w.main.def}"?`,
     c: {
       clean:
         'Pulita: neutra o educata, va bene ovunque, anche con i bambini. Le parole che descrivono persone, gruppi o condizioni in modo neutro sono pulite.',
@@ -464,7 +470,7 @@ const NATIVE_RATING: Native = {
     },
   }),
   pt: (w) => ({
-    q: `Quão ofensiva é a palavra portuguesa "${w.display}" quando usada com este significado (definição em inglês): "${w.main.def}"?`,
+    q: `Quão ofensiva é a palavra portuguesa "${w.display}" quando usada com este significado${enNote(w, ' (definição em inglês)')}: "${w.main.def}"?`,
     c: {
       clean:
         'Limpa: neutra ou educada, adequada em qualquer lugar, inclusive com crianças. Palavras que descrevem pessoas, grupos ou condições de forma neutra são limpas.',
@@ -477,19 +483,19 @@ const NATIVE_RATING: Native = {
 
 const NATIVE_SLANG: Native = {
   es: (w) => ({
-    q: `¿Un diccionario estándar de español marcaría este significado de "${w.display}" como argot o jerga, y no solo como informal o coloquial? Significado (en inglés): "${w.main.def}"`,
+    q: `¿Un diccionario estándar de español marcaría este significado de "${w.display}" como argot o jerga, y no solo como informal o coloquial? Significado${enNote(w, ' (en inglés)')}: "${w.main.def}"`,
     c: { no: 'No', yes: 'Sí, está marcado como argot' },
   }),
   fr: (w) => ({
-    q: `Un dictionnaire français standard indiquerait-il ce sens de "${w.display}" comme argotique, et pas seulement familier ? Sens (en anglais) : "${w.main.def}"`,
+    q: `Un dictionnaire français standard indiquerait-il ce sens de "${w.display}" comme argotique, et pas seulement familier ? Sens${enNote(w, ' (en anglais)')} : "${w.main.def}"`,
     c: { no: 'Non', yes: 'Oui, il est marqué comme argot' },
   }),
   it: (w) => ({
-    q: `Un dizionario italiano standard indicherebbe questo significato di "${w.display}" come gergale, e non solo informale o colloquiale? Significato (in inglese): "${w.main.def}"`,
+    q: `Un dizionario italiano standard indicherebbe questo significato di "${w.display}" come gergale, e non solo informale o colloquiale? Significato${enNote(w, ' (in inglese)')}: "${w.main.def}"`,
     c: { no: 'No', yes: 'Sì, è indicato come gergale' },
   }),
   pt: (w) => ({
-    q: `Um dicionário padrão de português marcaria este significado de "${w.display}" como gíria, e não apenas como informal ou coloquial? Significado (em inglês): "${w.main.def}"`,
+    q: `Um dicionário padrão de português marcaria este significado de "${w.display}" como gíria, e não apenas como informal ou coloquial? Significado${enNote(w, ' (em inglês)')}: "${w.main.def}"`,
     c: { no: 'Não', yes: 'Sim, está marcado como gíria' },
   }),
 };
@@ -594,6 +600,79 @@ VARIANTS.push(
     'vacina',
   ])
 );
+for (const base of ['off_B', 'slang_C', 'obs_E']) {
+  const n = VARIANTS.find((v) => v.id === `${base}_native`)!;
+  VARIANTS.push(
+    {
+      ...n,
+      id: `${base}_native_tr`,
+      label: `${base} native, definitions translated from English`,
+      nativeDefs: 'translated',
+    },
+    {
+      ...n,
+      id: `${base}_native_gen`,
+      label: `${base} native, definitions written natively`,
+      nativeDefs: 'generated',
+    }
+  );
+}
+
+type NativeDefs = Record<string, { translated: string[]; generated: Meaning[] }>;
+
+/** Native meanings for every non-English lab word, cached in native_defs.json. */
+async function loadNativeDefs(words: LabWord[], apiKey: string): Promise<NativeDefs> {
+  const file = path.join(ARTIFACTS_DIR, 'native_defs.json');
+  const cache: NativeDefs = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {};
+  const todo = [...new Map(words.map((w) => [`${w.lang}/${w.word}`, w])).values()].filter(
+    (w) => w.lang !== 'en' && !cache[`${w.lang}/${w.word}`]
+  );
+  const chunks: LabWord[][] = [];
+  for (const l of NON_EN) {
+    const mine = todo.filter((w) => w.lang === l);
+    for (let i = 0; i < mine.length; i += 25) {
+      chunks.push(mine.slice(i, i + 25));
+    }
+  }
+  console.log(`\n📖 Native definitions: ${todo.length} words to fetch`);
+  await mapPool(chunks, 4, async (chunk) => {
+    const l = chunk[0].lang as Language;
+    const [translated, generated] = await Promise.all([
+      translateMeanings(
+        l,
+        chunk.map((w) => ({ key: w.word, defs: w.meanings.map((m) => m.def) })),
+        apiKey
+      ),
+      generateMeanings(
+        l,
+        chunk.map((w) => ({ word: w.word, display: w.display })),
+        apiKey,
+        undefined,
+        'native'
+      ),
+    ]);
+    for (const w of chunk) {
+      cache[`${w.lang}/${w.word}`] = {
+        translated: translated[w.word],
+        generated: generated.find((g) => g.word === w.word)?.meanings ?? [],
+      };
+    }
+  });
+  fs.writeFileSync(file, `${JSON.stringify(cache, null, 2)}\n`);
+  return cache;
+}
+
+function withNativeDefs(w: LabWord, mode: 'translated' | 'generated', defs: NativeDefs): LabWord {
+  const entry = defs[`${w.lang}/${w.word}`];
+  if (mode === 'translated') {
+    const meanings = w.meanings.map((m, i) => ({ pos: m.pos, def: entry.translated[i] }));
+    return { ...w, meanings, main: meanings[w.meanings.indexOf(w.main)], defLang: 'native' };
+  }
+  if (!entry.generated.length) {
+    throw new Error('Gemini gave no native meaning');
+  }
+  return { ...w, meanings: entry.generated, main: entry.generated[0], defLang: 'native' };
+}
 
 /** The pilot's sure side at a gate, or null when the pilot was unsure there. */
 function pilotSide(r: ReviewResult, gate: Gate): Side | null {
@@ -725,6 +804,16 @@ async function main() {
     console.log(`  ${gate}: ${maybes} maybe + ${sets[gate].length - maybes} control words`);
   }
 
+  const nativeJobs = jobs.filter((j) => j.v.nativeDefs).map((j) => j.w);
+  let nativeDefs: NativeDefs | null = null;
+  if (nativeJobs.length) {
+    const geminiKey = process.env.GEMINI_API_KEY;
+    if (!geminiKey) {
+      throw new Error('Missing GEMINI_API_KEY in .env.local');
+    }
+    nativeDefs = await loadNativeDefs(nativeJobs, geminiKey);
+  }
+
   const client = new TypeSafeClient({ apiKey });
   const rows: LabRow[] = [];
   const failures: string[] = [];
@@ -732,8 +821,9 @@ async function main() {
   await mapPool(
     jobs,
     10,
-    async ({ v, w }) => {
+    async ({ v, w: base }) => {
       try {
+        const w = v.nativeDefs ? withNativeDefs(base, v.nativeDefs, nativeDefs!) : base;
         const res = await client.systemOne({
           model: 'jev-latest',
           state: {
@@ -760,7 +850,9 @@ async function main() {
           ...read,
         });
       } catch (err) {
-        failures.push(`${v.id} ${w.lang}/${w.word}: ${err instanceof Error ? err.message : err}`);
+        failures.push(
+          `${v.id} ${base.lang}/${base.word}: ${err instanceof Error ? err.message : err}`
+        );
       }
     },
     (done, total) => {
