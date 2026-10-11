@@ -33,6 +33,7 @@
     "eval:dict:validity": "vite-node --script evals/dictionary/runValidity.ts --",
     "eval:dict:verb-form": "vite-node --script evals/dictionary/runVerbForm.ts --",
     "eval:dict:review": "vite-node --script evals/dictionary/runReview.ts --",
+    "eval:dict:wording-lab": "vite-node --script evals/dictionary/wordingLab.ts --",
     "test": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
