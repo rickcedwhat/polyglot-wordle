@@ -1,28 +1,30 @@
 import { choice, TypeSafeClient } from '@typesafe-ai/sdk';
 import { getLanguageName } from './lexicalValidity';
 import { Meaning } from './meanings';
+import { realWordPrompt } from './realWordPrompt';
 import { Language } from './types';
 
-export const REVIEW_TASK = 'word_review_v1';
+export const REVIEW_TASK = 'word_review_v2';
 
 type Answer<T extends string> = { choice: T; confidence: number };
 
-export type RealWord = 'yes' | 'name' | 'foreign' | 'abbreviation' | 'fused' | 'gibberish';
+export type YesNo = 'yes' | 'no';
 export type WordForm = 'base' | 'conjugated_verb' | 'plural_or_agreement' | 'other';
 export type MainMeaning = 'first' | 'second' | 'third' | 'none';
+export type Familiarity = 'common' | 'specialist' | 'obscure';
 export type WordLevel = 'easy' | 'medium' | 'hard';
-export type YesNo = 'yes' | 'no';
 export type Accuracy = 'accurate' | 'inflected_form' | 'wrong_pos' | 'wrong_meaning' | 'fabricated';
 export type Format = 'clean_dictionary' | 'vague_circular' | 'robotic_filler' | 'malformed_syntax';
-export type Rating = 'clean' | 'vulgar' | 'slur';
+export type Rating = 'clean' | 'mild' | 'vulgar' | 'slur';
 
 /** Questions about the word as a whole. */
 export interface WordAnswers {
-  realWord: Answer<RealWord>;
+  realWord: Answer<YesNo>;
+  fused: Answer<YesNo>;
   form: Answer<WordForm>;
   /** Only asked when there is more than one meaning. */
   mainMeaning?: Answer<MainMeaning>;
-  obscure: Answer<YesNo>;
+  familiarity: Answer<Familiarity>;
   level: Answer<WordLevel>;
 }
 
@@ -54,14 +56,15 @@ export interface ReviewInput {
 }
 
 const ALLOWED = {
-  realWord: ['yes', 'name', 'foreign', 'abbreviation', 'fused', 'gibberish'],
+  realWord: ['yes', 'no'],
+  fused: ['no', 'yes'],
   form: ['base', 'conjugated_verb', 'plural_or_agreement', 'other'],
   mainMeaning: ['first', 'second', 'third', 'none'],
-  obscure: ['no', 'yes'],
+  familiarity: ['common', 'specialist', 'obscure'],
   level: ['easy', 'medium', 'hard'],
   accuracy: ['accurate', 'inflected_form', 'wrong_pos', 'wrong_meaning', 'fabricated'],
   format: ['clean_dictionary', 'vague_circular', 'robotic_filler', 'malformed_syntax'],
-  rating: ['clean', 'vulgar', 'slur'],
+  rating: ['clean', 'mild', 'vulgar', 'slur'],
   slang: ['no', 'yes'],
 } as const;
 
@@ -74,17 +77,12 @@ function listMeanings(meanings: Meaning[]) {
 export function buildWordQuestions(input: ReviewInput) {
   const lang = getLanguageName(input.lang);
   const w = input.display;
+  const real = realWordPrompt(input.lang, w);
   const questions: Record<string, ReturnType<typeof choice>> = {
-    realWord: choice(
-      `Is "${w}" a real ${lang} word that native speakers actually use? Vulgar, slang, rare and inflected words (conjugations, plurals) still count as real words.`,
-      {
-        yes: `Yes: a real ${lang} word, or a standard form of one`,
-        name: 'No: only a name of a person, brand or place, with no ordinary meaning',
-        foreign: `No: a foreign word (often English) that is not established ${lang} vocabulary`,
-        abbreviation: 'No: an abbreviation, acronym or clipped form',
-        fused: 'No: a fused multi-word form or a verb with attached pronouns (e.g. verlo, hazlo)',
-        gibberish: 'No: a typo, fragment or not a word at all',
-      }
+    realWord: choice(real.prompt, real.choices),
+    fused: choice(
+      `Is the ${lang} word "${w}" a verb with one or more pronouns attached to it, written as one word?`,
+      { no: 'No', yes: 'Yes' }
     ),
     form: choice(`In its most common meaning, what grammatical form is the ${lang} word "${w}"?`, {
       base: 'Base dictionary form: infinitive, singular noun, base adjective, adverb, pronoun, etc.',
@@ -92,11 +90,14 @@ export function buildWordQuestions(input: ReviewInput) {
       plural_or_agreement: 'A plural, or a gender or number form of a noun or adjective',
       other: 'Something else (contraction, combined form, etc.)',
     }),
-    obscure: choice(
-      `Is the ${lang} word "${w}" obscure: archaic, rare, regional, or specialist jargon that many educated native speakers would not recognize?`,
+    familiarity: choice(
+      `How familiar is the meaning of the ${lang} word "${w}" to native speakers? Judge the meaning, not the grammatical form: a rare tense or form of a well-known word counts as that word.`,
       {
-        no: 'No: most educated adult native speakers know it',
-        yes: 'Yes: archaic, rare, regional or specialist; many native speakers would not know it',
+        common: 'Common: an everyday word most people know',
+        specialist:
+          'Specialist but known: a technical, scientific, legal, food or sports word most educated adults still recognise (like "vaccine" or "referee")',
+        obscure:
+          'Obscure: archaic, rare, regional or expert jargon most native speakers would not recognise',
       }
     ),
     level: choice(
@@ -146,19 +147,18 @@ export function buildMeaningQuestions(input: ReviewInput, meaning: Meaning) {
       malformed_syntax: 'Malformed: incomplete sentence, dangling fragment or broken punctuation',
     }),
     rating: choice(
-      `Is the ${lang} word "${w}" offensive when used with this meaning: "${meaning.def}"? Ordinary words that describe people, groups or conditions (old woman, crazy, slave, foreigner) are clean even when the topic is sensitive.`,
+      `How offensive is the ${lang} word "${w}" when used with this meaning: "${meaning.def}"?`,
       {
-        clean: 'Clean: fine for a general audience, including children',
-        vulgar: 'Vulgar: profanity, swearing, or crude sexual or bodily language',
-        slur: 'Slur: used to demean people for their race, ethnicity, nationality, religion, sexuality, gender or disability',
+        clean:
+          'Clean: neutral or polite, fine anywhere including with children. Words that describe people, groups or conditions neutrally are clean.',
+        mild: 'Mild: a bit rude or crude but not swearing, such as childish bathroom words or mild insults (like "dork", "jerk" or "booger")',
+        vulgar: 'Vulgar: swearing, profanity, or explicit sexual language',
+        slur: 'Slur: used to demean a group of people for their race, ethnicity, nationality, religion, sexuality, gender or disability',
       }
     ),
     slang: choice(
-      `Is the ${lang} word "${w}" slang when used with this meaning: "${meaning.def}"? Well-known slang still counts as slang. Ordinary casual words do not.`,
-      {
-        no: 'No: standard vocabulary; a dictionary would list this meaning without a "slang" or "vulgar" label',
-        yes: 'Yes: a dictionary would label this meaning as slang or vulgar',
-      }
+      `Would a standard ${lang} dictionary label this meaning of "${w}" as slang, and not just informal or colloquial? Meaning: "${meaning.def}"`,
+      { no: 'No', yes: 'Yes, it is labelled slang' }
     ),
   };
 }
@@ -185,9 +185,10 @@ export function parseWordAnswers(
 ): WordAnswers {
   return {
     realWord: readAnswer(answers, 'realWord'),
+    fused: readAnswer(answers, 'fused'),
     form: readAnswer(answers, 'form'),
     mainMeaning: meaningCount > 1 ? readAnswer(answers, 'mainMeaning') : undefined,
-    obscure: readAnswer(answers, 'obscure'),
+    familiarity: readAnswer(answers, 'familiarity'),
     level: readAnswer(answers, 'level'),
   };
 }
@@ -249,15 +250,34 @@ export async function reviewWordWithJev(
 /** Jev at or above this confidence is "sure"; below it the word goes to a maybe bucket. */
 export const SURE = 0.7;
 
+export type Gate = 'real_word' | 'single_word' | 'meanings' | 'offensive' | 'slang' | 'familiarity';
+export type Fate = 'removed' | 'guess_only';
+
+/** One gate's verdict: the bucket Jev put the word in, and whether Jev was sure. */
+export interface Step {
+  gate: Gate;
+  bucket: string;
+  sure: boolean;
+  confidence: number;
+}
+
+/**
+ * What happens to words in each sure bucket. Buckets not listed pass on to the next
+ * gate. This is policy, separate from Jev's buckets, and can change without re-asking Jev.
+ */
+export const POLICY: Record<Gate, Record<string, Fate>> = {
+  real_word: { not_a_word: 'removed' },
+  single_word: { fused: 'removed' },
+  meanings: {},
+  offensive: { vulgar: 'guess_only', slur: 'removed' },
+  slang: { slang: 'guess_only' },
+  familiarity: { obscure: 'guess_only' },
+};
+
 export type Outcome =
-  | { kind: 'removed'; gate: 'real_word' | 'offensive'; reason: string }
-  | {
-      kind: 'maybe';
-      gate: 'real_word' | 'meanings' | 'offensive' | 'slang' | 'obscure';
-      reason: string;
-    }
-  | { kind: 'guess_only'; gate: 'offensive' | 'slang' | 'obscure'; reason: string }
-  | { kind: 'answer'; level: WordLevel };
+  | { kind: 'maybe'; gate: Gate; bucket: string; steps: Step[] }
+  | { kind: Fate; gate: Gate; bucket: string; steps: Step[] }
+  | { kind: 'answer'; level: WordLevel; steps: Step[] };
 
 /** Index of the main meaning: Jev's pick when it is sure, otherwise Gemini's order. */
 export function mainMeaningIndex(r: ReviewResult): number {
@@ -273,60 +293,60 @@ export function mainMeaningIndex(r: ReviewResult): number {
 
 const BAD_ACCURACY: Accuracy[] = ['wrong_meaning', 'fabricated'];
 
-/** The decision order: real word, meanings, offensive, slang, obscure, level. */
-export function decide(r: ReviewResult): Outcome {
-  const real = r.jev.realWord;
-  if (real.choice !== 'yes') {
-    return real.confidence >= SURE
-      ? { kind: 'removed', gate: 'real_word', reason: real.choice }
-      : { kind: 'maybe', gate: 'real_word', reason: `maybe ${real.choice}` };
-  }
-  if (real.confidence < SURE) {
-    return { kind: 'maybe', gate: 'real_word', reason: 'maybe not a word' };
-  }
+const step = (gate: Gate, bucket: string, a: { confidence: number }): Step => ({
+  gate,
+  bucket,
+  sure: a.confidence >= SURE,
+  confidence: a.confidence,
+});
 
+function meaningsStep(r: ReviewResult): Step {
   if (r.meanings.length === 0) {
-    return { kind: 'maybe', gate: 'meanings', reason: 'no meanings' };
+    return { gate: 'meanings', bucket: 'no_meanings', sure: false, confidence: 0 };
   }
   const pick = r.jev.mainMeaning;
   if (pick?.choice === 'none' && pick.confidence >= SURE) {
-    return { kind: 'maybe', gate: 'meanings', reason: 'main meaning missing' };
+    return { gate: 'meanings', bucket: 'main_missing', sure: false, confidence: pick.confidence };
   }
-  const main = r.meanings[mainMeaningIndex(r)];
-  if (BAD_ACCURACY.includes(main.jev.accuracy.choice) && main.jev.accuracy.confidence >= SURE) {
-    return { kind: 'maybe', gate: 'meanings', reason: `main meaning ${main.jev.accuracy.choice}` };
-  }
-
-  const rating = main.jev.rating;
-  if (rating.confidence < SURE) {
+  const acc = r.meanings[mainMeaningIndex(r)].jev.accuracy;
+  if (BAD_ACCURACY.includes(acc.choice) && acc.confidence >= SURE) {
     return {
-      kind: 'maybe',
-      gate: 'offensive',
-      reason: rating.choice === 'clean' ? 'maybe offensive' : `maybe ${rating.choice}`,
+      gate: 'meanings',
+      bucket: `main_${acc.choice}`,
+      sure: false,
+      confidence: acc.confidence,
     };
   }
-  if (rating.choice === 'slur') {
-    return { kind: 'removed', gate: 'offensive', reason: 'slur' };
-  }
-  if (rating.choice === 'vulgar') {
-    return { kind: 'guess_only', gate: 'offensive', reason: 'vulgar' };
-  }
+  return { gate: 'meanings', bucket: 'ok', sure: true, confidence: 1 };
+}
 
-  const slang = main.jev.slang;
-  if (slang.confidence < SURE) {
-    return { kind: 'maybe', gate: 'slang', reason: 'maybe slang' };
+/** The decision order: real word, single word, meanings, offensive, slang, familiarity, level. */
+export function decide(r: ReviewResult): Outcome {
+  const main = () => r.meanings[mainMeaningIndex(r)].jev;
+  const gates: (() => Step)[] = [
+    () =>
+      step(
+        'real_word',
+        r.jev.realWord.choice === 'yes' ? 'real_word' : 'not_a_word',
+        r.jev.realWord
+      ),
+    () => step('single_word', r.jev.fused.choice === 'yes' ? 'fused' : 'single', r.jev.fused),
+    () => meaningsStep(r),
+    () => step('offensive', main().rating.choice, main().rating),
+    () => step('slang', main().slang.choice === 'yes' ? 'slang' : 'standard', main().slang),
+    () => step('familiarity', r.jev.familiarity.choice, r.jev.familiarity),
+  ];
+  const steps: Step[] = [];
+  for (const next of gates) {
+    const s = next();
+    steps.push(s);
+    if (!s.sure) {
+      return { kind: 'maybe', gate: s.gate, bucket: s.bucket, steps };
+    }
+    const fate = POLICY[s.gate][s.bucket];
+    if (fate) {
+      return { kind: fate, gate: s.gate, bucket: s.bucket, steps };
+    }
   }
-  if (slang.choice === 'yes') {
-    return { kind: 'guess_only', gate: 'slang', reason: 'slang' };
-  }
-
-  const obscure = r.jev.obscure;
-  if (obscure.confidence < SURE) {
-    return { kind: 'maybe', gate: 'obscure', reason: 'maybe obscure' };
-  }
-  if (obscure.choice === 'yes') {
-    return { kind: 'guess_only', gate: 'obscure', reason: 'obscure' };
-  }
-
-  return { kind: 'answer', level: r.jev.level.choice };
+  return { kind: 'answer', level: r.jev.level.choice, steps };
 }

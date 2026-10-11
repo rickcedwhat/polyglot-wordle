@@ -20,7 +20,7 @@ import path from 'path';
 import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { loadEnv, mapPool } from './cli';
 import { loadDictionary } from './dataset';
-import { generateMeanings, MeaningsInput, MeaningsResult } from './meanings';
+import { generateMeanings, MEANINGS_TASK, MeaningsInput, MeaningsResult } from './meanings';
 import { Language } from './types';
 import {
   decide,
@@ -124,7 +124,10 @@ function readArtifact<T>(
   fresh: boolean
 ): ArtifactFile<T> {
   if (!fresh && fs.existsSync(file)) {
-    return JSON.parse(fs.readFileSync(file, 'utf8')) as ArtifactFile<T>;
+    const saved = JSON.parse(fs.readFileSync(file, 'utf8')) as ArtifactFile<T>;
+    if (saved.task === task) {
+      return saved;
+    }
   }
   return { lang, task, updatedAt: '', results: {} };
 }
@@ -169,7 +172,9 @@ function summarize(lang: Language, results: ReviewResult[]) {
   for (const row of rows) {
     const o = row.outcome;
     const key =
-      o.kind === 'answer' ? `answer: ${o.level}` : `${o.kind.replace('_', '-')}: ${o.reason}`;
+      o.kind === 'answer'
+        ? `answer: ${o.level}`
+        : `${o.kind.replace('_', '-')}: ${o.gate} ${o.bucket}`;
     group.set(key, [...(group.get(key) ?? []), row]);
   }
 
@@ -178,6 +183,18 @@ function summarize(lang: Language, results: ReviewResult[]) {
   const keys = [...group.keys()].sort();
   for (const key of keys) {
     md += `| ${key} | ${group.get(key)!.length} |\n`;
+  }
+
+  const buckets = new Map<string, number>();
+  for (const { outcome } of rows) {
+    for (const s of outcome.steps) {
+      const key = `${s.gate}: ${s.sure ? '' : 'maybe '}${s.bucket}`;
+      buckets.set(key, (buckets.get(key) ?? 0) + 1);
+    }
+  }
+  md += `\n## Buckets at each gate (words that reached it)\n\n| Gate: bucket | Words |\n| :--- | ---: |\n`;
+  for (const [key, n] of buckets) {
+    md += `| ${key} | ${n} |\n`;
   }
 
   const forms = new Map<string, number>();
@@ -212,7 +229,7 @@ function summarize(lang: Language, results: ReviewResult[]) {
 
 async function runMeanings(options: Options, targets: MeaningsInput[]) {
   const file = path.join(ARTIFACTS_DIR, `meanings_${options.lang}.json`);
-  const saved = readArtifact<MeaningsResult>(file, options.lang, 'meanings_v1', options.fresh);
+  const saved = readArtifact<MeaningsResult>(file, options.lang, MEANINGS_TASK, options.fresh);
   const todo = targets.filter((t) => !saved.results[t.word]);
   console.log(`\n📚 Gemini meanings: ${options.lang.toUpperCase()} — ${todo.length} to write`);
   if (!todo.length) {
@@ -324,7 +341,7 @@ async function main() {
       ? readArtifact<MeaningsResult>(
           path.join(ARTIFACTS_DIR, `meanings_${options.lang}.json`),
           options.lang,
-          'meanings_v1',
+          MEANINGS_TASK,
           false
         )
       : await runMeanings(options, targets);

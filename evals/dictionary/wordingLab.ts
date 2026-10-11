@@ -7,7 +7,7 @@
  *   npm run eval:dict:wording-lab
  *   npm run eval:dict:wording-lab -- --gate=real_word --controls=30
  *
- * Needs the pilot's evals/artifacts/review_{lang}.json files.
+ * Needs the first pilot's evals/artifacts/review_{lang}.v1.json files.
  * Writes evals/artifacts/wording_lab.json and wording_lab.summary.md.
  */
 import fs from 'fs';
@@ -24,7 +24,7 @@ import {
   mainMeaningIndex,
   ReviewResult,
   SURE,
-} from './wordReview';
+} from './wordReviewV1';
 
 loadEnv();
 
@@ -713,7 +713,7 @@ function seededPick<T>(items: T[], count: number, seed: string): T[] {
 
 function buildTestSet(controlsPerSide: number) {
   const all = LANGS.flatMap((l) => {
-    const file = path.join(ARTIFACTS_DIR, `review_${l}.json`);
+    const file = path.join(ARTIFACTS_DIR, `review_${l}.v1.json`);
     return Object.values(
       (JSON.parse(fs.readFileSync(file, 'utf8')) as { results: Record<string, ReviewResult> })
         .results

@@ -24,6 +24,7 @@ export interface MeaningsInput {
 }
 
 export const MAX_MEANINGS = 3;
+export const MEANINGS_TASK = 'meanings_v2';
 
 /** Language the definitions are written in: English, or the word's own language. */
 export type DefLanguage = 'en' | 'native';
@@ -39,9 +40,9 @@ export function buildMeaningsPrompt(
 For each 5-letter ${langName} word below, list its distinct meanings in modern ${langName}, written in ${defName}.
 
 Rules:
-1. List 1 to ${MAX_MEANINGS} meanings, ordered by how often native speakers use them today. The first meaning must be the one most people think of first.
+1. List 1 to ${MAX_MEANINGS} meanings, ordered by how often native speakers use them today, across all major regions where the language is spoken (e.g. both US and UK English). The first meaning must be the one most people think of first, even when it is vulgar or slang.
 2. Only list meanings that are genuinely different (different sense or different part of speech). Do not split one meaning into near-synonyms. Skip archaic or very rare meanings.
-3. Include vulgar, slang, sexual or offensive meanings when they are a real, common use of the word. Define them plainly and factually, like a good dictionary does. Never skip or soften a meaning because it is rude, and never invent one.
+3. Include vulgar, slang, sexual or offensive meanings when they are a real, common use of the word. Define them plainly and factually, like a good dictionary does. Never skip or soften a meaning because it is rude, and never invent one. Equally, do not make a word sound harsher than it is: only call a meaning "derogatory", "offensive" or "insulting" when that is how it is mainly used today. An unflattering or old-fashioned word for a person (e.g. "an old woman, often thought of as ugly") is not automatically derogatory.
 4. If the spelling is both a conjugated verb and a noun/adjective (e.g. English "barns", Spanish "frena"), list each reading as its own meaning, in order of how common it is.
 5. For a conjugated verb or inflected meaning, give the meaning first and cite the lemma in parentheses at the end, e.g. "Slows down or applies the brakes (present tense of frenar)."
 6. If the word is spelled like an English word but is a real ${langName} word, define the ${langName} meaning, never the English one.
