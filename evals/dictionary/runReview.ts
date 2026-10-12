@@ -47,7 +47,7 @@ loadEnv();
 const ARTIFACTS_DIR = path.resolve(process.cwd(), 'evals', 'artifacts');
 const GEMINI_BATCH = 25;
 /** Jev's probability that the main meaning is missing at which a word is flagged in the summary. */
-const MISSING_FLAG_AT = 0.5;
+const MISSING_FLAG_AT = 0.8;
 
 const STEPS = ['all', 'meanings', 'review', 'coverage', 'settle'] as const;
 type Step = (typeof STEPS)[number];
