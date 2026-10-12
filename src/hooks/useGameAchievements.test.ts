@@ -82,7 +82,10 @@ describe('useGameAchievements completion fallback', () => {
   );
 
   it('captures a fallback for a game already completed at mount and prefers its server timestamp', () => {
-    vocabulary.en = wordsSeenAt(25, '2026-09-30T09:30:00.000Z');
+    vocabulary.en = {
+      ...vocabulary.en,
+      apple: wordsSeenAt(1, '2026-09-30T09:30:00.000Z').word0,
+    };
     const { result, rerender } = renderHook(
       ({ completedAt }: { completedAt?: { toDate: () => Date } }) =>
         useGameAchievements({
@@ -97,5 +100,38 @@ describe('useGameAchievements completion fallback', () => {
 
     rerender({ completedAt: { toDate: () => new Date('2026-09-30T09:15:00.000Z') } });
     expect(result.current.levelUps).toEqual([]);
+  });
+
+  it('only counts its own guesses in its own languages when other games happen while it is open', () => {
+    vocabulary = {
+      en: {
+        ...wordsSeenAt(19, '2026-09-30T09:00:00.000Z'),
+        ...Object.fromEntries(
+          Object.entries(wordsSeenAt(5, '2026-10-05T09:00:00.000Z')).map(([w, r]) => [
+            `other${w}`,
+            r,
+          ])
+        ),
+      },
+      es: wordsSeenAt(25, '2026-10-05T09:00:00.000Z'),
+      fr: {},
+      it: {},
+      pt: {},
+    };
+    const opts = {
+      ...game,
+      isLiveGame: false,
+      startedAt: { toDate: () => new Date('2026-09-30T09:30:00.000Z') },
+      completedAt: { toDate: () => new Date('2026-10-12T09:00:00.000Z') },
+    };
+    const { result, rerender } = renderHook(useGameAchievements, { initialProps: opts });
+    expect(result.current.levelUps).toEqual([]);
+
+    vocabulary = {
+      ...vocabulary,
+      en: { ...vocabulary.en, apple: wordsSeenAt(1, '2026-10-12T08:59:00.000Z').word0 },
+    };
+    rerender({ ...opts });
+    expect(result.current.levelUps).toEqual([{ lang: 'en', level: 0 }]);
   });
 });
