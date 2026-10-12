@@ -16,7 +16,7 @@ import {
 } from './wordReview';
 
 export const SETTLE_TASK = 'settle_v1';
-const MAX_ROUNDS = 3;
+const MAX_ROUNDS = 2;
 
 /** The Jev question behind each unsure gate answer, and whether it is asked per meaning. */
 const SOURCE: Record<string, { question: string; perMeaning: boolean }> = {
