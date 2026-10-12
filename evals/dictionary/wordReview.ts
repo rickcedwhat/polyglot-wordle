@@ -10,7 +10,7 @@ export const REVIEW_TASK = 'word_review_v8';
  * Jev's `confidence` is the gap between its top two choices, not the chance its pick is right;
  * `probability` is Jev's probability for the picked choice.
  */
-type Answer<T extends string> = {
+export type Answer<T extends string> = {
   choice: T;
   confidence: number;
   probability: number;
@@ -82,6 +82,7 @@ const ALLOWED = {
   formUse: ['everyday', 'regional', 'literary'],
   rarity: ['regularly', 'sometimes', 'rarely'],
   cefr: ['a1_a2', 'b1_b2', 'c1_c2', 'beyond'],
+  coverage: ['listed', 'missing'],
 } as const;
 
 const ORDINALS = ['first', 'second', 'third'] as const;
@@ -258,6 +259,36 @@ export function parseMeaningAnswers(answers: Record<string, unknown> | undefined
     rarity: readAnswer(answers, 'rarity'),
     cefr: readAnswer(answers, 'cefr'),
   };
+}
+
+export const COVERAGE_TASK = 'coverage_v1';
+export type Coverage = 'listed' | 'missing';
+
+/**
+ * Whether Gemini's meanings include the one most speakers think of first. Only a flag for
+ * review: it does not change the word's fate.
+ */
+export async function checkCoverageWithJev(
+  client: Pick<TypeSafeClient, 'systemOne'>,
+  input: ReviewInput,
+  model = 'jev-latest'
+): Promise<Answer<Coverage>> {
+  const lang = getLanguageName(input.lang);
+  const w = input.display;
+  const res = await client.systemOne({
+    model,
+    state: { word: input.word, display: w, language: lang, task: COVERAGE_TASK },
+    questions: {
+      coverage: choice(
+        `A word game lists these meanings for the ${lang} word "${w}":\n${listMeanings(input.meanings)}\n\nIs the meaning most native ${lang} speakers would think of first in this list?`,
+        {
+          listed: 'Yes: the meaning most people think of first is listed (rarer meanings may be missing)',
+          missing: 'No: the meaning most people think of first is missing from the list',
+        }
+      ),
+    },
+  });
+  return readAnswer(res.answers as Record<string, unknown>, 'coverage');
 }
 
 export async function reviewWordWithJev(

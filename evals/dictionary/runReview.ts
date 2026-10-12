@@ -2,7 +2,8 @@
  * Combined dictionary review: Gemini writes 1-3 meanings per word, then Jev answers
  * word-level questions (real word, fused, form, main meaning, spelling) and per-meaning
  * questions (accuracy, format, censor, form sense, form use, rarity, CEFR level). Words where
- * an unsure answer could change the fate go to a Gemini tie-breaker (settle.ts).
+ * an unsure answer could change the fate go to a Gemini tie-breaker (settle.ts). A separate
+ * Jev check flags words whose meanings may be missing the one most speakers think of first.
  *
  * Usage:
  *   npm run eval:dict:review -- --lang=pt --pilot       (same words as the label pilot)
@@ -10,11 +11,13 @@
  *   npm run eval:dict:review -- --lang=it --words=cazzo,porno
  *   npm run eval:dict:review -- --lang=pt                (every word in public/pt.json)
  *   npm run eval:dict:review -- --lang=pt --step=meanings (Gemini only)
+ *   npm run eval:dict:review -- --lang=pt --step=coverage (missing-meaning flags only)
  *   npm run eval:dict:review -- --lang=pt --step=settle   (tie-breaker only)
  *
  * Artifacts (resumable; pass --fresh to redo):
  *   evals/artifacts/meanings_{lang}.json   Gemini meanings
  *   evals/artifacts/review_{lang}.json     Jev answers
+ *   evals/artifacts/coverage_{lang}.json   Jev missing-meaning flags
  *   evals/artifacts/settle_{lang}.json     Gemini tie-breaker rulings
  *   evals/artifacts/review_{lang}.summary.md
  */
@@ -26,6 +29,10 @@ import { loadDictionary } from './dataset';
 import { generateMeanings, MEANINGS_TASK, MeaningsInput, MeaningsResult } from './meanings';
 import { Language } from './types';
 import {
+  Answer,
+  checkCoverageWithJev,
+  Coverage,
+  COVERAGE_TASK,
   decide,
   mainMeaningIndex,
   offensiveBucket,
@@ -39,13 +46,18 @@ loadEnv();
 
 const ARTIFACTS_DIR = path.resolve(process.cwd(), 'evals', 'artifacts');
 const GEMINI_BATCH = 25;
+/** Jev's probability that the main meaning is missing at which a word is flagged in the summary. */
+const MISSING_FLAG_AT = 0.5;
+
+const STEPS = ['all', 'meanings', 'review', 'coverage', 'settle'] as const;
+type Step = (typeof STEPS)[number];
 
 interface Options {
   lang: Language;
   pilot: boolean;
   sample: number;
   words: string[];
-  step: 'all' | 'meanings' | 'review' | 'settle';
+  step: Step;
   concurrency: number;
   fresh: boolean;
 }
@@ -74,10 +86,10 @@ function parseArgs(argv: string[]): Options {
         .map((w) => w.trim().toLowerCase())
         .filter(Boolean);
     } else if (flag === '--step') {
-      if (value !== 'all' && value !== 'meanings' && value !== 'review' && value !== 'settle') {
-        throw new Error('--step must be all, meanings, review or settle');
+      if (!(STEPS as readonly string[]).includes(value)) {
+        throw new Error(`--step must be one of ${STEPS.join(', ')}`);
       }
-      options.step = value;
+      options.step = value as Step;
     } else if (flag === '--concurrency') {
       options.concurrency = Number(value);
     } else if (flag === '--fresh') {
@@ -169,7 +181,8 @@ function selectTargets(options: Options): MeaningsInput[] {
 function summarize(
   lang: Language,
   results: ReviewResult[],
-  settled: Record<string, Settled> = {}
+  settled: Record<string, Settled> = {},
+  coverage: Record<string, Answer<Coverage>> = {}
 ) {
   const rows = results.map((r) => {
     const jev = decide(r);
@@ -235,6 +248,17 @@ function summarize(
     r.meanings.forEach((m, i) => {
       md += `  - ${i === main ? '★ ' : ''}${offensiveBucket(m.jev)}: ${m.def}\n`;
     });
+  }
+
+  const missing = rows
+    .map((row) => ({ ...row, p: coverage[row.r.word]?.probabilities.missing ?? 0 }))
+    .filter(({ p }) => p >= MISSING_FLAG_AT)
+    .sort((a, b) => b.p - a.p);
+  if (missing.length) {
+    md += `\n## Meanings may be missing the main one (flag only)\n\n`;
+    for (const { r, outcome, p } of missing) {
+      md += `- **${r.display}** (${Math.round(p * 100)}%) → ${outcome.kind === 'answer' ? `answer (${outcome.difficulty})` : outcome.kind}: ${r.meanings.map((m) => m.def).join(' / ')}\n`;
+    }
   }
 
   const ruled = rows.filter(({ ruling }) => ruling?.rulings.length);
@@ -395,12 +419,47 @@ async function runSettle(options: Options, targets: MeaningsInput[]) {
   );
 }
 
+const coverageFile = (lang: Language) => path.join(ARTIFACTS_DIR, `coverage_${lang}.json`);
+/** Coverage judges Gemini's meanings, so new meanings start it over. */
+const coverageTask = `${COVERAGE_TASK}+${MEANINGS_TASK}`;
+
+async function runCoverage(options: Options, targets: MeaningsInput[]) {
+  const apiKey = process.env.TYPESAFE_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing TYPESAFE_API_KEY in .env.local');
+  }
+  const file = coverageFile(options.lang);
+  const saved = readArtifact<Answer<Coverage>>(file, options.lang, coverageTask, options.fresh);
+  const todo = reviewedTargets(options, targets).filter(
+    (r) => r.meanings.length && !saved.results[r.word]
+  );
+  console.log(`\n🧭 Meanings coverage: ${options.lang.toUpperCase()} — ${todo.length} to check`);
+  const client = new TypeSafeClient({ apiKey });
+  let failed = 0;
+  await mapPool(todo, options.concurrency, async (r) => {
+    try {
+      saved.results[r.word] = await checkCoverageWithJev(client, r);
+    } catch (err) {
+      failed++;
+      console.warn(`\n  ⚠️ ${r.word}: ${err instanceof Error ? err.message : err}`);
+    }
+  });
+  writeArtifact(file, saved);
+  console.log(`\n✅ ${todo.length - failed} checked, ${failed} failed`);
+}
+
 function writeSummary(options: Options, targets: MeaningsInput[]) {
   const settled = readArtifact<Settled>(settleFile(options.lang), options.lang, settleTask, false);
+  const coverage = readArtifact<Answer<Coverage>>(
+    coverageFile(options.lang),
+    options.lang,
+    coverageTask,
+    false
+  );
   const summaryPath = path.join(ARTIFACTS_DIR, `review_${options.lang}.summary.md`);
   fs.writeFileSync(
     summaryPath,
-    summarize(options.lang, reviewedTargets(options, targets), settled.results)
+    summarize(options.lang, reviewedTargets(options, targets), settled.results, coverage.results)
   );
   console.log(`📄 ${summaryPath}`);
 }
@@ -422,6 +481,9 @@ async function main() {
     if (options.step !== 'meanings') {
       await runJev(options, targets, meanings);
     }
+  }
+  if (options.step === 'all' || options.step === 'coverage') {
+    await runCoverage(options, targets);
   }
   if (options.step === 'all' || options.step === 'settle') {
     await runSettle(options, targets);
