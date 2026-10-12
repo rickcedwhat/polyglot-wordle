@@ -7,7 +7,15 @@
 import overrides from './overrides.json';
 import { Settled } from './settle';
 import { Language } from './types';
-import { decide, Difficulty, difficultyOf, Fate, mainMeaningIndex, Outcome, ReviewResult } from './wordReview';
+import {
+  decide,
+  Difficulty,
+  difficultyOf,
+  Fate,
+  mainMeaningIndex,
+  Outcome,
+  ReviewResult,
+} from './wordReview';
 
 export interface Override {
   fate: Fate | 'answer';

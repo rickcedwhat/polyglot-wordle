@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Word buckets</title>
+    <style>
+      :root { --bg: #fff; --text: #1d1d1f; --text2: #555; --text3: #888; --stroke: #ddd; --fill: #f4f4f5;
+        --edge: #a8a8b0; --blue: #2f6fdf; --purple: #8a5cd6; --ink: #111; --amber: #a35f00; --amberbg: #fdecc8; }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg: #18181b; --text: #eee; --text2: #aaa; --text3: #777; --stroke: #333; --fill: #26262b; --edge: #5d5d65; --ink: #fff;
+          --amber: #f2b553; --amberbg: #43321a; }
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 20px 28px 0; height: 100vh; overflow: hidden; background: var(--bg); color: var(--text); font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      main { max-width: 1400px; height: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+      h1 { font-size: 20px; margin: 0 0 4px; }
+      h2 { font-size: 15px; margin: 0; }
+      h3 { font-size: 12px; margin: 0 0 6px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+      .muted { color: var(--text2); margin: 0; }
+      .small { font-size: 12px; }
+      .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+      .pills, .filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+      .pill { border: 1px solid var(--stroke); background: transparent; color: var(--text); border-radius: 999px; padding: 4px 12px; cursor: pointer; font: inherit; }
+      .pill.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+      .fchip { background: var(--blue); color: #fff; border: none; border-radius: 999px; padding: 3px 10px; cursor: pointer; font: inherit; font-size: 12px; }
+      .layout { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 24px; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(430px, 1fr)); gap: 14px; align-content: start;
+        min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 6px 28px 0; }
+      .card { border: 1px solid var(--stroke); border-radius: 10px; padding: 12px 14px; position: relative; }
+      .card .note { color: var(--text3); font-size: 12px; margin: 2px 0 8px; }
+      .card .na { color: var(--text3); font-size: 12px; margin-top: 4px; }
+      svg { width: 100%; height: auto; display: block; overflow: visible; }
+      svg text { font-family: inherit; }
+      .leaf { cursor: pointer; }
+      .side { display: flex; flex-direction: column; gap: 14px; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-bottom: 28px; }
+      .big { font-size: 26px; font-weight: 600; }
+      .row { display: flex; gap: 6px; }
+      input { flex: 1; padding: 6px 8px; border: 1px solid var(--stroke); border-radius: 6px; font: inherit; background: var(--bg); color: var(--text); }
+      .btn { border: 1px solid var(--stroke); background: transparent; color: var(--text); border-radius: 6px; padding: 6px 10px; cursor: pointer; font: inherit; }
+      .jt { display: grid; grid-template-columns: 110px 1fr; gap: 2px 8px; font-size: 13px; }
+      .jt .k { color: var(--text3); }
+      .jt .c { grid-column: 2; color: var(--text3); font-size: 11px; margin-bottom: 4px; }
+      .meaning { border-left: 3px solid var(--stroke); padding: 2px 0 2px 8px; margin: 6px 0; font-size: 13px; }
+      .meaning.main { border-color: var(--blue); }
+      .tip { position: absolute; display: none; width: 320px; background: var(--bg); border: 1px solid var(--stroke); border-radius: 8px;
+        padding: 10px 12px; box-shadow: 0 6px 24px rgba(0,0,0,.15); pointer-events: none; z-index: 5; }
+      .tip .head { font-weight: 600; display: flex; justify-content: space-between; gap: 8px; }
+      .tip .head span { font-weight: 400; color: var(--text2); font-size: 12px; }
+      .tip .n { color: var(--text3); font-size: 12px; margin: 4px 0 8px; }
+      .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+      .chip { font: 12px ui-monospace, monospace; padding: 2px 6px; border-radius: 4px; background: var(--fill); }
+      .chip.unsure { background: var(--amberbg); color: var(--amber); }
+      .chip.traced { outline: 2px solid var(--ink); }
+      .tip.pinned { pointer-events: auto; border-color: var(--ink); }
+      .tip.pinned .chips { max-height: 260px; overflow-y: auto; }
+      .tip.pinned .chip { cursor: pointer; }
+      .tip.pinned .chip:hover { outline: 1px solid var(--text3); }
+      .tipbar { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; align-items: flex-start; }
+      .unsure-n { color: var(--amber); }
+      .unsure-link { cursor: pointer; }
+      .verdict { border: 1px solid var(--stroke); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+      .vrow { display: grid; grid-template-columns: 110px 1fr; gap: 6px; align-items: baseline; }
+      .vk { color: var(--text3); white-space: nowrap; }
+      .vfate { font-weight: 600; }
+      .vfate.answer { color: #1f8a4c; }
+      .vfate.guess_only { color: var(--blue); }
+      .vfate.removed { color: #c9372c; }
+      .vfate.maybe { color: var(--amber); }
+      .review { grid-column: 1 / -1; max-width: 820px; border: 1px solid var(--stroke); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
+      .rword { font-size: 34px; font-weight: 600; line-height: 1.1; }
+      .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+      .actions .btn { display: inline-flex; gap: 6px; align-items: center; }
+      .actions .btn.keep { border-color: var(--ink); font-weight: 600; }
+      .actions .btn:disabled { opacity: .4; cursor: default; }
+      kbd { font: 11px ui-monospace, monospace; border: 1px solid var(--stroke); border-radius: 4px; padding: 0 4px; color: var(--text3); }
+      .pill.look { border-color: var(--amber); color: var(--amber); }
+      .pill.look.active { background: var(--amber); color: var(--bg); }
+      .vwhy { color: var(--text2); font-size: 12px; margin: -2px 0 4px 116px; }
+      .ulist { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+      .urow { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: baseline; font-size: 11.5px; color: var(--text2); padding: 3px 4px; border-radius: 4px; cursor: pointer; }
+      .urow:hover { background: var(--fill); }
+      .urow.traced { outline: 2px solid var(--ink); }
+        background: var(--bg); color: var(--text); box-shadow: 0 12px 40px rgba(0,0,0,.25); }
+      .shares { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; }
+      .shares b { font-weight: 600; }
+      .info { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%;
+        border: 1px solid var(--text3); background: none; color: var(--text3); font: italic 600 10px Georgia, serif; padding: 0; cursor: pointer; vertical-align: 1px; }
+      .info:hover { border-color: var(--blue); color: var(--blue); }
+      .tip .qa .ins { margin-bottom: 4px; }
+      .tip .qa li.picked { font-weight: 600; }
+      .tip .qa .ctx { color: var(--text3); font-size: 11px; margin-top: 4px; }
+      .tip .tpl { font-size: 12px; background: var(--fill); border-radius: 6px; padding: 6px 8px; margin: 6px 0; }
+      .tip .tpl ul { margin: 4px 0 0; padding-left: 16px; }
+      @media (max-width: 1000px) {
+        body { padding: 16px; height: auto; overflow: visible; } main { height: auto; }
+        .layout { grid-template-columns: 1fr; } .grid, .side { overflow: visible; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div>
+        <h1>Word buckets</h1>
+        <p class="muted">
+          Jev answers every question about a word at once. Each card is one independent tree, and
+          every word lands in exactly one leaf of every tree, following Jev's pick. "Unsure" (amber)
+          means Jev gave its pick under that question's threshold (60% by default, 65% for "natives
+          come across it?"); those words go to the Gemini tie-breaker when it could change the fate.
+          "Real word?", "Makes sense?" and the missing-meaning flag only count Jev's "no" at 80%, so
+          they are never unsure. The Fate card shows the final result, including tie-breaks and
+          manual overrides. Hover a box for a preview; click it to keep the popover open, then click
+          words to trace them, or filter every tree to that leaf (same tree: "or"; across trees:
+          "and").
+        </p>
+      </div>
+      <div class="bar">
+        <div class="pills">
+          <span id="pills" class="pills"></span
+          ><span class="pills" id="batches" style="margin-left: 12px"></span
+          ><button class="pill look" id="look" style="margin-left: 12px"></button>
+        </div>
+        <div class="filters" id="filters"></div>
+      </div>
+      <div class="layout">
+        <div class="grid" id="grid"></div>
+        <div class="side">
+          <div>
+            <div class="big" id="count"></div>
+            <div class="muted small" id="countNote"></div>
+          </div>
+          <div>
+            <h3>Trace a word</h3>
+            <div class="row">
+              <input
+                id="word"
+                list="wordlist"
+                placeholder="Type a word…"
+                autocomplete="off"
+                spellcheck="false"
+              />
+              <button class="btn" id="random">Random</button>
+            </div>
+            <datalist id="wordlist"></datalist>
+          </div>
+          <div id="journey"></div>
+        </div>
+      </div>
+    </main>
+    <div class="tip" id="tip"></div>
+    <script>
+      const DATA = __DATA__;
+      const LANGS = [
+        ['en', 'English'],
+        ['es', 'Spanish'],
+        ['fr', 'French'],
+        ['it', 'Italian'],
+        ['pt', 'Portuguese'],
+      ];
+      const NS = 'http://www.w3.org/2000/svg';
+      const COLW = 175,
+        BOXW = 150,
+        BOXH = 30,
+        GAP = 38;
+
+      const params = new URLSearchParams(location.search);
+      let lang = DATA.words[params.get('lang')] ? params.get('lang') : 'en';
+      let batch = ['pilot', 'extended'].includes(params.get('batch')) ? params.get('batch') : 'all';
+      const BATCHES = [
+        ['all', 'All words'],
+        ['pilot', 'Pilot'],
+        ['extended', 'Extended batch'],
+      ];
+      const langWords = () => DATA.words[lang].filter((w) => batch === 'all' || w.batch === batch);
+      let filters = {}; // treeId -> Set(leafId)
+      let traced = null;
+
+      function el(tag, attrs, parent) {
+        const e = document.createElementNS(NS, tag);
+        for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+        if (parent) parent.appendChild(e);
+        return e;
+      }
+      function hashShuffle(arr, seed) {
+        let h = 2166136261;
+        for (const c of seed) h = Math.imul(h ^ c.charCodeAt(0), 16777619);
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0;
+          const j = h % (i + 1);
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      /** Layout tree: question nodes and leaves. */
+      function shape(tree) {
+        const nodes = [];
+        let slot = 0;
+        function visit(n, depth, parent, branch) {
+          if ('key' in n) {
+            const id = `${tree.id}/q:${n.key}`;
+            const node = { id, label: n.q, depth, parent, branch, kids: [], q: true, note: n.note };
+            nodes.push(node);
+            for (const [choice, child] of Object.entries(n.branches))
+              node.kids.push(visit(child, depth + 1, node, choice));
+            node.y = node.kids.reduce((s, k) => s + k.y, 0) / node.kids.length;
+            return node;
+          }
+          const leaf = {
+            id: `${tree.id}/${n.leaf}`,
+            label: n.label,
+            depth,
+            parent,
+            branch,
+            y: slot++ * GAP,
+            note: n.note,
+          };
+          nodes.push(leaf);
+          return leaf;
+        }
+        visit(tree.root, 0, null, null);
+        return { nodes, height: slot * GAP };
+      }
+      const SHAPES = Object.fromEntries(DATA.trees.map((t) => [t.id, shape(t)]));
+
+      function matches(w) {
+        return Object.entries(filters).every(([t, set]) => !set.size || set.has(w.trees[t].leaf));
+      }
+
+      /** A clicked bucket keeps its popover open at the click spot until the next click outside it. */
+      let pinned = null; // { tree, node, x, y }
+      const tipEl = document.getElementById('tip');
+      function placeTip(html, pageX, pageY, isPinned) {
+        tipEl.innerHTML = html;
+        tipEl.style.display = 'block';
+        tipEl.classList.toggle('pinned', isPinned);
+        const x = pageX - scrollX + 340 > innerWidth ? pageX - 336 : pageX + 16;
+        tipEl.style.left = x + 'px';
+        tipEl.style.top = pageY + 12 + 'px';
+      }
+      function hideTip() {
+        if (!pinned) tipEl.style.display = 'none';
+      }
+      function unpin() {
+        pinned = null;
+        tipEl.classList.remove('pinned');
+        tipEl.style.display = 'none';
+      }
+
+      /** Words on a node (after filters) and how many got there through an unsure answer. */
+      function membersOf(treeId, nodeId) {
+        const list = [];
+        for (const w of langWords().filter(matches)) {
+          const r = w.trees[treeId];
+          const i = r.path.indexOf(nodeId);
+          if (r.leaf === nodeId) list.push({ w, unsure: r.unsure });
+          else if (i >= 0) list.push({ w, unsure: r.conf.slice(0, i).some(([, , p, t]) => p < t) });
+        }
+        return list;
+      }
+
+      function unsureHtml(tree, n, list) {
+        const rows = list
+          .filter((m) => m.unsure)
+          .sort((a, b) => a.w.w.localeCompare(b.w.w))
+          .map(({ w }) => {
+            const r = w.trees[tree.id];
+            const shaky = r.doubts
+              ? esc(r.doubts.join(' '))
+              : r.conf
+                  .filter(([, , p, t]) => p < t)
+                  .map(([q, c, p]) => `${esc(q)} ${esc(c)} ${p}%`)
+                  .join(' · ');
+            return `<div class="urow${traced === w ? ' traced' : ''}" data-w="${esc(w.w)}"><span class="chip unsure">${esc(w.w)}</span><span>${shaky}</span></div>`;
+          });
+        return (
+          `<div class="head">${n.label}<span class="unsure-n">${rows.length} unsure of ${list.length}</span></div>` +
+          `<div class="n">Words Jev placed here below that question's threshold, and the answers it was unsure about.</div>` +
+          `<div class="ulist">${rows.join('')}</div>` +
+          `<div class="tipbar"><button class="btn" data-act="all">Show all ${list.length} words</button><span class="n">Click a word to trace it. Click outside to close.</span></div>`
+        );
+      }
+
+      function tipHtml(tree, n, isPinned) {
+        const list = membersOf(tree.id, n.id);
+        if (isPinned && pinned.unsureOnly) return unsureHtml(tree, n, list);
+        const unsure = list.filter((m) => m.unsure).length;
+        const leaf = !n.q;
+        const selected = filters[tree.id]?.has(n.id);
+        const shown = isPinned
+          ? [...list].sort((a, b) => a.w.w.localeCompare(b.w.w))
+          : hashShuffle(list, n.id).slice(0, 18);
+        return (
+          `<div class="head">${n.label}<span>${list.length} words${unsure ? ` · <span class="unsure-n">${unsure} unsure</span>` : ''}</span></div>` +
+          (n.note ? `<div class="n">${n.note}</div>` : '') +
+          (n.q ? templateHtml(tree, n) : '') +
+          `<div class="chips">${shown
+            .map(({ w, unsure }) => {
+              const r = w.trees[tree.id];
+              const title = r.why
+                ? [r.why, ...r.doubts].join(' ')
+                : r.conf.map(([q, c, p]) => `${q} ${c} ${p}%`).join(' · ');
+              return `<span class="chip${unsure ? ' unsure' : ''}${traced === w ? ' traced' : ''}" data-w="${esc(w.w)}" title="${esc(title)}">${esc(w.w)}</span>`;
+            })
+            .join('')}</div>` +
+          (isPinned
+            ? `<div class="tipbar">${leaf ? `<button class="btn" data-act="filter">${selected ? 'Remove this filter' : 'Filter every tree to these words'}</button>` : ''}${unsure ? `<button class="btn" data-act="unsure">Show only the ${unsure} unsure</button>` : ''}<span class="n">Click a word to trace it. Click outside to close.</span></div>`
+            : `<div class="n" style="margin-top:8px">Click to keep this open${leaf ? ' and filter' : ''}.</div>`)
+        );
+      }
+      const gridEl = document.getElementById('grid');
+      const sideEl = document.querySelector('.side');
+      const pinnedY = () =>
+        pinned.y - ((pinned.scrollEl === 'side' ? sideEl : gridEl).scrollTop - pinned.scroll);
+      function refreshPinned() {
+        if (!pinned) return;
+        if (pinned.info) {
+          if (!traced) return unpin();
+          return placeTip(infoHtml(pinned.info, traced), pinned.x, pinnedY(), true);
+        }
+        const tree = DATA.trees.find((t) => t.id === pinned.tree);
+        const n = SHAPES[tree.id].nodes.find((x) => x.id === pinned.node);
+        placeTip(tipHtml(tree, n, true), pinned.x, pinnedY(), true);
+      }
+      for (const [name, elx] of [
+        ['grid', gridEl],
+        ['side', sideEl],
+      ])
+        elx.addEventListener('scroll', () => {
+          if (!pinned) return hideTip();
+          if ((pinned.scrollEl || 'grid') === name) tipEl.style.top = pinnedY() + 12 + 'px';
+        });
+      tipEl.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        const chip = ev.target.closest('[data-w]');
+        if (chip) {
+          input.value = chip.dataset.w;
+          traceWord(chip.dataset.w);
+          return;
+        }
+        const act = ev.target.closest('[data-act]')?.dataset.act;
+        if (act === 'all' || act === 'unsure') {
+          pinned.unsureOnly = act === 'unsure';
+          refreshPinned();
+          return;
+        }
+        if (ev.target.closest('[data-act="filter"]')) {
+          const set = (filters[pinned.tree] ||= new Set());
+          set.has(pinned.node) ? set.delete(pinned.node) : set.add(pinned.node);
+          render();
+        }
+      });
+      document.addEventListener('click', () => {
+        if (pinned) unpin();
+      });
+
+      function render() {
+        const all = langWords();
+        const words = all.filter(matches);
+        document.getElementById('count').textContent = `${words.length} words`;
+        document.getElementById('countNote').textContent = Object.values(filters).some(
+          (s) => s.size
+        )
+          ? `of ${all.length} match the filters`
+          : {
+              all: 'in the pilot and extended batch',
+              pilot: 'in the pilot',
+              extended: 'in the extended batch',
+            }[batch];
+
+        const fbox = document.getElementById('filters');
+        fbox.innerHTML = '';
+        for (const [t, set] of Object.entries(filters))
+          for (const leaf of set) {
+            const node = SHAPES[t].nodes.find((n) => n.id === leaf);
+            const b = document.createElement('button');
+            b.className = 'fchip';
+            const tree = DATA.trees.find((x) => x.id === t);
+            b.textContent = `${tree.title}: ${node ? node.label : 'n/a'} ✕`;
+            b.onclick = () => {
+              set.delete(leaf);
+              render();
+            };
+            fbox.appendChild(b);
+          }
+        if (Object.values(filters).some((s) => s.size)) {
+          const c = document.createElement('button');
+          c.className = 'btn';
+          c.textContent = 'Clear filters';
+          c.onclick = () => {
+            filters = {};
+            render();
+          };
+          fbox.appendChild(c);
+        }
+
+        const grid = document.getElementById('grid');
+        const keepScroll = grid.scrollTop;
+        grid.innerHTML = '';
+        if (reviewMode) renderReview();
+        else
+          for (const tree of DATA.trees) {
+            const { nodes, height } = SHAPES[tree.id];
+            const count = {},
+              unsureCount = {};
+            for (const w of words) {
+              const r = w.trees[tree.id];
+              for (const id of [...r.path, r.leaf]) count[id] = (count[id] || 0) + 1;
+              if (r.unsure) unsureCount[r.leaf] = (unsureCount[r.leaf] || 0) + 1;
+            }
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<h2>${tree.title}</h2><div class="note">${tree.note}</div>`;
+            const svg = el('svg', { viewBox: `0 -4 ${COLW * 3} ${height + 4}` }, null);
+            card.appendChild(svg);
+            grid.appendChild(card);
+            const tp = traced ? traced.trees[tree.id] : null;
+            const total = words.length || 1;
+            const edges = el('g', {}, svg);
+            const boxes = new Map();
+
+            for (const n of nodes) {
+              const c = count[n.id] || 0;
+              const x = 0;
+              const selected = filters[tree.id]?.has(n.id);
+              const on = tp && (tp.path.includes(n.id) || tp.leaf === n.id);
+              const isPinned = pinned?.node === n.id;
+              const g = el(
+                'g',
+                { class: 'leaf', opacity: c || selected ? (tp && !on ? 0.45 : 1) : 0.35 },
+                svg
+              );
+              const rect = el(
+                'rect',
+                {
+                  x,
+                  y: n.y,
+                  width: BOXW,
+                  height: BOXH,
+                  rx: 6,
+                  fill: selected ? 'var(--blue)' : n.q ? 'var(--fill)' : 'var(--bg)',
+                  stroke: on || isPinned ? 'var(--ink)' : 'var(--stroke)',
+                  'stroke-width': on || isPinned ? 2 : 1.2,
+                },
+                g
+              );
+              const t = el(
+                'text',
+                {
+                  x: x + 10,
+                  y: n.y + BOXH / 2,
+                  'dominant-baseline': 'middle',
+                  'font-size': 12.5,
+                  'font-weight': n.q ? 600 : 500,
+                  fill: selected ? '#fff' : 'var(--text)',
+                },
+                g
+              );
+              t.textContent = n.label;
+              el(
+                'tspan',
+                { dx: 6, fill: selected ? '#fff' : 'var(--text3)', 'font-weight': 400 },
+                t
+              ).textContent = c;
+              if (unsureCount[n.id]) {
+                const u = el(
+                  'tspan',
+                  {
+                    dx: 4,
+                    fill: selected ? '#fff' : 'var(--amber)',
+                    'font-weight': 400,
+                    'font-size': 11,
+                    'text-decoration': 'underline',
+                    class: 'unsure-link',
+                  },
+                  t
+                );
+                u.textContent = `(${unsureCount[n.id]} unsure)`;
+                u.addEventListener('click', (ev) => {
+                  ev.stopPropagation();
+                  pinned = {
+                    tree: tree.id,
+                    node: n.id,
+                    x: ev.pageX,
+                    y: ev.pageY,
+                    scrollEl: 'grid',
+                    scroll: gridEl.scrollTop,
+                    unsureOnly: true,
+                  };
+                  render();
+                });
+              }
+              boxes.set(n, {
+                rect,
+                t,
+                w: Math.max(BOXW, Math.ceil(t.getComputedTextLength()) + 20),
+              });
+              g.addEventListener('mousemove', (ev) => {
+                if (!pinned) placeTip(tipHtml(tree, n, false), ev.pageX, ev.pageY, false);
+              });
+              g.addEventListener('mouseleave', hideTip);
+              g.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                if (pinned?.node === n.id) {
+                  unpin();
+                  render();
+                  return;
+                }
+                pinned = {
+                  tree: tree.id,
+                  node: n.id,
+                  x: ev.pageX,
+                  y: ev.pageY,
+                  scrollEl: 'grid',
+                  scroll: gridEl.scrollTop,
+                };
+                render();
+              });
+            }
+
+            const colW = [];
+            for (const [n, b] of boxes) colW[n.depth] = Math.max(colW[n.depth] || 0, b.w);
+            const colX = [0];
+            for (let d = 1; d < colW.length; d++) colX[d] = colX[d - 1] + colW[d - 1] + COLW - BOXW;
+            for (const [n, b] of boxes) {
+              b.x = colX[n.depth];
+              b.rect.setAttribute('x', b.x);
+              b.rect.setAttribute('width', b.w);
+              b.t.setAttribute('x', b.x + 10);
+            }
+            for (const n of nodes)
+              if (n.parent) {
+                const c = count[n.id] || 0,
+                  p = boxes.get(n.parent),
+                  b = boxes.get(n);
+                const x0 = p.x + p.w,
+                  y0 = n.parent.y + BOXH / 2,
+                  x1 = b.x,
+                  y1 = n.y + BOXH / 2,
+                  xm = (x0 + x1) / 2;
+                const on = tp && (tp.path.includes(n.id) || tp.leaf === n.id);
+                el(
+                  'path',
+                  {
+                    d: `M${x0},${y0} C${xm},${y0} ${xm},${y1} ${x1},${y1}`,
+                    fill: 'none',
+                    stroke: on ? 'var(--ink)' : 'var(--edge)',
+                    'stroke-width': c ? 1 + (12 * c) / total : 0.6,
+                    'stroke-opacity': c ? (tp && !on ? 0.25 : 0.85) : 0.3,
+                  },
+                  edges
+                );
+              }
+            const width = Math.max(COLW * 3, ...[...boxes.values()].map((b) => b.x + b.w + 4));
+            svg.setAttribute('viewBox', `0 -4 ${width} ${height + 4}`);
+            const na = words.filter((w) => w.trees[tree.id].leaf === `${tree.id}/na`).length;
+            if (na)
+              card.insertAdjacentHTML(
+                'beforeend',
+                `<div class="na">${na} words have no meanings, so this tree does not apply.</div>`
+              );
+          }
+
+        grid.scrollTop = keepScroll;
+        const look = document.getElementById('look');
+        look.textContent = reviewMode ? 'Back to trees' : `Look over (${queue().length})`;
+        look.classList.toggle('active', reviewMode);
+        look.onclick = () => {
+          reviewMode = !reviewMode;
+          if (!reviewMode) {
+            traced = null;
+            input.value = '';
+          }
+          syncUrl();
+          render();
+        };
+        document.getElementById('wordlist').innerHTML = all
+          .map((w) => `<option value="${w.w}">`)
+          .join('');
+        const pills = document.getElementById('pills');
+        pills.innerHTML = '';
+        for (const [id, label] of LANGS) {
+          const b = document.createElement('button');
+          b.className = 'pill' + (id === lang ? ' active' : '');
+          b.textContent = label;
+          b.onclick = () => {
+            lang = id;
+            filters = {};
+            traced = null;
+            document.getElementById('word').value = '';
+            syncUrl();
+            render();
+          };
+          pills.appendChild(b);
+        }
+        const bbox = document.getElementById('batches');
+        bbox.innerHTML = '';
+        for (const [id, label] of BATCHES) {
+          const b = document.createElement('button');
+          b.className = 'pill' + (id === batch ? ' active' : '');
+          b.textContent = label;
+          b.onclick = () => {
+            batch = id;
+            traced = null;
+            document.getElementById('word').value = '';
+            syncUrl();
+            render();
+          };
+          bbox.appendChild(b);
+        }
+        renderJourney();
+        refreshPinned();
+      }
+
+      function syncUrl() {
+        history.replaceState(
+          null,
+          '',
+          `?lang=${lang}${batch === 'all' ? '' : `&batch=${batch}`}${reviewMode ? '&mode=review' : ''}`
+        );
+      }
+
+      /* Look-over mode: one word at a time, decisions saved as manual overrides by tmp/review-server.mjs. */
+      let reviewMode = params.get('mode') === 'review';
+      let overrides = null; // live overrides from the server; null means read-only
+      let lastDecision = null;
+      fetch('/api/overrides')
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => {
+          overrides = d;
+          render();
+        })
+        .catch(() => {});
+
+      const FATE_NAME = {
+        answer: 'Answer',
+        guess_only: 'Guess only',
+        removed: 'Not guessable',
+        maybe: 'Still unsure',
+      };
+      const skipKey = () => `wordtrees-skip-${lang}`;
+      const skipped = () => new Set(JSON.parse(localStorage.getItem(skipKey()) || '[]'));
+      const isDecided = (w) =>
+        overrides ? Boolean(overrides[lang]?.[w.key]) : w.trees.verdict.source === 'manual';
+
+      /** Why a word is worth a look, most urgent first. */
+      function reasonsFor(w) {
+        const p = w.pipeline,
+          out = [];
+        if (p.fate === 'maybe') out.push([0, 'Still unsure']);
+        if (p.fate === 'removed') out.push([1, 'Not guessable']);
+        if (p.source === 'gemini') out.push([2, 'Gemini tie-break']);
+        if (w.trees.coverage.leaf === 'coverage/missing')
+          out.push([3, 'May be missing its main meaning']);
+        if (p.fate === 'guess_only') out.push([4, 'Guess only']);
+        return out;
+      }
+      function queue() {
+        const sk = skipped();
+        return langWords()
+          .filter((w) => !isDecided(w))
+          .map((w) => ({ w, reasons: reasonsFor(w) }))
+          .filter((x) => x.reasons.length)
+          .sort(
+            (a, b) =>
+              sk.has(a.w.key) - sk.has(b.w.key) ||
+              a.reasons[0][0] - b.reasons[0][0] ||
+              a.w.w.localeCompare(b.w.w)
+          );
+      }
+
+      function renderReview() {
+        const grid = document.getElementById('grid');
+        const q = queue();
+        const sk = skipped();
+        const cur = q[0];
+        traced = cur ? cur.w : null;
+        if (cur) input.value = cur.w.w;
+        const undo = lastDecision
+          ? `<button class="btn" data-review="undo">Undo “${esc(lastDecision.display)}”</button>`
+          : '';
+        if (!cur) {
+          grid.innerHTML = `<div class="review"><h2>Nothing left to look over</h2><p class="muted">Every flagged word in this language and batch has a decision.</p><div class="actions">${undo}</div></div>`;
+          return;
+        }
+        const w = cur.w,
+          p = w.pipeline;
+        const fateText = p.fate === 'answer' ? `Answer (${p.difficulty})` : FATE_NAME[p.fate];
+        const source = { jev: 'Jev', gemini: 'Gemini tie-breaker' }[p.source];
+        const btn = (label, key, fate, diff, cls = '') =>
+          `<button class="btn ${cls}" data-fate="${fate}"${diff ? ` data-diff="${diff}"` : ''}${overrides ? '' : ' disabled'}>${label} <kbd>${key}</kbd></button>`;
+        const skippedHere = q.filter((x) => sk.has(x.w.key)).length;
+        grid.innerHTML = `<div class="review">
+    <div class="bar"><span class="muted small">${q.length} to look over${skippedHere ? `, ${skippedHere} skipped for now` : ''}</span><span class="actions">${undo}</span></div>
+    <div class="rword">${esc(w.w)}</div>
+    <div class="chips">${cur.reasons.map(([, r]) => `<span class="chip unsure">${r}</span>`).join('')}${sk.has(w.key) ? '<span class="chip">Skipped before</span>' : ''}</div>
+    <div><span class="vfate ${p.fate}">${fateText}</span> <span class="muted small">via ${source}</span></div>
+    <div class="muted small">${esc(p.why)}</div>
+    ${p.doubts.map((d) => `<div class="small unsure-n">${esc(d)}</div>`).join('')}
+    ${w.meanings.length ? w.meanings.map((m, i) => `<div class="meaning${i === w.main ? ' main' : ''}">${i === w.main ? '<b>Main:</b> ' : ''}${m.spelling && m.spelling !== w.w ? `<b>${esc(m.spelling)}</b> ` : ''}(${esc(m.pos)}) ${esc(m.def)}</div>`).join('') : '<div class="muted small">No meanings.</div>'}
+    <input id="reason" placeholder="Why? (optional, saved with the decision)" autocomplete="off">
+    <div class="actions">
+      ${p.fate === 'maybe' ? '' : btn(`Keep: ${fateText}`, 'K', p.fate, p.fate === 'answer' ? p.difficulty : '', 'keep')}
+      ${btn('Answer · easy', '1', 'answer', 'easy')}${btn('Answer · intermediate', '2', 'answer', 'intermediate')}${btn('Answer · advanced', '3', 'answer', 'advanced')}
+      ${btn('Guess only', 'G', 'guess_only')}${btn('Not guessable', 'N', 'removed')}
+      <button class="btn" data-review="skip">Skip for now <kbd>S</kbd></button>
+    </div>
+    ${overrides ? '' : '<p class="small unsure-n">Read-only: start the review server (node tmp/review-server.mjs) to save decisions.</p>'}
+  </div>`;
+      }
+
+      async function decide(fate, difficulty) {
+        const cur = queue()[0];
+        if (!cur || !overrides) return;
+        const reason = document.getElementById('reason')?.value.trim();
+        const res = await fetch('/api/overrides', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lang,
+            word: cur.w.key,
+            fate,
+            difficulty: difficulty || undefined,
+            reason,
+          }),
+        });
+        if (!res.ok) return alert(`Could not save: ${(await res.json()).error}`);
+        overrides = await res.json();
+        lastDecision = { lang, key: cur.w.key, display: cur.w.w };
+        render();
+      }
+      function skip() {
+        const cur = queue()[0];
+        if (!cur) return;
+        const sk = skipped();
+        sk.add(cur.w.key);
+        localStorage.setItem(skipKey(), JSON.stringify([...sk]));
+        render();
+      }
+      async function undoLast() {
+        if (!lastDecision) return;
+        const { lang: l, key } = lastDecision;
+        const res = await fetch(`/api/overrides?lang=${l}&word=${encodeURIComponent(key)}`, {
+          method: 'DELETE',
+        });
+        if (res.ok) {
+          overrides = await res.json();
+          lastDecision = null;
+          render();
+        }
+      }
+      document.getElementById('grid').addEventListener('click', (ev) => {
+        const b = ev.target.closest('button');
+        if (!b || !reviewMode) return;
+        ev.stopPropagation();
+        if (b.dataset.fate) decide(b.dataset.fate, b.dataset.diff);
+        else if (b.dataset.review === 'skip') skip();
+        else if (b.dataset.review === 'undo') undoLast();
+      });
+      document.addEventListener('keydown', (ev) => {
+        if (!reviewMode || ev.metaKey || ev.ctrlKey || ev.altKey || ev.target.closest('input'))
+          return;
+        const k = ev.key.toLowerCase();
+        const keepBtn = document.querySelector('.review .btn.keep');
+        const map = {
+          1: ['answer', 'easy'],
+          2: ['answer', 'intermediate'],
+          3: ['answer', 'advanced'],
+          g: ['guess_only'],
+          n: ['removed'],
+        };
+        if (k === 'k' && keepBtn) decide(keepBtn.dataset.fate, keepBtn.dataset.diff);
+        else if (map[k]) decide(...map[k]);
+        else if (k === 's') skip();
+        else return;
+        ev.preventDefault();
+      });
+
+      /** Question keys behind each tree, in the order Jev's answers are used. */
+      function treeKeys(tree) {
+        if (tree.id === 'meanings') return ['mainMeaning', 'accuracy'];
+        if (tree.id === 'others' || tree.id === 'verdict') return [];
+        const keys = [];
+        (function visit(n) {
+          if ('key' in n) {
+            keys.push(n.key);
+            Object.values(n.branches).forEach(visit);
+          }
+        })(tree.root);
+        return keys;
+      }
+      const MEANING_KEYS = [
+        'accuracy',
+        'format',
+        'censor',
+        'formSense',
+        'formUse',
+        'rarity',
+        'obscure',
+        'cefr',
+      ];
+      const esc = (s) =>
+        String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      function fill(text, w) {
+        const m = w?.meanings[w.main];
+        return esc(text)
+          .replaceAll('{{word}}', w ? `<b>${esc(w.w)}</b>` : '{{word}}')
+          .replaceAll('{{def}}', m ? esc(m.def) : '{{definition}}')
+          .replaceAll('{{pos}}', m ? esc(m.pos) : '{{part of speech}}');
+      }
+      function questionFor(key, w) {
+        const tpl = DATA.questions[lang][key];
+        if (!tpl) return null;
+        if (key !== 'mainMeaning') return tpl;
+        const criteria = {};
+        (w ? w.meanings : [{ def: '{{def1}}' }, { def: '{{def2}}' }]).forEach((m, i) => {
+          criteria[['first', 'second', 'third'][i]] = `Meaning ${i + 1}: ${m.def}`;
+        });
+        criteria.none = tpl.criteria.none;
+        return { instructions: tpl.instructions, criteria };
+      }
+      function templateHtml(tree, n) {
+        if (tree.id === 'others')
+          return '<div class="tpl">Not a Jev question: computed from the offensive answer of every meaning.</div>';
+        if (tree.id === 'verdict')
+          return (
+            '<div class="tpl">Not a Jev question: a manual override wins; otherwise today\'s rules, checked in order.<ul>' +
+            '<li>Not a word (Jev 80% sure), or pronouns attached → not guessable</li><li>No meanings → not guessable</li>' +
+            '<li>Block it → not guessable; potty mouth → guess only</li>' +
+            '<li>Nonsense verb form (Jev 80% sure) → not guessable; regional or literary form → guess only</li>' +
+            '<li>Obscure (natives rarely come across it) → guess only</li><li>Otherwise → answer</li></ul>' +
+            '<p>Unsure answers that could change the fate go to the Gemini tie-breaker. Spelling variants have no rule.</p></div>'
+          );
+        return treeKeys(tree)
+          .filter((k) => tree.computed || `${tree.id}/q:${k}` === n.id)
+          .map((k) => {
+            const q = questionFor(k);
+            return q
+              ? `<div class="tpl">${fill(q.instructions)}<ul>${Object.values(q.criteria)
+                  .map((c) => `<li>${esc(c)}</li>`)
+                  .join('')}</ul></div>`
+              : '';
+          })
+          .join('');
+      }
+
+      function renderJourney() {
+        const box = document.getElementById('journey');
+        if (!traced) {
+          box.innerHTML = '';
+          return;
+        }
+        const w = traced;
+        const v = w.trees.verdict;
+        const fateId = v.leaf.split('/')[1];
+        const fate = {
+          answer: 'Answer',
+          guess_only: 'Guess only',
+          removed: 'Not guessable',
+          maybe: 'Still unsure',
+        }[fateId];
+        const source = { jev: 'Jev', gemini: 'Gemini tie-breaker', manual: 'Manual override' }[
+          v.source
+        ];
+        const tier = v.difficulty ? v.difficulty[0].toUpperCase() + v.difficulty.slice(1) : 'n/a';
+        const censorLeaf = w.trees.censor.leaf;
+        const offensive = censorLeaf.endsWith('/na')
+          ? 'Unknown (no meanings)'
+          : SHAPES.censor.nodes.find((n) => n.id === censorLeaf).label;
+        const info = (ids) =>
+          `<button class="info" data-info="${ids}" aria-label="What Jev was asked">i</button>`;
+        let html = `<div class="verdict">
+    <div class="vrow"><span class="vk">Fate ${info('verdict')}</span><span><span class="vfate ${fateId}">${fate}</span> <span class="muted small">via ${source}</span></span></div>
+    <div class="vwhy">${esc(v.why)}</div>
+    ${v.doubts.map((d) => `<div class="vwhy unsure-n">${esc(d)}</div>`).join('')}
+    <div class="vrow"><span class="vk">Difficulty ${info('difficulty')}</span><span>${tier}</span></div>
+    <div class="vrow"><span class="vk">Offensive ${info('censor')}</span><span>${offensive}</span></div>
+    <div class="vrow"><span class="vk">Batch</span><span>${w.batch === 'pilot' ? 'Pilot' : 'Extended batch'}</span></div>
+  </div>`;
+        html += `<h3>Buckets of “${w.w}”</h3><div class="jt">`;
+        for (const t of DATA.trees) {
+          if (t.id === 'verdict') continue;
+          const r = w.trees[t.id];
+          const node = SHAPES[t.id].nodes.find((n) => n.id === r.leaf);
+          const label = r.leaf.endsWith('/na')
+            ? 'n/a'
+            : node.label + (r.unsure ? ' <span class="unsure-n">(unsure)</span>' : '');
+          const hasInfo = treeKeys(t).some((k) => w.raw[k]);
+          html += `<div class="k">${t.title}${hasInfo ? ' ' + info(t.id) : ''}</div><div>${label}</div>`;
+          if (r.conf.length)
+            html += `<div class="c">${r.conf.map(([q, c, p]) => `${q} ${c} ${p}%`).join(' · ')}</div>`;
+        }
+        html += '</div>';
+        if (w.meanings.length)
+          html +=
+            `<h3 style="margin-top:14px">Meanings</h3>` +
+            w.meanings
+              .map(
+                (m, i) =>
+                  `<div class="meaning${i === w.main ? ' main' : ''}">${i === w.main ? '<b>Main:</b> ' : ''}${m.spelling && m.spelling !== w.w ? `<b>${esc(m.spelling)}</b> ` : ''}(${esc(m.pos)}) ${esc(m.def)}</div>`
+              )
+              .join('');
+        box.innerHTML = html;
+        box.querySelectorAll('.info').forEach((b) => {
+          b.addEventListener('mousemove', (ev) => {
+            if (!pinned) placeTip(infoHtml(b.dataset.info, w), ev.pageX, ev.pageY, false);
+          });
+          b.addEventListener('mouseleave', hideTip);
+          b.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            if (pinned?.info === b.dataset.info) {
+              unpin();
+              return;
+            }
+            pinned = {
+              info: b.dataset.info,
+              x: ev.pageX,
+              y: ev.pageY,
+              scrollEl: 'side',
+              scroll: sideEl.scrollTop,
+            };
+            refreshPinned();
+          });
+        });
+      }
+
+      /** What Jev was asked behind one or more trees, filled in for this word. */
+      function infoHtml(ids, w) {
+        return ids
+          .split(',')
+          .map((id) => {
+            const t = DATA.trees.find((x) => x.id === id);
+            if (id === 'verdict') return `<div class="head">Today's rules</div>${templateHtml(t)}`;
+            const keys = treeKeys(t).filter((k) => w.raw[k]);
+            return (
+              `<div class="head">${t.title}</div>` +
+              (keys.length
+                ? keys.map((k) => `<div class="tpl qa">${questionHtml(k, w)}</div>`).join('')
+                : '<div class="n">No Jev question for this word.</div>')
+            );
+          })
+          .join('');
+      }
+
+      function questionHtml(key, w) {
+        const q = questionFor(key, w);
+        const [picked, pct] = w.raw[key];
+        const m = w.meanings[w.main];
+        const ctx =
+          key === 'spelling'
+            ? "Jev also sees the word's full list of meanings."
+            : MEANING_KEYS.includes(key)
+              ? `Asked about the main meaning, meaning ${w.main + 1}: (${esc(m.pos)}) ${esc(m.def)}`
+              : `Jev also sees the word's full list of meanings.`;
+        return (
+          `<div class="ins">${fill(q.instructions, w)}</div><ul>` +
+          Object.entries(q.criteria)
+            .map(
+              ([k, c]) =>
+                `<li class="${k === picked ? 'picked' : ''}">${esc(c)}${k === picked ? ` ← ${pct}%` : ''}</li>`
+            )
+            .join('') +
+          `</ul><div class="ctx">${ctx}</div>`
+        );
+      }
+
+      function traceWord(text) {
+        const q = text.trim().toLowerCase();
+        traced = DATA.words[lang].find((x) => x.w.toLowerCase() === q) || null;
+        render();
+      }
+      const input = document.getElementById('word');
+      input.addEventListener('input', () => traceWord(input.value));
+      document.getElementById('random').onclick = () => {
+        const list = langWords();
+        const w = list[Math.floor(Math.random() * list.length)];
+        input.value = w.w;
+        traceWord(w.w);
+      };
+      render();
+      if (params.get('word')) {
+        input.value = params.get('word');
+        traceWord(params.get('word'));
+      }
+    </script>
+  </body>
+</html>
