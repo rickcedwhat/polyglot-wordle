@@ -369,7 +369,7 @@ export interface Step {
 export const POLICY: Record<Gate, Record<string, Fate>> = {
   real_word: { not_a_word: 'removed' },
   single_word: { fused: 'removed' },
-  meanings: {},
+  meanings: { no_meanings: 'removed' },
   offensive: { block: 'removed', crude: 'guess_only' },
   form: { nonsense: 'removed', literary: 'guess_only', regional: 'guess_only' },
   spelling: {},
@@ -436,11 +436,21 @@ function formAnswers(r: ReviewResult) {
   };
 }
 
+/**
+ * Jev's "not a word" only counts when it is at least this sure; anything less is a real word.
+ * The verdict is always sure, so this question never goes to the tie-breaker.
+ */
+export const NOT_A_WORD_AT = 0.8;
+function realWordVerdict(a: Answer<YesNo>): Answer<YesNo> {
+  const choice: YesNo = (a.probabilities.no ?? 0) >= NOT_A_WORD_AT ? 'no' : 'yes';
+  return { ...a, choice, probability: 1 };
+}
+
 /** The decision order, after the meanings check. */
 const GATES: GateDef[] = [
   {
     gate: 'real_word',
-    answers: (r) => ({ realWord: r.jev.realWord }),
+    answers: (r) => ({ realWord: realWordVerdict(r.jev.realWord) }),
     bucket: (y) => (y.realWord ? 'real_word' : 'not_a_word'),
   },
   {
@@ -496,7 +506,7 @@ function evaluate(def: GateDef, r: ReviewResult): Step {
 function meaningsStep(r: ReviewResult): Step {
   const base = { gate: 'meanings' as const, answers: {}, unsure: [] };
   if (r.meanings.length === 0) {
-    return { ...base, bucket: 'no_meanings', sure: false };
+    return { ...base, bucket: 'no_meanings', sure: true };
   }
   const pick = r.jev.mainMeaning;
   if (pick?.choice === 'none' && pick.probability >= sureAt('mainMeaning')) {

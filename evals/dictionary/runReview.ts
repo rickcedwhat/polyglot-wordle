@@ -171,7 +171,11 @@ function summarize(
   results: ReviewResult[],
   settled: Record<string, Settled> = {}
 ) {
-  const rows = results.map((r) => ({ r, outcome: settled[r.word]?.outcome ?? decide(r) }));
+  const rows = results.map((r) => {
+    const jev = decide(r);
+    const ruling = jev.kind === 'maybe' ? settled[r.word] : undefined;
+    return { r, outcome: ruling?.outcome ?? jev, ruling };
+  });
   const words = (list: typeof rows) =>
     list
       .map(({ r }) => r.display)
@@ -233,12 +237,12 @@ function summarize(
     });
   }
 
-  const ruled = rows.filter(({ r }) => settled[r.word]?.rulings.length);
+  const ruled = rows.filter(({ ruling }) => ruling?.rulings.length);
   if (ruled.length) {
     md += `\n## Settled by Gemini\n\n`;
-    for (const { r, outcome } of ruled) {
+    for (const { r, outcome, ruling } of ruled) {
       md += `- **${r.display}** → ${outcome.kind === 'answer' ? `answer (${outcome.difficulty})` : outcome.kind}\n`;
-      for (const x of settled[r.word].rulings) {
+      for (const x of ruling!.rulings) {
         md += `  - ${x.question}: Jev ${x.jev} ${Math.round(x.jevProbability * 100)}% → Gemini ${x.gemini}. ${x.reason}\n`;
       }
     }
