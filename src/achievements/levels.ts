@@ -1,6 +1,7 @@
 import type { Language } from '@/types/firestore';
 import type { UserVocabularyMap } from '@/types/vocabulary';
 import { ALL_LANGUAGES } from '@/utils/languages';
+import { normalizeWord } from '@/utils/wordUtils';
 import { CERTIFICATION_LEVELS, type TrackLevel } from './config';
 
 /** Index of the highest level reached (-1 if none). */
@@ -37,16 +38,29 @@ export interface LevelUp {
   level: number;
 }
 
-/** Certification levels reached by words first guessed between `start` and `end`. */
+/**
+ * Certification levels this game's own guesses reached, in the game's languages. Only its words
+ * first seen between `start` and `end` count, so other games played while it was open (a game can
+ * stay unfinished for days) don't show up as level-ups here.
+ */
 export const certificationLevelUps = (
   vocabulary: UserVocabularyMap,
   start: Date,
-  end: Date
+  end: Date,
+  game: { languages: Language[]; guesses: string[] }
 ): LevelUp[] => {
-  const before = certificationLevelsBefore(vocabulary, start);
-  const after = certificationLevelsBefore(vocabulary, new Date(end.getTime() + 1));
-  return ALL_LANGUAGES.filter((lang) => after[lang] > before[lang]).map((lang) => ({
-    lang,
-    level: after[lang],
-  }));
+  const guessed = new Set(game.guesses.map(normalizeWord));
+  const seenAt = (firstSeen: string) => new Date(firstSeen).getTime();
+  return game.languages.flatMap((lang) => {
+    const known = Object.entries(vocabulary[lang] ?? {}).filter(
+      ([, record]) => seenAt(record.firstSeen) <= end.getTime()
+    );
+    const fromThisGame = known.filter(
+      ([word, record]) => guessed.has(word) && seenAt(record.firstSeen) >= start.getTime()
+    ).length;
+    const after = levelIndexFor(CERTIFICATION_LEVELS, known.length);
+    return after > levelIndexFor(CERTIFICATION_LEVELS, known.length - fromThisGame)
+      ? [{ lang, level: after }]
+      : [];
+  });
 };

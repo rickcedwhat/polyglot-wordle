@@ -44,7 +44,10 @@ export const getGameAchievements = (
     feats: detectFeats(game, { startLevels, dictionaries }),
     levelUps:
       vocabulary && startedAt && completedAt
-        ? certificationLevelUps(vocabulary, startedAt, completedAt)
+        ? certificationLevelUps(vocabulary, startedAt, completedAt, {
+            languages: game.shuffledLanguages ?? (Object.keys(game.words) as Language[]),
+            guesses: game.guessHistory,
+          })
         : [],
   };
 };
