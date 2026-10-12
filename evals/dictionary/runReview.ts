@@ -40,6 +40,7 @@ import {
   ReviewResult,
   reviewWordWithJev,
 } from './wordReview';
+import { fateLabel, FinalOutcome, finalOutcome, Override } from './overrides';
 import { settleMaybes, Settled, SETTLE_TASK } from './settle';
 
 loadEnv();
@@ -184,11 +185,7 @@ function summarize(
   settled: Record<string, Settled> = {},
   coverage: Record<string, Answer<Coverage>> = {}
 ) {
-  const rows = results.map((r) => {
-    const jev = decide(r);
-    const ruling = jev.kind === 'maybe' ? settled[r.word] : undefined;
-    return { r, outcome: ruling?.outcome ?? jev, ruling };
-  });
+  const rows = results.map((r) => ({ r, ...finalOutcome(r, settled) }));
   const words = (list: typeof rows) =>
     list
       .map(({ r }) => r.display)
@@ -200,7 +197,9 @@ function summarize(
     const key =
       o.kind === 'answer'
         ? `answer: ${o.difficulty}`
-        : `${o.kind.replace('_', '-')}: ${o.gate} ${o.bucket}`;
+        : 'manual' in o
+          ? `${o.kind.replace('_', '-')}: manual`
+          : `${o.kind.replace('_', '-')}: ${o.gate} ${o.bucket}`;
     group.set(key, [...(group.get(key) ?? []), row]);
   }
 
@@ -244,7 +243,7 @@ function summarize(
   md += `\n## Mixed meanings (main meaning decides)\n\n`;
   for (const { r, outcome } of mixed) {
     const main = mainMeaningIndex(r);
-    md += `- **${r.display}** → ${outcome.kind === 'answer' ? `answer (${outcome.difficulty})` : outcome.kind}\n`;
+    md += `- **${r.display}** → ${fateLabel(outcome)}\n`;
     r.meanings.forEach((m, i) => {
       md += `  - ${i === main ? '★ ' : ''}${offensiveBucket(m.jev)}: ${m.def}\n`;
     });
@@ -257,7 +256,17 @@ function summarize(
   if (missing.length) {
     md += `\n## Meanings may be missing the main one (flag only)\n\n`;
     for (const { r, outcome, p } of missing) {
-      md += `- **${r.display}** (${Math.round(p * 100)}%) → ${outcome.kind === 'answer' ? `answer (${outcome.difficulty})` : outcome.kind}: ${r.meanings.map((m) => m.def).join(' / ')}\n`;
+      md += `- **${r.display}** (${Math.round(p * 100)}%) → ${fateLabel(outcome)}: ${r.meanings.map((m) => m.def).join(' / ')}\n`;
+    }
+  }
+
+  const manual = rows.filter(({ source }) => source === 'manual');
+  if (manual.length) {
+    md += `\n## Manual overrides\n\n`;
+    for (const { r, outcome, auto } of manual) {
+      const o = outcome as Extract<FinalOutcome, { manual: Override }>;
+      const agrees = fateLabel(auto) === fateLabel(outcome) ? ' (pipeline now agrees; override can go)' : '';
+      md += `- **${r.display}** → ${fateLabel(outcome)}, pipeline says ${fateLabel(auto)}${agrees}. ${o.manual.reason} (${o.manual.date})\n`;
     }
   }
 
@@ -265,7 +274,7 @@ function summarize(
   if (ruled.length) {
     md += `\n## Settled by Gemini\n\n`;
     for (const { r, outcome, ruling } of ruled) {
-      md += `- **${r.display}** → ${outcome.kind === 'answer' ? `answer (${outcome.difficulty})` : outcome.kind}\n`;
+      md += `- **${r.display}** → ${fateLabel(outcome)}\n`;
       for (const x of ruling!.rulings) {
         md += `  - ${x.question}: Jev ${x.jev} ${Math.round(x.jevProbability * 100)}% → Gemini ${x.gemini}. ${x.reason}\n`;
       }
