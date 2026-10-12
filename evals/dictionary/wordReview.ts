@@ -4,16 +4,29 @@ import { Meaning } from './meanings';
 import { realWordPrompt } from './realWordPrompt';
 import { Language } from './types';
 
-export const REVIEW_TASK = 'word_review_v3';
+export const REVIEW_TASK = 'word_review_v6';
 
-type Answer<T extends string> = { choice: T; confidence: number };
+/**
+ * Jev's `confidence` is the gap between its top two choices, not the chance its pick is right;
+ * `probability` is Jev's probability for the picked choice.
+ */
+type Answer<T extends string> = {
+  choice: T;
+  confidence: number;
+  probability: number;
+  probabilities: Record<string, number>;
+};
 
 export type YesNo = 'yes' | 'no';
 export type WordForm = 'base' | 'conjugated_verb' | 'plural_or_agreement' | 'other';
 export type MainMeaning = 'first' | 'second' | 'third' | 'none';
-export type WordLevel = 'easy' | 'medium' | 'hard';
+export type Spelling = 'standard' | 'variant';
 export type Accuracy = 'accurate' | 'inflected_form' | 'wrong_pos' | 'wrong_meaning' | 'fabricated';
 export type Format = 'clean_dictionary' | 'vague_circular' | 'robotic_filler' | 'malformed_syntax';
+export type Censor = 'fine' | 'crude' | 'block';
+export type Rarity = 'regularly' | 'sometimes' | 'rarely';
+export type Cefr = 'a1_a2' | 'b1_b2' | 'c1_c2' | 'beyond';
+export type Difficulty = 'easy' | 'intermediate' | 'advanced';
 
 /** Questions about the word as a whole. */
 export interface WordAnswers {
@@ -22,19 +35,18 @@ export interface WordAnswers {
   form: Answer<WordForm>;
   /** Only asked when there is more than one meaning. */
   mainMeaning?: Answer<MainMeaning>;
-  known: Answer<YesNo>;
-  specialist: Answer<YesNo>;
-  level: Answer<WordLevel>;
+  spelling: Answer<Spelling>;
 }
 
-/** Questions about one meaning of the word. Each bucket is its own yes/no question. */
+/** Questions about one meaning of the word. */
 export interface MeaningAnswers {
   accuracy: Answer<Accuracy>;
   format: Answer<Format>;
   rude: Answer<YesNo>;
   vulgar: Answer<YesNo>;
-  slur: Answer<YesNo>;
-  slang: Answer<YesNo>;
+  censor: Answer<Censor>;
+  rarity: Answer<Rarity>;
+  cefr: Answer<Cefr>;
 }
 
 export interface ReviewedMeaning extends Meaning {
@@ -61,15 +73,14 @@ const ALLOWED = {
   fused: ['no', 'yes'],
   form: ['base', 'conjugated_verb', 'plural_or_agreement', 'other'],
   mainMeaning: ['first', 'second', 'third', 'none'],
-  known: ['yes', 'no'],
-  specialist: ['no', 'yes'],
-  level: ['easy', 'medium', 'hard'],
+  spelling: ['standard', 'variant'],
   accuracy: ['accurate', 'inflected_form', 'wrong_pos', 'wrong_meaning', 'fabricated'],
   format: ['clean_dictionary', 'vague_circular', 'robotic_filler', 'malformed_syntax'],
   rude: ['no', 'yes'],
   vulgar: ['no', 'yes'],
-  slur: ['no', 'yes'],
-  slang: ['no', 'yes'],
+  censor: ['fine', 'crude', 'block'],
+  rarity: ['regularly', 'sometimes', 'rarely'],
+  cefr: ['a1_a2', 'b1_b2', 'c1_c2', 'beyond'],
 } as const;
 
 const ORDINALS = ['first', 'second', 'third'] as const;
@@ -94,23 +105,10 @@ export function buildWordQuestions(input: ReviewInput) {
       plural_or_agreement: 'A plural, or a gender or number form of a noun or adjective',
       other: 'Something else (contraction, combined form, etc.)',
     }),
-    known: choice(
-      `Would most native ${lang} speakers know what "${w}" means? Judge the meaning, not the grammatical form: a rare tense or form of a well-known word counts as known. Technical, scientific, legal, food or sports words most educated adults recognise (like "vaccine" or "referee") count as known. Archaic, rare, regional or expert jargon does not.`,
-      { yes: 'Yes', no: 'No' }
-    ),
-    specialist: choice(
-      `Is the ${lang} word "${w}" mainly a technical, scientific, legal, food or sports term, rather than everyday vocabulary?`,
-      { no: 'No', yes: 'Yes' }
-    ),
-    level: choice(
-      `How hard is the ${lang} word "${w}" for someone learning ${lang}? Judge its most common meaning.`,
-      {
-        easy: 'Everyday word that beginners learn early and every native speaker uses (e.g. house, water, happy)',
-        medium:
-          'Familiar conversational word an intermediate learner meets in normal conversation, news or TV',
-        hard: 'Formal, literary, technical or less frequent word that an educated adult native speaker still knows',
-      }
-    ),
+    spelling: choice(`Is "${w}" a standard ${lang} spelling?`, {
+      standard: `Yes: a standard spelling, including normal regional spellings (like American "liter" and British "litre")`,
+      variant: `No: a dated, rare, informal or jokey spelling of another word (like "hallo" for "hello" or "thru" for "through")`,
+    }),
   };
   if (input.meanings.length > 1) {
     const options: Record<string, string> = {};
@@ -156,13 +154,36 @@ export function buildMeaningQuestions(input: ReviewInput, meaning: Meaning) {
       `Is the ${lang} word "${w}", used with this meaning, vulgar: swearing, profanity, or explicit sexual language? Mild rudeness such as bathroom words or mild insults does not count. Meaning: "${meaning.def}"`,
       { no: 'No', yes: 'Yes' }
     ),
-    slur: choice(
-      `Is the ${lang} word "${w}", used with this meaning, a slur: used to demean a group of people for their race, ethnicity, nationality, religion, sexuality, gender or disability? Neutral words that describe people, groups or conditions are not slurs. Meaning: "${meaning.def}"`,
-      { no: 'No', yes: 'Yes' }
+    censor: choice(
+      `Should a word game for a general audience accept the ${lang} word "${w}", meaning: "${meaning.def}"? Think about how most ${lang} speakers would react to seeing it typed on screen.`,
+      {
+        fine: 'Fine: no one would mind seeing it, including serious or sensitive words used neutrally (like "murder", "racism" or "genocide")',
+        crude:
+          'Crude, rude or sexual, but acceptable to type in a game for adults (like most swear words)',
+        block:
+          'Block it: a slur, hate speech, or so offensive that most players would be upset to see it on screen',
+      }
     ),
-    slang: choice(
-      `Would a standard ${lang} dictionary label this meaning of "${w}" as slang, and not just informal or colloquial? Meaning: "${meaning.def}"`,
-      { no: 'No', yes: 'Yes, it is labelled slang' }
+    rarity: choice(
+      `How often does a typical adult native ${lang} speaker come across the word "${w}", meaning: "${meaning.def}"? Judge the meaning, not the grammatical form: a conjugated or plural form of a familiar word is as familiar as that word.`,
+      {
+        regularly: 'Regularly: in everyday conversation, TV, news or books',
+        sometimes:
+          'Sometimes: they know what it means when they see it, even if they rarely use it themselves',
+        rarely: 'Rarely or never: many native speakers would not know what it means',
+      }
+    ),
+    cefr: choice(
+      `At what CEFR level would a learner of ${lang} typically learn the word "${w}", in this meaning: "${meaning.def}"? Judge the meaning, not the grammatical form: a conjugated or plural form of a basic word is as easy as that word.`,
+      {
+        a1_a2:
+          'A1–A2 (beginner): core everyday vocabulary taught in the first year (like house, water, eat, happy)',
+        b1_b2:
+          'B1–B2 (intermediate): every native speaker knows and uses it; a learner meets it in normal conversation, news or TV',
+        c1_c2:
+          'C1–C2 (advanced): most native speakers know it but rarely use it themselves; formal, literary, technical or less frequent',
+        beyond: 'Beyond C2: even native speakers rarely come across it',
+      }
     ),
   };
 }
@@ -171,7 +192,9 @@ function readAnswer<K extends keyof typeof ALLOWED>(
   answers: Record<string, unknown> | undefined,
   key: K
 ): Answer<(typeof ALLOWED)[K][number]> {
-  const answer = answers?.[key] as { choice?: unknown; confidence?: unknown } | undefined;
+  const answer = answers?.[key] as
+    | { choice?: unknown; confidence?: unknown; probabilities?: unknown }
+    | undefined;
   const allowed = ALLOWED[key] as readonly string[];
   if (typeof answer?.choice !== 'string' || !allowed.includes(answer.choice)) {
     throw new Error(`Invalid Jev response: unknown ${key}.choice "${String(answer?.choice)}"`);
@@ -180,7 +203,17 @@ function readAnswer<K extends keyof typeof ALLOWED>(
   if (typeof confidence !== 'number' || !(confidence >= 0 && confidence <= 1)) {
     throw new Error(`Invalid Jev response: ${key}.confidence must be between 0 and 1`);
   }
-  return { choice: answer.choice as (typeof ALLOWED)[K][number], confidence };
+  const probabilities = (answer.probabilities ?? {}) as Record<string, number>;
+  const probability = probabilities[answer.choice];
+  if (typeof probability !== 'number' || !(probability >= 0 && probability <= 1)) {
+    throw new Error(`Invalid Jev response: ${key}.probabilities must include the picked choice`);
+  }
+  return {
+    choice: answer.choice as (typeof ALLOWED)[K][number],
+    confidence,
+    probability,
+    probabilities,
+  };
 }
 
 export function parseWordAnswers(
@@ -192,9 +225,7 @@ export function parseWordAnswers(
     fused: readAnswer(answers, 'fused'),
     form: readAnswer(answers, 'form'),
     mainMeaning: meaningCount > 1 ? readAnswer(answers, 'mainMeaning') : undefined,
-    known: readAnswer(answers, 'known'),
-    specialist: readAnswer(answers, 'specialist'),
-    level: readAnswer(answers, 'level'),
+    spelling: readAnswer(answers, 'spelling'),
   };
 }
 
@@ -204,8 +235,9 @@ export function parseMeaningAnswers(answers: Record<string, unknown> | undefined
     format: readAnswer(answers, 'format'),
     rude: readAnswer(answers, 'rude'),
     vulgar: readAnswer(answers, 'vulgar'),
-    slur: readAnswer(answers, 'slur'),
-    slang: readAnswer(answers, 'slang'),
+    censor: readAnswer(answers, 'censor'),
+    rarity: readAnswer(answers, 'rarity'),
+    cefr: readAnswer(answers, 'cefr'),
   };
 }
 
@@ -254,10 +286,39 @@ export async function reviewWordWithJev(
   };
 }
 
-/** Jev at or above this confidence is "sure"; below it the word goes to a maybe bucket. */
-export const SURE = 0.7;
+/**
+ * Jev is "sure" when its probability for the picked choice reaches the question's threshold;
+ * below it the word goes to a maybe bucket.
+ */
+export const SURE_DEFAULT = 0.6;
+export const SURE_BY_QUESTION: Record<string, number> = { obscure: 0.65 };
+export const sureAt = (question: string) => SURE_BY_QUESTION[question] ?? SURE_DEFAULT;
 
-export type Gate = 'real_word' | 'single_word' | 'meanings' | 'offensive' | 'slang' | 'familiarity';
+/** Collapses a multi-choice answer into yes/no: "yes" is the summed probability of the `yes` choices. */
+export function asYesNo(a: Answer<string>, yes: readonly string[]): Answer<YesNo> {
+  const p = yes.reduce((sum, c) => sum + (a.probabilities[c] ?? 0), 0);
+  const choice: YesNo = p >= 0.5 ? 'yes' : 'no';
+  return {
+    choice,
+    confidence: Math.abs(2 * p - 1),
+    probability: choice === 'yes' ? p : 1 - p,
+    probabilities: { yes: p, no: 1 - p },
+  };
+}
+
+const DIFFICULTY: Record<Difficulty, Cefr[]> = {
+  easy: ['a1_a2'],
+  intermediate: ['b1_b2'],
+  advanced: ['c1_c2', 'beyond'],
+};
+
+/** A meaning's difficulty: Jev's most likely CEFR band, with C1–C2 and beyond C2 both advanced. */
+export function difficultyOf(m: MeaningAnswers): Difficulty {
+  const p = (d: Difficulty) => DIFFICULTY[d].reduce((sum, c) => sum + (m.cefr.probabilities[c] ?? 0), 0);
+  return (Object.keys(DIFFICULTY) as Difficulty[]).reduce((best, d) => (p(d) > p(best) ? d : best));
+}
+
+export type Gate = 'real_word' | 'single_word' | 'meanings' | 'offensive' | 'spelling' | 'familiarity';
 export type Fate = 'removed' | 'guess_only';
 
 /** One gate's verdict: Jev's bucket, and whether any unsure answer could change the word's fate. */
@@ -279,20 +340,20 @@ export const POLICY: Record<Gate, Record<string, Fate>> = {
   real_word: { not_a_word: 'removed' },
   single_word: { fused: 'removed' },
   meanings: {},
-  offensive: { vulgar: 'guess_only', slur: 'removed' },
-  slang: { slang: 'guess_only' },
+  offensive: { vulgar: 'guess_only', block: 'removed' },
+  spelling: {},
   familiarity: { obscure: 'guess_only' },
 };
 
 export type Outcome =
   | { kind: 'maybe'; gate: Gate; bucket: string; steps: Step[] }
   | { kind: Fate; gate: Gate; bucket: string; steps: Step[] }
-  | { kind: 'answer'; level: WordLevel; steps: Step[] };
+  | { kind: 'answer'; difficulty: Difficulty; steps: Step[] };
 
 /** Index of the main meaning: Jev's pick when it is sure, otherwise Gemini's order. */
 export function mainMeaningIndex(r: ReviewResult): number {
   const pick = r.jev.mainMeaning;
-  if (pick && pick.confidence >= SURE && pick.choice !== 'none') {
+  if (pick && pick.probability >= sureAt('mainMeaning') && pick.choice !== 'none') {
     const i = ORDINALS.indexOf(pick.choice);
     if (i < r.meanings.length) {
       return i;
@@ -311,18 +372,22 @@ interface GateDef {
 
 const mainJev = (r: ReviewResult) => r.meanings[mainMeaningIndex(r)].jev;
 
+const offensiveAnswers = (m: MeaningAnswers) => ({
+  block: asYesNo(m.censor, ['block']),
+  vulgar: m.vulgar,
+  rude: m.rude,
+});
+const offensiveLabel = (y: Record<string, boolean>) =>
+  y.block ? 'block' : y.vulgar ? 'vulgar' : y.rude ? 'mild' : 'clean';
+
 /** A meaning's offensive bucket, with "?" when any of its answers is unsure. */
 export function offensiveBucket(m: MeaningAnswers): string {
-  const { rude, vulgar, slur } = m;
-  const label =
-    slur.choice === 'yes'
-      ? 'slur'
-      : vulgar.choice === 'yes'
-        ? 'vulgar'
-        : rude.choice === 'yes'
-          ? 'mild'
-          : 'clean';
-  return [rude, vulgar, slur].some((a) => a.confidence < SURE) ? `${label}?` : label;
+  const answers = offensiveAnswers(m);
+  const label = offensiveLabel(
+    Object.fromEntries(Object.entries(answers).map(([k, a]) => [k, a.choice === 'yes']))
+  );
+  const unsure = Object.entries(answers).some(([k, a]) => a.probability < sureAt(k));
+  return unsure ? `${label}?` : label;
 }
 
 /** The decision order, after the meanings check. */
@@ -339,21 +404,18 @@ const GATES: GateDef[] = [
   },
   {
     gate: 'offensive',
-    answers: (r) => {
-      const { rude, vulgar, slur } = mainJev(r);
-      return { rude, vulgar, slur };
-    },
-    bucket: (y) => (y.slur ? 'slur' : y.vulgar ? 'vulgar' : y.rude ? 'mild' : 'clean'),
+    answers: (r) => offensiveAnswers(mainJev(r)),
+    bucket: offensiveLabel,
   },
   {
-    gate: 'slang',
-    answers: (r) => ({ slang: mainJev(r).slang }),
-    bucket: (y) => (y.slang ? 'slang' : 'standard'),
+    gate: 'spelling',
+    answers: (r) => ({ variant: asYesNo(r.jev.spelling, ['variant']) }),
+    bucket: (y) => (y.variant ? 'variant' : 'standard'),
   },
   {
     gate: 'familiarity',
-    answers: (r) => ({ known: r.jev.known, specialist: r.jev.specialist }),
-    bucket: (y) => (!y.known ? 'obscure' : y.specialist ? 'specialist' : 'common'),
+    answers: (r) => ({ obscure: asYesNo(mainJev(r).rarity, ['rarely']) }),
+    bucket: (y) => (y.obscure ? 'obscure' : 'known'),
   },
 ];
 
@@ -365,7 +427,7 @@ function evaluate(def: GateDef, r: ReviewResult): Step {
   const answers = def.answers(r);
   const keys = Object.keys(answers);
   const yes = Object.fromEntries(keys.map((k) => [k, answers[k].choice === 'yes']));
-  const unsure = keys.filter((k) => answers[k].confidence < SURE);
+  const unsure = keys.filter((k) => answers[k].probability < sureAt(k));
   const fates = new Set<string>();
   for (let mask = 0; mask < 2 ** unsure.length; mask++) {
     const flipped = { ...yes };
@@ -385,17 +447,17 @@ function meaningsStep(r: ReviewResult): Step {
     return { ...base, bucket: 'no_meanings', sure: false };
   }
   const pick = r.jev.mainMeaning;
-  if (pick?.choice === 'none' && pick.confidence >= SURE) {
+  if (pick?.choice === 'none' && pick.probability >= sureAt('mainMeaning')) {
     return { ...base, bucket: 'main_missing', sure: false, answers: { mainMeaning: pick } };
   }
   const acc = r.meanings[mainMeaningIndex(r)].jev.accuracy;
-  if (BAD_ACCURACY.includes(acc.choice) && acc.confidence >= SURE) {
+  if (BAD_ACCURACY.includes(acc.choice) && acc.probability >= sureAt('accuracy')) {
     return { ...base, bucket: `main_${acc.choice}`, sure: false, answers: { accuracy: acc } };
   }
   return { ...base, bucket: 'ok', sure: true, answers: { accuracy: acc } };
 }
 
-/** The decision order: real word, single word, meanings, offensive, slang, familiarity, level. */
+/** The decision order: real word, single word, meanings, offensive, spelling, familiarity, then difficulty. */
 export function decide(r: ReviewResult): Outcome {
   const order: (() => Step)[] = [
     () => evaluate(GATES[0], r),
@@ -415,5 +477,5 @@ export function decide(r: ReviewResult): Outcome {
       return { kind: fate, gate: s.gate, bucket: s.bucket, steps };
     }
   }
-  return { kind: 'answer', level: r.jev.level.choice, steps };
+  return { kind: 'answer', difficulty: difficultyOf(mainJev(r)), steps };
 }

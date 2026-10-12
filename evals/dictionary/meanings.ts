@@ -41,7 +41,7 @@ For each 5-letter ${langName} word below, list its distinct meanings in modern $
 
 Rules:
 1. List 1 to ${MAX_MEANINGS} meanings, ordered by how often native speakers use them today, across all major regions where the language is spoken (e.g. both US and UK English). The first meaning must be the one most people think of first, even when it is vulgar or slang.
-2. Only list meanings that are genuinely different (different sense or different part of speech). Do not split one meaning into near-synonyms. Skip archaic or very rare meanings.
+2. Only list meanings that are genuinely different (different sense or different part of speech). Do not split one meaning into near-synonyms. Skip archaic or very rare meanings, unless the word has no other meaning: then list them and start the definition with "Archaic:" or "Rare:".
 3. Include vulgar, slang, sexual or offensive meanings when they are a real, common use of the word. Define them plainly and factually, like a good dictionary does. Never skip or soften a meaning because it is rude, and never invent one. Equally, do not make a word sound harsher than it is: only call a meaning "derogatory", "offensive" or "insulting" when that is how it is mainly used today. An unflattering or old-fashioned word for a person (e.g. "an old woman, often thought of as ugly") is not automatically derogatory.
 4. If the spelling is both a conjugated verb and a noun/adjective (e.g. English "barns", Spanish "frena"), list each reading as its own meaning, in order of how common it is.
 5. For a conjugated verb or inflected meaning, give the meaning first and cite the lemma in parentheses at the end, e.g. "Slows down or applies the brakes (present tense of frenar)."
@@ -49,7 +49,7 @@ Rules:
 7. Each definition: 8 to 25 words, plain ${defName}, no circular formulas like "Plural of X" or "Pertaining to X". Do not start with "In ${langName}".
 8. pos must be one of: ${POS_VALUES.join(', ')}.
 9. display: the word with its standard accents, lowercase.
-10. If the word has no real ${langName} meaning (a name, a foreign word, gibberish), return an empty meanings list. Do not invent one.
+10. Return an empty meanings list only if the word has no real ${langName} meaning at all (only a name, a foreign word ${langName} speakers do not use, gibberish). Archaic, rare, regional, slang and borrowed words that ${langName} speakers do use still get meanings. Do not invent one.
 11. Return exactly one result for every input key.
 
 Words:

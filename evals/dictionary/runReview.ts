@@ -1,7 +1,7 @@
 /**
  * Combined dictionary review: Gemini writes 1-3 meanings per word, then Jev answers
- * word-level questions (real word, form, main meaning, obscure, level) and per-meaning
- * questions (accuracy, format, offensive, slang).
+ * word-level questions (real word, fused, form, main meaning, spelling) and per-meaning
+ * questions (accuracy, format, rude, vulgar, censor, rarity, CEFR level).
  *
  * Usage:
  *   npm run eval:dict:review -- --lang=pt --pilot       (same words as the label pilot)
@@ -174,7 +174,7 @@ function summarize(lang: Language, results: ReviewResult[]) {
     const o = row.outcome;
     const key =
       o.kind === 'answer'
-        ? `answer: ${o.level}`
+        ? `answer: ${o.difficulty}`
         : `${o.kind.replace('_', '-')}: ${o.gate} ${o.bucket}`;
     group.set(key, [...(group.get(key) ?? []), row]);
   }
@@ -219,9 +219,9 @@ function summarize(lang: Language, results: ReviewResult[]) {
   md += `\n## Mixed meanings (main meaning decides)\n\n`;
   for (const { r, outcome } of mixed) {
     const main = mainMeaningIndex(r);
-    md += `- **${r.display}** → ${outcome.kind === 'answer' ? `answer (${outcome.level})` : outcome.kind}\n`;
+    md += `- **${r.display}** → ${outcome.kind === 'answer' ? `answer (${outcome.difficulty})` : outcome.kind}\n`;
     r.meanings.forEach((m, i) => {
-      md += `  - ${i === main ? '★ ' : ''}${offensiveBucket(m.jev)}${m.jev.slang.choice === 'yes' ? ', slang' : ''}: ${m.def}\n`;
+      md += `  - ${i === main ? '★ ' : ''}${offensiveBucket(m.jev)}: ${m.def}\n`;
     });
   }
   return md;
