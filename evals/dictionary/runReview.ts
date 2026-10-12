@@ -1,7 +1,7 @@
 /**
  * Combined dictionary review: Gemini writes 1-3 meanings per word, then Jev answers
  * word-level questions (real word, fused, form, main meaning, spelling) and per-meaning
- * questions (accuracy, format, rude, vulgar, censor, rarity, CEFR level).
+ * questions (accuracy, format, censor, form sense, form use, rarity, CEFR level).
  *
  * Usage:
  *   npm run eval:dict:review -- --lang=pt --pilot       (same words as the label pilot)

@@ -24,7 +24,7 @@ export interface MeaningsInput {
 }
 
 export const MAX_MEANINGS = 3;
-export const MEANINGS_TASK = 'meanings_v2';
+export const MEANINGS_TASK = 'meanings_v4';
 
 /** Language the definitions are written in: English, or the word's own language. */
 export type DefLanguage = 'en' | 'native';
@@ -48,7 +48,7 @@ Rules:
 6. If the word is spelled like an English word but is a real ${langName} word, define the ${langName} meaning, never the English one.
 7. Each definition: 8 to 25 words, plain ${defName}, no circular formulas like "Plural of X" or "Pertaining to X". Do not start with "In ${langName}".
 8. pos must be one of: ${POS_VALUES.join(', ')}.
-9. display: the word with its standard accents, lowercase.
+9. display: the word with its standard accents, lowercase. The key is written without accents, so it can match several ${langName} words that differ only by accents (e.g. Spanish "esta" / "está", French "finit" / "finît"). Choose the one native speakers use most, even when the given display is a different one, and define that word.
 10. Return an empty meanings list only if the word has no real ${langName} meaning at all (only a name, a foreign word ${langName} speakers do not use, gibberish). Archaic, rare, regional, slang and borrowed words that ${langName} speakers do use still get meanings. Do not invent one.
 11. Return exactly one result for every input key.
 
@@ -177,7 +177,7 @@ ${JSON.stringify(items, null, 2)}
   });
 }
 
-async function callGemini<T>(
+export async function callGemini<T>(
   prompt: string,
   schema: object,
   apiKey: string,

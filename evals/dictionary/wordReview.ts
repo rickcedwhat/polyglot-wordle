@@ -4,7 +4,7 @@ import { Meaning } from './meanings';
 import { realWordPrompt } from './realWordPrompt';
 import { Language } from './types';
 
-export const REVIEW_TASK = 'word_review_v6';
+export const REVIEW_TASK = 'word_review_v7';
 
 /**
  * Jev's `confidence` is the gap between its top two choices, not the chance its pick is right;
@@ -24,6 +24,7 @@ export type Spelling = 'standard' | 'variant';
 export type Accuracy = 'accurate' | 'inflected_form' | 'wrong_pos' | 'wrong_meaning' | 'fabricated';
 export type Format = 'clean_dictionary' | 'vague_circular' | 'robotic_filler' | 'malformed_syntax';
 export type Censor = 'fine' | 'crude' | 'block';
+export type FormUse = 'everyday' | 'regional' | 'literary';
 export type Rarity = 'regularly' | 'sometimes' | 'rarely';
 export type Cefr = 'a1_a2' | 'b1_b2' | 'c1_c2' | 'beyond';
 export type Difficulty = 'easy' | 'intermediate' | 'advanced';
@@ -42,9 +43,9 @@ export interface WordAnswers {
 export interface MeaningAnswers {
   accuracy: Answer<Accuracy>;
   format: Answer<Format>;
-  rude: Answer<YesNo>;
-  vulgar: Answer<YesNo>;
   censor: Answer<Censor>;
+  formSense: Answer<YesNo>;
+  formUse: Answer<FormUse>;
   rarity: Answer<Rarity>;
   cefr: Answer<Cefr>;
 }
@@ -76,9 +77,9 @@ const ALLOWED = {
   spelling: ['standard', 'variant'],
   accuracy: ['accurate', 'inflected_form', 'wrong_pos', 'wrong_meaning', 'fabricated'],
   format: ['clean_dictionary', 'vague_circular', 'robotic_filler', 'malformed_syntax'],
-  rude: ['no', 'yes'],
-  vulgar: ['no', 'yes'],
   censor: ['fine', 'crude', 'block'],
+  formSense: ['yes', 'no'],
+  formUse: ['everyday', 'regional', 'literary'],
   rarity: ['regularly', 'sometimes', 'rarely'],
   cefr: ['a1_a2', 'b1_b2', 'c1_c2', 'beyond'],
 } as const;
@@ -146,22 +147,32 @@ export function buildMeaningQuestions(input: ReviewInput, meaning: Meaning) {
       robotic_filler: 'Robotic filler: template boilerplate such as "The entity representing..."',
       malformed_syntax: 'Malformed: incomplete sentence, dangling fragment or broken punctuation',
     }),
-    rude: choice(
-      `Is the ${lang} word "${w}", used with this meaning, at all rude, crude or offensive? Even mild rudeness counts, such as childish bathroom words or mild insults (like "dork", "jerk" or "booger"). Words that describe people, groups or conditions neutrally do not. Meaning: "${meaning.def}"`,
-      { no: 'No', yes: 'Yes' }
-    ),
-    vulgar: choice(
-      `Is the ${lang} word "${w}", used with this meaning, vulgar: swearing, profanity, or explicit sexual language? Mild rudeness such as bathroom words or mild insults does not count. Meaning: "${meaning.def}"`,
-      { no: 'No', yes: 'Yes' }
-    ),
     censor: choice(
-      `Should a word game for a general audience accept the ${lang} word "${w}", meaning: "${meaning.def}"? Think about how most ${lang} speakers would react to seeing it typed on screen.`,
+      `How should a word game treat the ${lang} word "${w}", meaning: "${meaning.def}"? Think about how most ${lang} speakers would react to seeing it typed on screen.`,
       {
-        fine: 'Fine: no one would mind seeing it, including serious or sensitive words used neutrally (like "murder", "racism" or "genocide")',
+        fine: 'Fine: nothing crude about it, including serious or sensitive words used neutrally (like "murder", "racism" or "genocide") and dated but neutral names for groups of people',
         crude:
-          'Crude, rude or sexual, but acceptable to type in a game for adults (like most swear words)',
+          'Potty mouth: swearing, sexual words, crude slang for body parts, bathroom words or insults, even very strong ones',
         block:
-          'Block it: a slur, hate speech, or so offensive that most players would be upset to see it on screen',
+          'Block it: a slur that attacks people for their race, ethnicity, nationality, religion, sexuality, gender or disability, or hate speech',
+      }
+    ),
+    formSense: choice(
+      `Is "${w}" (${meaning.def}) a ${lang} word form that native speakers would actually use? Some verbs only have some forms in normal use: weather verbs like "to rain" have no "you rain" or "we rain", and some verbs have no imperative or no first person.`,
+      {
+        yes: 'Yes: a form native speakers use, or would use if the situation came up',
+        no: 'No: a grammatically possible form that makes no sense for this word, so native speakers never use it',
+      }
+    ),
+    formUse: choice(
+      `How common is the grammatical form "${w}" (${meaning.def}) in everyday ${lang}? Judge the form (tense, mood, person), not how common the word is.`,
+      {
+        everyday:
+          'Everyday: a form used all the time in normal speech and writing (any base form, plural or common tense counts)',
+        regional:
+          'Regional: a form used only in some regions (like a pronoun or tense used in one country but not others)',
+        literary:
+          'Literary or rare: a tense or form mostly found in formal writing or literature, rarely used in speech',
       }
     ),
     rarity: choice(
@@ -233,9 +244,9 @@ export function parseMeaningAnswers(answers: Record<string, unknown> | undefined
   return {
     accuracy: readAnswer(answers, 'accuracy'),
     format: readAnswer(answers, 'format'),
-    rude: readAnswer(answers, 'rude'),
-    vulgar: readAnswer(answers, 'vulgar'),
     censor: readAnswer(answers, 'censor'),
+    formSense: readAnswer(answers, 'formSense'),
+    formUse: readAnswer(answers, 'formUse'),
     rarity: readAnswer(answers, 'rarity'),
     cefr: readAnswer(answers, 'cefr'),
   };
@@ -318,7 +329,14 @@ export function difficultyOf(m: MeaningAnswers): Difficulty {
   return (Object.keys(DIFFICULTY) as Difficulty[]).reduce((best, d) => (p(d) > p(best) ? d : best));
 }
 
-export type Gate = 'real_word' | 'single_word' | 'meanings' | 'offensive' | 'spelling' | 'familiarity';
+export type Gate =
+  | 'real_word'
+  | 'single_word'
+  | 'meanings'
+  | 'offensive'
+  | 'form'
+  | 'spelling'
+  | 'familiarity';
 export type Fate = 'removed' | 'guess_only';
 
 /** One gate's verdict: Jev's bucket, and whether any unsure answer could change the word's fate. */
@@ -340,7 +358,8 @@ export const POLICY: Record<Gate, Record<string, Fate>> = {
   real_word: { not_a_word: 'removed' },
   single_word: { fused: 'removed' },
   meanings: {},
-  offensive: { vulgar: 'guess_only', block: 'removed' },
+  offensive: { block: 'removed', crude: 'guess_only' },
+  form: { nonsense: 'removed', literary: 'guess_only', regional: 'guess_only' },
   spelling: {},
   familiarity: { obscure: 'guess_only' },
 };
@@ -374,11 +393,10 @@ const mainJev = (r: ReviewResult) => r.meanings[mainMeaningIndex(r)].jev;
 
 const offensiveAnswers = (m: MeaningAnswers) => ({
   block: asYesNo(m.censor, ['block']),
-  vulgar: m.vulgar,
-  rude: m.rude,
+  crude: asYesNo(m.censor, ['crude', 'block']),
 });
 const offensiveLabel = (y: Record<string, boolean>) =>
-  y.block ? 'block' : y.vulgar ? 'vulgar' : y.rude ? 'mild' : 'clean';
+  y.block ? 'block' : y.crude ? 'crude' : 'fine';
 
 /** A meaning's offensive bucket, with "?" when any of its answers is unsure. */
 export function offensiveBucket(m: MeaningAnswers): string {
@@ -388,6 +406,22 @@ export function offensiveBucket(m: MeaningAnswers): string {
   );
   const unsure = Object.entries(answers).some(([k, a]) => a.probability < sureAt(k));
   return unsure ? `${label}?` : label;
+}
+
+/**
+ * A form that makes no sense (like "you rain") only counts for conjugated verbs with no other
+ * part of speech: the same spelling as a noun or adjective is still a real word, and Jev's
+ * answer is unreliable for base forms.
+ */
+function formAnswers(r: ReviewResult) {
+  const main = mainJev(r);
+  return {
+    ...(r.jev.form.choice === 'conjugated_verb' && r.meanings.every((m) => m.pos === 'verb')
+      ? { nonsense: asYesNo(main.formSense, ['no']) }
+      : {}),
+    literary: asYesNo(main.formUse, ['literary']),
+    regional: asYesNo(main.formUse, ['regional']),
+  };
 }
 
 /** The decision order, after the meanings check. */
@@ -406,6 +440,12 @@ const GATES: GateDef[] = [
     gate: 'offensive',
     answers: (r) => offensiveAnswers(mainJev(r)),
     bucket: offensiveLabel,
+  },
+  {
+    gate: 'form',
+    answers: formAnswers,
+    bucket: (y) =>
+      y.nonsense ? 'nonsense' : y.literary ? 'literary' : y.regional ? 'regional' : 'everyday',
   },
   {
     gate: 'spelling',
@@ -457,7 +497,7 @@ function meaningsStep(r: ReviewResult): Step {
   return { ...base, bucket: 'ok', sure: true, answers: { accuracy: acc } };
 }
 
-/** The decision order: real word, single word, meanings, offensive, spelling, familiarity, then difficulty. */
+/** The decision order: real word, single word, meanings, offensive, form, spelling, familiarity, then difficulty. */
 export function decide(r: ReviewResult): Outcome {
   const order: (() => Step)[] = [
     () => evaluate(GATES[0], r),
