@@ -1,7 +1,8 @@
 /**
  * Combined dictionary review: Gemini writes 1-3 meanings per word, then Jev answers
  * word-level questions (real word, fused, form, main meaning, spelling) and per-meaning
- * questions (accuracy, format, censor, form sense, form use, rarity, CEFR level).
+ * questions (accuracy, format, censor, form sense, form use, rarity, CEFR level). Words where
+ * an unsure answer could change the fate go to a Gemini tie-breaker (settle.ts).
  *
  * Usage:
  *   npm run eval:dict:review -- --lang=pt --pilot       (same words as the label pilot)
@@ -9,10 +10,12 @@
  *   npm run eval:dict:review -- --lang=it --words=cazzo,porno
  *   npm run eval:dict:review -- --lang=pt                (every word in public/pt.json)
  *   npm run eval:dict:review -- --lang=pt --step=meanings (Gemini only)
+ *   npm run eval:dict:review -- --lang=pt --step=settle   (tie-breaker only)
  *
  * Artifacts (resumable; pass --fresh to redo):
  *   evals/artifacts/meanings_{lang}.json   Gemini meanings
  *   evals/artifacts/review_{lang}.json     Jev answers
+ *   evals/artifacts/settle_{lang}.json     Gemini tie-breaker rulings
  *   evals/artifacts/review_{lang}.summary.md
  */
 import fs from 'fs';
@@ -30,6 +33,7 @@ import {
   ReviewResult,
   reviewWordWithJev,
 } from './wordReview';
+import { settleMaybes, Settled, SETTLE_TASK } from './settle';
 
 loadEnv();
 
@@ -41,7 +45,7 @@ interface Options {
   pilot: boolean;
   sample: number;
   words: string[];
-  step: 'all' | 'meanings' | 'review';
+  step: 'all' | 'meanings' | 'review' | 'settle';
   concurrency: number;
   fresh: boolean;
 }
@@ -70,8 +74,8 @@ function parseArgs(argv: string[]): Options {
         .map((w) => w.trim().toLowerCase())
         .filter(Boolean);
     } else if (flag === '--step') {
-      if (value !== 'all' && value !== 'meanings' && value !== 'review') {
-        throw new Error('--step must be all, meanings or review');
+      if (value !== 'all' && value !== 'meanings' && value !== 'review' && value !== 'settle') {
+        throw new Error('--step must be all, meanings, review or settle');
       }
       options.step = value;
     } else if (flag === '--concurrency') {
@@ -162,8 +166,12 @@ function selectTargets(options: Options): MeaningsInput[] {
   return options.words.length ? fromWords(options.words) : dictionary;
 }
 
-function summarize(lang: Language, results: ReviewResult[]) {
-  const rows = results.map((r) => ({ r, outcome: decide(r) }));
+function summarize(
+  lang: Language,
+  results: ReviewResult[],
+  settled: Record<string, Settled> = {}
+) {
+  const rows = results.map((r) => ({ r, outcome: settled[r.word]?.outcome ?? decide(r) }));
   const words = (list: typeof rows) =>
     list
       .map(({ r }) => r.display)
@@ -223,6 +231,17 @@ function summarize(lang: Language, results: ReviewResult[]) {
     r.meanings.forEach((m, i) => {
       md += `  - ${i === main ? '★ ' : ''}${offensiveBucket(m.jev)}: ${m.def}\n`;
     });
+  }
+
+  const ruled = rows.filter(({ r }) => settled[r.word]?.rulings.length);
+  if (ruled.length) {
+    md += `\n## Settled by Gemini\n\n`;
+    for (const { r, outcome } of ruled) {
+      md += `- **${r.display}** → ${outcome.kind === 'answer' ? `answer (${outcome.difficulty})` : outcome.kind}\n`;
+      for (const x of settled[r.word].rulings) {
+        md += `  - ${x.question}: Jev ${x.jev} ${Math.round(x.jevProbability * 100)}% → Gemini ${x.gemini}. ${x.reason}\n`;
+      }
+    }
   }
   return md;
 }
@@ -317,14 +336,7 @@ async function runJev(
     }
   );
   writeArtifact(file, saved);
-
-  const selected = ready
-    .map((t) => saved.results[t.word])
-    .filter((r): r is ReviewResult => Boolean(r));
-  const summaryPath = file.replace(/\.json$/, '.summary.md');
-  fs.writeFileSync(summaryPath, summarize(options.lang, selected));
-  console.log(`\n✅ ${selected.length} reviewed, ${failures.length} failed`);
-  console.log(`📄 ${summaryPath}`);
+  console.log(`\n✅ ${todo.length - failures.length} reviewed, ${failures.length} failed`);
   if (failures.length) {
     const failPath = file.replace(/\.json$/, '.failures.json');
     fs.writeFileSync(failPath, `${JSON.stringify(failures, null, 2)}\n`);
@@ -332,21 +344,86 @@ async function runJev(
   }
 }
 
+const SETTLE_BATCH = 50;
+const settleFile = (lang: Language) => path.join(ARTIFACTS_DIR, `settle_${lang}.json`);
+/** Settled outcomes depend on the review answers, so a new review version starts them over. */
+const settleTask = `${SETTLE_TASK}+${REVIEW_TASK}`;
+
+function reviewedTargets(options: Options, targets: MeaningsInput[]) {
+  const review = readArtifact<ReviewResult>(
+    path.join(ARTIFACTS_DIR, `review_${options.lang}.json`),
+    options.lang,
+    REVIEW_TASK,
+    false
+  );
+  return targets.map((t) => review.results[t.word]).filter((r): r is ReviewResult => Boolean(r));
+}
+
+async function runSettle(options: Options, targets: MeaningsInput[]) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing GEMINI_API_KEY in .env.local');
+  }
+  const file = settleFile(options.lang);
+  const saved = readArtifact<Settled>(file, options.lang, settleTask, options.fresh);
+  const todo = reviewedTargets(options, targets).filter(
+    (r) => !saved.results[r.word] && decide(r).kind === 'maybe'
+  );
+  console.log(`\n⚖️  Gemini tie-breaker: ${options.lang.toUpperCase()} — ${todo.length} maybes`);
+  const batches: ReviewResult[][] = [];
+  for (let i = 0; i < todo.length; i += SETTLE_BATCH) {
+    batches.push(todo.slice(i, i + SETTLE_BATCH));
+  }
+  let failed = 0;
+  await mapPool(batches, 4, async (batch) => {
+    try {
+      Object.assign(saved.results, await settleMaybes(options.lang, batch, apiKey));
+      writeArtifact(file, saved);
+    } catch (err) {
+      failed += batch.length;
+      console.warn(`\n  ⚠️ batch failed: ${err instanceof Error ? err.message : err}`);
+    }
+  });
+  writeArtifact(file, saved);
+  const left = todo.filter((r) => saved.results[r.word]?.outcome.kind === 'maybe');
+  console.log(
+    `\n✅ ${todo.length - failed} settled, ${failed} failed${left.length ? `; still maybe: ${left.map((r) => r.display).join(', ')}` : ''}`
+  );
+}
+
+function writeSummary(options: Options, targets: MeaningsInput[]) {
+  const settled = readArtifact<Settled>(settleFile(options.lang), options.lang, settleTask, false);
+  const summaryPath = path.join(ARTIFACTS_DIR, `review_${options.lang}.summary.md`);
+  fs.writeFileSync(
+    summaryPath,
+    summarize(options.lang, reviewedTargets(options, targets), settled.results)
+  );
+  console.log(`📄 ${summaryPath}`);
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   const targets = selectTargets(options);
   console.log(`Selected ${targets.length} words`);
-  const meanings =
-    options.step === 'review'
-      ? readArtifact<MeaningsResult>(
-          path.join(ARTIFACTS_DIR, `meanings_${options.lang}.json`),
-          options.lang,
-          MEANINGS_TASK,
-          false
-        )
-      : await runMeanings(options, targets);
+  if (options.step === 'all' || options.step === 'meanings' || options.step === 'review') {
+    const meanings =
+      options.step === 'review'
+        ? readArtifact<MeaningsResult>(
+            path.join(ARTIFACTS_DIR, `meanings_${options.lang}.json`),
+            options.lang,
+            MEANINGS_TASK,
+            false
+          )
+        : await runMeanings(options, targets);
+    if (options.step !== 'meanings') {
+      await runJev(options, targets, meanings);
+    }
+  }
+  if (options.step === 'all' || options.step === 'settle') {
+    await runSettle(options, targets);
+  }
   if (options.step !== 'meanings') {
-    await runJev(options, targets, meanings);
+    writeSummary(options, targets);
   }
 }
 
