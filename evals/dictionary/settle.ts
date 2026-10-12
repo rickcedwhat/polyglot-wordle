@@ -15,8 +15,20 @@ import {
   ReviewResult,
 } from './wordReview';
 
-export const SETTLE_TASK = 'settle_v1';
+export const SETTLE_TASK = 'settle_v2';
 const MAX_ROUNDS = 2;
+
+/** Extra guidance for Gemini on questions where it drifts from the game's intent. */
+const GUIDANCE: Record<string, string> = {
+  realWord:
+    'Plurals, feminine forms, conjugations, standard modern spellings and short forms that native speakers commonly use all count as real words.',
+  censor:
+    'Judge only the meaning given. Many words also have a crude slang meaning (like "cock" or "ass"); that does not make a clean meaning crude, because the game shows the word with this definition.',
+  rarity:
+    'Choose "rarely" only when many native speakers would not know what the word means. Words people recognise from school, news, hobbies or books are at least "sometimes".',
+  formUse:
+    'Judge the grammatical form only. Forms used in normal conversation, such as the present subjunctive, are everyday; literary means tenses mostly limited to formal writing.',
+};
 
 /** The Jev question behind each unsure gate answer, and whether it is asked per meaning. */
 const SOURCE: Record<string, { question: string; perMeaning: boolean }> = {
@@ -82,6 +94,7 @@ async function askGemini(lang: Language, asks: Ask[], apiKey: string) {
     word: a.r.display,
     ...(a.perMeaning ? {} : { meanings: a.r.meanings.map((m) => `(${m.pos}) ${m.def}`) }),
     question: a.q.instructions,
+    ...(GUIDANCE[a.question] ? { guidance: GUIDANCE[a.question] } : {}),
     choices: a.q.criteria,
   }));
   const prompt = `You are helping build the ${langName} word list for a Wordle-style game. Each item below asks one question about a ${langName} word. Answer each question exactly as asked, picking one of its choice keys, and give a one-sentence reason. Judge as a typical adult native ${langName} speaker would. When a question names a meaning, judge only that meaning and ignore any other meanings the word has.
