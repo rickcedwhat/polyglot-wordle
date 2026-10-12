@@ -50,8 +50,8 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
 
   const numberOfGuesses = game.guessHistory.length;
 
-  // Convert Firestore Timestamp to a readable date
-  const gameDate = game.startedAt.toDate().toLocaleDateString(i18n.language);
+  // Finished games show the day they were finished; unfinished ones the day they were started.
+  const gameDate = (game.completedAt ?? game.startedAt).toDate().toLocaleDateString(i18n.language);
 
   return (
     <Card
