@@ -429,7 +429,7 @@ function formAnswers(r: ReviewResult) {
   const main = mainJev(r);
   return {
     ...(r.jev.form.choice === 'conjugated_verb' && r.meanings.every((m) => m.pos === 'verb')
-      ? { nonsense: asYesNo(main.formSense, ['no']) }
+      ? { nonsense: removeOnlyIfSure(asYesNo(main.formSense, ['no']), 'yes') }
       : {}),
     literary: asYesNo(main.formUse, ['literary']),
     regional: asYesNo(main.formUse, ['regional']),
@@ -437,20 +437,21 @@ function formAnswers(r: ReviewResult) {
 }
 
 /**
- * Jev's "not a word" only counts when it is at least this sure; anything less is a real word.
- * The verdict is always sure, so this question never goes to the tie-breaker.
+ * For "not a word" and "makes no sense", Jev's answer only removes a word when it is at least
+ * this sure; anything less keeps the word. The verdict is always sure, so these questions never
+ * go to the tie-breaker.
  */
-export const NOT_A_WORD_AT = 0.8;
-function realWordVerdict(a: Answer<YesNo>): Answer<YesNo> {
-  const choice: YesNo = (a.probabilities.no ?? 0) >= NOT_A_WORD_AT ? 'no' : 'yes';
-  return { ...a, choice, probability: 1 };
+export const REMOVE_AT = 0.8;
+function removeOnlyIfSure(a: Answer<YesNo>, remove: YesNo): Answer<YesNo> {
+  const keep: YesNo = remove === 'yes' ? 'no' : 'yes';
+  return { ...a, choice: (a.probabilities[remove] ?? 0) >= REMOVE_AT ? remove : keep, probability: 1 };
 }
 
 /** The decision order, after the meanings check. */
 const GATES: GateDef[] = [
   {
     gate: 'real_word',
-    answers: (r) => ({ realWord: realWordVerdict(r.jev.realWord) }),
+    answers: (r) => ({ realWord: removeOnlyIfSure(r.jev.realWord, 'no') }),
     bucket: (y) => (y.realWord ? 'real_word' : 'not_a_word'),
   },
   {
