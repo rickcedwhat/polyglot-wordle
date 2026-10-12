@@ -265,7 +265,7 @@ function summarize(
     md += `\n## Manual overrides\n\n`;
     for (const { r, outcome, auto } of manual) {
       const o = outcome as Extract<FinalOutcome, { manual: Override }>;
-      const agrees = fateLabel(auto) === fateLabel(outcome) ? ' (pipeline now agrees; override can go)' : '';
+      const agrees = fateLabel(auto) === fateLabel(outcome) ? ' (confirms the pipeline)' : '';
       md += `- **${r.display}** → ${fateLabel(outcome)}, pipeline says ${fateLabel(auto)}${agrees}. ${o.manual.reason} (${o.manual.date})\n`;
     }
   }

@@ -1,0 +1,22 @@
+{
+  "en": {
+    "idiot": {
+      "fate": "answer",
+      "reason": "A mild insult; fine as an answer.",
+      "date": "2026-10-12"
+    },
+    "rapes": {
+      "fate": "guess_only",
+      "reason": "Too grim to be an answer.",
+      "date": "2026-10-12"
+    }
+  },
+  "es": {
+    "quite": {
+      "fate": "answer",
+      "difficulty": "intermediate",
+      "reason": "Mainly a common form of \"quitar\"; Jev took the rare noun as the main meaning.",
+      "date": "2026-10-12"
+    }
+  }
+}

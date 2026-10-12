@@ -1,8 +1,10 @@
 /**
- * Manual calls on single words. They win over Jev and the Gemini tie-breaker, and live here in
- * source so re-running the review never undoes them. The summary lists every override next to
- * what the pipeline says today, so ones the pipeline now agrees with can be dropped.
+ * Manual calls on single words, kept in overrides.json (edited by hand or from the word-trees
+ * review page). They win over Jev and the Gemini tie-breaker, and live in source so re-running
+ * the review never undoes them. The summary lists every override next to what the pipeline says
+ * today.
  */
+import overrides from './overrides.json';
 import { Settled } from './settle';
 import { Language } from './types';
 import { decide, Difficulty, difficultyOf, Fate, mainMeaningIndex, Outcome, ReviewResult } from './wordReview';
@@ -15,20 +17,7 @@ export interface Override {
   date: string;
 }
 
-export const OVERRIDES: Partial<Record<Language, Record<string, Override>>> = {
-  en: {
-    idiot: { fate: 'answer', reason: 'A mild insult; fine as an answer.', date: '2026-10-12' },
-    rapes: { fate: 'guess_only', reason: 'Too grim to be an answer.', date: '2026-10-12' },
-  },
-  es: {
-    quite: {
-      fate: 'answer',
-      difficulty: 'intermediate',
-      reason: 'Mainly a common form of "quitar"; Jev took the rare noun as the main meaning.',
-      date: '2026-10-12',
-    },
-  },
-};
+export const OVERRIDES = overrides as Partial<Record<Language, Record<string, Override>>>;
 
 export type FinalOutcome =
   | Outcome
