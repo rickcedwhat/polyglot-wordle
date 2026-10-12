@@ -13,6 +13,7 @@ const portArg = process.argv.find((a) => a.startsWith('--port='));
 const PORT = Number(portArg?.split('=')[1] ?? process.env.PORT ?? 5199);
 const FATES = ['answer', 'guess_only', 'removed'];
 const LEVELS = ['easy', 'intermediate', 'advanced'];
+const QUESTION = /^[a-zA-Z_]{1,40}$/;
 
 function build() {
   execSync('npx vite-node --script evals/dictionary/wordTrees/buildPage.ts', {
@@ -69,26 +70,54 @@ const server = http.createServer(async (req, res) => {
       return send(res, 200, read());
     }
     if (url.pathname === '/api/overrides' && req.method === 'POST') {
-      const { lang, word, fate, difficulty, reason } = await body(req);
-      if (!/^[a-z]{2}$/.test(lang) || typeof word !== 'string' || !word || !FATES.includes(fate)) {
-        return send(res, 400, { error: 'lang, word and fate are required' });
-      }
-      if (difficulty !== undefined && !LEVELS.includes(difficulty)) {
-        return send(res, 400, { error: 'bad difficulty' });
+      const { lang, word, question, choice, fate, difficulty, reason } = await body(req);
+      if (!/^[a-z]{2}$/.test(lang) || typeof word !== 'string' || !word) {
+        return send(res, 400, { error: 'lang and word are required' });
       }
       const data = read();
       data[lang] ??= {};
+      const date = new Date().toISOString().slice(0, 10);
+      if (question !== undefined) {
+        if (!QUESTION.test(question) || typeof choice !== 'string' || !QUESTION.test(choice)) {
+          return send(res, 400, { error: 'bad question or choice' });
+        }
+        const entry = data[lang][word] ?? {};
+        entry.answers = { ...entry.answers, [question]: choice };
+        entry.date = date;
+        if (reason) {
+          entry.reason = String(reason);
+        }
+        data[lang][word] = entry;
+        return send(res, 200, write(data));
+      }
+      if (!FATES.includes(fate) || (difficulty !== undefined && !LEVELS.includes(difficulty))) {
+        return send(res, 400, { error: 'bad fate or difficulty' });
+      }
       data[lang][word] = {
         fate,
         ...(fate === 'answer' && difficulty ? { difficulty } : {}),
-        reason: String(reason || 'Looked over in review mode.'),
-        date: new Date().toISOString().slice(0, 10),
+        ...(reason ? { reason: String(reason) } : {}),
+        date,
       };
       return send(res, 200, write(data));
     }
     if (url.pathname === '/api/overrides' && req.method === 'DELETE') {
       const data = read();
-      delete data[url.searchParams.get('lang')]?.[url.searchParams.get('word')];
+      const lang = url.searchParams.get('lang');
+      const word = url.searchParams.get('word');
+      const question = url.searchParams.get('question');
+      const entry = data[lang]?.[word];
+      if (entry && question && entry.answers) {
+        delete entry.answers[question];
+        if (!Object.keys(entry.answers).length) {
+          delete entry.answers;
+        }
+        if (!entry.fate && !entry.answers) {
+          delete data[lang][word];
+        }
+      } else if (entry) {
+        delete data[lang][word];
+      }
       return send(res, 200, write(data));
     }
     send(res, 404, { error: 'not found' });

@@ -1,21 +1,352 @@
 {
   "en": {
+    "adder": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-12"
+    },
+    "ahold": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "ardor": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-12"
+    },
+    "argus": {
+      "answers": {
+        "formUse": "literary"
+      },
+      "date": "2026-10-12"
+    },
+    "asses": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-12"
+    },
+    "bowie": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "dally": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "deign": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "duper": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "ficus": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "garde": {
+      "answers": {
+        "formUse": "literary"
+      },
+      "date": "2026-10-12"
+    },
     "idiot": {
       "fate": "answer",
       "reason": "A mild insult; fine as an answer.",
+      "date": "2026-10-12"
+    },
+    "midge": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "modus": {
+      "answers": {
+        "formUse": "literary"
+      },
+      "date": "2026-10-12"
+    },
+    "natty": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-12"
+    },
+    "ollie": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "rajah": {
+      "answers": {
+        "obscure": "obscure"
+      },
       "date": "2026-10-12"
     },
     "rapes": {
       "fate": "guess_only",
       "reason": "Too grim to be an answer.",
       "date": "2026-10-12"
+    },
+    "scala": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "tulle": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-12"
+    },
+    "verde": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-12"
     }
   },
   "es": {
+    "ajuar": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "ester": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "genia": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "nadir": {
+      "answers": {
+        "formUse": "everyday",
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "nazca": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
     "quite": {
       "fate": "answer",
       "difficulty": "intermediate",
       "reason": "Mainly a common form of \"quitar\"; Jev took the rare noun as the main meaning.",
+      "date": "2026-10-12"
+    }
+  },
+  "fr": {
+    "banco": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "magot": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "moque": {
+      "answers": {
+        "fused": "no"
+      },
+      "date": "2026-10-12"
+    },
+    "patir": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "pekin": {
+      "answers": {
+        "censor": "fine",
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "tisse": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "vizir": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    }
+  },
+  "it": {
+    "bisca": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "dingo": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-12"
+    },
+    "indio": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-12"
+    },
+    "muoia": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "odino": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "parsa": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "ponce": {
+      "fate": "guess_only",
+      "reason": "Only means the drink (punch) in Italian, which few know; the pimp meaning is English slang.",
+      "date": "2026-10-12"
+    },
+    "urina": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-12"
+    },
+    "zozzo": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-12"
+    }
+  },
+  "pt": {
+    "acuda": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "cavem": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "credo": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "emita": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "gabar": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "gecko": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-12"
+    },
+    "hajam": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "olhes": {
+      "answers": {
+        "formUse": "regional"
+      },
+      "date": "2026-10-12"
+    },
+    "persa": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-12"
+    },
+    "rirem": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "servo": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-12"
+    },
+    "soldo": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "traia": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-12"
+    },
+    "zorro": {
+      "answers": {
+        "obscure": "obscure"
+      },
       "date": "2026-10-12"
     }
   }

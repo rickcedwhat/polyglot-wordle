@@ -1,7 +1,7 @@
 /**
  * Combined dictionary review: Gemini writes 1-3 meanings per word, then Jev answers
  * word-level questions (real word, fused, form, main meaning, spelling) and per-meaning
- * questions (accuracy, format, censor, form sense, form use, rarity, CEFR level). Words where
+ * questions (accuracy, format, censor, form sense, form use, obscure, CEFR level). Words where
  * an unsure answer could change the fate go to a Gemini tie-breaker (settle.ts). A separate
  * Jev check flags words whose meanings may be missing the one most speakers think of first.
  *
@@ -11,6 +11,7 @@
  *   npm run eval:dict:review -- --lang=it --words=cazzo,porno
  *   npm run eval:dict:review -- --lang=pt                (every word in public/pt.json)
  *   npm run eval:dict:review -- --lang=pt --step=meanings (Gemini only)
+ *   npm run eval:dict:review -- --lang=pt --step=obscure  (asks the obscure question where missing; --fresh re-asks all)
  *   npm run eval:dict:review -- --lang=pt --step=coverage (missing-meaning flags only)
  *   npm run eval:dict:review -- --lang=pt --step=settle   (tie-breaker only)
  *
@@ -27,9 +28,12 @@ import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { loadEnv, mapPool } from './cli';
 import { loadDictionary } from './dataset';
 import { generateMeanings, MEANINGS_TASK, MeaningsInput, MeaningsResult } from './meanings';
+import { fateLabel, finalOutcome, Override, OVERRIDES } from './overrides';
+import { SETTLE_TASK, Settled, settleMaybes } from './settle';
 import { Language } from './types';
 import {
   Answer,
+  askObscureWithJev,
   checkCoverageWithJev,
   Coverage,
   COVERAGE_TASK,
@@ -40,8 +44,6 @@ import {
   ReviewResult,
   reviewWordWithJev,
 } from './wordReview';
-import { fateLabel, FinalOutcome, finalOutcome, Override } from './overrides';
-import { settleMaybes, Settled, SETTLE_TASK } from './settle';
 
 loadEnv();
 
@@ -50,7 +52,7 @@ const GEMINI_BATCH = 25;
 /** Jev's probability that the main meaning is missing at which a word is flagged in the summary. */
 const MISSING_FLAG_AT = 0.8;
 
-const STEPS = ['all', 'meanings', 'review', 'coverage', 'settle'] as const;
+const STEPS = ['all', 'meanings', 'review', 'obscure', 'coverage', 'settle'] as const;
 type Step = (typeof STEPS)[number];
 
 interface Options {
@@ -264,9 +266,14 @@ function summarize(
   if (manual.length) {
     md += `\n## Manual overrides\n\n`;
     for (const { r, outcome, auto } of manual) {
-      const o = outcome as Extract<FinalOutcome, { manual: Override }>;
-      const agrees = fateLabel(auto) === fateLabel(outcome) ? ' (confirms the pipeline)' : '';
-      md += `- **${r.display}** → ${fateLabel(outcome)}, pipeline says ${fateLabel(auto)}${agrees}. ${o.manual.reason} (${o.manual.date})\n`;
+      const m = OVERRIDES[lang]?.[r.word] as Override;
+      const what = m.fate
+        ? 'fate set by hand'
+        : Object.entries(m.answers ?? {})
+            .map(([q, c]) => `${q}: ${c}`)
+            .join(', ');
+      const agrees = fateLabel(auto) === fateLabel(outcome) ? ' (same as the pipeline)' : '';
+      md += `- **${r.display}** → ${fateLabel(outcome)} (${what}), pipeline says ${fateLabel(auto)}${agrees}.${m.reason ? ` ${m.reason}` : ''} (${m.date})\n`;
     }
   }
 
@@ -428,6 +435,34 @@ async function runSettle(options: Options, targets: MeaningsInput[]) {
   );
 }
 
+/** Asks the obscure question for meanings reviewed before it existed, saving into the review artifact. */
+async function runObscure(options: Options, targets: MeaningsInput[]) {
+  const apiKey = process.env.TYPESAFE_API_KEY;
+  if (!apiKey) {
+    throw new Error('Missing TYPESAFE_API_KEY in .env.local');
+  }
+  const file = path.join(ARTIFACTS_DIR, `review_${options.lang}.json`);
+  const saved = readArtifact<ReviewResult>(file, options.lang, REVIEW_TASK, false);
+  const todo = reviewedTargets(options, targets).flatMap((r) =>
+    r.meanings.flatMap((m, i) => (m.jev.obscure && !options.fresh ? [] : [{ r, i }]))
+  );
+  console.log(
+    `\n🔎 Obscure question: ${options.lang.toUpperCase()} — ${todo.length} meanings to ask`
+  );
+  const client = new TypeSafeClient({ apiKey });
+  let failed = 0;
+  await mapPool(todo, options.concurrency, async ({ r, i }) => {
+    try {
+      saved.results[r.word].meanings[i].jev.obscure = await askObscureWithJev(client, r, i);
+    } catch (err) {
+      failed++;
+      console.warn(`\n  ⚠️ ${r.word} #${i + 1}: ${err instanceof Error ? err.message : err}`);
+    }
+  });
+  writeArtifact(file, saved);
+  console.log(`\n✅ ${todo.length - failed} asked, ${failed} failed`);
+}
+
 const coverageFile = (lang: Language) => path.join(ARTIFACTS_DIR, `coverage_${lang}.json`);
 /** Coverage judges Gemini's meanings, so new meanings start it over. */
 const coverageTask = `${COVERAGE_TASK}+${MEANINGS_TASK}`;
@@ -490,6 +525,9 @@ async function main() {
     if (options.step !== 'meanings') {
       await runJev(options, targets, meanings);
     }
+  }
+  if (options.step === 'obscure') {
+    await runObscure(options, targets);
   }
   if (options.step === 'all' || options.step === 'coverage') {
     await runCoverage(options, targets);

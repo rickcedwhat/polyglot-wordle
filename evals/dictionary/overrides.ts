@@ -1,36 +1,45 @@
 /**
  * Manual calls on single words, kept in overrides.json (edited by hand or from the word-trees
- * review page). They win over Jev and the Gemini tie-breaker, and live in source so re-running
- * the review never undoes them. The summary lists every override next to what the pipeline says
- * today.
+ * review page). They live in source so re-running the review never undoes them.
+ *
+ * Two kinds:
+ * - answers: a person answers the questions Jev was unsure about, exactly like the Gemini
+ *   tie-breaker does. Their answers beat Gemini's, and the rules decide the fate as usual.
+ * - fate: a person sets the fate outright, for words where the rules themselves give the wrong
+ *   result (e.g. a mild insult that should be an answer).
  */
 import overrides from './overrides.json';
-import { Settled } from './settle';
+import { Settled, withAnswer } from './settle';
 import { Language } from './types';
 import {
   decide,
   Difficulty,
   difficultyOf,
   Fate,
-  mainMeaningIndex,
+  meaningIndexFor,
   Outcome,
   ReviewResult,
 } from './wordReview';
 
 export interface Override {
-  fate: Fate | 'answer';
-  /** For answers; defaults to Jev's difficulty for the main meaning. */
+  /** Sets the fate outright; wins over `answers`. */
+  fate?: Fate | 'answer';
+  /** For a fate of answer; defaults to Jev's difficulty for the main meaning. */
   difficulty?: Difficulty;
-  reason: string;
+  /** Answers to the questions Jev was unsure about, keyed by question (e.g. obscure). */
+  answers?: Record<string, string>;
+  reason?: string;
   date: string;
 }
 
 export const OVERRIDES = overrides as Partial<Record<Language, Record<string, Override>>>;
 
+type FateOverride = Override & { fate: Fate | 'answer' };
+
 export type FinalOutcome =
   | Outcome
-  | { kind: Fate; manual: Override; steps: Outcome['steps'] }
-  | { kind: 'answer'; difficulty: Difficulty; manual: Override; steps: Outcome['steps'] };
+  | { kind: Fate; manual: FateOverride; steps: Outcome['steps'] }
+  | { kind: 'answer'; difficulty: Difficulty; manual: FateOverride; steps: Outcome['steps'] };
 
 export type Source = 'jev' | 'gemini' | 'manual';
 
@@ -42,6 +51,22 @@ export interface Final {
   ruling?: Settled;
 }
 
+/** Jev's answers with Gemini's rulings and then a person's answers laid on top. */
+export function withSettledAnswers(
+  r: ReviewResult,
+  ruling: Settled | undefined,
+  answers: Record<string, string> = {}
+): ReviewResult {
+  let out = r;
+  for (const x of ruling?.rulings ?? []) {
+    out = withAnswer(out, x.question, x.gemini);
+  }
+  for (const [question, choice] of Object.entries(answers)) {
+    out = withAnswer(out, question, choice);
+  }
+  return out;
+}
+
 /** The word's fate: a manual override, else the tie-breaker's ruling for a maybe, else Jev's. */
 export function finalOutcome(r: ReviewResult, settled: Record<string, Settled> = {}): Final {
   const jev = decide(r);
@@ -49,21 +74,28 @@ export function finalOutcome(r: ReviewResult, settled: Record<string, Settled> =
   const auto = ruling?.outcome ?? jev;
   const source: Source = ruling ? 'gemini' : 'jev';
   const manual = OVERRIDES[r.lang]?.[r.word];
-  if (!manual) {
-    return { outcome: auto, source, auto, ruling };
+  if (manual?.fate) {
+    const m = manual as FateOverride;
+    const outcome: FinalOutcome =
+      m.fate === 'answer'
+        ? {
+            kind: 'answer',
+            difficulty:
+              m.difficulty ??
+              (r.meanings.length
+                ? difficultyOf(r.meanings[meaningIndexFor(r, 'obscure')].jev)
+                : 'advanced'),
+            manual: m,
+            steps: jev.steps,
+          }
+        : { kind: m.fate, manual: m, steps: jev.steps };
+    return { outcome, source: 'manual', auto, ruling };
   }
-  const outcome: FinalOutcome =
-    manual.fate === 'answer'
-      ? {
-          kind: 'answer',
-          difficulty:
-            manual.difficulty ??
-            (r.meanings.length ? difficultyOf(r.meanings[mainMeaningIndex(r)].jev) : 'advanced'),
-          manual,
-          steps: jev.steps,
-        }
-      : { kind: manual.fate, manual, steps: jev.steps };
-  return { outcome, source: 'manual', auto, ruling };
+  if (manual?.answers && Object.keys(manual.answers).length) {
+    const outcome = decide(withSettledAnswers(r, ruling, manual.answers));
+    return { outcome, source: 'manual', auto, ruling };
+  }
+  return { outcome: auto, source, auto, ruling };
 }
 
 export function fateLabel(o: FinalOutcome): string {

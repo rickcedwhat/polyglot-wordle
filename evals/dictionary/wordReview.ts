@@ -25,7 +25,7 @@ export type Accuracy = 'accurate' | 'inflected_form' | 'wrong_pos' | 'wrong_mean
 export type Format = 'clean_dictionary' | 'vague_circular' | 'robotic_filler' | 'malformed_syntax';
 export type Censor = 'fine' | 'crude' | 'block';
 export type FormUse = 'everyday' | 'regional' | 'literary';
-export type Rarity = 'regularly' | 'sometimes' | 'rarely';
+export type Obscurity = 'known' | 'obscure';
 export type Cefr = 'a1_a2' | 'b1_b2' | 'c1_c2' | 'beyond';
 export type Difficulty = 'easy' | 'intermediate' | 'advanced';
 
@@ -46,7 +46,7 @@ export interface MeaningAnswers {
   censor: Answer<Censor>;
   formSense: Answer<YesNo>;
   formUse: Answer<FormUse>;
-  rarity: Answer<Rarity>;
+  obscure: Answer<Obscurity>;
   cefr: Answer<Cefr>;
 }
 
@@ -80,7 +80,7 @@ const ALLOWED = {
   censor: ['fine', 'crude', 'block'],
   formSense: ['yes', 'no'],
   formUse: ['everyday', 'regional', 'literary'],
-  rarity: ['regularly', 'sometimes', 'rarely'],
+  obscure: ['known', 'obscure'],
   cefr: ['a1_a2', 'b1_b2', 'c1_c2', 'beyond'],
   coverage: ['listed', 'missing'],
 } as const;
@@ -134,6 +134,19 @@ export function buildWordQuestions(input: ReviewInput) {
   return questions;
 }
 
+/** Whether one meaning is too obscure to be a puzzle answer (it would make the word guess-only). */
+export function obscureQuestion(input: ReviewInput, meaning: Meaning) {
+  const lang = getLanguageName(input.lang);
+  const w = meaning.spelling ?? input.display;
+  return choice(
+    `Would at least 1 in 4 adult native ${lang} speakers know what "${w}" means, in this meaning: "${meaning.def}"? Judge the meaning, not the grammatical form: a conjugated or plural form of a familiar word is as familiar as that word.`,
+    {
+      known: 'Yes: at least a quarter of native speakers would know it',
+      obscure: 'No: hardly anyone outside a small group would know what it means',
+    }
+  );
+}
+
 export function buildMeaningQuestions(input: ReviewInput, meaning: Meaning) {
   const lang = getLanguageName(input.lang);
   const w = meaning.spelling ?? input.display;
@@ -174,25 +187,17 @@ export function buildMeaningQuestions(input: ReviewInput, meaning: Meaning) {
       }
     ),
     formUse: choice(
-      `How common is the grammatical form "${w}" (${meaning.def}) in everyday ${lang}? Judge the form (tense, mood, person), not how common the word is.`,
+      `How common is the grammatical form of "${w}" (${meaning.def}) in everyday ${lang}? Judge only the inflection (tense, mood, person, number), never the word itself: how rare, formal or literary the word is gets asked separately. A noun, adjective or adverb in its dictionary or plural form, or a verb's infinitive, has no special form, so it is everyday.`,
       {
         everyday:
-          'Everyday: a form used all the time in normal speech and writing (any base form, plural or common tense counts)',
+          'Everyday: a dictionary form (singular or plural noun, adjective, adverb, infinitive), or a tense or mood used in normal speech, even if the word itself is rare or formal',
         regional:
-          'Regional: a form used only in some regions (like a pronoun or tense used in one country but not others)',
+          'Regional: an inflection used only in some regions (like a pronoun or tense used in one country but not others)',
         literary:
-          'Literary or rare: a tense or form mostly found in formal writing or literature, rarely used in speech',
+          'Literary: a verb tense or mood mostly limited to formal writing (like the French passé simple or the Spanish future subjunctive), rarely used in speech',
       }
     ),
-    rarity: choice(
-      `How often does a typical adult native ${lang} speaker come across the word "${w}", meaning: "${meaning.def}"? Judge the meaning, not the grammatical form: a conjugated or plural form of a familiar word is as familiar as that word.`,
-      {
-        regularly: 'Regularly: in everyday conversation, TV, news or books',
-        sometimes:
-          'Sometimes: they know what it means when they see it, even if they rarely use it themselves',
-        rarely: 'Rarely or never: many native speakers would not know what it means',
-      }
-    ),
+    obscure: obscureQuestion(input, meaning),
     cefr: choice(
       `At what CEFR level would a learner of ${lang} typically learn the word "${w}", in this meaning: "${meaning.def}"? Judge the meaning, not the grammatical form: a conjugated or plural form of a basic word is as easy as that word.`,
       {
@@ -256,7 +261,7 @@ export function parseMeaningAnswers(answers: Record<string, unknown> | undefined
     censor: readAnswer(answers, 'censor'),
     formSense: readAnswer(answers, 'formSense'),
     formUse: readAnswer(answers, 'formUse'),
-    rarity: readAnswer(answers, 'rarity'),
+    obscure: readAnswer(answers, 'obscure'),
     cefr: readAnswer(answers, 'cefr'),
   };
 }
@@ -282,13 +287,40 @@ export async function checkCoverageWithJev(
       coverage: choice(
         `A word game lists these meanings for the ${lang} word "${w}":\n${listMeanings(input.meanings)}\n\nIs the meaning most native ${lang} speakers would think of first in this list?`,
         {
-          listed: 'Yes: the meaning most people think of first is listed (rarer meanings may be missing)',
+          listed:
+            'Yes: the meaning most people think of first is listed (rarer meanings may be missing)',
           missing: 'No: the meaning most people think of first is missing from the list',
         }
       ),
     },
   });
   return readAnswer(res.answers as Record<string, unknown>, 'coverage');
+}
+
+export const OBSCURE_TASK = 'obscure_v2';
+
+/** Asks only the obscure question for one meaning, for words reviewed before it existed. */
+export async function askObscureWithJev(
+  client: Pick<TypeSafeClient, 'systemOne'>,
+  input: ReviewInput,
+  meaningIndex: number,
+  model = 'jev-latest'
+): Promise<Answer<Obscurity>> {
+  const meaning = input.meanings[meaningIndex];
+  const res = await client.systemOne({
+    model,
+    state: {
+      word: input.word,
+      display: input.display,
+      language: getLanguageName(input.lang),
+      meaningNumber: meaningIndex + 1,
+      partOfSpeech: meaning.pos,
+      definition: meaning.def,
+      task: OBSCURE_TASK,
+    },
+    questions: { obscure: obscureQuestion(input, meaning) },
+  });
+  return readAnswer(res.answers as Record<string, unknown>, 'obscure');
 }
 
 export async function reviewWordWithJev(
@@ -368,7 +400,8 @@ const DIFFICULTY: Record<Difficulty, Cefr[]> = {
 
 /** A meaning's difficulty: Jev's most likely CEFR band, with C1–C2 and beyond C2 both advanced. */
 export function difficultyOf(m: MeaningAnswers): Difficulty {
-  const p = (d: Difficulty) => DIFFICULTY[d].reduce((sum, c) => sum + (m.cefr.probabilities[c] ?? 0), 0);
+  const p = (d: Difficulty) =>
+    DIFFICULTY[d].reduce((sum, c) => sum + (m.cefr.probabilities[c] ?? 0), 0);
   return (Object.keys(DIFFICULTY) as Difficulty[]).reduce((best, d) => (p(d) > p(best) ? d : best));
 }
 
@@ -426,6 +459,34 @@ export function mainMeaningIndex(r: ReviewResult): number {
 
 const BAD_ACCURACY: Accuracy[] = ['wrong_meaning', 'fabricated'];
 
+const obscurity = (m: ReviewedMeaning) => m.jev.obscure.probabilities.obscure ?? 0;
+
+/**
+ * The meaning a per-meaning question is judged on: the main meaning, except that a word is as
+ * familiar as its best-known meaning. When the main meaning might be obscure, familiarity and
+ * difficulty come from the best-known other meaning that Jev is sure is real.
+ */
+const surelyReal = (m: ReviewedMeaning) => {
+  const p = m.jev.accuracy.probabilities;
+  return (p.accurate ?? 0) + (p.inflected_form ?? 0) >= SURE_DEFAULT;
+};
+
+export function meaningIndexFor(r: ReviewResult, question: string): number {
+  const main = mainMeaningIndex(r);
+  if (
+    (question !== 'obscure' && question !== 'cefr') ||
+    obscurity(r.meanings[main]) <= 1 - sureAt('obscure')
+  ) {
+    return main;
+  }
+  return r.meanings.reduce(
+    (best, m, i) => (surelyReal(m) && obscurity(m) < obscurity(r.meanings[best]) ? i : best),
+    main
+  );
+}
+
+const jevFor = (r: ReviewResult, question: string) => r.meanings[meaningIndexFor(r, question)].jev;
+
 interface GateDef {
   gate: Gate;
   answers: (r: ReviewResult) => Record<string, Answer<YesNo>>;
@@ -475,7 +536,11 @@ function formAnswers(r: ReviewResult) {
 export const REMOVE_AT = 0.8;
 function removeOnlyIfSure(a: Answer<YesNo>, remove: YesNo): Answer<YesNo> {
   const keep: YesNo = remove === 'yes' ? 'no' : 'yes';
-  return { ...a, choice: (a.probabilities[remove] ?? 0) >= REMOVE_AT ? remove : keep, probability: 1 };
+  return {
+    ...a,
+    choice: (a.probabilities[remove] ?? 0) >= REMOVE_AT ? remove : keep,
+    probability: 1,
+  };
 }
 
 /** The decision order, after the meanings check. */
@@ -508,7 +573,7 @@ const GATES: GateDef[] = [
   },
   {
     gate: 'familiarity',
-    answers: (r) => ({ obscure: asYesNo(mainJev(r).rarity, ['rarely']) }),
+    answers: (r) => ({ obscure: asYesNo(jevFor(r, 'obscure').obscure, ['obscure']) }),
     bucket: (y) => (y.obscure ? 'obscure' : 'known'),
   },
 ];
@@ -571,5 +636,5 @@ export function decide(r: ReviewResult): Outcome {
       return { kind: fate, gate: s.gate, bucket: s.bucket, steps };
     }
   }
-  return { kind: 'answer', difficulty: difficultyOf(mainJev(r)), steps };
+  return { kind: 'answer', difficulty: difficultyOf(jevFor(r, 'obscure')), steps };
 }

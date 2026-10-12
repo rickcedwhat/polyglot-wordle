@@ -4,13 +4,16 @@
  */
 import fs from 'fs';
 import path from 'path';
-import { Final, finalOutcome } from '../overrides';
+import { Final, finalOutcome, OVERRIDES, withSettledAnswers } from '../overrides';
+import { asksFor, PER_MEANING } from '../settle';
 import {
   asYesNo,
   buildMeaningQuestions,
   buildWordQuestions,
+  decide,
   mainMeaningIndex,
   MeaningAnswers,
+  meaningIndexFor,
   offensiveBucket,
   REMOVE_AT,
   ReviewInput,
@@ -182,10 +185,10 @@ const TREES: Tree[] = [
     id: 'difficulty',
     title: 'Difficulty',
     mainMeaning: true,
-    note: '"Rarely or never" is obscure, so guess only. Otherwise the CEFR level of the main meaning (C1–C2 and beyond are both advanced).',
+    note: 'Obscure (fewer than 1 in 4 natives would know it) is guess only. Otherwise the CEFR level of the best-known meaning (C1–C2 and beyond are both advanced).',
     root: {
       key: 'obscure',
-      q: 'Natives rarely come across it?',
+      q: 'Fewer than 1 in 4 natives would know it?',
       branches: {
         yes: L('obscure', 'Obscure', 'Many native speakers would not know what it means.'),
         no: {
@@ -257,14 +260,15 @@ function answers(r: ReviewResult, coverage?: Ans): Record<string, Ans> {
   }
   const mi = mainMeaningIndex(r);
   const main = r.meanings[mi].jev;
+  const known = r.meanings[meaningIndexFor(r, 'obscure')].jev;
   Object.assign(out, {
     censor: main.censor,
     formUse: main.formUse,
     formSense: r.meanings.every((m) => m.pos === 'verb')
       ? removeOnlyIfSure(main.formSense, 'no', 'yes')
       : { choice: 'yes', ...sure },
-    obscure: asYesNo(main.rarity, ['rarely']),
-    cefr: merge(main.cefr, { a1_a2: ['a1_a2'], b1_b2: ['b1_b2'], c1_c2: ['c1_c2', 'beyond'] }),
+    obscure: asYesNo(known.obscure, ['obscure']),
+    cefr: merge(known.cefr, { a1_a2: ['a1_a2'], b1_b2: ['b1_b2'], c1_c2: ['c1_c2', 'beyond'] }),
   });
   const pick = r.jev.mainMeaning;
   const acc = main.accuracy;
@@ -406,7 +410,6 @@ for (const lang of LANGS) {
   questions[lang] = {
     ...(buildWordQuestions(input) as unknown as Record<string, Tpl>),
     ...meaningQs,
-    obscure: meaningQs.rarity,
     coverage: {
       instructions:
         'A word game lists these meanings for the word "{{word}}": (its meanings). Is the meaning most native speakers would think of first in this list?',
@@ -417,6 +420,78 @@ for (const lang of LANGS) {
       },
     },
   };
+}
+
+/** Plain-language versions of the questions that can be unsure, for the look-over mode. */
+/** Button labels where the criteria text starts with a bare Yes or No. */
+const CHOICE_LABEL: Record<string, string> = { known: 'Known', obscure: 'Obscure' };
+
+const SHORT_QUESTION: Record<string, string> = {
+  realWord: 'Is it a real word?',
+  fused: 'Is it a verb with pronouns attached?',
+  spelling: 'Is it a standard spelling?',
+  censor: 'How should the game treat this meaning?',
+  formSense: 'Would native speakers actually use this form?',
+  formUse:
+    'Is this grammatical form (tense, mood, plural) used in everyday speech? Not about how rare the word is.',
+  obscure: 'Would at least 1 in 4 native speakers know this meaning?',
+};
+
+const outcomeLabel = (o: { kind: string; difficulty?: string }) =>
+  o.kind === 'answer'
+    ? `answer · ${o.difficulty}`
+    : ({ guess_only: 'guess only', removed: 'not guessable', maybe: 'still unsure' }[o.kind] ??
+      o.kind);
+
+/**
+ * The questions Jev was unsure about for a word, as a person would answer them in place of the
+ * tie-breaker: Jev's and Gemini's picks, and where the word lands under each choice.
+ */
+function unsureQuestions(r: ReviewResult, f: Final, human: Record<string, string>) {
+  const asked = new Map<string, { gemini?: string; reason?: string }>();
+  for (const x of f.ruling?.rulings ?? []) {
+    asked.set(x.question, { gemini: x.gemini, reason: x.reason });
+  }
+  const now = withSettledAnswers(r, f.ruling, human);
+  for (const question of [
+    ...Object.keys(human),
+    ...asksFor(now, decide(now)).map((a) => a.question),
+  ]) {
+    if (!asked.has(question)) {
+      asked.set(question, {});
+    }
+  }
+  return [...asked].map(([key, g]) => {
+    const perMeaning = PER_MEANING[key];
+    const others = Object.fromEntries(Object.entries(human).filter(([q]) => q !== key));
+    const mi = perMeaning ? meaningIndexFor(withSettledAnswers(r, f.ruling, others), key) : 0;
+    const all = (perMeaning
+      ? buildMeaningQuestions(r, r.meanings[mi])
+      : buildWordQuestions(r)) as unknown as Record<
+      string,
+      { instructions: string; criteria: Record<string, string> }
+    >;
+    const tpl = all[key];
+    const jev = (perMeaning ? r.meanings[mi].jev : r.jev) as unknown as Record<string, Ans>;
+    const m = r.meanings[mi];
+    return {
+      key,
+      meaning: perMeaning ? { def: `(${m.pos}) ${m.def}`, main: mi === mainMeaningIndex(r) } : null,
+      q: SHORT_QUESTION[key] ?? key,
+      full: tpl.instructions,
+      perMeaning,
+      jev: [jev[key].choice, Math.round(jev[key].probability * 100)],
+      gemini: g.gemini ?? null,
+      reason: g.reason ?? null,
+      choices: Object.entries(tpl.criteria).map(([c, text]) => ({
+        key: c,
+        label: CHOICE_LABEL[c] ?? text.split(':')[0].trim(),
+        full: text,
+        jev: Math.round((jev[key].probabilities?.[c] ?? 0) * 100),
+        fate: outcomeLabel(decide(withSettledAnswers(r, f.ruling, { ...others, [key]: c }))),
+      })),
+    };
+  });
 }
 
 const read = (f: string) =>
@@ -448,8 +523,11 @@ for (const lang of LANGS) {
           raw[k] = [v.choice, Math.round(v.probability * 100)];
         }
       }
-      if (raw.rarity) {
-        raw.obscure = raw.rarity;
+      if (r.meanings.length) {
+        for (const k of ['obscure', 'cefr'] as const) {
+          const v = r.meanings[meaningIndexFor(r, k)].jev[k];
+          raw[k] = [v.choice, Math.round(v.probability * 100)];
+        }
       }
       if (coverage[r.word]) {
         raw.coverage = [coverage[r.word].choice, Math.round(coverage[r.word].probability * 100)];
@@ -457,6 +535,10 @@ for (const lang of LANGS) {
       return {
         w: r.display,
         key: r.word,
+        unsure: OVERRIDES[lang]?.[r.word]?.fate
+          ? []
+          : unsureQuestions(r, f, OVERRIDES[lang]?.[r.word]?.answers ?? {}),
+        fate: outcomeLabel(f.outcome),
         pipeline: {
           fate: f.auto.kind,
           difficulty: pipeline.difficulty,
@@ -473,16 +555,14 @@ for (const lang of LANGS) {
     });
 }
 
-const html = fs
-  .readFileSync(TEMPLATE, 'utf8')
-  .replace('__DATA__', () =>
-    JSON.stringify({
-      trees: TREES,
-      words,
-      sure: { default: SURE_DEFAULT, ...SURE_BY_QUESTION },
-      questions,
-    })
-  );
+const html = fs.readFileSync(TEMPLATE, 'utf8').replace('__DATA__', () =>
+  JSON.stringify({
+    trees: TREES,
+    words,
+    sure: { default: SURE_DEFAULT, ...SURE_BY_QUESTION },
+    questions,
+  })
+);
 fs.mkdirSync(path.dirname(PAGE), { recursive: true });
 fs.writeFileSync(PAGE, html);
 console.log(`wrote ${PAGE}`);

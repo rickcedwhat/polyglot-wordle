@@ -10,12 +10,12 @@ import {
   buildMeaningQuestions,
   buildWordQuestions,
   decide,
-  mainMeaningIndex,
+  meaningIndexFor,
   Outcome,
   ReviewResult,
 } from './wordReview';
 
-export const SETTLE_TASK = 'settle_v2';
+export const SETTLE_TASK = 'settle_v3';
 const MAX_ROUNDS = 2;
 
 /** Extra guidance for Gemini on questions where it drifts from the game's intent. */
@@ -24,10 +24,8 @@ const GUIDANCE: Record<string, string> = {
     'Plurals, feminine forms, conjugations, standard modern spellings and short forms that native speakers commonly use all count as real words.',
   censor:
     'Judge only the meaning given. Many words also have a crude slang meaning (like "cock" or "ass"); that does not make a clean meaning crude, because the game shows the word with this definition.',
-  rarity:
-    'Choose "rarely" only when many native speakers would not know what the word means. Words people recognise from school, news, hobbies or books are at least "sometimes".',
   formUse:
-    'Judge the grammatical form only. Forms used in normal conversation, such as the present subjunctive, are everyday; literary means tenses mostly limited to formal writing.',
+    'Judge the inflection only, never the word: a rare, formal or literary noun like "zenith" in its dictionary form is everyday here. Forms used in normal conversation, such as the present subjunctive, are everyday; literary means verb tenses mostly limited to formal writing.',
 };
 
 /** The Jev question behind each unsure gate answer, and whether it is asked per meaning. */
@@ -40,7 +38,7 @@ const SOURCE: Record<string, { question: string; perMeaning: boolean }> = {
   nonsense: { question: 'formSense', perMeaning: true },
   literary: { question: 'formUse', perMeaning: true },
   regional: { question: 'formUse', perMeaning: true },
-  obscure: { question: 'rarity', perMeaning: true },
+  obscure: { question: 'obscure', perMeaning: true },
 };
 
 type Question = { instructions: string; criteria: Record<string, string> };
@@ -66,8 +64,13 @@ interface Ask {
   q: Question;
 }
 
+/** Whether each tie-breakable question is asked about one meaning (see meaningIndexFor) rather than the word. */
+export const PER_MEANING: Record<string, boolean> = Object.fromEntries(
+  Object.values(SOURCE).map((s) => [s.question, s.perMeaning])
+);
+
 /** The unsure questions that kept the word a maybe; empty when Gemini cannot help (e.g. no meanings). */
-function asksFor(r: ReviewResult, outcome: Outcome): Omit<Ask, 'id'>[] {
+export function asksFor(r: ReviewResult, outcome: Outcome): Omit<Ask, 'id'>[] {
   if (outcome.kind !== 'maybe') {
     return [];
   }
@@ -80,7 +83,7 @@ function asksFor(r: ReviewResult, outcome: Outcome): Omit<Ask, 'id'>[] {
     }
     seen.add(source.question);
     const questions = source.perMeaning
-      ? buildMeaningQuestions(r, r.meanings[mainMeaningIndex(r)])
+      ? buildMeaningQuestions(r, r.meanings[meaningIndexFor(r, source.question)])
       : buildWordQuestions(r);
     const q = (questions as unknown as Record<string, Question>)[source.question];
     return [{ r, question: source.question, perMeaning: source.perMeaning, q }];
@@ -105,7 +108,11 @@ ${JSON.stringify(items, null, 2)}
     type: 'array',
     items: {
       type: 'object',
-      properties: { id: { type: 'string' }, choice: { type: 'string' }, reason: { type: 'string' } },
+      properties: {
+        id: { type: 'string' },
+        choice: { type: 'string' },
+        reason: { type: 'string' },
+      },
       required: ['id', 'choice', 'reason'],
     },
   };
@@ -121,17 +128,17 @@ ${JSON.stringify(items, null, 2)}
   });
 }
 
-/** Replaces Jev's answer with Gemini's, as a certain answer. */
-function override(r: ReviewResult, ask: Ask, choice: string): ReviewResult {
+/** Replaces Jev's answer to one question with a certain answer (Gemini's or a person's). */
+export function withAnswer(r: ReviewResult, question: string, choice: string): ReviewResult {
   const answer = { choice, confidence: 1, probability: 1, probabilities: { [choice]: 1 } };
-  if (!ask.perMeaning) {
-    return { ...r, jev: { ...r.jev, [ask.question]: answer } };
+  if (!PER_MEANING[question]) {
+    return { ...r, jev: { ...r.jev, [question]: answer } };
   }
-  const main = mainMeaningIndex(r);
+  const target = meaningIndexFor(r, question);
   return {
     ...r,
     meanings: r.meanings.map((m, i) =>
-      i === main ? { ...m, jev: { ...m.jev, [ask.question]: answer } } : m
+      i === target ? { ...m, jev: { ...m.jev, [question]: answer } } : m
     ),
   };
 }
@@ -153,10 +160,14 @@ export async function settleMaybes(
       break;
     }
     for (let i = 0; i < asks.length; i += batchSize) {
-      for (const { ask, choice, reason } of await askGemini(lang, asks.slice(i, i + batchSize), apiKey)) {
+      for (const { ask, choice, reason } of await askGemini(
+        lang,
+        asks.slice(i, i + batchSize),
+        apiKey
+      )) {
         const s = state.get(ask.r.word)!;
         const before = (ask.perMeaning
-          ? s.r.meanings[mainMeaningIndex(s.r)].jev
+          ? s.r.meanings[meaningIndexFor(s.r, ask.question)].jev
           : s.r.jev) as unknown as Record<string, { choice: string; probability: number }>;
         s.rulings.push({
           question: ask.question,
@@ -165,7 +176,7 @@ export async function settleMaybes(
           gemini: choice,
           reason,
         });
-        s.r = override(s.r, ask, choice);
+        s.r = withAnswer(s.r, ask.question, choice);
       }
     }
   }
