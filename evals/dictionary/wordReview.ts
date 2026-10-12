@@ -4,7 +4,7 @@ import { Meaning } from './meanings';
 import { realWordPrompt } from './realWordPrompt';
 import { Language } from './types';
 
-export const REVIEW_TASK = 'word_review_v7';
+export const REVIEW_TASK = 'word_review_v8';
 
 /**
  * Jev's `confidence` is the gap between its top two choices, not the chance its pick is right;
@@ -86,8 +86,16 @@ const ALLOWED = {
 
 const ORDINALS = ['first', 'second', 'third'] as const;
 
+/** "sabía: " when the meanings of a word are spelled differently, so each one shows its own accents. */
+function spelledAs(meanings: Meaning[], m: Meaning) {
+  return new Set(meanings.map((x) => x.spelling)).size > 1 && m.spelling ? `${m.spelling}: ` : '';
+}
+
 function listMeanings(meanings: Meaning[]) {
-  return meanings.map((m, i) => `${i + 1}. (${m.pos}) ${m.def}`).join('\n') || '(none listed)';
+  return (
+    meanings.map((m, i) => `${i + 1}. (${m.pos}) ${spelledAs(meanings, m)}${m.def}`).join('\n') ||
+    '(none listed)'
+  );
 }
 
 export function buildWordQuestions(input: ReviewInput) {
@@ -114,7 +122,7 @@ export function buildWordQuestions(input: ReviewInput) {
   if (input.meanings.length > 1) {
     const options: Record<string, string> = {};
     input.meanings.forEach((m, i) => {
-      options[ORDINALS[i]] = `Meaning ${i + 1}: ${m.def}`;
+      options[ORDINALS[i]] = `Meaning ${i + 1}: ${spelledAs(input.meanings, m)}${m.def}`;
     });
     options.none = 'None of these is the meaning most people would think of';
     questions.mainMeaning = choice(
@@ -127,7 +135,7 @@ export function buildWordQuestions(input: ReviewInput) {
 
 export function buildMeaningQuestions(input: ReviewInput, meaning: Meaning) {
   const lang = getLanguageName(input.lang);
-  const w = input.display;
+  const w = meaning.spelling ?? input.display;
   return {
     accuracy: choice(
       `Is this a correct definition of the ${lang} word "${w}" as a ${meaning.pos}? Definition: "${meaning.def}"`,
@@ -285,7 +293,7 @@ export async function reviewWordWithJev(
     })
   );
   const [word, ...meanings] = await Promise.all([wordCall, ...meaningCalls]);
-  return {
+  const result: ReviewResult = {
     word: input.word,
     lang: input.lang,
     display: input.display,
@@ -295,6 +303,10 @@ export async function reviewWordWithJev(
       jev: parseMeaningAnswers(meanings[i].answers as Record<string, unknown>),
     })),
   };
+  if (result.meanings.length) {
+    result.display = result.meanings[mainMeaningIndex(result)].spelling ?? input.display;
+  }
+  return result;
 }
 
 /**

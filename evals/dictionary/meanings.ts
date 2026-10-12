@@ -7,10 +7,13 @@ export type Pos = (typeof POS_VALUES)[number];
 export interface Meaning {
   pos: Pos;
   def: string;
+  /** The word with this meaning's accents (Spanish "sabía" = knew, "sabia" = wise). */
+  spelling?: string;
 }
 
 export interface MeaningsResult {
   word: string;
+  /** The first meaning's spelling. */
   display: string;
   /** Most common meaning first. Empty when Gemini found no real meaning. */
   meanings: Meaning[];
@@ -24,7 +27,7 @@ export interface MeaningsInput {
 }
 
 export const MAX_MEANINGS = 3;
-export const MEANINGS_TASK = 'meanings_v4';
+export const MEANINGS_TASK = 'meanings_v5';
 
 /** Language the definitions are written in: English, or the word's own language. */
 export type DefLanguage = 'en' | 'native';
@@ -48,7 +51,7 @@ Rules:
 6. If the word is spelled like an English word but is a real ${langName} word, define the ${langName} meaning, never the English one.
 7. Each definition: 8 to 25 words, plain ${defName}, no circular formulas like "Plural of X" or "Pertaining to X". Do not start with "In ${langName}".
 8. pos must be one of: ${POS_VALUES.join(', ')}.
-9. display: the word with its standard accents, lowercase. The key is written without accents, so it can match several ${langName} words that differ only by accents (e.g. Spanish "esta" / "está", French "finit" / "finît"). Choose the one native speakers use most, even when the given display is a different one, and define that word.
+9. spelling: for each meaning, the word with that meaning's standard accents, lowercase. The key is written without accents, so it can stand for several ${langName} words that differ only by accents, and each one gets its own spelling (e.g. Spanish "sabia": "sabía" = knew, "sabia" = wise; French "finit": "finit" = finishes, "finît" = would finish). Most words have the same spelling for every meaning.
 10. Return an empty meanings list only if the word has no real ${langName} meaning at all (only a name, a foreign word ${langName} speakers do not use, gibberish). Archaic, rare, regional, slang and borrowed words that ${langName} speakers do use still get meanings. Do not invent one.
 11. Return exactly one result for every input key.
 
@@ -67,20 +70,20 @@ const RESPONSE_SCHEMA = {
     type: 'object',
     properties: {
       key: { type: 'string' },
-      display: { type: 'string' },
       meanings: {
         type: 'array',
         items: {
           type: 'object',
           properties: {
+            spelling: { type: 'string' },
             pos: { type: 'string', enum: [...POS_VALUES] },
             def: { type: 'string' },
           },
-          required: ['pos', 'def'],
+          required: ['spelling', 'pos', 'def'],
         },
       },
     },
-    required: ['key', 'display', 'meanings'],
+    required: ['key', 'meanings'],
   },
 };
 
@@ -95,10 +98,10 @@ export function parseMeaningsResponse(words: MeaningsInput[], raw: unknown): Mea
   if (!Array.isArray(raw)) {
     throw new Error('Gemini meanings response must be an array');
   }
-  const byKey = new Map<string, { display?: unknown; meanings?: unknown }>();
+  const byKey = new Map<string, { meanings?: unknown }>();
   for (const item of raw) {
     if (item && typeof item === 'object' && typeof (item as { key?: unknown }).key === 'string') {
-      byKey.set((item as { key: string }).key, item as { display?: unknown; meanings?: unknown });
+      byKey.set((item as { key: string }).key, item as { meanings?: unknown });
     }
   }
   return words.map((w) => {
@@ -115,11 +118,18 @@ export function parseMeaningsResponse(words: MeaningsInput[], raw: unknown): Mea
           (m as Meaning).def.trim().length > 0
       )
       .slice(0, MAX_MEANINGS)
-      .map((m) => ({ pos: m.pos, def: m.def.trim() }));
-    const display =
-      typeof item.display === 'string' && item.display.trim() ? item.display.trim() : w.display;
-    return { word: w.word, display: display || w.word, meanings };
+      .map((m) => ({ pos: m.pos, def: m.def.trim(), spelling: spellingFor(w, m.spelling) }));
+    return { word: w.word, display: meanings[0]?.spelling ?? w.display ?? w.word, meanings };
   });
+}
+
+const stripAccents = (s: string) =>
+  s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+/** Gemini's spelling when it is the key with accents, otherwise the word's current display. */
+function spellingFor(w: MeaningsInput, spelling: unknown): string {
+  const s = typeof spelling === 'string' ? spelling.trim().toLowerCase() : '';
+  return s && stripAccents(s) === w.word ? s : (w.display ?? w.word);
 }
 
 export async function generateMeanings(
