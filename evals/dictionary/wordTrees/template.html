@@ -714,7 +714,9 @@
           .map((c, i) => {
             const tags = [
               c.key === q.gemini ? '<span class="tag gem">Gemini</span>' : '',
-              `<span class="tag ${c.key === q.jev[0] ? 'jev' : 'jevlow'}">Jev ${c.jev}%</span>`,
+              c.jev === null
+                ? ''
+                : `<span class="tag ${c.key === q.jev[0] ? 'jev' : 'jevlow'}">Jev ${c.jev}%</span>`,
             ].join('');
             const cls = [
               'opt',
@@ -734,7 +736,7 @@
         return `<div class="qcard${current ? ' current' : ''}">
           <div class="qhead">${esc(q.q)}</div>${about}
           <div class="opts">${opts}</div>
-          ${q.reason ? `<div class="small muted">Gemini: ${esc(q.reason)}</div>` : '<div class="small muted">Gemini has not answered this one.</div>'}
+          ${q.reason ? `<div class="small muted">Gemini: ${esc(q.reason)}</div>` : q.key === 'fate' ? '' : '<div class="small muted">Gemini has not answered this one.</div>'}
           <details class="small muted"><summary>Exact question Jev was asked</summary>${esc(q.full)}</details>
         </div>`;
       }
@@ -812,14 +814,17 @@
       async function answer(key, question, choice) {
         if (!overrides) return;
         const w = langWords().find((x) => x.key === key);
+        const isFate = question === 'fate';
         const res = await fetch('/api/overrides', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ lang, word: key, question, choice }),
+          body: JSON.stringify(
+            isFate ? { lang, word: key, fate: choice } : { lang, word: key, question, choice }
+          ),
         });
         if (!res.ok) return alert(`Could not save: ${(await res.json()).error}`);
         overrides = await res.json();
-        lastAnswer = { lang, key, question, display: w ? w.w : key };
+        lastAnswer = { lang, key, question: isFate ? null : question, display: w ? w.w : key };
         if (w && !openQuestions(w).length) toggled.delete(key);
         render();
         scrollToCurrent();
@@ -870,7 +875,7 @@
         if (!q) return;
         const k = ev.key.toLowerCase();
         const n = Number(k);
-        if (k === 'enter') answer(w.key, q.key, suggested(q));
+        if (k === 'enter' && suggested(q)) answer(w.key, q.key, suggested(q));
         else if (n >= 1 && n <= q.choices.length) answer(w.key, q.key, q.choices[n - 1].key);
         else if (k === 's') skip(w.key);
         else return;

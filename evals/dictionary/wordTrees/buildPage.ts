@@ -447,6 +447,41 @@ const outcomeLabel = (o: { kind: string; difficulty?: string }) =>
  * The questions Jev was unsure about for a word, as a person would answer them in place of the
  * tie-breaker: Jev's and Gemini's picks, and where the word lands under each choice.
  */
+const MEANING_DOUBT: Record<string, string> = {
+  main_missing: 'Jev thinks the meaning most people know may be missing from the list.',
+  main_wrong_meaning:
+    'Jev is not sure which listed meaning people know best, or whether it is right.',
+};
+
+/** A fate card for a word stuck where Gemini cannot help, such as doubts about its meanings. */
+function fateQuestion(f: Final) {
+  if (f.outcome.kind !== 'maybe') {
+    return [];
+  }
+  const step = f.outcome;
+  return [
+    {
+      key: 'fate',
+      q: `${MEANING_DOUBT[step.bucket] ?? `Unsure at ${step.gate}.`} What should happen to this word?`,
+      full: `Stuck at the ${step.gate} gate (${step.bucket}); the Gemini tie-breaker does not answer this.`,
+      perMeaning: false,
+      jev: [null, 0],
+      gemini: null,
+      reason: null,
+      choices: [
+        { key: 'answer', label: 'Answer', full: 'Keep it as an answer', fate: 'answer' },
+        {
+          key: 'guess_only',
+          label: 'Guess only',
+          full: 'Allow as a guess only',
+          fate: 'guess only',
+        },
+        { key: 'removed', label: 'Remove', full: 'Remove the word', fate: 'not guessable' },
+      ].map((c) => ({ ...c, jev: null })),
+    },
+  ];
+}
+
 function unsureQuestions(r: ReviewResult, f: Final, human: Record<string, string>) {
   const asked = new Map<string, { gemini?: string; reason?: string }>();
   for (const x of f.ruling?.rulings ?? []) {
@@ -537,7 +572,10 @@ for (const lang of LANGS) {
         key: r.word,
         unsure: OVERRIDES[lang]?.[r.word]?.fate
           ? []
-          : unsureQuestions(r, f, OVERRIDES[lang]?.[r.word]?.answers ?? {}),
+          : (() => {
+              const qs = unsureQuestions(r, f, OVERRIDES[lang]?.[r.word]?.answers ?? {});
+              return qs.length ? qs : fateQuestion(f);
+            })(),
         fate: outcomeLabel(f.outcome),
         pipeline: {
           fate: f.auto.kind,
