@@ -30,6 +30,12 @@
       },
       "date": "2026-10-12"
     },
+    "bidet": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
     "bowie": {
       "answers": {
         "obscure": "known"
@@ -60,11 +66,29 @@
       },
       "date": "2026-10-12"
     },
+    "filly": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-13"
+    },
     "garde": {
       "answers": {
         "formUse": "literary"
       },
       "date": "2026-10-12"
+    },
+    "gross": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
+    "gulch": {
+      "answers": {
+        "obscure": "obscure"
+      },
+      "date": "2026-10-13"
     },
     "idiot": {
       "fate": "answer",
@@ -82,6 +106,12 @@
         "formUse": "literary"
       },
       "date": "2026-10-12"
+    },
+    "nadir": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-13"
     },
     "natty": {
       "answers": {
@@ -112,6 +142,12 @@
       },
       "date": "2026-10-12"
     },
+    "teats": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
     "tulle": {
       "answers": {
         "obscure": "obscure"
@@ -132,17 +168,35 @@
       },
       "date": "2026-10-12"
     },
+    "arpia": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
     "ester": {
       "answers": {
         "obscure": "known"
       },
       "date": "2026-10-12"
     },
+    "forro": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
     "genia": {
       "answers": {
         "obscure": "known"
       },
       "date": "2026-10-12"
+    },
+    "indio": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
     },
     "nadir": {
       "answers": {
@@ -157,25 +211,61 @@
       },
       "date": "2026-10-12"
     },
+    "patan": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
     "quite": {
       "fate": "answer",
       "difficulty": "intermediate",
       "reason": "Mainly a common form of \"quitar\"; Jev took the rare noun as the main meaning.",
       "date": "2026-10-12"
+    },
+    "seais": {
+      "answers": {
+        "formUse": "regional"
+      },
+      "date": "2026-10-13"
+    },
+    "tanga": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
     }
   },
   "fr": {
+    "baffe": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
     "banco": {
       "answers": {
         "obscure": "known"
       },
       "date": "2026-10-12"
     },
+    "fiait": {
+      "answers": {
+        "fused": "no"
+      },
+      "date": "2026-10-13"
+    },
     "magot": {
       "answers": {
         "obscure": "known"
       },
       "date": "2026-10-12"
+    },
+    "meure": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-13"
     },
     "moque": {
       "answers": {
@@ -196,6 +286,12 @@
       },
       "date": "2026-10-12"
     },
+    "sucon": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
     "tisse": {
       "answers": {
         "formUse": "everyday"
@@ -210,17 +306,41 @@
     }
   },
   "it": {
+    "arpia": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
+    "ascia": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-13"
+    },
     "bisca": {
       "answers": {
         "obscure": "known"
       },
       "date": "2026-10-12"
     },
+    "cocca": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-13"
+    },
     "dingo": {
       "answers": {
         "obscure": "obscure"
       },
       "date": "2026-10-12"
+    },
+    "ficco": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
     },
     "indio": {
       "answers": {
@@ -251,11 +371,35 @@
       "reason": "Only means the drink (punch) in Italian, which few know; the pimp meaning is English slang.",
       "date": "2026-10-12"
     },
+    "rechi": {
+      "answers": {
+        "formUse": "everyday"
+      },
+      "date": "2026-10-13"
+    },
+    "sfiga": {
+      "answers": {
+        "censor": "crude"
+      },
+      "date": "2026-10-13"
+    },
+    "sputo": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
+    },
     "urina": {
       "answers": {
         "censor": "fine"
       },
       "date": "2026-10-12"
+    },
+    "zoppa": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
     },
     "zozzo": {
       "answers": {
@@ -270,6 +414,18 @@
         "formUse": "everyday"
       },
       "date": "2026-10-12"
+    },
+    "andor": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-13"
+    },
+    "besta": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
     },
     "cavem": {
       "answers": {
@@ -301,6 +457,12 @@
       },
       "date": "2026-10-12"
     },
+    "gozou": {
+      "answers": {
+        "censor": "crude"
+      },
+      "date": "2026-10-13"
+    },
     "hajam": {
       "answers": {
         "formUse": "everyday"
@@ -325,6 +487,12 @@
       },
       "date": "2026-10-12"
     },
+    "roque": {
+      "answers": {
+        "obscure": "known"
+      },
+      "date": "2026-10-13"
+    },
     "servo": {
       "answers": {
         "obscure": "known"
@@ -336,6 +504,12 @@
         "formUse": "everyday"
       },
       "date": "2026-10-12"
+    },
+    "tolos": {
+      "answers": {
+        "censor": "fine"
+      },
+      "date": "2026-10-13"
     },
     "traia": {
       "answers": {

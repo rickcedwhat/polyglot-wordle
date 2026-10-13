@@ -684,9 +684,13 @@
       const skipped = () => new Set(JSON.parse(localStorage.getItem(skipKey()) || '[]'));
       const entryOf = (w) => (overrides ? overrides[lang]?.[w.key] : null);
       const mine = (w) => entryOf(w)?.answers ?? {};
-      /** Questions for you: Gemini disagreed with Jev or never answered; when they agree it is settled. */
-      const forMe = (w) => w.unsure.filter((q) => !q.gemini || q.gemini !== q.jev[0] || mine(w)[q.key]);
-      const openQuestions = (w) => (entryOf(w)?.fate ? [] : forMe(w).filter((q) => !mine(w)[q.key]));
+      /** Questions for you: Gemini never answered, or overruled Jev on whether the word is offensive. */
+      const forMe = (w) =>
+        w.unsure.filter(
+          (q) => !q.gemini || (q.key === 'censor' && q.gemini !== q.jev[0]) || mine(w)[q.key]
+        );
+      const openQuestions = (w) =>
+        entryOf(w)?.fate ? [] : forMe(w).filter((q) => !mine(w)[q.key]);
       const reviewWords = () =>
         langWords()
           .filter((w) => forMe(w).length || entryOf(w))
@@ -698,7 +702,9 @@
         return unsureQueue().find((w) => !sk.has(w.key)) ?? null;
       }
       const isOpen = (w) =>
-        toggled.has(w.key) ? toggled.get(w.key) : openQuestions(w).length > 0 && !skipped().has(w.key);
+        toggled.has(w.key)
+          ? toggled.get(w.key)
+          : openQuestions(w).length > 0 && !skipped().has(w.key);
       /** The pick Enter agrees with: Gemini's, or Jev's when Gemini never saw the question. */
       const suggested = (q) => q.gemini ?? q.jev[0];
 
@@ -710,7 +716,11 @@
               c.key === q.gemini ? '<span class="tag gem">Gemini</span>' : '',
               `<span class="tag ${c.key === q.jev[0] ? 'jev' : 'jevlow'}">Jev ${c.jev}%</span>`,
             ].join('');
-            const cls = ['opt', picked === c.key ? 'mine' : '', !picked && c.key === suggested(q) ? 'sugg' : ''].join(' ');
+            const cls = [
+              'opt',
+              picked === c.key ? 'mine' : '',
+              !picked && c.key === suggested(q) ? 'sugg' : '',
+            ].join(' ');
             return `<button class="${cls}" title="${esc(c.full)}" data-word="${esc(w.key)}" data-q="${q.key}" data-c="${c.key}"${overrides ? '' : ' disabled'}>
               <span class="olabel">${esc(c.label)}${current ? ` <kbd>${i + 1}</kbd>` : ''}</span>
               <span class="ofate f-${c.fate.split(' ')[0]}">→ ${esc(c.fate)}</span>
@@ -740,7 +750,10 @@
             return `${esc(q.q)} <b>${esc(c ? c.label : mine(w)[q.key])}</b>${c ? ` → ${esc(c.fate)}` : ''}`;
           });
         const left = openQuestions(w).length;
-        if (left) parts.push(`<span class="unsure-n">${left} to answer${skipped().has(w.key) ? ' · skipped' : ''}</span>`);
+        if (left)
+          parts.push(
+            `<span class="unsure-n">${left} to answer${skipped().has(w.key) ? ' · skipped' : ''}</span>`
+          );
         return parts.join(' · ');
       }
 
@@ -759,7 +772,13 @@
         return `<div class="wcard open${current ? ' current' : ''}" id="card-${esc(w.key)}">${head}
           ${main ? `<div class="mainmeaning">(${esc(main.pos)}) ${esc(main.def)}</div>` : '<div class="muted">No meanings.</div>'}
           ${others.length ? `<div class="small muted">Also: ${others.map((m) => `(${esc(m.pos)}) ${esc(m.def)}`).join(' · ')}</div>` : ''}
-          ${entryOf(w)?.fate ? `<div class="small">${summary(w)}</div>` : forMe(w).map((q) => questionCard(w, q, current && q === first)).join('')}
+          ${
+            entryOf(w)?.fate
+              ? `<div class="small">${summary(w)}</div>`
+              : forMe(w)
+                  .map((q) => questionCard(w, q, current && q === first))
+                  .join('')
+          }
           <div class="small muted">${skip}</div>
         </div>`;
       }
@@ -786,7 +805,9 @@
 
       function scrollToCurrent() {
         const w = currentWord();
-        document.getElementById(`card-${w?.key}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        document
+          .getElementById(`card-${w?.key}`)
+          ?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       }
       async function answer(key, question, choice) {
         if (!overrides) return;
@@ -831,7 +852,8 @@
         if (d.q) answer(d.word, d.q, d.c);
         else if (d.undo) undo(lang, d.undo);
         else if (d.skip) skip(d.skip);
-        else if (d.review === 'undo' && lastAnswer) undo(lastAnswer.lang, lastAnswer.key, lastAnswer.question);
+        else if (d.review === 'undo' && lastAnswer)
+          undo(lastAnswer.lang, lastAnswer.key, lastAnswer.question);
         else if (d.toggle) {
           const w = langWords().find((x) => x.key === d.toggle);
           toggled.set(d.toggle, !isOpen(w));

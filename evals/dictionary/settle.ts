@@ -23,7 +23,7 @@ const GUIDANCE: Record<string, string> = {
   realWord:
     'Plurals, feminine forms, conjugations, standard modern spellings and short forms that native speakers commonly use all count as real words.',
   censor:
-    'Judge only the meaning given. Many words also have a crude slang meaning (like "cock" or "ass"); that does not make a clean meaning crude, because the game shows the word with this definition.',
+    'Judge only the meaning given. Many words also have a crude slang meaning (like "cock" or "ass") or a derogatory use elsewhere; that does not make a clean meaning crude or a slur, because the game shows the word with this definition. Mild insults like "fool", "idiot" or "silly" are fine; crude is for swearing, sexual words and strong insults.',
   formUse:
     'Judge the inflection only, never the word: a rare, formal or literary noun like "zenith" in its dictionary form is everyday here. Forms used in normal conversation, such as the present subjunctive, are everyday; literary means verb tenses mostly limited to formal writing.',
 };
@@ -118,12 +118,15 @@ ${JSON.stringify(items, null, 2)}
   };
   return callGemini(prompt, schema, apiKey, 'gemini-2.5-flash', (raw) => {
     const rows = raw as { id: string; choice: string; reason: string }[];
-    return asks.map((a) => {
+    return asks.flatMap((a) => {
       const row = rows.find((x) => x.id === a.id);
       if (!row || !(row.choice in a.q.criteria)) {
-        throw new Error(`Gemini gave no valid choice for ${a.id}`);
+        console.warn(
+          `\n  ⚠️ no valid choice for ${a.id} (${a.question}): ${JSON.stringify(row?.choice)}`
+        );
+        return [];
       }
-      return { ask: a, choice: row.choice, reason: row.reason };
+      return [{ ask: a, choice: row.choice, reason: row.reason }];
     });
   });
 }
