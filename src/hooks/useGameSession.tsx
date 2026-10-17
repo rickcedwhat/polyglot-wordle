@@ -341,6 +341,8 @@ export const useGameSession = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });
+      queryClient.invalidateQueries({ queryKey: ['playedGame', userId, gameId] });
+      queryClient.invalidateQueries({ queryKey: ['activityFeed'] });
       if (userId) {
         queryClient.invalidateQueries({ queryKey: ['userProfile', userId] });
       }

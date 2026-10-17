@@ -1,5 +1,6 @@
 import { FC, useCallback, useState } from 'react';
 import {
+  IconActivity,
   IconAdjustmentsHorizontal,
   IconFlag,
   IconHelpCircle,
@@ -97,6 +98,7 @@ export const Sidebar: FC = () => {
     action: () => void;
     badge?: number;
   }[] = [
+    { label: t('feed.title'), icon: IconActivity, action: () => navigate('/feed') },
     { label: t('nav.home'), icon: IconHome, action: () => navigate('/') },
     {
       label: t('nav.profile'),

@@ -9,6 +9,21 @@ When reviewing:
 - Keep tags like `<name>…</name>` or `<green>…</green>` around the same words; they add links and colours.
 - To suggest a change, comment on the pull request with the key from the first column.
 
+## Activity feed
+
+| Key | English | Portuguese |
+|---|---|---|
+| `feed.continueGame` | Continue game | Continuar jogo |
+| `feed.title` | Activity feed | Atividade |
+| `feed.subtitle` | See what everyone is playing. Jump into a challenge. | Descubra o que os outros estão jogando e aceite um desafio. |
+| `feed.compare` | Compare | Comparar |
+| `feed.continue` | Continue challenge | Continuar desafio |
+| `feed.challenge` | Challenge | Desafiar |
+| `feed.view` | View game | Ver jogo |
+| `feed.refresh` | Refresh | Atualizar |
+| `feed.loadFailed` | Could not load the feed. Please try again. | Não foi possível carregar a atividade. Tente novamente. |
+| `feed.empty` | No finished games yet. Be the first to play! | Ainda não há jogos terminados. Seja o primeiro a jogar! |
+
 ## Language names
 
 | Key | English | Portuguese |

@@ -5,6 +5,7 @@ import { SidebarLayout } from './layouts/SidebarLayout'; // Import the new layou
 
 import { ChallengesPage } from './pages/Challenges.page';
 import { DictionariesPage } from './pages/Dictionaries.page';
+import { FeedPage } from './pages/Feed.page';
 import { GamePage } from './pages/Game.page';
 import { HomePage } from './pages/Home.page';
 import { LoginPage } from './pages/Login.page';
@@ -53,6 +54,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <GamePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/feed',
+        element: (
+          <ProtectedRoute>
+            <FeedPage />
           </ProtectedRoute>
         ),
       },
