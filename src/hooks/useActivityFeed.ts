@@ -17,6 +17,7 @@ import type { GameDoc } from '@/types/firestore';
 const PAGE_SIZE = 12;
 type Cursor = QueryDocumentSnapshot<DocumentData> | undefined;
 
+/** Paginated public game activity. Spoiler hiding is a UI courtesy, not a read-access boundary. */
 export const useActivityFeed = () => {
   const { currentUser } = useAuth();
   return useInfiniteQuery({

@@ -42,6 +42,7 @@ jobs:
         run: |
           printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$GOOGLE_APPLICATION_CREDENTIALS"
           npx --no-install firebase deploy --only firestore:rules,firestore:indexes --project polyglot-wordle --non-interactive
+          npx --no-install vite-node --script scripts/waitForFirestoreIndexes.ts -- --project polyglot-wordle
           npx --no-install firebase deploy --only hosting --project polyglot-wordle --non-interactive
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_POLYGLOT_WORDLE }}
