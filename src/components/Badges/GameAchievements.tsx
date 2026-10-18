@@ -9,6 +9,7 @@ import { FeatMedal, TrackBadge } from './Badges';
 interface GameAchievementsProps {
   feats: EarnedFeat[];
   levelUps: LevelUp[];
+  spoilerSafe?: boolean;
 }
 
 /** "Earned this game" list for the post-game summary. Renders nothing if nothing was earned. */
@@ -56,7 +57,7 @@ export const EarnedThisGame: FC<GameAchievementsProps> = ({ feats, levelUps }) =
 };
 
 /** Compact medal row for game history cards; hover or tap a badge for its name. */
-export const GameBadgeRow: FC<GameAchievementsProps> = ({ feats, levelUps }) => {
+export const GameBadgeRow: FC<GameAchievementsProps> = ({ feats, levelUps, spoilerSafe }) => {
   if (feats.length === 0 && levelUps.length === 0) {
     return null;
   }
@@ -65,7 +66,11 @@ export const GameBadgeRow: FC<GameAchievementsProps> = ({ feats, levelUps }) => 
       {feats.map((feat) => (
         <Tooltip
           key={featKey(feat)}
-          label={`${FEATS[feat.id].name}: ${FEATS[feat.id].detail(feat)}`}
+          label={
+            spoilerSafe
+              ? FEATS[feat.id].name
+              : `${FEATS[feat.id].name}: ${FEATS[feat.id].detail(feat)}`
+          }
           withArrow
           events={{ hover: true, focus: true, touch: true }}
         >

@@ -1,4 +1,16 @@
 export const en = {
+  feed: {
+    continueGame: 'Continue game',
+    title: 'Activity feed',
+    subtitle: 'See what everyone is playing. Jump into a challenge.',
+    compare: 'Compare',
+    continue: 'Continue challenge',
+    challenge: 'Challenge',
+    view: 'View game',
+    refresh: 'Refresh',
+    loadFailed: 'Could not load the feed. Please try again.',
+    empty: 'No finished games yet. Be the first to play!',
+  },
   languages: {
     en: 'English',
     es: 'Spanish',

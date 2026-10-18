@@ -1,6 +1,18 @@
 import type { Translation } from './en';
 
 export const pt: Translation = {
+  feed: {
+    continueGame: 'Continuar jogo',
+    title: 'Atividade',
+    subtitle: 'Descubra o que os outros estão jogando e aceite um desafio.',
+    compare: 'Comparar',
+    continue: 'Continuar desafio',
+    challenge: 'Desafiar',
+    view: 'Ver jogo',
+    refresh: 'Atualizar',
+    loadFailed: 'Não foi possível carregar a atividade. Tente novamente.',
+    empty: 'Ainda não há jogos terminados. Seja o primeiro a jogar!',
+  },
   languages: {
     en: 'Inglês',
     es: 'Espanhol',
