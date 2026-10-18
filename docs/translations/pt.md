@@ -9,6 +9,20 @@ When reviewing:
 - Keep tags like `<name>…</name>` or `<green>…</green>` around the same words; they add links and colours.
 - To suggest a change, comment on the pull request with the key from the first column.
 
+## Shared invitations
+
+| Key | English | Portuguese |
+|---|---|---|
+| `sharedInvites.title` | Link shared | Link compartilhado |
+| `sharedInvites.waiting` | Waiting for someone to join | Esperando alguém participar |
+| `sharedInvites.shareAgain` | Share again | Compartilhar novamente |
+| `sharedInvites.remove` | Remove | Remover |
+| `sharedInvites.removeHint` | Removing this card won’t disable links you’ve already shared. | Remover este cartão não desativa os links que você já compartilhou. |
+| `sharedInvites.copied` | Link copied | Link copiado |
+| `sharedInvites.saveFailed` | Link shared, but it couldn’t be saved in Challenges. Share again to retry. | O link foi compartilhado, mas não foi possível salvá-lo em Desafios. Compartilhe novamente para tentar de novo. |
+| `sharedInvites.loadFailed` | Could not load shared invitations. | Não foi possível carregar os convites compartilhados. |
+| `sharedInvites.actionFailed` | That didn’t work. Please try again. | Não funcionou. Tente novamente. |
+
 ## Activity feed
 
 | Key | English | Portuguese |

@@ -11,9 +11,9 @@ import { useAuth } from '@/context/AuthContext';
 import type { ChallengeInboxItem } from '@/hooks/useChallenges';
 import { useFriendships } from '@/hooks/useFriendships';
 import { useGameActions } from '@/hooks/useGameActions';
-import { shareLanguage } from '@/i18n';
 import { cancelFriendChallenge } from '@/utils/challengeUtils';
-import { gamePath } from '@/utils/languages';
+import { decodeLanguagesFromUuid, gamePath } from '@/utils/languages';
+import { shareChallengeLink } from '@/utils/shareUtils';
 import { ProfileLink } from '../ProfileLink/ProfileLink';
 
 interface ChallengeInboxCardProps {
@@ -172,13 +172,16 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
       return;
     }
     // Rematch = new game; from result modal we still offer sharing THIS completed puzzle too.
-    const url = `${window.location.origin}${gamePath(challenge.gameId, null, {
-      challenger: currentUser.uid,
-      lang: shareLanguage(),
-    })}`;
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    await shareChallengeLink({
+      gameId: challenge.gameId,
+      languages: decodeLanguagesFromUuid(challenge.gameId),
+      currentUserId: currentUser.uid,
+      copyOnly: true,
+      onCopied: () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      },
+    });
   };
 
   return (

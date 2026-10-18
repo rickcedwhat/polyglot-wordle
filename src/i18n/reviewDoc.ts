@@ -16,6 +16,7 @@ export const REVIEW_LANGUAGES = {
 type ReviewLanguage = keyof typeof REVIEW_LANGUAGES;
 
 const SECTION_TITLES: Record<keyof typeof en, string> = {
+  sharedInvites: 'Shared invitations',
   feed: 'Activity feed',
   languages: 'Language names',
   common: 'Shared messages',

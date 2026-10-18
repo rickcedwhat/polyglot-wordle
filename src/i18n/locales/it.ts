@@ -1,6 +1,18 @@
 import type { Translation } from './en';
 
 export const it: Translation = {
+  sharedInvites: {
+    title: 'Link condiviso',
+    waiting: 'In attesa che qualcuno partecipi',
+    shareAgain: 'Condividi di nuovo',
+    remove: 'Rimuovi',
+    removeHint: 'Rimuovere questa scheda non disattiva i link già condivisi.',
+    copied: 'Link copiato',
+    saveFailed:
+      'Il link è stato condiviso, ma non è stato possibile salvarlo nelle sfide. Condividilo di nuovo per riprovare.',
+    loadFailed: 'Impossibile caricare gli inviti condivisi.',
+    actionFailed: 'Non ha funzionato. Riprova.',
+  },
   feed: {
     continueGame: 'Continua la partita',
     title: 'Attività',

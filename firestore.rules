@@ -11,6 +11,23 @@ service cloud.firestore {
       allow create, update: if request.auth.uid == userId;
       allow delete: if false; // Disallow deleting users from the client
 
+      // Shared-link reminders are private to their owner; deleting one does not revoke a link.
+      match /sharedInvites/{gameId} {
+        allow read, delete: if request.auth != null && request.auth.uid == userId;
+        allow create: if request.auth != null && request.auth.uid == userId &&
+          request.resource.data.keys().hasAll(['gameId', 'languages', 'createdAt']) &&
+          request.resource.data.keys().hasOnly(['gameId', 'languages', 'createdAt']) &&
+          request.resource.data.gameId == gameId &&
+          request.resource.data.createdAt == request.time &&
+          request.resource.data.languages is list &&
+          request.resource.data.languages.size() >= 3 &&
+          request.resource.data.languages.size() <= 5 &&
+          request.resource.data.languages.toSet().size() == request.resource.data.languages.size() &&
+          request.resource.data.languages.hasOnly(['en', 'es', 'fr', 'it', 'pt']) &&
+          exists(/databases/$(database)/documents/games/$(userId + '_' + gameId));
+        allow update: if false;
+      }
+
       match /friendships/{friendId} {
         allow read: if request.auth != null;
 

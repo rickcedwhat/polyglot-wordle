@@ -1,6 +1,18 @@
 import type { Translation } from './en';
 
 export const fr: Translation = {
+  sharedInvites: {
+    title: 'Lien partagé',
+    waiting: 'En attente d’un joueur',
+    shareAgain: 'Partager à nouveau',
+    remove: 'Retirer',
+    removeHint: 'Retirer cette carte ne désactive pas les liens déjà partagés.',
+    copied: 'Lien copié',
+    saveFailed:
+      'Le lien a été partagé, mais n’a pas pu être enregistré dans les défis. Partagez-le à nouveau pour réessayer.',
+    loadFailed: 'Impossible de charger les invitations partagées.',
+    actionFailed: 'Une erreur est survenue. Réessayez.',
+  },
   feed: {
     continueGame: 'Continuer la partie',
     title: 'Fil d’activité',

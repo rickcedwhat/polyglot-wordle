@@ -1,6 +1,8 @@
 import i18n, { shareLanguage } from '@/i18n';
-import { GameDoc } from '@/types/firestore';
+import type { GameDoc, Language } from '@/types/firestore';
 import { flagFor, gamePath, languagesFromGame } from '@/utils/languages';
+import { rememberSharedInvite } from './sharedInviteUtils';
+import { showToast } from './toast';
 
 export interface ShareTextOptions {
   gameSession: Pick<GameDoc, 'words' | 'score' | 'shuffledLanguages'>;
@@ -43,19 +45,55 @@ export const shareGameResult = async ({
   )}`;
   const text = buildShareText({ gameSession, challengeUrl });
 
-  if (typeof navigator !== 'undefined' && navigator.share) {
+  await shareChallengeLink({
+    gameId: gameSession.gameId,
+    languages: languagesFromGame(gameSession),
+    currentUserId,
+    text,
+    onCopied,
+  });
+};
+
+/** Share/copy first to preserve mobile user activation; save only after successful transport. */
+export const shareChallengeLink = async ({
+  gameId,
+  languages,
+  currentUserId,
+  text,
+  onCopied,
+  copyOnly = false,
+}: {
+  gameId: string;
+  languages: Language[];
+  currentUserId?: string;
+  text?: string;
+  onCopied?: () => void;
+  copyOnly?: boolean;
+}): Promise<void> => {
+  const url = `${window.location.origin}${gamePath(gameId, languages, { challenger: currentUserId, lang: shareLanguage() })}`;
+  let shared = false;
+  if (!copyOnly && typeof navigator.share === 'function') {
     try {
-      await navigator.share({ text });
-      return;
-    } catch (e) {
-      if ((e as Error)?.name === 'AbortError') {
+      await navigator.share({ text: text ?? url });
+      shared = true;
+    } catch (error) {
+      if ((error as Error)?.name === 'AbortError') {
         return;
       }
-      // eslint-disable-next-line no-console
-      console.warn('Native share failed, falling back to clipboard copy:', e);
     }
   }
-
-  await navigator.clipboard.writeText(text);
-  onCopied?.();
+  if (!shared) {
+    await navigator.clipboard.writeText(text ?? url);
+    onCopied?.();
+  }
+  if (currentUserId) {
+    try {
+      await rememberSharedInvite(currentUserId, gameId, languages);
+    } catch {
+      showToast(
+        { message: i18n.t('sharedInvites.saveFailed'), color: 'orange' },
+        { immediate: true }
+      );
+    }
+  }
 };
