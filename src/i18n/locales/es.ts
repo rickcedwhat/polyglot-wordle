@@ -9,7 +9,7 @@ export const es: Translation = {
     removeHint: 'Quitar esta tarjeta no desactiva los enlaces que ya compartiste.',
     copied: 'Enlace copiado',
     saveFailed:
-      'El enlace se compartió, pero no se pudo guardar en Retos. Compártelo de nuevo para reintentar.',
+      'El enlace se compartió, pero no se pudo guardar en Desafíos. Compártelo de nuevo para reintentar.',
     loadFailed: 'No se pudieron cargar las invitaciones compartidas.',
     actionFailed: 'No funcionó. Inténtalo de nuevo.',
   },

@@ -177,9 +177,11 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
       languages: decodeLanguagesFromUuid(challenge.gameId),
       currentUserId: currentUser.uid,
       copyOnly: true,
+      onCopied: () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      },
     });
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
 
   return (

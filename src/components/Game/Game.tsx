@@ -108,8 +108,7 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
         languages: languagesFromGame(gameSession),
         currentUserId: currentUser.uid,
         copyOnly: true,
-      }).then(
-        () => {
+        onCopied: () => {
           setRematchNotice(
             pending.opponentName
               ? t('game.rematchCopied', { name: pending.opponentName })
@@ -118,12 +117,11 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
           sessionStorage.removeItem('polyglot_pending_rematch');
           window.setTimeout(() => setRematchNotice(null), 6000);
         },
-        () => {
-          setRematchNotice(t('game.rematchCopyFailed'));
-          sessionStorage.removeItem('polyglot_pending_rematch');
-          window.setTimeout(() => setRematchNotice(null), 6000);
-        }
-      );
+      }).catch(() => {
+        setRematchNotice(t('game.rematchCopyFailed'));
+        sessionStorage.removeItem('polyglot_pending_rematch');
+        window.setTimeout(() => setRematchNotice(null), 6000);
+      });
     } catch {
       sessionStorage.removeItem('polyglot_pending_rematch');
     }

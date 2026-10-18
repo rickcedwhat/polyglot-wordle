@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { GameDoc } from '@/types/firestore';
 import { rememberSharedInvite } from './sharedInviteUtils';
-import { buildShareText, shareGameResult } from './shareUtils';
+import { buildShareText, shareChallengeLink, shareGameResult } from './shareUtils';
 import { showToast } from './toast';
 
 const URL = 'https://polyglot-wordle.web.app/game/en-es-fr/abc?challenger=user123';
@@ -99,4 +99,25 @@ it('warns about tracking failure without claiming that the successful share fail
   expect(showToast).toHaveBeenCalledWith(expect.objectContaining({ color: 'orange' }), {
     immediate: true,
   });
+});
+
+it('reports copying while invitation tracking is still pending', async () => {
+  let finishTracking!: () => void;
+  const tracking = new Promise<void>((resolve) => {
+    finishTracking = resolve;
+  });
+  vi.mocked(rememberSharedInvite).mockReturnValue(tracking);
+  const onCopied = vi.fn();
+  const sharing = shareChallengeLink({
+    gameId: game.gameId,
+    languages: ['en', 'es', 'fr'],
+    currentUserId: 'me',
+    copyOnly: true,
+    onCopied,
+  });
+  await Promise.resolve();
+  expect(onCopied).toHaveBeenCalledOnce();
+  expect(rememberSharedInvite).toHaveBeenCalledOnce();
+  finishTracking();
+  await sharing;
 });
