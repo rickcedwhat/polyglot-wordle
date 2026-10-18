@@ -129,7 +129,7 @@ export const pt: Translation = {
   help: {
     title: 'Como jogar Polyglot Wordle',
     topics: {
-      play: 'Jogar',
+      play: 'O básico',
       scoring: 'Pontos',
       setup: 'Opções',
       jumble: 'Embaralhar',
@@ -224,6 +224,8 @@ export const pt: Translation = {
     },
   },
   nav: {
+    settings: 'Configurações',
+    mainNavigation: 'Navegação principal',
     home: 'Início',
     profile: 'Meu perfil',
     challenges: 'Desafios',

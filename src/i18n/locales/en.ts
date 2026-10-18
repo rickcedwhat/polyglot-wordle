@@ -123,7 +123,7 @@ export const en = {
   help: {
     title: 'How to Play Polyglot Wordle',
     topics: {
-      play: 'How to play',
+      play: 'The basics',
       scoring: 'Scoring',
       setup: 'Game setup',
       jumble: 'Jumble',
@@ -217,6 +217,8 @@ export const en = {
     },
   },
   nav: {
+    settings: 'Settings',
+    mainNavigation: 'Main navigation',
     home: 'Home',
     profile: 'My profile',
     challenges: 'Challenges',

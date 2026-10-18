@@ -1,17 +1,15 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Carousel } from '@mantine/carousel';
-import { Modal, SegmentedControl } from '@mantine/core';
+import { Modal } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { HELP_TOPICS } from './HelpSlides';
+import { HELP_TOPICS, type HelpTopic } from './HelpSlides';
 import classes from './HowToPlayModal.module.css';
-
-type HelpTopic = (typeof HELP_TOPICS)[number]['value'];
 
 interface HowToPlayModalProps {
   opened: boolean;
   onClose: () => void;
-  /** Tab shown when the modal opens. */
+  /** Help section shown when the modal opens. */
   initialTopic?: HelpTopic;
 }
 
@@ -23,20 +21,14 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({
   const { t } = useTranslation();
   // Use Mantine's hook to check for mobile screen sizes (breakpoint: sm)
   const isMobile = useMediaQuery(`(max-width: 576px)`);
-  const [topic, setTopic] = useState<HelpTopic>(initialTopic);
-  const { Slides } = HELP_TOPICS.find((t) => t.value === topic) ?? HELP_TOPICS[0];
-
-  useEffect(() => {
-    if (opened) {
-      setTopic(initialTopic);
-    }
-  }, [opened, initialTopic]);
+  const topic = HELP_TOPICS.find((item) => item.value === initialTopic) ?? HELP_TOPICS[0];
+  const { Slides } = topic;
 
   return (
     <Modal
       opened={opened}
       onClose={onClose}
-      title={t('help.title')}
+      title={t(`help.topics.${topic.value}`)}
       fullScreen={isMobile} // Go full-screen on mobile
       size="xl"
       centered={!isMobile} // Only center on larger screens
@@ -46,15 +38,8 @@ export const HowToPlayModal: FC<HowToPlayModalProps> = ({
         title: classes.modalTitle,
       }}
     >
-      <SegmentedControl
-        fullWidth
-        size={isMobile ? 'xs' : 'sm'}
-        value={topic}
-        onChange={(value) => setTopic(value as HelpTopic)}
-        data={HELP_TOPICS.map(({ value }) => ({ value, label: t(`help.topics.${value}`) }))}
-      />
       <Carousel
-        key={topic}
+        key={topic.value}
         height="100%"
         withIndicators
         emblaOptions={{
