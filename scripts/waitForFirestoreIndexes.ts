@@ -26,7 +26,7 @@ await waitForFirestoreIndexes({
     do {
       const response = await api.apiClient.get(
         `/projects/${project}/databases/(default)/collectionGroups/-/indexes`,
-        { queryParams: { pageSize: 1000, ...(pageToken ? { pageToken } : {}) } }
+        { queryParams: pageToken ? { pageToken } : {} }
       );
       for (const index of response.body.indexes ?? []) {
         indexes.push({
