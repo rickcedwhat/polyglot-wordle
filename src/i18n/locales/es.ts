@@ -130,7 +130,7 @@ export const es: Translation = {
     topics: {
       play: 'Conceptos básicos',
       scoring: 'Puntos',
-      setup: 'Ajustes',
+      setup: 'Configuración de partida',
       jumble: 'Mezcla',
       faq: 'FAQ',
     },

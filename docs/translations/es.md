@@ -146,7 +146,7 @@ When reviewing:
 | `help.title` | How to Play Polyglot Wordle | Cómo jugar a Polyglot Wordle |
 | `help.topics.play` | The basics | Conceptos básicos |
 | `help.topics.scoring` | Scoring | Puntos |
-| `help.topics.setup` | Game setup | Ajustes |
+| `help.topics.setup` | Game setup | Configuración de partida |
 | `help.topics.jumble` | Jumble | Mezcla |
 | `help.topics.faq` | FAQ | FAQ |
 | `help.play.threeTitle` | Three words, three languages | Tres palabras, tres idiomas |
