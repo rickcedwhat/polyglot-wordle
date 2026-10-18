@@ -144,9 +144,9 @@ When reviewing:
 | Key | English | Spanish |
 |---|---|---|
 | `help.title` | How to Play Polyglot Wordle | Cómo jugar a Polyglot Wordle |
-| `help.topics.play` | How to play | Jugar |
+| `help.topics.play` | The basics | Conceptos básicos |
 | `help.topics.scoring` | Scoring | Puntos |
-| `help.topics.setup` | Game setup | Ajustes |
+| `help.topics.setup` | Game setup | Configuración de partida |
 | `help.topics.jumble` | Jumble | Mezcla |
 | `help.topics.faq` | FAQ | FAQ |
 | `help.play.threeTitle` | Three words, three languages | Tres palabras, tres idiomas |
@@ -207,6 +207,8 @@ When reviewing:
 
 | Key | English | Spanish |
 |---|---|---|
+| `nav.settings` | Settings | Ajustes |
+| `nav.mainNavigation` | Main navigation | Navegación principal |
 | `nav.home` | Home | Inicio |
 | `nav.profile` | My profile | Mi perfil |
 | `nav.challenges` | Challenges | Desafíos |

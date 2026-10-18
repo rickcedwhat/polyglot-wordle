@@ -10,9 +10,14 @@ const meta: Meta<typeof HowToPlayModal> = {
 export default meta;
 type Story = StoryObj<typeof HowToPlayModal>;
 
-/** Topic switcher (How to play, Scoring, Game setup, FAQ), each its own carousel. */
+/** A single topic carousel, selected from the sidebar help navigation. */
 export const Default: Story = {};
 
 export const Phone: Story = {
   parameters: { viewport: { defaultViewport: 'phone' } },
 };
+
+export const Scoring: Story = { args: { initialTopic: 'scoring' } };
+export const GameSetup: Story = { args: { initialTopic: 'setup' } };
+export const LetterJumble: Story = { args: { initialTopic: 'jumble' } };
+export const FAQ: Story = { args: { initialTopic: 'faq' } };

@@ -1,24 +1,12 @@
 import { FC, useCallback, useState } from 'react';
-import {
-  IconActivity,
-  IconAdjustmentsHorizontal,
-  IconFlag,
-  IconHelpCircle,
-  IconHome,
-  IconLanguage,
-  IconLogout,
-  IconRefresh,
-  IconSettings,
-  IconSwords,
-  IconUser,
-} from '@tabler/icons-react';
-import { useTranslation } from 'react-i18next';
+import { IconSwords } from '@tabler/icons-react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Badge, Divider, Paper, Stack } from '@mantine/core';
+import { Paper } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { FlagsModal } from '@/components/FlagsModal/FlagsModal';
 import { GameSetupDialog } from '@/components/GameSetup/GameSetupDialog';
+import type { HelpTopic } from '@/components/HowToPlayModal/HelpSlides';
 import { HowToPlayModal } from '@/components/HowToPlayModal/HowToPlayModal';
 import { UiLanguageModal } from '@/components/UiLanguage/UiLanguagePicker';
 import { useAuth } from '@/context/AuthContext';
@@ -27,8 +15,7 @@ import { useChallengeResultToasts, useChallenges } from '@/hooks/useChallenges';
 import { useGameActions } from '@/hooks/useGameActions';
 import { openSandboxDrawer } from '@/hooks/useSandboxDrawer';
 import { showToast } from '@/utils/toast';
-import { BlurButton as Button } from '../BlurButton/BlurButton';
-import classes from './Sidebar.module.css';
+import { SidebarNavigation } from './SidebarNavigation';
 
 interface ChallengeToast {
   challengeId: string;
@@ -44,6 +31,7 @@ export const Sidebar: FC = () => {
   const { unreadCount } = useChallenges();
   const [howToPlayOpened, { open: openHowToPlay, close: closeHowToPlay }] = useDisclosure(false);
   const [setupOpened, { open: openSetupDialog, close: closeSetup }] = useDisclosure(false);
+  const [helpTopic, setHelpTopic] = useState<HelpTopic>('play');
   const [setupMode, setSetupMode] = useState<'newGame' | 'settings'>('newGame');
   const openSetup = (mode: 'newGame' | 'settings') => {
     setSetupMode(mode);
@@ -51,7 +39,7 @@ export const Sidebar: FC = () => {
   };
   const [flagsModalOpened, { open: openFlagsModal, close: closeFlagsModal }] = useDisclosure(false);
   const [languageOpened, { open: openLanguage, close: closeLanguage }] = useDisclosure(false);
-  const { t } = useTranslation();
+
   const handleToast = useCallback(
     ({ challengeId, message }: ChallengeToast) => {
       const id = `challenge-${challengeId}`;
@@ -92,98 +80,38 @@ export const Sidebar: FC = () => {
     closeSidebar();
   };
 
-  const mainLinks: {
-    label: string;
-    icon: typeof IconHome;
-    action: () => void;
-    badge?: number;
-  }[] = [
-    { label: t('feed.title'), icon: IconActivity, action: () => navigate('/feed') },
-    { label: t('nav.home'), icon: IconHome, action: () => navigate('/') },
-    {
-      label: t('nav.profile'),
-      icon: IconUser,
-      action: () => navigate(`/profile/${currentUser?.uid}`),
-    },
-    {
-      label: t('nav.challenges'),
-      icon: IconSwords,
-      action: () => navigate('/challenges'),
-      badge: unreadCount > 0 ? unreadCount : undefined,
-    },
-    { label: t('nav.newGame'), icon: IconRefresh, action: handleNewGameClick },
-  ];
-
-  const toolLinks = [
-    { label: t('nav.howToPlay'), icon: IconHelpCircle, action: openHowToPlay },
-    { label: t('nav.gameSetup'), icon: IconSettings, action: () => openSetup('settings') },
-    { label: t('nav.flags'), icon: IconFlag, action: openFlagsModal },
-    { label: t('uiLanguage.menu'), icon: IconLanguage, action: openLanguage },
-    // The /sandbox route only exists in dev builds.
-    ...(import.meta.env.DEV
-      ? [{ label: t('nav.sandbox'), icon: IconAdjustmentsHorizontal, action: handleSandboxTools }]
-      : []),
-  ];
-
   return (
     <>
-      <HowToPlayModal opened={howToPlayOpened} onClose={closeHowToPlay} />
+      <HowToPlayModal opened={howToPlayOpened} onClose={closeHowToPlay} initialTopic={helpTopic} />
       <GameSetupDialog opened={setupOpened} onClose={closeSetup} mode={setupMode} />
       <FlagsModal opened={flagsModalOpened} onClose={closeFlagsModal} />
       <UiLanguageModal opened={languageOpened} onClose={closeLanguage} />
 
-      <div className={classes.wrapper}>
-        <Stack>
-          {mainLinks.map((link) => (
-            <Button
-              key={link.label}
-              leftSection={<link.icon size="1rem" />}
-              onClick={() => handleNavigate(link.action)}
-              fullWidth
-              variant="light"
-              rightSection={
-                link.badge ? (
-                  <Badge size="sm" circle color="blue">
-                    {link.badge}
-                  </Badge>
-                ) : undefined
-              }
-            >
-              {link.label}
-            </Button>
-          ))}
-
-          <Divider />
-
-          {toolLinks.map((link) => (
-            <Button
-              key={link.label}
-              leftSection={<link.icon size="1rem" />}
-              onClick={link.action}
-              fullWidth
-              variant="light"
-            >
-              {link.label}
-            </Button>
-          ))}
-
-          {sidebarContent && (
-            <Paper withBorder p="xs" radius="md" mt="md">
-              {sidebarContent}
-            </Paper>
-          )}
-        </Stack>
-
-        <Button
-          leftSection={<IconLogout size="1rem" />}
-          onClick={logout}
-          fullWidth
-          variant="light"
-          color="red"
-        >
-          {t('nav.logout')}
-        </Button>
-      </div>
+      <SidebarNavigation
+        currentPath={location.pathname}
+        user={currentUser ?? { uid: '' }}
+        unreadCount={unreadCount}
+        activeHelpTopic={howToPlayOpened ? helpTopic : undefined}
+        onNavigate={closeSidebar}
+        onNewGame={() => handleNavigate(handleNewGameClick)}
+        onHelpTopic={(topic) =>
+          handleNavigate(() => {
+            setHelpTopic(topic);
+            openHowToPlay();
+          })
+        }
+        onSetup={() => handleNavigate(() => openSetup('settings'))}
+        onFlags={() => handleNavigate(openFlagsModal)}
+        onLanguage={() => handleNavigate(openLanguage)}
+        onLogout={logout}
+        onSandbox={import.meta.env.DEV ? () => handleNavigate(handleSandboxTools) : undefined}
+      >
+        {sidebarContent && (
+          <Paper withBorder p="xs" radius="md" mt="md">
+            {sidebarContent}
+          </Paper>
+        )}
+      </SidebarNavigation>
     </>
   );
 };

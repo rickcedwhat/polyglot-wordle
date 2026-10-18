@@ -252,3 +252,5 @@ export const HELP_TOPICS = [
   { value: 'jumble', Slides: JumbleSlides },
   { value: 'faq', Slides: FaqSlides },
 ] as const;
+
+export type HelpTopic = (typeof HELP_TOPICS)[number]['value'];

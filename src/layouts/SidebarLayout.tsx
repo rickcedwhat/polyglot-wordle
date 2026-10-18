@@ -18,7 +18,7 @@ export const SidebarLayout: FC = () => {
       <AppShell
         h="100%"
         header={isMobile ? { height: 60 } : undefined}
-        navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+        navbar={{ width: 280, breakpoint: 'sm', collapsed: { mobile: !opened } }}
         padding="md"
       >
         {isMobile && (
