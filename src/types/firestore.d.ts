@@ -145,3 +145,10 @@ export interface InviteDoc {
   createdAt: Timestamp;
   status: 'pending' | 'claimed';
 }
+
+/** Owner-only record of a shared link, before any recipient has started playing. */
+export interface SharedInviteDoc {
+  gameId: string;
+  languages: Language[];
+  createdAt: Timestamp;
+}

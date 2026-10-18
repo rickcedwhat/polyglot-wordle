@@ -1,4 +1,15 @@
 export const en = {
+  sharedInvites: {
+    title: 'Link shared',
+    waiting: 'Waiting for someone to join',
+    shareAgain: 'Share again',
+    remove: 'Remove',
+    removeHint: 'Removing this card won’t disable links you’ve already shared.',
+    copied: 'Link copied',
+    saveFailed: 'Link shared, but it couldn’t be saved in Challenges. Share again to retry.',
+    loadFailed: 'Could not load shared invitations.',
+    actionFailed: 'That didn’t work. Please try again.',
+  },
   feed: {
     continueGame: 'Continue game',
     title: 'Activity feed',

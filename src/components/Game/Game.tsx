@@ -16,9 +16,9 @@ import { useLetterStatus } from '@/hooks/useLetterStatus';
 import { useSlow } from '@/hooks/useSlow';
 import { useVocabulary } from '@/hooks/useVocabulary';
 import { useWordPools } from '@/hooks/useWordPools';
-import { shareLanguage } from '@/i18n';
 import type { GameDoc } from '@/types/firestore.d.ts';
-import { gamePath, languagesFromGame } from '@/utils/languages';
+import { languagesFromGame } from '@/utils/languages';
+import { shareChallengeLink } from '@/utils/shareUtils';
 import {
   getLatestTurnScoreEvents,
   languagesMissingWord,
@@ -103,12 +103,12 @@ export function Game({ gameSession, updateGuessHistory, endGame }: GameProps) {
     }
     try {
       const pending = JSON.parse(raw) as { opponentName?: string };
-      const url = `${window.location.origin}${gamePath(
-        gameSession.gameId,
-        languagesFromGame(gameSession),
-        { challenger: currentUser.uid, lang: shareLanguage() }
-      )}`;
-      navigator.clipboard.writeText(url).then(
+      shareChallengeLink({
+        gameId: gameSession.gameId,
+        languages: languagesFromGame(gameSession),
+        currentUserId: currentUser.uid,
+        copyOnly: true,
+      }).then(
         () => {
           setRematchNotice(
             pending.opponentName

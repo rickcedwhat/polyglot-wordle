@@ -4,14 +4,29 @@ import { useTranslation } from 'react-i18next';
 import { Button, Center, Container, Group, Loader, Stack, Text, Title } from '@mantine/core';
 import { ChallengeFriendModal } from '@/components/ChallengeFriendModal/ChallengeFriendModal';
 import { ChallengeInboxCard } from '@/components/ChallengeInboxCard/ChallengeInboxCard';
+import { SharedInviteCard } from '@/components/SharedInviteCard/SharedInviteCard';
+import { useAuth } from '@/context/AuthContext';
 import { useChallenges } from '@/hooks/useChallenges';
+import { useSharedInvites } from '@/hooks/useSharedInvites';
 
 export const ChallengesPage: FC = () => {
-  const { needsYou, waiting, archive, isLoading, isError, markResultSeen } = useChallenges();
+  const { challenges, needsYou, waiting, archive, isLoading, isError, markResultSeen } =
+    useChallenges();
+  const shared = useSharedInvites();
+  const { currentUser } = useAuth();
+  const unjoined = shared.invites.filter(
+    (invite) =>
+      !challenges.some(
+        (challenge) =>
+          challenge.source === 'share' &&
+          challenge.createdBy === currentUser?.uid &&
+          challenge.gameId === invite.gameId
+      )
+  );
   const [challengeOpened, setChallengeOpened] = useState(false);
   const { t } = useTranslation();
 
-  if (isLoading) {
+  if (isLoading || shared.isLoading) {
     return (
       <Center h="100%">
         <Loader />
@@ -27,7 +42,12 @@ export const ChallengesPage: FC = () => {
     );
   }
 
-  const empty = needsYou.length === 0 && waiting.length === 0 && archive.length === 0;
+  const empty =
+    needsYou.length === 0 &&
+    waiting.length === 0 &&
+    archive.length === 0 &&
+    unjoined.length === 0 &&
+    !shared.isError;
 
   return (
     <Container size="sm" py="lg">
@@ -45,6 +65,14 @@ export const ChallengesPage: FC = () => {
       </Group>
       <ChallengeFriendModal opened={challengeOpened} onClose={() => setChallengeOpened(false)} />
 
+      {shared.isError && (
+        <Stack gap="xs" mt="md">
+          <Text c="red">{t('sharedInvites.loadFailed')}</Text>
+          <Button variant="subtle" onClick={() => shared.refetch()}>
+            {t('common.tryAgain')}
+          </Button>
+        </Stack>
+      )}
       {empty && (
         <Text c="dimmed" mt="xl">
           {t('challenges.empty')}
@@ -64,8 +92,11 @@ export const ChallengesPage: FC = () => {
         </Section>
       )}
 
-      {waiting.length > 0 && (
+      {(waiting.length > 0 || unjoined.length > 0) && (
         <Section title={t('challenges.waiting')}>
+          {unjoined.map((invite) => (
+            <SharedInviteCard key={invite.gameId} invite={invite} onRemove={shared.remove} />
+          ))}
           {waiting.map((c) => (
             <ChallengeInboxCard
               key={c.id}

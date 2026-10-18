@@ -1,6 +1,18 @@
 import type { Translation } from './en';
 
 export const es: Translation = {
+  sharedInvites: {
+    title: 'Enlace compartido',
+    waiting: 'Esperando a que alguien se una',
+    shareAgain: 'Compartir de nuevo',
+    remove: 'Quitar',
+    removeHint: 'Quitar esta tarjeta no desactiva los enlaces que ya compartiste.',
+    copied: 'Enlace copiado',
+    saveFailed:
+      'El enlace se compartió, pero no se pudo guardar en Retos. Compártelo de nuevo para reintentar.',
+    loadFailed: 'No se pudieron cargar las invitaciones compartidas.',
+    actionFailed: 'No funcionó. Inténtalo de nuevo.',
+  },
   feed: {
     continueGame: 'Continuar partida',
     title: 'Actividad',
