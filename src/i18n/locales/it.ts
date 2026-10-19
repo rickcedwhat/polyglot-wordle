@@ -2,8 +2,8 @@ import type { Translation } from './en';
 
 export const it: Translation = {
   home: {
-    welcomeName: 'Bentornato, {{name}}.',
-    welcome: 'Bentornato.',
+    welcomeName: 'Che piacere rivederti, {{name}}.',
+    welcome: 'Che piacere rivederti.',
     subtitle: 'Riprendi le tue sfide e scopri le partite degli altri.',
     yourMove: 'Tocca a te',
     allChallenges: 'Tutte le sfide',

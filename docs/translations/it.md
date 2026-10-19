@@ -13,8 +13,8 @@ When reviewing:
 
 | Key | English | Italian |
 |---|---|---|
-| `home.welcomeName` | Welcome back, {{name}}. | Bentornato, {{name}}. |
-| `home.welcome` | Welcome back. | Bentornato. |
+| `home.welcomeName` | Welcome back, {{name}}. | Che piacere rivederti, {{name}}. |
+| `home.welcome` | Welcome back. | Che piacere rivederti. |
 | `home.subtitle` | Catch up with your challenges and see what others are playing. | Riprendi le tue sfide e scopri le partite degli altri. |
 | `home.yourMove` | Your move | Tocca a te |
 | `home.allChallenges` | All challenges | Tutte le sfide |
