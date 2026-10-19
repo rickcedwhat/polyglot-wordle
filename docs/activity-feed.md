@@ -12,13 +12,13 @@ The summary count is the number of games loaded so far. Load more can extend a d
 - The timeline merges completed games and certifications using separate cursors and buffers. Buffered records are consumed before older records can be emitted, keeping Load more chronological.
 - A new `reactions` document identifies a source game/certification, milestone kind, owner, reacting player, one of five fixed emoji IDs, and server timestamp. The document ID is deterministic per target/player/emoji. Writes set a desired selected state, so retrying does not toggle twice. Different milestones on one game and reactions on that game have distinct targets. Aggregated summaries have no separate reactions.
 
-## Proposed access scope (requires approval before inclusion)
+## Access rules
 
-No rule changes have been applied yet. The PR must remain a draft until this scope is approved and the rules are implemented and checked.
+The user approved this scope for the PR. Rules apply through the normal deployment after merge.
 
 - Only signed-in players can read activity events and reaction records. This is the same audience as the existing public game/profile feed. No emails, private challenge participants/results, or raw vocabulary words are added to these collections.
 - A player can create only their own certification event, with a deterministic ID, a supported language/tier, a server timestamp, and a threshold crossed by their vocabulary transaction. Clients cannot update or delete those events.
 - A player can create only their own reaction, with one of the fixed emoji IDs, a matching existing finished game/certification and owner, a deterministic target/player/emoji ID, and a server timestamp. Clients cannot update reactions. Only the reacting player can delete their reaction.
 - This feature needs no new composite indexes. Certification events sort by one timestamp; reactions query a single target key. The existing completed-games index is reused.
 
-The rule changes would be reviewed in the PR and applied by the normal deployment after merge. Creating this branch or draft PR does not grant live access.
+Creating this branch or PR does not grant live access. Run `npm run test:rules` with Java 21 installed to verify the policy in the local Firestore emulator; PR CI runs the same checks against the demo-only project.

@@ -35,7 +35,8 @@
     "test": "npm run typecheck && npm run prettier && npm run lint && npm run vitest && npm run build",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "i18n:review": "vite-node --script scripts/translationReview.ts"
+    "i18n:review": "vite-node --script scripts/translationReview.ts",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-polyglot-rules --config firebase.rules-test.json \"node --test scripts/activityRules.mjs\""
   },
   "dependencies": {
     "@mantine/carousel": "^8.2.8",
@@ -69,6 +70,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@firebase/rules-unit-testing": "^5.0.2",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
     "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-interactions": "^8.6.14",
