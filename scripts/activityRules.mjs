@@ -48,10 +48,7 @@ const certificate = (overrides = {}) => ({
   createdAt: serverTimestamp(),
   ...overrides,
 });
-const certBatch = (
-  db,
-  { after = 25, data = certificate(), id = 'cert_alice_pt_0' } = {}
-) => {
+const certBatch = (db, { after = 25, data = certificate(), id = 'cert_alice_pt_0' } = {}) => {
   const batch = writeBatch(db);
   batch.set(doc(db, 'users/alice/vocabulary/pt'), { words: words(after), totalCount: after });
   batch.set(doc(db, 'activityEvents', id), data);
