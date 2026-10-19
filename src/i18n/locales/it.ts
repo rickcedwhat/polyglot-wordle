@@ -2,7 +2,7 @@ import type { Translation } from './en';
 
 export const it: Translation = {
   activity: {
-    firstTry: 'Ha risolto il tabellone in {{language, lower}} al primo tentativo.',
+    firstTry: 'Ha risolto la griglia in {{language, lower}} al primo tentativo.',
     playedGames_one: 'ha giocato {{count}} partita',
     playedGames_other: 'ha giocato {{count}} partite',
     earnedFeat: 'ha ottenuto {{feat}}',

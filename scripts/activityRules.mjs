@@ -126,6 +126,41 @@ describe('certification milestones', () => {
       await assertFails(certBatch(player(), { data: certificate(overrides), id }));
     });
   }
+  it('accepts a tier after malformed stored records are removed in a separate cleanup', async () => {
+    const db = player();
+    const path = 'users/alice/vocabulary/pt';
+    await seed({ [path]: { words: { ...words(24), invalid: null }, totalCount: 24 } });
+    // The raw old map has 25 keys, even though only 24 records are valid.
+    await assertFails(certBatch(db));
+    assert.equal((await getDoc(doc(db, path))).data().words.invalid, null);
+    await assertSucceeds(
+      setDoc(
+        doc(db, path),
+        { words: words(24), totalCount: 24 },
+        { mergeFields: ['words', 'totalCount'] }
+      )
+    );
+    await assertSucceeds(certBatch(db));
+    const saved = (await getDoc(doc(db, path))).data();
+    assert.equal(saved.totalCount, 25);
+    assert.equal('invalid' in saved.words, false);
+  });
+  it('preserves vocabulary with a word-only retry when the atomic certification write is denied', async () => {
+    const db = player();
+    const path = 'users/alice/vocabulary/pt';
+    await seed({ [path]: { words: words(24), totalCount: 24 } });
+    await assertFails(certBatch(db, { data: certificate({ wordCount: 75 }) }));
+    assert.equal((await getDoc(doc(db, path))).data().totalCount, 24);
+    await assertSucceeds(
+      setDoc(
+        doc(db, path),
+        { words: words(25), totalCount: 25 },
+        { mergeFields: ['words', 'totalCount'] }
+      )
+    );
+    assert.equal((await getDoc(doc(db, path))).data().totalCount, 25);
+    assert.equal((await getDoc(doc(db, 'activityEvents/cert_alice_pt_0'))).exists(), false);
+  });
   it('does not let even the author edit or delete an earned milestone', async () => {
     await seed({
       'activityEvents/cert_alice_pt_0': { ...certificate(), createdAt: Timestamp.fromMillis(1) },

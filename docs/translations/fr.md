@@ -13,7 +13,7 @@ When reviewing:
 
 | Key | English | French |
 |---|---|---|
-| `activity.firstTry` | Solved the {{language}} board on the first guess. | A résolu le tableau en {{language, lower}} dès le premier essai. |
+| `activity.firstTry` | Solved the {{language}} board on the first guess. | A résolu la grille en {{language, lower}} dès le premier essai. |
 | `activity.playedGames_one` | played {{count}} game | a joué {{count}} partie |
 | `activity.playedGames_other` | played {{count}} games | a joué {{count}} parties |
 | `activity.earnedFeat` | earned {{feat}} | a obtenu {{feat}} |

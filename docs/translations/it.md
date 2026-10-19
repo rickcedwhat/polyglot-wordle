@@ -13,7 +13,7 @@ When reviewing:
 
 | Key | English | Italian |
 |---|---|---|
-| `activity.firstTry` | Solved the {{language}} board on the first guess. | Ha risolto il tabellone in {{language, lower}} al primo tentativo. |
+| `activity.firstTry` | Solved the {{language}} board on the first guess. | Ha risolto la griglia in {{language, lower}} al primo tentativo. |
 | `activity.playedGames_one` | played {{count}} game | ha giocato {{count}} partita |
 | `activity.playedGames_other` | played {{count}} games | ha giocato {{count}} partite |
 | `activity.earnedFeat` | earned {{feat}} | ha ottenuto {{feat}} |
