@@ -1,0 +1,48 @@
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.milestone {
+  background: light-dark(
+    linear-gradient(110deg, #f8f5ff, #fff),
+    linear-gradient(110deg, rgb(121 80 242 / 10%), transparent)
+  );
+}
+
+.gameList {
+  margin-top: 16px;
+  border-top: 1px solid var(--mantine-color-default-border);
+}
+
+.gameRow {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--mantine-color-default-border);
+}
+
+.gameRow:last-child {
+  border-bottom: 0;
+}
+
+.gameToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+  padding: 12px 0;
+  border: 0;
+  border-radius: var(--mantine-radius-sm);
+  background: transparent;
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.gameToggle:hover {
+  background: var(--mantine-color-default-hover);
+}
+
+.score {
+  white-space: nowrap;
+}

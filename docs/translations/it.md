@@ -9,6 +9,37 @@ When reviewing:
 - Keep tags like `<name>…</name>` or `<green>…</green>` around the same words; they add links and colours.
 - To suggest a change, comment on the pull request with the key from the first column.
 
+## Activity timeline and reactions
+
+| Key | English | Italian |
+|---|---|---|
+| `activity.firstTry` | Solved the {{language}} board on the first guess. | Ha risolto il tabellone in {{language, lower}} al primo tentativo. |
+| `activity.playedGames_one` | played {{count}} game | ha giocato {{count}} partita |
+| `activity.playedGames_other` | played {{count}} games | ha giocato {{count}} partite |
+| `activity.earnedFeat` | earned {{feat}} | ha ottenuto {{feat}} |
+| `activity.streak` | reached a {{count}}-game win streak | ha raggiunto {{count}} vittorie consecutive |
+| `activity.certification` | earned a certification | ha ottenuto una certificazione |
+| `activity.personalBest` | set a new personal best | ha stabilito un nuovo record personale |
+| `activity.firstGame` | played their first game | ha giocato la sua prima partita |
+| `activity.words_one` | {{count}} distinct {{language}} word played | {{count}} parola distinta in {{language, lower}} giocata |
+| `activity.words_other` | {{count}} distinct {{language}} words played | {{count}} parole distinte in {{language, lower}} giocate |
+| `activity.results` | {{wins}} wins · {{losses}} losses | {{wins}} vittorie · {{losses}} sconfitte |
+| `activity.solved_one` | Solved in {{count}} guess | Risolto in {{count}} tentativo |
+| `activity.solved_other` | Solved in {{count}} guesses | Risolto in {{count}} tentativi |
+| `activity.finished` | Finished a game | Ha terminato una partita |
+| `activity.showGames` | Show games | Mostra partite |
+| `activity.showGame` | Show game details | Mostra dettagli della partita |
+| `activity.react` | React | Reagisci |
+| `activity.addReaction` | Add a reaction | Aggiungi una reazione |
+| `activity.reactWith` | React with {{reaction}} | Reagisci con {{reaction}} |
+| `activity.retryReactions` | Retry reactions | Riprova le reazioni |
+| `activity.reactionFailed` | Could not save your reaction. Please try again. | Impossibile salvare la reazione. Riprova. |
+| `activity.reactions.applause` | Applause | Applausi |
+| `activity.reactions.fire` | Fire | Fuoco |
+| `activity.reactions.mindBlown` | Mind blown | Stupore |
+| `activity.reactions.laugh` | Laugh | Risata |
+| `activity.reactions.heart` | Heart | Cuore |
+
 ## Signed-in home
 
 | Key | English | Italian |

@@ -1,6 +1,36 @@
 import type { Translation } from './en';
 
 export const it: Translation = {
+  activity: {
+    firstTry: 'Ha risolto il tabellone in {{language, lower}} al primo tentativo.',
+    playedGames_one: 'ha giocato {{count}} partita',
+    playedGames_other: 'ha giocato {{count}} partite',
+    earnedFeat: 'ha ottenuto {{feat}}',
+    streak: 'ha raggiunto {{count}} vittorie consecutive',
+    certification: 'ha ottenuto una certificazione',
+    personalBest: 'ha stabilito un nuovo record personale',
+    firstGame: 'ha giocato la sua prima partita',
+    words_one: '{{count}} parola distinta in {{language, lower}} giocata',
+    words_other: '{{count}} parole distinte in {{language, lower}} giocate',
+    results: '{{wins}} vittorie · {{losses}} sconfitte',
+    solved_one: 'Risolto in {{count}} tentativo',
+    solved_other: 'Risolto in {{count}} tentativi',
+    finished: 'Ha terminato una partita',
+    showGames: 'Mostra partite',
+    showGame: 'Mostra dettagli della partita',
+    react: 'Reagisci',
+    addReaction: 'Aggiungi una reazione',
+    reactWith: 'Reagisci con {{reaction}}',
+    retryReactions: 'Riprova le reazioni',
+    reactionFailed: 'Impossibile salvare la reazione. Riprova.',
+    reactions: {
+      applause: 'Applausi',
+      fire: 'Fuoco',
+      mindBlown: 'Stupore',
+      laugh: 'Risata',
+      heart: 'Cuore',
+    },
+  },
   home: {
     welcomeName: 'Che piacere rivederti, {{name}}.',
     welcome: 'Che piacere rivederti.',

@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { doc, getDoc, getFirestore, runTransaction } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, runTransaction, serverTimestamp } from 'firebase/firestore';
+import { CERTIFICATION_LEVELS } from '@/achievements/config';
 import { useAuth } from '@/context/AuthContext';
 import { Language } from '@/types/firestore';
 import { DiscoveredWordRecord, UserVocabularyMap } from '@/types/vocabulary';
@@ -257,6 +258,7 @@ export const useVocabulary = (targetUserId?: string) => {
                 ? sanitizeLanguageMap(snap.data()?.words)
                 : {};
 
+              const beforeCount = Object.keys(currentWords).length;
               const existing = currentWords[normWord];
               currentWords[normWord] = {
                 timesGuessed: (existing?.timesGuessed || 0) + 1,
@@ -265,6 +267,33 @@ export const useVocabulary = (targetUserId?: string) => {
                 isSolved: existing?.isSolved || isWordSolvedForLang,
               };
 
+              const afterCount = Object.keys(currentWords).length;
+              const earned = CERTIFICATION_LEVELS.flatMap((tier, level) =>
+                beforeCount < tier.target && afterCount >= tier.target
+                  ? [
+                      {
+                        level,
+                        target: tier.target,
+                        ref: doc(db, 'activityEvents', `cert_${currentUser.uid}_${lang}_${level}`),
+                      },
+                    ]
+                  : []
+              );
+              // All reads precede writes, including retries/concurrent tabs.
+              const existingEvents = await Promise.all(
+                earned.map(({ ref }) => transaction.get(ref))
+              );
+              earned.forEach(({ level, target, ref }, index) => {
+                if (!existingEvents[index].exists()) {
+                  transaction.set(ref, {
+                    userId: currentUser.uid,
+                    lang,
+                    level,
+                    wordCount: target,
+                    createdAt: serverTimestamp(),
+                  });
+                }
+              });
               transaction.set(
                 docRef,
                 {
@@ -280,6 +309,7 @@ export const useVocabulary = (targetUserId?: string) => {
         }
       }
 
+      queryClient.invalidateQueries({ queryKey: ['activityTimeline'] });
       return updatedVocab;
     },
   });

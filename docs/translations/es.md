@@ -9,6 +9,37 @@ When reviewing:
 - Keep tags like `<name>…</name>` or `<green>…</green>` around the same words; they add links and colours.
 - To suggest a change, comment on the pull request with the key from the first column.
 
+## Activity timeline and reactions
+
+| Key | English | Spanish |
+|---|---|---|
+| `activity.firstTry` | Solved the {{language}} board on the first guess. | Resolvió el tablero en {{language, lower}} al primer intento. |
+| `activity.playedGames_one` | played {{count}} game | jugó {{count}} partida |
+| `activity.playedGames_other` | played {{count}} games | jugó {{count}} partidas |
+| `activity.earnedFeat` | earned {{feat}} | consiguió {{feat}} |
+| `activity.streak` | reached a {{count}}-game win streak | alcanzó una racha de {{count}} victorias |
+| `activity.certification` | earned a certification | obtuvo una certificación |
+| `activity.personalBest` | set a new personal best | logró un nuevo récord personal |
+| `activity.firstGame` | played their first game | jugó su primera partida |
+| `activity.words_one` | {{count}} distinct {{language}} word played | {{count}} palabra distinta en {{language, lower}} jugada |
+| `activity.words_other` | {{count}} distinct {{language}} words played | {{count}} palabras distintas en {{language, lower}} jugadas |
+| `activity.results` | {{wins}} wins · {{losses}} losses | {{wins}} victorias · {{losses}} derrotas |
+| `activity.solved_one` | Solved in {{count}} guess | Resuelto en {{count}} intento |
+| `activity.solved_other` | Solved in {{count}} guesses | Resuelto en {{count}} intentos |
+| `activity.finished` | Finished a game | Terminó una partida |
+| `activity.showGames` | Show games | Ver partidas |
+| `activity.showGame` | Show game details | Ver detalles de la partida |
+| `activity.react` | React | Reaccionar |
+| `activity.addReaction` | Add a reaction | Añadir una reacción |
+| `activity.reactWith` | React with {{reaction}} | Reaccionar con {{reaction}} |
+| `activity.retryReactions` | Retry reactions | Reintentar reacciones |
+| `activity.reactionFailed` | Could not save your reaction. Please try again. | No se pudo guardar tu reacción. Inténtalo de nuevo. |
+| `activity.reactions.applause` | Applause | Aplausos |
+| `activity.reactions.fire` | Fire | Fuego |
+| `activity.reactions.mindBlown` | Mind blown | Asombro |
+| `activity.reactions.laugh` | Laugh | Risa |
+| `activity.reactions.heart` | Heart | Corazón |
+
 ## Signed-in home
 
 | Key | English | Spanish |

@@ -1,14 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { Button, Center, Container, Group, Loader, Stack, Text, Title } from '@mantine/core';
-import { FeedCard } from '@/components/FeedCard/FeedCard';
-import { useActivityFeed } from '@/hooks/useActivityFeed';
+import { ActivityTimeline } from '@/components/ActivityTimeline/ActivityTimeline';
+import { useActivityTimeline } from '@/hooks/useActivityTimeline';
+import { buildTimeline } from '@/utils/activityTimeline';
 
 export const FeedPage = () => {
   const { t } = useTranslation();
-  const feed = useActivityFeed();
-  const games = feed.data?.pages.flatMap((page) => page.games) ?? [];
+  const feed = useActivityTimeline();
+  const entries = buildTimeline(feed.data?.pages.flatMap((page) => page.records) ?? []);
   return (
-    <Container size="sm" py="lg">
+    <Container size={740} py="lg">
       <Stack gap="lg">
         <div>
           <Title order={2}>{t('feed.title')}</Title>
@@ -34,12 +35,10 @@ export const FeedPage = () => {
             </Button>
           </Stack>
         )}
-        {!feed.isPending && !feed.isError && games.length === 0 && (
+        {!feed.isPending && !feed.isError && entries.length === 0 && (
           <Text c="dimmed">{t('feed.empty')}</Text>
         )}
-        {games.map((game) => (
-          <FeedCard key={game.id} game={game} />
-        ))}
+        <ActivityTimeline entries={entries} />
         {feed.hasNextPage && (
           <Button
             variant="light"
