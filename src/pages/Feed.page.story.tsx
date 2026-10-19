@@ -22,8 +22,11 @@ const SeedFeed = ({ children }: { children: ReactNode }) => {
       startedAt: Timestamp.fromMillis(1_790_000_000_000),
       completedAt: Timestamp.fromMillis(1_790_000_000_000),
     }));
-    client.setQueryData(['activityFeed', 'me'], { pages: [{ games }], pageParams: [undefined] });
-    client.setQueryDefaults(['activityFeed'], { enabled: false });
+    client.setQueryData(['activityTimeline', 'me'], {
+      pages: [{ records: games.map((game) => ({ type: 'game', game })) }],
+      pageParams: [undefined],
+    });
+    client.setQueryDefaults(['activityTimeline'], { enabled: false });
     client.setQueryDefaults(['playedGame'], { enabled: false });
     // The first opponent is unplayed; the second is ready to compare.
     client.setQueryData(['playedGame', 'me', 'story-0'], null);

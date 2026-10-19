@@ -9,6 +9,37 @@ When reviewing:
 - Keep tags like `<name>…</name>` or `<green>…</green>` around the same words; they add links and colours.
 - To suggest a change, comment on the pull request with the key from the first column.
 
+## Activity timeline and reactions
+
+| Key | English | French |
+|---|---|---|
+| `activity.firstTry` | Solved the {{language}} board on the first guess. | A résolu la grille en {{language, lower}} dès le premier essai. |
+| `activity.playedGames_one` | played {{count}} game | a joué {{count}} partie |
+| `activity.playedGames_other` | played {{count}} games | a joué {{count}} parties |
+| `activity.earnedFeat` | earned {{feat}} | a obtenu {{feat}} |
+| `activity.streak` | reached a {{count}}-game win streak | a atteint {{count}} victoires de suite |
+| `activity.certification` | earned a certification | a obtenu une certification |
+| `activity.personalBest` | set a new personal best | a établi un nouveau record personnel |
+| `activity.firstGame` | played their first game | a joué sa première partie |
+| `activity.words_one` | {{count}} distinct {{language}} word played | {{count}} mot distinct en {{language, lower}} joué |
+| `activity.words_other` | {{count}} distinct {{language}} words played | {{count}} mots distincts en {{language, lower}} joués |
+| `activity.results` | {{wins}} wins · {{losses}} losses | {{wins}} victoires · {{losses}} défaites |
+| `activity.solved_one` | Solved in {{count}} guess | Résolu en {{count}} essai |
+| `activity.solved_other` | Solved in {{count}} guesses | Résolu en {{count}} essais |
+| `activity.finished` | Finished a game | A terminé une partie |
+| `activity.showGames` | Show games | Voir les parties |
+| `activity.showGame` | Show game details | Voir les détails de la partie |
+| `activity.react` | React | Réagir |
+| `activity.addReaction` | Add a reaction | Ajouter une réaction |
+| `activity.reactWith` | React with {{reaction}} | Réagir avec {{reaction}} |
+| `activity.retryReactions` | Retry reactions | Réessayer les réactions |
+| `activity.reactionFailed` | Could not save your reaction. Please try again. | Impossible d’enregistrer ta réaction. Réessaie. |
+| `activity.reactions.applause` | Applause | Applaudissements |
+| `activity.reactions.fire` | Fire | Feu |
+| `activity.reactions.mindBlown` | Mind blown | Étonnement |
+| `activity.reactions.laugh` | Laugh | Rire |
+| `activity.reactions.heart` | Heart | Cœur |
+
 ## Signed-in home
 
 | Key | English | French |

@@ -23,3 +23,9 @@ jobs:
         run: npm ci
       - name: Run test suite and build
         run: npm test
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Verify Firestore activity and reaction rules
+        run: npm run test:rules

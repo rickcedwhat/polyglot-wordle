@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { doc, getDoc, getFirestore, runTransaction } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, runTransaction, serverTimestamp } from 'firebase/firestore';
+import { CERTIFICATION_LEVELS } from '@/achievements/config';
 import { useAuth } from '@/context/AuthContext';
 import { Language } from '@/types/firestore';
 import { DiscoveredWordRecord, UserVocabularyMap } from '@/types/vocabulary';
@@ -251,35 +252,106 @@ export const useVocabulary = (targetUserId?: string) => {
               solutionLangs.length > 0 ? solutionLangs.includes(lang) : Boolean(isSolution);
 
             const docRef = doc(db, 'users', currentUser.uid, 'vocabulary', lang);
-            await runTransaction(db, async (transaction) => {
-              const snap = await transaction.get(docRef);
-              const currentWords: Record<string, DiscoveredWordRecord> = snap.exists()
-                ? sanitizeLanguageMap(snap.data()?.words)
-                : {};
+            let certificationAttempted = false;
+            const saveGuess = async (includeCertification: boolean) => {
+              let repaired: boolean;
+              do {
+                repaired = await runTransaction(db, async (transaction) => {
+                  const snap = await transaction.get(docRef);
+                  const rawWords: unknown = snap.exists() ? snap.data()?.words : undefined;
+                  const isMap =
+                    rawWords !== null && typeof rawWords === 'object' && !Array.isArray(rawWords);
+                  const currentWords = sanitizeLanguageMap(rawWords);
+                  const rawCount = isMap ? Object.keys(rawWords).length : 0;
 
-              const existing = currentWords[normWord];
-              currentWords[normWord] = {
-                timesGuessed: (existing?.timesGuessed || 0) + 1,
-                firstSeen: existing?.firstSeen || nowIso,
-                lastSeen: nowIso,
-                isSolved: existing?.isSolved || isWordSolvedForLang,
-              };
+                  // Rules count the stored map. Clean it first (without recording this guess)
+                  // so both sides see the same baseline when publishing a certification.
+                  if (
+                    includeCertification &&
+                    snap.exists() &&
+                    (!isMap || rawCount !== Object.keys(currentWords).length)
+                  ) {
+                    transaction.set(
+                      docRef,
+                      { words: currentWords, totalCount: Object.keys(currentWords).length },
+                      { mergeFields: ['words', 'totalCount'] }
+                    );
+                    return true;
+                  }
+                  const beforeCount = rawCount;
+                  const existing = currentWords[normWord];
+                  currentWords[normWord] = {
+                    timesGuessed: (existing?.timesGuessed || 0) + 1,
+                    firstSeen: existing?.firstSeen || nowIso,
+                    lastSeen: nowIso,
+                    isSolved: existing?.isSolved || isWordSolvedForLang,
+                  };
 
-              transaction.set(
-                docRef,
-                {
-                  words: currentWords,
-                  totalCount: Object.keys(currentWords).length,
-                },
-                { merge: true }
-              );
-            });
+                  const afterCount = Object.keys(currentWords).length;
+                  const earned = CERTIFICATION_LEVELS.flatMap((tier, level) =>
+                    includeCertification && beforeCount < tier.target && afterCount >= tier.target
+                      ? [
+                          {
+                            level,
+                            target: tier.target,
+                            ref: doc(
+                              db,
+                              'activityEvents',
+                              `cert_${currentUser.uid}_${lang}_${level}`
+                            ),
+                          },
+                        ]
+                      : []
+                  );
+                  certificationAttempted ||= earned.length > 0;
+                  // All reads precede writes, including retries/concurrent tabs.
+                  const existingEvents = await Promise.all(
+                    earned.map(({ ref }) => transaction.get(ref))
+                  );
+                  earned.forEach(({ level, target, ref }, index) => {
+                    if (!existingEvents[index].exists()) {
+                      transaction.set(ref, {
+                        userId: currentUser.uid,
+                        lang,
+                        level,
+                        wordCount: target,
+                        createdAt: serverTimestamp(),
+                      });
+                    }
+                  });
+                  transaction.set(
+                    docRef,
+                    {
+                      words: currentWords,
+                      totalCount: Object.keys(currentWords).length,
+                    },
+                    { mergeFields: ['words', 'totalCount'] }
+                  );
+
+                  return false;
+                });
+              } while (repaired);
+            };
+            try {
+              await saveGuess(true);
+            } catch (error) {
+              if (
+                !certificationAttempted ||
+                (error as { code?: string } | null)?.code !== 'permission-denied'
+              ) {
+                throw error;
+              }
+              // A rejected atomic transaction committed neither write. Retry only the word,
+              // preserving vocabulary even if certification rules are unavailable or reject it.
+              await saveGuess(false);
+            }
           } catch (err) {
             console.error(`Failed to save vocabulary transactionally for ${lang}:`, err);
           }
         }
       }
 
+      queryClient.invalidateQueries({ queryKey: ['activityTimeline'] });
       return updatedVocab;
     },
   });

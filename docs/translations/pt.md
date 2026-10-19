@@ -9,6 +9,37 @@ When reviewing:
 - Keep tags like `<name>…</name>` or `<green>…</green>` around the same words; they add links and colours.
 - To suggest a change, comment on the pull request with the key from the first column.
 
+## Activity timeline and reactions
+
+| Key | English | Portuguese |
+|---|---|---|
+| `activity.firstTry` | Solved the {{language}} board on the first guess. | Resolveu o tabuleiro em {{language, lower}} na primeira tentativa. |
+| `activity.playedGames_one` | played {{count}} game | jogou {{count}} partida |
+| `activity.playedGames_other` | played {{count}} games | jogou {{count}} partidas |
+| `activity.earnedFeat` | earned {{feat}} | conquistou {{feat}} |
+| `activity.streak` | reached a {{count}}-game win streak | alcançou {{count}} vitórias seguidas |
+| `activity.certification` | earned a certification | conquistou uma certificação |
+| `activity.personalBest` | set a new personal best | bateu seu recorde pessoal |
+| `activity.firstGame` | played their first game | jogou sua primeira partida |
+| `activity.words_one` | {{count}} distinct {{language}} word played | {{count}} palavra distinta em {{language, lower}} jogada |
+| `activity.words_other` | {{count}} distinct {{language}} words played | {{count}} palavras distintas em {{language, lower}} jogadas |
+| `activity.results` | {{wins}} wins · {{losses}} losses | {{wins}} vitórias · {{losses}} derrotas |
+| `activity.solved_one` | Solved in {{count}} guess | Resolvido em {{count}} tentativa |
+| `activity.solved_other` | Solved in {{count}} guesses | Resolvido em {{count}} tentativas |
+| `activity.finished` | Finished a game | Terminou uma partida |
+| `activity.showGames` | Show games | Ver partidas |
+| `activity.showGame` | Show game details | Ver detalhes da partida |
+| `activity.react` | React | Reagir |
+| `activity.addReaction` | Add a reaction | Adicionar uma reação |
+| `activity.reactWith` | React with {{reaction}} | Reagir com {{reaction}} |
+| `activity.retryReactions` | Retry reactions | Tentar reações novamente |
+| `activity.reactionFailed` | Could not save your reaction. Please try again. | Não foi possível salvar sua reação. Tente novamente. |
+| `activity.reactions.applause` | Applause | Aplausos |
+| `activity.reactions.fire` | Fire | Fogo |
+| `activity.reactions.mindBlown` | Mind blown | Surpresa |
+| `activity.reactions.laugh` | Laugh | Risada |
+| `activity.reactions.heart` | Heart | Coração |
+
 ## Signed-in home
 
 | Key | English | Portuguese |

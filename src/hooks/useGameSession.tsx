@@ -11,9 +11,11 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { useParams, useSearchParams } from 'react-router-dom';
+import { getGameAchievements } from '@/achievements/gameAchievements';
 import { SCORING_VERSION } from '@/config';
 import { useAuth } from '@/context/AuthContext';
 import type { GameDoc, Language, UserDoc } from '@/types/firestore.d.ts';
+import type { UserVocabularyMap } from '@/types/vocabulary';
 import { isGameId } from '@/utils/languages';
 import { getWordsFromUuid, normalizeWord } from '@/utils/wordUtils';
 
@@ -207,6 +209,20 @@ export const useGameSession = () => {
         const gameData = gameDocSnap.data() as GameDoc;
         const userData = userDocSnap.data() as UserDoc;
 
+        // A retry or another tab must not count this game (or its milestones) twice.
+        if (gameData.isLiveGame === false) {
+          return;
+        }
+        const previousMaxStreak = userData.stats.maxStreak ?? 0;
+        const previousHighScore = userData.stats.highScore ?? 0;
+        const firstGame = !userData.stats.gamesPlayed;
+        const vocabulary = queryClient.getQueryData<UserVocabularyMap>(['vocabulary', userId]);
+        const dictionaries = Object.fromEntries(
+          gameData.shuffledLanguages
+            .map((lang) => [lang, queryClient.getQueryData(['dictionary', lang])])
+            .filter(([, value]) => value)
+        );
+        const { feats } = getGameAchievements(gameData, vocabulary, {}, dictionaries);
         // --- 2. Calculate New Stats ---
         const stats = userData.stats;
 
@@ -303,6 +319,18 @@ export const useGameSession = () => {
           isWin,
           completedAt: serverTimestamp(),
           score,
+          activity: {
+            feats,
+            firstGame,
+            personalBest: !firstGame && score > previousHighScore,
+            // Only announce a new best streak at meaningful thresholds.
+            streak:
+              isWin &&
+              stats.currentStreak > previousMaxStreak &&
+              [3, 7, 14, 30, 60, 100].includes(stats.currentStreak)
+                ? stats.currentStreak
+                : null,
+          },
         });
       });
 
@@ -343,6 +371,7 @@ export const useGameSession = () => {
       queryClient.invalidateQueries({ queryKey });
       queryClient.invalidateQueries({ queryKey: ['playedGame', userId, gameId] });
       queryClient.invalidateQueries({ queryKey: ['activityFeed'] });
+      queryClient.invalidateQueries({ queryKey: ['activityTimeline'] });
       if (userId) {
         queryClient.invalidateQueries({ queryKey: ['userProfile', userId] });
       }

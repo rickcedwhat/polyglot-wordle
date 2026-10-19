@@ -64,6 +64,61 @@ service cloud.firestore {
       allow delete: if false;
     }
     
+    // Public milestones share the existing signed-in game/profile audience.
+    match /activityEvents/{eventId} {
+      function validCertification() {
+        let d = request.resource.data;
+        let vocab = /databases/$(database)/documents/users/$(request.auth.uid)/vocabulary/$(d.lang);
+        let targets = [25, 75, 150, 300, 600, 1200];
+        return d.keys().hasAll(['userId', 'lang', 'level', 'wordCount', 'createdAt']) &&
+          d.keys().hasOnly(['userId', 'lang', 'level', 'wordCount', 'createdAt']) &&
+          d.userId == request.auth.uid && d.lang in ['en', 'es', 'fr', 'it', 'pt'] &&
+          d.level is int && d.level >= 0 && d.level < 6 &&
+          d.wordCount == targets[d.level] &&
+          eventId == 'cert_' + d.userId + '_' + d.lang + '_' + string(d.level) &&
+          d.createdAt == request.time &&
+          (!exists(vocab) || get(vocab).data.words.size() < d.wordCount) &&
+          getAfter(vocab).data.words.size() >= d.wordCount;
+      }
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && validCertification();
+      allow update, delete: if false;
+    }
+
+    match /reactions/{reactionId} {
+      function validSource(d) {
+        let isCertification = d.kind == 'certification';
+        let source = isCertification
+          ? /databases/$(database)/documents/activityEvents/$(d.sourceId)
+          : /databases/$(database)/documents/games/$(d.sourceId);
+        let data = get(source).data;
+        return exists(source) && data.userId == d.ownerId &&
+          (isCertification || (data.isLiveGame == false &&
+            (d.kind == 'game' ||
+             (d.kind == 'feat' && data.activity.feats.size() > 0) ||
+             (d.kind == 'personalBest' && data.activity.personalBest == true) ||
+             (d.kind == 'firstGame' && data.activity.firstGame == true) ||
+             (d.kind == 'streak' && data.activity.streak is number && data.activity.streak > 0))));
+      }
+      function validReaction() {
+        let d = request.resource.data;
+        return d.keys().hasAll(['kind', 'sourceId', 'ownerId', 'targetKey', 'userId', 'emoji', 'createdAt']) &&
+          d.keys().hasOnly(['kind', 'sourceId', 'ownerId', 'targetKey', 'userId', 'emoji', 'createdAt']) &&
+          d.userId == request.auth.uid &&
+          d.sourceId is string && d.sourceId.size() > 0 && d.sourceId.size() <= 256 &&
+          d.sourceId.matches('[^/]+') &&
+          d.emoji in ['applause', 'fire', 'mindBlown', 'laugh', 'heart'] &&
+          d.kind in ['game', 'certification', 'feat', 'personalBest', 'streak', 'firstGame'] &&
+          d.targetKey == d.sourceId + '__' + d.kind &&
+          reactionId == d.targetKey + '__' + d.userId + '__' + d.emoji &&
+          d.createdAt == request.time && validSource(d);
+      }
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && validReaction();
+      allow update: if false;
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
     // --- Invites Collection ---
     match /invites/{inviteId} {
       // Anyone can read an invite to see the landing page.

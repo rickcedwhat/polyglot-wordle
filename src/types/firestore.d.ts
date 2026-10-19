@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
+import type { EarnedFeat } from '@/achievements/config';
 
 // A helper for readability
 export type Difficulty = 'basic' | 'intermediate' | 'advanced';
@@ -98,6 +99,13 @@ export interface GameDoc {
   score: number | null;
   /** Scoring rules the game was played under (see `SCORING_RULES`); absent on v1 games. */
   scoringVersion?: number;
+  /** Immutable milestone snapshot recorded when this game finishes. Legacy games omit it. */
+  activity?: {
+    feats: EarnedFeat[];
+    firstGame: boolean;
+    personalBest: boolean;
+    streak: number | null;
+  };
   startedAt: Timestamp;
   completedAt: Timestamp | null;
 }
@@ -150,5 +158,14 @@ export interface InviteDoc {
 export interface SharedInviteDoc {
   gameId: string;
   languages: Language[];
+  createdAt: Timestamp;
+}
+
+/** A one-time public certification milestone, written atomically with vocabulary progress. */
+export interface CertificationActivity {
+  userId: string;
+  lang: Language;
+  level: number;
+  wordCount: number;
   createdAt: Timestamp;
 }
