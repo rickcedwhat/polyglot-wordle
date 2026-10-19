@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProctedRoute/ProtectedRoute';
 import { GenericLayout } from './layouts/GenericLayout';
+import { HomeLayout } from './layouts/HomeLayout';
 import { SidebarLayout } from './layouts/SidebarLayout'; // Import the new layout
 
 import { ChallengesPage } from './pages/Challenges.page';
@@ -14,12 +15,12 @@ import { SandboxPage } from './pages/Sandbox.page';
 
 const router = createBrowserRouter([
   {
+    element: <HomeLayout />,
+    children: [{ path: '/', element: <HomePage /> }],
+  },
+  {
     element: <GenericLayout />,
     children: [
-      {
-        path: '/',
-        element: <HomePage />,
-      },
       {
         path: '/login',
         element: <LoginPage />,

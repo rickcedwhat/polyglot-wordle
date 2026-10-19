@@ -1,6 +1,18 @@
 import type { Translation } from './en';
 
 export const es: Translation = {
+  home: {
+    welcomeName: '¡Qué bueno verte, {{name}}!',
+    welcome: '¡Qué bueno verte!',
+    subtitle: 'Ponte al día con tus desafíos y descubre a qué juegan los demás.',
+    yourMove: 'Te toca',
+    allChallenges: 'Todos los desafíos',
+    caughtUp: 'Estás al día',
+    caughtUpHint: 'Tu próximo turno aparecerá aquí. Elige una partida abajo o desafía a un amigo.',
+    community: 'En la comunidad',
+    communityHint: 'Partidas recientes para unirte al reto.',
+    viewAll: 'Ver todo',
+  },
   sharedInvites: {
     title: 'Enlace compartido',
     waiting: 'Esperando a que alguien se una',

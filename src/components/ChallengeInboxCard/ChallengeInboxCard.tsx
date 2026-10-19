@@ -18,12 +18,18 @@ import { ProfileLink } from '../ProfileLink/ProfileLink';
 
 interface ChallengeInboxCardProps {
   challenge: ChallengeInboxItem;
+  compact?: boolean;
+  hideRow?: boolean;
+  onResultOpen?: () => void;
   section: 'needsYou' | 'waiting' | 'archive';
   onMarkSeen: (challengeId: string) => Promise<void>;
 }
 
 export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   challenge,
+  compact = false,
+  hideRow = false,
+  onResultOpen,
   section,
   onMarkSeen,
 }) => {
@@ -133,6 +139,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
   };
 
   const handleOpenResult = async () => {
+    onResultOpen?.();
     setResultOpened(true);
     if (unread) {
       await onMarkSeen(challenge.id);
@@ -186,7 +193,13 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
 
   return (
     <>
-      <Paper withBorder p="sm" radius="md" bg={unread ? 'dark.6' : undefined}>
+      <Paper
+        hidden={hideRow}
+        withBorder={!compact}
+        p={compact ? 'md' : 'sm'}
+        radius={compact ? 0 : 'md'}
+        bg={unread ? (compact ? 'var(--mantine-color-blue-light)' : 'dark.6') : undefined}
+      >
         <Group justify="space-between" align="flex-start" wrap="nowrap">
           <Group gap="sm" wrap="nowrap" style={{ minWidth: 0 }}>
             <ProfileLink
@@ -241,7 +254,7 @@ export const ChallengeInboxCard: FC<ChallengeInboxCardProps> = ({
                 {t('challenges.showdown')}
               </Button>
             )}
-            {bothDone && (
+            {bothDone && !compact && (
               <Button size="xs" variant="subtle" loading={rematchBusy} onClick={handleRematch}>
                 {t('challenges.rematch')}
               </Button>

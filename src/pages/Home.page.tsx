@@ -3,27 +3,19 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Carousel } from '@mantine/carousel';
 import { Button } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { GameSetupDialog } from '@/components/GameSetup/GameSetupDialog';
 import { HowToPlaySlides } from '@/components/HowToPlayModal/HelpSlides';
 import { useAuth } from '@/context/AuthContext';
-import { useGameActions } from '@/hooks/useGameActions';
+import { SignedInHomePage } from './SignedInHome.page';
 import classes from './Home.page.module.css';
 
 export function HomePage() {
-  const { createNewGame, needsSetup } = useGameActions();
-  const { currentUser, signInWithGoogle } = useAuth();
+  const { currentUser } = useAuth();
+  return currentUser ? <SignedInHomePage /> : <LandingPage />;
+}
+
+function LandingPage() {
+  const { signInWithGoogle } = useAuth();
   const { t } = useTranslation();
-  const [setupOpened, { open: openSetup, close: closeSetup }] = useDisclosure(false);
-
-  const handleNewGameClick = () => {
-    if (needsSetup) {
-      openSetup();
-    } else {
-      createNewGame();
-    }
-  };
-
   // Animation variants for Framer Motion
   const containerVariants: Variants = {
     hidden: {},
@@ -42,7 +34,6 @@ export function HomePage() {
       initial="hidden"
       animate="show"
     >
-      <GameSetupDialog opened={setupOpened} onClose={closeSetup} mode="newGame" />
       <div className={classes.inner}>
         <motion.div variants={itemVariants} className={classes.carouselWrapper}>
           <Carousel
@@ -59,15 +50,9 @@ export function HomePage() {
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          {currentUser ? (
-            <Button size="xl" onClick={handleNewGameClick} variant="gradient">
-              {t('nav.startNewGame')}
-            </Button>
-          ) : (
-            <Button size="xl" onClick={signInWithGoogle} variant="gradient">
-              {t('nav.logIn')}
-            </Button>
-          )}
+          <Button size="xl" onClick={signInWithGoogle} variant="gradient">
+            {t('nav.logIn')}
+          </Button>
           {import.meta.env.DEV && (
             <div style={{ marginTop: 12, display: 'flex', gap: 8, justifyContent: 'center' }}>
               <Button component={Link} to="/sandbox" variant="subtle" size="xs" color="gray">

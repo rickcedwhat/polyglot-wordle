@@ -1,0 +1,31 @@
+.main {
+  padding: 24px 28px;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: var(--mantine-color-dimmed);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.greeting {
+  font-size: clamp(25px, 3vw, 32px);
+  letter-spacing: -0.7px;
+  line-height: 1.2;
+}
+
+.challengeList {
+  overflow: hidden;
+}
+
+.challengeList > :not(:last-child) {
+  border-bottom: 1px solid var(--mantine-color-default-border);
+}
+
+@media (max-width: 47.99em) {
+  .main {
+    padding: 12px 4px;
+  }
+}
