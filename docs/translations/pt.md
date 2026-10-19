@@ -9,6 +9,21 @@ When reviewing:
 - Keep tags like `<name>…</name>` or `<green>…</green>` around the same words; they add links and colours.
 - To suggest a change, comment on the pull request with the key from the first column.
 
+## Signed-in home
+
+| Key | English | Portuguese |
+|---|---|---|
+| `home.welcomeName` | Welcome back, {{name}}. | Que bom ter você de volta, {{name}}. |
+| `home.welcome` | Welcome back. | Que bom ter você de volta. |
+| `home.subtitle` | Catch up with your challenges and see what others are playing. | Confira seus desafios e descubra o que os outros estão jogando. |
+| `home.yourMove` | Your move | Sua vez |
+| `home.allChallenges` | All challenges | Todos os desafios |
+| `home.caughtUp` | You’re all caught up | Tudo em dia |
+| `home.caughtUpHint` | Your next move will appear here. Find a game below or challenge a friend. | Sua próxima jogada aparecerá aqui. Escolha uma partida abaixo ou desafie um amigo. |
+| `home.community` | Around the community | Na comunidade |
+| `home.communityHint` | Recent games. A chance to jump in. | Partidas recentes para você participar. |
+| `home.viewAll` | View all | Ver tudo |
+
 ## Shared invitations
 
 | Key | English | Portuguese |

@@ -1,4 +1,16 @@
 export const en = {
+  home: {
+    welcomeName: 'Welcome back, {{name}}.',
+    welcome: 'Welcome back.',
+    subtitle: 'Catch up with your challenges and see what others are playing.',
+    yourMove: 'Your move',
+    allChallenges: 'All challenges',
+    caughtUp: 'You’re all caught up',
+    caughtUpHint: 'Your next move will appear here. Find a game below or challenge a friend.',
+    community: 'Around the community',
+    communityHint: 'Recent games. A chance to jump in.',
+    viewAll: 'View all',
+  },
   sharedInvites: {
     title: 'Link shared',
     waiting: 'Waiting for someone to join',

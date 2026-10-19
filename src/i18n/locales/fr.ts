@@ -1,6 +1,19 @@
 import type { Translation } from './en';
 
 export const fr: Translation = {
+  home: {
+    welcomeName: 'Bon retour, {{name}}.',
+    welcome: 'Bon retour.',
+    subtitle: 'Retrouve tes défis et découvre les parties des autres joueurs.',
+    yourMove: 'À toi de jouer',
+    allChallenges: 'Tous les défis',
+    caughtUp: 'Tu es à jour',
+    caughtUpHint:
+      'Ton prochain tour apparaîtra ici. Choisis une partie ci-dessous ou défie un ami.',
+    community: 'Dans la communauté',
+    communityHint: 'Des parties récentes à découvrir.',
+    viewAll: 'Tout voir',
+  },
   sharedInvites: {
     title: 'Lien partagé',
     waiting: 'En attente d’un joueur',
