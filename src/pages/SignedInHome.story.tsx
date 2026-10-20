@@ -8,6 +8,7 @@ import { SidebarProvider } from '@/context/SidebarContext';
 import { SidebarLayout } from '@/layouts/SidebarLayout';
 import { MockAuth } from '@/storybook/MockAuth';
 import type { ChallengeDoc, GameDoc, UserDoc } from '@/types/firestore';
+import { buildTimeline, reactionKey, type ActivityRecord } from '@/utils/activityTimeline';
 import { SignedInHomePage } from './SignedInHome.page';
 
 const PROFILES = {
@@ -63,8 +64,52 @@ const SignedInHomeStory = ({
       ['headToHead', 'home-1', 'me', 'sam'],
       [{ ...games[1], userId: 'me' }, games[1]]
     );
-    client.setQueryData(['activityFeed', 'me'], {
-      pages: [{ games: state === 'first-visit' ? [] : games }],
+    const records: ActivityRecord[] = [
+      ...Array.from({ length: 5 }, (_, i) => ({
+        type: 'game' as const,
+        game: { ...games[0], id: `alex_home-${i}`, gameId: `home-${i}` },
+      })),
+      {
+        type: 'certification',
+        certification: {
+          id: 'cert_sam_pt_2',
+          userId: 'sam',
+          lang: 'pt',
+          level: 2,
+          wordCount: 150,
+          createdAt: Timestamp.fromMillis(1792257000000),
+        },
+      },
+      {
+        type: 'game',
+        game: {
+          ...games[1],
+          activity: {
+            feats: [],
+            firstGame: false,
+            personalBest: true,
+            streak: null,
+          },
+        },
+      },
+    ];
+    for (const entry of buildTimeline(records)) {
+      if (entry.type !== 'games') {
+        const target =
+          entry.type === 'certification'
+            ? { kind: entry.type, sourceId: entry.certification.id, ownerId: entry.userId }
+            : { kind: entry.type, sourceId: entry.game.id, ownerId: entry.userId };
+        client.setQueryData(['activityReactions', reactionKey(target), 'me'], []);
+      }
+    }
+    records.forEach((record) => {
+      if (record.type === 'game') {
+        client.setQueryData(['playedGame', 'me', record.game.gameId], null);
+        client.setQueryData(['activityReactions', `${record.game.id}__game`, 'me'], []);
+      }
+    });
+    client.setQueryData(['activityTimeline', 'me'], {
+      pages: [{ records: state === 'first-visit' ? [] : records }],
       pageParams: [undefined],
     });
     const participant = (displayName: string, score: number | null) => ({

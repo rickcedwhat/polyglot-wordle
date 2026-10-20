@@ -11,25 +11,25 @@ import {
   Group,
   Loader,
   Paper,
-  SimpleGrid,
   Stack,
   Text,
   ThemeIcon,
   Title,
 } from '@mantine/core';
+import { ActivityTimeline } from '@/components/ActivityTimeline/ActivityTimeline';
 import { ChallengeInboxCard } from '@/components/ChallengeInboxCard/ChallengeInboxCard';
-import { FeedCard } from '@/components/FeedCard/FeedCard';
 import { NewGameButton } from '@/components/NewGameButton/NewGameButton';
 import { useAuth } from '@/context/AuthContext';
-import { useActivityFeed } from '@/hooks/useActivityFeed';
+import { useActivityTimeline } from '@/hooks/useActivityTimeline';
 import { useChallenges, type ChallengeInboxItem } from '@/hooks/useChallenges';
+import { buildTimeline } from '@/utils/activityTimeline';
 import classes from './SignedInHome.module.css';
 
 export const SignedInHomePage = () => {
   const { currentUser } = useAuth();
   const { t } = useTranslation();
   const challenges = useChallenges();
-  const feed = useActivityFeed();
+  const feed = useActivityTimeline();
   // Keep an opened result mounted when marking it seen removes it from needsYou.
   const [openedChallenge, setOpenedChallenge] = useState<ChallengeInboxItem | null>(null);
   const visibleChallenges = challenges.needsYou.slice(0, 3);
@@ -38,7 +38,7 @@ export const SignedInHomePage = () => {
       ? [...visibleChallenges, openedChallenge]
       : visibleChallenges;
   const name = currentUser?.displayName?.trim();
-  const games = feed.data?.pages.flatMap((page) => page.games).slice(0, 2) ?? [];
+  const entries = buildTimeline(feed.data?.pages.flatMap((page) => page.records) ?? []).slice(0, 3);
 
   return (
     <Container size={1032} className={classes.main}>
@@ -127,7 +127,7 @@ export const SignedInHomePage = () => {
                 {t('home.community')}
               </Title>
               <Text size="sm" c="dimmed">
-                {t('home.communityHint')}
+                {t('feed.subtitle')}
               </Text>
             </div>
             <Anchor component={Link} to="/feed" size="sm">
@@ -147,7 +147,7 @@ export const SignedInHomePage = () => {
               </Button>
             </Stack>
           )}
-          {!feed.isPending && !feed.isError && games.length === 0 && (
+          {!feed.isPending && !feed.isError && entries.length === 0 && (
             <Paper withBorder radius="md" p="lg">
               <Text c="dimmed">{t('feed.empty')}</Text>
               <Group mt="md">
@@ -155,11 +155,7 @@ export const SignedInHomePage = () => {
               </Group>
             </Paper>
           )}
-          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
-            {games.map((game) => (
-              <FeedCard key={game.id} game={game} />
-            ))}
-          </SimpleGrid>
+          <ActivityTimeline entries={entries} />
         </section>
       </Stack>
     </Container>
