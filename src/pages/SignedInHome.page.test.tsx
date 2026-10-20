@@ -31,9 +31,9 @@ vi.mock('@/hooks/useChallenges', () => ({
     refetch: state.refetchChallenges,
   }),
 }));
-vi.mock('@/hooks/useActivityFeed', () => ({
-  useActivityFeed: () => ({
-    data: { pages: [{ games: state.games }] },
+vi.mock('@/hooks/useActivityTimeline', () => ({
+  useActivityTimeline: () => ({
+    data: { pages: [{ records: state.games }] },
     isPending: state.loading,
     isError: state.feedError,
     refetch: state.refetchFeed,
@@ -45,8 +45,15 @@ vi.mock('@/hooks/useGameActions', () => ({
 vi.mock('@/hooks/useFriendships', () => ({
   useFriendships: () => ({ getFriendshipStatus: () => 'none' }),
 }));
-vi.mock('@/components/FeedCard/FeedCard', () => ({
-  FeedCard: ({ game }: { game: { id: string } }) => <div>{game.id}</div>,
+vi.mock('@/utils/activityTimeline', () => ({ buildTimeline: (records: unknown[]) => records }));
+vi.mock('@/components/ActivityTimeline/ActivityTimeline', () => ({
+  ActivityTimeline: ({ entries }: { entries: { id: string }[] }) => (
+    <div>
+      {entries.map((entry) => (
+        <div key={entry.id}>{entry.id}</div>
+      ))}
+    </div>
+  ),
 }));
 vi.mock('@/components/GameSetup/GameSetupDialog', () => ({
   GameSetupDialog: ({ opened }: { opened: boolean }) => (opened ? <div>Setup is open</div> : null),
@@ -139,7 +146,7 @@ it('opens an unread result and marks it seen only when requested', async () => {
 });
 it('bounds the previews and links to the complete lists', () => {
   state.needsYou = Array.from({ length: 5 }, (_, i) => challenge(String(i)));
-  state.games = [{ id: 'game-one' }, { id: 'game-two' }, { id: 'game-three' }];
+  state.games = [{ id: 'game-one' }, { id: 'game-two' }, { id: 'game-three' }, { id: 'game-four' }];
   mount();
   expect(screen.getAllByRole('button', { name: 'Play' })).toHaveLength(3);
   expect(screen.getByRole('link', { name: /All challenges/ })).toHaveAttribute(
@@ -148,7 +155,7 @@ it('bounds the previews and links to the complete lists', () => {
   );
   expect(screen.getByRole('link', { name: /View all/ })).toHaveAttribute('href', '/feed');
   expect(screen.getByText('game-two')).toBeInTheDocument();
-  expect(screen.queryByText('game-three')).not.toBeInTheDocument();
+  expect(screen.queryByText('game-four')).not.toBeInTheDocument();
 });
 it('keeps each section usable if the other request fails and offers retries', () => {
   state.challengeError = true;

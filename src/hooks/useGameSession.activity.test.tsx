@@ -65,14 +65,10 @@ beforeEach(() => {
     languages: {} as UserDoc['stats']['languages'],
   };
 });
-const setup = () =>
+const setup = (client = new QueryClient({ defaultOptions: { queries: { retry: false } } })) =>
   renderHook(() => useGameSession(), {
     wrapper: ({ children }: { children: ReactNode }) => (
-      <QueryClientProvider
-        client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
-      >
-        {children}
-      </QueryClientProvider>
+      <QueryClientProvider client={client}>{children}</QueryClientProvider>
     ),
   });
 it('snapshots a personal best and new streak exactly once across repeated completion', async () => {
@@ -111,4 +107,25 @@ it('does not announce an old streak milestone again', async () => {
     await result.current.endGame({ isWin: true, score: 800 });
   });
   expect(state.game.activity).toMatchObject({ personalBest: false, streak: null });
+});
+
+it('refetches a mounted empty leaderboard after the completed score is committed', async () => {
+  const client = new QueryClient();
+  const key = ['leaderboard', state.game.gameId, 'friends', ['me']];
+  const { QueryObserver } = await import('@tanstack/react-query');
+  const fetchScores = vi.fn(async () => (state.game.isLiveGame ? [] : [state.game]));
+  const observer = new QueryObserver(client, { queryKey: key, queryFn: fetchScores });
+  const unsubscribe = observer.subscribe(() => {});
+  await waitFor(() => expect(client.getQueryData(key)).toEqual([]));
+  const { result } = setup(client);
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  await act(async () => {
+    await result.current.endGame({ isWin: true, score: 1240 });
+  });
+  await waitFor(() =>
+    expect(client.getQueryData(key)).toEqual([
+      expect.objectContaining({ score: 1240, isLiveGame: false }),
+    ])
+  );
+  unsubscribe();
 });
