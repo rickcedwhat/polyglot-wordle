@@ -104,7 +104,10 @@ const SignedInHomeStory = ({
     }
     records.forEach((record) => {
       if (record.type === 'game') {
-        client.setQueryData(['playedGame', 'me', record.game.gameId], null);
+        const playedKey = ['playedGame', 'me', record.game.gameId];
+        if (client.getQueryData(playedKey) === undefined) {
+          client.setQueryData(playedKey, null);
+        }
         client.setQueryData(['activityReactions', `${record.game.id}__game`, 'me'], []);
       }
     });
