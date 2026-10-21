@@ -264,3 +264,31 @@ describe('public reactions with author-only writes', () => {
     await assertFails(react(guest));
   });
 });
+
+describe('private reaction read markers', () => {
+  const path = 'users/alice/reactionReceipts/bob_game__game';
+  const data = () => ({ seenAt: Timestamp.fromMillis(1000) });
+  it('allows only the owner to read and save monotonic receipts', async () => {
+    const db = player();
+    await assertSucceeds(setDoc(doc(db, path), data()));
+    await assertSucceeds(getDocs(collection(db, 'users/alice/reactionReceipts')));
+    await assertSucceeds(setDoc(doc(db, path), {seenAt: Timestamp.fromMillis(2000)}));
+    await assertFails(setDoc(doc(db, path), data()));
+    await assertFails(getDoc(doc(player('bob'), path)));
+    await assertFails(setDoc(doc(player('bob'), path), {seenAt: Timestamp.fromMillis(3000)}));
+    await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), path)));
+  });
+  it('rejects future times, extra fields and non-timestamp markers', async () => {
+    const db=player();
+    await assertFails(setDoc(doc(db,path), {seenAt: Timestamp.fromMillis(Date.now()+86400000)}));
+    await assertFails(setDoc(doc(db,path), {...data(), ownerId:'alice'}));
+    await assertFails(setDoc(doc(db,path), {seenAt: 1000}));
+  });
+});
+
+it('can mark a full inbox read without rule document-access lookups', async () => {
+  const db = player();
+  const batch = writeBatch(db);
+  for (let i = 0; i < 100; i++) batch.set(doc(db, 'users/alice/reactionReceipts', `game${i}__game`), {seenAt: Timestamp.fromMillis(1000)});
+  await assertSucceeds(batch.commit());
+});

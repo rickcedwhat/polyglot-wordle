@@ -20,6 +20,18 @@ The user approved this scope for the PR. Rules apply through the normal deployme
 - Only signed-in players can read activity events and reaction records. This is the same audience as the existing public game/profile feed. No emails, private challenge participants/results, or raw vocabulary words are added to these collections.
 - A player can create only their own certification event, with a deterministic ID, a supported language/tier, a server timestamp, and a threshold crossed by their vocabulary transaction. Clients cannot update or delete those events.
 - A player can create only their own reaction, with one of the fixed emoji IDs, a matching existing finished game/certification and owner, a deterministic target/player/emoji ID, and a server timestamp. Clients cannot update reactions. Only the reacting player can delete their reaction.
-- This feature needs no new composite indexes. Certification events sort by one timestamp; reactions query a single target key. The existing completed-games index is reused.
+- Certification events sort by one timestamp, and per-target reactions query a single target key. The existing completed-games index is reused. Incoming reaction notifications require the `reactions` composite index on `ownerId` ASC and `createdAt` DESC from `firestore.indexes.json`.
 
 Creating this branch or PR does not grant live access. Run `npm run test:rules` with Java 21 installed to verify the policy in the local Firestore emulator; PR CI runs the same checks against the demo-only project.
+
+## Incoming reaction notifications
+
+The app uses one authenticated pair of Firestore listeners for incoming reactions and private read receipts. The incoming query uses `ownerId` and `createdAt desc` (with the checked-in composite index) and is bounded to the latest 100 reaction documents. Self-reactions are omitted, and the remaining documents are grouped by exact activity target. The inbox initially shows 20 groups and offers more; its badge counts unread groups across the loaded window, not individual emoji. This is a recent-activity inbox, not a permanent notification archive. Removed reactions disappear; re-adding one with a newer timestamp makes the activity unread again.
+
+Read markers live at `users/{uid}/reactionReceipts/{targetKey}` and store the latest reaction timestamp actually read. They are owner-only, monotonic, and use timestamp precision, so a slow tab cannot clear a newer reaction. Mark all read captures only the current loaded items, and later arrivals remain unread. Failed writes show a retryable error and do not clear the badge.
+
+Notification links use `/feed?activity={targetKey}` and fetch the exact saved game or certification independently of feed pagination. Game details still use the existing spoiler-aware timeline. Missing or invalid targets show an unavailable message.
+
+Toasts are limited to an actively playing own game session. Initial data, offline/reconnection snapshots, read-marker changes, and arrivals outside gameplay do not replay. One grouped toast is shown per incoming snapshot and it is dismissed when gameplay ends. The inbox remains available on every signed-in page.
+
+Storybook covers the inbox, empty state and gameplay toast with local-only fixture data. The old Mantine starter Welcome story was removed; the shipped navigation story is named Navigation/Sidebar.

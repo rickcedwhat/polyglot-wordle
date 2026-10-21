@@ -13,6 +13,27 @@ When reviewing:
 
 | Key | English | Italian |
 |---|---|---|
+| `activity.notifications.title` | Reactions to your activity | Reazioni alla tua attività |
+| `activity.notifications.new_one` | {{count}} new | {{count}} nuova |
+| `activity.notifications.new_other` | {{count}} new | {{count}} nuove |
+| `activity.notifications.readAll` | Mark all read | Segna tutte come lette |
+| `activity.notifications.caughtUp` | You’re all caught up | Non ci sono novità |
+| `activity.notifications.empty` | Reactions to your games and milestones will appear here. | Le reazioni alle tue partite e ai tuoi traguardi appariranno qui. |
+| `activity.notifications.unread` | Unread | Da leggere |
+| `activity.notifications.summary` | {{name}} reacted to your {{target}} | {{name}} ha reagito alla tua attività: {{target}} |
+| `activity.notifications.summaryOthers_one` | {{name}} and {{count}} other reacted to your {{target}} | {{name}} e {{count}} altra persona hanno reagito alla tua attività: {{target}} |
+| `activity.notifications.summaryOthers_other` | {{name}} and {{count}} others reacted to your {{target}} | {{name}} e {{count}} altre persone hanno reagito alla tua attività: {{target}} |
+| `activity.notifications.loadFailed` | Could not load your reactions. | Impossibile caricare le tue reazioni. |
+| `activity.notifications.saveFailed` | Could not save your read state. Please try again. | Impossibile salvare lo stato di lettura. Riprova. |
+| `activity.notifications.back` | Back to reactions | Torna alle reazioni |
+| `activity.notifications.unavailable` | This activity is no longer available. | Questa attività non è più disponibile. |
+| `activity.notifications.view` | View activity | Vedi attività |
+| `activity.notifications.game` | game | partita |
+| `activity.notifications.certification` | certification | certificazione |
+| `activity.notifications.feat` | achievement | traguardo |
+| `activity.notifications.personalBest` | personal best | record personale |
+| `activity.notifications.streak` | win streak | serie di vittorie |
+| `activity.notifications.firstGame` | first game | prima partita |
 | `activity.firstTry` | Solved the {{language}} board on the first guess. | Ha risolto la griglia in {{language, lower}} al primo tentativo. |
 | `activity.playedGames_one` | played {{count}} game | ha giocato {{count}} partita |
 | `activity.playedGames_other` | played {{count}} games | ha giocato {{count}} partite |

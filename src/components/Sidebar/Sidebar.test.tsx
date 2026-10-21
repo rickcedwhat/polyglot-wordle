@@ -1,8 +1,11 @@
+import type { ReactElement } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { MantineProvider } from '@mantine/core';
+import { notifications, notificationsStore } from '@mantine/notifications';
+import type { ReactionNotification } from '@/utils/reactionNotifications';
 import { Sidebar } from './Sidebar';
 
 // jsdom does not provide the observer used by the help carousel.
@@ -15,7 +18,20 @@ vi.stubGlobal(
   }
 );
 
-const actions = vi.hoisted(() => ({ close: vi.fn(), newGame: vi.fn(), logout: vi.fn() }));
+const actions = vi.hoisted(() => ({
+  close: vi.fn(),
+  newGame: vi.fn(),
+  logout: vi.fn(),
+  reactionToast: undefined as ((item: ReactionNotification) => void) | undefined,
+}));
+vi.mock('@/hooks/useReactionNotificationToasts', () => ({
+  useReactionNotificationToasts: (
+    _playing: boolean,
+    onToast: (item: ReactionNotification) => void
+  ) => {
+    actions.reactionToast = onToast;
+  },
+}));
 vi.mock('@/context/AuthContext', () => ({
   useAuth: () => ({
     currentUser: { uid: 'me', displayName: 'Test Player' },
@@ -38,7 +54,15 @@ vi.mock('@/components/UiLanguage/UiLanguagePicker', () => ({
   UiLanguageModal: ({ opened }: { opened: boolean }) =>
     opened ? <div>Language picker opened</div> : null,
 }));
-const CurrentRoute = () => <output data-testid="route">{useLocation().pathname}</output>;
+const CurrentRoute = () => {
+  const location = useLocation();
+  return (
+    <output data-testid="route">
+      {location.pathname}
+      {location.search}
+    </output>
+  );
+};
 const show = () =>
   render(
     <MantineProvider>
@@ -54,6 +78,7 @@ const show = () =>
   );
 beforeEach(() => {
   vi.clearAllMocks();
+  notifications.clean();
 });
 it('puts Home before Activity feed and navigates with the sidebar closed', () => {
   show();
@@ -92,4 +117,22 @@ it('starts a new game without leaving the action button focused', async () => {
   fireEvent.click(button);
   expect(actions.newGame).toHaveBeenCalledOnce();
   await waitFor(() => expect(button).not.toHaveFocus());
+});
+
+it('replaces a visible reaction toast and opens the latest activity target', () => {
+  show();
+  const first = { id: 'first__game' } as ReactionNotification;
+  const second = { id: 'second__game' } as ReactionNotification;
+  act(() => actions.reactionToast!(first));
+  act(() => actions.reactionToast!(second));
+  const toasts = notificationsStore.getState().notifications;
+  expect(toasts).toHaveLength(1);
+  const message = toasts[0].message as ReactElement<{
+    item: ReactionNotification;
+    onOpen: () => void;
+  }>;
+  expect(message.props.item).toBe(second);
+  act(() => message.props.onOpen());
+  expect(screen.getByTestId('route')).toHaveTextContent('/feed?activity=second__game');
+  expect(notificationsStore.getState().notifications).toHaveLength(0);
 });

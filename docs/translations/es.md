@@ -13,6 +13,27 @@ When reviewing:
 
 | Key | English | Spanish |
 |---|---|---|
+| `activity.notifications.title` | Reactions to your activity | Reacciones a tu actividad |
+| `activity.notifications.new_one` | {{count}} new | {{count}} nueva |
+| `activity.notifications.new_other` | {{count}} new | {{count}} nuevas |
+| `activity.notifications.readAll` | Mark all read | Marcar todas como leídas |
+| `activity.notifications.caughtUp` | You’re all caught up | Estás al día |
+| `activity.notifications.empty` | Reactions to your games and milestones will appear here. | Aquí aparecerán las reacciones a tus partidas y logros. |
+| `activity.notifications.unread` | Unread | Sin leer |
+| `activity.notifications.summary` | {{name}} reacted to your {{target}} | {{name}} reaccionó a tu {{target}} |
+| `activity.notifications.summaryOthers_one` | {{name}} and {{count}} other reacted to your {{target}} | {{name}} y {{count}} persona más reaccionaron a tu {{target}} |
+| `activity.notifications.summaryOthers_other` | {{name}} and {{count}} others reacted to your {{target}} | {{name}} y {{count}} personas más reaccionaron a tu {{target}} |
+| `activity.notifications.loadFailed` | Could not load your reactions. | No se pudieron cargar tus reacciones. |
+| `activity.notifications.saveFailed` | Could not save your read state. Please try again. | No se pudo guardar el estado de lectura. Inténtalo de nuevo. |
+| `activity.notifications.back` | Back to reactions | Volver a las reacciones |
+| `activity.notifications.unavailable` | This activity is no longer available. | Esta actividad ya no está disponible. |
+| `activity.notifications.view` | View activity | Ver actividad |
+| `activity.notifications.game` | game | partida |
+| `activity.notifications.certification` | certification | certificación |
+| `activity.notifications.feat` | achievement | logro |
+| `activity.notifications.personalBest` | personal best | récord personal |
+| `activity.notifications.streak` | win streak | racha de victorias |
+| `activity.notifications.firstGame` | first game | primera partida |
 | `activity.firstTry` | Solved the {{language}} board on the first guess. | Resolvió el tablero en {{language, lower}} al primer intento. |
 | `activity.playedGames_one` | played {{count}} game | jugó {{count}} partida |
 | `activity.playedGames_other` | played {{count}} games | jugó {{count}} partidas |

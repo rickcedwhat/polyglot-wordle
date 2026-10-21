@@ -2,6 +2,31 @@ import type { Translation } from './en';
 
 export const it: Translation = {
   activity: {
+    notifications: {
+      title: 'Reazioni alla tua attività',
+      new_one: '{{count}} nuova',
+      new_other: '{{count}} nuove',
+      readAll: 'Segna tutte come lette',
+      caughtUp: 'Non ci sono novità',
+      empty: 'Le reazioni alle tue partite e ai tuoi traguardi appariranno qui.',
+      unread: 'Da leggere',
+      summary: '{{name}} ha reagito alla tua attività: {{target}}',
+      summaryOthers_one:
+        '{{name}} e {{count}} altra persona hanno reagito alla tua attività: {{target}}',
+      summaryOthers_other:
+        '{{name}} e {{count}} altre persone hanno reagito alla tua attività: {{target}}',
+      loadFailed: 'Impossibile caricare le tue reazioni.',
+      saveFailed: 'Impossibile salvare lo stato di lettura. Riprova.',
+      back: 'Torna alle reazioni',
+      unavailable: 'Questa attività non è più disponibile.',
+      view: 'Vedi attività',
+      game: 'partita',
+      certification: 'certificazione',
+      feat: 'traguardo',
+      personalBest: 'record personale',
+      streak: 'serie di vittorie',
+      firstGame: 'prima partita',
+    },
     firstTry: 'Ha risolto la griglia in {{language, lower}} al primo tentativo.',
     playedGames_one: 'ha giocato {{count}} partita',
     playedGames_other: 'ha giocato {{count}} partite',

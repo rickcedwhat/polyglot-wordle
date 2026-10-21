@@ -37,6 +37,7 @@ export const SidebarNavigation = ({
   currentPath,
   user,
   unreadCount = 0,
+  activityUnreadCount = 0,
   settingsExpanded = false,
   helpExpanded = false,
   activeHelpTopic,
@@ -53,6 +54,7 @@ export const SidebarNavigation = ({
   currentPath: string;
   user: { uid: string; displayName?: string | null; photoURL?: string | null };
   unreadCount?: number;
+  activityUnreadCount?: number;
   settingsExpanded?: boolean;
   helpExpanded?: boolean;
   activeHelpTopic?: HelpTopic;
@@ -71,7 +73,7 @@ export const SidebarNavigation = ({
   const [settingsOpen, setSettingsOpen] = useState(settingsExpanded);
   const links = [
     { id: '/', label: t('nav.home'), icon: IconHome },
-    { id: '/feed', label: t('feed.title'), icon: IconActivity },
+    { id: '/feed', label: t('feed.title'), icon: IconActivity, count: activityUnreadCount },
     { id: '/challenges', label: t('nav.challenges'), icon: IconSwords, count: unreadCount },
   ];
   return (
