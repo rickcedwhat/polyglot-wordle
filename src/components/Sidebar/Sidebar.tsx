@@ -89,6 +89,8 @@ export const Sidebar: FC = () => {
   const handleReactionToast = useCallback(
     (item: ReactionNotification) => {
       const id = 'reaction-notification';
+      // Mantine ignores show() when the same ID is already visible.
+      notifications.hide(id);
       showToast(
         {
           id,

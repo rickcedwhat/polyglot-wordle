@@ -20,7 +20,7 @@ The user approved this scope for the PR. Rules apply through the normal deployme
 - Only signed-in players can read activity events and reaction records. This is the same audience as the existing public game/profile feed. No emails, private challenge participants/results, or raw vocabulary words are added to these collections.
 - A player can create only their own certification event, with a deterministic ID, a supported language/tier, a server timestamp, and a threshold crossed by their vocabulary transaction. Clients cannot update or delete those events.
 - A player can create only their own reaction, with one of the fixed emoji IDs, a matching existing finished game/certification and owner, a deterministic target/player/emoji ID, and a server timestamp. Clients cannot update reactions. Only the reacting player can delete their reaction.
-- This feature needs no new composite indexes. Certification events sort by one timestamp; reactions query a single target key. The existing completed-games index is reused.
+- Certification events sort by one timestamp, and per-target reactions query a single target key. The existing completed-games index is reused. Incoming reaction notifications require the `reactions` composite index on `ownerId` ASC and `createdAt` DESC from `firestore.indexes.json`.
 
 Creating this branch or PR does not grant live access. Run `npm run test:rules` with Java 21 installed to verify the policy in the local Firestore emulator; PR CI runs the same checks against the demo-only project.
 

@@ -73,3 +73,19 @@ it('does not show another player’s activity through a notification link', () =
   mount('game', { ...game, game: { ...game.game, userId: 'someone' } });
   expect(screen.getByText('This activity is no longer available.')).toBeInTheDocument();
 });
+
+it('opens a game reaction through its first-game milestone when the game group is omitted', () => {
+  mount('game', {
+    ...game,
+    game: {
+      ...game.game,
+      activity: { feats: [], firstGame: true, personalBest: false, streak: null },
+    },
+  });
+  expect(screen.getByText('firstGame')).toBeInTheDocument();
+  expect(screen.queryByText('This activity is no longer available.')).not.toBeInTheDocument();
+});
+it('opens game reactions through other standout milestones too', () => {
+  mount('game', game);
+  expect(screen.getByText('personalBest')).toBeInTheDocument();
+});

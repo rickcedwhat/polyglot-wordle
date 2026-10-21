@@ -14,7 +14,8 @@ When reviewing:
 | Key | English | Portuguese |
 |---|---|---|
 | `activity.notifications.title` | Reactions to your activity | Reações à sua atividade |
-| `activity.notifications.new` | {{count}} new | {{count}} novas |
+| `activity.notifications.new_one` | {{count}} new | {{count}} nova |
+| `activity.notifications.new_other` | {{count}} new | {{count}} novas |
 | `activity.notifications.readAll` | Mark all read | Marcar todas como lidas |
 | `activity.notifications.caughtUp` | You’re all caught up | Você está em dia |
 | `activity.notifications.empty` | Reactions to your games and milestones will appear here. | As reações às suas partidas e conquistas aparecerão aqui. |

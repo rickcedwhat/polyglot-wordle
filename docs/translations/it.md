@@ -14,7 +14,8 @@ When reviewing:
 | Key | English | Italian |
 |---|---|---|
 | `activity.notifications.title` | Reactions to your activity | Reazioni alla tua attività |
-| `activity.notifications.new` | {{count}} new | {{count}} nuove |
+| `activity.notifications.new_one` | {{count}} new | {{count}} nuova |
+| `activity.notifications.new_other` | {{count}} new | {{count}} nuove |
 | `activity.notifications.readAll` | Mark all read | Segna tutte come lette |
 | `activity.notifications.caughtUp` | You’re all caught up | Non ci sono novità |
 | `activity.notifications.empty` | Reactions to your games and milestones will appear here. | Le reazioni alle tue partite e ai tuoi traguardi appariranno qui. |

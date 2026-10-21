@@ -28,12 +28,15 @@ export const NotificationActivity = ({ target }: { target: Omit<ReactionTarget, 
   }
   const record = source.data;
   const owner = record?.type === 'game' ? record.game.userId : record?.certification.userId;
+  const timeline = record && owner === currentUser?.uid ? buildTimeline([record]) : [];
+  const exact = timeline.filter((entry) =>
+    target.kind === 'game' ? entry.type === 'games' : entry.type === target.kind
+  );
+  // A single standout game is represented by its expandable milestone card.
   const entries =
-    record && owner === currentUser?.uid
-      ? buildTimeline([record]).filter((entry) =>
-          target.kind === 'game' ? entry.type === 'games' : entry.type === target.kind
-        )
-      : [];
+    target.kind === 'game' && exact.length === 0
+      ? timeline.filter((entry) => 'game' in entry && entry.game.id === target.sourceId).slice(0, 1)
+      : exact;
   return entries.length ? (
     <ActivityTimeline
       key={`${target.sourceId}__${target.kind}`}

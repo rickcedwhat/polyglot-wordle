@@ -4,7 +4,8 @@ export const it: Translation = {
   activity: {
     notifications: {
       title: 'Reazioni alla tua attività',
-      new: '{{count}} nuove',
+      new_one: '{{count}} nuova',
+      new_other: '{{count}} nuove',
       readAll: 'Segna tutte come lette',
       caughtUp: 'Non ci sono novità',
       empty: 'Le reazioni alle tue partite e ai tuoi traguardi appariranno qui.',

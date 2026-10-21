@@ -2,7 +2,8 @@ export const en = {
   activity: {
     notifications: {
       title: 'Reactions to your activity',
-      new: '{{count}} new',
+      new_one: '{{count}} new',
+      new_other: '{{count}} new',
       readAll: 'Mark all read',
       caughtUp: 'You’re all caught up',
       empty: 'Reactions to your games and milestones will appear here.',
