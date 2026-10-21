@@ -13,6 +13,26 @@ When reviewing:
 
 | Key | English | French |
 |---|---|---|
+| `activity.notifications.title` | Reactions to your activity | Réactions à votre activité |
+| `activity.notifications.new` | {{count}} new | {{count}} nouvelles |
+| `activity.notifications.readAll` | Mark all read | Tout marquer comme lu |
+| `activity.notifications.caughtUp` | You’re all caught up | Vous êtes à jour |
+| `activity.notifications.empty` | Reactions to your games and milestones will appear here. | Les réactions à vos parties et à vos réussites apparaîtront ici. |
+| `activity.notifications.unread` | Unread | Non lu |
+| `activity.notifications.summary` | {{name}} reacted to your {{target}} | {{name}} a réagi à votre {{target}} |
+| `activity.notifications.summaryOthers_one` | {{name}} and {{count}} other reacted to your {{target}} | {{name}} et {{count}} autre personne ont réagi à votre {{target}} |
+| `activity.notifications.summaryOthers_other` | {{name}} and {{count}} others reacted to your {{target}} | {{name}} et {{count}} autres personnes ont réagi à votre {{target}} |
+| `activity.notifications.loadFailed` | Could not load your reactions. | Impossible de charger vos réactions. |
+| `activity.notifications.saveFailed` | Could not save your read state. Please try again. | Impossible d’enregistrer votre état de lecture. Réessayez. |
+| `activity.notifications.back` | Back to reactions | Retour aux réactions |
+| `activity.notifications.unavailable` | This activity is no longer available. | Cette activité n’est plus disponible. |
+| `activity.notifications.view` | View activity | Voir l’activité |
+| `activity.notifications.game` | game | partie |
+| `activity.notifications.certification` | certification | certification |
+| `activity.notifications.feat` | achievement | réussite |
+| `activity.notifications.personalBest` | personal best | record personnel |
+| `activity.notifications.streak` | win streak | série de victoires |
+| `activity.notifications.firstGame` | first game | première partie |
 | `activity.firstTry` | Solved the {{language}} board on the first guess. | A résolu la grille en {{language, lower}} dès le premier essai. |
 | `activity.playedGames_one` | played {{count}} game | a joué {{count}} partie |
 | `activity.playedGames_other` | played {{count}} games | a joué {{count}} parties |

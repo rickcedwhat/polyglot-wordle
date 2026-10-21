@@ -11,6 +11,25 @@ service cloud.firestore {
       allow create, update: if request.auth.uid == userId;
       allow delete: if false; // Disallow deleting users from the client
 
+      // Private, monotonic read markers; they never change public reactions.
+      match /reactionReceipts/{targetKey} {
+        function isOwner() {
+          return request.auth != null && request.auth.uid == userId;
+        }
+        function validReceipt() {
+          return targetKey.size() <= 512 &&
+            request.resource.data.keys().hasAll(['seenAt']) &&
+            request.resource.data.keys().hasOnly(['seenAt']) &&
+            request.resource.data.seenAt is timestamp &&
+            request.resource.data.seenAt <= request.time;
+        }
+        allow read: if isOwner();
+        allow create: if isOwner() && validReceipt();
+        allow update: if isOwner() && validReceipt() &&
+          request.resource.data.seenAt >= resource.data.seenAt;
+        allow delete: if false;
+      }
+
       // Shared-link reminders are private to their owner; deleting one does not revoke a link.
       match /sharedInvites/{gameId} {
         allow read, delete: if request.auth != null && request.auth.uid == userId;

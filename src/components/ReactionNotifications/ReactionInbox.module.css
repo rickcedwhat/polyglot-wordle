@@ -1,0 +1,43 @@
+.inbox {
+  overflow: hidden;
+}
+
+.notice {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border-top: 1px solid var(--mantine-color-default-border);
+  transition: background 120ms ease;
+}
+
+.notice[data-unread] {
+  background: light-dark(var(--mantine-color-blue-0), rgb(34 139 230 / 7%));
+}
+
+.notice:hover {
+  background: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+}
+
+.notice:focus-visible {
+  outline: 2px solid var(--mantine-color-blue-5);
+  outline-offset: -3px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--mantine-color-blue-5);
+}
+
+.arrow {
+  flex-shrink: 0;
+  color: var(--mantine-color-dimmed);
+  margin-top: 3px;
+}

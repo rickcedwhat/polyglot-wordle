@@ -55,7 +55,7 @@ const SidebarNavigationPreview = ({
   </MemoryRouter>
 );
 const meta: Meta<typeof SidebarNavigationPreview> = {
-  title: 'Navigation/Sidebar proposal',
+  title: 'Navigation/Sidebar',
   component: SidebarNavigationPreview,
   parameters: { layout: 'fullscreen' },
   decorators: [

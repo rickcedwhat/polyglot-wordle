@@ -12,6 +12,7 @@ import { Notifications } from '@mantine/notifications';
 import { UiLanguageSync } from '@/components/UiLanguage/UiLanguagePicker';
 import { AchievementsProvider } from '@/context/AchievementsContext';
 import { AuthProvider } from '@/context/AuthContext';
+import { ReactionNotificationsProvider } from '@/context/ReactionNotificationsContext';
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ScoreProvider } from './context/ScoreContext';
 import { Router } from './Router';
@@ -46,13 +47,15 @@ export default function App() {
         <ModalsProvider>
           <Notifications position="top-center" />
           <AuthProvider>
-            <AchievementsProvider>
-              <SidebarProvider>
-                <ScoreProvider>
-                  <AppContainer />
-                </ScoreProvider>
-              </SidebarProvider>
-            </AchievementsProvider>
+            <ReactionNotificationsProvider>
+              <AchievementsProvider>
+                <SidebarProvider>
+                  <ScoreProvider>
+                    <AppContainer />
+                  </ScoreProvider>
+                </SidebarProvider>
+              </AchievementsProvider>
+            </ReactionNotificationsProvider>
           </AuthProvider>
         </ModalsProvider>
       </MantineProvider>
