@@ -487,6 +487,9 @@ When reviewing:
 
 | Key | English | Portuguese |
 |---|---|---|
+| `history.unpin` | Unpin | Desafixar |
+| `history.pinLimit` | You can pin up to {{count}} games. Unpin a game to make room. | Você pode fixar até {{count}} partidas. Desafixe uma para liberar espaço. |
+| `history.pinFailed` | Could not update your pinned games. Please try again. | Não foi possível atualizar suas partidas fixadas. Tente novamente. |
 | `history.pinned` | Pinned games | Partidas fixadas |
 | `history.noPinned` | No pinned games. | Nenhuma partida fixada. |
 | `history.recent` | Recent games | Partidas recentes |

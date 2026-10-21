@@ -487,6 +487,9 @@ When reviewing:
 
 | Key | English | Spanish |
 |---|---|---|
+| `history.unpin` | Unpin | Desfijar |
+| `history.pinLimit` | You can pin up to {{count}} games. Unpin a game to make room. | Puedes fijar hasta {{count}} partidas. Desfija una para hacer espacio. |
+| `history.pinFailed` | Could not update your pinned games. Please try again. | No se pudieron actualizar tus partidas fijadas. Inténtalo de nuevo. |
 | `history.pinned` | Pinned games | Partidas fijadas |
 | `history.noPinned` | No pinned games. | No hay partidas fijadas. |
 | `history.recent` | Recent games | Partidas recientes |

@@ -9,14 +9,9 @@ import { GameHistoryCard } from '../GameHistoryCard/GameHistoryCard';
 interface GameHistoryTabProps {
   profileUserId: string;
   userProfile: UserDoc;
-  isOwnProfile: boolean;
 }
 
-export const GameHistoryTab: FC<GameHistoryTabProps> = ({
-  profileUserId,
-  userProfile,
-  isOwnProfile,
-}) => {
+export const GameHistoryTab: FC<GameHistoryTabProps> = ({ profileUserId, userProfile }) => {
   const { t } = useTranslation();
   const { data: pinnedGames, isLoading: arePinsLoading } = usePinnedGames(
     profileUserId,
@@ -53,12 +48,7 @@ export const GameHistoryTab: FC<GameHistoryTabProps> = ({
       {pinnedGames && pinnedGames.length > 0 ? (
         <SimpleGrid cols={{ base: 1, xs: 2 }}>
           {pinnedGames.map((game) => (
-            <GameHistoryCard
-              key={game.id}
-              game={game}
-              userProfile={userProfile}
-              isOwnProfile={isOwnProfile}
-            />
+            <GameHistoryCard key={game.id} game={game} userProfile={userProfile} />
           ))}
         </SimpleGrid>
       ) : (
@@ -74,12 +64,7 @@ export const GameHistoryTab: FC<GameHistoryTabProps> = ({
       {nonPinnedGames.length > 0 ? (
         <SimpleGrid cols={{ base: 1, xs: 2 }}>
           {nonPinnedGames.map((game) => (
-            <GameHistoryCard
-              key={game.id}
-              game={game}
-              userProfile={userProfile}
-              isOwnProfile={isOwnProfile}
-            />
+            <GameHistoryCard key={game.id} game={game} userProfile={userProfile} />
           ))}
         </SimpleGrid>
       ) : (
