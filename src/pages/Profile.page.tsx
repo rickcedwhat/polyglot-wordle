@@ -140,11 +140,7 @@ export const ProfilePage: FC = () => {
         </Tabs.List>
 
         <Tabs.Panel value="history" pt="xs">
-          <GameHistoryTab
-            profileUserId={userId!}
-            userProfile={userProfile}
-            isOwnProfile={isOwnProfile}
-          />
+          <GameHistoryTab profileUserId={userId!} userProfile={userProfile} />
         </Tabs.Panel>
 
         <Tabs.Panel value="stats" pt="xs">

@@ -481,6 +481,10 @@ export const it: Translation = {
     you: 'Tu',
   },
   history: {
+    unpin: 'Non fissare più',
+    pinLimit: 'Puoi fissare fino a {{count}} partite. Rimuovine una per fare spazio.',
+    pinFailed: 'Impossibile aggiornare le partite fissate. Riprova.',
+
     pinned: 'Partite fissate',
     noPinned: 'Nessuna partita fissata.',
     recent: 'Partite recenti',

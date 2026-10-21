@@ -487,6 +487,9 @@ When reviewing:
 
 | Key | English | French |
 |---|---|---|
+| `history.unpin` | Unpin | Désépingler |
+| `history.pinLimit` | You can pin up to {{count}} games. Unpin a game to make room. | Vous pouvez épingler jusqu’à {{count}} parties. Désépinglez-en une pour faire de la place. |
+| `history.pinFailed` | Could not update your pinned games. Please try again. | Impossible de mettre à jour vos parties épinglées. Réessayez. |
 | `history.pinned` | Pinned games | Parties épinglées |
 | `history.noPinned` | No pinned games. | Aucune partie épinglée. |
 | `history.recent` | Recent games | Parties récentes |

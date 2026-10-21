@@ -481,6 +481,10 @@ export const pt: Translation = {
     you: 'Você',
   },
   history: {
+    unpin: 'Desafixar',
+    pinLimit: 'Você pode fixar até {{count}} partidas. Desafixe uma para liberar espaço.',
+    pinFailed: 'Não foi possível atualizar suas partidas fixadas. Tente novamente.',
+
     pinned: 'Partidas fixadas',
     noPinned: 'Nenhuma partida fixada.',
     recent: 'Partidas recentes',

@@ -19,9 +19,8 @@ import classes from './GameHistoryCard.module.css';
 interface GameHistoryCardProps {
   game: GameDoc & { id: string };
   userProfile?: UserDoc | null;
-  isOwnProfile?: boolean;
 }
-export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, isOwnProfile }) => {
+export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile }) => {
   const { t, i18n } = useTranslation();
   const { currentUser } = useAuth();
   const played = usePlayedGame(game);
@@ -34,17 +33,13 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
     : levelUp
       ? `${certificationTrack(levelUp.lang).name}: ${certificationTrack(levelUp.lang).levels[levelUp.level].label}`
       : null;
-  const isPinned = userProfile?.pinnedGames?.includes(game.gameId);
-  const canPin = userProfile && (userProfile.pinnedGames?.length < 5 || isPinned);
+  const isPinned = userProfile?.pinnedGames?.includes(game.gameId) ?? false;
 
   const handlePinClick = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigating when clicking the pin button
     e.stopPropagation();
-    if (isPinned) {
-      unpinGame(game.gameId);
-    } else {
-      pinGame(game.gameId);
-    }
+    // The hook reports limit and write failures; consume the event promise here.
+    void (isPinned ? unpinGame(game.gameId) : pinGame(game.gameId)).catch(() => {});
   };
 
   let status: string;
@@ -104,12 +99,14 @@ export const GameHistoryCard: FC<GameHistoryCardProps> = ({ game, userProfile, i
           {t('history.guesses', { count: numberOfGuesses })}
         </Text>
         <Group gap="xs">
-          {isOwnProfile && own && canPin && (
+          {own && (
             <ActionIcon
               onClick={handlePinClick}
               variant="subtle"
               loading={isPending}
-              title={t('history.pin')}
+              title={t(isPinned ? 'history.unpin' : 'history.pin')}
+              aria-label={t(isPinned ? 'history.unpin' : 'history.pin')}
+              aria-pressed={isPinned}
             >
               {isPinned ? <IconPinnedFilled size={20} /> : <IconPin size={20} />}
             </ActionIcon>

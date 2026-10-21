@@ -1,4 +1,5 @@
 export const MAX_GUESSES = 8;
+export const MAX_PINNED_GAMES = 6;
 
 /**
  * Point values per scoring version. "perM" values are multiplied by the turn multiplier

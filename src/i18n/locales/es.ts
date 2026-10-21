@@ -479,6 +479,10 @@ export const es: Translation = {
     you: 'Tú',
   },
   history: {
+    unpin: 'Desfijar',
+    pinLimit: 'Puedes fijar hasta {{count}} partidas. Desfija una para hacer espacio.',
+    pinFailed: 'No se pudieron actualizar tus partidas fijadas. Inténtalo de nuevo.',
+
     pinned: 'Partidas fijadas',
     noPinned: 'No hay partidas fijadas.',
     recent: 'Partidas recientes',

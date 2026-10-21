@@ -473,6 +473,10 @@ export const en = {
     you: 'You',
   },
   history: {
+    unpin: 'Unpin',
+    pinLimit: 'You can pin up to {{count}} games. Unpin a game to make room.',
+    pinFailed: 'Could not update your pinned games. Please try again.',
+
     pinned: 'Pinned games',
     noPinned: 'No pinned games.',
     recent: 'Recent games',

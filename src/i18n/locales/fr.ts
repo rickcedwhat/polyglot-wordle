@@ -483,6 +483,11 @@ export const fr: Translation = {
     you: 'Vous',
   },
   history: {
+    unpin: 'Désépingler',
+    pinLimit:
+      'Vous pouvez épingler jusqu’à {{count}} parties. Désépinglez-en une pour faire de la place.',
+    pinFailed: 'Impossible de mettre à jour vos parties épinglées. Réessayez.',
+
     pinned: 'Parties épinglées',
     noPinned: 'Aucune partie épinglée.',
     recent: 'Parties récentes',
