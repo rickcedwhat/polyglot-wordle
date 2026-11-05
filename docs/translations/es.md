@@ -13,6 +13,15 @@ When reviewing:
 
 | Key | English | Spanish |
 |---|---|---|
+| `activity.shared.title_one` | {{count}} player played this puzzle | {{count}} persona jugó este desafío |
+| `activity.shared.title_other` | {{count}} players played this puzzle | {{count}} personas jugaron este desafío |
+| `activity.shared.expand` | Show players and results | Mostrar jugadores y resultados |
+| `activity.shared.results` | View results | Ver resultados |
+| `activity.shared.play` | Play this puzzle | Jugar este desafío |
+| `activity.shared.locked` | Finish this puzzle to reveal results | Termina este desafío para ver los resultados |
+| `activity.shared.recent` | Results from recent activity, including yours when available. | Resultados de la actividad reciente, incluidos los tuyos cuando estén disponibles. |
+| `activity.shared.differentSetup` | Your saved game has a different setup, so these results cannot be compared. | Tu partida guardada tiene otra configuración, así que no se pueden comparar estos resultados. |
+| `activity.shared.details` | Show game details for {{name}} | Mostrar los detalles de la partida de {{name}} |
 | `activity.notifications.title` | Reactions to your activity | Reacciones a tu actividad |
 | `activity.notifications.new_one` | {{count}} new | {{count}} nueva |
 | `activity.notifications.new_other` | {{count}} new | {{count}} nuevas |

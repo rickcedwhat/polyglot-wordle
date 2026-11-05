@@ -1,5 +1,16 @@
 export const en = {
   activity: {
+    shared: {
+      title_one: '{{count}} player played this puzzle',
+      title_other: '{{count}} players played this puzzle',
+      expand: 'Show players and results',
+      results: 'View results',
+      play: 'Play this puzzle',
+      locked: 'Finish this puzzle to reveal results',
+      recent: 'Results from recent activity, including yours when available.',
+      differentSetup: 'Your saved game has a different setup, so these results cannot be compared.',
+      details: 'Show game details for {{name}}',
+    },
     notifications: {
       title: 'Reactions to your activity',
       new_one: '{{count}} new',

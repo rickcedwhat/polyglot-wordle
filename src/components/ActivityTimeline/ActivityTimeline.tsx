@@ -9,7 +9,9 @@ import { UserAvatar } from '@/components/UserAvatar/UserAvatar';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import type { FeedGame, ReactionTarget, TimelineEntry } from '@/utils/activityTimeline';
 import { labelFor } from '@/utils/languages';
+import type { FeedTimelineEntry } from '@/utils/sharedPuzzleFeed';
 import { ActivityReactions } from './ActivityReactions';
+import { SharedPuzzleCard } from './SharedPuzzleCard';
 import classes from './ActivityTimeline.module.css';
 
 type RenderReactions = (target: ReactionTarget) => ReactNode;
@@ -164,7 +166,7 @@ const ActivityCard = ({
               })}
             </Text>
           )}
-          {entry.type === 'personalBest' && (
+          {entry.type === 'personalBest' && !entry.hideScore && (
             <Text size="lg" fw={700} mt={5}>
               {t('postGame.pts', { score: game?.score ?? 0 })}
             </Text>
@@ -231,17 +233,26 @@ export const ActivityTimeline = ({
   initiallyExpanded,
 }: {
   initiallyExpanded?: 'groups' | 'details';
-  entries: TimelineEntry[];
+  entries: FeedTimelineEntry[];
   renderReactions?: RenderReactions;
 }) => (
   <Stack gap="sm">
-    {entries.map((entry) => (
-      <ActivityCard
-        key={entry.id}
-        entry={entry}
-        renderReactions={renderReactions}
-        initiallyExpanded={initiallyExpanded}
-      />
-    ))}
+    {entries.map((entry) =>
+      entry.type === 'puzzle' ? (
+        <SharedPuzzleCard
+          key={entry.id}
+          entry={entry}
+          renderReactions={renderReactions}
+          initiallyExpanded={!!initiallyExpanded}
+        />
+      ) : (
+        <ActivityCard
+          key={entry.id}
+          entry={entry}
+          renderReactions={renderReactions}
+          initiallyExpanded={initiallyExpanded}
+        />
+      )
+    )}
   </Stack>
 );

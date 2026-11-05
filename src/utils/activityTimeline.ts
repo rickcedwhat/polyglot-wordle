@@ -35,6 +35,8 @@ export type TimelineEntry =
       at: number;
       game: FeedGame;
       feat?: EarnedFeat;
+      /** Omit the duplicate score when this milestone also belongs to a shared puzzle. */
+      hideScore?: boolean;
     };
 
 export const recordTime = (record: ActivityRecord) =>

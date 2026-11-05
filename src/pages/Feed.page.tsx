@@ -5,15 +5,15 @@ import { ActivityTimeline } from '@/components/ActivityTimeline/ActivityTimeline
 import { NotificationActivity } from '@/components/ReactionNotifications/NotificationActivity';
 import { ReactionInboxContainer } from '@/components/ReactionNotifications/ReactionInboxContainer';
 import { useActivityTimeline } from '@/hooks/useActivityTimeline';
-import { buildTimeline } from '@/utils/activityTimeline';
 import { parseNotificationTarget } from '@/utils/reactionNotifications';
+import { buildFeedTimeline } from '@/utils/sharedPuzzleFeed';
 
 export const FeedPage = () => {
   const { t } = useTranslation();
   const feed = useActivityTimeline();
   const [params, setParams] = useSearchParams();
   const target = parseNotificationTarget(params.get('activity'));
-  const entries = buildTimeline(feed.data?.pages.flatMap((page) => page.records) ?? []);
+  const entries = buildFeedTimeline(feed.data?.pages.flatMap((page) => page.records) ?? []);
   return (
     <Container size={740} py="lg">
       <Stack gap="lg">

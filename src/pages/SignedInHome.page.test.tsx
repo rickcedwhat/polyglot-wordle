@@ -5,6 +5,8 @@ import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { MantineProvider } from '@mantine/core';
 import type { ChallengeInboxItem } from '@/hooks/useChallenges';
+import type { ActivityRecord, FeedGame } from '@/utils/activityTimeline';
+import { buildFeedTimeline, type FeedTimelineEntry } from '@/utils/sharedPuzzleFeed';
 import { SignedInHomePage } from './SignedInHome.page';
 
 const state = vi.hoisted(() => ({
@@ -12,7 +14,7 @@ const state = vi.hoisted(() => ({
   challengeError: false,
   feedError: false,
   loading: false,
-  games: [] as { id: string }[],
+  games: [] as unknown[],
   needsSetup: true,
   markSeen: vi.fn().mockResolvedValue(undefined),
   refetchChallenges: vi.fn(),
@@ -45,12 +47,16 @@ vi.mock('@/hooks/useGameActions', () => ({
 vi.mock('@/hooks/useFriendships', () => ({
   useFriendships: () => ({ getFriendshipStatus: () => 'none' }),
 }));
-vi.mock('@/utils/activityTimeline', () => ({ buildTimeline: (records: unknown[]) => records }));
+vi.mock('@/utils/sharedPuzzleFeed', () => ({
+  buildFeedTimeline: vi.fn((records: unknown[]) => records),
+}));
 vi.mock('@/components/ActivityTimeline/ActivityTimeline', () => ({
   ActivityTimeline: ({ entries }: { entries: { id: string }[] }) => (
     <div>
       {entries.map((entry) => (
-        <div key={entry.id}>{entry.id}</div>
+        <div key={entry.id} data-testid="feed-entry">
+          {entry.id}
+        </div>
       ))}
     </div>
   ),
@@ -115,6 +121,9 @@ beforeEach(() => {
   state.loading = false;
   state.needsSetup = true;
   vi.clearAllMocks();
+  vi.mocked(buildFeedTimeline).mockImplementation(
+    (records) => records as unknown as FeedTimelineEntry[]
+  );
 });
 it('opens the received challenge game with challenger attribution', () => {
   state.needsYou = [challenge('invite')];
@@ -196,4 +205,40 @@ it('starts games through the existing setup preference behavior', () => {
     })
   );
   expect(state.createNewGame).toHaveBeenCalledOnce();
+});
+
+it('groups all loaded records before limiting Home to three feed entries', async () => {
+  const actual = await vi.importActual<typeof import('@/utils/sharedPuzzleFeed')>(
+    '@/utils/sharedPuzzleFeed'
+  );
+  vi.mocked(buildFeedTimeline).mockImplementation(actual.buildFeedTimeline);
+  const game = (userId: string, gameId: string, at: number): FeedGame => ({
+    id: `${userId}_${gameId}`,
+    userId,
+    gameId,
+    words: { en: 'apple', es: 'queso', fr: 'fruit' },
+    difficulties: {},
+    shuffledLanguages: ['en', 'es', 'fr'],
+    guessHistory: ['apple'],
+    isLiveGame: false,
+    isWin: true,
+    score: 1200,
+    startedAt: Timestamp.fromMillis(1),
+    completedAt: Timestamp.fromMillis(at),
+  });
+  const records: ActivityRecord[] = [
+    game('alex', 'shared', 6000),
+    game('mina', 'shared', 5000),
+    game('sam', 'shared', 4000),
+    game('one', 'solo-one', 3000),
+    game('two', 'solo-two', 2000),
+    game('three', 'solo-three', 1000),
+  ].map((game) => ({ type: 'game', game }));
+  state.games = records;
+  mount();
+  const entries = screen.getAllByTestId('feed-entry');
+  expect(entries).toHaveLength(3);
+  expect(entries[0]).toHaveTextContent(/^puzzle:/);
+  expect(entries[1]).toHaveTextContent('games:one:');
+  expect(entries[2]).toHaveTextContent('games:two:');
 });
