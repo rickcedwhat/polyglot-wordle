@@ -2,6 +2,18 @@ import type { Translation } from './en';
 
 export const fr: Translation = {
   activity: {
+    shared: {
+      title_one: '{{count}} personne a joué à cette grille',
+      title_other: '{{count}} personnes ont joué à cette grille',
+      expand: 'Afficher les joueurs et les résultats',
+      results: 'Voir les résultats',
+      play: 'Jouer à cette grille',
+      locked: 'Terminez cette grille pour voir les résultats',
+      recent: 'Résultats de l’activité récente, y compris les vôtres lorsqu’ils sont disponibles.',
+      differentSetup:
+        'Votre partie enregistrée utilise une autre configuration : ces résultats ne sont pas comparables.',
+      details: 'Afficher les détails de la partie de {{name}}',
+    },
     notifications: {
       title: 'Réactions à votre activité',
       new_one: '{{count}} nouvelle',

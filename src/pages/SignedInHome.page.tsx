@@ -22,7 +22,7 @@ import { NewGameButton } from '@/components/NewGameButton/NewGameButton';
 import { useAuth } from '@/context/AuthContext';
 import { useActivityTimeline } from '@/hooks/useActivityTimeline';
 import { useChallenges, type ChallengeInboxItem } from '@/hooks/useChallenges';
-import { buildTimeline } from '@/utils/activityTimeline';
+import { buildFeedTimeline } from '@/utils/sharedPuzzleFeed';
 import classes from './SignedInHome.module.css';
 
 export const SignedInHomePage = () => {
@@ -38,7 +38,10 @@ export const SignedInHomePage = () => {
       ? [...visibleChallenges, openedChallenge]
       : visibleChallenges;
   const name = currentUser?.displayName?.trim();
-  const entries = buildTimeline(feed.data?.pages.flatMap((page) => page.records) ?? []).slice(0, 3);
+  const entries = buildFeedTimeline(feed.data?.pages.flatMap((page) => page.records) ?? []).slice(
+    0,
+    3
+  );
 
   return (
     <Container size={1032} className={classes.main}>

@@ -45,7 +45,7 @@ vi.mock('@/hooks/useGameActions', () => ({
 vi.mock('@/hooks/useFriendships', () => ({
   useFriendships: () => ({ getFriendshipStatus: () => 'none' }),
 }));
-vi.mock('@/utils/activityTimeline', () => ({ buildTimeline: (records: unknown[]) => records }));
+vi.mock('@/utils/sharedPuzzleFeed', () => ({ buildFeedTimeline: (records: unknown[]) => records }));
 vi.mock('@/components/ActivityTimeline/ActivityTimeline', () => ({
   ActivityTimeline: ({ entries }: { entries: { id: string }[] }) => (
     <div>

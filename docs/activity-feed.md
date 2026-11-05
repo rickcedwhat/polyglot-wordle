@@ -35,3 +35,9 @@ Notification links use `/feed?activity={targetKey}` and fetch the exact saved ga
 Toasts are limited to an actively playing own game session. Initial data, offline/reconnection snapshots, read-marker changes, and arrivals outside gameplay do not replay. One grouped toast is shown per incoming snapshot and it is dismissed when gameplay ends. The inbox remains available on every signed-in page.
 
 Storybook covers the inbox, empty state and gameplay toast with local-only fixture data. The old Mantine starter Welcome story was removed; the shipped navigation story is named Navigation/Sidebar.
+
+## Shared puzzle groups
+
+Home and Feed group observed finished games when multiple players completed the same puzzle. Identity includes the seed, normalized solution words, language/difficulty setup, and scoring version; changed versions remain separate. Groups span the loaded feed pages and retain one result per player. Solo activity still uses player/day summaries, and individual milestones keep their original reaction targets.
+
+Before the viewer finishes the matching puzzle, a shared card exposes player profiles and a Play/Continue action, but no scores, ranks, or expandable board details. After completion it shows a mini leaderboard with tied ranks, includes the viewer's matching saved result when it is outside the feed window, and expands into the existing game card. A saved game with a different setup does not unlock the comparison. The card reflects recent loaded activity, not an exhaustive all-time leaderboard.

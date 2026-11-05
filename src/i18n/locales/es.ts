@@ -2,6 +2,18 @@ import type { Translation } from './en';
 
 export const es: Translation = {
   activity: {
+    shared: {
+      title_one: '{{count}} persona jugó este desafío',
+      title_other: '{{count}} personas jugaron este desafío',
+      expand: 'Mostrar jugadores y resultados',
+      results: 'Ver resultados',
+      play: 'Jugar este desafío',
+      locked: 'Termina este desafío para ver los resultados',
+      recent: 'Resultados de la actividad reciente, incluidos los tuyos cuando estén disponibles.',
+      differentSetup:
+        'Tu partida guardada tiene otra configuración, así que no se pueden comparar estos resultados.',
+      details: 'Mostrar los detalles de la partida de {{name}}',
+    },
     notifications: {
       title: 'Reacciones a tu actividad',
       new_one: '{{count}} nueva',
