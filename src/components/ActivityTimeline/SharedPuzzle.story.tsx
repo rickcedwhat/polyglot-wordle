@@ -29,14 +29,23 @@ const games: FeedGame[] = Object.keys(profiles)
 const Preview = ({
   state = 'unplayed',
   expanded = false,
+  longNames = false,
 }: {
   state?: 'unplayed' | 'started' | 'finished';
   expanded?: boolean;
+  longNames?: boolean;
 }) => {
   const client = useQueryClient();
   useState(() => {
     Object.entries(profiles).forEach(([id, displayName]) => {
-      client.setQueryData(['userProfile', id], { displayName, photoURL: '', pinnedGames: [] });
+      client.setQueryData(['userProfile', id], {
+        displayName:
+          longNames && id === 'alex'
+            ? 'AlexWithAnExtremelyLongUnbrokenPlayerNameThatMustWrapOnPhones'
+            : displayName,
+        photoURL: '',
+        pinnedGames: [],
+      });
       client.setQueryData(['vocabulary', id], { en: {}, es: {}, fr: {}, it: {}, pt: {} });
     });
     const mine =
@@ -102,6 +111,10 @@ const Preview = ({
 const meta: Meta<typeof Preview> = {
   title: 'Social/Shared puzzles',
   component: Preview,
+  // Controls rerender without remounting; reseed the fixture before rendering a different state.
+  render: (args) => (
+    <Preview key={`${args.state ?? 'unplayed'}-${args.longNames ?? false}`} {...args} />
+  ),
   decorators: [
     (Story) => (
       <MockAuth>
@@ -116,3 +129,7 @@ export const NotPlayed: Story = {};
 export const PlayersExpanded: Story = { args: { expanded: true } };
 export const InProgress: Story = { args: { state: 'started', expanded: true } };
 export const Finished: Story = { args: { state: 'finished', expanded: true } };
+
+export const LongPlayerNames: Story = {
+  args: { state: 'finished', expanded: true, longNames: true },
+};

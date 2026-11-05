@@ -76,3 +76,42 @@ it('does not group unfinished games or a player’s repeat records alone', () =>
     )
   ).toBe(false);
 });
+
+it('keeps the newest distinct finished record for each player in a shared group', () => {
+  const older = game('a', { id: 'a_older', completedAt: Timestamp.fromMillis(100) });
+  const newer = game('a', { id: 'a_newer', completedAt: Timestamp.fromMillis(300) });
+  const other = game('b', { completedAt: Timestamp.fromMillis(200) });
+  const entries = buildFeedTimeline([row(older), row(other), row(newer)]);
+  expect(entries).toHaveLength(1);
+  expect(entries[0].type === 'puzzle' && entries[0].games.map((item) => item.id)).toEqual([
+    'a_newer',
+    'b_puzzle',
+  ]);
+});
+it.each([undefined, '', '   '])(
+  'does not group games missing an active-language solution (%s)',
+  (solution) => {
+    const incomplete = { en: 'apple', es: 'queso', fr: solution };
+    const first = game('a', { words: incomplete });
+    const second = game('b', { words: incomplete });
+    expect(puzzleIdentity(first)).toBeNull();
+    const entries = buildFeedTimeline([row(first), row(second)]);
+    expect(entries.some((entry) => entry.type === 'puzzle')).toBe(false);
+    expect(entries.filter((entry) => entry.type === 'games')).toHaveLength(2);
+  }
+);
+it('omits the duplicate personal-best score only for games grouped into shared puzzles', () => {
+  const activity = { firstGame: false, personalBest: true, streak: null, feats: [] };
+  const entries = buildFeedTimeline([
+    row(game('a', { activity })),
+    row(game('b')),
+    row(game('c', { gameId: 'solo', activity })),
+  ]);
+  const bests = entries.filter((entry) => entry.type === 'personalBest');
+  expect(
+    bests.find((entry) => entry.type === 'personalBest' && entry.userId === 'a')
+  ).toHaveProperty('hideScore', true);
+  expect(
+    bests.find((entry) => entry.type === 'personalBest' && entry.userId === 'c')
+  ).not.toHaveProperty('hideScore');
+});

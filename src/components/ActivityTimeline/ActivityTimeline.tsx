@@ -166,7 +166,7 @@ const ActivityCard = ({
               })}
             </Text>
           )}
-          {entry.type === 'personalBest' && (
+          {entry.type === 'personalBest' && !entry.hideScore && (
             <Text size="lg" fw={700} mt={5}>
               {t('postGame.pts', { score: game?.score ?? 0 })}
             </Text>

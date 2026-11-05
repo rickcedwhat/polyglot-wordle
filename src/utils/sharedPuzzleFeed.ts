@@ -16,8 +16,14 @@ export interface SharedPuzzleEntry {
 }
 export type FeedTimelineEntry = TimelineEntry | SharedPuzzleEntry;
 /** Same seed alone is not enough when dictionaries or scoring have changed. */
-export const puzzleIdentity = (game: GameDoc) =>
-  JSON.stringify([
+export const puzzleIdentity = (game: GameDoc): string | null => {
+  if (
+    !game.shuffledLanguages.length ||
+    game.shuffledLanguages.some((lang) => !normalizeWord(game.words[lang] ?? '').trim())
+  ) {
+    return null;
+  }
+  return JSON.stringify([
     game.gameId,
     scoringVersionOf(game),
     [...game.shuffledLanguages]
@@ -28,6 +34,7 @@ export const puzzleIdentity = (game: GameDoc) =>
         game.difficulties?.[lang] ?? 'basic',
       ]),
   ]);
+};
 
 /** Group only observed finished records; preserve individual milestone and reaction targets. */
 export const buildFeedTimeline = (records: ActivityRecord[]): FeedTimelineEntry[] => {
@@ -40,6 +47,9 @@ export const buildFeedTimeline = (records: ActivityRecord[]): FeedTimelineEntry[
       continue;
     }
     const key = puzzleIdentity(record.game);
+    if (!key) {
+      continue;
+    }
     byPuzzle.set(key, [...(byPuzzle.get(key) ?? []), record.game]);
   }
   const shared: SharedPuzzleEntry[] = [];
@@ -69,9 +79,10 @@ export const buildFeedTimeline = (records: ActivityRecord[]): FeedTimelineEntry[
   const remaining = buildTimeline(
     unique.filter((record) => record.type !== 'game' || !consumed.has(record.game.id))
   );
-  const milestones = buildTimeline(unique).filter(
-    (entry) => 'game' in entry && consumed.has(entry.game.id)
-  );
+  const milestones = buildTimeline(unique)
+    .filter((entry) => 'game' in entry && consumed.has(entry.game.id))
+    // Shared-card scores stay behind its completion gate; milestone summaries need no duplicate.
+    .map((entry) => (entry.type === 'personalBest' ? { ...entry, hideScore: true } : entry));
   return [...remaining, ...milestones, ...shared].sort(
     (a, b) => b.at - a.at || a.id.localeCompare(b.id)
   );

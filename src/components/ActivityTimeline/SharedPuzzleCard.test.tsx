@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import { Timestamp } from 'firebase/firestore';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, expect, it, vi } from 'vitest';
@@ -37,7 +37,7 @@ const game = (userId: string, score: number): FeedGame => ({
   startedAt: Timestamp.fromMillis(100),
   completedAt: Timestamp.fromMillis(200),
 });
-const mount = () =>
+const mount = (games = [game('alex', 1530), game('mina', 1320)]) =>
   render(
     <MantineProvider>
       <MemoryRouter>
@@ -46,7 +46,7 @@ const mount = () =>
             id: 'shared',
             type: 'puzzle',
             at: 200,
-            games: [game('alex', 1530), game('mina', 1320)],
+            games,
           }}
           renderReactions={() => null}
           initiallyExpanded
@@ -68,7 +68,7 @@ it('shows players but no scores, rankings or answer details before playing', () 
   expect(screen.queryByRole('button', { name: /Show game details for/ })).not.toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'Play this puzzle' })).toHaveAttribute(
     'href',
-    expect.stringContaining('challenger=alex')
+    '/game/en-es-fr/puzzle?challenger=alex'
   );
 });
 it('keeps an in-progress game locked and offers Continue', () => {
@@ -93,4 +93,51 @@ it('does not unlock a different version of the same puzzle', () => {
   expect(screen.getByText(/different setup/)).toBeInTheDocument();
   expect(screen.queryByText(/1,530/)).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: /Show game details for/ })).not.toBeInTheDocument();
+});
+
+it.each(['missing', 'in-progress', 'error'] as const)(
+  'uses the completed feed record over a stale %s lookup',
+  (cache) => {
+    state.mine =
+      cache === 'in-progress' ? { ...game('me', 50), isLiveGame: true, completedAt: null } : null;
+    state.error = cache === 'error';
+    mount([game('alex', 1530), game('me', 1400)]);
+    expect(screen.getByText('1,530 pts')).toBeInTheDocument();
+    expect(screen.getByText('1,400 pts')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'View results' })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('link', { name: /Play this puzzle|Continue challenge/ })
+    ).not.toBeInTheDocument();
+  }
+);
+it('does not use an incompatible completed viewer record in the entry to unlock results', () => {
+  mount([game('alex', 1530), { ...game('me', 1400), words: { en: 'melon' } }]);
+  expect(screen.queryByText('1,530 pts')).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /Show game details for/ })).not.toBeInTheDocument();
+});
+it('does not unlock matching but incomplete solution records', () => {
+  state.mine = { ...game('me', 1400), words: {} };
+  mount([
+    { ...game('alex', 1530), words: {} },
+    { ...game('mina', 1320), words: {} },
+  ]);
+  expect(screen.queryByText('1,530 pts')).not.toBeInTheDocument();
+});
+it('sorts scores descending, breaks ties by user ID, and assigns competition ranks', () => {
+  state.mine = game('me', 1400);
+  mount([game('zoe', 1530), game('mina', 1320), game('alex', 1530)]);
+  const details = screen.getAllByRole('button', { name: /Show game details for/ });
+  expect(details.map((button) => button.getAttribute('aria-label'))).toEqual([
+    'Show game details for alex',
+    'Show game details for zoe',
+    'Show game details for me',
+    'Show game details for mina',
+  ]);
+  details.forEach((button, index) => {
+    const row = button.parentElement!;
+    expect(within(row).getByText(['1', '1', '3', '4'][index])).toBeInTheDocument();
+    expect(
+      within(row).getByText(['1,530 pts', '1,530 pts', '1,400 pts', '1,320 pts'][index])
+    ).toBeInTheDocument();
+  });
 });

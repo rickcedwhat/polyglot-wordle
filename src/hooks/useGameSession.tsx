@@ -17,7 +17,7 @@ import { useAuth } from '@/context/AuthContext';
 import type { GameDoc, Language, UserDoc } from '@/types/firestore.d.ts';
 import type { UserVocabularyMap } from '@/types/vocabulary';
 import { isGameId } from '@/utils/languages';
-import { getWordsFromUuid, normalizeWord } from '@/utils/wordUtils';
+import { getWordsFromUuid, normalizeWord, scoringVersionOf } from '@/utils/wordUtils';
 
 export const fetchOrCreateGame = async (
   gameId: string,
@@ -32,12 +32,13 @@ export const fetchOrCreateGame = async (
     return gameDocSnap.data() as GameDoc;
   }
 
+  let scoringVersion = SCORING_VERSION;
   let words: GameDoc['words'] | undefined;
   let difficulties: GameDoc['difficulties'] | undefined;
   let shuffledLanguages: GameDoc['shuffledLanguages'] | undefined;
 
   // If this is a challenge game, inherit the challenger's solution words, difficulties,
-  // and board order directly from their Firestore game doc so both players play the exact same puzzle.
+  // scoring version, and board order directly from their Firestore game doc so both players play the exact same puzzle.
   if (challengerId && challengerId !== userId) {
     try {
       const challengerDocRef = doc(db, 'games', `${challengerId}_${gameId}`);
@@ -52,6 +53,7 @@ export const fetchOrCreateGame = async (
           words = challengerGame.words;
           difficulties = challengerGame.difficulties;
           shuffledLanguages = challengerGame.shuffledLanguages;
+          scoringVersion = scoringVersionOf(challengerGame);
         }
       }
     } catch (err) {
@@ -79,7 +81,7 @@ export const fetchOrCreateGame = async (
     startedAt: serverTimestamp() as Timestamp,
     completedAt: null,
     score: null,
-    scoringVersion: SCORING_VERSION,
+    scoringVersion,
     shuffledLanguages,
   };
 

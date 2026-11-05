@@ -45,26 +45,29 @@ const PlayerResult = ({
     <div className={classes.puzzlePlayer}>
       <Group gap="sm" wrap="nowrap">
         {reveal && (
-          <Text size="sm" c="dimmed" w={20}>
+          <Text size="sm" c="dimmed" w={20} style={{ flexShrink: 0 }}>
             {rank ?? '—'}
           </Text>
         )}
-        <ProfileLink userId={game.userId}>
-          <Group gap="xs" wrap="nowrap">
-            <UserAvatar name={name} src={profile?.photoURL} size={28} />
-            <Text size="sm" fw={550}>
-              {name}
-            </Text>
-          </Group>
-        </ProfileLink>
+        <Box className={classes.content}>
+          <ProfileLink userId={game.userId}>
+            <Group gap="xs" wrap="nowrap">
+              <Box style={{ flexShrink: 0 }}>
+                <UserAvatar name={name} src={profile?.photoURL} size={28} />
+              </Box>
+              <Text size="sm" fw={550} miw={0} style={{ overflowWrap: 'anywhere' }}>
+                {name}
+              </Text>
+            </Group>
+          </ProfileLink>
+        </Box>
         {currentUser?.uid === game.userId && (
-          <Badge size="xs" variant="light">
+          <Badge size="xs" variant="light" style={{ flexShrink: 0 }}>
             {t('postGame.you')}
           </Badge>
         )}
-        <Box style={{ flex: 1 }} />
         {reveal && (
-          <Text size="sm" fw={600}>
+          <Text size="sm" fw={600} className={classes.score} style={{ flexShrink: 0 }}>
             {game.score == null ? '—' : t('postGame.pts', { score: game.score })}
           </Text>
         )}
@@ -72,6 +75,7 @@ const PlayerResult = ({
           <ActionIcon
             variant="subtle"
             color="gray"
+            style={{ flexShrink: 0 }}
             aria-label={t('activity.shared.details', { name })}
             aria-expanded={open}
             aria-controls={id}
@@ -107,14 +111,25 @@ export const SharedPuzzleCard = ({
   const { t, i18n } = useTranslation();
   const reference = entry.games.find((game) => game.userId !== currentUser?.uid) ?? entry.games[0];
   const played = usePlayedGame(reference);
-  const compatible = !!played.mine && puzzleIdentity(played.mine) === puzzleIdentity(reference);
-  const reveal = played.canReveal && compatible;
+  const referenceIdentity = puzzleIdentity(reference);
+  const completedViewerGame = entry.games.find(
+    (game) =>
+      game.userId === currentUser?.uid &&
+      !game.isLiveGame &&
+      !!game.completedAt &&
+      referenceIdentity !== null &&
+      puzzleIdentity(game) === referenceIdentity
+  );
+  const mine = completedViewerGame ?? played.mine;
+  const compatible =
+    !!mine && referenceIdentity !== null && puzzleIdentity(mine) === referenceIdentity;
+  const reveal = !!mine?.completedAt && !mine.isLiveGame && compatible;
   const [open, setOpen] = useState(initiallyExpanded);
   const id = useId();
   const games = [...entry.games];
   // The viewer's completed game may be outside the public feed's loaded window.
-  if (reveal && played.mine && !games.some((game) => game.userId === currentUser?.uid)) {
-    games.push({ ...played.mine, id: `${played.mine.userId}_${played.mine.gameId}` });
+  if (reveal && mine && !games.some((game) => game.userId === currentUser?.uid)) {
+    games.push({ ...mine, id: `${mine.userId}_${mine.gameId}` });
   }
   games.sort(
     reveal
@@ -165,11 +180,11 @@ export const SharedPuzzleCard = ({
         </ActionIcon>
       </Group>
       <Group mt="md" gap="sm">
-        {played.isError ? (
+        {played.isError && !completedViewerGame ? (
           <Button variant="light" size="xs" onClick={() => played.refetch()}>
             {t('common.tryAgain')}
           </Button>
-        ) : played.mine && !compatible ? (
+        ) : mine && !compatible ? (
           <Text size="sm" c="dimmed">
             {t('activity.shared.differentSetup')}
           </Text>
@@ -187,7 +202,7 @@ export const SharedPuzzleCard = ({
             size="xs"
             loading={played.isPending}
           >
-            {t(played.mine ? 'feed.continue' : 'activity.shared.play')}
+            {t(mine ? 'feed.continue' : 'activity.shared.play')}
           </Button>
         )}
         {!reveal && (

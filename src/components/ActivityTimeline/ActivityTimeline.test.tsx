@@ -61,3 +61,20 @@ it('uses cards for every event and expands a group before mounting game details'
   fireEvent.click(screen.getByRole('button', { name: 'Show games' }));
   expect(screen.queryByText('Full game detail first')).not.toBeInTheDocument();
 });
+
+it('keeps a shared-puzzle personal-best summary without duplicating its score', () => {
+  const best = game('personal-best');
+  best.activity = { firstGame: false, personalBest: true, streak: null, feats: [] };
+  const entries = buildTimeline([{ type: 'game', game: best }]).map((entry) =>
+    entry.type === 'personalBest' ? { ...entry, hideScore: true } : entry
+  );
+  render(
+    <MantineProvider>
+      <MemoryRouter>
+        <ActivityTimeline entries={entries} renderReactions={() => null} />
+      </MemoryRouter>
+    </MantineProvider>
+  );
+  expect(screen.getByRole('article', { name: 'Alex set a new personal best' })).toBeInTheDocument();
+  expect(screen.queryByText('1,240 pts')).not.toBeInTheDocument();
+});
